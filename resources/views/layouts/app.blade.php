@@ -161,13 +161,14 @@
                                                     <li><a href="{{ asset('cuenta')}}">Cuenta</a></li>
                                                     <li><a href="{{ asset('ayuda')}}">Ayuda</a></li>
                                                     <li class="divider"></li>
-                                                    <li><a href="#">Salir</a></li>
+                                                    <li><a href="#"><i class="fa fa-btn fa-sign-out"></i> Salir</a></li>
 
                                                 </ul>
 
                                             </li>
 
                                             @else
+                                            <!-- pendiente para cambio -->
                                             <li class="dropdown">
                                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                                     {{ Auth::user()->name }} <span class="caret"></span>

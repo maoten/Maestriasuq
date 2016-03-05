@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
 @section('title', 'Registro de usuario')
-
+@section('css')
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/pGenerator.jquery.js') }}"></script>
+@endsection
 @section('content')
 <div class="container">
         <div class="row">
@@ -83,7 +86,8 @@
                                                                 </div>
                                                         </div>
                                                 </div>
-                                                
+
+
                                         <!-- se requiere un generador de contraseñas aleatorias, luego cuando el usuario
                                         ingrese el mismo cambiara su contraseña -->
                                         
@@ -93,24 +97,48 @@
                                                 <div class="col-md-6">
                                                         <div class="input-group">
                                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                                                <input type="password" class="form-control" name="password" placeholder="*******">
+                                                                <input type="text" class="form-control" id="password" name="password" placeholder="">
                                                                 
                                                         </div>
+                                                        <a href="#" class="left" id="myLink" style="margin-left:20px; margin-top:6px;">Generar contraseña</a>
                                                 </div>
                                         </div>
-                                        
-                                        
-                                        <div class="form-group">
-                                                <div class="col-md-6 col-md-offset-4">
-                                                        <button type="submit" class="btn btn-primary">
-                                                        </i>Registrar
-                                                </button>
+                                        <script>
+                                              $('#myLink').pGenerator({
+                                                    'bind': 'click',
+                                                    'displayElement': '#password',
+                                                    'passwordLength': 10,
+                                                    'uppercase': false,
+                                                    'lowercase': true,
+                                                    'numbers':   true,
+                                                    'specialChars': false,
+                                                    'onPasswordGenerated': function(generatedPassword) { }
+                                            });  
+                                    </script>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Imagen de usuario</label>
+
+                                        <div class="col-md-6">
+                                                <div class="input-group">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+                                                        <input type="file" class="form-control" name="universidad" placeholder="Universidad del Quindío">
+
+                                                </div>
                                         </div>
                                 </div>
-                        </form>
-                </div>
+
+                                <div class="form-group">
+                                        <div class="col-md-6 col-md-offset-4">
+                                                <button type="submit" class="btn btn-primary">
+                                                </i>Registrar
+                                        </button>
+                                </div>
+                        </div>
+                </form>
         </div>
 </div>
 </div>
 </div>
+</div>
 @endsection
+
