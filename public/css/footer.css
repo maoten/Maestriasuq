@@ -8,6 +8,9 @@
 
 	padding: 55px 50px;
 	margin-top: 80px;
+	-webkit-box-shadow: -1px -2px 12px -2px rgba(122,122,122,1);
+	-moz-box-shadow: -1px -2px 12px -2px rgba(122,122,122,1);
+	box-shadow: -1px -2px 12px -2px rgba(122,122,122,1);
 }
 
 .footer-distributed .footer-left,
@@ -64,8 +67,8 @@
 }
 
 .footer-distributed .footer-center i{
-	background-color:  #33383b;
-	color: #ffffff;
+	background-color:  white;
+	color: #637EBB;
 	font-size: 25px;
 	width: 38px;
 	height: 38px;
@@ -96,7 +99,7 @@
 }
 
 .footer-distributed .footer-center p a{
-	color:  #64BB64;
+	color:  #637EBB;
 	text-decoration: none;;
 }
 
@@ -132,7 +135,7 @@
 	width: 35px;
 	height: 35px;
 	cursor: pointer;
-	background-color:  #33383b;
+	background-color:  #637EBB;
 	border-radius: 2px;
 
 	font-size: 20px;

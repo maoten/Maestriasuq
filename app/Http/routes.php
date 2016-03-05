@@ -42,11 +42,11 @@
 	Route::group(['middleware'=>'web'], function(){
 	
 	Route::get('/cuenta',['as'=>'layaouts.cuenta.configuracion', function () {
-	return view('layouts.cuenta.configuracion');
+	return view('layouts.general.configuracion');
 	}]);
 
 	Route::get('/ayuda',['as'=>'layaouts.cuenta.ayuda', function () {
-	return view('layouts.cuenta.ayuda');
+	return view('layouts.general.ayuda');
 	}]);
 	
 	});
@@ -81,8 +81,12 @@
 	return view('aspirante.index');
 	}]);
 	
-		Route::get('/propuesta',['as'=>'propuesta.index', function () {
+	Route::get('/propuesta',['as'=>'propuesta.index', function () {
 	return view('propuesta.index');
+	}]);
+	
+	Route::get('/calendario',['as'=>'aspirante.index', function () {
+	return view('layouts.general.calendario');
 	}]);
 	
 	});
