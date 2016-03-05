@@ -153,7 +153,7 @@
                                                         <img class="imagenususario img-responsive center-block" src="{{ asset('imagenes/usuarios/1234567.jpg') }}" >
                                                         <p class="profesion">Ingeniero de sistemas y computación</p>
                                                         <p class="universidad">Universidad del Quindío</p>
-                                                        <p class="rol"><i class="fa fa-user"></i> Aspirante Magister</p>
+                                                        <p class="rol"><i class="fa fa-user"></i> estudiante Magister</p>
                                                     </li>
 
                                                     <!-- opciones de la cuenta-->
@@ -186,8 +186,8 @@
                             </nav>
                             <!-- contendio de la página -->
                             <div class="vertical-center">
-                                @include('flash::message')
-                                @yield('content')
+                               @yield('content')
+
                             </div>
 
                             <!-- pie de página -->

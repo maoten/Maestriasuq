@@ -6,8 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Estudiante;
+use Laracasts\Flash\Flash;
+use App\Http\Requests\EstudianteRequest;
 
-class UsuariosController extends Controller
+
+class EstudiantesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +20,7 @@ class UsuariosController extends Controller
      */
     public function index()
     {
-      echo "usuarios";
+        return view('admin.estudiantes.index');
     }
 
     /**
@@ -24,8 +28,9 @@ class UsuariosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function registrar_aspirante()
+    public function create()
     {
+        return view('admin.estudiantes.registrar');
 
     }
 
@@ -35,10 +40,13 @@ class UsuariosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(estudianteRequest $request)
     {
-
-    
+     $estudiante = new estudiante($request->all());
+     $estudiante->contrasena =bcrypt($request->contrasena);
+     $estudiante->save();
+     Flash::success("Se ha registrado ".$estudiante->nombre." de forma exitosa");
+     return redirect()->route('admin.estudiantes.registrar');
     }
 
     /**
@@ -60,7 +68,7 @@ class UsuariosController extends Controller
      */
     public function edit($id)
     {
-        
+
     }
 
     /**
@@ -72,7 +80,7 @@ class UsuariosController extends Controller
      */
     public function update(Request $request, $id)
     {
-      
+
     }
 
     /**

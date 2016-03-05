@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Aspirante')
+@section('title', 'estudiante')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/vertical-responsive-menu.min.css') }}">
@@ -82,7 +82,7 @@
 
 
       <li class="menu--item">
-        <a href="{{ asset('aspirante/calendario')}}" class="menu--link" title="Item 5">
+        <a href="{{ asset('estudiante/calendario')}}" class="menu--link" title="Item 5">
           <span class="menu--label"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Calendario</span>
         </a>
       </li>

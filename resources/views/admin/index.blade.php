@@ -24,11 +24,11 @@
                                     
                                 </ul>
                             </li>
-                            <li  class="lis"><a href="#" class="as"><span class="segundo"><i class="icon icon-user"></i></span> Aspirantes</a>
+                            <li  class="lis"><a href="#" class="as"><span class="segundo"><i class="icon icon-user"></i></span> estudiantes</a>
                                 <ul class="uli">
-                                    <li class="lis"><a href="#" class="as">Registrar Aspirantes</a></li>
-                                    <li class="lis"><a href="#" class="as">Visualizar Aspirantes</a></li>
-                                    <li class="lis"><a href="#" class="as">Actualizar Aspirantes</a></li>
+                                    <li class="lis"><a href="#" class="as">Registrar estudiantes</a></li>
+                                    <li class="lis"><a href="#" class="as">Visualizar estudiantes</a></li>
+                                    <li class="lis"><a href="#" class="as">Actualizar estudiantes</a></li>
                                     
                                 </ul>
                             </li>

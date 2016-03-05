@@ -13,7 +13,7 @@
 	
 	Route::get('/', function () {
 	//return view('welcome');
-	return Redirect::to('login');
+		return Redirect::to('login');
 	});
 	
 	/*
@@ -28,9 +28,9 @@
 	*/
 	
 	Route::group(['middleware' => 'web'], function () {
-	Route::auth();
-	Route::get('/home', 'HomeController@index');
-	
+		Route::auth();
+		Route::get('/home', 'HomeController@index');
+
 	});
 	
 	/*
@@ -40,15 +40,15 @@
 	*/
 	
 	Route::group(['middleware'=>'web'], function(){
-	
-	Route::get('/cuenta',['as'=>'layaouts.cuenta.configuracion', function () {
-	return view('layouts.general.configuracion');
-	}]);
 
-	Route::get('/ayuda',['as'=>'layaouts.cuenta.ayuda', function () {
-	return view('layouts.general.ayuda');
-	}]);
-	
+		Route::get('/cuenta',['as'=>'layaouts.cuenta.configuracion', function () {
+			return view('layouts.general.configuracion');
+		}]);
+
+		Route::get('/ayuda',['as'=>'layaouts.cuenta.ayuda', function () {
+			return view('layouts.general.ayuda');
+		}]);
+
 	});
 	
 	
@@ -59,38 +59,36 @@
 	*/
 	
 	Route::group(['prefix'=>'admin','middleware'=>'web'], function(){
-	
-Route::get('/',['as'=>'admin.index', function () {
-	return view('admin.index');
-	}]);
-	
 
-    Route::get('/registrar_aspirante', function () {
-	return view('admin.aspirantes.registrar');
-	});
+		Route::get('/',['as'=>'admin.index', function () {
+			return view('admin.index');
+		}]);
 
-         
-	
+		Route::get('estudiantes',['uses'=>'estudiantesController@index']);
+		Route::get('estudiantes/registrar',['uses'=>'estudiantesController@create','as'=>'admin.estudiantes.registrar']);
+		Route::post('estudiantes/guardar',['uses'=>'estudiantesController@store','as'=>'admin.estudiantes.guardar']);
+
+
 	});
 	
 	/*
 	|--------------------------------------------------------------------------
-	| rutas del aspirante // cambiar web por auth 
+	| rutas del estudiante // cambiar web por auth 
 	|--------------------------------------------------------------------------
 	*/
 	
-	Route::group(['prefix'=>'aspirante','middleware'=>'web'], function(){
-	
-	Route::get('/',['as'=>'aspirante.index', function () {
-	return view('aspirante.index');
-	}]);
-	
+	Route::group(['prefix'=>'estudiante','middleware'=>'web'], function(){
+
+		Route::get('/',['as'=>'estudiante.index', function () {
+			return view('estudiante.index');
+		}]);
+
 	/*Route::get('/propuesta',['as'=>'propuesta.index', function () {
 	return view('propuesta.index');
 	}]);
 
-	Route::get('/calendario',['as'=>'aspirante.index', function () {
+	Route::get('/calendario',['as'=>'estudiante.index', function () {
 	return view('layouts.general.calendario');
-	}]);*/
-	
-	});
+}]);*/
+
+});
