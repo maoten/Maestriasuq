@@ -60,12 +60,16 @@
 	
 	Route::group(['prefix'=>'admin','middleware'=>'web'], function(){
 	
-	Route::get('/',['as'=>'admin.index', function () {
+Route::get('/',['as'=>'admin.index', function () {
 	return view('admin.index');
 	}]);
 	
-	Route::get('/registrar', 'UsuariosController@registrar');
-	Route::get('/editar', 'UsuariosController@editar');
+
+    Route::get('/registrar_aspirante', function () {
+	return view('admin.aspirantes.registrar');
+	});
+
+         
 	
 	});
 	
@@ -81,12 +85,12 @@
 	return view('aspirante.index');
 	}]);
 	
-	Route::get('/propuesta',['as'=>'propuesta.index', function () {
+	/*Route::get('/propuesta',['as'=>'propuesta.index', function () {
 	return view('propuesta.index');
 	}]);
-	
+
 	Route::get('/calendario',['as'=>'aspirante.index', function () {
 	return view('layouts.general.calendario');
-	}]);
+	}]);*/
 	
 	});

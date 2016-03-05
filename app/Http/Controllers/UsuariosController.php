@@ -16,8 +16,7 @@ class UsuariosController extends Controller
      */
     public function index()
     {
-      
-
+      echo "usuarios";
     }
 
     /**
@@ -25,9 +24,8 @@ class UsuariosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function registrar()
+    public function registrar_aspirante()
     {
-       return view('admin.usuarios.registrar');
 
     }
 

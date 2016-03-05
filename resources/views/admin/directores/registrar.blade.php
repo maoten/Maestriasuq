@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Registro de usuario')
+@section('title', 'Registro de director de trabajo de grado')
 @section('css')
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 <script src="{{ asset('js/pGenerator.jquery.js') }}"></script>
@@ -10,7 +10,7 @@
         <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                         <div class="panel panel-default">
-                                <div class="panel-heading text-center">Registro de usuario</div>
+                                <div class="panel-heading text-center">Registro de director de trabajo de grado</div>
                                 <div class="panel-body">
                                         <form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/registrar') }}">
                                                 {!! csrf_field() !!}
