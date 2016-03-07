@@ -33,7 +33,7 @@ class RegistrarEstudianteTest extends TestCase
      *
      * @return void
      */
-    public function testCamposMalos()
+   /* public function testCamposMalos()
     {
         $this->visit('admin/estudiantes/registrar')
             ->type('fe', 'nombre') //campo malo
@@ -44,14 +44,14 @@ class RegistrarEstudianteTest extends TestCase
             ->type('12345', 'contrasena')
             ->press('registrar')
             ->seePageIs('admin/estudiantes/registrar');
-    }
+    }*/
 
     /**
      *  functional test.
      *
      * @return void
      */
-    public function testCamposBien()
+  /* public function testCamposBien()
     {
         $this->visit('admin/estudiantes/registrar')
             ->type('fernando', 'nombre')
@@ -61,8 +61,8 @@ class RegistrarEstudianteTest extends TestCase
             ->type('hello1@in.com', 'correo')
             ->type('12345', 'contrasena')
             ->press('registrar')
-            ->seePageIs('admin/estudiantes/registrar');
-    }
+            ->seePageIs('admin/estudiantes/registrar'); 
+    }*/
 
     public function testVista()
     {
@@ -70,8 +70,5 @@ class RegistrarEstudianteTest extends TestCase
             ->see('Generar contraseña');
 
     }
-    public function testInsert()
-    {
-        
-    }
+ 
 }
