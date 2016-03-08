@@ -84,12 +84,12 @@
                                                 <a href="#">
 
                                                     <!-- User Image -->
-                                                    <img src="" class="iconomsj">
+                                                    <img src="{{ asset('imagenes/usuarios/1.jpg') }}" class="iconomsj">
 
                                                     <!-- Message title and timestamp -->
 
                                                     <h4 class="tmsj">
-                                                        Support Team</h4>
+                                                        Equipo de soporte</h4>
                                                         <small><i class="fa fa-clock-o iconoc"></i> 5 mins</small>
 
                                                     </a>
@@ -100,13 +100,13 @@
 
                                                         <!-- User Image -->
 
-                                                        <img src="{{ asset('imagenes/usuarios/1234567.jpg') }}" class="iconomsj">
+                                                        <img src="{{ asset('imagenes/usuarios/2.jpg') }}" class="iconomsj">
 
 
                                                         <!-- Message title and timestamp -->
 
                                                         <h4 class="tmsj">
-                                                            Support Team</h4>
+                                                            Director</h4>
                                                             <small><i class="fa fa-clock-o iconoc"></i> 5 mins</small>
 
                                                         </a>
@@ -150,7 +150,7 @@
 
                                                     <!-- descripción del usuario -->
                                                     <li>
-                                                        <img class="imagenususario img-responsive center-block" src="{{ asset('imagenes/usuarios/1234567.jpg') }}" >
+                                                        <img class="imagenususario img-responsive center-block" src="{{ asset('imagenes/usuarios/3.jpg') }}" >
                                                         <p class="profesion">Ingeniero de sistemas y computación</p>
                                                         <p class="universidad">Universidad del Quindío</p>
                                                         <p class="rol"><i class="fa fa-user"></i> estudiante Magister</p>
