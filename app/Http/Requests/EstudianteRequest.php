@@ -24,13 +24,13 @@ class EstudianteRequest extends Request
     public function rules()
     {
         return [
-        'nombre'=>'min:4|max:45|required',
-        'cedula'=>'min:6|max:45|required|unique:estudiante',
-        'correo'=>'min:4|max:45|required|unique:estudiante',
-        'contrasena'=>'min:4|max:45|required',
-        'telefono'=>'min:6|max:45|required',
-        'profesion'=>'min:4|max:45|required',
-        'universidad'=>'min:4|max:30|required'
+        'name'=>'min:4|max:45|required',
+        'cc'=>'min:6|max:45|required|unique:estudiante',
+        'email'=>'min:4|max:45|required|unique:estudiante',
+        'password'=>'min:4|max:45|required',
+        'phone'=>'min:6|max:45|required',
+        'profession'=>'min:4|max:45|required',
+        'college'=>'min:4|max:30|required'
 
         ];
     }

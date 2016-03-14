@@ -18,7 +18,7 @@
                                                         <div class="col-md-6">
                                                                 <div class="input-group">
                                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                                                        <input type="email" class="form-control" name="email" value="jugranados@uniquindio.edu.co" placeholder="lcorrea@uniquindio.edu.co">
+                                                                        <input type="email" class="form-control" name="email" value="{{ Auth::user()->name }}" placeholder="example@uniquindio.edu.co">
                                                                 </div>
                                                         </div>
                                                 </div>
@@ -29,7 +29,7 @@
                                                         <div class="col-md-6">
                                                                 <div class="input-group">
                                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                                                        <input type="text" class="form-control" name="cedula" value="3117568255" placeholder="3007645231">
+                                                                        <input type="text" class="form-control" name="cedula" value="{{ Auth::user()->phone }}" placeholder="3007645231">
                                                                 </div>
                                                         </div>
                                                 </div>

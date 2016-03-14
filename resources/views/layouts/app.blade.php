@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="{{ asset('css/footer.css')}}">
 
     @yield('css')
-                                                            
+
 
     <style>
         body {
@@ -62,7 +62,10 @@
                     <!-- Authentication Links -->
                     @if (Auth::guest())
 
-                    <!--descomentar y poner lo otro en el else -->
+
+
+                                            @else
+                                           <!--descomentar y poner lo otro en el else -->
                                     <!--<li><a href="#" class="textonav">Acerca</a></li>
                                     
                                     <li><a href="#"><i class="fa fa-home icono"></i></a></li>-->
@@ -144,16 +147,16 @@
                                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 
                                                     <!-- nombre del usuario -->
-                                                    <span class="navnombre">Juan Esteven Granados</span>
+                                                    <span class="navnombre">{{ Auth::user()->name }}</span>
                                                 </a>
                                                 <ul class="dropdown-menu">
 
                                                     <!-- descripción del usuario -->
                                                     <li>
                                                         <img class="imagenususario img-responsive center-block" src="{{ asset('imagenes/usuarios/3.jpg') }}" >
-                                                        <p class="profesion">Ingeniero de sistemas y computación</p>
-                                                        <p class="universidad">Universidad del Quindío</p>
-                                                        <p class="rol"><i class="fa fa-user"></i> estudiante Magister</p>
+                                                        <p class="profesion">{{ Auth::user()->profession }}</p>
+                                                        <p class="universidad">{{ Auth::user()->college }}</p>
+                                                        <p class="rol"><i class="fa fa-user"></i> {{ Auth::user()->type }}</p>
                                                     </li>
 
                                                     <!-- opciones de la cuenta-->
@@ -161,42 +164,30 @@
                                                     <li><a href="{{ asset('cuenta')}}">Cuenta</a></li>
                                                     <li><a href="{{ asset('ayuda')}}">Ayuda</a></li>
                                                     <li class="divider"></li>
-                                                    <li><a href="#"><i class="fa fa-btn fa-sign-out"></i> Salir</a></li>
+                                                    <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i> Salir</a></li>
 
                                                 </ul>
 
-                                            </li>
-
-                                            @else
-                                            <!-- pendiente para cambio -->
-                                            <li class="dropdown">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                                </a>
-
-                                                <ul class="dropdown-menu" role="menu">
-                                                    <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
-                                                </ul>
                                             </li>
                                             @endif
 
-                                        </ul>
+                 </ul>
                                     </div>
                                 </div>
                             </nav>
                             <!-- contendio de la página -->
                             <div class="vertical-center">
-                               @yield('content')
+                             @yield('content')
 
-                            </div>
+                         </div>
 
-                            <!-- pie de página -->
+                         <!-- pie de página -->
 
-                            <footer class="footer-distributed">
+                         <footer class="footer-distributed">
 
-                                <div class="footer-left">
+                            <div class="footer-left">
 
-                                   <img class="img-responsive center-block" src="{{ asset('imagenes/institucional/logoing.png') }}">
+                             <img class="img-responsive center-block" src="{{ asset('imagenes/institucional/logoing.png') }}">
 
                                     <!--<p class="footer-links">
                                         <a href="#">Home</a>

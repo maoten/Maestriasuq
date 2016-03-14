@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class RedirectIfAuthenticated
 {
+
     /**
      * Handle an incoming request.
      *
@@ -18,9 +19,21 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect('/');
-        }
+          switch (Auth::guard($guard)->user()->type) {
+              case 'estudiante':
+              return redirect()->route('estudiante.index');
+              break;
+              case 'admin':
+              return redirect()->route('admin.index');
+              break;
 
-        return $next($request);
-    }
+              default:
+              return redirect()->route('auth.login');
+              break;
+          }
+          //dd(Auth::guard($guard));
+      }
+
+      return $next($request);
+  }
 }

@@ -26,13 +26,7 @@
 	| kernel and includes session state, CSRF protection, and more.
 	|
 	*/
-	
-	Route::group(['middleware' => 'web'], function () {
-		Route::auth();
-		Route::get('/home', 'HomeController@index');
 
-	});
-	
 	/*
 	|--------------------------------------------------------------------------
 	| ruta de configuración de la cuenta // cambiar web por auth 
@@ -40,6 +34,7 @@
 	*/
 	
 	Route::group(['middleware'=>'web'], function(){
+		Route::auth();
 
 		Route::get('/cuenta',['as'=>'layaouts.cuenta.configuracion', function () {
 			return view('layouts.general.configuracion');
@@ -54,41 +49,28 @@
 	
 	/*
 	|--------------------------------------------------------------------------
-	| rutad del panel de administrador // cambiar web por auth 
+	| rutad del panel de administrador 
 	|--------------------------------------------------------------------------
 	*/
 	
-	Route::group(['prefix'=>'admin','middleware'=>'web'], function(){
+	Route::group(['middleware'=>['web'], 'prefix'=>'admin'], function(){
 
-		Route::get('/',['as'=>'admin.index', function () {
-			return view('admin.index');
-		}]);
-
-		Route::get('estudiantes',['uses'=>'estudiantesController@index']);
-		Route::get('estudiantes/registrar',['uses'=>'estudiantesController@create','as'=>'admin.estudiantes.registrar']);
-		Route::post('estudiantes/guardar',['uses'=>'estudiantesController@store','as'=>'admin.estudiantes.guardar']);
-
+		Route::get('/',[
+			'as'=>'admin.index', function () {
+				return view('admin.index');
+			}]);
 
 	});
-	
 	/*
 	|--------------------------------------------------------------------------
-	| rutas del estudiante // cambiar web por auth 
+	| rutas del estudiante 
 	|--------------------------------------------------------------------------
 	*/
-	
-	Route::group(['prefix'=>'estudiante','middleware'=>'web'], function(){
+
+	Route::group(['middleware'=>['web'], 'prefix'=>'estudiante'], function(){
 
 		Route::get('/',['as'=>'estudiante.index', function () {
 			return view('estudiante.index');
 		}]);
 
-	/*Route::get('/propuesta',['as'=>'propuesta.index', function () {
-	return view('propuesta.index');
-	}]);
-
-	Route::get('/calendario',['as'=>'estudiante.index', function () {
-	return view('layouts.general.calendario');
-}]);*/
-
-});
+	});

@@ -18,7 +18,7 @@
 
 
 
-                                        <form class="form-horizontal" role="form" method="POST" action="{{ url('admin/estudiantes/guardar') }}">
+                                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
                                          {!! csrf_field() !!}
 
                                                 
@@ -28,7 +28,7 @@
                                                         <div class="col-md-6">
                                                                 <div class="input-group">
                                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                                        <input type="text" class="form-control" name="nombre" placeholder="Leonardo Correa" >
+                                                                        <input type="text" class="form-control" name="name" placeholder="Leonardo Correa" >
 
                                                                 </div>
                                                         </div>
@@ -40,7 +40,7 @@
                                                         <div class="col-md-6">
                                                                 <div class="input-group">
                                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
-                                                                        <input type="text" class="form-control" name="cedula" placeholder="1098626573" >
+                                                                        <input type="text" class="form-control" name="cc" placeholder="1098626573" >
                                                                         
                                                                 </div>
                                                         </div>
@@ -52,7 +52,7 @@
                                                         <div class="col-md-6">
                                                                 <div class="input-group">
                                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                                                        <input type="email" class="form-control" name="correo" placeholder="lcorrea@uniquindio.edu.co" >
+                                                                        <input type="email" class="form-control" name="email" placeholder="lcorrea@uniquindio.edu.co" >
                                                                         
                                                                 </div>
                                                         </div>
@@ -64,7 +64,7 @@
                                                         <div class="col-md-6">
                                                                 <div class="input-group">
                                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                                                        <input type="text" class="form-control" name="telefono" placeholder="3007645231" >
+                                                                        <input type="text" class="form-control" name="phone" placeholder="3007645231" >
 
                                                                 </div>
                                                         </div>
@@ -76,7 +76,7 @@
                                                         <div class="col-md-6">
                                                                 <div class="input-group">
                                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-star-empty"></i></span>
-                                                                        <input type="text" class="form-control" name="profesion" placeholder="Ingeniero de sistemas y computación" >
+                                                                        <input type="text" class="form-control" name="profession" placeholder="Ingeniero de sistemas y computación" >
 
                                                                 </div>
                                                         </div>
@@ -88,7 +88,7 @@
                                                         <div class="col-md-6">
                                                                 <div class="input-group">
                                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
-                                                                        <input type="text" class="form-control" name="universidad" placeholder="Universidad del Quindío" >
+                                                                        <input type="text" class="form-control" name="college" placeholder="Universidad del Quindío" >
                                                                         
                                                                 </div>
                                                         </div>
@@ -104,7 +104,7 @@
                                                 <div class="col-md-6">
                                                         <div class="input-group">
                                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                                                <input type="text" class="form-control" id="password" name="contrasena" placeholder="" >
+                                                                <input type="text" class="form-control" id="password" name="password" placeholder="" >
                                                                 
                                                         </div>
                                                         <a href="#" class="left" id="myLink" style="margin-left:20px; margin-top:6px;">Generar contraseña</a>
@@ -128,7 +128,7 @@
                                         <div class="col-md-6">
                                                 <div class="input-group">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
-                                                        <input type="file" class="form-control" name="imagen" placeholder="Universidad del Quindío">
+                                                        <input type="file" class="form-control" name="image" placeholder="Universidad del Quindío">
 
                                                 </div>
                                         </div>
