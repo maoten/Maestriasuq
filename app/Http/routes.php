@@ -77,6 +77,6 @@
 
 		Route::get('/',['as'=>'estudiante.index', function () {
 			return view('estudiante.index');
-		}]);
+		}])->middleware('auth');;
 
 	});

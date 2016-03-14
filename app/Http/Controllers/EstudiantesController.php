@@ -13,6 +13,7 @@ use App\Http\Requests\EstudianteRequest;
 
 class EstudiantesController extends Controller
 {
+
      /**
      * Display a listing of the resource.
      *
