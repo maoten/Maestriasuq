@@ -153,7 +153,9 @@
 
                                                     <!-- descripción del usuario -->
                                                     <li>
-                                                        <img class="imagenususario img-responsive center-block" src="{{ asset('imagenes/usuarios/3.jpg') }}" >
+                                                       <!-- <img class="imagenususario img-responsive center-block" src="{{ asset('imagenes/usuarios/3.jpg') }}" >-->
+                                                        <img class="imagenususario img-responsive center-block" src="{{ asset(Auth::user()->image) }}" >
+
                                                         <p class="profesion">{{ Auth::user()->profession }}</p>
                                                         <p class="universidad">{{ Auth::user()->college }}</p>
                                                         <p class="rol"><i class="fa fa-user"></i> {{ Auth::user()->type }}</p>

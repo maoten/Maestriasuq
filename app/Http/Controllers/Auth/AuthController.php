@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Image;
+
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -63,6 +65,8 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
+
+
         return User::create([
             'cc' => $data['cc'],
             'name' => $data['name'],
@@ -70,7 +74,31 @@ class AuthController extends Controller
             'phone' => $data['phone'],
             'profession' => $data['profession'],
             'college' => $data['college'],
+            'type' => $data['type'],
             'password' => bcrypt($data['password']),
             ]);
+
+      /*  $file=$data['image'];
+        $name='maestriauq_' . time() . '.' . $file->getClientOriginalExtension();
+        $path=public_path().'\imagenes\usuarios';
+        $file->move($path,$name);
+        
+ 
+        $user=new User();
+         $user->cc => $data['cc'],
+             $user->name => $data['name'],
+             $user->email => $data['email'],
+             $user->phone => $data['phone'],
+             $user->profession => $data['profession'],
+             $user->college => $data['college'],
+             $user->type => $data['type'],
+             $user->password => bcrypt($data['password']),
+        $user->save();
+        
+        $image=new Image();
+        $image->name=$name;
+        $image->user()->associate($user);
+        $image->save();*/
+
     }
 }

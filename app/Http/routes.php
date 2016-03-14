@@ -34,7 +34,7 @@
 	*/
 	
 	Route::group(['middleware'=>'web'], function(){
-		Route::auth();
+		Route::auth(); // pendiente
 
 		Route::get('/cuenta',['as'=>'layaouts.cuenta.configuracion', function () {
 			return view('layouts.general.configuracion');
@@ -49,7 +49,7 @@
 	
 	/*
 	|--------------------------------------------------------------------------
-	| rutad del panel de administrador 
+	| rutad del panel de administrador  //pendiente apra middleware
 	|--------------------------------------------------------------------------
 	*/
 	
@@ -60,10 +60,16 @@
 				return view('admin.index');
 			}]);
 
+		Route::resource('estudiantes','EstudiantesController');
+		Route::get('estudiantes/create',['uses'=>'EstudiantesController@create']);
+		Route::post('estudiantes/store',['uses'=>'EstudiantesController@store']);
+		Route::resource('consejo','ConsejoCurricularController');
+
+
 	});
 	/*
 	|--------------------------------------------------------------------------
-	| rutas del estudiante 
+	| rutas del estudiante //pendiente apra middleware
 	|--------------------------------------------------------------------------
 	*/
 

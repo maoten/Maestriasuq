@@ -18,11 +18,11 @@
 
 
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
-                       {!! csrf_field() !!}
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}"  enctype="multipart/form-data" >
+                     {!! csrf_field() !!}
 
 
-                       <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                         <label class="col-md-4 control-label">Nombre</label>
 
                         <div class="col-md-6">
@@ -111,12 +111,14 @@
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-eye-open"></i></span>
-                                <select class="form-control">
-                                    <option>Estudiante</option>
-                                    <option>directo_grado</option>
-                                    <option>profesor</option>
-                                    <option>jurado</option>
-                                    <option>consejo_curricular</option>
+                                <select name='type' class="form-control">
+                                    <option value='Estudiante'>Estudiante</option>
+                                    <option value='director_grado'>director_grado</option>
+                                    <option value='profesor'>profesor</option>
+                                    <option value='jurado'>jurado</option>
+                                    <option value='consejo_curricular'>consejo_curricular</option>
+                                    <option value='admin'>admin</option>
+
                                 </select>
 
                             </div>

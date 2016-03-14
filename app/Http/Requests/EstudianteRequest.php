@@ -25,8 +25,8 @@ class EstudianteRequest extends Request
     {
         return [
         'name'=>'min:4|max:45|required',
-        'cc'=>'min:6|max:45|required|unique:estudiante',
-        'email'=>'min:4|max:45|required|unique:estudiante',
+        'cc'=>'min:6|max:45|required|unique:users',
+        'email'=>'min:4|max:45|required|unique:users',
         'password'=>'min:4|max:45|required',
         'phone'=>'min:6|max:45|required',
         'profession'=>'min:4|max:45|required',
