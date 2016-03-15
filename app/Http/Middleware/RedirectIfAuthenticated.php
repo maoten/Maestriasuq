@@ -18,22 +18,34 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check()) {
-          switch (Auth::guard($guard)->user()->type) {
-              case 'estudiante':
-              return redirect()->route('estudiante.index');
-              break;
-              case 'admin':
-              return redirect()->route('admin.index');
-              break;
-
-              default:
-              return redirect()->route('auth.login');
-              break;
-          }
-          //dd(Auth::guard($guard));
+      if (Auth::guard($guard)->check()) {
+        switch (Auth::guard($guard)->user()->type) {
+          case 'estudiante':
+          return redirect()->route('estudiante.index');
+          break;
+          case 'admin':
+          return redirect()->route('admin.index');
+          break;
+          case 'consejo_curricular':
+          return redirect()->route('consejo.index');
+          break;
+          case 'director_grado':
+          return redirect()->route('director.index');
+          break;
+          case 'jurado':
+          return redirect()->route('jurado.index');
+          break;
+          case 'profesor':
+          return redirect()->route('profesor.index');
+          break;
+          
+          default:
+          return redirect()->route('auth.login');
+          break;
+        }
+          
       }
 
       return $next($request);
+    }
   }
-}

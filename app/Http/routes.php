@@ -53,18 +53,16 @@
 	|--------------------------------------------------------------------------
 	*/
 	
-	Route::group(['middleware'=>['web'], 'prefix'=>'admin'], function(){
+	Route::group(['middleware'=>['web','role:admin'], 'prefix'=>'admin'], function(){
 
-		Route::get('/',[
-			'as'=>'admin.index', function () {
-				return view('admin.index');
-			}]);
+		Route::get('/',['as'=>'admin.index', function () {
+			return view('admin.index');
+			}])->middleware('role:admin');
 
 		Route::resource('estudiantes','EstudiantesController');
-		Route::get('estudiantes/create',['uses'=>'EstudiantesController@create']);
-		Route::post('estudiantes/store',['uses'=>'EstudiantesController@store']);
-		Route::resource('consejo','ConsejoCurricularController');
-
+		Route::resource('consejo','ConsejoController');
+		Route::resource('directores','DirectoresController');
+		Route::resource('jurados','JuradosController');
 
 	});
 	/*
@@ -73,10 +71,10 @@
 	|--------------------------------------------------------------------------
 	*/
 
-	Route::group(['middleware'=>['web'], 'prefix'=>'estudiante'], function(){
+	Route::group(['middleware'=>['web','role:estudiante'], 'prefix'=>'estudiante'], function(){
 
 		Route::get('/',['as'=>'estudiante.index', function () {
 			return view('estudiante.index');
-		}])->middleware('auth');;
+		}]);
 
 	});

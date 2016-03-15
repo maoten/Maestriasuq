@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'estudiantes')
+@section('title', 'Estudiantes')
 
 @section('content')
 
@@ -11,7 +11,7 @@
       @include('flash::message')
       @include('layouts.errors')
       <div class="panel panel-default">
-        <div class="panel-heading text-center">estudiantes</div>
+        <div class="panel-heading text-center">Estudiantes</div>
         <div class="panel-body">
          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,

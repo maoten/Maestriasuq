@@ -11,7 +11,7 @@ use App\Image;
 use Laracasts\Flash\Flash;
 use App\Http\Requests\UserRequest;
 
-class EstudiantesController extends Controller
+class ConsejoController extends Controller
 {
 
      /**
@@ -21,8 +21,8 @@ class EstudiantesController extends Controller
      */
      public function index()
      {
-     	$estudiantes = User::where('type', 'estudiante')->orderBy('id','ASC')->paginate(4);
-     	return view('admin.estudiantes.index')->with('estudiantes',$estudiantes);
+     	$consejo = User::where('type', 'consejo')->orderBy('id','ASC')->paginate(4);
+     	return view('admin.consejo.index')->with('consejo',$consejo);
 
      }
 
@@ -33,7 +33,7 @@ class EstudiantesController extends Controller
      */
     public function create()
     {
-    	return view('admin.estudiantes.registrar');
+    	return view('admin.consejo.registrar');
 
     }
 
@@ -55,19 +55,19 @@ class EstudiantesController extends Controller
     		$name='user.jpg';
     	}
 
-    	$estudiante = new User($request->all());
-    	$estudiante->password =bcrypt($request->password);
-    	$estudiante->type='estudiante';
-    	$estudiante->image='/imagenes/usuarios/'.$name;
-    	$estudiante->save();
+    	$consejo = new User($request->all());
+    	$consejo->password =bcrypt($request->password);
+    	$consejo->type='consejo_curricular';
+    	$consejo->image='/imagenes/usuarios/'.$name;
+    	$consejo->save();
 
     	$image=new Image();
     	$image->name=$name;
-    	$image->user()->associate($estudiante);
+    	$image->user()->associate($consejo);
     	$image->save();
 
-    	Flash::success("Se ha registrado ".$estudiante->name." de forma exitosa");
-    	return redirect()->route('admin.estudiantes.index');
+    	Flash::success("Se ha registrado ".$consejo->name." de forma exitosa");
+    	return redirect()->route('admin.consejo.index');
     }
 
     /**
