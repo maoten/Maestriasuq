@@ -68,7 +68,7 @@
 
 .footer-distributed .footer-center i{
 	background-color:  white;
-	color: #637EBB;
+	color: #485E88;
 	font-size: 25px;
 	width: 38px;
 	height: 38px;
@@ -99,7 +99,7 @@
 }
 
 .footer-distributed .footer-center p a{
-	color:  #637EBB;
+	color:  #485E88;
 	text-decoration: none;;
 }
 
@@ -135,7 +135,7 @@
 	width: 35px;
 	height: 35px;
 	cursor: pointer;
-	background-color:  #637EBB;
+	background-color:  #485E88;
 	border-radius: 2px;
 
 	font-size: 20px;

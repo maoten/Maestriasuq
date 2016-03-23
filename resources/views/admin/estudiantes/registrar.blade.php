@@ -19,22 +19,22 @@
 
 
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/estudiantes') }}"  enctype="multipart/form-data" >
-                     {!! csrf_field() !!}
+                       {!! csrf_field() !!}
 
 
-                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                       <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
                         <label class="col-md-4 control-label">Nombre</label>
 
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Leonardo Correa" >
+                                <input type="text" class="form-control" name="nombre" value="{{ old('nombre') }}" placeholder="Leonardo Correa" >
 
                             </div>
 
-                            @if ($errors->has('name'))
+                            @if ($errors->has('nombre'))
                             <span class="help-block">
-                                <strong>{{ $errors->first('name') }}</strong>
+                                <strong>{{ $errors->first('nombre') }}</strong>
                             </span>
                             @endif
                         </div>
@@ -77,69 +77,69 @@
                         </div>
                     </div>
 
-                    <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
+                    <div class="form-group{{ $errors->has('telefono') ? ' has-error' : '' }}">
                         <label class="col-md-4 control-label">Teléfono</label>
 
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                <input type="text" class="form-control" name="phone" value="{{ old('phone') }}" placeholder="3007645231" >
+                                <input type="text" class="form-control" name="telefono" value="{{ old('telefono') }}" placeholder="3007645231" >
 
                             </div>
-                            @if ($errors->has('phone'))
+                            @if ($errors->has('telefono'))
                             <span class="help-block">
-                                <strong>{{ $errors->first('phone') }}</strong>
+                                <strong>{{ $errors->first('telefono') }}</strong>
                             </span>
                             @endif
                         </div>
                     </div>
 
-                    <div class="form-group{{ $errors->has('profession') ? ' has-error' : '' }}">
+                    <div class="form-group{{ $errors->has('profesion') ? ' has-error' : '' }}">
                         <label class="col-md-4 control-label">Profesión</label>
 
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-star-empty"></i></span>
-                                <input type="text" class="form-control" name="profession" value="{{ old('profession') }}" placeholder="Ingeniero de sistemas y computación" >
+                                <input type="text" class="form-control" name="profesion" value="{{ old('profesion') }}" placeholder="Ingeniero de sistemas y computación" >
 
                             </div>
-                            @if ($errors->has('profession'))
+                            @if ($errors->has('profesion'))
                             <span class="help-block">
-                                <strong>{{ $errors->first('profession') }}</strong>
+                                <strong>{{ $errors->first('profesion') }}</strong>
                             </span>
                             @endif
                         </div>
                     </div>
 
-                    <div class="form-group{{ $errors->has('college') ? ' has-error' : '' }}">
+                    <div class="form-group{{ $errors->has('unievrsidad') ? ' has-error' : '' }}">
                         <label class="col-md-4 control-label">Universidad</label>
 
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
-                                <input type="text" class="form-control" name="college" value="{{ old('college') }}"placeholder="Universidad del Quindío" >
+                                <input type="text" class="form-control" name="universidad" value="{{ old('unievrsidad') }}"placeholder="Universidad del Quindío" >
 
                             </div>
-                            @if ($errors->has('college'))
+                            @if ($errors->has('unievrsidad'))
                             <span class="help-block">
-                                <strong>{{ $errors->first('college') }}</strong>
+                                <strong>{{ $errors->first('unievrsidad') }}</strong>
                             </span>
                             @endif
                         </div>
                     </div>
                     
-                    <div class="form-group{{ $errors->has('iamge') ? ' has-error' : '' }}">
+                    <div class="form-group{{ $errors->has('iamgen') ? ' has-error' : '' }}">
                         <label class="col-md-4 control-label">Imagen de usuario</label>
 
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
-                                <input type="file" class="form-control" name="image" placeholder="Universidad del Quindío">
+                                <input type="file" class="form-control" name="imagen">
 
                             </div>
-                            @if ($errors->has('image'))
+                            @if ($errors->has('imagen'))
                             <span class="help-block">
-                                <strong>{{ $errors->first('image') }}</strong>
+                                <strong>{{ $errors->first('imagen') }}</strong>
                             </span>
                             @endif
                         </div>

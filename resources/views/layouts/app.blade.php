@@ -49,7 +49,7 @@
 
                 <!-- Branding Image -->
                 <a href="{{asset('/')}}">
-                    <img alt="Brand" src="{{asset('imagenes/institucional/logo.png')}}" class="img-responsive img-center logo">
+                    <img alt="Brand" src="{{asset('imagenes/institucional/logoi.png')}}" class="img-responsive img-center logo">
                 </a>
 
             </div>
@@ -147,18 +147,18 @@
                                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 
                                                     <!-- nombre del usuario -->
-                                                    <span class="navnombre">{{ Auth::user()->name }}</span>
+                                                    <span class="navnombre">{{ Auth::user()->nombre }}</span>
                                                 </a>
                                                 <ul class="dropdown-menu">
 
                                                     <!-- descripción del usuario -->
                                                     <li>
                                                        <!-- <img class="imagenususario img-responsive center-block" src="{{ asset('imagenes/usuarios/3.jpg') }}" >-->
-                                                        <img class="imagenususario img-responsive center-block" src="{{ asset(Auth::user()->image) }}" >
+                                                        <img class="imagenususario img-responsive center-block" src="{{ asset(Auth::user()->imagen) }}" >
 
-                                                        <p class="profesion">{{ Auth::user()->profession }}</p>
-                                                        <p class="universidad">{{ Auth::user()->college }}</p>
-                                                        <p class="rol"><i class="fa fa-user"></i> {{ Auth::user()->type }}</p>
+                                                        <p class="profesion">{{ Auth::user()->profesion }}</p>
+                                                        <p class="universidad">{{ Auth::user()->universidad }}</p>
+                                                        <p class="rol"><i class="fa fa-user"></i> {{ Auth::user()->rol }}</p>
                                                     </li>
 
                                                     <!-- opciones de la cuenta-->
@@ -177,11 +177,11 @@
                                     </div>
                                 </div>
                             </nav>
+
                             <!-- contendio de la página -->
                             <div class="vertical-center">
                              @yield('content')
-
-                         </div>
+                            </div>
 
                          <!-- pie de página -->
 
