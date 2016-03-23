@@ -29,7 +29,7 @@ class Estudiante extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $fillable = [
-        'nombre', 'cedula','telefono','profesion','universidad', 'correo', 'contrasena',
+        'nombre', 'cc','telefono','profesion','universidad','rol', 'email', 'password', 'imagen'
     ];
 
     /**
@@ -38,6 +38,6 @@ class Estudiante extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = [
-        'contrasena', 'remember_token',
+        'password', 'remember_token',
     ];
 }

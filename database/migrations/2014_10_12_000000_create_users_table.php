@@ -15,14 +15,14 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('cc')->unique();
-            $table->string('name');
-            $table->string('phone');
-            $table->string('profession');
-            $table->string('college');
+            $table->string('nombre');
+            $table->string('telefono');
+            $table->string('profesion');
+            $table->string('universidad');
             $table->string('email')->unique();
             $table->string('password', 60);
-            $table->string('image');
-            $table->enum('type',['admin','estudiante','director_grado','profesor','jurado','consejo_curricular'])->default('estudiante');
+            $table->string('imagen');
+            $table->enum('rol',['admin','estudiante','director_grado','profesor','jurado','consejo_curricular'])->default('estudiante');
             $table->rememberToken();
             $table->timestamps();
         });

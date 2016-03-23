@@ -19,7 +19,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
       if (Auth::guard($guard)->check()) {
-        switch (Auth::guard($guard)->user()->type) {
+        switch (Auth::guard($guard)->user()->rol) {
           case 'estudiante':
           return redirect()->route('estudiante.index');
           break;

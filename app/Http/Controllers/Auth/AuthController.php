@@ -51,7 +51,7 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
+            'nombre' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:5',
             ]);
@@ -69,36 +69,15 @@ class AuthController extends Controller
 
         return User::create([
             'cc' => $data['cc'],
-            'name' => $data['name'],
+            'nombre' => $data['nombre'],
             'email' => $data['email'],
-            'phone' => $data['phone'],
-            'profession' => $data['profession'],
-            'college' => $data['college'],
-            'type' => $data['type'],
+            'telefono' => $data['telefono'],
+            'profesion' => $data['profesion'],
+            'universidad' => $data['universidad'],
+            'rol' => $data['rol'],
             'password' => bcrypt($data['password']),
             ]);
 
-      /*  $file=$data['image'];
-        $name='maestriauq_' . time() . '.' . $file->getClientOriginalExtension();
-        $path=public_path().'\imagenes\usuarios';
-        $file->move($path,$name);
-        
- 
-        $user=new User();
-         $user->cc => $data['cc'],
-             $user->name => $data['name'],
-             $user->email => $data['email'],
-             $user->phone => $data['phone'],
-             $user->profession => $data['profession'],
-             $user->college => $data['college'],
-             $user->type => $data['type'],
-             $user->password => bcrypt($data['password']),
-        $user->save();
-        
-        $image=new Image();
-        $image->name=$name;
-        $image->user()->associate($user);
-        $image->save();*/
 
     }
 }

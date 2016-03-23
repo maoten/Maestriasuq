@@ -14,11 +14,9 @@ class AddImagesTable extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('nombre');
             $table->integer('user_id')->unsigned();
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-           
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');      
             $table->timestamps();
         });
     }

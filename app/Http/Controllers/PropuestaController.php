@@ -7,23 +7,23 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
-use App\Image;
+use App\Propuesta;
+use App\Attachment;
 use Laracasts\Flash\Flash;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\PropuestaRequest;
+use Illuminate\Http\Response;
 
-class DirectoresController extends Controller
+class PropuestaController extends Controller
 {
 
      /**
      * Display a listing of the resource.
-     *
      * @return \Illuminate\Http\Response
      */
      public function index()
      {
-     	$directores = User::where('rol', 'director_grado')->orderBy('id','ASC')->paginate(4);
-        return view('admin.directores.index')->with('directores',$directores);
-     }
+        return view('estudiante.propuesta.index');
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -32,7 +32,7 @@ class DirectoresController extends Controller
      */
     public function create()
     {
-    	return view('admin.directores.registrar');
+    	return view('estudiante.propuesta.registrar');
 
     }
 
@@ -42,31 +42,41 @@ class DirectoresController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(PropuestaRequest $request)
     {
-    	if($request->file('imagen')){
-    		$file=$request->file('imagen');
+    	/*if($request->file('image')){
+    		$file=$request->file('image');
     		$name='maestriauq_' . time() . '.' . $file->getClientOriginalExtension();
     		$path=public_path().'\imagenes\usuarios';
     		$file->move($path,$name);
     	}else{
     		//imagen por defecto
     		$name='user.jpg';
-    	}
+    	}*/
 
-    	$director = new User($request->all());
-    	$director->password =bcrypt($request->password);
-    	$director->rol='director_grado';
-    	$director->imagen='/imagenes/usuarios/'.$name;
-    	$director->save();
 
-    	$image=new Image();
-    	$image->nombre=$name;
-    	$image->user()->associate($director);
-    	$image->save();
+    	/*$image=new Image();
+    	$image->name=$name;
+    	$image->user()->associate($propuesta);
+    	$image->save();*/
 
-    	Flash::success("Se ha registrado ".$director->nombre." de forma exitosa");
-    	return redirect()->route('admin.directores.index');
+        $propuesta = new Propuesta($request->all());
+        $propuesta->estado='enviada';
+        $propuesta->file='enviada';
+        $propuesta->save();
+
+        $f = $request->file('propuesta');
+        $att = new Attachment();
+        $att->name = $f->getClientOriginalName();
+        $att->file = base64_encode(file_get_contents($f->getRealPath()));
+        $att->mime = $f->getMimeType();
+        $att->size = $f->getSize();
+        $att->id = $propuesta->id;
+        $att->save();
+
+        Flash::success("Se ha registrado la propuesta ".$propuesta->nombre." de forma exitosa");
+        return redirect()->route('estudiante.propuesta.index');
+
     }
 
     /**
@@ -77,8 +87,9 @@ class DirectoresController extends Controller
      */
     public function show($id)
     {
-        //
-    }
+       $propuesta=Propuesta::find($id);
+       return view('estudiante.propuesta.seguimiento')->with('propuesta', $propuesta);
+   }
 
     /**
      * Show the form for editing the specified resource.
@@ -88,7 +99,15 @@ class DirectoresController extends Controller
      */
     public function edit($id)
     {
-    	
+
+    $file = Attachment::find($id); //pendiente
+    $propuesta= base64_decode($file->file);
+
+    header("Content-type: $file->mime");
+    header("Content-length: $file->size");
+    echo $propuesta;
+    exit;
+
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
+use Validator;
 
 class PropuestaRequest extends Request
 {
@@ -24,8 +25,11 @@ class PropuestaRequest extends Request
     public function rules()
     {
         return [
-            'nombre'=>'min:4|max:120|required',
-            'cedula'=>'min:4|max:120|required'  
+        'titulo'=>'min:5|max:255|required',
+       // 'propuesta' => 'mime:doc,docx,pdf'
+        //'enfoque'=>'min:5|max:255|required',
+        //'dir:id'=>'required',
+        //'propuesta'=>'required'  
         ];
     }
 }

@@ -14,14 +14,14 @@ class AddPropuestaTable extends Migration
     {
         Schema::create('propuesta', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('descripcion')->required();
+            $table->string('titulo')->required();
             $table->string('estado')->required();
-            $table->dateTime('fecha_inicio')->required();
-            $table->dateTime('fecha_fin');
-            $table->binary('archivo');
-            $table->string('tipo_archivo');
+            $table->string('enfoque')->required();
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->integer('dir_id')->unsigned();
+            $table->foreign('dir_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

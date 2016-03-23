@@ -21,7 +21,7 @@ class EstudiantesController extends Controller
      */
      public function index()
      {
-     	$estudiantes = User::where('type', 'estudiante')->orderBy('id','ASC')->paginate(4);
+     	$estudiantes = User::where('rol', 'estudiante')->orderBy('id','ASC')->paginate(4);
      	return view('admin.estudiantes.index')->with('estudiantes',$estudiantes);
 
      }
@@ -45,8 +45,8 @@ class EstudiantesController extends Controller
      */
     public function store(UserRequest $request)
     {
-    	if($request->file('image')){
-    		$file=$request->file('image');
+    	if($request->file('imagen')){
+    		$file=$request->file('imagen');
     		$name='maestriauq_' . time() . '.' . $file->getClientOriginalExtension();
     		$path=public_path().'\imagenes\usuarios';
     		$file->move($path,$name);
@@ -57,16 +57,16 @@ class EstudiantesController extends Controller
 
     	$estudiante = new User($request->all());
     	$estudiante->password =bcrypt($request->password);
-    	$estudiante->type='estudiante';
-    	$estudiante->image='/imagenes/usuarios/'.$name;
+    	$estudiante->rol='estudiante';
+    	$estudiante->imagen='/imagenes/usuarios/'.$name;
     	$estudiante->save();
 
     	$image=new Image();
-    	$image->name=$name;
+    	$image->nombre=$name;
     	$image->user()->associate($estudiante);
     	$image->save();
 
-    	Flash::success("Se ha registrado ".$estudiante->name." de forma exitosa");
+    	Flash::success("Se ha registrado ".$estudiante->nombre." de forma exitosa");
     	return redirect()->route('admin.estudiantes.index');
     }
 

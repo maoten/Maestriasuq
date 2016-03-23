@@ -33,7 +33,7 @@ class JuradosController extends Controller
      */
     public function create()
     {
-    	return view('admin.jurados.registrar');
+    	return view('estudiante.propuesta.registrar');
 
     }
 

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTesisTable extends Migration
+class AddTrabajoGradoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,18 +12,14 @@ class AddTesisTable extends Migration
      */
     public function up()
     {
-        Schema::create('tesis', function (Blueprint $table) {
+        Schema::create('trabajo_grado', function (Blueprint $table) {
             $table->increments('id');
             $table->string('descripcion')->required();
             $table->string('estado')->required();
-            $table->dateTime('fecha_inicio')->required();
-            $table->dateTime('fecha_fin');
-            $table->binary('archivo');
-            $table->string('tipo_archivo');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('propuesta_id')->unsigned();
-            $table->foreign('propuesta_id')->references('id')->on('propuesta');
+            $table->foreign('propuesta_id')->references('id')->on('propuesta')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -35,6 +31,6 @@ class AddTesisTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tesis');
+        Schema::drop('trabajo_grado');
     }
 }

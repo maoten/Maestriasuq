@@ -11,7 +11,7 @@ use App\Image;
 use Laracasts\Flash\Flash;
 use App\Http\Requests\UserRequest;
 
-class DirectoresController extends Controller
+class Attachment extends Controller
 {
 
      /**
@@ -21,8 +21,8 @@ class DirectoresController extends Controller
      */
      public function index()
      {
-     	$directores = User::where('rol', 'director_grado')->orderBy('id','ASC')->paginate(4);
-        return view('admin.directores.index')->with('directores',$directores);
+
+
      }
 
     /**
@@ -32,7 +32,6 @@ class DirectoresController extends Controller
      */
     public function create()
     {
-    	return view('admin.directores.registrar');
 
     }
 
@@ -44,29 +43,7 @@ class DirectoresController extends Controller
      */
     public function store(UserRequest $request)
     {
-    	if($request->file('imagen')){
-    		$file=$request->file('imagen');
-    		$name='maestriauq_' . time() . '.' . $file->getClientOriginalExtension();
-    		$path=public_path().'\imagenes\usuarios';
-    		$file->move($path,$name);
-    	}else{
-    		//imagen por defecto
-    		$name='user.jpg';
-    	}
-
-    	$director = new User($request->all());
-    	$director->password =bcrypt($request->password);
-    	$director->rol='director_grado';
-    	$director->imagen='/imagenes/usuarios/'.$name;
-    	$director->save();
-
-    	$image=new Image();
-    	$image->nombre=$name;
-    	$image->user()->associate($director);
-    	$image->save();
-
-    	Flash::success("Se ha registrado ".$director->nombre." de forma exitosa");
-    	return redirect()->route('admin.directores.index');
+   
     }
 
     /**

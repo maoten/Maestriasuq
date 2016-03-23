@@ -24,13 +24,13 @@ class UserRequest extends Request
     public function rules()
     {
         return [
-        'name'=>'min:4|max:45|required',
+        'nombre'=>'min:4|max:45|required',
         'cc'=>'min:6|max:45|required|unique:users',
         'email'=>'min:4|max:45|required|unique:users',
         'password'=>'min:4|max:45|required',
-        'phone'=>'min:6|max:45|required',
-        'profession'=>'min:4|max:45|required',
-        'college'=>'min:4|max:30|required'
+        'telefono'=>'min:6|max:45|required',
+        'profesion'=>'min:4|max:45|required',
+        'universidad'=>'min:4|max:30|required'
 
         ];
     }
