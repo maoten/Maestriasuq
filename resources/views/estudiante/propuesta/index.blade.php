@@ -23,15 +23,15 @@
 
         <a href="{{ route('estudiante.propuesta.create')}}" class="btn btn-primary">Registrar nueva propuesta<span class="glyphicon glyphicon glyphicon-pencil iconoder" aria-hidden="true"></span></a>
         <HR>
-          <table class='table table-bordered table-responsive'>
+          <table class='table table-bordered'>
             <thead>
-              <th>ID</th>
-              <th>Título</th> 
-              <th>Enfoque</th>
-              <th>Director</th>
-              <th>Fecha creación</th>
-              <th>Estado</th>
-              <th>Acción</th>
+              <th class="active">ID</th>
+              <th class="active">Título</th> 
+              <th class="active">Enfoque</th>
+              <th class="active">Director</th>
+              <th class="active">Fecha creación</th>
+              <th class="active">Estado</th>
+              <th class="active">Acción</th>
 
               <tbody>
                 @foreach((App\Propuesta::where('user_id', Auth::user()->id)->get()) as $propuesta)

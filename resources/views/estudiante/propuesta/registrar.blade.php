@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('title', 'Registro de propuesta')
-@section('css')
+<!--@section('css')
 <link rel="stylesheet" href="{{ asset('css/component.css') }}">
 <script src="{{ asset('js/modernizr.custom.js') }}"></script>
-@endsection
+@endsection-->
 @section('content')
 <div class="container">
-  @include('layouts.general.nav_estudiante')
-</br>
+  <!--@include('layouts.general.nav_estudiante')
+</br>-->
 <div class="row">
     <div class="col-md-12">
 

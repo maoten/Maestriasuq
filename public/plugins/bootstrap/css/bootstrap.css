@@ -21,6 +21,14 @@ header {
   height: 150px;
   position: relative;
 }
+
+.busqueda{
+  width: 32%;
+}
+
+.aa{
+  width: 100%;
+}
 .iconoder{
   margin-left: 12px;
 }

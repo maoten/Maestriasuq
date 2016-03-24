@@ -2,7 +2,7 @@
   <nav id="menu" class="opciones">         
     <ul>
       <li>
-        <a href="{{ asset('estudiante')}}">
+      <a href="{{ route('estudiante.index')}}">
           <span class="icon">
             <i class="fa fa-home"></i>
           </span>
@@ -20,7 +20,7 @@
       <li>
         <a href="">
           <span class="icon">
-            <i class="fa fa-folder-o"></i>
+            <i class="fa fa-file-text-o"></i>
           </span>
           <span>Trabajo de grado</span>
         </a>

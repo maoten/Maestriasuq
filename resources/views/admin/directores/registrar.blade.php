@@ -16,7 +16,7 @@
 
 
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/directores') }}"  enctype="multipart/form-data" >
+                    <form class="form-horizontal" role="form" method="POST" action="{{ route('admin.directores.store') }}"  enctype="multipart/form-data" >
                        {!! csrf_field() !!}
 
 
