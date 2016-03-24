@@ -19,12 +19,12 @@ class JuradosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     public function index()
+     public function index(Request $request)
      {
-     	$jurados = User::where('type', 'jurado')->orderBy('id','ASC')->paginate(4);
-     	return view('admin.jurados.index')->with('jurados',$jurados);
+        $jurado = User::where('rol', 'jurado')->search($request->nombre)->orderBy('id','ASC')->paginate(10);
+        return view('admin.jurados.index')->with('jurados',$jurado);
 
-     }
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -33,7 +33,7 @@ class JuradosController extends Controller
      */
     public function create()
     {
-    	return view('estudiante.propuesta.registrar');
+    	return view('admin.jurados.registrar');
 
     }
 
@@ -45,29 +45,29 @@ class JuradosController extends Controller
      */
     public function store(UserRequest $request)
     {
-    	if($request->file('image')){
-    		$file=$request->file('image');
-    		$name='maestriauq_' . time() . '.' . $file->getClientOriginalExtension();
-    		$path=public_path().'\imagenes\usuarios';
-    		$file->move($path,$name);
-    	}else{
-    		//imagen por defecto
-    		$name='user.jpg';
-    	}
+        if($request->file('imagen')){
+            $file=$request->file('imagen');
+            $name='maestriauq_' . time() . '.' . $file->getClientOriginalExtension();
+            $path=public_path().'\imagenes\usuarios';
+            $file->move($path,$name);
+        }else{
+            //imagen por defecto
+            $name='user.jpg';
+        }
 
-    	$jurados = new User($request->all());
-    	$jurados->password =bcrypt($request->password);
-    	$jurados->type='director_grado';
-    	$jurados->image='/imagenes/usuarios/'.$name;
-    	$jurados->save();
+        $jurado = new User($request->all());
+        $jurado->password =bcrypt($request->password);
+        $jurado->rol='jurado';
+        $jurado->imagen='/imagenes/usuarios/'.$name;
+        $jurado->save();
 
-    	$image=new Image();
-    	$image->name=$name;
-    	$image->user()->associate($jurados);
-    	$image->save();
+        $image=new Image();
+        $image->nombre=$name;
+        $image->user()->associate($jurado);
+        $image->save();
 
-    	Flash::success("Se ha registrado ".$jurados->name." de forma exitosa");
-    	return redirect()->route('admin.directores.index');
+        Flash::success("Se ha registrado ".$jurado->nombre." de forma exitosa");
+        return redirect()->route('admin.jurados.index');
     }
 
     /**
@@ -89,7 +89,8 @@ class JuradosController extends Controller
      */
     public function edit($id)
     {
-    	
+    	$jurado=User::find($id);
+        return view('admin.jurados.editar')->with('jurado', $jurado);
     }
 
     /**
@@ -101,8 +102,17 @@ class JuradosController extends Controller
      */
     public function update(Request $request, $id)
     {
-    	
-    }
+       $jurado=User::find($id);
+       $jurado->nombre=$request->nombre;
+       $jurado->cc=$request->cc;
+       $jurado->telefono=$request->telefono;
+       $jurado->profesion=$request->profesion;
+       $jurado->universidad=$request->universidad;
+       $jurado->email=$request->email;
+       $jurado->save();
+       Flash::warning("El jurado ".$jurado->nombre." ha sido editado");
+       return redirect()->route('admin.jurados.index');
+   }
 
     /**
      * Remove the specified resource from storage.
@@ -112,7 +122,10 @@ class JuradosController extends Controller
      */
     public function destroy($id)
     {
+        $jurado=User::find($id);
+        $jurado->delete();
+        Flash::error("Se ha eliminado ".$jurado->nombre." de forma exitosa");
+        return redirect()->route('admin.jurados.index');
 
-
-    }
+   }
 }

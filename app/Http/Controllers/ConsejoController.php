@@ -19,12 +19,12 @@ class ConsejoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     public function index()
+     public function index(Request $request)
      {
-     	$consejo = User::where('type', 'consejo')->orderBy('id','ASC')->paginate(4);
-     	return view('admin.consejo.index')->with('consejo',$consejo);
+     	$consejo = User::where('rol', 'consejo_curricular')->search($request->nombre)->orderBy('id','ASC')->paginate(10);
+        return view('admin.consejo.index')->with('consejo',$consejo);
 
-     }
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -45,29 +45,29 @@ class ConsejoController extends Controller
      */
     public function store(UserRequest $request)
     {
-    	if($request->file('image')){
-    		$file=$request->file('image');
-    		$name='maestriauq_' . time() . '.' . $file->getClientOriginalExtension();
-    		$path=public_path().'\imagenes\usuarios';
-    		$file->move($path,$name);
-    	}else{
-    		//imagen por defecto
-    		$name='user.jpg';
-    	}
+    	if($request->file('imagen')){
+            $file=$request->file('imagen');
+            $name='maestriauq_' . time() . '.' . $file->getClientOriginalExtension();
+            $path=public_path().'\imagenes\usuarios';
+            $file->move($path,$name);
+        }else{
+            //imagen por defecto
+            $name='user.jpg';
+        }
 
-    	$consejo = new User($request->all());
-    	$consejo->password =bcrypt($request->password);
-    	$consejo->type='consejo_curricular';
-    	$consejo->image='/imagenes/usuarios/'.$name;
-    	$consejo->save();
+        $consejo = new User($request->all());
+        $consejo->password =bcrypt($request->password);
+        $consejo->rol='consejo_curricular';
+        $consejo->imagen='/imagenes/usuarios/'.$name;
+        $consejo->save();
 
-    	$image=new Image();
-    	$image->name=$name;
-    	$image->user()->associate($consejo);
-    	$image->save();
+        $image=new Image();
+        $image->nombre=$name;
+        $image->user()->associate($consejo);
+        $image->save();
 
-    	Flash::success("Se ha registrado ".$consejo->name." de forma exitosa");
-    	return redirect()->route('admin.consejo.index');
+        Flash::success("Se ha registrado ".$consejo->nombre." de forma exitosa");
+        return redirect()->route('admin.consejo.index');
     }
 
     /**
@@ -89,7 +89,8 @@ class ConsejoController extends Controller
      */
     public function edit($id)
     {
-    	
+    	$consejo=User::find($id);
+        return view('admin.consejo.editar')->with('consejo', $consejo);
     }
 
     /**
@@ -101,8 +102,17 @@ class ConsejoController extends Controller
      */
     public function update(Request $request, $id)
     {
-    	
-    }
+       $consejo=User::find($id);
+       $consejo->nombre=$request->nombre;
+       $consejo->cc=$request->cc;
+       $consejo->telefono=$request->telefono;
+       $consejo->profesion=$request->profesion;
+       $consejo->universidad=$request->universidad;
+       $consejo->email=$request->email;
+       $consejo->save();
+       Flash::warning("El miembro del consejo curricular ".$consejo->nombre." ha sido editado");
+       return redirect()->route('admin.consejo.index');
+   }
 
     /**
      * Remove the specified resource from storage.
@@ -112,7 +122,9 @@ class ConsejoController extends Controller
      */
     public function destroy($id)
     {
-
-
-    }
+       $consejo=User::find($id);
+       $consejo->delete();
+       Flash::error("Se ha eliminado ".$consejo->nombre." de forma exitosa");
+       return redirect()->route('admin.consejo.index');
+   }
 }

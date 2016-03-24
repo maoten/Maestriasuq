@@ -60,9 +60,20 @@
 		}]);
 
 		Route::resource('estudiantes','EstudiantesController');
-		Route::resource('consejo','ConsejoController');
+		Route::get('estudiantes/{id}/destroy',['uses'=>'EstudiantesController@destroy','as'=>'admin.estudiantes.destroy']);
+		Route::get('estudiantes/{id}/update',['uses'=>'EstudiantesController@update','as'=>'admin.estudiantes.update']);
+
 		Route::resource('directores','DirectoresController');
+		Route::get('directores/{id}/destroy',['uses'=>'DirectoresController@destroy','as'=>'admin.directores.destroy']);
+		Route::get('directores/{id}/update',['uses'=>'DirectoresController@update','as'=>'admin.directores.update']);
+
+		Route::resource('consejo','ConsejoController');
+		Route::get('consejo/{id}/destroy',['uses'=>'ConsejoController@destroy','as'=>'admin.consejo.destroy']);
+		Route::get('consejo/{id}/update',['uses'=>'ConsejoController@update','as'=>'admin.consejo.update']);
+
 		Route::resource('jurados','JuradosController');
+		Route::get('jurados/{id}/destroy',['uses'=>'JuradosController@destroy','as'=>'admin.jurados.destroy']);
+		Route::get('jurados/{id}/update',['uses'=>'JuradosController@update','as'=>'admin.jurados.update']);
 
 	});
 	/*
@@ -82,13 +93,5 @@
 		Route::resource('propuesta','PropuestaController');
 
 		Route::get('getfile/{id}',['uses'=>'PropuestaController@edit','as'=>'estudiante.propuesta.ver']);
-
-		/*Route::get('getfile/{id}',function($id)
-		{
-			$file = Attachment::find(1); //pendiente
-			$data = $file->doc_attachment;
-			return Response::make($data, 200, array('Content-type' => $file->mime, 'Content-length' => $file->size));
-			echo 'ok';
-		});*/
 
 	});

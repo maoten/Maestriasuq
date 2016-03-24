@@ -19,9 +19,10 @@ class EstudiantesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     public function index()
+     public function index(Request $request)
      {
-     	$estudiantes = User::where('rol', 'estudiante')->orderBy('id','ASC')->paginate(4);
+
+     	$estudiantes = User::where('rol', 'estudiante')->search($request->nombre)->orderBy('id','ASC')->paginate(10);
      	return view('admin.estudiantes.index')->with('estudiantes',$estudiantes);
 
      }
@@ -89,7 +90,8 @@ class EstudiantesController extends Controller
      */
     public function edit($id)
     {
-    	
+    	$estudiante=User::find($id);
+        return view('admin.estudiantes.editar')->with('estudiante', $estudiante);
     }
 
     /**
@@ -101,8 +103,17 @@ class EstudiantesController extends Controller
      */
     public function update(Request $request, $id)
     {
-    	
-    }
+     $estudiante=User::find($id);
+     $estudiante->nombre=$request->nombre;
+     $estudiante->cc=$request->cc;
+     $estudiante->telefono=$request->telefono;
+     $estudiante->profesion=$request->profesion;
+     $estudiante->universidad=$request->universidad;
+     $estudiante->email=$request->email;
+     $estudiante->save();
+     Flash::warning("El estudiante ".$estudiante->nombre." ha sido editado");
+     return redirect()->route('admin.estudiantes.index');
+ }
 
     /**
      * Remove the specified resource from storage.
@@ -112,7 +123,9 @@ class EstudiantesController extends Controller
      */
     public function destroy($id)
     {
-
-
-    }
+        $estudiante=User::find($id);
+        $estudiante->delete();
+        Flash::error("Se ha eliminado ".$estudiante->nombre." de forma exitosa");
+        return redirect()->route('admin.estudiantes.index');
+  }
 }

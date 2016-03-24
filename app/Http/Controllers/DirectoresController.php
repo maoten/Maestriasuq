@@ -19,11 +19,11 @@ class DirectoresController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     public function index()
+     public function index(Request $request)
      {
-     	$directores = User::where('rol', 'director_grado')->orderBy('id','ASC')->paginate(4);
+     	$directores = User::where('rol', 'director_grado')->search($request->nombre)->orderBy('id','ASC')->paginate(10);
         return view('admin.directores.index')->with('directores',$directores);
-     }
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -88,7 +88,8 @@ class DirectoresController extends Controller
      */
     public function edit($id)
     {
-    	
+    	$director=User::find($id);
+        return view('admin.directores.editar')->with('director', $director);
     }
 
     /**
@@ -100,7 +101,16 @@ class DirectoresController extends Controller
      */
     public function update(Request $request, $id)
     {
-    	
+        $director=User::find($id);
+        $director->nombre=$request->nombre;
+        $director->cc=$request->cc;
+        $director->telefono=$request->telefono;
+        $director->profesion=$request->profesion;
+        $director->universidad=$request->universidad;
+        $director->email=$request->email;
+        $director->save();
+        Flash::warning("El director ".$director->nombre." ha sido editado");
+        return redirect()->route('admin.directores.index');
     }
 
     /**
@@ -112,6 +122,9 @@ class DirectoresController extends Controller
     public function destroy($id)
     {
 
-
+        $director=User::find($id);
+        $director->delete();
+        Flash::error("Se ha eliminado ".$director->nombre." de forma exitosa");
+        return redirect()->route('admin.directores.index');
     }
 }
