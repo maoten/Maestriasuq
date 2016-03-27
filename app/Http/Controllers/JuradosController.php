@@ -11,6 +11,7 @@ use App\Image;
 use Laracasts\Flash\Flash;
 use App\Http\Requests\UserRequest;
 
+
 class JuradosController extends Controller
 {
 
@@ -45,26 +46,14 @@ class JuradosController extends Controller
      */
     public function store(UserRequest $request)
     {
-        if($request->file('imagen')){
-            $file=$request->file('imagen');
-            $name='maestriauq_' . time() . '.' . $file->getClientOriginalExtension();
-            $path=public_path().'\imagenes\usuarios';
-            $file->move($path,$name);
-        }else{
-            //imagen por defecto
-            $name='user.jpg';
-        }
+
+        $name='user.jpg';
 
         $jurado = new User($request->all());
         $jurado->password =bcrypt($request->password);
         $jurado->rol='jurado';
         $jurado->imagen='/imagenes/usuarios/'.$name;
         $jurado->save();
-
-        $image=new Image();
-        $image->nombre=$name;
-        $image->user()->associate($jurado);
-        $image->save();
 
         Flash::success("Se ha registrado ".$jurado->nombre." de forma exitosa");
         return redirect()->route('admin.jurados.index');

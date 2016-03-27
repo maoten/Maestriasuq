@@ -9,7 +9,8 @@
 
     <!-- título de la pestaña -->
     <title>@yield('title','Default') | Maestrías UQ</title>
-
+    <!-- favicon -->
+    <link rel="shortcut icon" href="{{ asset('favicon2.ico') }}" >
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('plugins/bootstrap/css/bootstrap.css') }}">
 
@@ -64,132 +65,92 @@
 
 
 
-                                            @else
-                                           <!--descomentar y poner lo otro en el else -->
+                    @else
+                    <!--descomentar y poner lo otro en el else -->
                                     <!--<li><a href="#" class="textonav">Acerca</a></li>
                                     
                                     <li><a href="#"><i class="fa fa-home icono"></i></a></li>-->
                                     
-                                    <!-- mensajes -->          
                                     
+
+                                    <!-- Menu de las notificaciones-->
                                     <li class="dropdown">
                                         <!-- icono de notificación -->
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            <i class='fa fa-envelope-o'></i>
-                                            <span class="labelnav label label-primary">2</span>
+                                            <i class="fa fa-bell-o"></i>
+                                            <span class="label label-warning labelnav">1</span>
                                         </a>
 
-                                        <!-- lista de los mensajes -->
-                                        <ul class="dropdown-menu msjs">
+                                        <!-- lista de las notificaciones -->
+                                        <ul class="dropdown-menu">
 
 
-                                            <li class="msj"><!-- inicio mensaje -->
-                                                <a href="#">
+                                            <li class="msj">
+                                                <a href="#">Cita sustentación</a>
+                                            </li>                   
+                                            <li class="divider"></li>
+                                            <li class="footernotif"><a href="#">Ver todas</a></li>
 
-                                                    <!-- User Image -->
-                                                    <img src="{{ asset('imagenes/usuarios/1.jpg') }}" class="iconomsj">
+                                        </ul>
+                                    </li>
 
-                                                    <!-- Message title and timestamp -->
+                                    <!-- Menu de la cuenta del usuario-->
+                                    <li class="dropdown ">
 
-                                                    <h4 class="tmsj">
-                                                        Equipo de soporte</h4>
-                                                        <small><i class="fa fa-clock-o iconoc"></i> 5 mins</small>
+                                        <a href="#" class="dropdown-toggle cuadro" data-toggle="dropdown">
 
-                                                    </a>
-                                                </li><!-- end message -->
+                                            <!-- nombre del usuario -->
+                                            <span class="navnombre">{{ Auth::user()->nombre }}</span>
+                                        </a>
+                                        <ul class="dropdown-menu cuenta">
 
-                                                <li class="msj"><!-- start message -->
-                                                    <a href="#">
+                                            <!-- descripción del usuario -->
+                                            <li>
+                                               <!-- <img class="imagenususario img-responsive center-block" src="{{ asset('imagenes/usuarios/3.jpg') }}" >-->
+                                               <img class="imagenususario img-responsive center-block" src="{{ asset(Auth::user()->imagen) }}" >
 
-                                                        <!-- User Image -->
+                                               <p class="profesion">{{ Auth::user()->profesion }}</p>
+                                               <p class="universidad">{{ Auth::user()->universidad }}</p>
+                                               <p class="rol"><i class="fa fa-user"></i> {{ Auth::user()->rol }}</p>
+                                           </li>
+                                           <li class="divider"></li>
 
-                                                        <img src="{{ asset('imagenes/usuarios/2.jpg') }}" class="iconomsj">
+                                           @if( Auth::user()->rol=='estudiante' )
+                                           <!-- opciones de la cuenta-->
+                                           <li><a href="{{ route('estudiante.cuenta')}}">Cuenta</a></li>
+                                           <li><a href="{{ route('estudiante.ayuda')}}">Ayuda</a></li>
+                                           @elseif( Auth::user()->rol=='admin' )
+                                           <li><a href="{{ route('admin.cuenta')}}">Cuenta</a></li>
+                                           <li><a href="{{ route('admin.ayuda')}}">Ayuda</a></li>
+                                           @elseif( Auth::user()->rol=='director_grado' )
+                                           <li><a href="{{ route('director.cuenta')}}">Cuenta</a></li>
+                                           <li><a href="{{ route('director.ayuda')}}">Ayuda</a></li>
+                                           @endif
+                                           <li class="divider"></li>
+                                           <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i> Salir</a></li>
 
+                                       </ul>
 
-                                                        <!-- Message title and timestamp -->
+                                   </li>
+                                   @endif
 
-                                                        <h4 class="tmsj">
-                                                            Director</h4>
-                                                            <small><i class="fa fa-clock-o iconoc"></i> 5 mins</small>
+                               </ul>
+                           </div>
+                       </div>
+                   </nav>
 
-                                                        </a>
-                                                    </li><!-- end message -->
-                                                    <li class="divider"></li>
-                                                    <li class="footernotif"><a href="#">Ver todos</a></li>
+                   <!-- contendio de la página -->
+                   <div class="vertical-center">
+                     @yield('content')
+                 </div>
 
-                                                </ul>
-                                            </li>     
+                 <!-- pie de página -->
 
-                                            <!-- Menu de las notificaciones-->
-                                            <li class="dropdown">
-                                                <!-- icono de notificación -->
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                                    <i class="fa fa-bell-o textnot"></i>
-                                                    <span class="label label-warning labelnav">1</span>
-                                                </a>
+                 <footer class="footer-distributed">
 
-                                                <!-- lista de las notificaciones -->
-                                                <ul class="dropdown-menu">
+                    <div class="footer-left">
 
-
-                                                    <li class="msj">
-                                                        <a href="#">Cita sustentación</a>
-                                                    </li>                   
-                                                    <li class="divider"></li>
-                                                    <li class="footernotif"><a href="#">Ver todas</a></li>
-
-                                                </ul>
-                                            </li>
-
-                                            <!-- Menu de la cuenta del usuario-->
-                                            <li class="dropdown">
-
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-
-                                                    <!-- nombre del usuario -->
-                                                    <span class="navnombre">{{ Auth::user()->nombre }}</span>
-                                                </a>
-                                                <ul class="dropdown-menu">
-
-                                                    <!-- descripción del usuario -->
-                                                    <li>
-                                                       <!-- <img class="imagenususario img-responsive center-block" src="{{ asset('imagenes/usuarios/3.jpg') }}" >-->
-                                                        <img class="imagenususario img-responsive center-block" src="{{ asset(Auth::user()->imagen) }}" >
-
-                                                        <p class="profesion">{{ Auth::user()->profesion }}</p>
-                                                        <p class="universidad">{{ Auth::user()->universidad }}</p>
-                                                        <p class="rol"><i class="fa fa-user"></i> {{ Auth::user()->rol }}</p>
-                                                    </li>
-
-                                                    <!-- opciones de la cuenta-->
-                                                    <li class="divider"></li>
-                                                    <li><a href="{{ asset('cuenta')}}">Cuenta</a></li>
-                                                    <li><a href="{{ asset('ayuda')}}">Ayuda</a></li>
-                                                    <li class="divider"></li>
-                                                    <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i> Salir</a></li>
-
-                                                </ul>
-
-                                            </li>
-                                            @endif
-
-                 </ul>
-                                    </div>
-                                </div>
-                            </nav>
-
-                            <!-- contendio de la página -->
-                            <div class="vertical-center">
-                             @yield('content')
-                            </div>
-
-                         <!-- pie de página -->
-
-                         <footer class="footer-distributed">
-
-                            <div class="footer-left">
-
-                             <img class="img-responsive center-block" src="{{ asset('imagenes/institucional/logoing.png') }}">
+                     <img class="img-responsive center-block" src="{{ asset('imagenes/institucional/logoing.png') }}">
 
                                     <!--<p class="footer-links">
                                         <a href="#">Home</a>

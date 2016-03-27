@@ -46,26 +46,13 @@ class EstudiantesController extends Controller
      */
     public function store(UserRequest $request)
     {
-    	if($request->file('imagen')){
-    		$file=$request->file('imagen');
-    		$name='maestriauq_' . time() . '.' . $file->getClientOriginalExtension();
-    		$path=public_path().'\imagenes\usuarios';
-    		$file->move($path,$name);
-    	}else{
-    		//imagen por defecto
-    		$name='user.jpg';
-    	}
 
+    	$name='user.jpg';
     	$estudiante = new User($request->all());
     	$estudiante->password =bcrypt($request->password);
     	$estudiante->rol='estudiante';
     	$estudiante->imagen='/imagenes/usuarios/'.$name;
     	$estudiante->save();
-
-    	$image=new Image();
-    	$image->nombre=$name;
-    	$image->user()->associate($estudiante);
-    	$image->save();
 
     	Flash::success("Se ha registrado ".$estudiante->nombre." de forma exitosa");
     	return redirect()->route('admin.estudiantes.index');

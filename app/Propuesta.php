@@ -17,4 +17,8 @@ class Propuesta extends Model
     /*public function tesis(){
         return $this->hasOne('App\Tesis','foreign_key');
     }*/
+
+     public function scopeSearch($query,$criterio){
+        return $query->where('titulo','LIKE',"%$criterio%")->orWhere('estado', 'LIKE', "%$criterio%");;
+    }
 }

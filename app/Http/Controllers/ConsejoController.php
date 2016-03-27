@@ -11,6 +11,7 @@ use App\Image;
 use Laracasts\Flash\Flash;
 use App\Http\Requests\UserRequest;
 
+
 class ConsejoController extends Controller
 {
 
@@ -45,26 +46,13 @@ class ConsejoController extends Controller
      */
     public function store(UserRequest $request)
     {
-    	if($request->file('imagen')){
-            $file=$request->file('imagen');
-            $name='maestriauq_' . time() . '.' . $file->getClientOriginalExtension();
-            $path=public_path().'\imagenes\usuarios';
-            $file->move($path,$name);
-        }else{
-            //imagen por defecto
-            $name='user.jpg';
-        }
+        $name='user.jpg';
 
         $consejo = new User($request->all());
         $consejo->password =bcrypt($request->password);
         $consejo->rol='consejo_curricular';
         $consejo->imagen='/imagenes/usuarios/'.$name;
         $consejo->save();
-
-        $image=new Image();
-        $image->nombre=$name;
-        $image->user()->associate($consejo);
-        $image->save();
 
         Flash::success("Se ha registrado ".$consejo->nombre." de forma exitosa");
         return redirect()->route('admin.consejo.index');

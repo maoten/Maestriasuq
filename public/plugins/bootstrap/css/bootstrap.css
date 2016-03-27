@@ -150,7 +150,7 @@ header {
 /*===============================*/
 
 .labelnav{
-  border-radius: 10px !important;  
+  border-radius: 50% !important; 
 }
 
 /* descripción usuario */
@@ -228,7 +228,9 @@ header {
   margin-top: 0;
 }
 
-
+.cuenta{
+ width: 200px;
+}
 
 /*============================*/
 

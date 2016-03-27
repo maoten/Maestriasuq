@@ -24,7 +24,7 @@ class LoginRequest extends Request
     public function rules()
     {
         return [
-            'email'=>'min:60|max:250|required|unique:usuario',
+            'email'=>'min:60|max:50|required|unique:users',
             'password'=>'min:5|max:30|required'
         ];
     }

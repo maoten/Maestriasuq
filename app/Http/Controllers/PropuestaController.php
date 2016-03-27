@@ -22,9 +22,29 @@ class PropuestaController extends Controller
      */
      public function index()
      {
-        return view('estudiante.propuesta.index');
+         $propuestas = Propuesta::orderBy('id','ASC')->paginate(10);
+         return view('estudiante.propuesta.index')->with('propuestas',$propuestas);
+     }
+
+     /**
+     * Display a listing of the resource.
+     * @return \Illuminate\Http\Response
+     */
+     public function indexPropuestas(Request $request)
+     {
+        $propuestas = Propuesta::search($request->titulo)->orderBy('id','ASC')->paginate(10);
+        return view('admin.propuestas.index')->with('propuestas',$propuestas);
     }
 
+     /**
+     * Display a listing of the resource.
+     * @return \Illuminate\Http\Response
+     */
+     public function indexPropuestasDir(Request $request)
+     {
+        $propuestas = Propuesta::search($request->titulo)->orderBy('id','ASC')->paginate(10);
+        return view('director.propuestas.index')->with('propuestas',$propuestas);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -87,10 +107,51 @@ class PropuestaController extends Controller
      */
     public function show($id)
     {
-       $propuesta=Propuesta::find($id);
-       return view('estudiante.propuesta.seguimiento')->with('propuesta', $propuesta);
-   }
+   $file = Attachment::find($id); //pendiente
+    $propuesta= base64_decode($file->file);
 
+    header("Content-type: $file->mime");
+    header("Content-length: $file->size");
+    echo $propuesta;
+    exit;
+
+   }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+     public function show_propuesta($id)
+     {
+         $propuesta=Propuesta::find($id);
+
+
+         return view('estudiante.propuesta.ver')->with('propuesta', $propuesta);
+     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+     public function show_propuesta_dir($id)
+     {
+         $propuesta=Propuesta::find($id);
+         return view('director.propuestas.ver')->with('propuesta', $propuesta);
+     }
+     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+     public function showSeguimiento($id)
+     {
+         $propuesta=Propuesta::find($id);
+         return view('estudiante.propuesta.seguimiento')->with('propuesta', $propuesta);
+     }
     /**
      * Show the form for editing the specified resource.
      *
@@ -100,13 +161,6 @@ class PropuestaController extends Controller
     public function edit($id)
     {
 
-    $file = Attachment::find($id); //pendiente
-    $propuesta= base64_decode($file->file);
-
-    header("Content-type: $file->mime");
-    header("Content-length: $file->size");
-    echo $propuesta;
-    exit;
 
     }
 

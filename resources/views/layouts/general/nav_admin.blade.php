@@ -34,7 +34,7 @@
         </a>
       </li>
       <li>
-        <a href="">
+        <a href="{{ route('admin.propuestas.index') }}">
           <span class="icon">
             <i class="fa fa-pencil-square-o"></i>
           </span>

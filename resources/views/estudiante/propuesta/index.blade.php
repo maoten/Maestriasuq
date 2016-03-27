@@ -34,7 +34,9 @@
               <th class="active">Acción</th>
 
               <tbody>
-                @foreach((App\Propuesta::where('user_id', Auth::user()->id)->get()) as $propuesta)
+                @foreach($propuestas as $propuesta)
+                @if($propuesta->user_id == Auth::user()->id )
+
                 <tr>
                   <td>{{ $propuesta->id }}</td>
                   <td>{{ $propuesta->titulo }}</td>
@@ -55,24 +57,25 @@
                     <span class="label label-danger">{{ $propuesta->estado }}</span>
                     @endif
                   </td>
+                  <td>
+  
+                <a href="{{ route('estudiante.propuesta.ver', $propuesta->id) }}" class="btn btn-primary" target="_blank" title="Ver propuesta"><i class="fa fa-paperclip fa-lg" ></i>
+                </a> 
 
-                  <td><a href="{{ route('estudiante.propuesta.ver', $propuesta->id) }}" class="btn btn-primary" target="_blank" title="Ver adjunto"><i class="fa fa-paperclip fa-lg" ></i>
-                  </a> 
+                <a href="{{ route('estudiante.propuesta.seguimiento', $propuesta->id) }}" target="_blank" class="btn btn-primary" title="Seguimiento"><i class="fa fa-ellipsis-h"></i>
+                </a>
 
-                  <a href="{{ route('estudiante.propuesta.show', $propuesta->id) }}" target="_blank" class="btn btn-primary" title="Seguimiento"><i class="fa fa-ellipsis-h"></i>
-                  </a>
+              </td>
+            </tr>
+            @endif
+            @endforeach
+          </tbody>
+        </thead>
+      </table>
 
-                </td>
-              </tr>
-
-              @endforeach
-            </tbody>
-          </thead>
-        </table>
-
-      </div>
     </div>
   </div>
+</div>
 </div>
 </div> 
 

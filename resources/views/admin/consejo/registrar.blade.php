@@ -18,7 +18,7 @@
 
 
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('admin.consejo.store') }}"  enctype="multipart/form-data" >
+                    <form class="form-horizontal" role="form" method="POST" action="{{ route('admin.consejo.store') }}" >
                        {!! csrf_field() !!}
 
 
@@ -127,24 +127,6 @@
                             @endif
                         </div>
                     </div>
-                    
-                    <div class="form-group{{ $errors->has('iamgen') ? ' has-error' : '' }}">
-                        <label class="col-md-4 control-label">Imagen de usuario</label>
-
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
-                                <input type="file" class="form-control" name="imagen">
-
-                            </div>
-                            @if ($errors->has('imagen'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('imagen') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                    </div>
-
 
                     <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                         <label class="col-md-4 control-label">Contraseña</label>

@@ -44,26 +44,14 @@ class DirectoresController extends Controller
      */
     public function store(UserRequest $request)
     {
-    	if($request->file('imagen')){
-    		$file=$request->file('imagen');
-    		$name='maestriauq_' . time() . '.' . $file->getClientOriginalExtension();
-    		$path=public_path().'\imagenes\usuarios';
-    		$file->move($path,$name);
-    	}else{
-    		//imagen por defecto
-    		$name='user.jpg';
-    	}
 
+    	$name='user.jpg';
+    
     	$director = new User($request->all());
     	$director->password =bcrypt($request->password);
     	$director->rol='director_grado';
     	$director->imagen='/imagenes/usuarios/'.$name;
     	$director->save();
-
-    	$image=new Image();
-    	$image->nombre=$name;
-    	$image->user()->associate($director);
-    	$image->save();
 
     	Flash::success("Se ha registrado ".$director->nombre." de forma exitosa");
     	return redirect()->route('admin.directores.index');

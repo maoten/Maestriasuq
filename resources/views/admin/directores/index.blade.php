@@ -32,7 +32,7 @@
 
             <form class="form-horizontal" role="form" method="GET" action="{{ route('admin.directores.index') }}" aria-describedby='search'>
               <div class="input-group busqueda">
-                <input type="text" class="form-control" placeholder="nombre" name="nombre" aria-hidden="true">
+                <input type="text" class="form-control" placeholder="nombre o cédula" name="nombre" aria-hidden="true">
                 <span class="input-group-addon" id="search"><span class="glyphicon glyphicon-search"></span></span>
               </div>
             </form>

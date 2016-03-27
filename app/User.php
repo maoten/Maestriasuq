@@ -23,7 +23,7 @@ CanResetPasswordContract
      * @var array
      */
     protected $fillable = [
-    'cc', 'nombre', 'email', 'telefono','profesion', 'universidad','password', 'rol','imagen',
+    'id','cc', 'nombre', 'email', 'telefono','profesion', 'universidad','password', 'rol','imagen',
     ];
 
     /**
@@ -45,8 +45,8 @@ CanResetPasswordContract
         
     }
 
-    public function scopeSearch($query,$nombre){
-        return $query->where('nombre','LIKE',"%$nombre%");
+    public function scopeSearch($query,$criterio){
+        return $query->where('nombre','LIKE',"%$criterio%")->orWhere('cc', 'LIKE', "%$criterio%");
     }
 
 

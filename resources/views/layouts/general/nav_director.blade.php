@@ -2,7 +2,7 @@
   <nav id="menu" class="opciones">         
     <ul>
       <li>
-        <a href="{{ route('estudiante.index')}}">
+        <a href="{{ route('director.index')}}">
           <span class="icon">
             <i class="fa fa-home"></i>
           </span>
@@ -10,7 +10,7 @@
         </a>
       </li>
       <li>
-        <a href="{{ route('estudiante.propuesta.index') }}">
+        <a href="{{ route('director.propuestas.index') }}">
           <span class="icon"> 
             <i class="fa fa-pencil-square-o"></i>
           </span>
@@ -22,7 +22,7 @@
           <span class="icon">
             <i class="fa fa-file-text-o"></i>
           </span>
-          <span>Trabajo de grado</span>
+          <span>Trabajos de grado</span>
         </a>
       </li>
       <li>
@@ -42,7 +42,7 @@
         </a>
       </li>
       <li>
-        <a href="{{ route('estudiante.documentos.index') }}">
+        <a href="{{ route('director.documentos.index')}}">
           <span class="icon">
             <i class="fa fa-files-o"></i>
           </span>
