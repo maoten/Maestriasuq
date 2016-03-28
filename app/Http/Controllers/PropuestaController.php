@@ -108,27 +108,27 @@ class PropuestaController extends Controller
     public function show($id)
     {
    $file = Attachment::find($id); //pendiente
-    $propuesta= base64_decode($file->file);
+   $propuesta= base64_decode($file->file);
 
-    header("Content-type: $file->mime");
-    header("Content-length: $file->size");
-    echo $propuesta;
-    exit;
+   header("Content-type: $file->mime");
+   header("Content-length: $file->size");
+   echo $propuesta;
+   exit;
 
-   }
+}
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-     public function show_propuesta($id)
-     {
-         $propuesta=Propuesta::find($id);
+    public function show_propuesta($id)
+    {
+     $propuesta=Propuesta::find($id);
 
 
-         return view('estudiante.propuesta.ver')->with('propuesta', $propuesta);
-     }
+     return view('estudiante.propuesta.ver')->with('propuesta', $propuesta);
+ }
 
     /**
      * Display the specified resource.
@@ -136,11 +136,11 @@ class PropuestaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-     public function show_propuesta_dir($id)
-     {
-         $propuesta=Propuesta::find($id);
-         return view('director.propuestas.ver')->with('propuesta', $propuesta);
-     }
+    public function show_propuesta_dir($id)
+    {
+     $propuesta=Propuesta::find($id);
+     return view('director.propuestas.ver')->with('propuesta', $propuesta);
+ }
      /**
      * Display the specified resource.
      *
@@ -160,7 +160,8 @@ class PropuestaController extends Controller
      */
     public function edit($id)
     {
-
+        $propuesta=User::find($id);
+        return view('estudiante.propuesta.editar')->with('propuesta', $propuesta);
 
     }
 
@@ -173,8 +174,12 @@ class PropuestaController extends Controller
      */
     public function update(Request $request, $id)
     {
-    	
-    }
+     $propuesta=Propuesta::find($id);
+     $propuesta->estado='modificada';
+     $propuesta->save();
+     Flash::warning("El propuesta ".$propuesta->nombre." ha sido editado");
+     return redirect()->route('admin.propuestas.index');
+ }
 
     /**
      * Remove the specified resource from storage.

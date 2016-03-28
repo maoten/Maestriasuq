@@ -58,25 +58,30 @@
                     @endif
                   </td>
                   <td>
-  
-                <a href="{{ route('estudiante.propuesta.ver', $propuesta->id) }}" class="btn btn-primary" target="_blank" title="Ver propuesta"><i class="fa fa-paperclip fa-lg" ></i>
-                </a> 
 
-                <a href="{{ route('estudiante.propuesta.seguimiento', $propuesta->id) }}" target="_blank" class="btn btn-primary" title="Seguimiento"><i class="fa fa-ellipsis-h"></i>
-                </a>
+                    <a href="{{ route('estudiante.propuesta.ver', $propuesta->id) }}" class="btn btn-primary" target="_blank" title="Ver propuesta"><i class="fa fa-paperclip fa-lg" ></i>
+                    </a> 
 
-              </td>
-            </tr>
-            @endif
-            @endforeach
-          </tbody>
-        </thead>
-      </table>
+                    <a href="{{ route('estudiante.propuesta.edit', $propuesta->id) }}" class="btn btn-warning" title="Editar"><i class="fa fa-wrench"></i>
+                    </a>
 
+                    <a href="{{ route('estudiante.propuesta.seguimiento', $propuesta->id) }}" target="_blank" class="btn btn-success" title="Seguimiento"><i class="fa fa-ellipsis-h"></i>
+                    </a>
+
+                   
+
+                  </td>
+                </tr>
+                @endif
+                @endforeach
+              </tbody>
+            </thead>
+          </table>
+
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
 </div> 
 
 @endsection

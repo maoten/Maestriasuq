@@ -145,9 +145,13 @@
 		Route::get('propuestas',['uses'=>'PropuestaController@indexPropuestasDir','as'=>'director.propuestas.index']);
 		Route::get('verpropuesta/{id}',['uses'=>'PropuestaController@show_propuesta_dir','as'=>'director.propuesta.ver']);
 
-
 		//======== opciones de los documentos ==========//
 		Route::get('documentos', ['as'=>'director.documentos.index',function () {
 			return view('director.documentos.index');
 		}]);
+
+		//======== opciones de los comentarios ==========//
+		Route::post('comentarios',['uses'=>'ComentariosController@store','as'=>'director.comentarios.store']);
+
+
 	});

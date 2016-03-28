@@ -22,7 +22,7 @@
 
       <div class="panel-body text-justify">
 
-      <form class="form-horizontal" role="form" method="GET" action="{{ route('director.propuestas.index') }}" aria-describedby='search'>
+        <form class="form-horizontal" role="form" method="GET" action="{{ route('director.propuestas.index') }}" aria-describedby='search'>
           <div class="input-group">
             <input type="text" class="form-control" placeholder="título o estado (enviada, en_espera, aprobada o rechazada)" name="titulo" aria-hidden="true">
             <span class="input-group-addon" id="search"><span class="glyphicon glyphicon-search"></span></span>
