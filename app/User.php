@@ -40,13 +40,19 @@ CanResetPasswordContract
     {
         return $this->hasMany('App\Propuesta');
     }
-    public function tesis(){
-        return $this->hasMany('App\Tesis');
+    public function trabajo_grado(){
+        return $this->hasMany('App\Trabajo_grado');
         
     }
 
     public function scopeSearch($query,$criterio){
         return $query->where('nombre','LIKE',"%$criterio%")->orWhere('cc', 'LIKE', "%$criterio%");
+    }
+    public function coordinador(){
+        return $this->hasOne('App\Coordinador');
+    }
+    public function jurado(){
+        return $this->hasOne('App\Jurado');
     }
 
 

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Attachment extends Model
+class Documentos extends Model
 {
 
     /**
@@ -12,7 +12,7 @@ class Attachment extends Model
      *
      * @var string
      */
-    protected $table = 'attachments';
+    protected $table = "documentos";
 
     /**
      * The attributes that are mass assignable.
@@ -20,10 +20,11 @@ class Attachment extends Model
      * @var array
      */
     protected $fillable = [
-    'name', 'file','mime','size','pro_id'
+    'name', 'file','mime','size','propuesta_id'
     ];
     
     public function propuesta(){
        return $this->belongsTo('App\Propuesta');
    }
+    
 }

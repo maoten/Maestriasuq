@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tesis extends Model
+class Trabajo_grado extends Model
 {
     //
-    protected $table = "tesis";
-    protected $fillable =['descripcion','fecha_inicio','fecha_fin','estado','archivo','tipo_archivo','user_id'];
+    protected $table = "trabajo_grado";
+    protected $fillable =['descripcion','estado','user_id','propuesta_id'];
     
     public function user(){
         return $this->belongsTo('App\User');

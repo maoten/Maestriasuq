@@ -6,7 +6,14 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddComentariosTable' => $baseDir . '/database/migrations/2016_04_08_040623_add_comentarios_table.php',
+    'AddCoordinadorTable' => $baseDir . '/database/migrations/2016_04_07_045654_add_coordinador_table.php',
+    'AddDocumentosTable' => $baseDir . '/database/migrations/2016_04_08_040528_add_documentos_table.php',
+    'AddEnfasisTable' => $baseDir . '/database/migrations/2016_04_07_045739_add_enfasis_table.php',
     'AddImagesTable' => $baseDir . '/database/migrations/2016_03_14_152327_add_images_table.php',
+    'AddJuradosTable' => $baseDir . '/database/migrations/2016_04_07_045529_add_jurados_table.php',
+    'AddPropuestaTable' => $baseDir . '/database/migrations/2016_03_14_155337_add_propuesta_table.php',
+    'AddTrabajoGradoTable' => $baseDir . '/database/migrations/2016_03_14_155420_add_trabajo_grado_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',

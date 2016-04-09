@@ -14,11 +14,20 @@ class Propuesta extends Model
     public function user(){
         return $this->belongsTo('App\User');
     }
-    /*public function tesis(){
-        return $this->hasOne('App\Tesis','foreign_key');
-    }*/
+    public function trabajo_grado(){
+        return $this->hasOne('App\Trabajo_grado','foreign_key');
+    }
 
      public function scopeSearch($query,$criterio){
         return $query->where('titulo','LIKE',"%$criterio%")->orWhere('estado', 'LIKE', "%$criterio%");;
+    }
+    public function enfasis(){
+        return $this->belongsTo('App\Enfasis');
+    }
+    public function comentario(){
+        return $this->hasMany('App\Comentario');
+    }
+    public function documento(){
+        return $this->hasMany('App\Documento');
     }
 }

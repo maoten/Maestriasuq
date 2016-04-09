@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddPropuestaTable extends Migration
+class AddCoordinadorTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,16 +12,10 @@ class AddPropuestaTable extends Migration
      */
     public function up()
     {
-        Schema::create('propuesta', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('titulo')->required();
-            $table->string('estado')->required();
-            $table->string('enfoque')->required();
+        Schema::create('coordinador', function (Blueprint $table) {
+            
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('enfasis_id')->unsigned();
-            $table->foreign('enfasis_id')->references('user_id')->on('enfasis')->onDelete('cascade');
-           
             $table->timestamps();
         });
     }
@@ -33,6 +27,6 @@ class AddPropuestaTable extends Migration
      */
     public function down()
     {
-        Schema::drop('propuesta');
+        Schema::drop('coordinador');
     }
 }
