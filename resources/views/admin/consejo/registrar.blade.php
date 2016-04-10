@@ -111,18 +111,18 @@
                         </div>
                     </div>
 
-                    <div class="form-group{{ $errors->has('unievrsidad') ? ' has-error' : '' }}">
+                    <div class="form-group{{ $errors->has('universidad') ? ' has-error' : '' }}">
                         <label class="col-md-4 control-label">Universidad</label>
 
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
-                                <input type="text" class="form-control" name="universidad" value="{{ old('unievrsidad') }}"placeholder="Universidad del Quindío" >
+                                <input type="text" class="form-control" name="universidad" value="{{ old('universidad') }}"placeholder="Universidad del Quindío" >
 
                             </div>
-                            @if ($errors->has('unievrsidad'))
+                            @if ($errors->has('universidad'))
                             <span class="help-block">
-                                <strong>{{ $errors->first('unievrsidad') }}</strong>
+                                <strong>{{ $errors->first('universidad') }}</strong>
                             </span>
                             @endif
                         </div>
@@ -158,15 +158,39 @@
                     });  
                 </script>
 
-                <div class="form-group">
-                    <div class="col-md-6 col-md-offset-4">
-                        <button type="submit" class="btn btn-primary" name="registrar">
-                        </i>Registrar
-                    </button>
+
+                <div class="form-group{{ $errors->has('coor') ? ' has-error' : '' }}">
+                    <label class="col-md-4 control-label">¿Coordinador de énfasis?</label>
+
+                    <div class="col-md-6">
+                     <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="checkbox" id="check" name="check" value="1">
+                    </span>
+                   <select class="form-control" name="coor" >
+                             @foreach((App\Enfasis::all()) as $enf)
+                            <option value="{{$enf->nombre}}">{{$enf->nombre}}</option>
+                            @endforeach 
+                        </select>
                 </div>
+
+                @if ($errors->has('coor'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('coor') }}</strong>
+                </span>
+                @endif
             </div>
-        </form>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6 col-md-offset-4">
+                <button type="submit" class="btn btn-primary" name="registrar">
+                </i>Registrar
+            </button>
+        </div>
     </div>
+</form>
+</div>
 </div>
 </div>
 </div>

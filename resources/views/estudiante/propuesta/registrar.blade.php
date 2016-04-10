@@ -81,6 +81,26 @@
                 </div>
             </div>
 
+            <div class="form-group{{ $errors->has('enfasis') ? ' has-error' : '' }}">
+                <label class="col-md-4 control-label">Énfasis</label>
+
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-pushpin"></i></span>
+                        <select class="form-control" name="enfasis" >
+                          @foreach((App\Enfasis::all()) as $enf)
+                            <option value="{{$enf->nombre}}">{{$enf->nombre}}</option>
+                            @endforeach 
+                        </select>
+                    </div>
+                    @if ($errors->has('enfasis'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('enfasis') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+
             <div class="form-group{{ $errors->has('propuesta') ? ' has-error' : '' }}">
                 <label class="col-md-4 control-label">Propuesta</label>
 

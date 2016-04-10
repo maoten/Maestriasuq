@@ -6,6 +6,7 @@
 <script src="{{ asset('js/pGenerator.jquery.js') }}"></script>
 @endsection
 @section('content')
+<?php $coordinador=App\Coordinador::where('user_id',Auth::user()->id)->first() ?>
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -18,7 +19,7 @@
 
 
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('admin.jurados.store') }}" >
+                    <form class="form-horizontal" role="form" method="POST" action="{{ route('consejo.jurados.store') }}" >
                        {!! csrf_field() !!}
 
 
@@ -111,62 +112,62 @@
                         </div>
                     </div>
 
-                    <div class="form-group{{ $errors->has('unievrsidad') ? ' has-error' : '' }}">
+                    <div class="form-group{{ $errors->has('universidad') ? ' has-error' : '' }}">
                         <label class="col-md-4 control-label">Universidad</label>
 
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
-                                <input type="text" class="form-control" name="universidad" value="{{ old('unievrsidad') }}"placeholder="Universidad del Quindío" >
+                                <input type="text" class="form-control" name="universidad" value="{{ old('universidad') }}"placeholder="Universidad del Quindío" >
 
                             </div>
-                            @if ($errors->has('unievrsidad'))
+                            @if ($errors->has('universidad'))
                             <span class="help-block">
-                                <strong>{{ $errors->first('unievrsidad') }}</strong>
+                                <strong>{{ $errors->first('universidad') }}</strong>
                             </span>
                             @endif
                         </div>
                     </div>
 
-                    <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                        <label class="col-md-4 control-label">Contraseña</label>
+                <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                    <label class="col-md-4 control-label">Contraseña</label>
 
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                <input type="text" class="form-control" id="password" name="password" placeholder="" >
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input type="text" class="form-control" id="password" name="password" placeholder="" >
 
-                            </div>
-                            <a href="#" class="left" id="myLink" style="margin-left:20px; margin-top:6px;">Generar contraseña</a>
-                            @if ($errors->has('password'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('password') }}</strong>
-                            </span>
-                            @endif
                         </div>
+                        <a href="#" class="left" id="myLink" style="margin-left:20px; margin-top:6px;">Generar contraseña</a>
+                        @if ($errors->has('password'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('password') }}</strong>
+                        </span>
+                        @endif
                     </div>
-                    <script>
-                      $('#myLink').pGenerator({
-                        'bind': 'click',
-                        'displayElement': '#password',
-                        'passwordLength': 10,
-                        'uppercase': false,
-                        'lowercase': true,
-                        'numbers':   true,
-                        'specialChars': false,
-                        'onPasswordGenerated': function(generatedPassword) { }
-                    });  
-                </script>
-
-                <div class="form-group">
-                    <div class="col-md-6 col-md-offset-4">
-                        <button type="submit" class="btn btn-primary" name="registrar">
-                        </i>Registrar
-                    </button>
                 </div>
+                <script>
+                  $('#myLink').pGenerator({
+                    'bind': 'click',
+                    'displayElement': '#password',
+                    'passwordLength': 10,
+                    'uppercase': false,
+                    'lowercase': true,
+                    'numbers':   true,
+                    'specialChars': false,
+                    'onPasswordGenerated': function(generatedPassword) { }
+                });  
+            </script>
+
+            <div class="form-group">
+                <div class="col-md-6 col-md-offset-4">
+                    <button type="submit" class="btn btn-primary" name="registrar">
+                    Registrar
+                </button>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
+</div>
 </div>
 </div>
 </div>

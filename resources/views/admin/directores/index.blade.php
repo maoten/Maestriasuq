@@ -46,7 +46,7 @@
                 <th class="active">Nombre</th>
                 <th class="active">Teléfono</th>
                 <th class="active">Email</th>
-                <th class="active">Prodesión</th>
+                <th class="active">Profesión</th>
                 <th class="active">Rol</th>
                 <th class="active">Acción</th>
 

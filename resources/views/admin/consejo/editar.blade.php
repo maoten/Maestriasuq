@@ -108,7 +108,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group{{ $errors->has('unievrsidad') ? ' has-error' : '' }}">
+                    <div class="form-group{{ $errors->has('universidad') ? ' has-error' : '' }}">
                         <label class="col-md-4 control-label">Universidad</label>
 
                         <div class="col-md-6">
@@ -117,9 +117,9 @@
                                 <input type="text" class="form-control" name="universidad" value="{{ $consejo->universidad }}"placeholder="Universidad del Quindío" >
 
                             </div>
-                            @if ($errors->has('unievrsidad'))
+                            @if ($errors->has('universidad'))
                             <span class="help-block">
-                                <strong>{{ $errors->first('unievrsidad') }}</strong>
+                                <strong>{{ $errors->first('universidad') }}</strong>
                             </span>
                             @endif
                         </div>

@@ -125,6 +125,12 @@
                                            @elseif( Auth::user()->rol=='director_grado' )
                                            <li><a href="{{ route('director.cuenta')}}">Cuenta</a></li>
                                            <li><a href="{{ route('director.ayuda')}}">Ayuda</a></li>
+                                           @elseif( Auth::user()->rol=='consejo_curricular' )
+                                           <li><a href="{{ route('consejo.cuenta')}}">Cuenta</a></li>
+                                           <li><a href="{{ route('consejo.ayuda')}}">Ayuda</a></li>
+                                           @elseif( Auth::user()->rol=='jurado' )
+                                           <li><a href="{{ route('jurado.cuenta')}}">Cuenta</a></li>
+                                           <li><a href="{{ route('jurado.ayuda')}}">Ayuda</a></li>
                                            @endif
                                            <li class="divider"></li>
                                            <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i> Salir</a></li>

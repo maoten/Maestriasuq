@@ -1,6 +1,6 @@
  @extends('layouts.app')
 
- @section('title', 'Jurado')
+ @section('title', 'Consejo Curricular')
 
 
  @section('css')
@@ -10,13 +10,15 @@
  @endsection
 
  @section('content')
+<?php $coordinador=App\Coordinador::where('user_id',Auth::user()->id)->first() ?>
+
  <div class="container">
-   @include('layouts.general.nav_jurado')
+   @include('layouts.general.nav_consejo')
    <div class="row">
       <div class="col-md-12">
  <div class="panel panel-default ">
       <div class="panel-body text-justify">
-        <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        <h1>{{$coordinador->enf_nombre}} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
           tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
           quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
           consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse

@@ -46,7 +46,7 @@
               <th class="active">Nombre</th>
               <th class="active">Teléfono</th>
               <th class="active">Email</th>
-              <th class="active">Prodesión</th>
+              <th class="active">Profesión</th>
               <th class="active">Rol</th>
               <th class="active">Acción</th>
 
@@ -59,7 +59,11 @@
                   <td>{{ $miembro->telefono }}</td>
                   <td>{{ $miembro->email }}</td>
                   <td>{{ $miembro->profesion }}</td>
-                  <td><h4><span class="label label-success">{{ $miembro->rol }}</span></h4></td>
+                  <td><h4><span class="label label-success">{{ $miembro->rol }}</span>
+                  @if( (App\Coordinador::where('user_id',$miembro->id)->first() )!=null)
+                  <span class="label label-default">Coordinador {{ App\Coordinador::where('user_id',$miembro->id)->first()->enf_nombre}}</span>
+                  @endif
+                 </h4></td>
 
                   <td><a href="{{ route('admin.consejo.edit', $miembro->id) }}" class="btn btn-warning" title="Editar"><i class="fa fa-wrench" ></i>
                   </a> 

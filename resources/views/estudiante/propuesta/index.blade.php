@@ -29,6 +29,7 @@
               <th class="active">Título</th> 
               <th class="active">Enfoque</th>
               <th class="active">Director</th>
+              <th class="active">Jurados</th>
               <th class="active">Fecha creación</th>
               <th class="active">Estado</th>
               <th class="active">Acción</th>
@@ -42,7 +43,18 @@
                   <td>{{ $propuesta->titulo }}</td>
                   <td>{{ $propuesta->enfoque }}</td>
                   <td>{{ App\User::find( $propuesta->dir_id )->nombre }}</td>
+                  
+                  <td>  
+                  <select class="form-control" name="jurados" >
 
+                    @foreach(App\Propuesta_jurado::where('propuesta_id',  $propuesta->id )->get() as $resultado)
+                    <?php $jurado= App\User::find($resultado->user_id); ?>
+
+                    <option value="{{$jurado->id}}">{{$jurado->nombre}}</option>
+
+                    @endforeach  
+                  </select>
+                  </td>
 
                   <td>{{ $propuesta->created_at }}</td>
 
@@ -62,13 +74,13 @@
                     <a href="{{ route('estudiante.propuesta.ver', $propuesta->id) }}" class="btn btn-primary" target="_blank" title="Ver propuesta"><i class="fa fa-paperclip fa-lg" ></i>
                     </a> 
 
-                    <a href="{{ route('estudiante.propuesta.edit', $propuesta->id) }}" class="btn btn-warning" title="Editar"><i class="fa fa-wrench"></i>
+                    <a href="" class="btn btn-warning" title="Editar"><i class="fa fa-wrench"></i>
                     </a>
 
                     <a href="{{ route('estudiante.propuesta.seguimiento', $propuesta->id) }}" target="_blank" class="btn btn-success" title="Seguimiento"><i class="fa fa-ellipsis-h"></i>
                     </a>
 
-                   
+
 
                   </td>
                 </tr>

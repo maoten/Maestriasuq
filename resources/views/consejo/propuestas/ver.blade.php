@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Documentos')
+@section('title', 'Propuesta')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/comentarios.css') }}">
@@ -11,11 +11,11 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="panel panel-default">
-				<div class="panel-heading"><h4><i class="fa fa-files-o iconoizq"></i>Propuesta</h4></div>
+				<div class="panel-heading"><h4><i class="fa fa-file-pdf-o iconoizq"></i>Propuesta</h4></div>
 
 				<div class="panel-body">
 					<div class="text-center">
-						<a href="{{ route('estudiante.propuesta.show', $propuesta->id) }}" target="_blank">
+						<a href="{{ route('consejo.propuesta.show', $propuesta->id) }}" target="_blank">
 							<img src="{{ asset('imagenes/pdf.png') }}"> 
 							<h5>{{ $propuesta->titulo }}</h5>
 						</a>
@@ -25,9 +25,10 @@
 			</div>
 
 			<div class="panel panel-default">
-				<div class="panel-heading"><h4><i class="fa fa-files-o iconoizq"></i>Comentarios</h4></div>
+				<div class="panel-heading"><h4><i class="fa fa-comments-o iconoizq"></i>Comentarios</h4></div>
 
 				<div class="panel-body">
+
 					@foreach(App\Comentario::where('propuesta_id', $propuesta->id)->get() as $comentario)
                  <?php $usuario= App\User::where('id', $comentario->user_id)->first(); ?>
 					<!-- comentario -->
@@ -49,6 +50,7 @@
 					</div>
 					<!-- /comentario -->
 					@endforeach 
+
 				</div>
 			</div>
 
