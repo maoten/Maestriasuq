@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Propuesta;
-use App\Attachment;
+use App\Documentos;
 use Laracasts\Flash\Flash;
 use App\Http\Requests\PropuestaRequest;
 use Illuminate\Http\Response;
@@ -22,9 +22,9 @@ class PropuestaController extends Controller
      */
      public function index()
      {
-         $propuestas = Propuesta::orderBy('id','ASC')->paginate(10);
-         return view('estudiante.propuesta.index')->with('propuestas',$propuestas);
-     }
+       $propuestas = Propuesta::orderBy('id','ASC')->paginate(10);
+       return view('estudiante.propuesta.index')->with('propuestas',$propuestas);
+   }
 
      /**
      * Display a listing of the resource.
@@ -44,6 +44,24 @@ class PropuestaController extends Controller
      {
         $propuestas = Propuesta::search($request->titulo)->orderBy('id','ASC')->paginate(10);
         return view('director.propuestas.index')->with('propuestas',$propuestas);
+    }
+    /**
+     * Display a listing of the resource.
+     * @return \Illuminate\Http\Response
+     */
+    public function indexPropuestasConsejo(Request $request)
+    {
+        $propuestas = Propuesta::search($request->titulo)->orderBy('id','ASC')->paginate(10);
+        return view('consejo.propuestas.index')->with('propuestas',$propuestas);
+    }
+     /**
+     * Display a listing of the resource.
+     * @return \Illuminate\Http\Response
+     */
+    public function indexPropuestasJurado(Request $request)
+    {
+        $propuestas = Propuesta::search($request->titulo)->orderBy('id','ASC')->paginate(10);
+        return view('jurado.propuestas.index')->with('propuestas',$propuestas);
     }
     /**
      * Show the form for creating a new resource.
@@ -82,11 +100,11 @@ class PropuestaController extends Controller
 
         $propuesta = new Propuesta($request->all());
         $propuesta->estado='enviada';
-        $propuesta->file='enviada';
+        $propuesta->enf_nombre=$request->enfasis;
         $propuesta->save();
 
         $f = $request->file('propuesta');
-        $att = new Attachment();
+        $att = new Documentos();
         $att->name = $f->getClientOriginalName();
         $att->file = base64_encode(file_get_contents($f->getRealPath()));
         $att->mime = $f->getMimeType();
@@ -107,7 +125,7 @@ class PropuestaController extends Controller
      */
     public function show($id)
     {
-   $file = Attachment::find($id); //pendiente
+   $file = Documentos::find($id); //pendiente
    $propuesta= base64_decode($file->file);
 
    header("Content-type: $file->mime");
@@ -124,11 +142,11 @@ class PropuestaController extends Controller
      */
     public function show_propuesta($id)
     {
-     $propuesta=Propuesta::find($id);
+       $propuesta=Propuesta::find($id);
 
 
-     return view('estudiante.propuesta.ver')->with('propuesta', $propuesta);
- }
+       return view('estudiante.propuesta.ver')->with('propuesta', $propuesta);
+   }
 
     /**
      * Display the specified resource.
@@ -138,9 +156,33 @@ class PropuestaController extends Controller
      */
     public function show_propuesta_dir($id)
     {
-     $propuesta=Propuesta::find($id);
-     return view('director.propuestas.ver')->with('propuesta', $propuesta);
- }
+       $propuesta=Propuesta::find($id);
+       return view('director.propuestas.ver')->with('propuesta', $propuesta);
+   }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show_propuesta_consejo($id)
+    {
+       $propuesta=Propuesta::find($id);
+       return view('consejo.propuestas.ver')->with('propuesta', $propuesta);
+   }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show_propuesta_jurado($id)
+    {
+       $propuesta=Propuesta::find($id);
+       return view('jurado.propuestas.ver')->with('propuesta', $propuesta);
+   }
+
      /**
      * Display the specified resource.
      *
@@ -149,9 +191,9 @@ class PropuestaController extends Controller
      */
      public function showSeguimiento($id)
      {
-         $propuesta=Propuesta::find($id);
-         return view('estudiante.propuesta.seguimiento')->with('propuesta', $propuesta);
-     }
+       $propuesta=Propuesta::find($id);
+       return view('estudiante.propuesta.seguimiento')->with('propuesta', $propuesta);
+   }
     /**
      * Show the form for editing the specified resource.
      *
@@ -174,12 +216,12 @@ class PropuestaController extends Controller
      */
     public function update(Request $request, $id)
     {
-     $propuesta=Propuesta::find($id);
-     $propuesta->estado='modificada';
-     $propuesta->save();
-     Flash::warning("El propuesta ".$propuesta->nombre." ha sido editado");
-     return redirect()->route('admin.propuestas.index');
- }
+       $propuesta=Propuesta::find($id);
+       $propuesta->estado='modificada';
+       $propuesta->save();
+       Flash::warning("El propuesta ".$propuesta->nombre." ha sido editado");
+       return redirect()->route('admin.propuestas.index');
+   }
 
     /**
      * Remove the specified resource from storage.

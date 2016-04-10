@@ -65,6 +65,8 @@
 		Route::resource('estudiantes','EstudiantesController');
 		Route::get('estudiantes/{id}/destroy',['uses'=>'EstudiantesController@destroy','as'=>'admin.estudiantes.destroy']);
 		Route::get('estudiantes/{id}/update',['uses'=>'EstudiantesController@update','as'=>'admin.estudiantes.update']);
+        //======== opciones de los jurados ==========//
+		Route::get('jurados',['uses'=>'JuradosController@indexJurados','as'=>'admin.jurados.index']);
 
 	    //======== opciones de los directores de grado ==========//
 		Route::resource('directores','DirectoresController');
@@ -75,11 +77,6 @@
 		Route::resource('consejo','ConsejoController');
 		Route::get('consejo/{id}/destroy',['uses'=>'ConsejoController@destroy','as'=>'admin.consejo.destroy']);
 		Route::get('consejo/{id}/update',['uses'=>'ConsejoController@update','as'=>'admin.consejo.update']);
-
-	    //======== opciones de los jurados ==========//
-		Route::resource('jurados','JuradosController');
-		Route::get('jurados/{id}/destroy',['uses'=>'JuradosController@destroy','as'=>'admin.jurados.destroy']);
-		Route::get('jurados/{id}/update',['uses'=>'JuradosController@update','as'=>'admin.jurados.update']);
 
 	    //======== opciones de las propuestas ==========//
 		Route::get('propuestas',['uses'=>'PropuestaController@indexPropuestas','as'=>'admin.propuestas.index']);
@@ -150,8 +147,84 @@
 			return view('director.documentos.index');
 		}]);
 
-		//======== opciones de los comentarios ==========//
-		Route::post('comentarios',['uses'=>'ComentariosController@store','as'=>'director.comentarios.store']);
+	});
 
+	/*
+	|--------------------------------------------------------------------------
+	| rutas del consejo curricular
+	|--------------------------------------------------------------------------
+	*/
+
+	Route::group(['middleware'=>['web','role:consejo_curricular'], 'prefix'=>'consejo'], function(){
+
+		Route::get('/',['as'=>'consejo.index', function () {
+			return view('consejo.index');
+		}]);
+        //======== opciones de la cuenta ==========//
+		Route::get('cuenta', ['as'=>'consejo.cuenta',function () {
+			return view('consejo.cuenta.index');
+		}]);
+		Route::get('ayuda', ['as'=>'consejo.ayuda',function () {
+			return view('consejo.cuenta.ayuda');
+		}]);
+		Route::post('cuenta/{id}/update',['uses'=>'CuentaController@update','as'=>'consejo.cuenta.update']);
+		Route::post('password/{id}/update',['uses'=>'CuentaController@updatePassword','as'=>'consejo.password.update']);
+
+		//======== opciones de los documentos ==========//
+		Route::get('documentos', ['as'=>'consejo.documentos.index',function () {
+			return view('consejo.documentos.index');
+		}]);
+       //======== opciones de la propuesta ==========//
+		Route::resource('propuesta','PropuestaController');
+		Route::get('propuestas',['uses'=>'PropuestaController@indexPropuestasConsejo','as'=>'consejo.propuestas.index']);
+		Route::get('verpropuesta/{id}',['uses'=>'PropuestaController@show_propuesta_consejo','as'=>'consejo.propuesta.ver']);
+
+		//======== opciones de los comentarios ==========//
+		Route::post('comentarios',['uses'=>'ComentariosController@store','as'=>'consejo.comentarios.store']);
+
+        //======== opciones de los jurados ==========//
+		Route::resource('jurados','JuradosController');
+		Route::get('jurados/{id}/destroy',['uses'=>'JuradosController@destroy','as'=>'consejo.jurados.destroy']);
+		Route::get('jurados/{id}/update',['uses'=>'JuradosController@update','as'=>'consejo.jurados.update']);
+		Route::get('jurados/{id}/asignar_pro',['uses'=>'JuradosController@asignar_pro','as'=>'consejo.jurados.asignar_pro']);
+
+	});
+
+	/*
+	|--------------------------------------------------------------------------
+	| rutas del jurado
+	|--------------------------------------------------------------------------
+	*/
+
+	Route::group(['middleware'=>['web','role:jurado'], 'prefix'=>'jurado'], function(){
+
+		Route::get('/',['as'=>'jurado.index', function () {
+			return view('jurado.index');
+		}]);
+        //======== opciones de la cuenta ==========//
+		Route::get('cuenta', ['as'=>'jurado.cuenta',function () {
+			return view('jurado.cuenta.index');
+		}]);
+		Route::get('ayuda', ['as'=>'jurado.ayuda',function () {
+			return view('jurado.cuenta.ayuda');
+		}]);
+		Route::post('cuenta/{id}/update',['uses'=>'CuentaController@update','as'=>'jurado.cuenta.update']);
+		Route::post('password/{id}/update',['uses'=>'CuentaController@updatePassword','as'=>'jurado.password.update']);
+
+        //======== opciones de la propuesta ==========//
+		Route::resource('propuesta','PropuestaController');
+		Route::get('propuestas',['uses'=>'PropuestaController@indexPropuestasJurado','as'=>'jurado.propuestas.index']);
+		Route::get('verpropuesta/{id}',['uses'=>'PropuestaController@show_propuesta_jurado','as'=>'jurado.propuesta.ver']);
+
+		//======== opciones de los documentos ==========//
+		Route::get('documentos', ['as'=>'jurado.documentos.index',function () {
+			return view('jurado.documentos.index');
+		}]);
+
+		//======== opciones de los comentarios ==========//
+		Route::post('comentarios',['uses'=>'ComentariosController@store','as'=>'jurado.comentarios.store']);
+
+		//======== opciones de los comentarios ==========//
+		Route::post('comentarios',['uses'=>'ComentariosController@store','as'=>'jurado.comentarios.store']);
 
 	});

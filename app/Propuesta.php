@@ -8,7 +8,7 @@ class Propuesta extends Model
 {
     //
     protected $table = "propuesta";
-    protected $fillable =['titulo','enfoque','user_id','dir_id'];
+    protected $fillable =['titulo','enfoque','user_id','dir_id','enf_nombre'];
     
     
     public function user(){
@@ -28,6 +28,6 @@ class Propuesta extends Model
         return $this->hasMany('App\Comentario');
     }
     public function documento(){
-        return $this->hasMany('App\Documento');
+        return $this->hasMany('App\Documentos');
     }
 }

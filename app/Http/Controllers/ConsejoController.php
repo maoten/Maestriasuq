@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Coordinador;
 use App\Image;
 use Laracasts\Flash\Flash;
 use App\Http\Requests\UserRequest;
@@ -53,6 +54,14 @@ class ConsejoController extends Controller
         $consejo->rol='consejo_curricular';
         $consejo->imagen='/imagenes/usuarios/'.$name;
         $consejo->save();
+
+        if ($request->check=='1') {
+           $coordinador= new Coordinador();
+           $coordinador->user_id=$consejo->id;
+           $coordinador->enf_nombre=$request->coor;
+           $coordinador->save();
+
+        }
 
         Flash::success("Se ha registrado ".$consejo->nombre." de forma exitosa");
         return redirect()->route('admin.consejo.index');

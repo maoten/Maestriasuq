@@ -19,9 +19,11 @@ class AddPropuestaTable extends Migration
             $table->string('enfoque')->required();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('enfasis_id')->unsigned();
-            $table->foreign('enfasis_id')->references('user_id')->on('enfasis')->onDelete('cascade');
-           
+            $table->integer('dir_id')->unsigned();
+            $table->foreign('dir_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('enf_nombre');
+            $table->foreign('enf_nombre')->references('nombre')->on('enfasis')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

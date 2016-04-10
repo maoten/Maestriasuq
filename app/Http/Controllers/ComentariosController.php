@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Image;
+use App\Comentario;
 use Laracasts\Flash\Flash;
 use App\Http\Requests\ComentarioRequest;
 
@@ -23,13 +24,15 @@ class ComentariosController extends Controller
     public function store(Request $request)
     {
 
-        /**$comentario = new Comentario($request->all());
-        $comentario->save();**/
+        $comentario = new Comentario();
+        $comentario->propuesta_id=$request->propuesta;
+        $comentario->user_id=$request->user;
+        $comentario->comentarios=$request->comentario;
+        $comentario->save();
 
-        dd($request);
+        Flash::success("Se ha agregado el comentario de forma exitosa");
+        return redirect()->back();
 
-
-       
     }
 
     /**
