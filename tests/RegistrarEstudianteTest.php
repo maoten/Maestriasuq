@@ -22,18 +22,18 @@ class RegistrarEstudianteTest extends TestCase
      *
      * @return void
      */
-    public function testCamposVacios()
+   /* public function testCamposVacios()
     {
         $this->visit('admin/estudiantes/registrar')
             ->press('registrar')
             ->seePageIs('admin/estudiantes/registrar');
-    }
+    }*/
     /**
      *  functional test.
      *
      * @return void
      */
-   /* public function testCamposMalos()
+    /* public function testCamposMalos()
     {
         $this->visit('admin/estudiantes/registrar')
             ->type('fe', 'nombre') //campo malo
@@ -51,7 +51,7 @@ class RegistrarEstudianteTest extends TestCase
      *
      * @return void
      */
-  /* public function testCamposBien()
+    /* public function testCamposBien()
     {
         $this->visit('admin/estudiantes/registrar')
             ->type('fernando', 'nombre')
@@ -64,11 +64,24 @@ class RegistrarEstudianteTest extends TestCase
             ->seePageIs('admin/estudiantes/registrar'); 
     }*/
 
-    public function testVista()
+    /*public function testVista()
     {
         $this->visit('admin/estudiantes/registrar')
             ->see('Generar contraseña');
 
+    }*/
+    public function testRespuesta(){
+        $this->visit('/admin/estudiantes/create')
+            ->type('Juan', 'nombre')
+            ->type('87654', 'cc')
+            ->type('juan@hotmail.com', 'email')
+            ->type('38457849', 'telefono')
+            ->type('Ing de sistemas', 'profesion')
+            ->type('Universidad del quindio', 'universidad')
+            ->type('12345', 'password')
+
+            ->press('registrar')
+            ->seePageIs('/admin/estudiantes');
     }
- 
+
 }
