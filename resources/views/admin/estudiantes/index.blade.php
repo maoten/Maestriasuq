@@ -26,7 +26,7 @@
 
             <div class="col-md-8">
 
-              <a href="{{ route('admin.estudiantes.create')}}" class="btn btn-primary">Registrar nuevo estudiante<i class="fa fa-plus iconoder"></i></a>
+              <a href="{{ route('admin.estudiantes.create')}}" class="btn btn-primary" name="registrar_nuevo_estudiante">Registrar nuevo estudiante<i class="fa fa-plus iconoder"></i></a>
 
             </div>
 
