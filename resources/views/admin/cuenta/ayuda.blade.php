@@ -11,7 +11,7 @@
                                 <div class="panel-body">
                                         <form class="form-horizontal" role="form" method="POST" action="">
 
-                                                <h1>En contrucción</h1>
+                                             <h2>Página en construcción</h2>
                                                 
                                                 
                                         </form>
