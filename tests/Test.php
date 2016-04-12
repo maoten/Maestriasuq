@@ -73,7 +73,7 @@ class Test extends TestCase
 
             ->press('registrar')
             ->seePageIs('/admin/consejo');
-        $e=App\User::where('cc',"384578")->first();
+        $e=App\User::where('cc',"876543412")->first();
         $e->delete();
         
     }
