@@ -13,7 +13,7 @@
       <li>
         <a href="{{ route('consejo.propuestas.index') }}">
           <span class="icon"> 
-            <i class="fa fa-pencil-square-o"></i>
+            <i class="fa fa-file-text-o"></i>
           </span>
           <span>Propuestas</span>
         </a>
@@ -21,7 +21,7 @@
       <li>
         <a href="">
           <span class="icon">
-            <i class="fa fa-file-text-o"></i>
+            <i class="fa fa-file-text"></i>
           </span>
           <span>Trabajos de grado</span>
         </a>
@@ -29,22 +29,22 @@
       <li>
         <a href="{{ route('consejo.jurados.index') }}">
           <span class="icon">
-            <i class="fa fa-bell-o"></i>
+            <i class="fa fa-users"></i>
           </span>
           <span>Jurados</span>
         </a>
       </li>
        @endif
       <li>
-        <a href="">
+        <a href="{{ route('consejo.notificaciones.index') }}">
           <span class="icon">
-            <i class="fa fa-calendar-o"></i>
+            <i class="fa fa-bell-o"></i>
           </span>
           <span>Notificaciones</span>
         </a>
       </li>
       <li>
-        <a href="{{ route('consejo.documentos.index')}}">
+        <a href="">
           <span class="icon">
             <i class="fa fa-files-o"></i>
           </span>

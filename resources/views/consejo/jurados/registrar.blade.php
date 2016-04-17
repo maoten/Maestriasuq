@@ -20,10 +20,10 @@
 
 
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('consejo.jurados.store') }}" >
-                       {!! csrf_field() !!}
+                     {!! csrf_field() !!}
 
 
-                       <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
+                     <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
                         <label class="col-md-4 control-label">Nombre</label>
 
                         <div class="col-md-6">
@@ -112,22 +112,42 @@
                         </div>
                     </div>
 
-                    <div class="form-group{{ $errors->has('universidad') ? ' has-error' : '' }}">
-                        <label class="col-md-4 control-label">Universidad</label>
+                    <div class="form-group{{ $errors->has('pais') ? ' has-error' : '' }}">
+                        <label class="col-md-4 control-label">País</label>
 
                         <div class="col-md-6">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
-                                <input type="text" class="form-control" name="universidad" value="{{ old('universidad') }}"placeholder="Universidad del Quindío" >
-
-                            </div>
-                            @if ($errors->has('universidad'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('universidad') }}</strong>
-                            </span>
-                            @endif
-                        </div>
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                                <select class="form-control" name="pais">
+                                @foreach((App\Pais::orderBy('nombre','ASC')->get()) as $pais)
+                                  <option value="{{ $pais->cod }}">{{ $pais->nombre }}</option>
+                                  @endforeach 
+                              </select>
+                          </div>
+                          @if ($errors->has('pais'))
+                          <span class="help-block">
+                            <strong>{{ $errors->first('pais') }}</strong>
+                        </span>
+                        @endif
                     </div>
+                </div>
+
+                <div class="form-group{{ $errors->has('universidad') ? ' has-error' : '' }}">
+                    <label class="col-md-4 control-label">Universidad</label>
+
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
+                            <input type="text" class="form-control" name="universidad" value="{{ old('universidad') }}"placeholder="Universidad del Quindío" >
+
+                        </div>
+                        @if ($errors->has('universidad'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('universidad') }}</strong>
+                        </span>
+                        @endif
+                    </div>
+                </div>
 
                 <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                     <label class="col-md-4 control-label">Contraseña</label>
@@ -162,12 +182,12 @@
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-4">
                     <button type="submit" class="btn btn-primary" name="registrar">
-                    Registrar
-                </button>
+                        Registrar
+                    </button>
+                </div>
             </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 </div>
 </div>
 </div>

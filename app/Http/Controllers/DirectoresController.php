@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Image;
+use App\Notificacion;
 use Laracasts\Flash\Flash;
 use App\Http\Requests\UserRequest;
 
@@ -46,16 +47,19 @@ class DirectoresController extends Controller
     {
 
     	$name='user.jpg';
-    
+
     	$director = new User($request->all());
     	$director->password =bcrypt($request->password);
     	$director->rol='director_grado';
     	$director->imagen='/imagenes/usuarios/'.$name;
     	$director->save();
 
-    	Flash::success("Se ha registrado ".$director->nombre." de forma exitosa");
-    	return redirect()->route('admin.directores.index');
-    }
+       $notificacion= new Notificacion();
+       $notificacion->notificarRegistro($director);
+
+       Flash::success("Se ha registrado ".$director->nombre." de forma exitosa");
+       return redirect()->route('admin.directores.index');
+   }
 
     /**
      * Display the specified resource.

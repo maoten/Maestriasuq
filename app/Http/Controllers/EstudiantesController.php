@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Image;
+use App\Notificacion;
 use Laracasts\Flash\Flash;
 use App\Http\Requests\UserRequest;
 
@@ -53,6 +54,9 @@ class EstudiantesController extends Controller
     	$estudiante->rol='estudiante';
     	$estudiante->imagen='/imagenes/usuarios/'.$name;
     	$estudiante->save();
+
+        $notificacion= new Notificacion();
+        $notificacion->notificarRegistro($estudiante);
 
     	Flash::success("Se ha registrado ".$estudiante->nombre." de forma exitosa");
     	return redirect()->route('admin.estudiantes.index');

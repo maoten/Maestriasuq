@@ -169,7 +169,7 @@
                     </span>
                    <select class="form-control" name="coor" >
                              @foreach((App\Enfasis::all()) as $enf)
-                            <option value="{{$enf->nombre}}">{{$enf->nombre}}</option>
+                            <option value="{{$enf->id}}">{{$enf->nombre}}</option>
                             @endforeach 
                         </select>
                 </div>

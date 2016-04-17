@@ -36,7 +36,7 @@
       <li>
         <a href="{{ route('admin.propuestas.index') }}">
           <span class="icon">
-            <i class="fa fa-pencil-square-o"></i>
+            <i class="fa fa-file-text-o"></i>
           </span>
           <span>Propuestas</span>
         </a>
@@ -44,7 +44,7 @@
       <li>
         <a href="">
           <span class="icon">
-            <i class="fa fa-file-text-o"></i>
+            <i class="fa fa-file-text"></i>
           </span>
           <span>Trabajos grado</span>
         </a>

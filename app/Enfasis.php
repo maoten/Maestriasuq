@@ -8,7 +8,7 @@ class Enfasis extends Model
 {
     //
     protected $table="enfasis";
-    protected $fillable=['ubicacion','nombre','created_at'];
+    protected $fillable=['nombre','created_at'];
     
     public function propuesta(){
         return $this->hasMany('App\Propuesta');

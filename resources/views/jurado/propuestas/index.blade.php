@@ -18,7 +18,7 @@
     @include('flash::message')
 
     <div class="panel panel-default ">
-      <div class="panel-heading"><h4><i class="fa fa-pencil-square-o iconoizq"></i>Propuestas</h4></div>
+      <div class="panel-heading"><h4><i class="fa fa-pencil iconoizq"></i>Propuestas</h4></div>
 
       <div class="panel-body text-justify">
 
@@ -33,8 +33,9 @@
           <table class='table table-bordered'>
             <thead>
              <th class="active">ID</th>
-             <th class="active">Título</th> 
-             <th class="active">Enfoque</th>
+             <th class="active">Título</th>
+             <th class="active">Modalidad</th>
+             <th class="active">Énfasis</th>
              <th class="active">Estudiante</th>
              <th class="active">Fecha creación</th>
              <th class="active">Estado</th>
@@ -42,45 +43,47 @@
 
 
              <tbody>
-              @foreach(App\Propuesta_jurado::where('user_id', Auth::user()->id)->get() as $propuestas)
-             <?php $propuesta= App\Propuesta::find($propuestas->propuesta_id); ?>
+             @foreach(App\Jurado_propuesta::where('jurado_id', Auth::user()->id)->get() as $propuestas)
+              <?php $propuesta= App\Propuesta::find($propuestas->propuesta_id); ?>
 
               <tr>
                 <td>{{ $propuesta->id }}</td>
                 <td>{{ $propuesta->titulo }}</td>
-                <td>{{ $propuesta->enfoque }}</td>
+                <td>{{ App\Modalidad::find( $propuesta->mod_id )->nombre }}</td>
+                <td>{{ App\Enfasis::find( $propuesta->enf_id )->nombre }}</td>
                 <td>{{ App\User::find( $propuesta->user_id )->nombre }}</td>
                 <td>{{ $propuesta->created_at }}</td>
 
                 <td>
-                  @if($propuesta->estado=='enviada')
-                  <h4><span class="label label-default">{{ $propuesta->estado }}</span></h4>
-                  @elseif($propuesta->estado=='en_espera')
-                  <span class="label label-primary">{{ $propuesta->estado }}</span>
-                  @elseif($propuesta->estado=='aprobada')
-                  <span class="label label-success">{{ $propuesta->estado }}</span>
+                 @if($propuesta->estado=='aceptada')
+                 <h4><span class="label label-success">{{ $propuesta->estado }}</span></h4>
+                 @elseif($propuesta->estado=='aplazada')
+                 <h4><span class="label label-danger">{{ $propuesta->estado }}</span><h4>
                   @else
-                  <span class="label label-danger">{{ $propuesta->estado }}</span>
-                  @endif
-                </td>
+                  <h4><span class="label label-default">{{ $propuesta->estado }}</span><h4>
+                    @endif
+                  </td>
 
-                <td>
+                  <td>
 
-                  <a href="{{ route('jurado.propuesta.ver', $propuesta->id) }}" class="btn btn-primary" target="_blank" title="Ver propuesta"><i class="fa fa-paperclip fa-lg" ></i>
-                  </a> 
+                    <a href="{{ route('jurado.propuesta.ver', $propuesta->id) }}" class="btn btn-primary" target="_blank" title="Ver propuesta"><i class="fa fa-external-link fa-lg" ></i>
+                    </a> 
 
-                </td>
+                     <a href="" class="btn btn-success" target="_blank" title="Evaluar"><i class="fa fa-bookmark fa-lg" ></i>
+                    </a> 
 
-              </tr>
-             
-              @endforeach
-            </tbody>
-          </thead>
-        </table>
+                  </td>
 
+                </tr>
+
+                @endforeach
+              </tbody>
+            </thead>
+          </table>
+
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div> 
 @endsection

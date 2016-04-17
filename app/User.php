@@ -55,5 +55,9 @@ CanResetPasswordContract
         return $this->hasOne('App\Jurado');
     }
 
+     public function notificaciones(){
+        return $this->belongsTo('App\Notificacion');
+    }
+
 
 }

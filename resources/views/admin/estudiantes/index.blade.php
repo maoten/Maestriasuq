@@ -61,10 +61,10 @@
                     <td>{{ $estudiante->profesion }}</td>
                     <td><h4><span class="label label-success">{{ $estudiante->rol }}</span></h4></td>
 
-                    <td><a href="{{ route('admin.estudiantes.edit', $estudiante->id) }}" class="btn btn-warning" title="Editar"><i class="fa fa-wrench" ></i>
+                    <td><a href="{{ route('admin.estudiantes.edit', $estudiante->id) }}" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                     </a> 
 
-                    <a href="{{ route('admin.estudiantes.destroy', $estudiante->id) }}" onclick="return confirm('¿Deseas eliminar este estudiante?')"  class="btn btn-danger" title="Eliminar"><i class="fa fa-exclamation-triangle"></i>
+                    <a href="{{ route('admin.estudiantes.destroy', $estudiante->id) }}" onclick="return confirm('¿Deseas eliminar este estudiante?')"  class="btn btn-danger" title="Eliminar"><i class="fa fa-times"></i>
                     </a>
 
                   </td>

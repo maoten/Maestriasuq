@@ -8,8 +8,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Jurado;
-use App\Propuesta_jurado;
+use App\Jurado_propuesta;
 use App\Image;
+use App\Notificacion;
 use Laracasts\Flash\Flash;
 use App\Http\Requests\UserRequest;
 
@@ -70,32 +71,16 @@ class JuradosController extends Controller
 
         $jurad= new Jurado();
         $jurad->user_id=$jurado->id;
+        $jurad->pais_id=$request->pais;
         $jurad->save();
+
+        $notificacion= new Notificacion();
+        $notificacion->notificarRegistro($jurado);
 
         Flash::success("Se ha registrado ".$jurado->nombre." de forma exitosa");
         return redirect()->route('consejo.jurados.index');
     }
 
-  /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function asignar_pro(Request $request, $id)
-    {
-
-
-        $pro= new Propuesta_jurado();
-        $pro->propuesta_id=$request->pro_id;
-        $pro->user_id=$id;
-        $pro->save();
-
-        Flash::success("Se ha asignado la propuesta de forma exitosa");
-        return redirect()->route('consejo.jurados.index');
-
-    }
     /**
      * Display the specified resource.
      *
@@ -128,17 +113,17 @@ class JuradosController extends Controller
      */
     public function update(Request $request, $id)
     {
-     $jurado=User::find($id);
-     $jurado->nombre=$request->nombre;
-     $jurado->cc=$request->cc;
-     $jurado->telefono=$request->telefono;
-     $jurado->profesion=$request->profesion;
-     $jurado->universidad=$request->universidad;
-     $jurado->email=$request->email;
-     $jurado->save();
-     Flash::warning("El jurado ".$jurado->nombre." ha sido editado");
-     return redirect()->route('consejo.jurados.index');
- }
+       $jurado=User::find($id);
+       $jurado->nombre=$request->nombre;
+       $jurado->cc=$request->cc;
+       $jurado->telefono=$request->telefono;
+       $jurado->profesion=$request->profesion;
+       $jurado->universidad=$request->universidad;
+       $jurado->email=$request->email;
+       $jurado->save();
+       Flash::warning("El jurado ".$jurado->nombre." ha sido editado");
+       return redirect()->route('consejo.jurados.index');
+   }
 
     /**
      * Remove the specified resource from storage.

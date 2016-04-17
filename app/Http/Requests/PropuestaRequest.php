@@ -26,10 +26,7 @@ class PropuestaRequest extends Request
     {
         return [
         'titulo'=>'min:5|max:255|required',
-       // 'propuesta' => 'mime:doc,docx,pdf'
-        //'enfoque'=>'min:5|max:255|required',
-        //'dir:id'=>'required',
-        //'propuesta'=>'required'  
+        'propuesta' => 'required'
         ];
     }
 }

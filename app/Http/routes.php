@@ -114,6 +114,13 @@
 			return view('estudiante.documentos.index');
 		}]);
 
+		//======== opciones de las notificaciones ==========//
+		Route::get('notificaciones', ['as'=>'estudiante.notificaciones.index',function () {
+			return view('estudiante.notificaciones.index');
+		}]);
+
+		Route::get('notificaciones/archivar/{id}',['uses'=>'NotificacionesController@archivar','as'=>'estudiante.notificaciones.archivar']);
+
 	});
 
 	/*
@@ -147,6 +154,14 @@
 			return view('director.documentos.index');
 		}]);
 
+		//======== opciones de las notificaciones ==========//
+		Route::get('notificaciones', ['as'=>'director.notificaciones.index',function () {
+			return view('director.notificaciones.index');
+		}]);
+
+		Route::get('notificaciones/archivar/{id}',['uses'=>'NotificacionesController@archivar','as'=>'director.notificaciones.archivar']);		
+
+
 	});
 
 	/*
@@ -179,6 +194,8 @@
 		Route::get('propuestas',['uses'=>'PropuestaController@indexPropuestasConsejo','as'=>'consejo.propuestas.index']);
 		Route::get('verpropuesta/{id}',['uses'=>'PropuestaController@show_propuesta_consejo','as'=>'consejo.propuesta.ver']);
 
+		Route::get('propuesta/{id}/asignar_jurados',['uses'=>'PropuestaController@asignar_jurados','as'=>'consejo.propuesta.asignar_jurados']);
+
 		//======== opciones de los comentarios ==========//
 		Route::post('comentarios',['uses'=>'ComentariosController@store','as'=>'consejo.comentarios.store']);
 
@@ -186,7 +203,14 @@
 		Route::resource('jurados','JuradosController');
 		Route::get('jurados/{id}/destroy',['uses'=>'JuradosController@destroy','as'=>'consejo.jurados.destroy']);
 		Route::get('jurados/{id}/update',['uses'=>'JuradosController@update','as'=>'consejo.jurados.update']);
-		Route::get('jurados/{id}/asignar_pro',['uses'=>'JuradosController@asignar_pro','as'=>'consejo.jurados.asignar_pro']);
+		
+		//======== opciones de las notificaciones ==========//
+		Route::get('notificaciones', ['as'=>'consejo.notificaciones.index',function () {
+			return view('consejo.notificaciones.index');
+		}]);
+
+		Route::get('notificaciones/archivar/{id}',['uses'=>'NotificacionesController@archivar','as'=>'consejo.notificaciones.archivar']);		
+
 
 	});
 
@@ -226,5 +250,12 @@
 
 		//======== opciones de los comentarios ==========//
 		Route::post('comentarios',['uses'=>'ComentariosController@store','as'=>'jurado.comentarios.store']);
+
+        //======== opciones de las notificaciones ==========//
+		Route::get('notificaciones', ['as'=>'jurado.notificaciones.index',function () {
+			return view('jurado.notificaciones.index');
+		}]);
+
+		Route::get('notificaciones/archivar/{id}',['uses'=>'NotificacionesController@archivar','as'=>'jurado.notificaciones.archivar']);
 
 	});

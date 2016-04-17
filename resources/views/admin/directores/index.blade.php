@@ -61,10 +61,10 @@
                     <td>{{ $director->profesion }}</td>
                     <td><h4><span class="label label-success">{{ $director->rol }}</span></h4></td>
 
-                    <td><a href="{{ route('admin.directores.edit', $director->id) }}" class="btn btn-warning" title="Editar"><i class="fa fa-wrench" ></i>
+                    <td><a href="{{ route('admin.directores.edit', $director->id) }}" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                     </a> 
 
-                    <a href="{{ route('admin.directores.destroy', $director->id) }}" onclick="return confirm('¿Deseas eliminar este director de grado?')"  class="btn btn-danger" title="Eliminar"><i class="fa fa-exclamation-triangle"></i>
+                    <a href="{{ route('admin.directores.destroy', $director->id) }}" onclick="return confirm('¿Deseas eliminar este director de grado?')"  class="btn btn-danger" title="Eliminar"><i class="fa fa-times"></i>
                     </a>
 
                   </td>

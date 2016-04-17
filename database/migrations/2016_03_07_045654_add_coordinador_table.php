@@ -16,10 +16,9 @@ class AddCoordinadorTable extends Migration
 
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            //$table->integer('enf_id')->unsigned();
-            $table->string('enf_nombre');
-           // $table->foreign('enf_id')->references('id')->on('enfasis')->onDelete('cascade');
-            $table->foreign('enf_nombre')->references('nombre')->on('enfasis')->onDelete('cascade');
+
+            $table->integer('enf_id')->unsigned();
+            $table->foreign('enf_id')->references('id')->on('enfasis')->onDelete('cascade');
             
             $table->timestamps();
         });

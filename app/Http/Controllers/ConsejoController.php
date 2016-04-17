@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Coordinador;
 use App\Image;
+use App\Notificacion;
 use Laracasts\Flash\Flash;
 use App\Http\Requests\UserRequest;
 
@@ -24,7 +25,7 @@ class ConsejoController extends Controller
      public function index(Request $request)
      {
      	$consejo = User::where('rol', 'consejo_curricular')->search($request->nombre)->orderBy('id','ASC')->paginate(10);
-        return view('admin.consejo.index')->with('consejo',$consejo);
+      return view('admin.consejo.index')->with('consejo',$consejo);
 
     }
 
@@ -47,25 +48,28 @@ class ConsejoController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $name='user.jpg';
+      $name='user.jpg';
 
-        $consejo = new User($request->all());
-        $consejo->password =bcrypt($request->password);
-        $consejo->rol='consejo_curricular';
-        $consejo->imagen='/imagenes/usuarios/'.$name;
-        $consejo->save();
+      $consejo = new User($request->all());
+      $consejo->password =bcrypt($request->password);
+      $consejo->rol='consejo_curricular';
+      $consejo->imagen='/imagenes/usuarios/'.$name;
+      $consejo->save();
 
-        if ($request->check=='1') {
-           $coordinador= new Coordinador();
-           $coordinador->user_id=$consejo->id;
-           $coordinador->enf_nombre=$request->coor;
-           $coordinador->save();
+      if ($request->check=='1') {
+       $coordinador= new Coordinador();
+       $coordinador->user_id=$consejo->id;
+       $coordinador->enf_id=$request->coor;
+       $coordinador->save();
 
-        }
+     }
 
-        Flash::success("Se ha registrado ".$consejo->nombre." de forma exitosa");
-        return redirect()->route('admin.consejo.index');
-    }
+     $notificacion= new Notificacion();
+     $notificacion->notificarRegistro($consejo);
+
+     Flash::success("Se ha registrado ".$consejo->nombre." de forma exitosa");
+     return redirect()->route('admin.consejo.index');
+   }
 
     /**
      * Display the specified resource.
@@ -87,7 +91,7 @@ class ConsejoController extends Controller
     public function edit($id)
     {
     	$consejo=User::find($id);
-        return view('admin.consejo.editar')->with('consejo', $consejo);
+      return view('admin.consejo.editar')->with('consejo', $consejo);
     }
 
     /**
@@ -99,16 +103,16 @@ class ConsejoController extends Controller
      */
     public function update(Request $request, $id)
     {
-       $consejo=User::find($id);
-       $consejo->nombre=$request->nombre;
-       $consejo->cc=$request->cc;
-       $consejo->telefono=$request->telefono;
-       $consejo->profesion=$request->profesion;
-       $consejo->universidad=$request->universidad;
-       $consejo->email=$request->email;
-       $consejo->save();
-       Flash::warning("El miembro del consejo curricular ".$consejo->nombre." ha sido editado");
-       return redirect()->route('admin.consejo.index');
+     $consejo=User::find($id);
+     $consejo->nombre=$request->nombre;
+     $consejo->cc=$request->cc;
+     $consejo->telefono=$request->telefono;
+     $consejo->profesion=$request->profesion;
+     $consejo->universidad=$request->universidad;
+     $consejo->email=$request->email;
+     $consejo->save();
+     Flash::warning("El miembro del consejo curricular ".$consejo->nombre." ha sido editado");
+     return redirect()->route('admin.consejo.index');
    }
 
     /**
@@ -119,9 +123,9 @@ class ConsejoController extends Controller
      */
     public function destroy($id)
     {
-       $consejo=User::find($id);
-       $consejo->delete();
-       Flash::error("Se ha eliminado ".$consejo->nombre." de forma exitosa");
-       return redirect()->route('admin.consejo.index');
+     $consejo=User::find($id);
+     $consejo->delete();
+     Flash::error("Se ha eliminado ".$consejo->nombre." de forma exitosa");
+     return redirect()->route('admin.consejo.index');
    }
-}
+ }

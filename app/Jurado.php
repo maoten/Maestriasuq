@@ -9,7 +9,7 @@ class Jurado extends Model
     //
     protected $table="jurados";
     
-    protected $fillable=['user_id','created_at'];
+    protected $fillable=['user_id','pais_id','created_at'];
     
     public function user(){
         return $this->belongsTo('App\User');
@@ -17,4 +17,12 @@ class Jurado extends Model
     public function comentario(){
         return $this->hasMany('App\Comentario');
     }
+    public function pais(){
+        return $this->hasOne('App\Pais');
+    }
+ //
+    public function propuestas(){
+     return $this->belongsToMany('App\Propuesta');
+ }
+
 }

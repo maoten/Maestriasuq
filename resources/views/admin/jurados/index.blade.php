@@ -21,7 +21,7 @@
       <div class="panel-body text-justify">
 
         <div class="row">
-          
+
           <form class="form-horizontal" role="form" method="GET" action="{{ route('admin.jurados.index') }}" aria-describedby='search'>
             <div class="input-group busqueda">
               <input type="text" class="form-control" placeholder="nombre o cédula" name="nombre" aria-hidden="true">
@@ -34,13 +34,13 @@
           <table class='table table-bordered'>
             <thead>
               <th class="active">ID</th>
-              <th>Cédula</th> 
-              <th>Nombre</th>
-              <th>Teléfono</th>
-              <th>Email</th>
-              <th>Profesión</th>
-              <th>Propuestas</th>
-              <th>Rol</th>
+              <th class="active">Cédula</th> 
+              <th class="active">Nombre</th>
+              <th class="active">País</th>
+              <th class="active">Teléfono</th>
+              <th class="active">Email</th>
+              <th class="active">Profesión</th>
+              <th class="active">Rol</th>
 
               <tbody>
                 @foreach($jurados as $jurado)
@@ -51,36 +51,27 @@
                     <td>{{ $jurado->id }}</td>
                     <td>{{ $jurado->cc }}</td>
                     <td>{{ $jurado->nombre }}</td>
+                    <?php $jurad=App\Jurado::where('user_id', $jurado->id)->first() ?>
+                    <td>{{ App\Pais::where('cod',$jurad->pais_id)->first()->nombre }}</td>
                     <td>{{ $jurado->telefono }}</td>
                     <td>{{ $jurado->email }}</td>
                     <td>{{ $jurado->profesion }}</td>
-                    <td>
-                      <select class="form-control" name="propuestas_jur" >
-
-                        @foreach(App\Propuesta_jurado::where('user_id',  $jurado->id)->get() as $propuestas)
-                        <?php $propuesta= App\Propuesta::find($propuestas->propuesta_id); ?>
-
-                        <option value="{{$propuesta->id}}">{{$propuesta->titulo}}</option>
-
-                        @endforeach  
-                      </select>
-                    </td>
-
+                  
                     <td><h4><span class="label label-success">{{ $jurado->rol }}</span></h4></td>
-          
-                 </form>
-               </tr>
 
-               @endforeach   
-             </tbody>
-           </thead>
-         </table>
+                  </form>
+                </tr>
 
-         {!! $jurados->render()!!}
+                @endforeach   
+              </tbody>
+            </thead>
+          </table>
 
-       </div>
-     </div>
-   </div>
- </div>
+          {!! $jurados->render()!!}
+
+        </div>
+      </div>
+    </div>
+  </div>
 </div> 
 @endsection

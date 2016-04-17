@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Image;
 use App\Comentario;
+use App\Propuesta;
+use App\Notificacion;
 use Laracasts\Flash\Flash;
 use App\Http\Requests\ComentarioRequest;
 
@@ -30,6 +32,14 @@ class ComentariosController extends Controller
         $comentario->comentarios=$request->comentario;
         $comentario->save();
 
+        $propuesta=Propuesta::find($request->propuesta);
+        $jurado=
+        $estudiante_id=$propuesta->user_id;
+
+        $notificacion= new Notificacion();
+        $notificacion->notificarComentario($propuesta);
+
+    
         Flash::success("Se ha agregado el comentario de forma exitosa");
         return redirect()->back();
 

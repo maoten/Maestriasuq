@@ -13,11 +13,16 @@ class AddEnfasisTable extends Migration
     public function up()
     {
         Schema::create('enfasis', function (Blueprint $table) {
-            //$table->increments('id');
+            $table->increments('id');
             $table->string('nombre')->unique();
-            $table->string('ubicacion'); 
             $table->timestamps();
         });
+        DB::statement("INSERT INTO `enfasis` (`nombre`) VALUES ('Ingeniería Sísmica y Estructural')");
+        DB::statement("INSERT INTO `enfasis` (`nombre`) VALUES ('Geomática')");
+        DB::statement("INSERT INTO `enfasis` (`nombre`) VALUES ('Ingeniería en Recursos Hídricos y Medio Ambiente')");
+        DB::statement("INSERT INTO `enfasis` (`nombre`) VALUES ('Ingeniería de Software')");
+        DB::statement("INSERT INTO `enfasis` (`nombre`) VALUES ('Telecomunicaciones')");
+
     }
 
     /**

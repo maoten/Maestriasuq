@@ -12,7 +12,7 @@
       <li>
         <a href="{{ route('estudiante.propuesta.index') }}">
           <span class="icon"> 
-            <i class="fa fa-pencil-square-o"></i>
+            <i class="fa fa-file-text-o"></i>
           </span>
           <span>Propuestas</span>
         </a>
@@ -20,13 +20,13 @@
       <li>
         <a href="">
           <span class="icon">
-            <i class="fa fa-file-text-o"></i>
+            <i class="fa fa-file-text"></i>
           </span>
           <span>Trabajo de grado</span>
         </a>
       </li>
       <li>
-        <a href="">
+        <a href="{{ route('estudiante.notificaciones.index') }}">
           <span class="icon">
             <i class="fa fa-bell-o"></i>
           </span>

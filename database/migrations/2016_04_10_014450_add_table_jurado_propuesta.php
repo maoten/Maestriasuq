@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTablePropuestaJurado extends Migration
+class AddTableJuradoPropuesta extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,11 @@ class AddTablePropuestaJurado extends Migration
      */
     public function up()
     {
-        Schema::create('propuesta_jurado', function (Blueprint $table) {
+        Schema::create('jurado_propuesta', function (Blueprint $table) {
             $table->integer('propuesta_id')->unsigned();
            $table->foreign('propuesta_id')->references('id')->on('propuesta')->onDelete('cascade');
-           $table->integer('user_id')->unsigned();
-           $table->foreign('user_id')->references('user_id')->on('jurados')->onDelete('cascade');
+           $table->integer('jurado_id')->unsigned();
+           $table->foreign('jurado_id')->references('user_id')->on('jurados')->onDelete('cascade');
            $table->timestamps();
        });
     }

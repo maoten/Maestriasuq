@@ -13,116 +13,131 @@
         <!-- /.panel -->
         <div class="panel panel-default">
             <div class="panel-heading">
-                <i class="fa fa-clock-o fa-fw"></i> Responsive Timeline
+                <h4><i class="fa fa-eye iconoizq"></i>Seguimiento {{ $propuesta->titulo }}</h4>
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <ul class="timeline">
                     <li>
-                        <div class="timeline-badge"><i class="fa fa-check"></i>
+
+                        @if($propuesta->estado=='enviada')
+                        <div class="timeline-badge primary"><i class="fa fa-paper-plane"></i>
                         </div>
+                        @else
+                        <div class="timeline-badge default"><i class="fa fa-paper-plane"></i>
+                        </div>
+                        @endif
+
                         <div class="timeline-panel">
                             <div class="timeline-heading">
-                                <h4 class="timeline-title">Lorem ipsum dolor</h4>
-                                <p><small class="text-muted"><i class="fa fa-clock-o"></i> 11 hours ago via Twitter</small>
-                                </p>
+                                <h4 class="timeline-title">Enviada</h4>
+
                             </div>
                             <div class="timeline-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero laboriosam dolor perspiciatis omnis exercitationem. Beatae, officia pariatur? Est cum veniam excepturi. Maiores praesentium, porro voluptas suscipit facere rem dicta, debitis.</p>
+                                <p>La propuesta fue creada y ahora el coordinador del énfasis correspondiente podrá asignar los jurados que la evaluaran cuando lo considere oportuno.</p>
                             </div>
                         </div>
                     </li>
                     <li class="timeline-inverted">
-                        <div class="timeline-badge warning"><i class="fa fa-credit-card"></i>
+                        
+                        @if($propuesta->estado=='en espera')
+                        <div class="timeline-badge primary"><i class="fa fa-clock-o fa-lg"></i>
                         </div>
+                        @else
+                        <div class="timeline-badge default"><i class="fa fa-clock-o"></i>
+                        </div>
+                        @endif
+
                         <div class="timeline-panel">
                             <div class="timeline-heading">
-                                <h4 class="timeline-title">Lorem ipsum dolor</h4>
+                                <h4 class="timeline-title">En espera</h4>
                             </div>
                             <div class="timeline-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem dolorem quibusdam, tenetur commodi provident cumque magni voluptatem libero, quis rerum. Fugiat esse debitis optio, tempore. Animi officiis alias, officia repellendus.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium maiores odit qui est tempora eos, nostrum provident explicabo dignissimos debitis vel! Adipisci eius voluptates, ad aut recusandae minus eaque facere.</p>
+                                <p>Los jurados que evaluaran la propuesta ya fueron asignados por el coordinador del énfasis correspondiente y ahora podrán analizarla para posteriormente decidir si se acepta la propuesta, se recomiendan cambios o se aplaza.</p>
                             </div>
                         </div>
                     </li>
                     <li>
-                        <div class="timeline-badge danger"><i class="fa fa-bomb"></i>
+                         @if($propuesta->estado=='a modificar')
+                        <div class="timeline-badge primary"><i class="fa fa-pencil-square-o fa-lg"></i>
                         </div>
+                        @else
+                        <div class="timeline-badge default"><i class="fa fa-pencil-square-o fa-lg"></i>
+                        </div>
+                        @endif
+
                         <div class="timeline-panel">
                             <div class="timeline-heading">
-                                <h4 class="timeline-title">Lorem ipsum dolor</h4>
+                                <h4 class="timeline-title">A modificar</h4>
                             </div>
                             <div class="timeline-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus numquam facilis enim eaque, tenetur nam id qui vel velit similique nihil iure molestias aliquam, voluptatem totam quaerat, magni commodi quisquam.</p>
+                                <p>La propuesta ya fue evaluada por los jurados y se llego al acuerdo de que la propuesta debe ser sometida a modificaciones para ser sujeta nuevamente a evaluación por parte de los jurados.</p>
                             </div>
                         </div>
                     </li>
+
                     <li class="timeline-inverted">
+                        @if($propuesta->estado=='modificada')
+                        <div class="timeline-badge primary"><i class="fa fa-file"></i>
+                        </div>
+                        @else
+                        <div class="timeline-badge default"><i class="fa fa-file"></i>
+                        </div>
+                        @endif
+
                         <div class="timeline-panel">
                             <div class="timeline-heading">
-                                <h4 class="timeline-title">Lorem ipsum dolor</h4>
+                                <h4 class="timeline-title">Modificada</h4>
                             </div>
                             <div class="timeline-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates est quaerat asperiores sapiente, eligendi, nihil. Itaque quos, alias sapiente rerum quas odit! Aperiam officiis quidem delectus libero, omnis ut debitis!</p>
+                                <p>Se realizaron cambios en la propuesta por parte del estudiante y ahora puede ser sometida nuevamente a evaluación por los jurados cuando el coordinador de énfasis lo considere oportuno.</p>
                             </div>
                         </div>
+
                     </li>
                     <li>
-                        <div class="timeline-badge info"><i class="fa fa-save"></i>
+                         @if($propuesta->estado=='aplazada')
+                        <div class="timeline-badge danger"><i class="fa fa-exclamation fa-lg"></i>
                         </div>
+                        @else
+                        <div class="timeline-badge default"><i class="fa fa-exclamation fa-lg"></i>
+                        </div>
+                        @endif
+
                         <div class="timeline-panel">
                             <div class="timeline-heading">
-                                <h4 class="timeline-title">Lorem ipsum dolor</h4>
+                                <h4 class="timeline-title">Aplazada</h4>
                             </div>
                             <div class="timeline-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis minus modi quam ipsum alias at est molestiae excepturi delectus nesciunt, quibusdam debitis amet, beatae consequuntur impedit nulla qui! Laborum, atque.</p>
-                                <hr>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
-                                        <i class="fa fa-gear"></i>  <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Action</a>
-                                        </li>
-                                        <li><a href="#">Another action</a>
-                                        </li>
-                                        <li><a href="#">Something else here</a>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Separated link</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                             <p>Se decidió por mayoría del jurado que la propuesta se aplaza. En este caso es recomendable presentar una nueva propuesta en lugar de realizar modificaciones.</p>
+                         </div>
+                     </div>
+                 </li>
+                 <li class="timeline-inverted">
+                        @if($propuesta->estado=='aceptada')
+                        <div class="timeline-badge success"><i class="fa fa-check"></i>
                         </div>
-                    </li>
-                    <li>
+                        @else
+                        <div class="timeline-badge default"><i class="fa fa-check"></i>
+                        </div>
+                        @endif
+
                         <div class="timeline-panel">
                             <div class="timeline-heading">
-                                <h4 class="timeline-title">Lorem ipsum dolor</h4>
+                                <h4 class="timeline-title">Aceptada</h4>
                             </div>
                             <div class="timeline-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi fuga odio quibusdam. Iure expedita, incidunt unde quis nam! Quod, quisquam. Officia quam qui adipisci quas consequuntur nostrum sequi. Consequuntur, commodi.</p>
+                                <p>La propuesta fue aceptada y hay luz verde para empezar el trabajo de grado de la Maestría en Ingeniería.</p>
                             </div>
                         </div>
+
                     </li>
-                    <li class="timeline-inverted">
-                        <div class="timeline-badge success"><i class="fa fa-graduation-cap"></i>
-                        </div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4 class="timeline-title">Lorem ipsum dolor</h4>
-                            </div>
-                            <div class="timeline-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt obcaecati, quaerat tempore officia voluptas debitis consectetur culpa amet, accusamus dolorum fugiat, animi dicta aperiam, enim incidunt quisquam maxime neque eaque.</p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.panel-body -->
-        </div>
-    </div>
+
+             </ul>
+         </div>
+         <!-- /.panel-body -->
+     </div>
+ </div>
 </div>
 </div>
 <!-- /.panel -->

@@ -60,15 +60,16 @@
                   <td>{{ $miembro->email }}</td>
                   <td>{{ $miembro->profesion }}</td>
                   <td><h4><span class="label label-success">{{ $miembro->rol }}</span>
-                  @if( (App\Coordinador::where('user_id',$miembro->id)->first() )!=null)
-                  <span class="label label-default">Coordinador {{ App\Coordinador::where('user_id',$miembro->id)->first()->enf_nombre}}</span>
+                  <?php $coord= App\Coordinador::where('user_id',$miembro->id)->first() ?>
+                  @if( $coord !=null)
+                  <span class="label label-default">Coordinador {{ App\Enfasis::find($coord->enf_id)->nombre}}</span>
                   @endif
                  </h4></td>
 
-                  <td><a href="{{ route('admin.consejo.edit', $miembro->id) }}" class="btn btn-warning" title="Editar"><i class="fa fa-wrench" ></i>
+                  <td><a href="{{ route('admin.consejo.edit', $miembro->id) }}" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                   </a> 
 
-                  <a href="{{ route('admin.consejo.destroy', $miembro->id) }}" onclick="return confirm('¿Deseas eliminar este miembro de grado?')"  class="btn btn-danger" title="Eliminar"><i class="fa fa-exclamation-triangle"></i>
+                  <a href="{{ route('admin.consejo.destroy', $miembro->id) }}" onclick="return confirm('¿Deseas eliminar este miembro de grado?')"  class="btn btn-danger" title="Eliminar"><i class="fa fa-times"></i>
                   </a>
 
                 </td>

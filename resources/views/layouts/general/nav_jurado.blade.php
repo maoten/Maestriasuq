@@ -12,7 +12,7 @@
       <li>
         <a href="{{ route('jurado.propuestas.index') }}">
           <span class="icon"> 
-            <i class="fa fa-pencil-square-o"></i>
+            <i class="fa fa-file-text-o"></i>
           </span>
           <span>Propuestas</span>
         </a>
@@ -20,13 +20,13 @@
       <li>
         <a href="">
           <span class="icon">
-            <i class="fa fa-file-text-o"></i>
+            <i class="fa fa-file-text"></i>
           </span>
           <span>Trabajos de grado</span>
         </a>
       </li>
       <li>
-        <a href="">
+        <a href="{{ route('jurado.notificaciones.index') }}">
           <span class="icon">
             <i class="fa fa-bell-o"></i>
           </span>
@@ -42,7 +42,7 @@
         </a>
       </li>
       <li>
-        <a href="">
+        <a href="{{ route('jurado.documentos.index') }}">
           <span class="icon">
             <i class="fa fa-files-o"></i>
           </span>

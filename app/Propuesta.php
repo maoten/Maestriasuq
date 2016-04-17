@@ -8,7 +8,7 @@ class Propuesta extends Model
 {
     //
     protected $table = "propuesta";
-    protected $fillable =['titulo','enfoque','user_id','dir_id','enf_nombre'];
+    protected $fillable =['titulo','mod_id','user_id','dir_id','enf_id'];
     
     
     public function user(){
@@ -18,11 +18,14 @@ class Propuesta extends Model
         return $this->hasOne('App\Trabajo_grado','foreign_key');
     }
 
-     public function scopeSearch($query,$criterio){
+    public function scopeSearch($query,$criterio){
         return $query->where('titulo','LIKE',"%$criterio%")->orWhere('estado', 'LIKE', "%$criterio%");;
     }
     public function enfasis(){
         return $this->belongsTo('App\Enfasis');
+    }
+    public function modalidad(){
+        return $this->belongsTo('App\Modalidad');
     }
     public function comentario(){
         return $this->hasMany('App\Comentario');
@@ -30,4 +33,10 @@ class Propuesta extends Model
     public function documento(){
         return $this->hasMany('App\Documentos');
     }
+
+    //
+    public function jurados(){
+     return $this->belongsToMany('App\Jurado');
+ }
+
 }
