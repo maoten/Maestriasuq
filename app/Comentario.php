@@ -26,6 +26,7 @@ class Comentario extends Model
     public function jurado()
     {
         return $this->belongsTo('App\Jurado');
+        
     }
 
 }
