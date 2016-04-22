@@ -8,6 +8,7 @@ use Illuminate\Contracts\Container\Container;
 
 class CallbackEvent extends Event
 {
+
     /**
      * The callback to call.
      *
@@ -22,31 +23,33 @@ class CallbackEvent extends Event
      */
     protected $parameters;
 
+
     /**
      * Create a new event instance.
      *
-     * @param  string  $callback
+     * @param  string $callback
      * @param  array  $parameters
+     *
      * @return void
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($callback, array $parameters = [])
+    public function __construct($callback, array $parameters = [ ])
     {
-        $this->callback = $callback;
+        $this->callback   = $callback;
         $this->parameters = $parameters;
 
-        if (! is_string($this->callback) && ! is_callable($this->callback)) {
-            throw new InvalidArgumentException(
-                'Invalid scheduled callback event. Must be string or callable.'
-            );
+        if ( ! is_string($this->callback) && ! is_callable($this->callback)) {
+            throw new InvalidArgumentException('Invalid scheduled callback event. Must be string or callable.');
         }
     }
+
 
     /**
      * Run the given event.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param  \Illuminate\Contracts\Container\Container $container
+     *
      * @return mixed
      *
      * @throws \Exception
@@ -59,7 +62,8 @@ class CallbackEvent extends Event
 
         try {
             $response = $container->call($this->callback, $this->parameters);
-        } finally {
+        }
+        finally {
             $this->removeMutex();
         }
 
@@ -67,6 +71,7 @@ class CallbackEvent extends Event
 
         return $response;
     }
+
 
     /**
      * Remove the mutex file from disk.
@@ -80,6 +85,7 @@ class CallbackEvent extends Event
         }
     }
 
+
     /**
      * Do not allow the event to overlap each other.
      *
@@ -89,16 +95,15 @@ class CallbackEvent extends Event
      */
     public function withoutOverlapping()
     {
-        if (! isset($this->description)) {
-            throw new LogicException(
-                "A scheduled event name is required to prevent overlapping. Use the 'name' method before 'withoutOverlapping'."
-            );
+        if ( ! isset( $this->description )) {
+            throw new LogicException("A scheduled event name is required to prevent overlapping. Use the 'name' method before 'withoutOverlapping'.");
         }
 
         return $this->skip(function () {
             return file_exists($this->mutexPath());
         });
     }
+
 
     /**
      * Get the mutex path for the scheduled command.
@@ -107,8 +112,9 @@ class CallbackEvent extends Event
      */
     protected function mutexPath()
     {
-        return storage_path('framework/schedule-'.sha1($this->description));
+        return storage_path('framework/schedule-' . sha1($this->description));
     }
+
 
     /**
      * Get the summary of the event for display.

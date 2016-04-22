@@ -17,5 +17,6 @@ namespace ClassPreloader\Exceptions;
  */
 interface VisitorExceptionInterface
 {
+
     //
 }

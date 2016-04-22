@@ -29,6 +29,7 @@ use Exception;
  */
 final class FinalExceptionAsset extends Exception
 {
+
     /**
      * Constructor - should not be called
      *

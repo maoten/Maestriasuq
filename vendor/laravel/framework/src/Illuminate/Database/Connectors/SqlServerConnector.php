@@ -7,22 +7,25 @@ use Illuminate\Support\Arr;
 
 class SqlServerConnector extends Connector implements ConnectorInterface
 {
+
     /**
      * The PDO connection options.
      *
      * @var array
      */
     protected $options = [
-        PDO::ATTR_CASE => PDO::CASE_NATURAL,
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_ORACLE_NULLS => PDO::NULL_NATURAL,
+        PDO::ATTR_CASE              => PDO::CASE_NATURAL,
+        PDO::ATTR_ERRMODE           => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_ORACLE_NULLS      => PDO::NULL_NATURAL,
         PDO::ATTR_STRINGIFY_FETCHES => false,
     ];
+
 
     /**
      * Establish a database connection.
      *
-     * @param  array  $config
+     * @param  array $config
+     *
      * @return \PDO
      */
     public function connect(array $config)
@@ -32,10 +35,12 @@ class SqlServerConnector extends Connector implements ConnectorInterface
         return $this->createConnection($this->getDsn($config), $config, $options);
     }
 
+
     /**
      * Create a DSN string from a configuration.
      *
-     * @param  array   $config
+     * @param  array $config
+     *
      * @return string
      */
     protected function getDsn(array $config)
@@ -50,30 +55,32 @@ class SqlServerConnector extends Connector implements ConnectorInterface
         }
     }
 
+
     /**
      * Get the DSN string for a DbLib connection.
      *
-     * @param  array  $config
+     * @param  array $config
+     *
      * @return string
      */
     protected function getDblibDsn(array $config)
     {
         $arguments = [
-            'host' => $this->buildHostString($config, ':'),
+            'host'   => $this->buildHostString($config, ':'),
             'dbname' => $config['database'],
         ];
 
-        $arguments = array_merge(
-            $arguments, Arr::only($config, ['appname', 'charset'])
-        );
+        $arguments = array_merge($arguments, Arr::only($config, [ 'appname', 'charset' ]));
 
         return $this->buildConnectString('dblib', $arguments);
     }
 
+
     /**
      * Get the DSN string for a SqlSrv connection.
      *
-     * @param  array  $config
+     * @param  array $config
+     *
      * @return string
      */
     protected function getSqlSrvDsn(array $config)
@@ -82,26 +89,28 @@ class SqlServerConnector extends Connector implements ConnectorInterface
             'Server' => $this->buildHostString($config, ','),
         ];
 
-        if (isset($config['database'])) {
+        if (isset( $config['database'] )) {
             $arguments['Database'] = $config['database'];
         }
 
-        if (isset($config['appname'])) {
+        if (isset( $config['appname'] )) {
             $arguments['APP'] = $config['appname'];
         }
 
-        if (isset($config['readonly'])) {
+        if (isset( $config['readonly'] )) {
             $arguments['ApplicationIntent'] = 'ReadOnly';
         }
 
         return $this->buildConnectString('sqlsrv', $arguments);
     }
 
+
     /**
      * Build a connection string from the given arguments.
      *
-     * @param  string  $driver
+     * @param  string $driver
      * @param  array  $arguments
+     *
      * @return string
      */
     protected function buildConnectString($driver, array $arguments)
@@ -110,24 +119,27 @@ class SqlServerConnector extends Connector implements ConnectorInterface
             return sprintf('%s=%s', $key, $arguments[$key]);
         }, array_keys($arguments));
 
-        return $driver.':'.implode(';', $options);
+        return $driver . ':' . implode(';', $options);
     }
+
 
     /**
      * Build a host string from the given configuration.
      *
      * @param  array  $config
-     * @param  string  $separator
+     * @param  string $separator
+     *
      * @return string
      */
     protected function buildHostString(array $config, $separator)
     {
-        if (isset($config['port'])) {
-            return $config['host'].$separator.$config['port'];
+        if (isset( $config['port'] )) {
+            return $config['host'] . $separator . $config['port'];
         } else {
             return $config['host'];
         }
     }
+
 
     /**
      * Get the available PDO drivers.

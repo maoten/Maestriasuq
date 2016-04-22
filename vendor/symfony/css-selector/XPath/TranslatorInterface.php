@@ -25,6 +25,7 @@ use Symfony\Component\CssSelector\Node\SelectorNode;
  */
 interface TranslatorInterface
 {
+
     /**
      * Translates a CSS selector to an XPath expression.
      *
@@ -34,6 +35,7 @@ interface TranslatorInterface
      * @return string
      */
     public function cssToXPath($cssExpr, $prefix = 'descendant-or-self::');
+
 
     /**
      * Translates a parsed selector node to an XPath expression.

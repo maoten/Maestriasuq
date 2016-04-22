@@ -12,6 +12,7 @@ class FlashServiceProvider extends ServiceProvider
      */
     protected $defer = false;
 
+
     /**
      * Register the service provider.
      *
@@ -19,15 +20,13 @@ class FlashServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(
-            'Laracasts\Flash\SessionStore',
-            'Laracasts\Flash\LaravelSessionStore'
-        );
+        $this->app->bind('Laracasts\Flash\SessionStore', 'Laracasts\Flash\LaravelSessionStore');
 
         $this->app->singleton('flash', function () {
             return $this->app->make('Laracasts\Flash\FlashNotifier');
         });
     }
+
 
     /**
      * Bootstrap the application events.

@@ -15,6 +15,7 @@ namespace SebastianBergmann\Diff\LCS;
  */
 interface LongestCommonSubsequence
 {
+
     /**
      * Calculates the longest common subsequence of two arrays.
      *

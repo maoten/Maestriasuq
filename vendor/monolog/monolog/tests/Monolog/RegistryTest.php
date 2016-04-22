@@ -13,14 +13,16 @@ namespace Monolog;
 
 class RegistryTest extends \PHPUnit_Framework_TestCase
 {
+
     protected function setUp()
     {
         Registry::clear();
     }
 
+
     /**
      * @dataProvider hasLoggerProvider
-     * @covers Monolog\Registry::hasLogger
+     * @covers       Monolog\Registry::hasLogger
      */
     public function testHasLogger(array $loggersToAdd, array $loggersToCheck, array $expectedResult)
     {
@@ -32,33 +34,35 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+
     public function hasLoggerProvider()
     {
         $logger1 = new Logger('test1');
         $logger2 = new Logger('test2');
         $logger3 = new Logger('test3');
 
-        return array(
+        return [
             // only instances
-            array(
-                array($logger1),
-                array($logger1, $logger2),
-                array(true, false),
-            ),
+            [
+                [ $logger1 ],
+                [ $logger1, $logger2 ],
+                [ true, false ],
+            ],
             // only names
-            array(
-                array($logger1),
-                array('test1', 'test2'),
-                array(true, false),
-            ),
+            [
+                [ $logger1 ],
+                [ 'test1', 'test2' ],
+                [ true, false ],
+            ],
             // mixed case
-            array(
-                array($logger1, $logger2),
-                array('test1', $logger2, 'test3', $logger3),
-                array(true, true, false, false),
-            ),
-        );
+            [
+                [ $logger1, $logger2 ],
+                [ 'test1', $logger2, 'test3', $logger3 ],
+                [ true, true, false, false ],
+            ],
+        ];
     }
+
 
     /**
      * @covers Monolog\Registry::clear
@@ -72,10 +76,11 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         Registry::getInstance('log');
     }
 
+
     /**
      * @dataProvider removedLoggerProvider
-     * @covers Monolog\Registry::addLogger
-     * @covers Monolog\Registry::removeLogger
+     * @covers       Monolog\Registry::addLogger
+     * @covers       Monolog\Registry::removeLogger
      */
     public function testRemovesLogger($loggerToAdd, $remove)
     {
@@ -86,15 +91,17 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         Registry::getInstance($loggerToAdd->getName());
     }
 
+
     public function removedLoggerProvider()
     {
         $logger1 = new Logger('test1');
 
-        return array(
-            array($logger1, $logger1),
-            array($logger1, 'test1'),
-        );
+        return [
+            [ $logger1, $logger1 ],
+            [ $logger1, 'test1' ],
+        ];
     }
+
 
     /**
      * @covers Monolog\Registry::addLogger
@@ -113,6 +120,7 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($logger2, Registry::test2());
     }
 
+
     /**
      * @expectedException \InvalidArgumentException
      * @covers Monolog\Registry::getInstance
@@ -121,6 +129,7 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
     {
         Registry::getInstance('test1');
     }
+
 
     /**
      * @covers Monolog\Registry::addLogger
@@ -136,6 +145,7 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($log2, Registry::getInstance('log'));
     }
+
 
     /**
      * @expectedException \InvalidArgumentException

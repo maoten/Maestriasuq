@@ -18,6 +18,7 @@ namespace Monolog\Formatter;
  */
 class FlowdockFormatter implements FormatterInterface
 {
+
     /**
      * @var string
      */
@@ -28,56 +29,55 @@ class FlowdockFormatter implements FormatterInterface
      */
     private $sourceEmail;
 
+
     /**
      * @param string $source
      * @param string $sourceEmail
      */
     public function __construct($source, $sourceEmail)
     {
-        $this->source = $source;
+        $this->source      = $source;
         $this->sourceEmail = $sourceEmail;
     }
+
 
     /**
      * {@inheritdoc}
      */
     public function format(array $record)
     {
-        $tags = array(
+        $tags = [
             '#logs',
             '#' . strtolower($record['level_name']),
             '#' . $record['channel'],
-        );
+        ];
 
         foreach ($record['extra'] as $value) {
             $tags[] = '#' . $value;
         }
 
-        $subject = sprintf(
-            'in %s: %s - %s',
-            $this->source,
-            $record['level_name'],
-            $this->getShortMessage($record['message'])
-        );
+        $subject = sprintf('in %s: %s - %s', $this->source, $record['level_name'],
+            $this->getShortMessage($record['message']));
 
-        $record['flowdock'] = array(
-            'source' => $this->source,
+        $record['flowdock'] = [
+            'source'       => $this->source,
             'from_address' => $this->sourceEmail,
-            'subject' => $subject,
-            'content' => $record['message'],
-            'tags' => $tags,
-            'project' => $this->source,
-        );
+            'subject'      => $subject,
+            'content'      => $record['message'],
+            'tags'         => $tags,
+            'project'      => $this->source,
+        ];
 
         return $record;
     }
+
 
     /**
      * {@inheritdoc}
      */
     public function formatBatch(array $records)
     {
-        $formatted = array();
+        $formatted = [ ];
 
         foreach ($records as $record) {
             $formatted[] = $this->format($record);
@@ -85,6 +85,7 @@ class FlowdockFormatter implements FormatterInterface
 
         return $formatted;
     }
+
 
     /**
      * @param string $message

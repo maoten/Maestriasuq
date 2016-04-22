@@ -20,6 +20,7 @@ use Symfony\Component\Config\Resource\ResourceInterface;
  */
 interface MessageCatalogueInterface
 {
+
     /**
      * Gets the catalogue locale.
      *
@@ -27,12 +28,14 @@ interface MessageCatalogueInterface
      */
     public function getLocale();
 
+
     /**
      * Gets the domains.
      *
      * @return array An array of domains
      */
     public function getDomains();
+
 
     /**
      * Gets the messages within a given domain.
@@ -45,6 +48,7 @@ interface MessageCatalogueInterface
      */
     public function all($domain = null);
 
+
     /**
      * Sets a message translation.
      *
@@ -53,6 +57,7 @@ interface MessageCatalogueInterface
      * @param string $domain      The domain name
      */
     public function set($id, $translation, $domain = 'messages');
+
 
     /**
      * Checks if a message has a translation.
@@ -64,6 +69,7 @@ interface MessageCatalogueInterface
      */
     public function has($id, $domain = 'messages');
 
+
     /**
      * Checks if a message has a translation (it does not take into account the fallback mechanism).
      *
@@ -73,6 +79,7 @@ interface MessageCatalogueInterface
      * @return bool true if the message has a translation, false otherwise
      */
     public function defines($id, $domain = 'messages');
+
 
     /**
      * Gets a message translation.
@@ -84,6 +91,7 @@ interface MessageCatalogueInterface
      */
     public function get($id, $domain = 'messages');
 
+
     /**
      * Sets translations for a given domain.
      *
@@ -91,6 +99,7 @@ interface MessageCatalogueInterface
      * @param string $domain   The domain name
      */
     public function replace($messages, $domain = 'messages');
+
 
     /**
      * Adds translations for a given domain.
@@ -100,6 +109,7 @@ interface MessageCatalogueInterface
      */
     public function add($messages, $domain = 'messages');
 
+
     /**
      * Merges translations from the given Catalogue into the current one.
      *
@@ -108,6 +118,7 @@ interface MessageCatalogueInterface
      * @param MessageCatalogueInterface $catalogue A MessageCatalogueInterface instance
      */
     public function addCatalogue(MessageCatalogueInterface $catalogue);
+
 
     /**
      * Merges translations from the given Catalogue into the current one
@@ -119,6 +130,7 @@ interface MessageCatalogueInterface
      */
     public function addFallbackCatalogue(MessageCatalogueInterface $catalogue);
 
+
     /**
      * Gets the fallback catalogue.
      *
@@ -126,12 +138,14 @@ interface MessageCatalogueInterface
      */
     public function getFallbackCatalogue();
 
+
     /**
      * Returns an array of resources loaded to build this collection.
      *
      * @return ResourceInterface[] An array of resources
      */
     public function getResources();
+
 
     /**
      * Adds a resource for this collection.

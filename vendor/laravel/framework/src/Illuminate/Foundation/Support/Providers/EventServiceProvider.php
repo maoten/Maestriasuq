@@ -7,24 +7,27 @@ use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 
 class EventServiceProvider extends ServiceProvider
 {
+
     /**
      * The event handler mappings for the application.
      *
      * @var array
      */
-    protected $listen = [];
+    protected $listen = [ ];
 
     /**
      * The subscriber classes to register.
      *
      * @var array
      */
-    protected $subscribe = [];
+    protected $subscribe = [ ];
+
 
     /**
      * Register the application's event listeners.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param  \Illuminate\Contracts\Events\Dispatcher $events
+     *
      * @return void
      */
     public function boot(DispatcherContract $events)
@@ -40,6 +43,7 @@ class EventServiceProvider extends ServiceProvider
         }
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -47,6 +51,7 @@ class EventServiceProvider extends ServiceProvider
     {
         //
     }
+
 
     /**
      * Get the events and handlers.

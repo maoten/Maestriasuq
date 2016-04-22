@@ -6,6 +6,7 @@ require_once 'Starship.php';
 
 class StarshipTest extends PHPUnit_Framework_TestCase
 {
+
     public function testEngineeringResponseToEnteringOrbit()
     {
         $mock = M::mock('Engineering');

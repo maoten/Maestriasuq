@@ -28,7 +28,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Client extends BaseClient
 {
+
     protected $kernel;
+
 
     /**
      * Constructor.
@@ -38,14 +40,19 @@ class Client extends BaseClient
      * @param History             $history   A History instance to store the browser history
      * @param CookieJar           $cookieJar A CookieJar instance to store the cookies
      */
-    public function __construct(HttpKernelInterface $kernel, array $server = array(), History $history = null, CookieJar $cookieJar = null)
-    {
+    public function __construct(
+        HttpKernelInterface $kernel,
+        array $server = [ ],
+        History $history = null,
+        CookieJar $cookieJar = null
+    ) {
         // These class properties must be set before calling the parent constructor, as it may depend on it.
-        $this->kernel = $kernel;
+        $this->kernel          = $kernel;
         $this->followRedirects = false;
 
         parent::__construct($server, $history, $cookieJar);
     }
+
 
     /**
      * {@inheritdoc}
@@ -57,6 +64,7 @@ class Client extends BaseClient
         return parent::getRequest();
     }
 
+
     /**
      * {@inheritdoc}
      *
@@ -66,6 +74,7 @@ class Client extends BaseClient
     {
         return parent::getResponse();
     }
+
 
     /**
      * Makes a request.
@@ -85,6 +94,7 @@ class Client extends BaseClient
         return $response;
     }
 
+
     /**
      * Returns the script to execute when the request must be insulated.
      *
@@ -94,12 +104,12 @@ class Client extends BaseClient
      */
     protected function getScript($request)
     {
-        $kernel = str_replace("'", "\\'", serialize($this->kernel));
+        $kernel  = str_replace("'", "\\'", serialize($this->kernel));
         $request = str_replace("'", "\\'", serialize($request));
 
-        $r = new \ReflectionClass('\\Symfony\\Component\\ClassLoader\\ClassLoader');
-        $requirePath = str_replace("'", "\\'", $r->getFileName());
-        $symfonyPath = str_replace("'", "\\'", dirname(dirname(dirname(__DIR__))));
+        $r              = new \ReflectionClass('\\Symfony\\Component\\ClassLoader\\ClassLoader');
+        $requirePath    = str_replace("'", "\\'", $r->getFileName());
+        $symfonyPath    = str_replace("'", "\\'", dirname(dirname(dirname(__DIR__))));
         $errorReporting = error_reporting();
 
         $code = <<<EOF
@@ -117,8 +127,9 @@ require_once '$requirePath';
 \$request = unserialize('$request');
 EOF;
 
-        return $code.$this->getHandleScript();
+        return $code . $this->getHandleScript();
     }
+
 
     protected function getHandleScript()
     {
@@ -133,6 +144,7 @@ echo serialize($response);
 EOF;
     }
 
+
     /**
      * Converts the BrowserKit request to a HttpKernel request.
      *
@@ -142,7 +154,8 @@ EOF;
      */
     protected function filterRequest(DomRequest $request)
     {
-        $httpRequest = Request::create($request->getUri(), $request->getMethod(), $request->getParameters(), $request->getCookies(), $request->getFiles(), $request->getServer(), $request->getContent());
+        $httpRequest = Request::create($request->getUri(), $request->getMethod(), $request->getParameters(),
+            $request->getCookies(), $request->getFiles(), $request->getServer(), $request->getContent());
 
         foreach ($this->filterFiles($httpRequest->files->all()) as $key => $value) {
             $httpRequest->files->set($key, $value);
@@ -150,6 +163,7 @@ EOF;
 
         return $httpRequest;
     }
+
 
     /**
      * Filters an array of files.
@@ -168,35 +182,24 @@ EOF;
      */
     protected function filterFiles(array $files)
     {
-        $filtered = array();
+        $filtered = [ ];
         foreach ($files as $key => $value) {
             if (is_array($value)) {
                 $filtered[$key] = $this->filterFiles($value);
             } elseif ($value instanceof UploadedFile) {
                 if ($value->isValid() && $value->getSize() > UploadedFile::getMaxFilesize()) {
-                    $filtered[$key] = new UploadedFile(
-                        '',
-                        $value->getClientOriginalName(),
-                        $value->getClientMimeType(),
-                        0,
-                        UPLOAD_ERR_INI_SIZE,
-                        true
-                    );
+                    $filtered[$key] = new UploadedFile('', $value->getClientOriginalName(), $value->getClientMimeType(),
+                        0, UPLOAD_ERR_INI_SIZE, true);
                 } else {
-                    $filtered[$key] = new UploadedFile(
-                        $value->getPathname(),
-                        $value->getClientOriginalName(),
-                        $value->getClientMimeType(),
-                        $value->getClientSize(),
-                        $value->getError(),
-                        true
-                    );
+                    $filtered[$key] = new UploadedFile($value->getPathname(), $value->getClientOriginalName(),
+                        $value->getClientMimeType(), $value->getClientSize(), $value->getError(), true);
                 }
             }
         }
 
         return $filtered;
     }
+
 
     /**
      * Converts the HttpKernel response to a BrowserKit response.
@@ -209,9 +212,10 @@ EOF;
     {
         $headers = $response->headers->all();
         if ($response->headers->getCookies()) {
-            $cookies = array();
+            $cookies = [ ];
             foreach ($response->headers->getCookies() as $cookie) {
-                $cookies[] = new DomCookie($cookie->getName(), $cookie->getValue(), $cookie->getExpiresTime(), $cookie->getPath(), $cookie->getDomain(), $cookie->isSecure(), $cookie->isHttpOnly());
+                $cookies[] = new DomCookie($cookie->getName(), $cookie->getValue(), $cookie->getExpiresTime(),
+                    $cookie->getPath(), $cookie->getDomain(), $cookie->isSecure(), $cookie->isHttpOnly());
             }
             $headers['Set-Cookie'] = $cookies;
         }

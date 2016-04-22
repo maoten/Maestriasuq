@@ -15,6 +15,7 @@
  */
 class PHPUnit_Framework_Constraint_IsEmpty extends PHPUnit_Framework_Constraint
 {
+
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
      * constraint is met, false otherwise.
@@ -29,8 +30,9 @@ class PHPUnit_Framework_Constraint_IsEmpty extends PHPUnit_Framework_Constraint
             return count($other) === 0;
         }
 
-        return empty($other);
+        return empty( $other );
     }
+
 
     /**
      * Returns a string representation of the constraint.
@@ -41,6 +43,7 @@ class PHPUnit_Framework_Constraint_IsEmpty extends PHPUnit_Framework_Constraint
     {
         return 'is empty';
     }
+
 
     /**
      * Returns the description of the failure
@@ -56,11 +59,6 @@ class PHPUnit_Framework_Constraint_IsEmpty extends PHPUnit_Framework_Constraint
     {
         $type = gettype($other);
 
-        return sprintf(
-            '%s %s %s',
-            $type[0] == 'a' || $type[0] == 'o' ? 'an' : 'a',
-            $type,
-            $this->toString()
-        );
+        return sprintf('%s %s %s', $type[0] == 'a' || $type[0] == 'o' ? 'an' : 'a', $type, $this->toString());
     }
 }

@@ -19,23 +19,27 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class TestHttpKernel extends HttpKernel implements ControllerResolverInterface
 {
+
     public function __construct()
     {
         parent::__construct(new EventDispatcher(), $this);
     }
 
+
     public function getController(Request $request)
     {
-        return array($this, 'callController');
+        return [ $this, 'callController' ];
     }
+
 
     public function getArguments(Request $request, $controller)
     {
-        return array($request);
+        return [ $request ];
     }
+
 
     public function callController(Request $request)
     {
-        return new Response('Request: '.$request->getRequestUri());
+        return new Response('Request: ' . $request->getRequestUri());
     }
 }

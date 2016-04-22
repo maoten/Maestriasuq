@@ -19,12 +19,14 @@ abstract class BaseDescription implements Description
         return $this;
     }
 
+
     public function appendDescriptionOf(SelfDescribing $value)
     {
         $value->describeTo($this);
 
         return $this;
     }
+
 
     public function appendValue($value)
     {
@@ -42,7 +44,7 @@ abstract class BaseDescription implements Description
             $this->append('>');
         } elseif (is_array($value) || $value instanceof \Iterator || $value instanceof \IteratorAggregate) {
             $this->appendValueList('[', ', ', ']', $value);
-        } elseif (is_object($value) && !method_exists($value, '__toString')) {
+        } elseif (is_object($value) && ! method_exists($value, '__toString')) {
             $this->append('<');
             $this->append(get_class($value));
             $this->append('>');
@@ -55,9 +57,10 @@ abstract class BaseDescription implements Description
         return $this;
     }
 
+
     public function appendValueList($start, $separator, $end, $values)
     {
-        $list = array();
+        $list = [ ];
         foreach ($values as $v) {
             $list[] = new SelfDescribingValue($v);
         }
@@ -66,6 +69,7 @@ abstract class BaseDescription implements Description
 
         return $this;
     }
+
 
     public function appendList($start, $separator, $end, $values)
     {
@@ -98,6 +102,7 @@ abstract class BaseDescription implements Description
      * Append the String <var>$str</var> to the description.
      */
     abstract protected function append($str);
+
 
     // -- Private Methods
 

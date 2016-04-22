@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddCoordinadorTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -19,10 +20,11 @@ class AddCoordinadorTable extends Migration
 
             $table->integer('enf_id')->unsigned();
             $table->foreign('enf_id')->references('id')->on('enfasis')->onDelete('cascade');
-            
+
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

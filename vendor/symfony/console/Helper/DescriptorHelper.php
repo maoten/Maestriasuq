@@ -26,23 +26,22 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
  */
 class DescriptorHelper extends Helper
 {
+
     /**
      * @var DescriptorInterface[]
      */
-    private $descriptors = array();
+    private $descriptors = [ ];
+
 
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this
-            ->register('txt', new TextDescriptor())
-            ->register('xml', new XmlDescriptor())
-            ->register('json', new JsonDescriptor())
-            ->register('md', new MarkdownDescriptor())
-        ;
+        $this->register('txt', new TextDescriptor())->register('xml', new XmlDescriptor())->register('json',
+                new JsonDescriptor())->register('md', new MarkdownDescriptor());
     }
+
 
     /**
      * Describes an object if supported.
@@ -57,20 +56,21 @@ class DescriptorHelper extends Helper
      *
      * @throws InvalidArgumentException when the given format is not supported
      */
-    public function describe(OutputInterface $output, $object, array $options = array())
+    public function describe(OutputInterface $output, $object, array $options = [ ])
     {
-        $options = array_merge(array(
+        $options = array_merge([
             'raw_text' => false,
-            'format' => 'txt',
-        ), $options);
+            'format'   => 'txt',
+        ], $options);
 
-        if (!isset($this->descriptors[$options['format']])) {
+        if ( ! isset( $this->descriptors[$options['format']] )) {
             throw new InvalidArgumentException(sprintf('Unsupported format "%s".', $options['format']));
         }
 
         $descriptor = $this->descriptors[$options['format']];
         $descriptor->describe($output, $object, $options);
     }
+
 
     /**
      * Registers a descriptor.
@@ -86,6 +86,7 @@ class DescriptorHelper extends Helper
 
         return $this;
     }
+
 
     /**
      * {@inheritdoc}

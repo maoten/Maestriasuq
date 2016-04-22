@@ -17,10 +17,12 @@ class IsScalar extends IsTypeOf
         parent::__construct('scalar');
     }
 
+
     public function matches($item)
     {
         return is_scalar($item);
     }
+
 
     /**
      * Is the value a scalar (boolean, integer, double, or string)?

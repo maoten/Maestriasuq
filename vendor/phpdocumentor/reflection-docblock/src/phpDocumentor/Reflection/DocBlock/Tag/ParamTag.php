@@ -23,11 +23,13 @@ use phpDocumentor\Reflection\DocBlock\Tag;
  */
 class ParamTag extends ReturnTag
 {
+
     /** @var string */
     protected $variableName = '';
 
     /** @var bool determines whether this is a variadic argument */
     protected $isVariadic = false;
+
 
     /**
      * {@inheritdoc}
@@ -35,43 +37,36 @@ class ParamTag extends ReturnTag
     public function getContent()
     {
         if (null === $this->content) {
-            $this->content
-                = "{$this->type} {$this->variableName} {$this->description}";
+            $this->content = "{$this->type} {$this->variableName} {$this->description}";
         }
+
         return $this->content;
     }
+
+
     /**
      * {@inheritdoc}
      */
     public function setContent($content)
     {
         Tag::setContent($content);
-        $parts = preg_split(
-            '/(\s+)/Su',
-            $this->description,
-            3,
-            PREG_SPLIT_DELIM_CAPTURE
-        );
+        $parts = preg_split('/(\s+)/Su', $this->description, 3, PREG_SPLIT_DELIM_CAPTURE);
 
         // if the first item that is encountered is not a variable; it is a type
-        if (isset($parts[0])
-            && (strlen($parts[0]) > 0)
-            && ($parts[0][0] !== '$')
-        ) {
+        if (isset( $parts[0] ) && ( strlen($parts[0]) > 0 ) && ( $parts[0][0] !== '$' )) {
             $this->type = array_shift($parts);
             array_shift($parts);
         }
 
         // if the next item starts with a $ or ...$ it must be the variable name
-        if (isset($parts[0])
-            && (strlen($parts[0]) > 0)
-            && ($parts[0][0] == '$' || substr($parts[0], 0, 4) === '...$')
+        if (isset( $parts[0] ) && ( strlen($parts[0]) > 0 ) && ( $parts[0][0] == '$' || substr($parts[0], 0,
+                    4) === '...$' )
         ) {
             $this->variableName = array_shift($parts);
             array_shift($parts);
 
             if (substr($this->variableName, 0, 3) === '...') {
-                $this->isVariadic = true;
+                $this->isVariadic   = true;
                 $this->variableName = substr($this->variableName, 3);
             }
         }
@@ -79,8 +74,10 @@ class ParamTag extends ReturnTag
         $this->setDescription(implode('', $parts));
 
         $this->content = $content;
+
         return $this;
     }
+
 
     /**
      * Returns the variable's name.
@@ -91,6 +88,7 @@ class ParamTag extends ReturnTag
     {
         return $this->variableName;
     }
+
 
     /**
      * Sets the variable's name.
@@ -104,8 +102,10 @@ class ParamTag extends ReturnTag
         $this->variableName = $name;
 
         $this->content = null;
+
         return $this;
     }
+
 
     /**
      * Returns whether this tag is variadic.

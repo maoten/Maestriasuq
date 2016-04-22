@@ -15,19 +15,21 @@
  */
 class PHP_CodeCoverage_Filter
 {
+
     /**
      * Source files that are blacklisted.
      *
      * @var array
      */
-    private $blacklistedFiles = array();
+    private $blacklistedFiles = [ ];
 
     /**
      * Source files that are whitelisted.
      *
      * @var array
      */
-    private $whitelistedFiles = array();
+    private $whitelistedFiles = [ ];
+
 
     /**
      * Adds a directory to the blacklist (recursively).
@@ -46,6 +48,7 @@ class PHP_CodeCoverage_Filter
         }
     }
 
+
     /**
      * Adds a file to the blacklist.
      *
@@ -55,6 +58,7 @@ class PHP_CodeCoverage_Filter
     {
         $this->blacklistedFiles[realpath($filename)] = true;
     }
+
 
     /**
      * Adds files to the blacklist.
@@ -67,6 +71,7 @@ class PHP_CodeCoverage_Filter
             $this->addFileToBlacklist($file);
         }
     }
+
 
     /**
      * Removes a directory from the blacklist (recursively).
@@ -85,6 +90,7 @@ class PHP_CodeCoverage_Filter
         }
     }
 
+
     /**
      * Removes a file from the blacklist.
      *
@@ -94,10 +100,11 @@ class PHP_CodeCoverage_Filter
     {
         $filename = realpath($filename);
 
-        if (isset($this->blacklistedFiles[$filename])) {
-            unset($this->blacklistedFiles[$filename]);
+        if (isset( $this->blacklistedFiles[$filename] )) {
+            unset( $this->blacklistedFiles[$filename] );
         }
     }
+
 
     /**
      * Adds a directory to the whitelist (recursively).
@@ -116,6 +123,7 @@ class PHP_CodeCoverage_Filter
         }
     }
 
+
     /**
      * Adds a file to the whitelist.
      *
@@ -125,6 +133,7 @@ class PHP_CodeCoverage_Filter
     {
         $this->whitelistedFiles[realpath($filename)] = true;
     }
+
 
     /**
      * Adds files to the whitelist.
@@ -137,6 +146,7 @@ class PHP_CodeCoverage_Filter
             $this->addFileToWhitelist($file);
         }
     }
+
 
     /**
      * Removes a directory from the whitelist (recursively).
@@ -155,6 +165,7 @@ class PHP_CodeCoverage_Filter
         }
     }
 
+
     /**
      * Removes a file from the whitelist.
      *
@@ -164,32 +175,33 @@ class PHP_CodeCoverage_Filter
     {
         $filename = realpath($filename);
 
-        if (isset($this->whitelistedFiles[$filename])) {
-            unset($this->whitelistedFiles[$filename]);
+        if (isset( $this->whitelistedFiles[$filename] )) {
+            unset( $this->whitelistedFiles[$filename] );
         }
     }
+
 
     /**
      * Checks whether a filename is a real filename.
      *
      * @param  string $filename
+     *
      * @return bool
      */
     public function isFile($filename)
     {
-        if ($filename == '-' ||
-            strpos($filename, 'vfs://') === 0 ||
-            strpos($filename, 'xdebug://debug-eval') !== false ||
-            strpos($filename, 'eval()\'d code') !== false ||
-            strpos($filename, 'runtime-created function') !== false ||
-            strpos($filename, 'runkit created function') !== false ||
-            strpos($filename, 'assert code') !== false ||
-            strpos($filename, 'regexp code') !== false) {
+        if ($filename == '-' || strpos($filename, 'vfs://') === 0 || strpos($filename,
+                'xdebug://debug-eval') !== false || strpos($filename, 'eval()\'d code') !== false || strpos($filename,
+                'runtime-created function') !== false || strpos($filename,
+                'runkit created function') !== false || strpos($filename, 'assert code') !== false || strpos($filename,
+                'regexp code') !== false
+        ) {
             return false;
         }
 
         return file_exists($filename);
     }
+
 
     /**
      * Checks whether or not a file is filtered.
@@ -197,24 +209,26 @@ class PHP_CodeCoverage_Filter
      * When the whitelist is empty (default), blacklisting is used.
      * When the whitelist is not empty, whitelisting is used.
      *
-     * @param  string                     $filename
+     * @param  string $filename
+     *
      * @return bool
      * @throws PHP_CodeCoverage_Exception
      */
     public function isFiltered($filename)
     {
-        if (!$this->isFile($filename)) {
+        if ( ! $this->isFile($filename)) {
             return true;
         }
 
         $filename = realpath($filename);
 
-        if (!empty($this->whitelistedFiles)) {
-            return !isset($this->whitelistedFiles[$filename]);
+        if ( ! empty( $this->whitelistedFiles )) {
+            return ! isset( $this->whitelistedFiles[$filename] );
         }
 
-        return isset($this->blacklistedFiles[$filename]);
+        return isset( $this->blacklistedFiles[$filename] );
     }
+
 
     /**
      * Returns the list of blacklisted files.
@@ -226,6 +240,7 @@ class PHP_CodeCoverage_Filter
         return array_keys($this->blacklistedFiles);
     }
 
+
     /**
      * Returns the list of whitelisted files.
      *
@@ -236,6 +251,7 @@ class PHP_CodeCoverage_Filter
         return array_keys($this->whitelistedFiles);
     }
 
+
     /**
      * Returns whether this filter has a whitelist.
      *
@@ -244,8 +260,9 @@ class PHP_CodeCoverage_Filter
      */
     public function hasWhitelist()
     {
-        return !empty($this->whitelistedFiles);
+        return ! empty( $this->whitelistedFiles );
     }
+
 
     /**
      * Returns the blacklisted files.
@@ -258,16 +275,19 @@ class PHP_CodeCoverage_Filter
         return $this->blacklistedFiles;
     }
 
+
     /**
      * Sets the blacklisted files.
      *
      * @param array $blacklistedFiles
+     *
      * @since Method available since Release 2.0.0
      */
     public function setBlacklistedFiles($blacklistedFiles)
     {
         $this->blacklistedFiles = $blacklistedFiles;
     }
+
 
     /**
      * Returns the whitelisted files.
@@ -280,10 +300,12 @@ class PHP_CodeCoverage_Filter
         return $this->whitelistedFiles;
     }
 
+
     /**
      * Sets the whitelisted files.
      *
      * @param array $whitelistedFiles
+     *
      * @since Method available since Release 2.0.0
      */
     public function setWhitelistedFiles($whitelistedFiles)

@@ -7,6 +7,7 @@ use Illuminate\Contracts\Broadcasting\Broadcaster;
 
 class LogBroadcaster implements Broadcaster
 {
+
     /**
      * The logger implementation.
      *
@@ -14,10 +15,12 @@ class LogBroadcaster implements Broadcaster
      */
     protected $logger;
 
+
     /**
      * Create a new broadcaster instance.
      *
-     * @param  \Psr\Log\LoggerInterface  $logger
+     * @param  \Psr\Log\LoggerInterface $logger
+     *
      * @return void
      */
     public function __construct(LoggerInterface $logger)
@@ -25,15 +28,16 @@ class LogBroadcaster implements Broadcaster
         $this->logger = $logger;
     }
 
+
     /**
      * {@inheritdoc}
      */
-    public function broadcast(array $channels, $event, array $payload = [])
+    public function broadcast(array $channels, $event, array $payload = [ ])
     {
         $channels = implode(', ', $channels);
 
         $payload = json_encode($payload, JSON_PRETTY_PRINT);
 
-        $this->logger->info('Broadcasting ['.$event.'] on channels ['.$channels.'] with payload:'.PHP_EOL.$payload);
+        $this->logger->info('Broadcasting [' . $event . '] on channels [' . $channels . '] with payload:' . PHP_EOL . $payload);
     }
 }

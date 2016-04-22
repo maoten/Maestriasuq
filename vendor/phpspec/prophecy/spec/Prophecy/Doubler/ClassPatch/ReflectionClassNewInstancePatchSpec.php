@@ -7,15 +7,18 @@ use Prophecy\Argument;
 
 class ReflectionClassNewInstancePatchSpec extends ObjectBehavior
 {
+
     function it_is_a_patch()
     {
         $this->shouldBeAnInstanceOf('Prophecy\Doubler\ClassPatch\ClassPatchInterface');
     }
 
+
     function its_priority_is_50()
     {
         $this->getPriority()->shouldReturn(50);
     }
+
 
     /**
      * @param \Prophecy\Doubler\Generator\Node\ClassNode $reflectionClassNode
@@ -30,6 +33,7 @@ class ReflectionClassNewInstancePatchSpec extends ObjectBehavior
         $this->supports($anotherClassNode)->shouldReturn(false);
     }
 
+
     /**
      * @param \Prophecy\Doubler\Generator\Node\ClassNode    $class
      * @param \Prophecy\Doubler\Generator\Node\MethodNode   $method
@@ -39,7 +43,7 @@ class ReflectionClassNewInstancePatchSpec extends ObjectBehavior
     function it_makes_all_newInstance_arguments_optional($class, $method, $arg1, $arg2)
     {
         $class->getMethod('newInstance')->willReturn($method);
-        $method->getArguments()->willReturn(array($arg1));
+        $method->getArguments()->willReturn([ $arg1 ]);
         $arg1->setDefault(null)->shouldBeCalled();
 
         $this->apply($class);

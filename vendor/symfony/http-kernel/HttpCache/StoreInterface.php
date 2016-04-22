@@ -24,6 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 interface StoreInterface
 {
+
     /**
      * Locates a cached Response for the Request provided.
      *
@@ -32,6 +33,7 @@ interface StoreInterface
      * @return Response|null A Response instance, or null if no cache entry was found
      */
     public function lookup(Request $request);
+
 
     /**
      * Writes a cache entry to the store for the given Request and Response.
@@ -46,12 +48,14 @@ interface StoreInterface
      */
     public function write(Request $request, Response $response);
 
+
     /**
      * Invalidates all cache entries that match the request.
      *
      * @param Request $request A Request instance
      */
     public function invalidate(Request $request);
+
 
     /**
      * Locks the cache for a given Request.
@@ -62,6 +66,7 @@ interface StoreInterface
      */
     public function lock(Request $request);
 
+
     /**
      * Releases the lock for the given Request.
      *
@@ -70,6 +75,7 @@ interface StoreInterface
      * @return bool False if the lock file does not exist or cannot be unlocked, true otherwise
      */
     public function unlock(Request $request);
+
 
     /**
      * Returns whether or not a lock exists.
@@ -80,6 +86,7 @@ interface StoreInterface
      */
     public function isLocked(Request $request);
 
+
     /**
      * Purges data for the given URL.
      *
@@ -88,6 +95,7 @@ interface StoreInterface
      * @return bool true if the URL exists and has been purged, false otherwise
      */
     public function purge($url);
+
 
     /**
      * Cleanups storage.

@@ -23,6 +23,7 @@ namespace Symfony\Component\CssSelector\Parser;
  */
 class Token
 {
+
     const TYPE_FILE_END = 'eof';
     const TYPE_DELIMITER = 'delimiter';
     const TYPE_WHITESPACE = 'whitespace';
@@ -46,6 +47,7 @@ class Token
      */
     private $position;
 
+
     /**
      * @param int    $type
      * @param string $value
@@ -53,10 +55,11 @@ class Token
      */
     public function __construct($type, $value, $position)
     {
-        $this->type = $type;
-        $this->value = $value;
+        $this->type     = $type;
+        $this->value    = $value;
         $this->position = $position;
     }
+
 
     /**
      * @return int
@@ -66,6 +69,7 @@ class Token
         return $this->type;
     }
 
+
     /**
      * @return string
      */
@@ -73,6 +77,7 @@ class Token
     {
         return $this->value;
     }
+
 
     /**
      * @return int
@@ -82,6 +87,7 @@ class Token
         return $this->position;
     }
 
+
     /**
      * @return bool
      */
@@ -90,23 +96,25 @@ class Token
         return self::TYPE_FILE_END === $this->type;
     }
 
+
     /**
      * @param array $values
      *
      * @return bool
      */
-    public function isDelimiter(array $values = array())
+    public function isDelimiter(array $values = [ ])
     {
         if (self::TYPE_DELIMITER !== $this->type) {
             return false;
         }
 
-        if (empty($values)) {
+        if (empty( $values )) {
             return true;
         }
 
         return in_array($this->value, $values);
     }
+
 
     /**
      * @return bool
@@ -116,6 +124,7 @@ class Token
         return self::TYPE_WHITESPACE === $this->type;
     }
 
+
     /**
      * @return bool
      */
@@ -123,6 +132,7 @@ class Token
     {
         return self::TYPE_IDENTIFIER === $this->type;
     }
+
 
     /**
      * @return bool
@@ -132,6 +142,7 @@ class Token
         return self::TYPE_HASH === $this->type;
     }
 
+
     /**
      * @return bool
      */
@@ -140,6 +151,7 @@ class Token
         return self::TYPE_NUMBER === $this->type;
     }
 
+
     /**
      * @return bool
      */
@@ -147,6 +159,7 @@ class Token
     {
         return self::TYPE_STRING === $this->type;
     }
+
 
     /**
      * @return string

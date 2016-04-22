@@ -30,50 +30,93 @@ use XdgBaseDir\Xdg;
  */
 class Configuration
 {
+
     const COLOR_MODE_AUTO = 'auto';
     const COLOR_MODE_FORCED = 'forced';
     const COLOR_MODE_DISABLED = 'disabled';
 
-    private static $AVAILABLE_OPTIONS = array(
-        'defaultIncludes', 'useReadline', 'usePcntl', 'codeCleaner', 'pager',
-        'loop', 'configDir', 'dataDir', 'runtimeDir', 'manualDbFile',
-        'requireSemicolons', 'useUnicode', 'historySize', 'eraseDuplicates',
-        'tabCompletion', 'errorLoggingLevel', 'warnOnMultipleConfigs',
+    private static $AVAILABLE_OPTIONS = [
+        'defaultIncludes',
+        'useReadline',
+        'usePcntl',
+        'codeCleaner',
+        'pager',
+        'loop',
+        'configDir',
+        'dataDir',
+        'runtimeDir',
+        'manualDbFile',
+        'requireSemicolons',
+        'useUnicode',
+        'historySize',
+        'eraseDuplicates',
+        'tabCompletion',
+        'errorLoggingLevel',
+        'warnOnMultipleConfigs',
         'colorMode',
-    );
+    ];
 
     private $defaultIncludes;
+
     private $configDir;
+
     private $dataDir;
+
     private $runtimeDir;
+
     private $configFile;
+
     private $historyFile;
+
     private $historySize;
+
     private $eraseDuplicates;
+
     private $manualDbFile;
+
     private $hasReadline;
+
     private $useReadline;
+
     private $hasPcntl;
+
     private $usePcntl;
-    private $newCommands = array();
+
+    private $newCommands = [ ];
+
     private $requireSemicolons = false;
+
     private $useUnicode;
+
     private $tabCompletion;
-    private $tabCompletionMatchers = array();
+
+    private $tabCompletionMatchers = [ ];
+
     private $errorLoggingLevel = E_ALL;
+
     private $warnOnMultipleConfigs = false;
+
     private $colorMode;
 
     // services
     private $readline;
+
     private $output;
+
     private $shell;
+
     private $cleaner;
+
     private $pager;
+
     private $loop;
+
     private $manualDb;
+
     private $presenter;
+
     private $completer;
+
 
     /**
      * Construct a Configuration instance.
@@ -82,30 +125,30 @@ class Configuration
      *
      * @param array $config Optional array of configuration values.
      */
-    public function __construct(array $config = array())
+    public function __construct(array $config = [ ])
     {
         $this->setColorMode(self::COLOR_MODE_AUTO);
 
         // explicit configFile option
-        if (isset($config['configFile'])) {
+        if (isset( $config['configFile'] )) {
             $this->configFile = $config['configFile'];
         } elseif ($configFile = getenv('PSYSH_CONFIG')) {
             $this->configFile = $configFile;
         }
 
         // legacy baseDir option
-        if (isset($config['baseDir'])) {
-            $msg = "The 'baseDir' configuration option is deprecated. " .
-                "Please specify 'configDir' and 'dataDir' options instead.";
+        if (isset( $config['baseDir'] )) {
+            $msg = "The 'baseDir' configuration option is deprecated. " . "Please specify 'configDir' and 'dataDir' options instead.";
             throw new DeprecatedException($msg);
         }
 
-        unset($config['configFile'], $config['baseDir']);
+        unset( $config['configFile'], $config['baseDir'] );
 
         // go go gadget, config!
         $this->loadConfig($config);
         $this->init();
     }
+
 
     /**
      * Initialize the configuration.
@@ -127,10 +170,11 @@ class Configuration
             $this->loadConfigFile($configFile);
         }
 
-        if (!$this->configFile && $localConfig = $this->getLocalConfigFile()) {
+        if ( ! $this->configFile && $localConfig = $this->getLocalConfigFile()) {
             $this->loadConfigFile($localConfig);
         }
     }
+
 
     /**
      * Get the current PsySH config file.
@@ -148,13 +192,13 @@ class Configuration
      */
     public function getConfigFile()
     {
-        if (isset($this->configFile)) {
+        if (isset( $this->configFile )) {
             return $this->configFile;
         }
 
-        $files = ConfigPaths::getConfigFiles(array('config.php', 'rc.php'), $this->configDir);
+        $files = ConfigPaths::getConfigFiles([ 'config.php', 'rc.php' ], $this->configDir);
 
-        if (!empty($files)) {
+        if ( ! empty( $files )) {
             if ($this->warnOnMultipleConfigs && count($files) > 1) {
                 $msg = sprintf('Multiple configuration files found: %s. Using %s', implode($files, ', '), $files[0]);
                 trigger_error($msg, E_USER_NOTICE);
@@ -163,6 +207,7 @@ class Configuration
             return $files[0];
         }
     }
+
 
     /**
      * Get the local PsySH config file.
@@ -181,6 +226,7 @@ class Configuration
         }
     }
 
+
     /**
      * Load configuration values from an array of options.
      *
@@ -189,19 +235,20 @@ class Configuration
     public function loadConfig(array $options)
     {
         foreach (self::$AVAILABLE_OPTIONS as $option) {
-            if (isset($options[$option])) {
+            if (isset( $options[$option] )) {
                 $method = 'set' . ucfirst($option);
                 $this->$method($options[$option]);
             }
         }
 
-        foreach (array('commands', 'tabCompletionMatchers', 'casters') as $option) {
-            if (isset($options[$option])) {
+        foreach ([ 'commands', 'tabCompletionMatchers', 'casters' ] as $option) {
+            if (isset( $options[$option] )) {
                 $method = 'add' . ucfirst($option);
                 $this->$method($options[$option]);
             }
         }
     }
+
 
     /**
      * Load a configuration file (default: `$HOME/.config/psysh/config.php`).
@@ -217,15 +264,15 @@ class Configuration
     public function loadConfigFile($file)
     {
         $__psysh_config_file__ = $file;
-        $load = function ($config) use ($__psysh_config_file__) {
+        $load                  = function ($config) use ($__psysh_config_file__) {
             $result = require $__psysh_config_file__;
             if ($result !== 1) {
                 return $result;
             }
         };
-        $result = $load($this);
+        $result                = $load($this);
 
-        if (!empty($result)) {
+        if ( ! empty( $result )) {
             if (is_array($result)) {
                 $this->loadConfig($result);
             } else {
@@ -234,15 +281,17 @@ class Configuration
         }
     }
 
+
     /**
      * Set files to be included by default at the start of each shell session.
      *
      * @param array $includes
      */
-    public function setDefaultIncludes(array $includes = array())
+    public function setDefaultIncludes(array $includes = [ ])
     {
         $this->defaultIncludes = $includes;
     }
+
 
     /**
      * Get files to be included by default at the start of each shell session.
@@ -251,8 +300,9 @@ class Configuration
      */
     public function getDefaultIncludes()
     {
-        return $this->defaultIncludes ?: array();
+        return $this->defaultIncludes ?: [ ];
     }
+
 
     /**
      * Set the shell's config directory location.
@@ -264,6 +314,7 @@ class Configuration
         $this->configDir = (string) $dir;
     }
 
+
     /**
      * Get the current configuration directory, if any is explicitly set.
      *
@@ -273,6 +324,7 @@ class Configuration
     {
         return $this->configDir;
     }
+
 
     /**
      * Set the shell's data directory location.
@@ -284,6 +336,7 @@ class Configuration
         $this->dataDir = (string) $dir;
     }
 
+
     /**
      * Get the current data directory, if any is explicitly set.
      *
@@ -293,6 +346,7 @@ class Configuration
     {
         return $this->dataDir;
     }
+
 
     /**
      * Set the shell's temporary directory location.
@@ -304,6 +358,7 @@ class Configuration
         $this->runtimeDir = (string) $dir;
     }
 
+
     /**
      * Get the shell's temporary directory location.
      *
@@ -314,16 +369,17 @@ class Configuration
      */
     public function getRuntimeDir()
     {
-        if (!isset($this->runtimeDir)) {
+        if ( ! isset( $this->runtimeDir )) {
             $this->runtimeDir = ConfigPaths::getRuntimeDir();
         }
 
-        if (!is_dir($this->runtimeDir)) {
+        if ( ! is_dir($this->runtimeDir)) {
             mkdir($this->runtimeDir, 0700, true);
         }
 
         return $this->runtimeDir;
     }
+
 
     /**
      * Set the readline history file path.
@@ -335,6 +391,7 @@ class Configuration
         $this->historyFile = (string) $file;
     }
 
+
     /**
      * Get the readline history file path.
      *
@@ -345,31 +402,28 @@ class Configuration
      */
     public function getHistoryFile()
     {
-        if (isset($this->historyFile)) {
+        if (isset( $this->historyFile )) {
             return $this->historyFile;
         }
 
         // Deprecation warning for incorrect psysh_history path.
         // TODO: remove this before v0.8.0
-        $xdg = new Xdg();
+        $xdg        = new Xdg();
         $oldHistory = $xdg->getHomeConfigDir() . '/psysh_history';
         if (@is_file($oldHistory)) {
-            $dir = $this->configDir ?: ConfigPaths::getCurrentConfigDir();
+            $dir        = $this->configDir ?: ConfigPaths::getCurrentConfigDir();
             $newHistory = $dir . '/psysh_history';
 
-            $msg = sprintf(
-                "PsySH history file found at '%s'. Please delete it or move it to '%s'.",
-                strtr($oldHistory, '\\', '/'),
-                $newHistory
-            );
+            $msg = sprintf("PsySH history file found at '%s'. Please delete it or move it to '%s'.",
+                strtr($oldHistory, '\\', '/'), $newHistory);
             trigger_error($msg, E_USER_DEPRECATED);
 
             return $this->historyFile = $oldHistory;
         }
 
-        $files = ConfigPaths::getConfigFiles(array('psysh_history', 'history'), $this->configDir);
+        $files = ConfigPaths::getConfigFiles([ 'psysh_history', 'history' ], $this->configDir);
 
-        if (!empty($files)) {
+        if ( ! empty( $files )) {
             if ($this->warnOnMultipleConfigs && count($files) > 1) {
                 $msg = sprintf('Multiple history files found: %s. Using %s', implode($files, ', '), $files[0]);
                 trigger_error($msg, E_USER_NOTICE);
@@ -380,12 +434,13 @@ class Configuration
 
         // fallback: create our own history file
         $dir = $this->configDir ?: ConfigPaths::getCurrentConfigDir();
-        if (!is_dir($dir)) {
+        if ( ! is_dir($dir)) {
             mkdir($dir, 0700, true);
         }
 
         return $this->historyFile = $dir . '/psysh_history';
     }
+
 
     /**
      * Set the readline max history size.
@@ -397,6 +452,7 @@ class Configuration
         $this->historySize = (int) $value;
     }
 
+
     /**
      * Get the readline max history size.
      *
@@ -406,6 +462,7 @@ class Configuration
     {
         return $this->historySize;
     }
+
 
     /**
      * Sets whether readline erases old duplicate history entries.
@@ -417,6 +474,7 @@ class Configuration
         $this->eraseDuplicates = (bool) $value;
     }
 
+
     /**
      * Get whether readline erases old duplicate history entries.
      *
@@ -426,6 +484,7 @@ class Configuration
     {
         return $this->eraseDuplicates;
     }
+
 
     /**
      * Get a temporary file of type $type for process $pid.
@@ -444,6 +503,7 @@ class Configuration
         return tempnam($this->getRuntimeDir(), $type . '_' . $pid . '_');
     }
 
+
     /**
      * Get a filename suitable for a FIFO pipe of $type for process $pid.
      *
@@ -459,6 +519,7 @@ class Configuration
         return sprintf('%s/%s_%s', $this->getRuntimeDir(), $type, $pid);
     }
 
+
     /**
      * Check whether this PHP instance has Readline available.
      *
@@ -468,6 +529,7 @@ class Configuration
     {
         return $this->hasReadline;
     }
+
 
     /**
      * Enable or disable Readline usage.
@@ -479,6 +541,7 @@ class Configuration
         $this->useReadline = (bool) $useReadline;
     }
 
+
     /**
      * Check whether to use Readline.
      *
@@ -489,8 +552,9 @@ class Configuration
      */
     public function useReadline()
     {
-        return isset($this->useReadline) ? ($this->hasReadline && $this->useReadline) : $this->hasReadline;
+        return isset( $this->useReadline ) ? ( $this->hasReadline && $this->useReadline ) : $this->hasReadline;
     }
+
 
     /**
      * Set the Psy Shell readline service.
@@ -501,6 +565,7 @@ class Configuration
     {
         $this->readline = $readline;
     }
+
 
     /**
      * Get the Psy Shell readline service.
@@ -515,17 +580,15 @@ class Configuration
      */
     public function getReadline()
     {
-        if (!isset($this->readline)) {
-            $className = $this->getReadlineClass();
-            $this->readline = new $className(
-                $this->getHistoryFile(),
-                $this->getHistorySize(),
-                $this->getEraseDuplicates()
-            );
+        if ( ! isset( $this->readline )) {
+            $className      = $this->getReadlineClass();
+            $this->readline = new $className($this->getHistoryFile(), $this->getHistorySize(),
+                $this->getEraseDuplicates());
         }
 
         return $this->readline;
     }
+
 
     /**
      * Get the appropriate Readline implementation class name.
@@ -547,6 +610,7 @@ class Configuration
         return 'Psy\Readline\Transient';
     }
 
+
     /**
      * Check whether this PHP instance has Pcntl available.
      *
@@ -556,6 +620,7 @@ class Configuration
     {
         return $this->hasPcntl;
     }
+
 
     /**
      * Enable or disable Pcntl usage.
@@ -567,6 +632,7 @@ class Configuration
         $this->usePcntl = (bool) $usePcntl;
     }
 
+
     /**
      * Check whether to use Pcntl.
      *
@@ -577,8 +643,9 @@ class Configuration
      */
     public function usePcntl()
     {
-        return isset($this->usePcntl) ? ($this->hasPcntl && $this->usePcntl) : $this->hasPcntl;
+        return isset( $this->usePcntl ) ? ( $this->hasPcntl && $this->usePcntl ) : $this->hasPcntl;
     }
+
 
     /**
      * Enable or disable strict requirement of semicolons.
@@ -591,6 +658,7 @@ class Configuration
     {
         $this->requireSemicolons = (bool) $requireSemicolons;
     }
+
 
     /**
      * Check whether to require semicolons on all statements.
@@ -606,6 +674,7 @@ class Configuration
         return $this->requireSemicolons;
     }
 
+
     /**
      * Enable or disable Unicode in PsySH specific output.
      *
@@ -619,6 +688,7 @@ class Configuration
         $this->useUnicode = (bool) $useUnicode;
     }
 
+
     /**
      * Check whether to use Unicode in PsySH specific output.
      *
@@ -629,13 +699,14 @@ class Configuration
      */
     public function useUnicode()
     {
-        if (isset($this->useUnicode)) {
+        if (isset( $this->useUnicode )) {
             return $this->useUnicode;
         }
 
         // TODO: detect `chsh` != 65001 on Windows and return false
         return true;
     }
+
 
     /**
      * Set the error logging level.
@@ -646,8 +717,9 @@ class Configuration
      */
     public function setErrorLoggingLevel($errorLoggingLevel)
     {
-        $this->errorLoggingLevel = (E_ALL | E_STRICT) & $errorLoggingLevel;
+        $this->errorLoggingLevel = ( E_ALL | E_STRICT ) & $errorLoggingLevel;
     }
+
 
     /**
      * Get the current error logging level.
@@ -669,6 +741,7 @@ class Configuration
         return $this->errorLoggingLevel;
     }
 
+
     /**
      * Set a CodeCleaner service instance.
      *
@@ -679,6 +752,7 @@ class Configuration
         $this->cleaner = $cleaner;
     }
 
+
     /**
      * Get a CodeCleaner service instance.
      *
@@ -688,12 +762,13 @@ class Configuration
      */
     public function getCodeCleaner()
     {
-        if (!isset($this->cleaner)) {
+        if ( ! isset( $this->cleaner )) {
             $this->cleaner = new CodeCleaner();
         }
 
         return $this->cleaner;
     }
+
 
     /**
      * Enable or disable tab completion.
@@ -705,6 +780,7 @@ class Configuration
         $this->tabCompletion = (bool) $tabCompletion;
     }
 
+
     /**
      * Check whether to use tab completion.
      *
@@ -715,8 +791,9 @@ class Configuration
      */
     public function getTabCompletion()
     {
-        return isset($this->tabCompletion) ? ($this->hasReadline && $this->tabCompletion) : $this->hasReadline;
+        return isset( $this->tabCompletion ) ? ( $this->hasReadline && $this->tabCompletion ) : $this->hasReadline;
     }
+
 
     /**
      * Set the Shell Output service.
@@ -727,6 +804,7 @@ class Configuration
     {
         $this->output = $output;
     }
+
 
     /**
      * Get a Shell Output service instance.
@@ -740,17 +818,14 @@ class Configuration
      */
     public function getOutput()
     {
-        if (!isset($this->output)) {
-            $this->output = new ShellOutput(
-                ShellOutput::VERBOSITY_NORMAL,
-                $this->getOutputDecorated(),
-                null,
-                $this->getPager()
-            );
+        if ( ! isset( $this->output )) {
+            $this->output = new ShellOutput(ShellOutput::VERBOSITY_NORMAL, $this->getOutputDecorated(), null,
+                $this->getPager());
         }
 
         return $this->output;
     }
+
 
     /**
      * Get the decoration (i.e. color) setting for the Shell Output service.
@@ -768,6 +843,7 @@ class Configuration
         }
     }
 
+
     /**
      * Set the OutputPager service.
      *
@@ -780,12 +856,13 @@ class Configuration
      */
     public function setPager($pager)
     {
-        if ($pager && !is_string($pager) && !$pager instanceof OutputPager) {
+        if ($pager && ! is_string($pager) && ! $pager instanceof OutputPager) {
             throw new \InvalidArgumentException('Unexpected pager instance.');
         }
 
         $this->pager = $pager;
     }
+
 
     /**
      * Get an OutputPager instance or a command for an external Proc pager.
@@ -797,7 +874,7 @@ class Configuration
      */
     public function getPager()
     {
-        if (!isset($this->pager) && $this->usePcntl()) {
+        if ( ! isset( $this->pager ) && $this->usePcntl()) {
             if ($pager = ini_get('cli.pager')) {
                 // use the default pager (5.4+)
                 $this->pager = $pager;
@@ -810,6 +887,7 @@ class Configuration
         return $this->pager;
     }
 
+
     /**
      * Set the Shell evaluation Loop service.
      *
@@ -819,6 +897,7 @@ class Configuration
     {
         $this->loop = $loop;
     }
+
 
     /**
      * Get a Shell evaluation Loop service instance.
@@ -830,7 +909,7 @@ class Configuration
      */
     public function getLoop()
     {
-        if (!isset($this->loop)) {
+        if ( ! isset( $this->loop )) {
             if ($this->usePcntl()) {
                 $this->loop = new ForkingLoop($this);
             } else {
@@ -840,6 +919,7 @@ class Configuration
 
         return $this->loop;
     }
+
 
     /**
      * Set the Shell autocompleter service.
@@ -851,6 +931,7 @@ class Configuration
         $this->completer = $completer;
     }
 
+
     /**
      * Get an AutoCompleter service instance.
      *
@@ -858,12 +939,13 @@ class Configuration
      */
     public function getAutoCompleter()
     {
-        if (!isset($this->completer)) {
+        if ( ! isset( $this->completer )) {
             $this->completer = new AutoCompleter();
         }
 
         return $this->completer;
     }
+
 
     /**
      * Get user specified tab completion matchers for the AutoCompleter.
@@ -875,6 +957,7 @@ class Configuration
         return $this->tabCompletionMatchers;
     }
 
+
     /**
      * Add additional tab completion matchers to the AutoCompleter.
      *
@@ -883,10 +966,11 @@ class Configuration
     public function addTabCompletionMatchers(array $matchers)
     {
         $this->tabCompletionMatchers = array_merge($this->tabCompletionMatchers, $matchers);
-        if (isset($this->shell)) {
+        if (isset( $this->shell )) {
             $this->shell->addTabCompletionMatchers($this->tabCompletionMatchers);
         }
     }
+
 
     /**
      * Add commands to the Shell.
@@ -901,10 +985,11 @@ class Configuration
     public function addCommands(array $commands)
     {
         $this->newCommands = array_merge($this->newCommands, $commands);
-        if (isset($this->shell)) {
+        if (isset( $this->shell )) {
             $this->doAddCommands();
         }
     }
+
 
     /**
      * Internal method for adding commands. This will set any new commands once
@@ -912,11 +997,12 @@ class Configuration
      */
     private function doAddCommands()
     {
-        if (!empty($this->newCommands)) {
+        if ( ! empty( $this->newCommands )) {
             $this->shell->addCommands($this->newCommands);
-            $this->newCommands = array();
+            $this->newCommands = [ ];
         }
     }
+
 
     /**
      * Set the Shell backreference and add any new commands to the Shell.
@@ -928,6 +1014,7 @@ class Configuration
         $this->shell = $shell;
         $this->doAddCommands();
     }
+
 
     /**
      * Set the PHP manual database file.
@@ -942,6 +1029,7 @@ class Configuration
         $this->manualDbFile = (string) $filename;
     }
 
+
     /**
      * Get the current PHP manual database file.
      *
@@ -949,12 +1037,12 @@ class Configuration
      */
     public function getManualDbFile()
     {
-        if (isset($this->manualDbFile)) {
+        if (isset( $this->manualDbFile )) {
             return $this->manualDbFile;
         }
 
-        $files = ConfigPaths::getDataFiles(array('php_manual.sqlite'), $this->dataDir);
-        if (!empty($files)) {
+        $files = ConfigPaths::getDataFiles([ 'php_manual.sqlite' ], $this->dataDir);
+        if ( ! empty( $files )) {
             if ($this->warnOnMultipleConfigs && count($files) > 1) {
                 $msg = sprintf('Multiple manual database files found: %s. Using %s', implode($files, ', '), $files[0]);
                 trigger_error($msg, E_USER_NOTICE);
@@ -964,6 +1052,7 @@ class Configuration
         }
     }
 
+
     /**
      * Get a PHP manual database connection.
      *
@@ -971,7 +1060,7 @@ class Configuration
      */
     public function getManualDb()
     {
-        if (!isset($this->manualDb)) {
+        if ( ! isset( $this->manualDb )) {
             $dbFile = $this->getManualDbFile();
             if (is_file($dbFile)) {
                 try {
@@ -989,6 +1078,7 @@ class Configuration
         return $this->manualDb;
     }
 
+
     /**
      * Add an array of casters definitions.
      *
@@ -999,6 +1089,7 @@ class Configuration
         $this->getPresenter()->addCasters($casters);
     }
 
+
     /**
      * Get the Presenter service.
      *
@@ -1006,12 +1097,13 @@ class Configuration
      */
     public function getPresenter()
     {
-        if (!isset($this->presenter)) {
+        if ( ! isset( $this->presenter )) {
             $this->presenter = new Presenter($this->getOutput()->getFormatter());
         }
 
         return $this->presenter;
     }
+
 
     /**
      * Enable or disable warnings on multiple configuration or data files.
@@ -1024,6 +1116,7 @@ class Configuration
     {
         $this->warnOnMultipleConfigs = (bool) $warnOnMultipleConfigs;
     }
+
 
     /**
      * Check whether to warn on multiple configuration or data files.
@@ -1042,6 +1135,7 @@ class Configuration
         return $this->warnOnMultipleConfigs;
     }
 
+
     /**
      * Set the current color mode.
      *
@@ -1049,11 +1143,11 @@ class Configuration
      */
     public function setColorMode($colorMode)
     {
-        $validColorModes = array(
+        $validColorModes = [
             self::COLOR_MODE_AUTO,
             self::COLOR_MODE_FORCED,
             self::COLOR_MODE_DISABLED,
-        );
+        ];
 
         if (in_array($colorMode, $validColorModes)) {
             $this->colorMode = $colorMode;
@@ -1061,6 +1155,7 @@ class Configuration
             throw new \InvalidArgumentException('invalid color mode: ' . $colorMode);
         }
     }
+
 
     /**
      * Get the current color mode.

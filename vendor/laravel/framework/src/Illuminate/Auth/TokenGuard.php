@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\UserProvider;
 
 class TokenGuard implements Guard
 {
+
     use GuardHelpers;
 
     /**
@@ -31,20 +32,23 @@ class TokenGuard implements Guard
      */
     protected $storageKey;
 
+
     /**
      * Create a new authentication guard.
      *
-     * @param  \Illuminate\Contracts\Auth\UserProvider  $provider
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Contracts\Auth\UserProvider $provider
+     * @param  \Illuminate\Http\Request                $request
+     *
      * @return void
      */
     public function __construct(UserProvider $provider, Request $request)
     {
-        $this->request = $request;
-        $this->provider = $provider;
-        $this->inputKey = 'api_token';
+        $this->request    = $request;
+        $this->provider   = $provider;
+        $this->inputKey   = 'api_token';
         $this->storageKey = 'api_token';
     }
+
 
     /**
      * Get the currently authenticated user.
@@ -56,7 +60,7 @@ class TokenGuard implements Guard
         // If we've already retrieved the user for the current request we can just
         // return it back immediately. We do not want to fetch the user data on
         // every call to this method because that would be tremendously slow.
-        if (! is_null($this->user)) {
+        if ( ! is_null($this->user)) {
             return $this->user;
         }
 
@@ -64,14 +68,13 @@ class TokenGuard implements Guard
 
         $token = $this->getTokenForRequest();
 
-        if (! empty($token)) {
-            $user = $this->provider->retrieveByCredentials(
-                [$this->storageKey => $token]
-            );
+        if ( ! empty( $token )) {
+            $user = $this->provider->retrieveByCredentials([ $this->storageKey => $token ]);
         }
 
         return $this->user = $user;
     }
+
 
     /**
      * Get the token for the current request.
@@ -82,26 +85,28 @@ class TokenGuard implements Guard
     {
         $token = $this->request->input($this->inputKey);
 
-        if (empty($token)) {
+        if (empty( $token )) {
             $token = $this->request->bearerToken();
         }
 
-        if (empty($token)) {
+        if (empty( $token )) {
             $token = $this->request->getPassword();
         }
 
         return $token;
     }
 
+
     /**
      * Validate a user's credentials.
      *
-     * @param  array  $credentials
+     * @param  array $credentials
+     *
      * @return bool
      */
-    public function validate(array $credentials = [])
+    public function validate(array $credentials = [ ])
     {
-        $credentials = [$this->storageKey => $credentials[$this->inputKey]];
+        $credentials = [ $this->storageKey => $credentials[$this->inputKey] ];
 
         if ($this->provider->retrieveByCredentials($credentials)) {
             return true;
@@ -110,10 +115,12 @@ class TokenGuard implements Guard
         return false;
     }
 
+
     /**
      * Set the current request instance.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     *
      * @return $this
      */
     public function setRequest(Request $request)

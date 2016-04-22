@@ -8,6 +8,7 @@ use Psr\Log\LoggerInterface;
 
 class LogTransport extends Transport
 {
+
     /**
      * The Logger instance.
      *
@@ -15,16 +16,19 @@ class LogTransport extends Transport
      */
     protected $logger;
 
+
     /**
      * Create a new log transport instance.
      *
-     * @param  \Psr\Log\LoggerInterface  $logger
+     * @param  \Psr\Log\LoggerInterface $logger
+     *
      * @return void
      */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
+
 
     /**
      * {@inheritdoc}
@@ -36,18 +40,20 @@ class LogTransport extends Transport
         $this->logger->debug($this->getMimeEntityString($message));
     }
 
+
     /**
      * Get a loggable string out of a Swiftmailer entity.
      *
      * @param  \Swift_Mime_MimeEntity $entity
+     *
      * @return string
      */
     protected function getMimeEntityString(Swift_Mime_MimeEntity $entity)
     {
-        $string = (string) $entity->getHeaders().PHP_EOL.$entity->getBody();
+        $string = (string) $entity->getHeaders() . PHP_EOL . $entity->getBody();
 
         foreach ($entity->getChildren() as $children) {
-            $string .= PHP_EOL.PHP_EOL.$this->getMimeEntityString($children);
+            $string .= PHP_EOL . PHP_EOL . $this->getMimeEntityString($children);
         }
 
         return $string;

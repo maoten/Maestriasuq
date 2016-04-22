@@ -8,12 +8,8 @@
  * file that was distributed with this source code.
  */
 
-if (!defined('TEST_FILES_PATH')) {
-    define(
-        'TEST_FILES_PATH',
-        dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR .
-        '_files' . DIRECTORY_SEPARATOR
-    );
+if ( ! defined('TEST_FILES_PATH')) {
+    define('TEST_FILES_PATH', dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR);
 }
 
 require_once TEST_FILES_PATH . '../TestCase.php';
@@ -25,6 +21,7 @@ require_once TEST_FILES_PATH . '../TestCase.php';
  */
 class PHP_CodeCoverage_Report_CloverTest extends PHP_CodeCoverage_TestCase
 {
+
     /**
      * @covers PHP_CodeCoverage_Report_Clover
      */
@@ -32,11 +29,10 @@ class PHP_CodeCoverage_Report_CloverTest extends PHP_CodeCoverage_TestCase
     {
         $clover = new PHP_CodeCoverage_Report_Clover;
 
-        $this->assertStringMatchesFormatFile(
-            TEST_FILES_PATH . 'BankAccount-clover.xml',
-            $clover->process($this->getCoverageForBankAccount(), null, 'BankAccount')
-        );
+        $this->assertStringMatchesFormatFile(TEST_FILES_PATH . 'BankAccount-clover.xml',
+            $clover->process($this->getCoverageForBankAccount(), null, 'BankAccount'));
     }
+
 
     /**
      * @covers PHP_CodeCoverage_Report_Clover
@@ -45,11 +41,10 @@ class PHP_CodeCoverage_Report_CloverTest extends PHP_CodeCoverage_TestCase
     {
         $clover = new PHP_CodeCoverage_Report_Clover;
 
-        $this->assertStringMatchesFormatFile(
-            TEST_FILES_PATH . 'ignored-lines-clover.xml',
-            $clover->process($this->getCoverageForFileWithIgnoredLines())
-        );
+        $this->assertStringMatchesFormatFile(TEST_FILES_PATH . 'ignored-lines-clover.xml',
+            $clover->process($this->getCoverageForFileWithIgnoredLines()));
     }
+
 
     /**
      * @covers PHP_CodeCoverage_Report_Clover
@@ -58,9 +53,7 @@ class PHP_CodeCoverage_Report_CloverTest extends PHP_CodeCoverage_TestCase
     {
         $clover = new PHP_CodeCoverage_Report_Clover;
 
-        $this->assertStringMatchesFormatFile(
-            TEST_FILES_PATH . 'class-with-anonymous-function-clover.xml',
-            $clover->process($this->getCoverageForClassWithAnonymousFunction())
-        );
+        $this->assertStringMatchesFormatFile(TEST_FILES_PATH . 'class-with-anonymous-function-clover.xml',
+            $clover->process($this->getCoverageForClassWithAnonymousFunction()));
     }
 }

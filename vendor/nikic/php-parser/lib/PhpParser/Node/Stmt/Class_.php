@@ -7,27 +7,31 @@ use PhpParser\Error;
 
 class Class_ extends ClassLike
 {
-    const MODIFIER_PUBLIC    =  1;
-    const MODIFIER_PROTECTED =  2;
-    const MODIFIER_PRIVATE   =  4;
-    const MODIFIER_STATIC    =  8;
-    const MODIFIER_ABSTRACT  = 16;
-    const MODIFIER_FINAL     = 32;
+
+    const MODIFIER_PUBLIC = 1;
+    const MODIFIER_PROTECTED = 2;
+    const MODIFIER_PRIVATE = 4;
+    const MODIFIER_STATIC = 8;
+    const MODIFIER_ABSTRACT = 16;
+    const MODIFIER_FINAL = 32;
 
     const VISIBILITY_MODIFER_MASK = 7; // 1 | 2 | 4
 
     /** @var int Type */
     public $type;
+
     /** @var null|Node\Name Name of extended class */
     public $extends;
+
     /** @var Node\Name[] Names of implemented interfaces */
     public $implements;
 
-    protected static $specialNames = array(
+    protected static $specialNames = [
         'self'   => true,
         'parent' => true,
         'static' => true,
-    );
+    ];
+
 
     /**
      * Constructs a class node.
@@ -40,55 +44,62 @@ class Class_ extends ClassLike
      *                                'stmts'      => array(): Statements
      * @param array       $attributes Additional attributes
      */
-    public function __construct($name, array $subNodes = array(), array $attributes = array()) {
+    public function __construct($name, array $subNodes = [ ], array $attributes = [ ])
+    {
         parent::__construct($attributes);
-        $this->type = isset($subNodes['type']) ? $subNodes['type'] : 0;
-        $this->name = $name;
-        $this->extends = isset($subNodes['extends']) ? $subNodes['extends'] : null;
-        $this->implements = isset($subNodes['implements']) ? $subNodes['implements'] : array();
-        $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
+        $this->type       = isset( $subNodes['type'] ) ? $subNodes['type'] : 0;
+        $this->name       = $name;
+        $this->extends    = isset( $subNodes['extends'] ) ? $subNodes['extends'] : null;
+        $this->implements = isset( $subNodes['implements'] ) ? $subNodes['implements'] : [ ];
+        $this->stmts      = isset( $subNodes['stmts'] ) ? $subNodes['stmts'] : [ ];
 
-        if (null !== $this->name && isset(self::$specialNames[strtolower($this->name)])) {
+        if (null !== $this->name && isset( self::$specialNames[strtolower($this->name)] )) {
             throw new Error(sprintf('Cannot use \'%s\' as class name as it is reserved', $this->name));
         }
 
-        if (isset(self::$specialNames[strtolower($this->extends)])) {
-            throw new Error(
-                sprintf('Cannot use \'%s\' as class name as it is reserved', $this->extends),
-                $this->extends->getAttributes()
-            );
+        if (isset( self::$specialNames[strtolower($this->extends)] )) {
+            throw new Error(sprintf('Cannot use \'%s\' as class name as it is reserved', $this->extends),
+                $this->extends->getAttributes());
         }
 
         foreach ($this->implements as $interface) {
-            if (isset(self::$specialNames[strtolower($interface)])) {
-                throw new Error(
-                    sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
-                    $interface->getAttributes()
-                );
+            if (isset( self::$specialNames[strtolower($interface)] )) {
+                throw new Error(sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
+                    $interface->getAttributes());
             }
         }
     }
 
-    public function getSubNodeNames() {
-        return array('type', 'name', 'extends', 'implements', 'stmts');
+
+    public function getSubNodeNames()
+    {
+        return [ 'type', 'name', 'extends', 'implements', 'stmts' ];
     }
 
-    public function isAbstract() {
-        return (bool) ($this->type & self::MODIFIER_ABSTRACT);
+
+    public function isAbstract()
+    {
+        return (bool) ( $this->type & self::MODIFIER_ABSTRACT );
     }
 
-    public function isFinal() {
-        return (bool) ($this->type & self::MODIFIER_FINAL);
+
+    public function isFinal()
+    {
+        return (bool) ( $this->type & self::MODIFIER_FINAL );
     }
 
-    public function isAnonymous() {
+
+    public function isAnonymous()
+    {
         return null === $this->name;
     }
+
 
     /**
      * @internal
      */
-    public static function verifyModifier($a, $b) {
+    public static function verifyModifier($a, $b)
+    {
         if ($a & self::VISIBILITY_MODIFER_MASK && $b & self::VISIBILITY_MODIFER_MASK) {
             throw new Error('Multiple access type modifiers are not allowed');
         }

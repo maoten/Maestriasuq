@@ -19,6 +19,7 @@ namespace Symfony\Component\Routing\Generator\Dumper;
  */
 class PhpGeneratorDumper extends GeneratorDumper
 {
+
     /**
      * Dumps a set of routes to a PHP class.
      *
@@ -31,12 +32,12 @@ class PhpGeneratorDumper extends GeneratorDumper
      *
      * @return string A PHP class representing the generator class
      */
-    public function dump(array $options = array())
+    public function dump(array $options = [ ])
     {
-        $options = array_merge(array(
-            'class' => 'ProjectUrlGenerator',
+        $options = array_merge([
+            'class'      => 'ProjectUrlGenerator',
             'base_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator',
-        ), $options);
+        ], $options);
 
         return <<<EOF
 <?php
@@ -73,6 +74,7 @@ class {$options['class']} extends {$options['base_class']}
 EOF;
     }
 
+
     /**
      * Generates PHP code representing an array of defined routes
      * together with the routes properties (e.g. requirements).
@@ -85,7 +87,7 @@ EOF;
         foreach ($this->getRoutes()->all() as $name => $route) {
             $compiledRoute = $route->compile();
 
-            $properties = array();
+            $properties   = [ ];
             $properties[] = $compiledRoute->getVariables();
             $properties[] = $route->getDefaults();
             $properties[] = $route->getRequirements();
@@ -99,6 +101,7 @@ EOF;
 
         return $routes;
     }
+
 
     /**
      * Generates PHP code representing the `generate` method that implements the UrlGeneratorInterface.

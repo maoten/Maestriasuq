@@ -20,6 +20,7 @@ class IsArray extends IsTypeOf
         parent::__construct('array');
     }
 
+
     /**
      * Is the value an array?
      *

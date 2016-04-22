@@ -6,6 +6,7 @@ use Illuminate\Console\GeneratorCommand;
 
 class ProviderMakeCommand extends GeneratorCommand
 {
+
     /**
      * The console command name.
      *
@@ -27,6 +28,7 @@ class ProviderMakeCommand extends GeneratorCommand
      */
     protected $type = 'Provider';
 
+
     /**
      * Get the stub file for the generator.
      *
@@ -34,17 +36,19 @@ class ProviderMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/stubs/provider.stub';
+        return __DIR__ . '/stubs/provider.stub';
     }
+
 
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param  string $rootNamespace
+     *
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\Providers';
+        return $rootNamespace . '\Providers';
     }
 }

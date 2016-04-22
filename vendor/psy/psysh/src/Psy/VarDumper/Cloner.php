@@ -20,7 +20,9 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
  */
 class Cloner extends VarCloner
 {
+
     private $filter = 0;
+
 
     /**
      * {@inheritdoc}
@@ -32,11 +34,12 @@ class Cloner extends VarCloner
         return parent::cloneVar($var, $filter);
     }
 
+
     /**
      * {@inheritdoc}
      */
     protected function castResource(Stub $stub, $isNested)
     {
-        return Caster::EXCLUDE_VERBOSE & $this->filter ? array() : parent::castResource($stub, $isNested);
+        return Caster::EXCLUDE_VERBOSE & $this->filter ? [ ] : parent::castResource($stub, $isNested);
     }
 }

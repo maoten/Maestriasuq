@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class ClearCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -29,10 +30,12 @@ class ClearCommand extends Command
      */
     protected $cache;
 
+
     /**
      * Create a new cache clear command instance.
      *
-     * @param  \Illuminate\Cache\CacheManager  $cache
+     * @param  \Illuminate\Cache\CacheManager $cache
+     *
      * @return void
      */
     public function __construct(CacheManager $cache)
@@ -41,6 +44,7 @@ class ClearCommand extends Command
 
         $this->cache = $cache;
     }
+
 
     /**
      * Execute the console command.
@@ -51,14 +55,15 @@ class ClearCommand extends Command
     {
         $storeName = $this->argument('store');
 
-        $this->laravel['events']->fire('cache:clearing', [$storeName]);
+        $this->laravel['events']->fire('cache:clearing', [ $storeName ]);
 
         $this->cache->store($storeName)->flush();
 
-        $this->laravel['events']->fire('cache:cleared', [$storeName]);
+        $this->laravel['events']->fire('cache:cleared', [ $storeName ]);
 
         $this->info('Application cache cleared!');
     }
+
 
     /**
      * Get the console command arguments.
@@ -68,7 +73,7 @@ class ClearCommand extends Command
     protected function getArguments()
     {
         return [
-            ['store', InputArgument::OPTIONAL, 'The name of the store you would like to clear.'],
+            [ 'store', InputArgument::OPTIONAL, 'The name of the store you would like to clear.' ],
         ];
     }
 }

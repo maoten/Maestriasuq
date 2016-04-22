@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 class RefreshCommand extends Command
 {
+
     use ConfirmableTrait;
 
     /**
@@ -24,6 +25,7 @@ class RefreshCommand extends Command
      */
     protected $description = 'Reset and re-run all migrations';
 
+
     /**
      * Execute the console command.
      *
@@ -31,7 +33,7 @@ class RefreshCommand extends Command
      */
     public function fire()
     {
-        if (! $this->confirmToProceed()) {
+        if ( ! $this->confirmToProceed()) {
             return;
         }
 
@@ -42,7 +44,8 @@ class RefreshCommand extends Command
         $path = $this->input->getOption('path');
 
         $this->call('migrate:reset', [
-            '--database' => $database, '--force' => $force,
+            '--database' => $database,
+            '--force'    => $force,
         ]);
 
         // The refresh command is essentially just a brief aggregate of a few other of
@@ -50,14 +53,15 @@ class RefreshCommand extends Command
         // them in succession. We'll also see if we need to re-seed the database.
         $this->call('migrate', [
             '--database' => $database,
-            '--force' => $force,
-            '--path' => $path,
+            '--force'    => $force,
+            '--path'     => $path,
         ]);
 
         if ($this->needsSeeding()) {
             $this->runSeeder($database);
         }
     }
+
 
     /**
      * Determine if the developer has requested database seeding.
@@ -69,10 +73,12 @@ class RefreshCommand extends Command
         return $this->option('seed') || $this->option('seeder');
     }
 
+
     /**
      * Run the database seeder command.
      *
-     * @param  string  $database
+     * @param  string $database
+     *
      * @return void
      */
     protected function runSeeder($database)
@@ -82,9 +88,12 @@ class RefreshCommand extends Command
         $force = $this->input->getOption('force');
 
         $this->call('db:seed', [
-            '--database' => $database, '--class' => $class, '--force' => $force,
+            '--database' => $database,
+            '--class'    => $class,
+            '--force'    => $force,
         ]);
     }
+
 
     /**
      * Get the console command options.
@@ -94,15 +103,15 @@ class RefreshCommand extends Command
     protected function getOptions()
     {
         return [
-            ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'],
+            [ 'database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.' ],
 
-            ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production.'],
+            [ 'force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production.' ],
 
-            ['path', null, InputOption::VALUE_OPTIONAL, 'The path of migrations files to be executed.'],
+            [ 'path', null, InputOption::VALUE_OPTIONAL, 'The path of migrations files to be executed.' ],
 
-            ['seed', null, InputOption::VALUE_NONE, 'Indicates if the seed task should be re-run.'],
+            [ 'seed', null, InputOption::VALUE_NONE, 'Indicates if the seed task should be re-run.' ],
 
-            ['seeder', null, InputOption::VALUE_OPTIONAL, 'The class name of the root seeder.'],
+            [ 'seeder', null, InputOption::VALUE_OPTIONAL, 'The class name of the root seeder.' ],
         ];
     }
 }

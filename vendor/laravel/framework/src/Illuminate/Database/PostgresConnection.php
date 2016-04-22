@@ -9,6 +9,7 @@ use Illuminate\Database\Schema\Grammars\PostgresGrammar as SchemaGrammar;
 
 class PostgresConnection extends Connection
 {
+
     /**
      * Get the default query grammar instance.
      *
@@ -18,6 +19,7 @@ class PostgresConnection extends Connection
     {
         return $this->withTablePrefix(new QueryGrammar);
     }
+
 
     /**
      * Get the default schema grammar instance.
@@ -29,6 +31,7 @@ class PostgresConnection extends Connection
         return $this->withTablePrefix(new SchemaGrammar);
     }
 
+
     /**
      * Get the default post processor instance.
      *
@@ -38,6 +41,7 @@ class PostgresConnection extends Connection
     {
         return new PostgresProcessor;
     }
+
 
     /**
      * Get the Doctrine DBAL driver.

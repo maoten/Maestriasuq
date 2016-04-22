@@ -19,11 +19,12 @@ use Monolog\Logger;
  *
  * You'll need a Fleep.io account to use this handler.
  *
- * @see https://fleep.io/integrations/webhooks/ Fleep Webhooks Documentation
+ * @see    https://fleep.io/integrations/webhooks/ Fleep Webhooks Documentation
  * @author Ando Roots <ando@sqroot.eu>
  */
 class FleepHookHandler extends SocketHandler
 {
+
     const FLEEP_HOST = 'fleep.io';
 
     const FLEEP_HOOK_URI = '/hook/';
@@ -33,20 +34,22 @@ class FleepHookHandler extends SocketHandler
      */
     protected $token;
 
+
     /**
      * Construct a new Fleep.io Handler.
      *
      * For instructions on how to create a new web hook in your conversations
      * see https://fleep.io/integrations/webhooks/
      *
-     * @param  string                    $token  Webhook token
-     * @param  bool|int                  $level  The minimum logging level at which this handler will be triggered
-     * @param  bool                      $bubble Whether the messages that are handled can bubble up the stack or not
+     * @param  string   $token  Webhook token
+     * @param  bool|int $level  The minimum logging level at which this handler will be triggered
+     * @param  bool     $bubble Whether the messages that are handled can bubble up the stack or not
+     *
      * @throws MissingExtensionException
      */
     public function __construct($token, $level = Logger::DEBUG, $bubble = true)
     {
-        if (!extension_loaded('openssl')) {
+        if ( ! extension_loaded('openssl')) {
             throw new MissingExtensionException('The OpenSSL PHP extension is required to use the FleepHookHandler');
         }
 
@@ -55,6 +58,7 @@ class FleepHookHandler extends SocketHandler
         $connectionString = 'ssl://' . self::FLEEP_HOST . ':443';
         parent::__construct($connectionString, $level, $bubble);
     }
+
 
     /**
      * Returns the default formatter to use with this handler
@@ -68,6 +72,7 @@ class FleepHookHandler extends SocketHandler
         return new LineFormatter(null, null, true, true);
     }
 
+
     /**
      * Handles a log record
      *
@@ -79,10 +84,12 @@ class FleepHookHandler extends SocketHandler
         $this->closeSocket();
     }
 
+
     /**
      * {@inheritdoc}
      *
-     * @param  array  $record
+     * @param  array $record
+     *
      * @return string
      */
     protected function generateDataStream($record)
@@ -92,10 +99,12 @@ class FleepHookHandler extends SocketHandler
         return $this->buildHeader($content) . $content;
     }
 
+
     /**
      * Builds the header of the API Call
      *
      * @param  string $content
+     *
      * @return string
      */
     private function buildHeader($content)
@@ -109,17 +118,19 @@ class FleepHookHandler extends SocketHandler
         return $header;
     }
 
+
     /**
      * Builds the body of API call
      *
-     * @param  array  $record
+     * @param  array $record
+     *
      * @return string
      */
     private function buildContent($record)
     {
-        $dataArray = array(
+        $dataArray = [
             'message' => $record['formatted'],
-        );
+        ];
 
         return http_build_query($dataArray);
     }

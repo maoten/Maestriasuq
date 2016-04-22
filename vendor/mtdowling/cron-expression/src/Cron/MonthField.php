@@ -9,20 +9,28 @@ use DateTime;
  */
 class MonthField extends AbstractField
 {
+
     public function isSatisfiedBy(DateTime $date, $value)
     {
         // Convert text month values to integers
-        $value = str_ireplace(
-            array(
-                'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN',
-                'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'
-            ),
-            range(1, 12),
-            $value
-        );
+        $value = str_ireplace([
+            'JAN',
+            'FEB',
+            'MAR',
+            'APR',
+            'MAY',
+            'JUN',
+            'JUL',
+            'AUG',
+            'SEP',
+            'OCT',
+            'NOV',
+            'DEC'
+        ], range(1, 12), $value);
 
         return $this->isSatisfied($date->format('m'), $value);
     }
+
 
     public function increment(DateTime $date, $invert = false)
     {
@@ -36,6 +44,7 @@ class MonthField extends AbstractField
 
         return $this;
     }
+
 
     public function validate($value)
     {

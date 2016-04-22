@@ -22,6 +22,7 @@ use PhpParser\Lexer\Emulative as EmulativeLexer;
  */
 class AstAnalyzer extends ClosureAnalyzer
 {
+
     protected function determineCode(array &$data)
     {
         // Find the closure by traversing through a AST of the code.
@@ -33,12 +34,13 @@ class AstAnalyzer extends ClosureAnalyzer
         $traverser = new NodeTraverser;
         $traverser->addVisitor(new MagicConstantVisitor($data['location']));
         $traverser->addVisitor($thisDetector = new ThisDetectorVisitor);
-        $data['ast'] = $traverser->traverse([$data['ast']])[0];
+        $data['ast']     = $traverser->traverse([ $data['ast'] ])[0];
         $data['hasThis'] = $thisDetector->detected;
 
         // Bounce the updated AST down to a string representation of the code.
-        $data['code'] = (new NodePrinter)->prettyPrint([$data['ast']]);
+        $data['code'] = (new NodePrinter)->prettyPrint([ $data['ast'] ]);
     }
+
 
     /**
      * Parses the closure's code and produces an abstract syntax tree (AST).
@@ -59,23 +61,20 @@ class AstAnalyzer extends ClosureAnalyzer
             $fileTraverser->traverse($fileAst);
         } catch (ParserError $e) {
             // @codeCoverageIgnoreStart
-            throw new ClosureAnalysisException(
-                'There was an error analyzing the closure code.', 0, $e
-            );
+            throw new ClosureAnalysisException('There was an error analyzing the closure code.', 0, $e);
             // @codeCoverageIgnoreEnd
         }
 
         $data['ast'] = $locator->closureNode;
-        if (!$data['ast']) {
+        if ( ! $data['ast']) {
             // @codeCoverageIgnoreStart
-            throw new ClosureAnalysisException(
-                'The closure was not found within the abstract syntax tree.'
-            );
+            throw new ClosureAnalysisException('The closure was not found within the abstract syntax tree.');
             // @codeCoverageIgnoreEnd
         }
 
         $data['location'] = $locator->location;
     }
+
 
     /**
      * Returns the variables that in the "use" clause of the closure definition.
@@ -87,25 +86,27 @@ class AstAnalyzer extends ClosureAnalyzer
     protected function determineContext(array &$data)
     {
         // Get the variable names defined in the AST
-        $refs = 0;
-        $vars = array_map(function ($node) use (&$refs) {
+        $refs            = 0;
+        $vars            = array_map(function ($node) use (&$refs) {
             if ($node->byRef) {
                 $refs++;
             }
+
             return $node->var;
         }, $data['ast']->uses);
-        $data['hasRefs'] = ($refs > 0);
+        $data['hasRefs'] = ( $refs > 0 );
 
         // Get the variable names and values using reflection
         $values = $data['reflection']->getStaticVariables();
 
         // Combine the names and values to create the canonical context.
         foreach ($vars as $name) {
-            if (isset($values[$name])) {
+            if (isset( $values[$name] )) {
                 $data['context'][$name] = $values[$name];
             }
         }
     }
+
 
     /**
      * @param \ReflectionFunction $reflection
@@ -117,15 +118,13 @@ class AstAnalyzer extends ClosureAnalyzer
     private function getFileAst(\ReflectionFunction $reflection)
     {
         $fileName = $reflection->getFileName();
-        if (!file_exists($fileName)) {
-            throw new ClosureAnalysisException(
-                "The file containing the closure, \"{$fileName}\" did not exist."
-            );
+        if ( ! file_exists($fileName)) {
+            throw new ClosureAnalysisException("The file containing the closure, \"{$fileName}\" did not exist.");
         }
-
 
         return $this->getParser()->parse(file_get_contents($fileName));
     }
+
 
     /**
      * @return CodeParser

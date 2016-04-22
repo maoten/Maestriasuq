@@ -13,6 +13,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
      */
     private $faker;
 
+
     public function setUp()
     {
         $faker = new Generator();
@@ -20,9 +21,10 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $this->faker = $faker;
     }
 
+
     public function testVatIsValid()
     {
-        $vat = $this->faker->vat();
+        $vat         = $this->faker->vat();
         $unspacedVat = $this->faker->vat(false);
         $this->assertRegExp('/^(BE 0\d{9})$/', $vat);
         $this->assertRegExp('/^(BE0\d{9})$/', $unspacedVat);

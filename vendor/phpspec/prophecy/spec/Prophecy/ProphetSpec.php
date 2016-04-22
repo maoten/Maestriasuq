@@ -7,16 +7,18 @@ use Prophecy\Argument;
 
 class ProphetSpec extends ObjectBehavior
 {
+
     /**
      * @param \Prophecy\Doubler\Doubler                   $doubler
      * @param \Prophecy\Prophecy\ProphecySubjectInterface $double
      */
     function let($doubler, $double)
     {
-        $doubler->double(null, array())->willReturn($double);
+        $doubler->double(null, [ ])->willReturn($double);
 
         $this->beConstructedWith($doubler);
     }
+
 
     function it_constructs_new_prophecy_on_prophesize_call()
     {
@@ -24,15 +26,17 @@ class ProphetSpec extends ObjectBehavior
         $prophecy->shouldBeAnInstanceOf('Prophecy\Prophecy\ObjectProphecy');
     }
 
+
     /**
      * @param \Prophecy\Prophecy\ProphecySubjectInterface $newDouble
      */
     function it_constructs_new_prophecy_with_parent_class_if_specified($doubler, $newDouble)
     {
-        $doubler->double(Argument::any(), array())->willReturn($newDouble);
+        $doubler->double(Argument::any(), [ ])->willReturn($newDouble);
 
         $this->prophesize('Prophecy\Prophet')->reveal()->shouldReturn($newDouble);
     }
+
 
     /**
      * @param \Prophecy\Prophecy\ProphecySubjectInterface $newDouble
@@ -44,18 +48,21 @@ class ProphetSpec extends ObjectBehavior
         $this->prophesize('ArrayAccess')->reveal()->shouldReturn($newDouble);
     }
 
+
     function it_exposes_all_created_prophecies_through_getter()
     {
         $prophecy1 = $this->prophesize();
         $prophecy2 = $this->prophesize();
 
-        $this->getProphecies()->shouldReturn(array($prophecy1, $prophecy2));
+        $this->getProphecies()->shouldReturn([ $prophecy1, $prophecy2 ]);
     }
+
 
     function it_does_nothing_during_checkPredictions_call_if_no_predictions_defined()
     {
         $this->checkPredictions()->shouldReturn(null);
     }
+
 
     /**
      * @param \Prophecy\Prophecy\MethodProphecy    $method1
@@ -64,25 +71,25 @@ class ProphetSpec extends ObjectBehavior
      * @param \Prophecy\Argument\ArgumentsWildcard $arguments2
      */
     function it_throws_AggregateException_if_defined_predictions_fail(
-        $method1, $method2, $arguments1, $arguments2
-    )
-    {
+        $method1,
+        $method2,
+        $arguments1,
+        $arguments2
+    ) {
         $method1->getMethodName()->willReturn('getName');
         $method1->getArgumentsWildcard()->willReturn($arguments1);
         $method1->checkPrediction()->willReturn(null);
 
         $method2->getMethodName()->willReturn('isSet');
         $method2->getArgumentsWildcard()->willReturn($arguments2);
-        $method2->checkPrediction()->willThrow(
-            'Prophecy\Exception\Prediction\AggregateException'
-        );
+        $method2->checkPrediction()->willThrow('Prophecy\Exception\Prediction\AggregateException');
 
         $this->prophesize()->addMethodProphecy($method1);
         $this->prophesize()->addMethodProphecy($method2);
 
-        $this->shouldThrow('Prophecy\Exception\Prediction\AggregateException')
-            ->duringCheckPredictions();
+        $this->shouldThrow('Prophecy\Exception\Prediction\AggregateException')->duringCheckPredictions();
     }
+
 
     function it_exposes_doubler_through_getter($doubler)
     {

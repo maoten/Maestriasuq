@@ -7,15 +7,18 @@ use Prophecy\Argument;
 
 class HhvmExceptionPatchSpec extends ObjectBehavior
 {
+
     function it_is_a_patch()
     {
         $this->shouldBeAnInstanceOf('Prophecy\Doubler\ClassPatch\ClassPatchInterface');
     }
 
+
     function its_priority_is_minus_50()
     {
         $this->getPriority()->shouldReturn(-50);
     }
+
 
     /**
      * @param \Prophecy\Doubler\Generator\Node\ClassNode  $node

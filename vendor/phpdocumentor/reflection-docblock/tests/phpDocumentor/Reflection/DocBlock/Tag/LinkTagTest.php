@@ -1,7 +1,7 @@
 <?php
 /**
  * phpDocumentor Link Tag Test
- * 
+ *
  * PHP version 5.3
  *
  * @author    Ben Selby <benmatselby@gmail.com>
@@ -22,6 +22,7 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  */
 class LinkTagTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * Test that the \phpDocumentor\Reflection\DocBlock\Tag\LinkTag can create
      * a link for the @link doc block.
@@ -32,7 +33,7 @@ class LinkTagTest extends \PHPUnit_Framework_TestCase
      * @param string $exDescription
      * @param string $exLink
      *
-     * @covers \phpDocumentor\Reflection\DocBlock\Tag\LinkTag
+     * @covers       \phpDocumentor\Reflection\DocBlock\Tag\LinkTag
      * @dataProvider provideDataForConstuctor
      *
      * @return void
@@ -52,6 +53,7 @@ class LinkTagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($exLink, $tag->getLink());
     }
 
+
     /**
      * Data provider for testConstructorParesInputsIntoCorrectFields
      *
@@ -60,28 +62,28 @@ class LinkTagTest extends \PHPUnit_Framework_TestCase
     public function provideDataForConstuctor()
     {
         // $type, $content, $exContent, $exDescription, $exLink
-        return array(
-            array(
+        return [
+            [
                 'link',
                 'http://www.phpdoc.org/',
                 'http://www.phpdoc.org/',
                 'http://www.phpdoc.org/',
                 'http://www.phpdoc.org/'
-            ),
-            array(
+            ],
+            [
                 'link',
                 'http://www.phpdoc.org/ Testing',
                 'http://www.phpdoc.org/ Testing',
                 'Testing',
                 'http://www.phpdoc.org/'
-            ),
-            array(
+            ],
+            [
                 'link',
                 'http://www.phpdoc.org/ Testing comments',
                 'http://www.phpdoc.org/ Testing comments',
                 'Testing comments',
                 'http://www.phpdoc.org/'
-            ),
-        );
+            ],
+        ];
     }
 }

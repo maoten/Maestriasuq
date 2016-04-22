@@ -15,6 +15,7 @@
  */
 class Swift_Mime_Headers_IdentificationHeader extends Swift_Mime_Headers_AbstractHeader
 {
+
     /**
      * The IDs used in the value of this Header.
      *
@@ -22,7 +23,8 @@ class Swift_Mime_Headers_IdentificationHeader extends Swift_Mime_Headers_Abstrac
      *
      * @var string[]
      */
-    private $_ids = array();
+    private $_ids = [ ];
+
 
     /**
      * Creates a new IdentificationHeader with the given $name and $id.
@@ -36,6 +38,7 @@ class Swift_Mime_Headers_IdentificationHeader extends Swift_Mime_Headers_Abstrac
         parent::__construct($grammar);
     }
 
+
     /**
      * Get the type of Header that this instance represents.
      *
@@ -48,6 +51,7 @@ class Swift_Mime_Headers_IdentificationHeader extends Swift_Mime_Headers_Abstrac
     {
         return self::TYPE_ID;
     }
+
 
     /**
      * Set the model for the field body.
@@ -63,6 +67,7 @@ class Swift_Mime_Headers_IdentificationHeader extends Swift_Mime_Headers_Abstrac
         $this->setId($model);
     }
 
+
     /**
      * Get the model for the field body.
      *
@@ -75,6 +80,7 @@ class Swift_Mime_Headers_IdentificationHeader extends Swift_Mime_Headers_Abstrac
         return $this->getIds();
     }
 
+
     /**
      * Set the ID used in the value of this header.
      *
@@ -84,8 +90,9 @@ class Swift_Mime_Headers_IdentificationHeader extends Swift_Mime_Headers_Abstrac
      */
     public function setId($id)
     {
-        $this->setIds(is_array($id) ? $id : array($id));
+        $this->setIds(is_array($id) ? $id : [ $id ]);
     }
+
 
     /**
      * Get the ID used in the value of this Header.
@@ -101,6 +108,7 @@ class Swift_Mime_Headers_IdentificationHeader extends Swift_Mime_Headers_Abstrac
         }
     }
 
+
     /**
      * Set a collection of IDs to use in the value of this Header.
      *
@@ -110,7 +118,7 @@ class Swift_Mime_Headers_IdentificationHeader extends Swift_Mime_Headers_Abstrac
      */
     public function setIds(array $ids)
     {
-        $actualIds = array();
+        $actualIds = [ ];
 
         foreach ($ids as $id) {
             $this->_assertValidId($id);
@@ -121,6 +129,7 @@ class Swift_Mime_Headers_IdentificationHeader extends Swift_Mime_Headers_Abstrac
         $this->_ids = $actualIds;
     }
 
+
     /**
      * Get the list of IDs used in this Header.
      *
@@ -130,6 +139,7 @@ class Swift_Mime_Headers_IdentificationHeader extends Swift_Mime_Headers_Abstrac
     {
         return $this->_ids;
     }
+
 
     /**
      * Get the string value of the body in this Header.
@@ -145,11 +155,11 @@ class Swift_Mime_Headers_IdentificationHeader extends Swift_Mime_Headers_Abstrac
      */
     public function getFieldBody()
     {
-        if (!$this->getCachedValue()) {
-            $angleAddrs = array();
+        if ( ! $this->getCachedValue()) {
+            $angleAddrs = [ ];
 
             foreach ($this->_ids as $id) {
-                $angleAddrs[] = '<'.$id.'>';
+                $angleAddrs[] = '<' . $id . '>';
             }
 
             $this->setCachedValue(implode(' ', $angleAddrs));
@@ -157,6 +167,7 @@ class Swift_Mime_Headers_IdentificationHeader extends Swift_Mime_Headers_Abstrac
 
         return $this->getCachedValue();
     }
+
 
     /**
      * Throws an Exception if the id passed does not comply with RFC 2822.
@@ -167,14 +178,10 @@ class Swift_Mime_Headers_IdentificationHeader extends Swift_Mime_Headers_Abstrac
      */
     private function _assertValidId($id)
     {
-        if (!preg_match(
-            '/^'.$this->getGrammar()->getDefinition('id-left').'@'.
-            $this->getGrammar()->getDefinition('id-right').'$/D',
-            $id
-            )) {
-            throw new Swift_RfcComplianceException(
-                'Invalid ID given <'.$id.'>'
-                );
+        if ( ! preg_match('/^' . $this->getGrammar()->getDefinition('id-left') . '@' . $this->getGrammar()->getDefinition('id-right') . '$/D',
+            $id)
+        ) {
+            throw new Swift_RfcComplianceException('Invalid ID given <' . $id . '>');
         }
     }
 }

@@ -13,6 +13,7 @@
  */
 class Swift_ByteStream_TemporaryFileByteStream extends Swift_ByteStream_FileByteStream
 {
+
     public function __construct()
     {
         $filePath = tempnam(sys_get_temp_dir(), 'FileByteStream');
@@ -24,14 +25,16 @@ class Swift_ByteStream_TemporaryFileByteStream extends Swift_ByteStream_FileByte
         parent::__construct($filePath, true);
     }
 
+
     public function getContent()
     {
-        if (($content = file_get_contents($this->getPath())) === false) {
+        if (( $content = file_get_contents($this->getPath()) ) === false) {
             throw new Swift_IoException('Failed to get temporary file content.');
         }
 
         return $content;
     }
+
 
     public function __destruct()
     {

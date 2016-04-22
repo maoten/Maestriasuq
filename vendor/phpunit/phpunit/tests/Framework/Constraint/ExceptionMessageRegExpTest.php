@@ -14,6 +14,7 @@
  */
 class ExceptionMessageRegExpTest extends PHPUnit_Framework_TestCase
 {
+
     /**
      * @expectedException \Exception
      * @expectedExceptionMessageRegExp /^A polymorphic \w+ message/
@@ -23,6 +24,7 @@ class ExceptionMessageRegExpTest extends PHPUnit_Framework_TestCase
         throw new Exception('A polymorphic exception message');
     }
 
+
     /**
      * @expectedException \Exception
      * @expectedExceptionMessageRegExp /^a poly[a-z]+ [a-zA-Z0-9_]+ me(s){2}age$/i
@@ -31,6 +33,7 @@ class ExceptionMessageRegExpTest extends PHPUnit_Framework_TestCase
     {
         throw new Exception('A polymorphic exception message');
     }
+
 
     /**
      * @runInSeparateProcess
@@ -43,6 +46,7 @@ class ExceptionMessageRegExpTest extends PHPUnit_Framework_TestCase
         ini_set('xdebug.scream', '1');
         throw new Exception('Screaming preg_match');
     }
+
 
     /**
      * @coversNothing

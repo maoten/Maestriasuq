@@ -23,10 +23,12 @@ namespace Symfony\Component\CssSelector\Parser\Tokenizer;
  */
 class TokenizerEscaping
 {
+
     /**
      * @var TokenizerPatterns
      */
     private $patterns;
+
 
     /**
      * @param TokenizerPatterns $patterns
@@ -35,6 +37,7 @@ class TokenizerEscaping
     {
         $this->patterns = $patterns;
     }
+
 
     /**
      * @param string $value
@@ -48,6 +51,7 @@ class TokenizerEscaping
         return preg_replace($this->patterns->getSimpleEscapePattern(), '$1', $value);
     }
 
+
     /**
      * @param string $value
      *
@@ -59,6 +63,7 @@ class TokenizerEscaping
 
         return $this->escapeUnicode($value);
     }
+
 
     /**
      * @param string $value
@@ -74,10 +79,10 @@ class TokenizerEscaping
                 return chr($c);
             }
             if (0x800 > $c) {
-                return chr(0xC0 | $c >> 6).chr(0x80 | $c & 0x3F);
+                return chr(0xC0 | $c >> 6) . chr(0x80 | $c & 0x3F);
             }
             if (0x10000 > $c) {
-                return chr(0xE0 | $c >> 12).chr(0x80 | $c >> 6 & 0x3F).chr(0x80 | $c & 0x3F);
+                return chr(0xE0 | $c >> 12) . chr(0x80 | $c >> 6 & 0x3F) . chr(0x80 | $c & 0x3F);
             }
         }, $value);
     }

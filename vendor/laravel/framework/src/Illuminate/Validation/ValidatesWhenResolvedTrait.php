@@ -10,6 +10,7 @@ use Illuminate\Contracts\Validation\UnauthorizedException;
  */
 trait ValidatesWhenResolvedTrait
 {
+
     /**
      * Validate the class instance.
      *
@@ -19,12 +20,13 @@ trait ValidatesWhenResolvedTrait
     {
         $instance = $this->getValidatorInstance();
 
-        if (! $this->passesAuthorization()) {
+        if ( ! $this->passesAuthorization()) {
             $this->failedAuthorization();
-        } elseif (! $instance->passes()) {
+        } elseif ( ! $instance->passes()) {
             $this->failedValidation($instance);
         }
     }
+
 
     /**
      * Get the validator instance for the request.
@@ -36,10 +38,12 @@ trait ValidatesWhenResolvedTrait
         return $this->validator();
     }
 
+
     /**
      * Handle a failed validation attempt.
      *
-     * @param  \Illuminate\Validation\Validator  $validator
+     * @param  \Illuminate\Validation\Validator $validator
+     *
      * @return mixed
      *
      * @throws \Illuminate\Contracts\Validation\ValidationException
@@ -48,6 +52,7 @@ trait ValidatesWhenResolvedTrait
     {
         throw new ValidationException($validator);
     }
+
 
     /**
      * Determine if the request passes the authorization check.
@@ -62,6 +67,7 @@ trait ValidatesWhenResolvedTrait
 
         return true;
     }
+
 
     /**
      * Handle a failed authorization attempt.

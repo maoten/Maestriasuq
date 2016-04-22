@@ -27,14 +27,17 @@ class Closure extends MatcherAbstract
      * Check if the actual value matches the expected.
      *
      * @param mixed $actual
+     *
      * @return bool
      */
     public function match(&$actual)
     {
         $closure = $this->_expected;
-        $result = $closure($actual);
+        $result  = $closure($actual);
+
         return $result === true;
     }
+
 
     /**
      * Return a string representation of this Matcher

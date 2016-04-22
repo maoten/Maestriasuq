@@ -20,6 +20,7 @@ use SebastianBergmann\RecursionContext\Context;
  */
 class ExportUtil
 {
+
     /**
      * Exports a value as a string
      *
@@ -33,8 +34,9 @@ class ExportUtil
      *  - Carriage returns and newlines are normalized to \n
      *  - Recursion and repeated rendering is treated properly
      *
-     * @param  mixed  $value
-     * @param  int    $indentation The indentation level of the 2nd+ line
+     * @param  mixed $value
+     * @param  int   $indentation The indentation level of the 2nd+ line
+     *
      * @return string
      */
     public static function export($value, $indentation = 0)
@@ -42,20 +44,22 @@ class ExportUtil
         return self::recursiveExport($value, $indentation);
     }
 
+
     /**
      * Converts an object to an array containing all of its private, protected
      * and public properties.
      *
      * @param  mixed $value
+     *
      * @return array
      */
     public static function toArray($value)
     {
-        if (!is_object($value)) {
+        if ( ! is_object($value)) {
             return (array) $value;
         }
 
-        $array = array();
+        $array = [ ];
 
         foreach ((array) $value as $key => $val) {
             // properties are transformed to keys in the following way:
@@ -81,25 +85,26 @@ class ExportUtil
             // However, the fast method does work in HHVM, and exposes the
             // internal implementation. Hide it again.
             if (property_exists('\SplObjectStorage', '__storage')) {
-                unset($array['__storage']);
+                unset( $array['__storage'] );
             } elseif (property_exists('\SplObjectStorage', 'storage')) {
-                unset($array['storage']);
+                unset( $array['storage'] );
             }
 
             if (property_exists('\SplObjectStorage', '__key')) {
-                unset($array['__key']);
+                unset( $array['__key'] );
             }
 
             foreach ($value as $key => $val) {
-                $array[spl_object_hash($val)] = array(
+                $array[spl_object_hash($val)] = [
                     'obj' => $val,
                     'inf' => $value->getInfo(),
-                );
+                ];
             }
         }
 
         return $array;
     }
+
 
     /**
      * Recursive implementation of export
@@ -107,6 +112,7 @@ class ExportUtil
      * @param  mixed                                       $value       The value to export
      * @param  int                                         $indentation The indentation level of the 2nd+ line
      * @param  \SebastianBergmann\RecursionContext\Context $processed   Previously processed objects
+     *
      * @return string
      * @see    SebastianBergmann\Exporter\Exporter::export
      */
@@ -129,11 +135,7 @@ class ExportUtil
         }
 
         if (is_resource($value)) {
-            return sprintf(
-                'resource(%d) of type (%s)',
-                $value,
-                get_resource_type($value)
-            );
+            return sprintf('resource(%d) of type (%s)', $value, get_resource_type($value));
         }
 
         if (is_string($value)) {
@@ -142,19 +144,17 @@ class ExportUtil
                 return 'Binary String: 0x' . bin2hex($value);
             }
 
-            return "'" .
-            str_replace(array("\r\n", "\n\r", "\r"), array("\n", "\n", "\n"), $value) .
-            "'";
+            return "'" . str_replace([ "\r\n", "\n\r", "\r" ], [ "\n", "\n", "\n" ], $value) . "'";
         }
 
         $whitespace = str_repeat(' ', 4 * $indentation);
 
-        if (!$processed) {
+        if ( ! $processed) {
             $processed = new Context;
         }
 
         if (is_array($value)) {
-            if (($key = $processed->contains($value)) !== false) {
+            if (( $key = $processed->contains($value) ) !== false) {
                 return 'Array &' . $key;
             }
 
@@ -163,12 +163,8 @@ class ExportUtil
 
             if (count($value) > 0) {
                 foreach ($value as $k => $v) {
-                    $values .= sprintf(
-                        '%s    %s => %s' . "\n",
-                        $whitespace,
-                        self::recursiveExport($k, $indentation),
-                        self::recursiveExport($value[$k], $indentation + 1, $processed)
-                    );
+                    $values .= sprintf('%s    %s => %s' . "\n", $whitespace, self::recursiveExport($k, $indentation),
+                        self::recursiveExport($value[$k], $indentation + 1, $processed));
                 }
 
                 $values = "\n" . $values . $whitespace;
@@ -192,12 +188,8 @@ class ExportUtil
 
             if (count($array) > 0) {
                 foreach ($array as $k => $v) {
-                    $values .= sprintf(
-                        '%s    %s => %s' . "\n",
-                        $whitespace,
-                        self::recursiveExport($k, $indentation),
-                        self::recursiveExport($v, $indentation + 1, $processed)
-                    );
+                    $values .= sprintf('%s    %s => %s' . "\n", $whitespace, self::recursiveExport($k, $indentation),
+                        self::recursiveExport($v, $indentation + 1, $processed));
                 }
 
                 $values = "\n" . $values . $whitespace;

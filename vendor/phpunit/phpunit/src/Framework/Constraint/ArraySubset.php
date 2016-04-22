@@ -18,6 +18,7 @@
  */
 class PHPUnit_Framework_Constraint_ArraySubset extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var array|ArrayAccess
      */
@@ -27,6 +28,7 @@ class PHPUnit_Framework_Constraint_ArraySubset extends PHPUnit_Framework_Constra
      * @var bool
      */
     protected $strict;
+
 
     /**
      * @param array|ArrayAccess $subset
@@ -38,6 +40,7 @@ class PHPUnit_Framework_Constraint_ArraySubset extends PHPUnit_Framework_Constra
         $this->strict = $strict;
         $this->subset = $subset;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -58,6 +61,7 @@ class PHPUnit_Framework_Constraint_ArraySubset extends PHPUnit_Framework_Constra
         }
     }
 
+
     /**
      * Returns a string representation of the constraint.
      *
@@ -67,6 +71,7 @@ class PHPUnit_Framework_Constraint_ArraySubset extends PHPUnit_Framework_Constra
     {
         return 'has the subset ' . $this->exporter->export($this->subset);
     }
+
 
     /**
      * Returns the description of the failure

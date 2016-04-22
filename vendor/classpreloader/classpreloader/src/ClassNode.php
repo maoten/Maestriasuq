@@ -19,6 +19,7 @@ namespace ClassPreloader;
  */
 class ClassNode
 {
+
     /**
      * The next node pointer.
      *
@@ -40,6 +41,7 @@ class ClassNode
      */
     public $value;
 
+
     /**
      * Create a new class node instance.
      *
@@ -51,6 +53,6 @@ class ClassNode
     public function __construct($value = null, $prev = null)
     {
         $this->value = $value;
-        $this->prev = $prev;
+        $this->prev  = $prev;
     }
 }

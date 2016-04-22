@@ -18,6 +18,7 @@ namespace Symfony\Component\HttpFoundation;
  */
 class RequestMatcher implements RequestMatcherInterface
 {
+
     /**
      * @var string
      */
@@ -31,22 +32,23 @@ class RequestMatcher implements RequestMatcherInterface
     /**
      * @var array
      */
-    private $methods = array();
+    private $methods = [ ];
 
     /**
      * @var string
      */
-    private $ips = array();
+    private $ips = [ ];
 
     /**
      * @var array
      */
-    private $attributes = array();
+    private $attributes = [ ];
 
     /**
      * @var string[]
      */
-    private $schemes = array();
+    private $schemes = [ ];
+
 
     /**
      * @param string|null          $path
@@ -56,8 +58,14 @@ class RequestMatcher implements RequestMatcherInterface
      * @param array                $attributes
      * @param string|string[]|null $schemes
      */
-    public function __construct($path = null, $host = null, $methods = null, $ips = null, array $attributes = array(), $schemes = null)
-    {
+    public function __construct(
+        $path = null,
+        $host = null,
+        $methods = null,
+        $ips = null,
+        array $attributes = [ ],
+        $schemes = null
+    ) {
         $this->matchPath($path);
         $this->matchHost($host);
         $this->matchMethod($methods);
@@ -69,6 +77,7 @@ class RequestMatcher implements RequestMatcherInterface
         }
     }
 
+
     /**
      * Adds a check for the HTTP scheme.
      *
@@ -78,6 +87,7 @@ class RequestMatcher implements RequestMatcherInterface
     {
         $this->schemes = array_map('strtolower', (array) $scheme);
     }
+
 
     /**
      * Adds a check for the URL host name.
@@ -89,6 +99,7 @@ class RequestMatcher implements RequestMatcherInterface
         $this->host = $regexp;
     }
 
+
     /**
      * Adds a check for the URL path info.
      *
@@ -98,6 +109,7 @@ class RequestMatcher implements RequestMatcherInterface
     {
         $this->path = $regexp;
     }
+
 
     /**
      * Adds a check for the client IP.
@@ -109,6 +121,7 @@ class RequestMatcher implements RequestMatcherInterface
         $this->matchIps($ip);
     }
 
+
     /**
      * Adds a check for the client IP.
      *
@@ -119,6 +132,7 @@ class RequestMatcher implements RequestMatcherInterface
         $this->ips = (array) $ips;
     }
 
+
     /**
      * Adds a check for the HTTP method.
      *
@@ -128,6 +142,7 @@ class RequestMatcher implements RequestMatcherInterface
     {
         $this->methods = array_map('strtoupper', (array) $method);
     }
+
 
     /**
      * Adds a check for request attribute.
@@ -140,30 +155,31 @@ class RequestMatcher implements RequestMatcherInterface
         $this->attributes[$key] = $regexp;
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function matches(Request $request)
     {
-        if ($this->schemes && !in_array($request->getScheme(), $this->schemes)) {
+        if ($this->schemes && ! in_array($request->getScheme(), $this->schemes)) {
             return false;
         }
 
-        if ($this->methods && !in_array($request->getMethod(), $this->methods)) {
+        if ($this->methods && ! in_array($request->getMethod(), $this->methods)) {
             return false;
         }
 
         foreach ($this->attributes as $key => $pattern) {
-            if (!preg_match('{'.$pattern.'}', $request->attributes->get($key))) {
+            if ( ! preg_match('{' . $pattern . '}', $request->attributes->get($key))) {
                 return false;
             }
         }
 
-        if (null !== $this->path && !preg_match('{'.$this->path.'}', rawurldecode($request->getPathInfo()))) {
+        if (null !== $this->path && ! preg_match('{' . $this->path . '}', rawurldecode($request->getPathInfo()))) {
             return false;
         }
 
-        if (null !== $this->host && !preg_match('{'.$this->host.'}i', $request->getHost())) {
+        if (null !== $this->host && ! preg_match('{' . $this->host . '}i', $request->getHost())) {
             return false;
         }
 

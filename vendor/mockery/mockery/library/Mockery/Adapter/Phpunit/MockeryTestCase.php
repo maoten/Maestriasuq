@@ -6,6 +6,7 @@ use Mockery;
 
 abstract class MockeryTestCase extends \PHPUnit_Framework_TestCase
 {
+
     protected function assertPostConditions()
     {
         $this->addMockeryExpectationsToAssertionCount();
@@ -13,6 +14,7 @@ abstract class MockeryTestCase extends \PHPUnit_Framework_TestCase
 
         parent::assertPostConditions();
     }
+
 
     protected function addMockeryExpectationsToAssertionCount()
     {
@@ -22,6 +24,7 @@ abstract class MockeryTestCase extends \PHPUnit_Framework_TestCase
             $this->addToAssertionCount($count);
         }
     }
+
 
     protected function closeMockery()
     {

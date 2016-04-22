@@ -15,6 +15,7 @@ use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 class Command extends SymfonyCommand
 {
+
     /**
      * The Laravel application instance.
      *
@@ -77,6 +78,7 @@ class Command extends SymfonyCommand
         'normal' => OutputInterface::VERBOSITY_NORMAL,
     ];
 
+
     /**
      * Create a new console command instance.
      *
@@ -87,7 +89,7 @@ class Command extends SymfonyCommand
         // We will go ahead and set the name, description, and parameters on console
         // commands just to make things a little easier on the developer. This is
         // so they don't have to all be manually specified in the constructors.
-        if (isset($this->signature)) {
+        if (isset( $this->signature )) {
             $this->configureUsingFluentDefinition();
         } else {
             parent::__construct($this->name);
@@ -95,10 +97,11 @@ class Command extends SymfonyCommand
 
         $this->setDescription($this->description);
 
-        if (! isset($this->signature)) {
+        if ( ! isset( $this->signature )) {
             $this->specifyParameters();
         }
     }
+
 
     /**
      * Configure the console command using a fluent definition.
@@ -107,7 +110,7 @@ class Command extends SymfonyCommand
      */
     protected function configureUsingFluentDefinition()
     {
-        list($name, $arguments, $options) = Parser::parse($this->signature);
+        list( $name, $arguments, $options ) = Parser::parse($this->signature);
 
         parent::__construct($name);
 
@@ -120,6 +123,7 @@ class Command extends SymfonyCommand
         }
     }
 
+
     /**
      * Specify the arguments and options on the command.
      *
@@ -131,19 +135,21 @@ class Command extends SymfonyCommand
         // set them all on the base command instance. This specifies what can get
         // passed into these commands as "parameters" to control the execution.
         foreach ($this->getArguments() as $arguments) {
-            call_user_func_array([$this, 'addArgument'], $arguments);
+            call_user_func_array([ $this, 'addArgument' ], $arguments);
         }
 
         foreach ($this->getOptions() as $options) {
-            call_user_func_array([$this, 'addOption'], $options);
+            call_user_func_array([ $this, 'addOption' ], $options);
         }
     }
+
 
     /**
      * Run the console command.
      *
-     * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
+     * @param  \Symfony\Component\Console\Input\InputInterface   $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
+     *
      * @return int
      */
     public function run(InputInterface $input, OutputInterface $output)
@@ -155,28 +161,32 @@ class Command extends SymfonyCommand
         return parent::run($input, $output);
     }
 
+
     /**
      * Execute the console command.
      *
-     * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
+     * @param  \Symfony\Component\Console\Input\InputInterface   $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
+     *
      * @return mixed
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $method = method_exists($this, 'handle') ? 'handle' : 'fire';
 
-        return $this->laravel->call([$this, $method]);
+        return $this->laravel->call([ $this, $method ]);
     }
+
 
     /**
      * Call another console command.
      *
-     * @param  string  $command
-     * @param  array   $arguments
+     * @param  string $command
+     * @param  array  $arguments
+     *
      * @return int
      */
-    public function call($command, array $arguments = [])
+    public function call($command, array $arguments = [ ])
     {
         $instance = $this->getApplication()->find($command);
 
@@ -185,14 +195,16 @@ class Command extends SymfonyCommand
         return $instance->run(new ArrayInput($arguments), $this->output);
     }
 
+
     /**
      * Call another console command silently.
      *
-     * @param  string  $command
-     * @param  array   $arguments
+     * @param  string $command
+     * @param  array  $arguments
+     *
      * @return int
      */
-    public function callSilent($command, array $arguments = [])
+    public function callSilent($command, array $arguments = [ ])
     {
         $instance = $this->getApplication()->find($command);
 
@@ -201,10 +213,12 @@ class Command extends SymfonyCommand
         return $instance->run(new ArrayInput($arguments), new NullOutput);
     }
 
+
     /**
      * Get the value of a command argument.
      *
-     * @param  string  $key
+     * @param  string $key
+     *
      * @return string|array
      */
     public function argument($key = null)
@@ -216,10 +230,12 @@ class Command extends SymfonyCommand
         return $this->input->getArgument($key);
     }
 
+
     /**
      * Get the value of a command option.
      *
-     * @param  string  $key
+     * @param  string $key
+     *
      * @return string|array
      */
     public function option($key = null)
@@ -231,11 +247,13 @@ class Command extends SymfonyCommand
         return $this->input->getOption($key);
     }
 
+
     /**
      * Confirm a question with the user.
      *
-     * @param  string  $question
-     * @param  bool    $default
+     * @param  string $question
+     * @param  bool   $default
+     *
      * @return bool
      */
     public function confirm($question, $default = false)
@@ -243,11 +261,13 @@ class Command extends SymfonyCommand
         return $this->output->confirm($question, $default);
     }
 
+
     /**
      * Prompt the user for input.
      *
-     * @param  string  $question
-     * @param  string  $default
+     * @param  string $question
+     * @param  string $default
+     *
      * @return string
      */
     public function ask($question, $default = null)
@@ -255,12 +275,14 @@ class Command extends SymfonyCommand
         return $this->output->ask($question, $default);
     }
 
+
     /**
      * Prompt the user for input with auto completion.
      *
-     * @param  string  $question
-     * @param  array   $choices
-     * @param  string  $default
+     * @param  string $question
+     * @param  array  $choices
+     * @param  string $default
+     *
      * @return string
      */
     public function anticipate($question, array $choices, $default = null)
@@ -268,12 +290,14 @@ class Command extends SymfonyCommand
         return $this->askWithCompletion($question, $choices, $default);
     }
 
+
     /**
      * Prompt the user for input with auto completion.
      *
-     * @param  string  $question
-     * @param  array   $choices
-     * @param  string  $default
+     * @param  string $question
+     * @param  array  $choices
+     * @param  string $default
+     *
      * @return string
      */
     public function askWithCompletion($question, array $choices, $default = null)
@@ -285,11 +309,13 @@ class Command extends SymfonyCommand
         return $this->output->askQuestion($question);
     }
 
+
     /**
      * Prompt the user for input but hide the answer from the console.
      *
-     * @param  string  $question
-     * @param  bool    $fallback
+     * @param  string $question
+     * @param  bool   $fallback
+     *
      * @return string
      */
     public function secret($question, $fallback = true)
@@ -301,14 +327,16 @@ class Command extends SymfonyCommand
         return $this->output->askQuestion($question);
     }
 
+
     /**
      * Give the user a single choice from an array of answers.
      *
-     * @param  string  $question
-     * @param  array   $choices
-     * @param  string  $default
-     * @param  mixed   $attempts
-     * @param  bool    $multiple
+     * @param  string $question
+     * @param  array  $choices
+     * @param  string $default
+     * @param  mixed  $attempts
+     * @param  bool   $multiple
+     *
      * @return string
      */
     public function choice($question, array $choices, $default = null, $attempts = null, $multiple = null)
@@ -320,12 +348,14 @@ class Command extends SymfonyCommand
         return $this->output->askQuestion($question);
     }
 
+
     /**
      * Format input to textual table.
      *
-     * @param  array   $headers
-     * @param  \Illuminate\Contracts\Support\Arrayable|array  $rows
-     * @param  string  $style
+     * @param  array                                         $headers
+     * @param  \Illuminate\Contracts\Support\Arrayable|array $rows
+     * @param  string                                        $style
+     *
      * @return void
      */
     public function table(array $headers, $rows, $style = 'default')
@@ -339,11 +369,13 @@ class Command extends SymfonyCommand
         $table->setHeaders($headers)->setRows($rows)->setStyle($style)->render();
     }
 
+
     /**
      * Write a string as information output.
      *
-     * @param  string  $string
-     * @param  null|int|string  $verbosity
+     * @param  string          $string
+     * @param  null|int|string $verbosity
+     *
      * @return void
      */
     public function info($string, $verbosity = null)
@@ -351,12 +383,14 @@ class Command extends SymfonyCommand
         $this->line($string, 'info', $verbosity);
     }
 
+
     /**
      * Write a string as standard output.
      *
-     * @param  string  $string
-     * @param  string  $style
-     * @param  null|int|string  $verbosity
+     * @param  string          $string
+     * @param  string          $style
+     * @param  null|int|string $verbosity
+     *
      * @return void
      */
     public function line($string, $style = null, $verbosity = null)
@@ -366,11 +400,13 @@ class Command extends SymfonyCommand
         $this->output->writeln($styled, $this->parseVerbosity($verbosity));
     }
 
+
     /**
      * Write a string as comment output.
      *
-     * @param  string  $string
-     * @param  null|int|string  $verbosity
+     * @param  string          $string
+     * @param  null|int|string $verbosity
+     *
      * @return void
      */
     public function comment($string, $verbosity = null)
@@ -378,11 +414,13 @@ class Command extends SymfonyCommand
         $this->line($string, 'comment', $verbosity);
     }
 
+
     /**
      * Write a string as question output.
      *
-     * @param  string  $string
-     * @param  null|int|string  $verbosity
+     * @param  string          $string
+     * @param  null|int|string $verbosity
+     *
      * @return void
      */
     public function question($string, $verbosity = null)
@@ -390,11 +428,13 @@ class Command extends SymfonyCommand
         $this->line($string, 'question', $verbosity);
     }
 
+
     /**
      * Write a string as error output.
      *
-     * @param  string  $string
-     * @param  null|int|string  $verbosity
+     * @param  string          $string
+     * @param  null|int|string $verbosity
+     *
      * @return void
      */
     public function error($string, $verbosity = null)
@@ -402,16 +442,18 @@ class Command extends SymfonyCommand
         $this->line($string, 'error', $verbosity);
     }
 
+
     /**
      * Write a string as warning output.
      *
-     * @param  string  $string
-     * @param  null|int|string  $verbosity
+     * @param  string          $string
+     * @param  null|int|string $verbosity
+     *
      * @return void
      */
     public function warn($string, $verbosity = null)
     {
-        if (! $this->output->getFormatter()->hasStyle('warning')) {
+        if ( ! $this->output->getFormatter()->hasStyle('warning')) {
             $style = new OutputFormatterStyle('yellow');
 
             $this->output->getFormatter()->setStyle('warning', $style);
@@ -420,33 +462,38 @@ class Command extends SymfonyCommand
         $this->line($string, 'warning', $verbosity);
     }
 
+
     /**
      * Get the verbosity level in terms of Symfony's OutputInterface level.
      *
-     * @param  string|int  $level
+     * @param  string|int $level
+     *
      * @return int
      */
     protected function parseVerbosity($level = null)
     {
-        if (isset($this->verbosityMap[$level])) {
+        if (isset( $this->verbosityMap[$level] )) {
             $level = $this->verbosityMap[$level];
-        } elseif (! is_int($level)) {
+        } elseif ( ! is_int($level)) {
             $level = $this->verbosity;
         }
 
         return $level;
     }
 
+
     /**
      * Set the verbosity level.
      *
      * @param string|int $level
+     *
      * @return void
      */
     protected function setVerbosity($level)
     {
         $this->verbosity = $this->parseVerbosity($level);
     }
+
 
     /**
      * Get the console command arguments.
@@ -455,8 +502,9 @@ class Command extends SymfonyCommand
      */
     protected function getArguments()
     {
-        return [];
+        return [ ];
     }
+
 
     /**
      * Get the console command options.
@@ -465,8 +513,9 @@ class Command extends SymfonyCommand
      */
     protected function getOptions()
     {
-        return [];
+        return [ ];
     }
+
 
     /**
      * Get the output implementation.
@@ -478,6 +527,7 @@ class Command extends SymfonyCommand
         return $this->output;
     }
 
+
     /**
      * Get the Laravel application instance.
      *
@@ -488,10 +538,12 @@ class Command extends SymfonyCommand
         return $this->laravel;
     }
 
+
     /**
      * Set the Laravel application instance.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $laravel
+     * @param  \Illuminate\Contracts\Container\Container $laravel
+     *
      * @return void
      */
     public function setLaravel($laravel)

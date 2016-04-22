@@ -9,6 +9,7 @@ class IsTest extends \Hamcrest\AbstractMatcherTest
         return \Hamcrest\Core\Is::is('something');
     }
 
+
     public function testJustMatchesTheSameWayTheUnderylingMatcherDoes()
     {
         $this->assertMatches(is(equalTo(true)), true, 'should match');
@@ -17,10 +18,12 @@ class IsTest extends \Hamcrest\AbstractMatcherTest
         $this->assertDoesNotMatch(is(equalTo(false)), true, 'should not match');
     }
 
+
     public function testGeneratesIsPrefixInDescription()
     {
         $this->assertDescription('is <true>', is(equalTo(true)));
     }
+
 
     public function testProvidesConvenientShortcutForIsEqualTo()
     {

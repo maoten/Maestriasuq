@@ -18,6 +18,7 @@
  */
 class PHPUnit_Framework_MockObject_Matcher_InvokedAtLeastOnce extends PHPUnit_Framework_MockObject_Matcher_InvokedRecorder
 {
+
     /**
      * @return string
      */
@@ -25,6 +26,7 @@ class PHPUnit_Framework_MockObject_Matcher_InvokedAtLeastOnce extends PHPUnit_Fr
     {
         return 'invoked at least once';
     }
+
 
     /**
      * Verifies that the current expectation is valid. If everything is OK the
@@ -37,9 +39,7 @@ class PHPUnit_Framework_MockObject_Matcher_InvokedAtLeastOnce extends PHPUnit_Fr
         $count = $this->getInvocationCount();
 
         if ($count < 1) {
-            throw new PHPUnit_Framework_ExpectationFailedException(
-                'Expected invocation at least once but it never occured.'
-            );
+            throw new PHPUnit_Framework_ExpectationFailedException('Expected invocation at least once but it never occured.');
         }
     }
 }

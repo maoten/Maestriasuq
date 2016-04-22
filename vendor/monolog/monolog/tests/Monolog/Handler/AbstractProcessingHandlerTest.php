@@ -17,42 +17,50 @@ use Monolog\Processor\WebProcessor;
 
 class AbstractProcessingHandlerTest extends TestCase
 {
+
     /**
      * @covers Monolog\Handler\AbstractProcessingHandler::handle
      */
     public function testHandleLowerLevelMessage()
     {
-        $handler = $this->getMockForAbstractClass('Monolog\Handler\AbstractProcessingHandler', array(Logger::WARNING, true));
+        $handler = $this->getMockForAbstractClass('Monolog\Handler\AbstractProcessingHandler',
+            [ Logger::WARNING, true ]);
         $this->assertFalse($handler->handle($this->getRecord(Logger::DEBUG)));
     }
+
 
     /**
      * @covers Monolog\Handler\AbstractProcessingHandler::handle
      */
     public function testHandleBubbling()
     {
-        $handler = $this->getMockForAbstractClass('Monolog\Handler\AbstractProcessingHandler', array(Logger::DEBUG, true));
+        $handler = $this->getMockForAbstractClass('Monolog\Handler\AbstractProcessingHandler', [ Logger::DEBUG, true ]);
         $this->assertFalse($handler->handle($this->getRecord()));
     }
+
 
     /**
      * @covers Monolog\Handler\AbstractProcessingHandler::handle
      */
     public function testHandleNotBubbling()
     {
-        $handler = $this->getMockForAbstractClass('Monolog\Handler\AbstractProcessingHandler', array(Logger::DEBUG, false));
+        $handler = $this->getMockForAbstractClass('Monolog\Handler\AbstractProcessingHandler',
+            [ Logger::DEBUG, false ]);
         $this->assertTrue($handler->handle($this->getRecord()));
     }
+
 
     /**
      * @covers Monolog\Handler\AbstractProcessingHandler::handle
      */
     public function testHandleIsFalseWhenNotHandled()
     {
-        $handler = $this->getMockForAbstractClass('Monolog\Handler\AbstractProcessingHandler', array(Logger::WARNING, false));
+        $handler = $this->getMockForAbstractClass('Monolog\Handler\AbstractProcessingHandler',
+            [ Logger::WARNING, false ]);
         $this->assertTrue($handler->handle($this->getRecord()));
         $this->assertFalse($handler->handle($this->getRecord(Logger::DEBUG)));
     }
+
 
     /**
      * @covers Monolog\Handler\AbstractProcessingHandler::processRecord
@@ -60,20 +68,19 @@ class AbstractProcessingHandlerTest extends TestCase
     public function testProcessRecord()
     {
         $handler = $this->getMockForAbstractClass('Monolog\Handler\AbstractProcessingHandler');
-        $handler->pushProcessor(new WebProcessor(array(
+        $handler->pushProcessor(new WebProcessor([
             'REQUEST_URI' => '',
             'REQUEST_METHOD' => '',
             'REMOTE_ADDR' => '',
             'SERVER_NAME' => '',
             'UNIQUE_ID' => '',
-        )));
+        ]));
         $handledRecord = null;
-        $handler->expects($this->once())
-            ->method('write')
-            ->will($this->returnCallback(function ($record) use (&$handledRecord) {
+        $handler->expects($this->once())->method('write')->will($this->returnCallback(function ($record) use (
+                &$handledRecord
+            ) {
                 $handledRecord = $record;
-            }))
-        ;
+            }));
         $handler->handle($this->getRecord());
         $this->assertEquals(6, count($handledRecord['extra']));
     }

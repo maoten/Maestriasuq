@@ -6,12 +6,14 @@ use Illuminate\Support\ServiceProvider;
 
 class HashServiceProvider extends ServiceProvider
 {
+
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
     protected $defer = true;
+
 
     /**
      * Register the service provider.
@@ -25,6 +27,7 @@ class HashServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Get the services provided by the provider.
      *
@@ -32,6 +35,6 @@ class HashServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['hash'];
+        return [ 'hash' ];
     }
 }

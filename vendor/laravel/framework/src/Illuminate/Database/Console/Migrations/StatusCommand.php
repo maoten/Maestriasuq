@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 class StatusCommand extends BaseCommand
 {
+
     /**
      * The console command name.
      *
@@ -28,10 +29,12 @@ class StatusCommand extends BaseCommand
      */
     protected $migrator;
 
+
     /**
      * Create a new migration rollback command instance.
      *
      * @param  \Illuminate\Database\Migrations\Migrator $migrator
+     *
      * @return \Illuminate\Database\Console\Migrations\StatusCommand
      */
     public function __construct(Migrator $migrator)
@@ -41,6 +44,7 @@ class StatusCommand extends BaseCommand
         $this->migrator = $migrator;
     }
 
+
     /**
      * Execute the console command.
      *
@@ -48,43 +52,49 @@ class StatusCommand extends BaseCommand
      */
     public function fire()
     {
-        if (! $this->migrator->repositoryExists()) {
+        if ( ! $this->migrator->repositoryExists()) {
             return $this->error('No migrations found.');
         }
 
         $this->migrator->setConnection($this->input->getOption('database'));
 
-        if (! is_null($path = $this->input->getOption('path'))) {
-            $path = $this->laravel->basePath().'/'.$path;
+        if ( ! is_null($path = $this->input->getOption('path'))) {
+            $path = $this->laravel->basePath() . '/' . $path;
         } else {
             $path = $this->getMigrationPath();
         }
 
         $ran = $this->migrator->getRepository()->getRan();
 
-        $migrations = [];
+        $migrations = [ ];
 
         foreach ($this->getAllMigrationFiles($path) as $migration) {
-            $migrations[] = in_array($migration, $ran) ? ['<info>Y</info>', $migration] : ['<fg=red>N</fg=red>', $migration];
+            $migrations[] = in_array($migration, $ran) ? [ '<info>Y</info>', $migration ] : [
+                '<fg=red>N</fg=red>',
+                $migration
+            ];
         }
 
         if (count($migrations) > 0) {
-            $this->table(['Ran?', 'Migration'], $migrations);
+            $this->table([ 'Ran?', 'Migration' ], $migrations);
         } else {
             $this->error('No migrations found');
         }
     }
 
+
     /**
      * Get all of the migration files.
      *
-     * @param  string  $path
+     * @param  string $path
+     *
      * @return array
      */
     protected function getAllMigrationFiles($path)
     {
         return $this->migrator->getMigrationFiles($path);
     }
+
 
     /**
      * Get the console command options.
@@ -94,9 +104,9 @@ class StatusCommand extends BaseCommand
     protected function getOptions()
     {
         return [
-            ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'],
+            [ 'database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.' ],
 
-            ['path', null, InputOption::VALUE_OPTIONAL, 'The path of migrations files to use.'],
+            [ 'path', null, InputOption::VALUE_OPTIONAL, 'The path of migrations files to use.' ],
         ];
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\Job as JobContract;
 
 class DatabaseJob extends Job implements JobContract
 {
+
     /**
      * The database queue instance.
      *
@@ -22,23 +23,26 @@ class DatabaseJob extends Job implements JobContract
      */
     protected $job;
 
+
     /**
      * Create a new job instance.
      *
-     * @param  \Illuminate\Container\Container  $container
-     * @param  \Illuminate\Queue\DatabaseQueue  $database
-     * @param  \StdClass  $job
-     * @param  string  $queue
+     * @param  \Illuminate\Container\Container $container
+     * @param  \Illuminate\Queue\DatabaseQueue $database
+     * @param  \StdClass                       $job
+     * @param  string                          $queue
+     *
      * @return void
      */
     public function __construct(Container $container, DatabaseQueue $database, $job, $queue)
     {
-        $this->job = $job;
-        $this->queue = $queue;
-        $this->database = $database;
-        $this->container = $container;
+        $this->job           = $job;
+        $this->queue         = $queue;
+        $this->database      = $database;
+        $this->container     = $container;
         $this->job->attempts = $this->job->attempts + 1;
     }
+
 
     /**
      * Fire the job.
@@ -49,6 +53,7 @@ class DatabaseJob extends Job implements JobContract
     {
         $this->resolveAndFire(json_decode($this->job->payload, true));
     }
+
 
     /**
      * Delete the job from the queue.
@@ -62,10 +67,12 @@ class DatabaseJob extends Job implements JobContract
         $this->database->deleteReserved($this->queue, $this->job->id);
     }
 
+
     /**
      * Release the job back into the queue.
      *
-     * @param  int  $delay
+     * @param  int $delay
+     *
      * @return void
      */
     public function release($delay = 0)
@@ -77,6 +84,7 @@ class DatabaseJob extends Job implements JobContract
         $this->database->release($this->queue, $this->job, $delay);
     }
 
+
     /**
      * Get the number of times the job has been attempted.
      *
@@ -86,6 +94,7 @@ class DatabaseJob extends Job implements JobContract
     {
         return (int) $this->job->attempts;
     }
+
 
     /**
      * Get the job identifier.
@@ -97,6 +106,7 @@ class DatabaseJob extends Job implements JobContract
         return $this->job->id;
     }
 
+
     /**
      * Get the raw body string for the job.
      *
@@ -106,6 +116,7 @@ class DatabaseJob extends Job implements JobContract
     {
         return $this->job->payload;
     }
+
 
     /**
      * Get the IoC container instance.
@@ -117,6 +128,7 @@ class DatabaseJob extends Job implements JobContract
         return $this->container;
     }
 
+
     /**
      * Get the underlying queue driver instance.
      *
@@ -126,6 +138,7 @@ class DatabaseJob extends Job implements JobContract
     {
         return $this->database;
     }
+
 
     /**
      * Get the underlying database job.

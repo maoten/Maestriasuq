@@ -6,10 +6,12 @@ use InvalidArgumentException;
 
 class SQLiteConnector extends Connector implements ConnectorInterface
 {
+
     /**
      * Establish a database connection.
      *
-     * @param  array  $config
+     * @param  array $config
+     *
      * @return \PDO
      *
      * @throws \InvalidArgumentException

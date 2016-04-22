@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 class UpCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -20,6 +21,7 @@ class UpCommand extends Command
      */
     protected $description = 'Bring the application out of maintenance mode';
 
+
     /**
      * Execute the console command.
      *
@@ -27,7 +29,7 @@ class UpCommand extends Command
      */
     public function fire()
     {
-        @unlink($this->laravel->storagePath().'/framework/down');
+        @unlink($this->laravel->storagePath() . '/framework/down');
 
         $this->info('Application is now live.');
     }

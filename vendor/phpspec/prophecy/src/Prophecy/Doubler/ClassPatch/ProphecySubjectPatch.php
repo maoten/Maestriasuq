@@ -23,6 +23,7 @@ use Prophecy\Doubler\Generator\Node\ArgumentNode;
  */
 class ProphecySubjectPatch implements ClassPatchInterface
 {
+
     /**
      * Always returns true.
      *
@@ -34,6 +35,7 @@ class ProphecySubjectPatch implements ClassPatchInterface
     {
         return true;
     }
+
 
     /**
      * Apply Prophecy functionality to class node.
@@ -50,12 +52,10 @@ class ProphecySubjectPatch implements ClassPatchInterface
                 continue;
             }
 
-            $method->setCode(
-                'return $this->getProphecy()->makeProphecyMethodCall(__FUNCTION__, func_get_args());'
-            );
+            $method->setCode('return $this->getProphecy()->makeProphecyMethodCall(__FUNCTION__, func_get_args());');
         }
 
-        $prophecySetter = new MethodNode('setProphecy');
+        $prophecySetter   = new MethodNode('setProphecy');
         $prophecyArgument = new ArgumentNode('prophecy');
         $prophecyArgument->setTypeHint('Prophecy\Prophecy\ProphecyInterface');
         $prophecySetter->addArgument($prophecyArgument);
@@ -85,6 +85,7 @@ PHP
         $node->addMethod($prophecySetter);
         $node->addMethod($prophecyGetter);
     }
+
 
     /**
      * Returns patch priority, which determines when patch will be applied.

@@ -8,12 +8,8 @@
  * file that was distributed with this source code.
  */
 
-if (!defined('TEST_FILES_PATH')) {
-    define(
-        'TEST_FILES_PATH',
-        dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR .
-        '_files' . DIRECTORY_SEPARATOR
-    );
+if ( ! defined('TEST_FILES_PATH')) {
+    define('TEST_FILES_PATH', dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR);
 }
 
 /**
@@ -23,14 +19,17 @@ if (!defined('TEST_FILES_PATH')) {
  */
 class PHP_CodeCoverage_FilterTest extends PHPUnit_Framework_TestCase
 {
+
     protected $filter;
+
     protected $files;
+
 
     protected function setUp()
     {
         $this->filter = unserialize('O:23:"PHP_CodeCoverage_Filter":0:{}');
 
-        $this->files = array(
+        $this->files = [
             TEST_FILES_PATH . 'BankAccount.php',
             TEST_FILES_PATH . 'BankAccountTest.php',
             TEST_FILES_PATH . 'CoverageClassExtendedTest.php',
@@ -72,8 +71,9 @@ class PHP_CodeCoverage_FilterTest extends PHPUnit_Framework_TestCase
             TEST_FILES_PATH . 'source_with_oneline_annotations.php',
             TEST_FILES_PATH . 'source_without_ignore.php',
             TEST_FILES_PATH . 'source_without_namespace.php'
-        );
+        ];
     }
+
 
     /**
      * @covers PHP_CodeCoverage_Filter::addFileToBlacklist
@@ -83,11 +83,9 @@ class PHP_CodeCoverage_FilterTest extends PHPUnit_Framework_TestCase
     {
         $this->filter->addFileToBlacklist($this->files[0]);
 
-        $this->assertEquals(
-            array($this->files[0]),
-            $this->filter->getBlacklist()
-        );
+        $this->assertEquals([ $this->files[0] ], $this->filter->getBlacklist());
     }
+
 
     /**
      * @covers PHP_CodeCoverage_Filter::removeFileFromBlacklist
@@ -98,8 +96,9 @@ class PHP_CodeCoverage_FilterTest extends PHPUnit_Framework_TestCase
         $this->filter->addFileToBlacklist($this->files[0]);
         $this->filter->removeFileFromBlacklist($this->files[0]);
 
-        $this->assertEquals(array(), $this->filter->getBlacklist());
+        $this->assertEquals([ ], $this->filter->getBlacklist());
     }
+
 
     /**
      * @covers  PHP_CodeCoverage_Filter::addDirectoryToBlacklist
@@ -116,6 +115,7 @@ class PHP_CodeCoverage_FilterTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->files, $blacklist);
     }
 
+
     /**
      * @covers PHP_CodeCoverage_Filter::addFilesToBlacklist
      * @covers PHP_CodeCoverage_Filter::getBlacklist
@@ -123,10 +123,7 @@ class PHP_CodeCoverage_FilterTest extends PHPUnit_Framework_TestCase
     public function testAddingFilesToTheBlacklistWorks()
     {
         $facade = new File_Iterator_Facade;
-        $files  = $facade->getFilesAsArray(
-            TEST_FILES_PATH,
-            $suffixes = '.php'
-        );
+        $files  = $facade->getFilesAsArray(TEST_FILES_PATH, $suffixes = '.php');
 
         $this->filter->addFilesToBlacklist($files);
 
@@ -135,6 +132,7 @@ class PHP_CodeCoverage_FilterTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($this->files, $blacklist);
     }
+
 
     /**
      * @covers  PHP_CodeCoverage_Filter::removeDirectoryFromBlacklist
@@ -146,8 +144,9 @@ class PHP_CodeCoverage_FilterTest extends PHPUnit_Framework_TestCase
         $this->filter->addDirectoryToBlacklist(TEST_FILES_PATH);
         $this->filter->removeDirectoryFromBlacklist(TEST_FILES_PATH);
 
-        $this->assertEquals(array(), $this->filter->getBlacklist());
+        $this->assertEquals([ ], $this->filter->getBlacklist());
     }
+
 
     /**
      * @covers PHP_CodeCoverage_Filter::addFileToWhitelist
@@ -157,11 +156,9 @@ class PHP_CodeCoverage_FilterTest extends PHPUnit_Framework_TestCase
     {
         $this->filter->addFileToWhitelist($this->files[0]);
 
-        $this->assertEquals(
-            array($this->files[0]),
-            $this->filter->getWhitelist()
-        );
+        $this->assertEquals([ $this->files[0] ], $this->filter->getWhitelist());
     }
+
 
     /**
      * @covers PHP_CodeCoverage_Filter::removeFileFromWhitelist
@@ -172,8 +169,9 @@ class PHP_CodeCoverage_FilterTest extends PHPUnit_Framework_TestCase
         $this->filter->addFileToWhitelist($this->files[0]);
         $this->filter->removeFileFromWhitelist($this->files[0]);
 
-        $this->assertEquals(array(), $this->filter->getWhitelist());
+        $this->assertEquals([ ], $this->filter->getWhitelist());
     }
+
 
     /**
      * @covers  PHP_CodeCoverage_Filter::addDirectoryToWhitelist
@@ -190,6 +188,7 @@ class PHP_CodeCoverage_FilterTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->files, $whitelist);
     }
 
+
     /**
      * @covers PHP_CodeCoverage_Filter::addFilesToWhitelist
      * @covers PHP_CodeCoverage_Filter::getBlacklist
@@ -197,10 +196,7 @@ class PHP_CodeCoverage_FilterTest extends PHPUnit_Framework_TestCase
     public function testAddingFilesToTheWhitelistWorks()
     {
         $facade = new File_Iterator_Facade;
-        $files  = $facade->getFilesAsArray(
-            TEST_FILES_PATH,
-            $suffixes = '.php'
-        );
+        $files  = $facade->getFilesAsArray(TEST_FILES_PATH, $suffixes = '.php');
 
         $this->filter->addFilesToWhitelist($files);
 
@@ -209,6 +205,7 @@ class PHP_CodeCoverage_FilterTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($this->files, $whitelist);
     }
+
 
     /**
      * @covers  PHP_CodeCoverage_Filter::removeDirectoryFromWhitelist
@@ -220,8 +217,9 @@ class PHP_CodeCoverage_FilterTest extends PHPUnit_Framework_TestCase
         $this->filter->addDirectoryToWhitelist(TEST_FILES_PATH);
         $this->filter->removeDirectoryFromWhitelist(TEST_FILES_PATH);
 
-        $this->assertEquals(array(), $this->filter->getWhitelist());
+        $this->assertEquals([ ], $this->filter->getWhitelist());
     }
+
 
     /**
      * @covers PHP_CodeCoverage_Filter::isFile
@@ -237,6 +235,7 @@ class PHP_CodeCoverage_FilterTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->filter->isFile(__FILE__));
     }
 
+
     /**
      * @covers PHP_CodeCoverage_Filter::isFiltered
      */
@@ -245,6 +244,7 @@ class PHP_CodeCoverage_FilterTest extends PHPUnit_Framework_TestCase
         $this->filter->addFileToBlacklist($this->files[0]);
         $this->assertTrue($this->filter->isFiltered($this->files[0]));
     }
+
 
     /**
      * @covers PHP_CodeCoverage_Filter::isFiltered
@@ -255,6 +255,7 @@ class PHP_CodeCoverage_FilterTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->filter->isFiltered($this->files[0]));
     }
 
+
     /**
      * @covers PHP_CodeCoverage_Filter::isFiltered
      */
@@ -263,6 +264,7 @@ class PHP_CodeCoverage_FilterTest extends PHPUnit_Framework_TestCase
         $this->filter->addFileToWhitelist($this->files[0]);
         $this->assertTrue($this->filter->isFiltered($this->files[1]));
     }
+
 
     /**
      * @covers PHP_CodeCoverage_Filter::isFiltered

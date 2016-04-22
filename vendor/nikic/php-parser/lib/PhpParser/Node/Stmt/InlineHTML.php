@@ -6,8 +6,10 @@ use PhpParser\Node\Stmt;
 
 class InlineHTML extends Stmt
 {
+
     /** @var string String */
     public $value;
+
 
     /**
      * Constructs an inline HTML node.
@@ -15,12 +17,15 @@ class InlineHTML extends Stmt
      * @param string $value      String
      * @param array  $attributes Additional attributes
      */
-    public function __construct($value, array $attributes = array()) {
+    public function __construct($value, array $attributes = [ ])
+    {
         parent::__construct($attributes);
         $this->value = $value;
     }
 
-    public function getSubNodeNames() {
-        return array('value');
+
+    public function getSubNodeNames()
+    {
+        return [ 'value' ];
     }
 }

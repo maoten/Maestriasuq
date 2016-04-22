@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HttpResponseException extends RuntimeException
 {
+
     /**
      * The underlying response instance.
      *
@@ -14,16 +15,19 @@ class HttpResponseException extends RuntimeException
      */
     protected $response;
 
+
     /**
      * Create a new HTTP response exception instance.
      *
-     * @param  \Symfony\Component\HttpFoundation\Response  $response
+     * @param  \Symfony\Component\HttpFoundation\Response $response
+     *
      * @return void
      */
     public function __construct(Response $response)
     {
         $this->response = $response;
     }
+
 
     /**
      * Get the underlying response instance.

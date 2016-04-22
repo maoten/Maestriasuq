@@ -13,10 +13,12 @@
  */
 abstract class PHPUnit_Runner_Filter_GroupFilterIterator extends RecursiveFilterIterator
 {
+
     /**
      * @var array
      */
-    protected $groupTests = array();
+    protected $groupTests = [ ];
+
 
     /**
      * @param RecursiveIterator           $iterator
@@ -29,17 +31,15 @@ abstract class PHPUnit_Runner_Filter_GroupFilterIterator extends RecursiveFilter
 
         foreach ($suite->getGroupDetails() as $group => $tests) {
             if (in_array($group, $groups)) {
-                $testHashes = array_map(
-                    function ($test) {
-                        return spl_object_hash($test);
-                    },
-                    $tests
-                );
+                $testHashes = array_map(function ($test) {
+                    return spl_object_hash($test);
+                }, $tests);
 
                 $this->groupTests = array_merge($this->groupTests, $testHashes);
             }
         }
     }
+
 
     /**
      * @return bool
@@ -54,6 +54,7 @@ abstract class PHPUnit_Runner_Filter_GroupFilterIterator extends RecursiveFilter
 
         return $this->doAccept(spl_object_hash($test));
     }
+
 
     abstract protected function doAccept($hash);
 }

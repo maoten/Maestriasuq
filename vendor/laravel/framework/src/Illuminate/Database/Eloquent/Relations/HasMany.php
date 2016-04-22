@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class HasMany extends HasOneOrMany
 {
+
     /**
      * Get the results of the relationship.
      *
@@ -16,11 +17,13 @@ class HasMany extends HasOneOrMany
         return $this->query->get();
     }
 
+
     /**
      * Initialize the relation on a set of models.
      *
-     * @param  array   $models
-     * @param  string  $relation
+     * @param  array  $models
+     * @param  string $relation
+     *
      * @return array
      */
     public function initRelation(array $models, $relation)
@@ -32,12 +35,14 @@ class HasMany extends HasOneOrMany
         return $models;
     }
 
+
     /**
      * Match the eagerly loaded results to their parents.
      *
-     * @param  array   $models
-     * @param  \Illuminate\Database\Eloquent\Collection  $results
-     * @param  string  $relation
+     * @param  array                                    $models
+     * @param  \Illuminate\Database\Eloquent\Collection $results
+     * @param  string                                   $relation
+     *
      * @return array
      */
     public function match(array $models, Collection $results, $relation)

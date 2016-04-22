@@ -15,6 +15,7 @@
  */
 interface PHPUnit_Runner_TestSuiteLoader
 {
+
     /**
      * @param string $suiteClassName
      * @param string $suiteClassFile
@@ -22,6 +23,7 @@ interface PHPUnit_Runner_TestSuiteLoader
      * @return ReflectionClass
      */
     public function load($suiteClassName, $suiteClassFile = '');
+
 
     /**
      * @param ReflectionClass $aClass

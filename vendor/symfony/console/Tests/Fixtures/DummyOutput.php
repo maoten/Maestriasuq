@@ -20,12 +20,13 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 class DummyOutput extends BufferedOutput
 {
+
     /**
      * @return array
      */
     public function getLogs()
     {
-        $logs = array();
+        $logs = [ ];
         foreach (explode("\n", trim($this->fetch())) as $message) {
             preg_match('/^\[(.*)\] (.*)/', $message, $matches);
             $logs[] = sprintf('%s %s', $matches[1], $matches[2]);

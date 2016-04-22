@@ -15,7 +15,9 @@ use Psy\Reflection\ReflectionConstant;
 
 class ReflectionConstantTest extends \PHPUnit_Framework_TestCase
 {
+
     const CONSTANT_ONE = 'one';
+
 
     public function testConstruction()
     {
@@ -31,6 +33,7 @@ class ReflectionConstantTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($refl->getDocComment());
     }
 
+
     /**
      * @expectedException InvalidArgumentException
      */
@@ -38,6 +41,7 @@ class ReflectionConstantTest extends \PHPUnit_Framework_TestCase
     {
         new ReflectionConstant($this, 'UNKNOWN_CONSTANT');
     }
+
 
     /**
      * @expectedException \RuntimeException
@@ -49,12 +53,13 @@ class ReflectionConstantTest extends \PHPUnit_Framework_TestCase
         $refl->$method();
     }
 
+
     public function notYetImplemented()
     {
-        return array(
-            array('getStartLine'),
-            array('getEndLine'),
-            array('export'),
-        );
+        return [
+            [ 'getStartLine' ],
+            [ 'getEndLine' ],
+            [ 'export' ],
+        ];
     }
 }

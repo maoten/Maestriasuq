@@ -27,9 +27,13 @@ use Monolog\Logger;
  */
 class RedisHandler extends AbstractProcessingHandler
 {
+
     private $redisClient;
+
     private $redisKey;
+
     protected $capSize;
+
 
     /**
      * @param \Predis\Client|\Redis $redis   The redis instance
@@ -40,16 +44,17 @@ class RedisHandler extends AbstractProcessingHandler
      */
     public function __construct($redis, $key, $level = Logger::DEBUG, $bubble = true, $capSize = false)
     {
-        if (!(($redis instanceof \Predis\Client) || ($redis instanceof \Redis))) {
+        if ( ! ( ( $redis instanceof \Predis\Client ) || ( $redis instanceof \Redis ) )) {
             throw new \InvalidArgumentException('Predis\Client or Redis instance required');
         }
 
         $this->redisClient = $redis;
-        $this->redisKey = $key;
-        $this->capSize = $capSize;
+        $this->redisKey    = $key;
+        $this->capSize     = $capSize;
 
         parent::__construct($level, $bubble);
     }
+
 
     /**
      * {@inheritDoc}
@@ -63,29 +68,30 @@ class RedisHandler extends AbstractProcessingHandler
         }
     }
 
+
     /**
      * Write and cap the collection
      * Writes the record to the redis list and caps its
      *
      * @param  array $record associative record array
+     *
      * @return void
      */
     protected function writeCapped(array $record)
     {
         if ($this->redisClient instanceof \Redis) {
-            $this->redisClient->multi()
-                ->rpush($this->redisKey, $record["formatted"])
-                ->ltrim($this->redisKey, -$this->capSize, -1)
-                ->execute();
+            $this->redisClient->multi()->rpush($this->redisKey, $record["formatted"])->ltrim($this->redisKey,
+                    -$this->capSize, -1)->execute();
         } else {
             $redisKey = $this->redisKey;
-            $capSize = $this->capSize;
+            $capSize  = $this->capSize;
             $this->redisClient->transaction(function ($tx) use ($record, $redisKey, $capSize) {
                 $tx->rpush($redisKey, $record["formatted"]);
                 $tx->ltrim($redisKey, -$capSize, -1);
             });
         }
     }
+
 
     /**
      * {@inheritDoc}

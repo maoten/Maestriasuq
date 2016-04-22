@@ -15,10 +15,12 @@ use Psy\CodeCleaner\ImplicitReturnPass;
 
 class ImplicitReturnPassTest extends CodeCleanerTestCase
 {
+
     public function setUp()
     {
         $this->setPass(new ImplicitReturnPass());
     }
+
 
     /**
      * @dataProvider implicitReturns
@@ -28,12 +30,13 @@ class ImplicitReturnPassTest extends CodeCleanerTestCase
         $this->assertProcessesAs($from, $to);
     }
 
+
     public function implicitReturns()
     {
-        return array(
-            array('4',     'return 4;'),
-            array('foo()', 'return foo();'),
-            array('exit()', 'die;'),
-        );
+        return [
+            [ '4', 'return 4;' ],
+            [ 'foo()', 'return foo();' ],
+            [ 'exit()', 'die;' ],
+        ];
     }
 }

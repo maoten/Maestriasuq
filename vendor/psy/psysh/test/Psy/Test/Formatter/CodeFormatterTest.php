@@ -15,10 +15,12 @@ use Psy\Formatter\CodeFormatter;
 
 class CodeFormatterTest extends \PHPUnit_Framework_TestCase
 {
+
     private function ignoreThisMethod($arg)
     {
         echo 'whot!';
     }
+
 
     public function testFormat()
     {
@@ -29,12 +31,13 @@ class CodeFormatterTest extends \PHPUnit_Framework_TestCase
     21|     }
 EOS;
 
-        $formatted = CodeFormatter::format(new \ReflectionMethod($this, 'ignoreThisMethod'));
+        $formatted              = CodeFormatter::format(new \ReflectionMethod($this, 'ignoreThisMethod'));
         $formattedWithoutColors = preg_replace('#' . chr(27) . '\[\d\d?m#', '', $formatted);
 
         $this->assertEquals($expected, rtrim($formattedWithoutColors));
         $this->assertNotEquals($expected, rtrim($formatted));
     }
+
 
     /**
      * @dataProvider filenames
@@ -42,20 +45,16 @@ EOS;
      */
     public function testCodeFormatterThrowsException($filename)
     {
-        $reflector = $this->getMockBuilder('ReflectionClass')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $reflector = $this->getMockBuilder('ReflectionClass')->disableOriginalConstructor()->getMock();
 
-        $reflector
-            ->expects($this->once())
-            ->method('getFileName')
-            ->will($this->returnValue($filename));
+        $reflector->expects($this->once())->method('getFileName')->will($this->returnValue($filename));
 
         CodeFormatter::format($reflector);
     }
 
+
     public function filenames()
     {
-        return array(array(null), array('not a file'));
+        return [ [ null ], [ 'not a file' ] ];
     }
 }

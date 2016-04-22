@@ -7,6 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 
 class ViewClearCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -28,10 +29,12 @@ class ViewClearCommand extends Command
      */
     protected $files;
 
+
     /**
      * Create a new config clear command instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param  \Illuminate\Filesystem\Filesystem $files
+     *
      * @return void
      */
     public function __construct(Filesystem $files)
@@ -41,6 +44,7 @@ class ViewClearCommand extends Command
         $this->files = $files;
     }
 
+
     /**
      * Execute the console command.
      *
@@ -48,7 +52,7 @@ class ViewClearCommand extends Command
      */
     public function fire()
     {
-        $views = $this->files->glob($this->laravel['config']['view.compiled'].'/*');
+        $views = $this->files->glob($this->laravel['config']['view.compiled'] . '/*');
 
         foreach ($views as $view) {
             $this->files->delete($view);

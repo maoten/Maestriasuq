@@ -9,6 +9,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
  */
 trait GuardHelpers
 {
+
     /**
      * The currently authenticated user.
      *
@@ -23,6 +24,7 @@ trait GuardHelpers
      */
     protected $provider;
 
+
     /**
      * Determine if the current user is authenticated.
      *
@@ -33,6 +35,7 @@ trait GuardHelpers
         return ! is_null($this->user());
     }
 
+
     /**
      * Determine if the current user is a guest.
      *
@@ -42,6 +45,7 @@ trait GuardHelpers
     {
         return ! $this->check();
     }
+
 
     /**
      * Get the ID for the currently authenticated user.
@@ -55,10 +59,12 @@ trait GuardHelpers
         }
     }
 
+
     /**
      * Set the current user.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable $user
+     *
      * @return void
      */
     public function setUser(AuthenticatableContract $user)

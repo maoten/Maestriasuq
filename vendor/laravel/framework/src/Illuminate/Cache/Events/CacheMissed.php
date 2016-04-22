@@ -4,6 +4,7 @@ namespace Illuminate\Cache\Events;
 
 class CacheMissed
 {
+
     /**
      * THe key that was missed.
      *
@@ -18,16 +19,18 @@ class CacheMissed
      */
     public $tags;
 
+
     /**
      * Create a new event instance.
      *
-     * @param  string  $key
+     * @param  string $key
      * @param  array  $tags
+     *
      * @return void
      */
-    public function __construct($key, array $tags = [])
+    public function __construct($key, array $tags = [ ])
     {
-        $this->key = $key;
+        $this->key  = $key;
         $this->tags = $tags;
     }
 }

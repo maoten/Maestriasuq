@@ -19,10 +19,12 @@ use Monolog\Logger;
  */
 class BrowserConsoleHandlerTest extends TestCase
 {
+
     protected function setUp()
     {
         BrowserConsoleHandler::reset();
     }
+
 
     protected function generateScript()
     {
@@ -31,6 +33,7 @@ class BrowserConsoleHandlerTest extends TestCase
 
         return $reflMethod->invoke(null);
     }
+
 
     public function testStyling()
     {
@@ -48,6 +51,7 @@ EOF;
         $this->assertEquals($expected, $this->generateScript());
     }
 
+
     public function testEscaping()
     {
         $handler = new BrowserConsoleHandler();
@@ -63,6 +67,7 @@ EOF;
 
         $this->assertEquals($expected, $this->generateScript());
     }
+
 
     public function testAutolabel()
     {
@@ -84,12 +89,13 @@ EOF;
         $this->assertEquals($expected, $this->generateScript());
     }
 
+
     public function testContext()
     {
         $handler = new BrowserConsoleHandler();
         $handler->setFormatter($this->getIdentityFormatter());
 
-        $handler->handle($this->getRecord(Logger::DEBUG, 'test', array('foo' => 'bar')));
+        $handler->handle($this->getRecord(Logger::DEBUG, 'test', [ 'foo' => 'bar' ]));
 
         $expected = <<<EOF
 (function (c) {if (c && c.groupCollapsed) {
@@ -102,6 +108,7 @@ EOF;
 
         $this->assertEquals($expected, $this->generateScript());
     }
+
 
     public function testConcurrentHandlers()
     {

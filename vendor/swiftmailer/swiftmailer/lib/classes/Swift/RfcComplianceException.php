@@ -15,6 +15,7 @@
  */
 class Swift_RfcComplianceException extends Swift_SwiftException
 {
+
     /**
      * Create a new RfcComplianceException with $message.
      *

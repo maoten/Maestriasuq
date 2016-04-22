@@ -1,14 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Registro de propuesta')
-<!--@section('css')
-<link rel="stylesheet" href="{{ asset('css/component.css') }}">
-<script src="{{ asset('js/modernizr.custom.js') }}"></script>
-@endsection-->
 @section('content')
-<div class="container">
-  <!--@include('layouts.general.nav_estudiante')
-</br>-->
+        <div class="container">
+          <!--@include('layouts.general.nav_estudiante')
+        </br>-->
 <div class="row">
     <div class="col-md-12">
 
@@ -17,119 +12,120 @@
             <div class="panel-body">
 
 
+                <form class="form-horizontal" role="form" method="POST" action="{{ url('/estudiante/propuesta') }}"
+                      enctype="multipart/form-data">
+                    {!! csrf_field() !!}
 
-                <form class="form-horizontal" role="form" method="POST" action="{{ url('/estudiante/propuesta') }}"  enctype="multipart/form-data" >
-                   {!! csrf_field() !!}
+                    <input type="hidden" class="form-control" name="user_id" value="{{ Auth::user()->id }}">
 
-                   <input type="hidden" class="form-control" name="user_id" value="{{ Auth::user()->id }}">
+                    <div class="form-group{{ $errors->has('titulo') ? ' has-error' : '' }}">
+                        <label class="col-md-4 control-label">Título</label>
 
-                   <div class="form-group{{ $errors->has('titulo') ? ' has-error' : '' }}">
-                    <label class="col-md-4 control-label">Título</label>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-font"></i></span>
+                                <input type="text" class="form-control" name="titulo" value="{{ old('titulo') }}"
+                                       placeholder="">
 
-                    <div class="col-md-6">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-font"></i></span>
-                            <input type="text" class="form-control" name="titulo" value="{{ old('titulo') }}" placeholder="" >
+                            </div>
 
-                        </div>
-
-                        @if ($errors->has('titulo'))
-                        <span class="help-block">
+                            @if ($errors->has('titulo'))
+                                <span class="help-block">
                             <strong>{{ $errors->first('titulo') }}</strong>
                         </span>
-                        @endif
+                            @endif
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group{{ $errors->has('modalidad') ? ' has-error' : '' }}">
-                    <label class="col-md-4 control-label">Modalidad</label>
+                    <div class="form-group{{ $errors->has('modalidad') ? ' has-error' : '' }}">
+                        <label class="col-md-4 control-label">Modalidad</label>
 
-                    <div class="col-md-6">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
-                            <select class="form-control" name="modalidad">
-                            @foreach((App\Modalidad::all()) as $modalidad)
-                             <option value="{{$modalidad->id}}">{{$modalidad->nombre}}</option>
-                             @endforeach 
-                         </select>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                <select class="form-control" name="modalidad" title="">
+                                    @foreach((App\Modalidad::all()) as $modalidad)
+                                        <option value="{{$modalidad->id}}">{{$modalidad->nombre}}</option>
+                                    @endforeach
+                                </select>
 
-                     </div>
-                     @if ($errors->has('modalidad'))
-                     <span class="help-block">
+                            </div>
+                            @if ($errors->has('modalidad'))
+                                <span class="help-block">
                         <strong>{{ $errors->first('modalidad') }}</strong>
                     </span>
-                    @endif
-                </div>
-            </div>
-
-            <div class="form-group{{ $errors->has('dir_id') ? ' has-error' : '' }}">
-                <label class="col-md-4 control-label">Director</label>
-
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <select class="form-control" name="dir_id" >
-                            @foreach((App\User::where('rol', 'director_grado')->get()) as $director)
-                            <option value="{{$director->id}}">{{$director->nombre}}</option>
-                            @endforeach 
-                        </select>
+                            @endif
+                        </div>
                     </div>
-                    @if ($errors->has('dir_id'))
-                    <span class="help-block">
+
+                    <div class="form-group{{ $errors->has('dir_id') ? ' has-error' : '' }}">
+                        <label class="col-md-4 control-label">Director</label>
+
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <select class="form-control" name="dir_id" title="">
+                                    @foreach((App\User::where('rol', 'director_grado')->get()) as $director)
+                                        <option value="{{$director->id}}">{{$director->nombre}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @if ($errors->has('dir_id'))
+                                <span class="help-block">
                         <strong>{{ $errors->first('dir_id') }}</strong>
                     </span>
-                    @endif
-                </div>
-            </div>
+                            @endif
+                        </div>
+                    </div>
 
-            <div class="form-group{{ $errors->has('enfasis') ? ' has-error' : '' }}">
-                <label class="col-md-4 control-label">Énfasis</label>
+                    <div class="form-group{{ $errors->has('enfasis') ? ' has-error' : '' }}">
+                        <label class="col-md-4 control-label">Énfasis</label>
 
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-pushpin"></i></span>
-                        <select class="form-control" name="enfasis" >
-                          @foreach((App\Enfasis::all()) as $enf)
-                          <option value="{{$enf->id}}">{{$enf->nombre}}</option>
-                          @endforeach 
-                      </select>
-                  </div>
-                  @if ($errors->has('enfasis'))
-                  <span class="help-block">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-pushpin"></i></span>
+                                <select class="form-control" name="enfasis" title="">
+                                    @foreach((App\Enfasis::all()) as $enf)
+                                        <option value="{{$enf->id}}">{{$enf->nombre}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @if ($errors->has('enfasis'))
+                                <span class="help-block">
                     <strong>{{ $errors->first('enfasis') }}</strong>
                 </span>
-                @endif
-            </div>
-        </div>
+                            @endif
+                        </div>
+                    </div>
 
-        <div class="form-group{{ $errors->has('propuesta') ? ' has-error' : '' }}">
-            <label class="col-md-4 control-label">Propuesta</label>
+                    <div class="form-group{{ $errors->has('propuesta') ? ' has-error' : '' }}">
+                        <label class="col-md-4 control-label">Propuesta</label>
 
-            <div class="col-md-6">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-open-file"></i></span>
-                    <input type="file" class="form-control" name="propuesta">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-open-file"></i></span>
+                                <input type="file" class="form-control" name="propuesta">
 
-                </div>
-                @if ($errors->has('propuesta'))
-                <span class="help-block">
+                            </div>
+                            @if ($errors->has('propuesta'))
+                                <span class="help-block">
                     <strong>{{ $errors->first('propuesta') }}</strong>
                 </span>
-                @endif
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-4">
+                            <button type="submit" class="btn btn-primary" name="registrar">
+                                Registrar
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-
-        <div class="form-group">
-            <div class="col-md-6 col-md-offset-4">
-                <button type="submit" class="btn btn-primary" name="registrar">
-                </i>Registrar
-            </button>
-        </div>
     </div>
-</form>
-</div>
-</div>
-</div>
 </div>
 </div>
 @endsection

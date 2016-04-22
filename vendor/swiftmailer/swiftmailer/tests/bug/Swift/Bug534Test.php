@@ -4,17 +4,14 @@ use Mockery as m;
 
 class Swift_Bug534Test extends \PHPUnit_Framework_TestCase
 {
+
     public function testEmbeddedImagesAreEmbedded()
     {
-        $message = Swift_Message::newInstance()
-            ->setFrom('from@example.com')
-            ->setTo('to@example.com')
-            ->setSubject('test')
-        ;
-        $cid = $message->embed(Swift_Image::fromPath(__DIR__.'/../../_samples/files/swiftmailer.png'));
-        $message->setBody('<img src="'.$cid.'" />', 'text/html');
+        $message = Swift_Message::newInstance()->setFrom('from@example.com')->setTo('to@example.com')->setSubject('test');
+        $cid     = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../_samples/files/swiftmailer.png'));
+        $message->setBody('<img src="' . $cid . '" />', 'text/html');
 
-        $that = $this;
+        $that              = $this;
         $messageValidation = function (Swift_Mime_Message $message) use ($that) {
             preg_match('/cid:(.*)"/', $message->toString(), $matches);
             $cid = $matches[1];
@@ -25,7 +22,7 @@ class Swift_Bug534Test extends \PHPUnit_Framework_TestCase
             return true;
         };
 
-        $failedRecipients = array();
+        $failedRecipients = [ ];
 
         $transport = m::mock('Swift_Transport');
         $transport->shouldReceive('isStarted')->andReturn(true);

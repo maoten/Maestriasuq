@@ -2,7 +2,9 @@
 
 namespace PhpParser;
 
-interface Parser {
+interface Parser
+{
+
     /**
      * Parses PHP code into a node tree.
      *
@@ -12,6 +14,7 @@ interface Parser {
      *                     unable to recover from an error).
      */
     public function parse($code);
+
 
     /**
      * Get array of errors that occurred during the last parse.

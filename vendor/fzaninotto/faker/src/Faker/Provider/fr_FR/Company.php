@@ -6,54 +6,82 @@ use Faker\Calculator\Luhn;
 
 class Company extends \Faker\Provider\Company
 {
+
     /**
      * @var array French company name formats.
      */
-    protected static $formats = array(
+    protected static $formats = [
         '{{lastName}} {{companySuffix}}',
         '{{lastName}} {{lastName}} {{companySuffix}}',
         '{{lastName}}',
         '{{lastName}}',
-    );
+    ];
 
     /**
      * @var array French catch phrase formats.
      */
-    protected static $catchPhraseFormats = array(
+    protected static $catchPhraseFormats = [
         '{{catchPhraseNoun}} {{catchPhraseVerb}} {{catchPhraseAttribute}}',
-    );
+    ];
 
     /**
      * @var array French nouns (used by the catch phrase format).
      */
-    protected static $noun = array(
-        'la sécurité', 'le plaisir', 'le confort', 'la simplicité', "l'assurance", "l'art", 'le pouvoir', 'le droit',
-        'la possibilité', "l'avantage", 'la liberté'
-    );
+    protected static $noun = [
+        'la sécurité',
+        'le plaisir',
+        'le confort',
+        'la simplicité',
+        "l'assurance",
+        "l'art",
+        'le pouvoir',
+        'le droit',
+        'la possibilité',
+        "l'avantage",
+        'la liberté'
+    ];
 
     /**
      * @var array French verbs (used by the catch phrase format).
      */
-    protected static $verb = array(
-        'de rouler', "d'avancer", "d'évoluer", 'de changer', "d'innover", 'de louer', "d'atteindre vos buts",
+    protected static $verb = [
+        'de rouler',
+        "d'avancer",
+        "d'évoluer",
+        'de changer',
+        "d'innover",
+        'de louer',
+        "d'atteindre vos buts",
         'de concrétiser vos projets'
-    );
+    ];
 
     /**
      * @var array End of sentences (used by the catch phrase format).
      */
-    protected static $attribute = array(
-        'de manière efficace', 'plus rapidement', 'plus facilement', 'plus simplement', 'en toute tranquilité',
-        'avant-tout', 'autrement', 'naturellement', 'à la pointe', 'sans soucis', "à l'état pur",
-        'à sa source', 'de manière sûre', 'en toute sécurité'
-    );
+    protected static $attribute = [
+        'de manière efficace',
+        'plus rapidement',
+        'plus facilement',
+        'plus simplement',
+        'en toute tranquilité',
+        'avant-tout',
+        'autrement',
+        'naturellement',
+        'à la pointe',
+        'sans soucis',
+        "à l'état pur",
+        'à sa source',
+        'de manière sûre',
+        'en toute sécurité'
+    ];
 
     /**
      * @var array Company suffixes.
      */
-    protected static $companySuffix = array('SA', 'S.A.', 'SARL', 'S.A.R.L.', 'S.A.S.', 'et Fils');
+    protected static $companySuffix = [ 'SA', 'S.A.', 'SARL', 'S.A.R.L.', 'S.A.S.', 'et Fils' ];
 
-    protected static $siretNicFormats = array('####', '0###', '00#%');
+    protected static $siretNicFormats = [ '####', '0###', '00#%' ];
+
 
     /**
      * Returns a random catch phrase noun.
@@ -65,6 +93,7 @@ class Company extends \Faker\Provider\Company
         return static::randomElement(static::$noun);
     }
 
+
     /**
      * Returns a random catch phrase attribute.
      *
@@ -74,6 +103,7 @@ class Company extends \Faker\Provider\Company
     {
         return static::randomElement(static::$attribute);
     }
+
 
     /**
      * Returns a random catch phrase verb.
@@ -85,6 +115,7 @@ class Company extends \Faker\Provider\Company
         return static::randomElement(static::$verb);
     }
 
+
     /**
      * Generates a french catch phrase.
      *
@@ -93,7 +124,7 @@ class Company extends \Faker\Provider\Company
     public function catchPhrase()
     {
         do {
-            $format = static::randomElement(static::$catchPhraseFormats);
+            $format      = static::randomElement(static::$catchPhraseFormats);
             $catchPhrase = ucfirst($this->generator->parse($format));
 
             if ($this->isCatchPhraseValid($catchPhrase)) {
@@ -104,6 +135,7 @@ class Company extends \Faker\Provider\Company
         return $catchPhrase;
     }
 
+
     /**
      * Generates a siret number (14 digits) that passes the Luhn check.
      *
@@ -112,16 +144,18 @@ class Company extends \Faker\Provider\Company
      */
     public function siret($formatted = true)
     {
-        $siret = $this->siren(false);
+        $siret     = $this->siren(false);
         $nicFormat = static::randomElement(static::$siretNicFormats);
         $siret .= $this->numerify($nicFormat);
         $siret .= Luhn::computeCheckDigit($siret);
         if ($formatted) {
-            $siret = substr($siret, 0, 3) . ' ' . substr($siret, 3, 3) . ' ' . substr($siret, 6, 3) . ' ' . substr($siret, 9, 5);
+            $siret = substr($siret, 0, 3) . ' ' . substr($siret, 3, 3) . ' ' . substr($siret, 6,
+                    3) . ' ' . substr($siret, 9, 5);
         }
 
         return $siret;
     }
+
 
     /**
      * Generates a siren number (9 digits) that passes the Luhn check.
@@ -140,10 +174,12 @@ class Company extends \Faker\Provider\Company
         return $siren;
     }
 
+
     /**
      * @var array An array containing string which should not appear twice in a catch phrase.
      */
-    protected static $wordsWhichShouldNotAppearTwice = array('sécurité', 'simpl');
+    protected static $wordsWhichShouldNotAppearTwice = [ 'sécurité', 'simpl' ];
+
 
     /**
      * Validates a french catch phrase.
@@ -157,7 +193,7 @@ class Company extends \Faker\Provider\Company
         foreach (static::$wordsWhichShouldNotAppearTwice as $word) {
             // Fastest way to check if a piece of word does not appear twice.
             $beginPos = strpos($catchPhrase, $word);
-            $endPos = strrpos($catchPhrase, $word);
+            $endPos   = strrpos($catchPhrase, $word);
 
             if ($beginPos !== false && $beginPos != $endPos) {
                 return false;

@@ -7,53 +7,63 @@ use Faker\Guesser\Name as NameGuesser;
 
 class EntityPopulator
 {
+
     protected $class;
+
     protected $connectionName;
-    protected $columnFormatters = [];
-    protected $modifiers = [];
+
+    protected $columnFormatters = [ ];
+
+    protected $modifiers = [ ];
+
 
     public function __construct($class)
     {
         $this->class = $class;
     }
 
+
     public function __get($name)
     {
         return $this->{$name};
     }
+
 
     public function __set($name, $value)
     {
         $this->{$name} = $value;
     }
 
+
     public function mergeColumnFormattersWith($columnFormatters)
     {
         $this->columnFormatters = array_merge($this->columnFormatters, $columnFormatters);
     }
+
 
     public function mergeModifiersWith($modifiers)
     {
         $this->modifiers = array_merge($this->modifiers, $modifiers);
     }
 
+
     public function guessColumnFormatters($populator)
     {
-        $formatters = [];
-        $class = $this->class;
-        $table = $this->getTable($class);
-        $schema = $table->schema();
-        $pk = $schema->primaryKey();
-        $guessers = $populator->getGuessers() + ['ColumnTypeGuesser' => new ColumnTypeGuesser($populator->getGenerator())];
+        $formatters   = [ ];
+        $class        = $this->class;
+        $table        = $this->getTable($class);
+        $schema       = $table->schema();
+        $pk           = $schema->primaryKey();
+        $guessers     = $populator->getGuessers() + [ 'ColumnTypeGuesser' => new ColumnTypeGuesser($populator->getGenerator()) ];
         $isForeignKey = function ($column) use ($table) {
             foreach ($table->associations()->type('BelongsTo') as $assoc) {
                 if ($column == $assoc->foreignKey()) {
                     return true;
                 }
             }
+
             return false;
         };
-
 
         foreach ($schema->columns() as $column) {
             if ($column == $pk[0] || $isForeignKey($column)) {
@@ -71,36 +81,36 @@ class EntityPopulator
         return $formatters;
     }
 
+
     public function guessModifiers($populator)
     {
-        $modifiers = [];
-        $table = $this->getTable($this->class);
+        $modifiers = [ ];
+        $table     = $this->getTable($this->class);
 
         $belongsTo = $table->associations()->type('BelongsTo');
         foreach ($belongsTo as $assoc) {
             $modifiers['belongsTo' . $assoc->name()] = function ($data, $insertedEntities) use ($assoc) {
-                $table = $assoc->target();
+                $table        = $assoc->target();
                 $foreignModel = $table->alias();
 
-                $foreignKeys = [];
-                if (!empty($insertedEntities[$foreignModel])) {
+                $foreignKeys = [ ];
+                if ( ! empty( $insertedEntities[$foreignModel] )) {
                     $foreignKeys = $insertedEntities[$foreignModel];
                 } else {
-                    $foreignKeys = $table->find('all')
-                    ->select(['id'])
-                    ->map(function ($row) {
-                        return $row->id;
-                    })
-                    ->toArray();
+                    $foreignKeys = $table->find('all')->select([ 'id' ])->map(function ($row) {
+                            return $row->id;
+                        })->toArray();
                 }
 
-                if (empty($foreignKeys)) {
-                    throw new \Exception(sprintf('%s belongsTo %s, which seems empty at this point.', $this->getTable($this->class)->table(), $assoc->table()));
+                if (empty( $foreignKeys )) {
+                    throw new \Exception(sprintf('%s belongsTo %s, which seems empty at this point.',
+                        $this->getTable($this->class)->table(), $assoc->table()));
                 }
 
-                $foreignKey = $foreignKeys[array_rand($foreignKeys)];
-                $primaryKey = $table->primaryKey();
+                $foreignKey                 = $foreignKeys[array_rand($foreignKeys)];
+                $primaryKey                 = $table->primaryKey();
                 $data[$assoc->foreignKey()] = $foreignKey;
+
                 return $data;
             };
         }
@@ -110,13 +120,14 @@ class EntityPopulator
         return $modifiers;
     }
 
-    public function execute($class, $insertedEntities, $options = [])
+
+    public function execute($class, $insertedEntities, $options = [ ])
     {
-        $table = $this->getTable($class);
+        $table  = $this->getTable($class);
         $entity = $table->newEntity();
 
         foreach ($this->columnFormatters as $column => $format) {
-            if (!is_null($format)) {
+            if ( ! is_null($format)) {
                 $entity->{$column} = is_callable($format) ? $format($insertedEntities, $table) : $format;
             }
         }
@@ -125,25 +136,29 @@ class EntityPopulator
             $entity = $modifier($entity, $insertedEntities);
         }
 
-        if (!$entity = $table->save($entity, $options)) {
+        if ( ! $entity = $table->save($entity, $options)) {
             throw new \RuntimeException("Failed saving $class record");
         }
 
         $pk = $table->primaryKey();
+
         return $entity->{$pk};
     }
+
 
     public function setConnection($name)
     {
         $this->connectionName = $name;
     }
 
+
     protected function getTable($class)
     {
-        $options = [];
-        if (!empty($this->connectionName)) {
+        $options = [ ];
+        if ( ! empty( $this->connectionName )) {
             $options['connection'] = $this->connectionName;
         }
+
         return TableRegistry::get($class, $options);
     }
 }

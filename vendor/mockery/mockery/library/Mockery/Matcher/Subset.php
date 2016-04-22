@@ -27,20 +27,23 @@ class Subset extends MatcherAbstract
      * Check if the actual value matches the expected.
      *
      * @param mixed $actual
+     *
      * @return bool
      */
     public function match(&$actual)
     {
-        foreach ($this->_expected as $k=>$v) {
-            if (!array_key_exists($k, $actual)) {
+        foreach ($this->_expected as $k => $v) {
+            if ( ! array_key_exists($k, $actual)) {
                 return false;
             }
             if ($actual[$k] !== $v) {
                 return false;
             }
         }
+
         return true;
     }
+
 
     /**
      * Return a string representation of this Matcher
@@ -49,12 +52,13 @@ class Subset extends MatcherAbstract
      */
     public function __toString()
     {
-        $return = '<Subset[';
-        $elements = array();
-        foreach ($this->_expected as $k=>$v) {
+        $return   = '<Subset[';
+        $elements = [ ];
+        foreach ($this->_expected as $k => $v) {
             $elements[] = $k . '=' . (string) $v;
         }
         $return .= implode(', ', $elements) . ']>';
+
         return $return;
     }
 }

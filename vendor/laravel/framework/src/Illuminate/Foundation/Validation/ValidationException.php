@@ -9,4 +9,5 @@ use Illuminate\Validation\ValidationException as BaseException;
  */
 class ValidationException extends BaseException
 {
+
 }

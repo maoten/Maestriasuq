@@ -20,6 +20,7 @@ use Symfony\Component\VarDumper\Cloner\Data;
  */
 interface DataDumperInterface
 {
+
     /**
      * Dumps a Data object.
      *

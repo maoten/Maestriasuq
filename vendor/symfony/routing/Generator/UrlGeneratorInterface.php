@@ -31,6 +31,7 @@ use Symfony\Component\Routing\RequestContextAwareInterface;
  */
 interface UrlGeneratorInterface extends RequestContextAwareInterface
 {
+
     /**
      * Generates an absolute URL, e.g. "http://example.com/dir/file".
      */
@@ -53,6 +54,7 @@ interface UrlGeneratorInterface extends RequestContextAwareInterface
      * Such reference reuses the current scheme but specifies the host.
      */
     const NETWORK_PATH = 3;
+
 
     /**
      * Generates a URL or path for a specific route based on the given parameters.
@@ -80,5 +82,5 @@ interface UrlGeneratorInterface extends RequestContextAwareInterface
      * @throws InvalidParameterException           When a parameter value for a placeholder is not correct because
      *                                             it does not match the requirement
      */
-    public function generate($name, $parameters = array(), $referenceType = self::ABSOLUTE_PATH);
+    public function generate($name, $parameters = [ ], $referenceType = self::ABSOLUTE_PATH);
 }

@@ -6,11 +6,13 @@ use Faker\DefaultGenerator;
 
 class DefaultGeneratorTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testGeneratorReturnsNullByDefault()
     {
         $generator = new DefaultGenerator;
         $this->assertSame(null, $generator->value);
     }
+
 
     public function testGeneratorReturnsDefaultValueForAnyPropertyGet()
     {
@@ -18,6 +20,7 @@ class DefaultGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(123, $generator->foo);
         $this->assertNotSame(null, $generator->bar);
     }
+
 
     public function testGeneratorReturnsDefaultValueForAnyMethodCall()
     {

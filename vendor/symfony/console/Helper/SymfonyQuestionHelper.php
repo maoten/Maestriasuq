@@ -26,6 +26,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class SymfonyQuestionHelper extends QuestionHelper
 {
+
     /**
      * {@inheritdoc}
      */
@@ -38,7 +39,7 @@ class SymfonyQuestionHelper extends QuestionHelper
             }
 
             // make required
-            if (!is_array($value) && !is_bool($value) && 0 === strlen($value)) {
+            if ( ! is_array($value) && ! is_bool($value) && 0 === strlen($value)) {
                 throw new LogicException('A value is required.');
             }
 
@@ -48,12 +49,13 @@ class SymfonyQuestionHelper extends QuestionHelper
         return parent::ask($input, $output, $question);
     }
 
+
     /**
      * {@inheritdoc}
      */
     protected function writePrompt(OutputInterface $output, Question $question)
     {
-        $text = $question->getQuestion();
+        $text    = $question->getQuestion();
         $default = $question->getDefault();
 
         switch (true) {
@@ -69,7 +71,7 @@ class SymfonyQuestionHelper extends QuestionHelper
 
             case $question instanceof ChoiceQuestion:
                 $choices = $question->getChoices();
-                $text = sprintf(' <info>%s</info> [<comment>%s</comment>]:', $text, $choices[$default]);
+                $text    = sprintf(' <info>%s</info> [<comment>%s</comment>]:', $text, $choices[$default]);
 
                 break;
 
@@ -89,6 +91,7 @@ class SymfonyQuestionHelper extends QuestionHelper
 
         $output->write(' > ');
     }
+
 
     /**
      * {@inheritdoc}

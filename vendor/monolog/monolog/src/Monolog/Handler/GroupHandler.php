@@ -20,7 +20,9 @@ use Monolog\Formatter\FormatterInterface;
  */
 class GroupHandler extends AbstractHandler
 {
+
     protected $handlers;
+
 
     /**
      * @param array   $handlers Array of Handlers.
@@ -29,14 +31,15 @@ class GroupHandler extends AbstractHandler
     public function __construct(array $handlers, $bubble = true)
     {
         foreach ($handlers as $handler) {
-            if (!$handler instanceof HandlerInterface) {
+            if ( ! $handler instanceof HandlerInterface) {
                 throw new \InvalidArgumentException('The first argument of the GroupHandler must be an array of HandlerInterface instances.');
             }
         }
 
         $this->handlers = $handlers;
-        $this->bubble = $bubble;
+        $this->bubble   = $bubble;
     }
+
 
     /**
      * {@inheritdoc}
@@ -51,6 +54,7 @@ class GroupHandler extends AbstractHandler
 
         return false;
     }
+
 
     /**
      * {@inheritdoc}
@@ -70,6 +74,7 @@ class GroupHandler extends AbstractHandler
         return false === $this->bubble;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -79,6 +84,7 @@ class GroupHandler extends AbstractHandler
             $handler->handleBatch($records);
         }
     }
+
 
     /**
      * {@inheritdoc}

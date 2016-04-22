@@ -24,12 +24,14 @@ use ReflectionClass;
  */
 class ThrowPromise implements PromiseInterface
 {
+
     private $exception;
 
     /**
      * @var \Doctrine\Instantiator\Instantiator
      */
     private $instantiator;
+
 
     /**
      * Initializes promise.
@@ -41,23 +43,20 @@ class ThrowPromise implements PromiseInterface
     public function __construct($exception)
     {
         if (is_string($exception)) {
-            if (!class_exists($exception)
-             && 'Exception' !== $exception
-             && !is_subclass_of($exception, 'Exception')) {
-                throw new InvalidArgumentException(sprintf(
-                    'Exception class or instance expected as argument to ThrowPromise, but got %s.',
-                    $exception
-                ));
+            if ( ! class_exists($exception) && 'Exception' !== $exception && ! is_subclass_of($exception,
+                    'Exception')
+            ) {
+                throw new InvalidArgumentException(sprintf('Exception class or instance expected as argument to ThrowPromise, but got %s.',
+                    $exception));
             }
-        } elseif (!$exception instanceof \Exception) {
-            throw new InvalidArgumentException(sprintf(
-                'Exception class or instance expected as argument to ThrowPromise, but got %s.',
-                is_object($exception) ? get_class($exception) : gettype($exception)
-            ));
+        } elseif ( ! $exception instanceof \Exception) {
+            throw new InvalidArgumentException(sprintf('Exception class or instance expected as argument to ThrowPromise, but got %s.',
+                is_object($exception) ? get_class($exception) : gettype($exception)));
         }
 
         $this->exception = $exception;
     }
+
 
     /**
      * Throws predefined exception.
@@ -79,7 +78,7 @@ class ThrowPromise implements PromiseInterface
                 throw $reflection->newInstance();
             }
 
-            if (!$this->instantiator) {
+            if ( ! $this->instantiator) {
                 $this->instantiator = new Instantiator();
             }
 

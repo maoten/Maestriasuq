@@ -19,6 +19,7 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class ClassConstantEnumerator extends Enumerator
 {
+
     /**
      * {@inheritdoc}
      */
@@ -31,27 +32,28 @@ class ClassConstantEnumerator extends Enumerator
         }
 
         // We can only list constants on actual class (or object) reflectors.
-        if (!$reflector instanceof \ReflectionClass) {
+        if ( ! $reflector instanceof \ReflectionClass) {
             // TODO: handle ReflectionExtension as well
             return;
         }
 
         // only list constants if we are specifically asked
-        if (!$input->getOption('constants')) {
+        if ( ! $input->getOption('constants')) {
             return;
         }
 
         $constants = $this->prepareConstants($this->getConstants($reflector));
 
-        if (empty($constants)) {
+        if (empty( $constants )) {
             return;
         }
 
-        $ret = array();
+        $ret                                  = [ ];
         $ret[$this->getKindLabel($reflector)] = $constants;
 
         return $ret;
     }
+
 
     /**
      * Get defined constants for the given class or object Reflector.
@@ -62,7 +64,7 @@ class ClassConstantEnumerator extends Enumerator
      */
     protected function getConstants(\Reflector $reflector)
     {
-        $constants = array();
+        $constants = [ ];
         foreach ($reflector->getConstants() as $name => $constant) {
             $constants[$name] = new ReflectionConstant($reflector, $name);
         }
@@ -72,6 +74,7 @@ class ClassConstantEnumerator extends Enumerator
 
         return $constants;
     }
+
 
     /**
      * Prepare formatted constant array.
@@ -83,20 +86,21 @@ class ClassConstantEnumerator extends Enumerator
     protected function prepareConstants(array $constants)
     {
         // My kingdom for a generator.
-        $ret = array();
+        $ret = [ ];
 
         foreach ($constants as $name => $constant) {
             if ($this->showItem($name)) {
-                $ret[$name] = array(
+                $ret[$name] = [
                     'name'  => $name,
                     'style' => self::IS_CONSTANT,
                     'value' => $this->presentRef($constant->getValue()),
-                );
+                ];
             }
         }
 
         return $ret;
     }
+
 
     /**
      * Get a label for the particular kind of "class" represented.

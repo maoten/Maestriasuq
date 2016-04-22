@@ -4,6 +4,7 @@ namespace League\Flysystem\Adapter\Polyfill;
 
 trait StreamedReadingTrait
 {
+
     /**
      * Get the contents of a file in a stream.
      *
@@ -21,7 +22,7 @@ trait StreamedReadingTrait
         fwrite($stream, $data['contents']);
         rewind($stream);
         $data['stream'] = $stream;
-        unset($data['contents']);
+        unset( $data['contents'] );
 
         return $data;
     }

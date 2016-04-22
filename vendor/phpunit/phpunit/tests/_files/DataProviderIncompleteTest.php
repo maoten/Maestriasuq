@@ -1,6 +1,8 @@
 <?php
+
 class DataProviderIncompleteTest extends PHPUnit_Framework_TestCase
 {
+
     /**
      * @dataProvider incompleteTestProviderMethod
      */
@@ -8,6 +10,7 @@ class DataProviderIncompleteTest extends PHPUnit_Framework_TestCase
     {
         $this->assertTrue(true);
     }
+
 
     /**
      * @dataProvider providerMethod
@@ -17,21 +20,23 @@ class DataProviderIncompleteTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($c, $a + $b);
     }
 
+
     public function incompleteTestProviderMethod()
     {
         $this->markTestIncomplete('incomplete');
 
-        return array(
-          array(0, 0, 0),
-          array(0, 1, 1),
-        );
+        return [
+            [ 0, 0, 0 ],
+            [ 0, 1, 1 ],
+        ];
     }
+
 
     public static function providerMethod()
     {
-        return array(
-          array(0, 0, 0),
-          array(0, 1, 1),
-        );
+        return [
+            [ 0, 0, 0 ],
+            [ 0, 1, 1 ],
+        ];
     }
 }

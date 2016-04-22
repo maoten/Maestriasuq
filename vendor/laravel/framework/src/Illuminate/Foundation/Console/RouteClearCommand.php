@@ -7,6 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 
 class RouteClearCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -28,10 +29,12 @@ class RouteClearCommand extends Command
      */
     protected $files;
 
+
     /**
      * Create a new route clear command instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param  \Illuminate\Filesystem\Filesystem $files
+     *
      * @return void
      */
     public function __construct(Filesystem $files)
@@ -40,6 +43,7 @@ class RouteClearCommand extends Command
 
         $this->files = $files;
     }
+
 
     /**
      * Execute the console command.

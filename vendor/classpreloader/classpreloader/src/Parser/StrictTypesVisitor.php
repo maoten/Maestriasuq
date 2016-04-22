@@ -23,6 +23,7 @@ use PhpParser\Node\Stmt\DeclareDeclare;
  */
 class StrictTypesVisitor extends AbstractNodeVisitor
 {
+
     /**
      * Enter and modify the node.
      *
@@ -34,7 +35,7 @@ class StrictTypesVisitor extends AbstractNodeVisitor
      */
     public function enterNode(Node $node)
     {
-        if ($node instanceof DeclareDeclare && ($node->getLine() === 1 || $node->getLine() === 2)) {
+        if ($node instanceof DeclareDeclare && ( $node->getLine() === 1 || $node->getLine() === 2 )) {
             throw new StrictTypesException();
         }
     }

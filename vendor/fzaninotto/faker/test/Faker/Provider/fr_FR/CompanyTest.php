@@ -8,7 +8,9 @@ use Faker\Provider\fr_FR\Company;
 
 class CompanyTest extends \PHPUnit_Framework_TestCase
 {
+
     private $faker;
+
 
     public function setUp()
     {
@@ -17,12 +19,14 @@ class CompanyTest extends \PHPUnit_Framework_TestCase
         $this->faker = $faker;
     }
 
+
     public function testSiretReturnsAValidSiret()
     {
         $siret = $this->faker->siret(false);
         $this->assertRegExp("/^\d{14}$/", $siret);
         $this->assertTrue(Luhn::isValid($siret));
     }
+
 
     public function testSiretReturnsAWellFormattedSiret()
     {
@@ -32,12 +36,14 @@ class CompanyTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(Luhn::isValid($siret));
     }
 
+
     public function testSirenReturnsAValidSiren()
     {
         $siren = $this->faker->siren(false);
         $this->assertRegExp("/^\d{9}$/", $siren);
         $this->assertTrue(Luhn::isValid($siren));
     }
+
 
     public function testSirenReturnsAWellFormattedSiren()
     {
@@ -47,16 +53,19 @@ class CompanyTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(Luhn::isValid($siren));
     }
 
+
     public function testCatchPhraseReturnsValidCatchPhrase()
     {
         $this->assertTrue(TestableCompany::isCatchPhraseValid($this->faker->catchPhrase()));
     }
+
 
     public function testIsCatchPhraseValidReturnsFalseWhenAWordsAppearsTwice()
     {
         $isCatchPhraseValid = TestableCompany::isCatchPhraseValid('La sécurité de rouler en toute sécurité');
         $this->assertFalse($isCatchPhraseValid);
     }
+
 
     public function testIsCatchPhraseValidReturnsTrueWhenNoWordAppearsTwice()
     {
@@ -67,6 +76,7 @@ class CompanyTest extends \PHPUnit_Framework_TestCase
 
 class TestableCompany extends Company
 {
+
     public static function isCatchPhraseValid($catchPhrase)
     {
         return parent::isCatchPhraseValid($catchPhrase);

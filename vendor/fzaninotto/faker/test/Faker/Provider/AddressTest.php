@@ -7,7 +7,9 @@ use Faker\Provider\Address;
 
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
+
     private $faker;
+
 
     public function setUp()
     {
@@ -16,6 +18,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->faker = $faker;
     }
 
+
     public function testLatitude()
     {
         $latitude = $this->faker->latitude();
@@ -23,6 +26,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->assertGreaterThanOrEqual(-90, $latitude);
         $this->assertLessThanOrEqual(90, $latitude);
     }
+
 
     public function testLongitude()
     {

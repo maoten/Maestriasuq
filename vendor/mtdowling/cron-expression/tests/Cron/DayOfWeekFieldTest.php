@@ -10,6 +10,7 @@ use DateTime;
  */
 class DayOfWeekFieldTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @covers Cron\DayOfWeekField::validate
      */
@@ -23,6 +24,7 @@ class DayOfWeekFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($f->validate('1.'));
     }
 
+
     /**
      * @covers Cron\DayOfWeekField::isSatisfiedBy
      */
@@ -31,6 +33,7 @@ class DayOfWeekFieldTest extends \PHPUnit_Framework_TestCase
         $f = new DayOfWeekField();
         $this->assertTrue($f->isSatisfiedBy(new DateTime(), '?'));
     }
+
 
     /**
      * @covers Cron\DayOfWeekField::increment
@@ -47,8 +50,9 @@ class DayOfWeekFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('2011-03-14 23:59:00', $d->format('Y-m-d H:i:s'));
     }
 
+
     /**
-     * @covers Cron\DayOfWeekField::isSatisfiedBy
+     * @covers                   Cron\DayOfWeekField::isSatisfiedBy
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Weekday must be a value between 0 and 7. 12 given
      */
@@ -58,8 +62,9 @@ class DayOfWeekFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($f->isSatisfiedBy(new DateTime(), '12#1'));
     }
 
+
     /**
-     * @covers Cron\DayOfWeekField::isSatisfiedBy
+     * @covers                   Cron\DayOfWeekField::isSatisfiedBy
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage There are never more than 5 of a given weekday in a month
      */
@@ -68,6 +73,7 @@ class DayOfWeekFieldTest extends \PHPUnit_Framework_TestCase
         $f = new DayOfWeekField();
         $this->assertTrue($f->isSatisfiedBy(new DateTime(), '3#6'));
     }
+
 
     /**
      * @covers Cron\DayOfWeekField::validate
@@ -85,6 +91,7 @@ class DayOfWeekFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($f->validate('MON#1,MON#3'));
     }
 
+
     /**
      * @covers Cron\DayOfWeekField::isSatisfiedBy
      */
@@ -100,10 +107,12 @@ class DayOfWeekFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($f->isSatisfiedBy(new DateTime('2014-04-20 00:00:00'), '7#3'));
     }
 
+
     /**
      * @see https://github.com/mtdowling/cron-expression/issues/47
      */
-    public function testIssue47() {
+    public function testIssue47()
+    {
         $f = new DayOfWeekField();
         $this->assertFalse($f->validate('mon,'));
         $this->assertFalse($f->validate('mon-'));

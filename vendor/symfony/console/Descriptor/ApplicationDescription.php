@@ -22,6 +22,7 @@ use Symfony\Component\Console\Exception\CommandNotFoundException;
  */
 class ApplicationDescription
 {
+
     const GLOBAL_NAMESPACE = '_global';
 
     /**
@@ -49,6 +50,7 @@ class ApplicationDescription
      */
     private $aliases;
 
+
     /**
      * Constructor.
      *
@@ -58,8 +60,9 @@ class ApplicationDescription
     public function __construct(Application $application, $namespace = null)
     {
         $this->application = $application;
-        $this->namespace = $namespace;
+        $this->namespace   = $namespace;
     }
+
 
     /**
      * @return array
@@ -73,6 +76,7 @@ class ApplicationDescription
         return $this->namespaces;
     }
 
+
     /**
      * @return Command[]
      */
@@ -85,6 +89,7 @@ class ApplicationDescription
         return $this->commands;
     }
 
+
     /**
      * @param string $name
      *
@@ -94,25 +99,26 @@ class ApplicationDescription
      */
     public function getCommand($name)
     {
-        if (!isset($this->commands[$name]) && !isset($this->aliases[$name])) {
+        if ( ! isset( $this->commands[$name] ) && ! isset( $this->aliases[$name] )) {
             throw new CommandNotFoundException(sprintf('Command %s does not exist.', $name));
         }
 
-        return isset($this->commands[$name]) ? $this->commands[$name] : $this->aliases[$name];
+        return isset( $this->commands[$name] ) ? $this->commands[$name] : $this->aliases[$name];
     }
+
 
     private function inspectApplication()
     {
-        $this->commands = array();
-        $this->namespaces = array();
+        $this->commands   = [ ];
+        $this->namespaces = [ ];
 
         $all = $this->application->all($this->namespace ? $this->application->findNamespace($this->namespace) : null);
         foreach ($this->sortCommands($all) as $namespace => $commands) {
-            $names = array();
+            $names = [ ];
 
             /** @var Command $command */
             foreach ($commands as $name => $command) {
-                if (!$command->getName()) {
+                if ( ! $command->getName()) {
                     continue;
                 }
 
@@ -125,9 +131,10 @@ class ApplicationDescription
                 $names[] = $name;
             }
 
-            $this->namespaces[$namespace] = array('id' => $namespace, 'commands' => $names);
+            $this->namespaces[$namespace] = [ 'id' => $namespace, 'commands' => $names ];
         }
     }
+
 
     /**
      * @param array $commands
@@ -136,11 +143,11 @@ class ApplicationDescription
      */
     private function sortCommands(array $commands)
     {
-        $namespacedCommands = array();
-        $globalCommands = array();
+        $namespacedCommands = [ ];
+        $globalCommands     = [ ];
         foreach ($commands as $name => $command) {
             $key = $this->application->extractNamespace($name, 1);
-            if (!$key) {
+            if ( ! $key) {
                 $globalCommands['_global'][$name] = $command;
             } else {
                 $namespacedCommands[$key][$name] = $command;
@@ -153,7 +160,7 @@ class ApplicationDescription
             ksort($commandsSet);
         }
         // unset reference to keep scope clear
-        unset($commandsSet);
+        unset( $commandsSet );
 
         return $namespacedCommands;
     }

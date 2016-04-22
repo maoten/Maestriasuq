@@ -16,6 +16,7 @@ use Psy\Exception\RuntimeException;
 
 class RuntimeExceptionTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testException()
     {
         $msg = 'bananas';

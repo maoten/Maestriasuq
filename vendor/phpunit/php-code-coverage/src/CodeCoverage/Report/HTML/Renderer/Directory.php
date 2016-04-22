@@ -15,6 +15,7 @@
  */
 class PHP_CodeCoverage_Report_HTML_Renderer_Directory extends PHP_CodeCoverage_Report_HTML_Renderer
 {
+
     /**
      * @param PHP_CodeCoverage_Report_Node_Directory $node
      * @param string                                 $file
@@ -35,24 +36,24 @@ class PHP_CodeCoverage_Report_HTML_Renderer_Directory extends PHP_CodeCoverage_R
             $items .= $this->renderItem($item);
         }
 
-        $template->setVar(
-            array(
+        $template->setVar([
                 'id'    => $node->getId(),
                 'items' => $items
-            )
-        );
+            ]);
 
         $template->renderTo($file);
     }
 
+
     /**
      * @param  PHP_CodeCoverage_Report_Node $item
      * @param  bool                         $total
+     *
      * @return string
      */
     protected function renderItem(PHP_CodeCoverage_Report_Node $item, $total = false)
     {
-        $data = array(
+        $data = [
             'numClasses'                   => $item->getNumClassesAndTraits(),
             'numTestedClasses'             => $item->getNumTestedClassesAndTraits(),
             'numMethods'                   => $item->getNumMethods(),
@@ -65,33 +66,23 @@ class PHP_CodeCoverage_Report_HTML_Renderer_Directory extends PHP_CodeCoverage_R
             'testedMethodsPercentAsString' => $item->getTestedMethodsPercent(),
             'testedClassesPercent'         => $item->getTestedClassesAndTraitsPercent(false),
             'testedClassesPercentAsString' => $item->getTestedClassesAndTraitsPercent()
-        );
+        ];
 
         if ($total) {
             $data['name'] = 'Total';
         } else {
             if ($item instanceof PHP_CodeCoverage_Report_Node_Directory) {
-                $data['name'] = sprintf(
-                    '<a href="%s/index.html">%s</a>',
-                    $item->getName(),
-                    $item->getName()
-                );
+                $data['name'] = sprintf('<a href="%s/index.html">%s</a>', $item->getName(), $item->getName());
 
                 $data['icon'] = '<span class="glyphicon glyphicon-folder-open"></span> ';
             } else {
-                $data['name'] = sprintf(
-                    '<a href="%s.html">%s</a>',
-                    $item->getName(),
-                    $item->getName()
-                );
+                $data['name'] = sprintf('<a href="%s.html">%s</a>', $item->getName(), $item->getName());
 
                 $data['icon'] = '<span class="glyphicon glyphicon-file"></span> ';
             }
         }
 
-        return $this->renderItemTemplate(
-            new Text_Template($this->templatePath . 'directory_item.html', '{{', '}}'),
-            $data
-        );
+        return $this->renderItemTemplate(new Text_Template($this->templatePath . 'directory_item.html', '{{', '}}'),
+            $data);
     }
 }

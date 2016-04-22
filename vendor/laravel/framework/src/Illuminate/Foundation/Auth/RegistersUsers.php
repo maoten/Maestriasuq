@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Auth;
 
 trait RegistersUsers
 {
+
     use RedirectsUsers;
+
 
     /**
      * Show the application registration form.
@@ -18,6 +20,7 @@ trait RegistersUsers
     {
         return $this->showRegistrationForm();
     }
+
 
     /**
      * Show the application registration form.
@@ -33,10 +36,12 @@ trait RegistersUsers
         return view('auth.register');
     }
 
+
     /**
      * Handle a registration request for the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function postRegister(Request $request)
@@ -44,10 +49,12 @@ trait RegistersUsers
         return $this->register($request);
     }
 
+
     /**
      * Handle a registration request for the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function register(Request $request)
@@ -55,15 +62,14 @@ trait RegistersUsers
         $validator = $this->validator($request->all());
 
         if ($validator->fails()) {
-            $this->throwValidationException(
-                $request, $validator
-            );
+            $this->throwValidationException($request, $validator);
         }
 
         Auth::guard($this->getGuard())->login($this->create($request->all()));
 
         return redirect($this->redirectPath());
     }
+
 
     /**
      * Get the guard to be used during registration.

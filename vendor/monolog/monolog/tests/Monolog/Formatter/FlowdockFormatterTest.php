@@ -16,26 +16,28 @@ use Monolog\TestCase;
 
 class FlowdockFormatterTest extends TestCase
 {
+
     /**
      * @covers Monolog\Formatter\FlowdockFormatter::format
      */
     public function testFormat()
     {
         $formatter = new FlowdockFormatter('test_source', 'source@test.com');
-        $record = $this->getRecord();
+        $record    = $this->getRecord();
 
-        $expected = array(
-            'source' => 'test_source',
+        $expected  = [
+            'source'       => 'test_source',
             'from_address' => 'source@test.com',
-            'subject' => 'in test_source: WARNING - test',
-            'content' => 'test',
-            'tags' => array('#logs', '#warning', '#test'),
-            'project' => 'test_source',
-        );
+            'subject'      => 'in test_source: WARNING - test',
+            'content'      => 'test',
+            'tags'         => [ '#logs', '#warning', '#test' ],
+            'project'      => 'test_source',
+        ];
         $formatted = $formatter->format($record);
 
         $this->assertEquals($expected, $formatted['flowdock']);
     }
+
 
     /**
      * @ covers Monolog\Formatter\FlowdockFormatter::formatBatch
@@ -43,10 +45,10 @@ class FlowdockFormatterTest extends TestCase
     public function testFormatBatch()
     {
         $formatter = new FlowdockFormatter('test_source', 'source@test.com');
-        $records = array(
+        $records   = [
             $this->getRecord(Logger::WARNING),
             $this->getRecord(Logger::DEBUG),
-        );
+        ];
         $formatted = $formatter->formatBatch($records);
 
         $this->assertArrayHasKey('flowdock', $formatted[0]);

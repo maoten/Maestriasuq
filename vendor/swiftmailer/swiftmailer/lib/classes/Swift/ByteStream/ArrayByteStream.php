@@ -15,12 +15,13 @@
  */
 class Swift_ByteStream_ArrayByteStream implements Swift_InputByteStream, Swift_OutputByteStream
 {
+
     /**
      * The internal stack of bytes.
      *
      * @var string[]
      */
-    private $_array = array();
+    private $_array = [ ];
 
     /**
      * The size of the stack.
@@ -41,7 +42,8 @@ class Swift_ByteStream_ArrayByteStream implements Swift_InputByteStream, Swift_O
      *
      * @var Swift_InputByteStream[]
      */
-    private $_mirrors = array();
+    private $_mirrors = [ ];
+
 
     /**
      * Create a new ArrayByteStream.
@@ -53,14 +55,15 @@ class Swift_ByteStream_ArrayByteStream implements Swift_InputByteStream, Swift_O
     public function __construct($stack = null)
     {
         if (is_array($stack)) {
-            $this->_array = $stack;
+            $this->_array     = $stack;
             $this->_arraySize = count($stack);
         } elseif (is_string($stack)) {
             $this->write($stack);
         } else {
-            $this->_array = array();
+            $this->_array = [ ];
         }
     }
+
 
     /**
      * Reads $length bytes from the stream into a string and moves the pointer
@@ -82,9 +85,7 @@ class Swift_ByteStream_ArrayByteStream implements Swift_InputByteStream, Swift_O
 
         // Don't use array slice
         $end = $length + $this->_offset;
-        $end = $this->_arraySize < $end
-            ? $this->_arraySize
-            : $end;
+        $end = $this->_arraySize < $end ? $this->_arraySize : $end;
         $ret = '';
         for (; $this->_offset < $end; ++$this->_offset) {
             $ret .= $this->_array[$this->_offset];
@@ -92,6 +93,7 @@ class Swift_ByteStream_ArrayByteStream implements Swift_InputByteStream, Swift_O
 
         return $ret;
     }
+
 
     /**
      * Writes $bytes to the end of the stream.
@@ -111,12 +113,14 @@ class Swift_ByteStream_ArrayByteStream implements Swift_InputByteStream, Swift_O
         }
     }
 
+
     /**
      * Not used.
      */
     public function commit()
     {
     }
+
 
     /**
      * Attach $is to this stream.
@@ -131,6 +135,7 @@ class Swift_ByteStream_ArrayByteStream implements Swift_InputByteStream, Swift_O
         $this->_mirrors[] = $is;
     }
 
+
     /**
      * Remove an already bound stream.
      *
@@ -144,10 +149,11 @@ class Swift_ByteStream_ArrayByteStream implements Swift_InputByteStream, Swift_O
     {
         foreach ($this->_mirrors as $k => $stream) {
             if ($is === $stream) {
-                unset($this->_mirrors[$k]);
+                unset( $this->_mirrors[$k] );
             }
         }
     }
+
 
     /**
      * Move the internal read pointer to $byteOffset in the stream.
@@ -167,14 +173,15 @@ class Swift_ByteStream_ArrayByteStream implements Swift_InputByteStream, Swift_O
         $this->_offset = $byteOffset;
     }
 
+
     /**
      * Flush the contents of the stream (empty it) and set the internal pointer
      * to the beginning.
      */
     public function flushBuffers()
     {
-        $this->_offset = 0;
-        $this->_array = array();
+        $this->_offset    = 0;
+        $this->_array     = [ ];
         $this->_arraySize = 0;
 
         foreach ($this->_mirrors as $stream) {

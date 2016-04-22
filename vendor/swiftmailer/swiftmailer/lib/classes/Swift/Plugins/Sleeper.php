@@ -15,6 +15,7 @@
  */
 interface Swift_Plugins_Sleeper
 {
+
     /**
      * Sleep for $seconds.
      *

@@ -28,29 +28,36 @@ use Symfony\Component\Console\Formatter\OutputFormatterInterface;
  */
 class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
 {
+
     /**
      * @var StreamOutput
      */
     private $stderr;
 
+
     /**
      * Constructor.
      *
-     * @param int                           $verbosity The verbosity level (one of the VERBOSITY constants in OutputInterface)
+     * @param int                           $verbosity The verbosity level (one of the VERBOSITY constants in
+     *                                                 OutputInterface)
      * @param bool|null                     $decorated Whether to decorate messages (null for auto-guessing)
      * @param OutputFormatterInterface|null $formatter Output formatter instance (null to use default OutputFormatter)
      */
-    public function __construct($verbosity = self::VERBOSITY_NORMAL, $decorated = null, OutputFormatterInterface $formatter = null)
-    {
+    public function __construct(
+        $verbosity = self::VERBOSITY_NORMAL,
+        $decorated = null,
+        OutputFormatterInterface $formatter = null
+    ) {
         parent::__construct($this->openOutputStream(), $verbosity, $decorated, $formatter);
 
         $actualDecorated = $this->isDecorated();
-        $this->stderr = new StreamOutput($this->openErrorStream(), $verbosity, $decorated, $this->getFormatter());
+        $this->stderr    = new StreamOutput($this->openErrorStream(), $verbosity, $decorated, $this->getFormatter());
 
         if (null === $decorated) {
             $this->setDecorated($actualDecorated && $this->stderr->isDecorated());
         }
     }
+
 
     /**
      * {@inheritdoc}
@@ -61,6 +68,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
         $this->stderr->setDecorated($decorated);
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -69,6 +77,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
         parent::setFormatter($formatter);
         $this->stderr->setFormatter($formatter);
     }
+
 
     /**
      * {@inheritdoc}
@@ -79,6 +88,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
         $this->stderr->setVerbosity($level);
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -87,6 +97,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
         return $this->stderr;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -94,6 +105,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     {
         $this->stderr = $error;
     }
+
 
     /**
      * Returns true if current environment supports writing console output to
@@ -106,6 +118,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
         return false === $this->isRunningOS400();
     }
 
+
     /**
      * Returns true if current environment supports writing console output to
      * STDERR.
@@ -117,6 +130,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
         return false === $this->isRunningOS400();
     }
 
+
     /**
      * Checks if current executing environment is IBM iSeries (OS400), which
      * doesn't properly convert character-encodings between ASCII to EBCDIC.
@@ -125,14 +139,15 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
      */
     private function isRunningOS400()
     {
-        $checks = array(
+        $checks = [
             function_exists('php_uname') ? php_uname('s') : '',
             getenv('OSTYPE'),
             PHP_OS,
-        );
+        ];
 
         return false !== stripos(implode(';', $checks), 'OS400');
     }
+
 
     /**
      * @return resource
@@ -143,6 +158,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
 
         return @fopen($outputStream, 'w') ?: fopen('php://output', 'w');
     }
+
 
     /**
      * @return resource

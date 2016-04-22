@@ -15,6 +15,7 @@
  */
 class Swift_Events_SendEvent extends Swift_Events_EventObject
 {
+
     /** Sending has yet to occur */
     const RESULT_PENDING = 0x0001;
 
@@ -42,7 +43,7 @@ class Swift_Events_SendEvent extends Swift_Events_EventObject
      *
      * @var string[]
      */
-    private $_failedRecipients = array();
+    private $_failedRecipients = [ ];
 
     /**
      * The overall result as a bitmask from the class constants.
@@ -50,6 +51,7 @@ class Swift_Events_SendEvent extends Swift_Events_EventObject
      * @var int
      */
     private $_result;
+
 
     /**
      * Create a new SendEvent for $source and $message.
@@ -61,8 +63,9 @@ class Swift_Events_SendEvent extends Swift_Events_EventObject
     {
         parent::__construct($source);
         $this->_message = $message;
-        $this->_result = self::RESULT_PENDING;
+        $this->_result  = self::RESULT_PENDING;
     }
+
 
     /**
      * Get the Transport used to send the Message.
@@ -74,6 +77,7 @@ class Swift_Events_SendEvent extends Swift_Events_EventObject
         return $this->getSource();
     }
 
+
     /**
      * Get the Message being sent.
      *
@@ -83,6 +87,7 @@ class Swift_Events_SendEvent extends Swift_Events_EventObject
     {
         return $this->_message;
     }
+
 
     /**
      * Set the array of addresses that failed in sending.
@@ -94,6 +99,7 @@ class Swift_Events_SendEvent extends Swift_Events_EventObject
         $this->_failedRecipients = $recipients;
     }
 
+
     /**
      * Get an recipient addresses which were not accepted for delivery.
      *
@@ -104,6 +110,7 @@ class Swift_Events_SendEvent extends Swift_Events_EventObject
         return $this->_failedRecipients;
     }
 
+
     /**
      * Set the result of sending.
      *
@@ -113,6 +120,7 @@ class Swift_Events_SendEvent extends Swift_Events_EventObject
     {
         $this->_result = $result;
     }
+
 
     /**
      * Get the result of this Event.

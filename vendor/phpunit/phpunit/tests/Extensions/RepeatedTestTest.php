@@ -14,7 +14,9 @@
  */
 class Extensions_RepeatedTestTest extends PHPUnit_Framework_TestCase
 {
+
     protected $suite;
+
 
     public function __construct()
     {
@@ -23,6 +25,7 @@ class Extensions_RepeatedTestTest extends PHPUnit_Framework_TestCase
         $this->suite->addTest(new Success);
         $this->suite->addTest(new Success);
     }
+
 
     public function testRepeatedOnce()
     {
@@ -33,6 +36,7 @@ class Extensions_RepeatedTestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(2, count($result));
     }
 
+
     public function testRepeatedMoreThanOnce()
     {
         $test = new PHPUnit_Extensions_RepeatedTest($this->suite, 3);
@@ -42,6 +46,7 @@ class Extensions_RepeatedTestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(6, count($result));
     }
 
+
     public function testRepeatedZero()
     {
         $test = new PHPUnit_Extensions_RepeatedTest($this->suite, 0);
@@ -50,6 +55,7 @@ class Extensions_RepeatedTestTest extends PHPUnit_Framework_TestCase
         $result = $test->run();
         $this->assertEquals(0, count($result));
     }
+
 
     public function testRepeatedNegative()
     {

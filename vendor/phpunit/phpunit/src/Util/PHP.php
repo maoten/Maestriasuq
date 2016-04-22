@@ -15,6 +15,7 @@
  */
 abstract class PHPUnit_Util_PHP
 {
+
     /**
      * @return PHPUnit_Util_PHP
      *
@@ -28,6 +29,7 @@ abstract class PHPUnit_Util_PHP
 
         return new PHPUnit_Util_PHP_Default;
     }
+
 
     /**
      * Runs a single test in a separate PHP process.
@@ -44,13 +46,9 @@ abstract class PHPUnit_Util_PHP
 
         $_result = $this->runJob($job);
 
-        $this->processChildResult(
-            $test,
-            $result,
-            $_result['stdout'],
-            $_result['stderr']
-        );
+        $this->processChildResult($test, $result, $_result['stdout'], $_result['stderr']);
     }
+
 
     /**
      * Runs a single job (PHP code) using a separate PHP process.
@@ -62,7 +60,8 @@ abstract class PHPUnit_Util_PHP
      *
      * @throws PHPUnit_Framework_Exception
      */
-    abstract public function runJob($job, array $settings = array());
+    abstract public function runJob($job, array $settings = [ ]);
+
 
     /**
      * @param array $settings
@@ -82,6 +81,7 @@ abstract class PHPUnit_Util_PHP
         return $buffer;
     }
 
+
     /**
      * Processes the TestResult object from an isolated process.
      *
@@ -92,16 +92,16 @@ abstract class PHPUnit_Util_PHP
      *
      * @since Method available since Release 3.5.0
      */
-    private function processChildResult(PHPUnit_Framework_Test $test, PHPUnit_Framework_TestResult $result, $stdout, $stderr)
-    {
+    private function processChildResult(
+        PHPUnit_Framework_Test $test,
+        PHPUnit_Framework_TestResult $result,
+        $stdout,
+        $stderr
+    ) {
         $time = 0;
 
-        if (!empty($stderr)) {
-            $result->addError(
-                $test,
-                new PHPUnit_Framework_Exception(trim($stderr)),
-                $time
-            );
+        if ( ! empty( $stderr )) {
+            $result->addError($test, new PHPUnit_Framework_Exception(trim($stderr)), $time);
         } else {
             set_error_handler(function ($errno, $errstr, $errfile, $errline) {
                 throw new ErrorException($errstr, $errno, $errno, $errfile, $errline);
@@ -117,15 +117,11 @@ abstract class PHPUnit_Util_PHP
                 restore_error_handler();
                 $childResult = false;
 
-                $result->addError(
-                    $test,
-                    new PHPUnit_Framework_Exception(trim($stdout), 0, $e),
-                    $time
-                );
+                $result->addError($test, new PHPUnit_Framework_Exception(trim($stdout), 0, $e), $time);
             }
 
             if ($childResult !== false) {
-                if (!empty($childResult['output'])) {
+                if ( ! empty( $childResult['output'] )) {
                     $output = $childResult['output'];
                 }
 
@@ -135,9 +131,7 @@ abstract class PHPUnit_Util_PHP
                 $childResult = $childResult['result'];
 
                 if ($result->getCollectCodeCoverageInformation()) {
-                    $result->getCodeCoverage()->merge(
-                        $childResult->getCodeCoverage()
-                    );
+                    $result->getCodeCoverage()->merge($childResult->getCodeCoverage());
                 }
 
                 $time           = $childResult->time();
@@ -147,46 +141,27 @@ abstract class PHPUnit_Util_PHP
                 $errors         = $childResult->errors();
                 $failures       = $childResult->failures();
 
-                if (!empty($notImplemented)) {
-                    $result->addError(
-                        $test,
-                        $this->getException($notImplemented[0]),
-                        $time
-                    );
-                } elseif (!empty($risky)) {
-                    $result->addError(
-                        $test,
-                        $this->getException($risky[0]),
-                        $time
-                    );
-                } elseif (!empty($skipped)) {
-                    $result->addError(
-                        $test,
-                        $this->getException($skipped[0]),
-                        $time
-                    );
-                } elseif (!empty($errors)) {
-                    $result->addError(
-                        $test,
-                        $this->getException($errors[0]),
-                        $time
-                    );
-                } elseif (!empty($failures)) {
-                    $result->addFailure(
-                        $test,
-                        $this->getException($failures[0]),
-                        $time
-                    );
+                if ( ! empty( $notImplemented )) {
+                    $result->addError($test, $this->getException($notImplemented[0]), $time);
+                } elseif ( ! empty( $risky )) {
+                    $result->addError($test, $this->getException($risky[0]), $time);
+                } elseif ( ! empty( $skipped )) {
+                    $result->addError($test, $this->getException($skipped[0]), $time);
+                } elseif ( ! empty( $errors )) {
+                    $result->addError($test, $this->getException($errors[0]), $time);
+                } elseif ( ! empty( $failures )) {
+                    $result->addFailure($test, $this->getException($failures[0]), $time);
                 }
             }
         }
 
         $result->endTest($test, $time);
 
-        if (!empty($output)) {
+        if ( ! empty( $output )) {
             print $output;
         }
     }
+
 
     /**
      * Gets the thrown exception from a PHPUnit_Framework_TestFailure.
@@ -203,23 +178,15 @@ abstract class PHPUnit_Util_PHP
         $exception = $error->thrownException();
 
         if ($exception instanceof __PHP_Incomplete_Class) {
-            $exceptionArray = array();
+            $exceptionArray = [ ];
             foreach ((array) $exception as $key => $value) {
                 $key                  = substr($key, strrpos($key, "\0") + 1);
                 $exceptionArray[$key] = $value;
             }
 
-            $exception = new PHPUnit_Framework_SyntheticError(
-                sprintf(
-                    '%s: %s',
-                    $exceptionArray['_PHP_Incomplete_Class_Name'],
-                    $exceptionArray['message']
-                ),
-                $exceptionArray['code'],
-                $exceptionArray['file'],
-                $exceptionArray['line'],
-                $exceptionArray['trace']
-            );
+            $exception = new PHPUnit_Framework_SyntheticError(sprintf('%s: %s',
+                $exceptionArray['_PHP_Incomplete_Class_Name'], $exceptionArray['message']), $exceptionArray['code'],
+                $exceptionArray['file'], $exceptionArray['line'], $exceptionArray['trace']);
         }
 
         return $exception;

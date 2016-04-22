@@ -21,7 +21,9 @@ use Psy\Shell;
  */
 class Loop
 {
+
     const NOOP_INPUT = 'return null;';
+
 
     /**
      * Loop constructor.
@@ -36,6 +38,7 @@ class Loop
         // don't need this
     }
 
+
     /**
      * Run the execution loop.
      *
@@ -47,7 +50,7 @@ class Loop
     {
         $loop = function ($__psysh__) {
             // Load user-defined includes
-            set_error_handler(array($__psysh__, 'handleError'));
+            set_error_handler([ $__psysh__, 'handleError' ]);
             try {
                 foreach ($__psysh__->getIncludes() as $__psysh_include__) {
                     include $__psysh_include__;
@@ -56,7 +59,7 @@ class Loop
                 $__psysh__->writeException($_e);
             }
             restore_error_handler();
-            unset($__psysh_include__);
+            unset( $__psysh_include__ );
 
             extract($__psysh__->getScopeVariables());
 
@@ -69,13 +72,10 @@ class Loop
                     $__psysh__->getInput();
 
                     // evaluate the current code buffer
-                    ob_start(
-                        array($__psysh__, 'writeStdout'),
-                        version_compare(PHP_VERSION, '5.4', '>=') ? 1 : 2
-                    );
+                    ob_start([ $__psysh__, 'writeStdout' ], version_compare(PHP_VERSION, '5.4', '>=') ? 1 : 2);
 
-                    set_error_handler(array($__psysh__, 'handleError'));
-                    $_ = eval($__psysh__->flushCode() ?: Loop::NOOP_INPUT);
+                    set_error_handler([ $__psysh__, 'handleError' ]);
+                    $_ = eval( $__psysh__->flushCode() ?: Loop::NOOP_INPUT );
                     restore_error_handler();
 
                     ob_end_flush();
@@ -128,6 +128,7 @@ class Loop
         $loop($shell);
     }
 
+
     /**
      * A beforeLoop callback.
      *
@@ -139,6 +140,7 @@ class Loop
         // no-op
     }
 
+
     /**
      * A afterLoop callback.
      *
@@ -149,6 +151,7 @@ class Loop
     {
         // no-op
     }
+
 
     /**
      * Decide whether to bind the execution loop.

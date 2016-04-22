@@ -10,6 +10,7 @@ use DateTime;
  */
 class MinutesFieldTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @covers Cron\MinutesField::validate
      */
@@ -20,6 +21,7 @@ class MinutesFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($f->validate('*'));
         $this->assertTrue($f->validate('*/3,1,1-12'));
     }
+
 
     /**
      * @covers Cron\MinutesField::increment

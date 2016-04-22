@@ -7,10 +7,12 @@ namespace Cron;
  */
 class YearField extends AbstractField
 {
+
     public function isSatisfiedBy(\DateTime $date, $value)
     {
         return $this->isSatisfied($date->format('Y'), $value);
     }
+
 
     public function increment(\DateTime $date, $invert = false)
     {
@@ -26,6 +28,7 @@ class YearField extends AbstractField
 
         return $this;
     }
+
 
     public function validate($value)
     {

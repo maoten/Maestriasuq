@@ -16,6 +16,7 @@
  */
 class PHPUnit_Framework_Constraint_TraversableContainsOnly extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var PHPUnit_Framework_Constraint
      */
@@ -25,6 +26,7 @@ class PHPUnit_Framework_Constraint_TraversableContainsOnly extends PHPUnit_Frame
      * @var string
      */
     protected $type;
+
 
     /**
      * @param string $type
@@ -37,13 +39,12 @@ class PHPUnit_Framework_Constraint_TraversableContainsOnly extends PHPUnit_Frame
         if ($isNativeType) {
             $this->constraint = new PHPUnit_Framework_Constraint_IsType($type);
         } else {
-            $this->constraint = new PHPUnit_Framework_Constraint_IsInstanceOf(
-                $type
-            );
+            $this->constraint = new PHPUnit_Framework_Constraint_IsInstanceOf($type);
         }
 
         $this->type = $type;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other
@@ -68,7 +69,7 @@ class PHPUnit_Framework_Constraint_TraversableContainsOnly extends PHPUnit_Frame
         $success = true;
 
         foreach ($other as $item) {
-            if (!$this->constraint->evaluate($item, '', true)) {
+            if ( ! $this->constraint->evaluate($item, '', true)) {
                 $success = false;
                 break;
             }
@@ -78,10 +79,11 @@ class PHPUnit_Framework_Constraint_TraversableContainsOnly extends PHPUnit_Frame
             return $success;
         }
 
-        if (!$success) {
+        if ( ! $success) {
             $this->fail($other, $description);
         }
     }
+
 
     /**
      * Returns a string representation of the constraint.

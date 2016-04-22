@@ -20,10 +20,12 @@
  */
 class PHPUnit_Framework_Constraint_ArrayHasKey extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var int|string
      */
     protected $key;
+
 
     /**
      * @param int|string $key
@@ -33,6 +35,7 @@ class PHPUnit_Framework_Constraint_ArrayHasKey extends PHPUnit_Framework_Constra
         parent::__construct();
         $this->key = $key;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -55,6 +58,7 @@ class PHPUnit_Framework_Constraint_ArrayHasKey extends PHPUnit_Framework_Constra
         return false;
     }
 
+
     /**
      * Returns a string representation of the constraint.
      *
@@ -64,6 +68,7 @@ class PHPUnit_Framework_Constraint_ArrayHasKey extends PHPUnit_Framework_Constra
     {
         return 'has the key ' . $this->exporter->export($this->key);
     }
+
 
     /**
      * Returns the description of the failure

@@ -15,12 +15,13 @@ namespace Symfony\Component\Finder\Iterator;
  * This iterator just overrides the rewind method in order to correct a PHP bug,
  * which existed before version 5.5.23/5.6.7.
  *
- * @see https://bugs.php.net/68557
+ * @see    https://bugs.php.net/68557
  *
  * @author Alex Bogomazov
  */
 abstract class FilterIterator extends \FilterIterator
 {
+
     /**
      * This is a workaround for the problem with \FilterIterator leaving inner \FilesystemIterator in wrong state after
      * rewind in some cases.
@@ -29,7 +30,7 @@ abstract class FilterIterator extends \FilterIterator
      */
     public function rewind()
     {
-        if (PHP_VERSION_ID > 50607 || (PHP_VERSION_ID > 50523 && PHP_VERSION_ID < 50600)) {
+        if (PHP_VERSION_ID > 50607 || ( PHP_VERSION_ID > 50523 && PHP_VERSION_ID < 50600 )) {
             parent::rewind();
 
             return;

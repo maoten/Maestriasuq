@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 abstract class ResponseTestCase extends \PHPUnit_Framework_TestCase
 {
+
     public function testNoCacheControlHeaderOnAttachmentUsingHTTPSAndMSIE()
     {
         // Check for HTTPS and IE 8
@@ -29,7 +30,8 @@ abstract class ResponseTestCase extends \PHPUnit_Framework_TestCase
         $this->assertFalse($response->headers->has('Cache-Control'));
 
         // Check for IE 10 and HTTPS
-        $request->server->set('HTTP_USER_AGENT', 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)');
+        $request->server->set('HTTP_USER_AGENT',
+            'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)');
 
         $response = $this->provideResponse();
         $response->headers->set('Content-Disposition', 'attachment; filename="fname.ext"');
@@ -66,7 +68,8 @@ abstract class ResponseTestCase extends \PHPUnit_Framework_TestCase
 
         // Check for non-IE and HTTPS
         $request->server->set('HTTPS', true);
-        $request->server->set('HTTP_USER_AGENT', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.60 Safari/537.17');
+        $request->server->set('HTTP_USER_AGENT',
+            'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.60 Safari/537.17');
 
         $response = $this->provideResponse();
         $response->headers->set('Content-Disposition', 'attachment; filename="fname.ext"');
@@ -83,6 +86,7 @@ abstract class ResponseTestCase extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($response->headers->has('Cache-Control'));
     }
+
 
     abstract protected function provideResponse();
 }

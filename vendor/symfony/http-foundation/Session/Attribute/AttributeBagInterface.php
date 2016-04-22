@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
  */
 interface AttributeBagInterface extends SessionBagInterface
 {
+
     /**
      * Checks if an attribute is defined.
      *
@@ -28,6 +29,7 @@ interface AttributeBagInterface extends SessionBagInterface
      * @return bool true if the attribute is defined, false otherwise
      */
     public function has($name);
+
 
     /**
      * Returns an attribute.
@@ -39,6 +41,7 @@ interface AttributeBagInterface extends SessionBagInterface
      */
     public function get($name, $default = null);
 
+
     /**
      * Sets an attribute.
      *
@@ -47,6 +50,7 @@ interface AttributeBagInterface extends SessionBagInterface
      */
     public function set($name, $value);
 
+
     /**
      * Returns attributes.
      *
@@ -54,12 +58,14 @@ interface AttributeBagInterface extends SessionBagInterface
      */
     public function all();
 
+
     /**
      * Sets attributes.
      *
      * @param array $attributes Attributes
      */
     public function replace(array $attributes);
+
 
     /**
      * Removes an attribute.

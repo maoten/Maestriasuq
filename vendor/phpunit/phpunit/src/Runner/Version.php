@@ -15,8 +15,11 @@
  */
 class PHPUnit_Runner_Version
 {
+
     private static $pharVersion;
+
     private static $version;
+
 
     /**
      * Returns the current version of PHPUnit.
@@ -37,6 +40,7 @@ class PHPUnit_Runner_Version
         return self::$version;
     }
 
+
     /**
      * @return string
      *
@@ -53,6 +57,7 @@ class PHPUnit_Runner_Version
         return implode('.', array_slice(explode('.', self::id()), 0, 2));
     }
 
+
     /**
      * @return string
      */
@@ -60,6 +65,7 @@ class PHPUnit_Runner_Version
     {
         return 'PHPUnit ' . self::id() . ' by Sebastian Bergmann and contributors.';
     }
+
 
     /**
      * @return string

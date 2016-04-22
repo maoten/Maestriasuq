@@ -6,8 +6,10 @@ use PhpParser\Node;
 
 class Else_ extends Node\Stmt
 {
+
     /** @var Node[] Statements */
     public $stmts;
+
 
     /**
      * Constructs an else node.
@@ -15,12 +17,15 @@ class Else_ extends Node\Stmt
      * @param Node[] $stmts      Statements
      * @param array  $attributes Additional attributes
      */
-    public function __construct(array $stmts = array(), array $attributes = array()) {
+    public function __construct(array $stmts = [ ], array $attributes = [ ])
+    {
         parent::__construct($attributes);
         $this->stmts = $stmts;
     }
 
-    public function getSubNodeNames() {
-        return array('stmts');
+
+    public function getSubNodeNames()
+    {
+        return [ 'stmts' ];
     }
 }

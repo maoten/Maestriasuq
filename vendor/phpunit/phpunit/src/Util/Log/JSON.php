@@ -15,6 +15,7 @@
  */
 class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Framework_TestListener
 {
+
     /**
      * @var string
      */
@@ -30,6 +31,7 @@ class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Fram
      */
     protected $currentTestPass = true;
 
+
     /**
      * An error occurred.
      *
@@ -39,16 +41,12 @@ class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Fram
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->writeCase(
-            'error',
-            $time,
-            PHPUnit_Util_Filter::getFilteredStacktrace($e, false),
-            $e->getMessage(),
-            $test
-        );
+        $this->writeCase('error', $time, PHPUnit_Util_Filter::getFilteredStacktrace($e, false), $e->getMessage(),
+            $test);
 
         $this->currentTestPass = false;
     }
+
 
     /**
      * A failure occurred.
@@ -59,16 +57,11 @@ class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Fram
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
-        $this->writeCase(
-            'fail',
-            $time,
-            PHPUnit_Util_Filter::getFilteredStacktrace($e, false),
-            $e->getMessage(),
-            $test
-        );
+        $this->writeCase('fail', $time, PHPUnit_Util_Filter::getFilteredStacktrace($e, false), $e->getMessage(), $test);
 
         $this->currentTestPass = false;
     }
+
 
     /**
      * Incomplete test.
@@ -79,16 +72,12 @@ class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Fram
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->writeCase(
-            'error',
-            $time,
-            PHPUnit_Util_Filter::getFilteredStacktrace($e, false),
-            'Incomplete Test: ' . $e->getMessage(),
-            $test
-        );
+        $this->writeCase('error', $time, PHPUnit_Util_Filter::getFilteredStacktrace($e, false),
+            'Incomplete Test: ' . $e->getMessage(), $test);
 
         $this->currentTestPass = false;
     }
+
 
     /**
      * Risky test.
@@ -101,16 +90,12 @@ class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Fram
      */
     public function addRiskyTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->writeCase(
-            'error',
-            $time,
-            PHPUnit_Util_Filter::getFilteredStacktrace($e, false),
-            'Risky Test: ' . $e->getMessage(),
-            $test
-        );
+        $this->writeCase('error', $time, PHPUnit_Util_Filter::getFilteredStacktrace($e, false),
+            'Risky Test: ' . $e->getMessage(), $test);
 
         $this->currentTestPass = false;
     }
+
 
     /**
      * Skipped test.
@@ -121,16 +106,12 @@ class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Fram
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->writeCase(
-            'error',
-            $time,
-            PHPUnit_Util_Filter::getFilteredStacktrace($e, false),
-            'Skipped Test: ' . $e->getMessage(),
-            $test
-        );
+        $this->writeCase('error', $time, PHPUnit_Util_Filter::getFilteredStacktrace($e, false),
+            'Skipped Test: ' . $e->getMessage(), $test);
 
         $this->currentTestPass = false;
     }
+
 
     /**
      * A testsuite started.
@@ -142,14 +123,13 @@ class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Fram
         $this->currentTestSuiteName = $suite->getName();
         $this->currentTestName      = '';
 
-        $this->write(
-            array(
-            'event' => 'suiteStart',
-            'suite' => $this->currentTestSuiteName,
-            'tests' => count($suite)
-            )
-        );
+        $this->write([
+                'event' => 'suiteStart',
+                'suite' => $this->currentTestSuiteName,
+                'tests' => count($suite)
+            ]);
     }
+
 
     /**
      * A testsuite ended.
@@ -162,6 +142,7 @@ class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Fram
         $this->currentTestName      = '';
     }
 
+
     /**
      * A test started.
      *
@@ -172,14 +153,13 @@ class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Fram
         $this->currentTestName = PHPUnit_Util_Test::describe($test);
         $this->currentTestPass = true;
 
-        $this->write(
-            array(
-            'event' => 'testStart',
-            'suite' => $this->currentTestSuiteName,
-            'test'  => $this->currentTestName
-            )
-        );
+        $this->write([
+                'event' => 'testStart',
+                'suite' => $this->currentTestSuiteName,
+                'test'  => $this->currentTestName
+            ]);
     }
+
 
     /**
      * A test ended.
@@ -190,9 +170,10 @@ class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Fram
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
         if ($this->currentTestPass) {
-            $this->writeCase('pass', $time, array(), '', $test);
+            $this->writeCase('pass', $time, [ ], '', $test);
         }
     }
+
 
     /**
      * @param string                          $status
@@ -201,26 +182,25 @@ class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Fram
      * @param string                          $message
      * @param PHPUnit_Framework_TestCase|null $test
      */
-    protected function writeCase($status, $time, array $trace = array(), $message = '', $test = null)
+    protected function writeCase($status, $time, array $trace = [ ], $message = '', $test = null)
     {
         $output = '';
         // take care of TestSuite producing error (e.g. by running into exception) as TestSuite doesn't have hasOutput
         if ($test !== null && method_exists($test, 'hasOutput') && $test->hasOutput()) {
             $output = $test->getActualOutput();
         }
-        $this->write(
-            array(
-            'event'   => 'test',
-            'suite'   => $this->currentTestSuiteName,
-            'test'    => $this->currentTestName,
-            'status'  => $status,
-            'time'    => $time,
-            'trace'   => $trace,
-            'message' => PHPUnit_Util_String::convertToUtf8($message),
-            'output'  => $output,
-            )
-        );
+        $this->write([
+                'event'   => 'test',
+                'suite'   => $this->currentTestSuiteName,
+                'test'    => $this->currentTestName,
+                'status'  => $status,
+                'time'    => $time,
+                'trace'   => $trace,
+                'message' => PHPUnit_Util_String::convertToUtf8($message),
+                'output'  => $output,
+            ]);
     }
+
 
     /**
      * @param string $buffer

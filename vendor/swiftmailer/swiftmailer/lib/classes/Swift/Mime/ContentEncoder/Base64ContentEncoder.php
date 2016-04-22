@@ -15,21 +15,26 @@
  */
 class Swift_Mime_ContentEncoder_Base64ContentEncoder extends Swift_Encoder_Base64Encoder implements Swift_Mime_ContentEncoder
 {
+
     /**
      * Encode stream $in to stream $out.
      *
      * @param Swift_OutputByteStream $os
      * @param Swift_InputByteStream  $is
      * @param int                    $firstLineOffset
-     * @param int                    $maxLineLength,  optional, 0 indicates the default of 76 bytes
+     * @param int                    $maxLineLength ,  optional, 0 indicates the default of 76 bytes
      */
-    public function encodeByteStream(Swift_OutputByteStream $os, Swift_InputByteStream $is, $firstLineOffset = 0, $maxLineLength = 0)
-    {
+    public function encodeByteStream(
+        Swift_OutputByteStream $os,
+        Swift_InputByteStream $is,
+        $firstLineOffset = 0,
+        $maxLineLength = 0
+    ) {
         if (0 >= $maxLineLength || 76 < $maxLineLength) {
             $maxLineLength = 76;
         }
 
-        $remainder = 0;
+        $remainder                      = 0;
         $base64ReadBufferRemainderBytes = null;
 
         // To reduce memory usage, the output buffer is streamed to the input buffer like so:
@@ -41,15 +46,15 @@ class Swift_Mime_ContentEncoder_Base64ContentEncoder extends Swift_Encoder_Base6
         // When the OutputStream is empty, we must flush any remainder bytes.
         while (true) {
             $readBytes = $os->read(8192);
-            $atEOF = ($readBytes === false);
+            $atEOF     = ( $readBytes === false );
 
             if ($atEOF) {
                 $streamTheseBytes = $base64ReadBufferRemainderBytes;
             } else {
-                $streamTheseBytes = $base64ReadBufferRemainderBytes.$readBytes;
+                $streamTheseBytes = $base64ReadBufferRemainderBytes . $readBytes;
             }
             $base64ReadBufferRemainderBytes = null;
-            $bytesLength = strlen($streamTheseBytes);
+            $bytesLength                    = strlen($streamTheseBytes);
 
             if ($bytesLength === 0) { // no data left to encode
                 break;
@@ -57,24 +62,24 @@ class Swift_Mime_ContentEncoder_Base64ContentEncoder extends Swift_Encoder_Base6
 
             // if we're not on the last block of the ouput stream, make sure $streamTheseBytes ends with a complete triplet of data
             // and carry over remainder 1-2 bytes to the next loop iteration
-            if (!$atEOF) {
+            if ( ! $atEOF) {
                 $excessBytes = $bytesLength % 3;
                 if ($excessBytes !== 0) {
                     $base64ReadBufferRemainderBytes = substr($streamTheseBytes, -$excessBytes);
-                    $streamTheseBytes = substr($streamTheseBytes, 0, $bytesLength - $excessBytes);
+                    $streamTheseBytes               = substr($streamTheseBytes, 0, $bytesLength - $excessBytes);
                 }
             }
 
-            $encoded = base64_encode($streamTheseBytes);
+            $encoded            = base64_encode($streamTheseBytes);
             $encodedTransformed = '';
-            $thisMaxLineLength = $maxLineLength - $remainder - $firstLineOffset;
+            $thisMaxLineLength  = $maxLineLength - $remainder - $firstLineOffset;
 
             while ($thisMaxLineLength < strlen($encoded)) {
-                $encodedTransformed .= substr($encoded, 0, $thisMaxLineLength)."\r\n";
-                $firstLineOffset = 0;
-                $encoded = substr($encoded, $thisMaxLineLength);
+                $encodedTransformed .= substr($encoded, 0, $thisMaxLineLength) . "\r\n";
+                $firstLineOffset   = 0;
+                $encoded           = substr($encoded, $thisMaxLineLength);
                 $thisMaxLineLength = $maxLineLength;
-                $remainder = 0;
+                $remainder         = 0;
             }
 
             if (0 < $remainingLength = strlen($encoded)) {
@@ -90,6 +95,7 @@ class Swift_Mime_ContentEncoder_Base64ContentEncoder extends Swift_Encoder_Base6
             }
         }
     }
+
 
     /**
      * Get the name of this encoding scheme.

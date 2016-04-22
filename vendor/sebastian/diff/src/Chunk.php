@@ -14,6 +14,7 @@ namespace SebastianBergmann\Diff;
  */
 class Chunk
 {
+
     /**
      * @var int
      */
@@ -28,6 +29,7 @@ class Chunk
      * @var int
      */
     private $end;
+
     /**
      * @var int
      */
@@ -38,6 +40,7 @@ class Chunk
      */
     private $lines;
 
+
     /**
      * @param int   $start
      * @param int   $startRange
@@ -45,7 +48,7 @@ class Chunk
      * @param int   $endRange
      * @param array $lines
      */
-    public function __construct($start = 0, $startRange = 1, $end = 0, $endRange = 1, array $lines = array())
+    public function __construct($start = 0, $startRange = 1, $end = 0, $endRange = 1, array $lines = [ ])
     {
         $this->start      = (int) $start;
         $this->startRange = (int) $startRange;
@@ -53,6 +56,7 @@ class Chunk
         $this->endRange   = (int) $endRange;
         $this->lines      = $lines;
     }
+
 
     /**
      * @return int
@@ -62,6 +66,7 @@ class Chunk
         return $this->start;
     }
 
+
     /**
      * @return int
      */
@@ -69,6 +74,7 @@ class Chunk
     {
         return $this->startRange;
     }
+
 
     /**
      * @return int
@@ -78,6 +84,7 @@ class Chunk
         return $this->end;
     }
 
+
     /**
      * @return int
      */
@@ -86,6 +93,7 @@ class Chunk
         return $this->endRange;
     }
 
+
     /**
      * @return array
      */
@@ -93,6 +101,7 @@ class Chunk
     {
         return $this->lines;
     }
+
 
     /**
      * @param array $lines

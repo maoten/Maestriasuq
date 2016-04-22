@@ -8,9 +8,9 @@ use Symfony\Component\Console\Tests\Style\SymfonyStyleWithForcedLineLength;
 return function (InputInterface $input, OutputInterface $output) {
     $output = new SymfonyStyleWithForcedLineLength($input, $output);
 
-    $output->listing(array(
+    $output->listing([
         'Lorem ipsum dolor sit amet',
         'consectetur adipiscing elit',
-    ));
+    ]);
     $output->success('Lorem ipsum dolor sit amet');
 };

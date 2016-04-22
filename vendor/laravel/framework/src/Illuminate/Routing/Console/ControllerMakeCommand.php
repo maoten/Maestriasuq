@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 class ControllerMakeCommand extends GeneratorCommand
 {
+
     /**
      * The console command name.
      *
@@ -28,6 +29,7 @@ class ControllerMakeCommand extends GeneratorCommand
      */
     protected $type = 'Controller';
 
+
     /**
      * Get the stub file for the generator.
      *
@@ -36,22 +38,25 @@ class ControllerMakeCommand extends GeneratorCommand
     protected function getStub()
     {
         if ($this->option('resource')) {
-            return __DIR__.'/stubs/controller.stub';
+            return __DIR__ . '/stubs/controller.stub';
         }
 
-        return __DIR__.'/stubs/controller.plain.stub';
+        return __DIR__ . '/stubs/controller.plain.stub';
     }
+
 
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param  string $rootNamespace
+     *
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\Http\Controllers';
+        return $rootNamespace . '\Http\Controllers';
     }
+
 
     /**
      * Get the console command options.
@@ -61,16 +66,18 @@ class ControllerMakeCommand extends GeneratorCommand
     protected function getOptions()
     {
         return [
-            ['resource', null, InputOption::VALUE_NONE, 'Generate a resource controller class.'],
+            [ 'resource', null, InputOption::VALUE_NONE, 'Generate a resource controller class.' ],
         ];
     }
+
 
     /**
      * Build the class with the given name.
      *
      * Remove the base controller import if we are already in base namespace.
      *
-     * @param  string  $name
+     * @param  string $name
+     *
      * @return string
      */
     protected function buildClass($name)

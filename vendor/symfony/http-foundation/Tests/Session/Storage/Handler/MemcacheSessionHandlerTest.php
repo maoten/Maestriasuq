@@ -15,12 +15,14 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcacheSessionHand
 
 /**
  * @requires extension memcache
- * @group time-sensitive
+ * @group    time-sensitive
  */
 class MemcacheSessionHandlerTest extends \PHPUnit_Framework_TestCase
 {
+
     const PREFIX = 'prefix_';
     const TTL = 1000;
+
     /**
      * @var MemcacheSessionHandler
      */
@@ -28,78 +30,68 @@ class MemcacheSessionHandlerTest extends \PHPUnit_Framework_TestCase
 
     protected $memcache;
 
+
     protected function setUp()
     {
         parent::setUp();
         $this->memcache = $this->getMock('Memcache');
-        $this->storage = new MemcacheSessionHandler(
-            $this->memcache,
-            array('prefix' => self::PREFIX, 'expiretime' => self::TTL)
-        );
+        $this->storage  = new MemcacheSessionHandler($this->memcache,
+            [ 'prefix' => self::PREFIX, 'expiretime' => self::TTL ]);
     }
+
 
     protected function tearDown()
     {
         $this->memcache = null;
-        $this->storage = null;
+        $this->storage  = null;
         parent::tearDown();
     }
+
 
     public function testOpenSession()
     {
         $this->assertTrue($this->storage->open('', ''));
     }
 
+
     public function testCloseSession()
     {
-        $this->memcache
-            ->expects($this->once())
-            ->method('close')
-            ->will($this->returnValue(true))
-        ;
+        $this->memcache->expects($this->once())->method('close')->will($this->returnValue(true));
 
         $this->assertTrue($this->storage->close());
     }
 
+
     public function testReadSession()
     {
-        $this->memcache
-            ->expects($this->once())
-            ->method('get')
-            ->with(self::PREFIX.'id')
-        ;
+        $this->memcache->expects($this->once())->method('get')->with(self::PREFIX . 'id');
 
         $this->assertEquals('', $this->storage->read('id'));
     }
 
+
     public function testWriteSession()
     {
-        $this->memcache
-            ->expects($this->once())
-            ->method('set')
-            ->with(self::PREFIX.'id', 'data', 0, $this->equalTo(time() + self::TTL, 2))
-            ->will($this->returnValue(true))
-        ;
+        $this->memcache->expects($this->once())->method('set')->with(self::PREFIX . 'id', 'data', 0,
+                $this->equalTo(time() + self::TTL, 2))->will($this->returnValue(true));
 
         $this->assertTrue($this->storage->write('id', 'data'));
     }
 
+
     public function testDestroySession()
     {
-        $this->memcache
-            ->expects($this->once())
-            ->method('delete')
-            ->with(self::PREFIX.'id')
-            ->will($this->returnValue(true))
-        ;
+        $this->memcache->expects($this->once())->method('delete')->with(self::PREFIX . 'id')->will($this->returnValue(true));
 
         $this->assertTrue($this->storage->destroy('id'));
     }
+
 
     public function testGcSession()
     {
         $this->assertTrue($this->storage->gc(123));
     }
+
 
     /**
      * @dataProvider getOptionFixtures
@@ -114,15 +106,17 @@ class MemcacheSessionHandlerTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+
     public function getOptionFixtures()
     {
-        return array(
-            array(array('prefix' => 'session'), true),
-            array(array('expiretime' => 100), true),
-            array(array('prefix' => 'session', 'expiretime' => 200), true),
-            array(array('expiretime' => 100, 'foo' => 'bar'), false),
-        );
+        return [
+            [ [ 'prefix' => 'session' ], true ],
+            [ [ 'expiretime' => 100 ], true ],
+            [ [ 'prefix' => 'session', 'expiretime' => 200 ], true ],
+            [ [ 'expiretime' => 100, 'foo' => 'bar' ], false ],
+        ];
     }
+
 
     public function testGetConnection()
     {

@@ -18,6 +18,7 @@ namespace Symfony\Component\HttpKernel;
  */
 final class KernelEvents
 {
+
     /**
      * The REQUEST event occurs at the very beginning of request
      * dispatching.

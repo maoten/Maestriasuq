@@ -16,10 +16,12 @@
  */
 class PHPUnit_Framework_MockObject_Matcher_InvokedAtMostCount extends PHPUnit_Framework_MockObject_Matcher_InvokedRecorder
 {
+
     /**
      * @var int
      */
     private $allowedInvocations;
+
 
     /**
      * @param int $allowedInvocations
@@ -29,6 +31,7 @@ class PHPUnit_Framework_MockObject_Matcher_InvokedAtMostCount extends PHPUnit_Fr
         $this->allowedInvocations = $allowedInvocations;
     }
 
+
     /**
      * @return string
      */
@@ -36,6 +39,7 @@ class PHPUnit_Framework_MockObject_Matcher_InvokedAtMostCount extends PHPUnit_Fr
     {
         return 'invoked at most ' . $this->allowedInvocations . ' times';
     }
+
 
     /**
      * Verifies that the current expectation is valid. If everything is OK the
@@ -48,10 +52,7 @@ class PHPUnit_Framework_MockObject_Matcher_InvokedAtMostCount extends PHPUnit_Fr
         $count = $this->getInvocationCount();
 
         if ($count > $this->allowedInvocations) {
-            throw new PHPUnit_Framework_ExpectationFailedException(
-                'Expected invocation at most ' . $this->allowedInvocations .
-                ' times but it occured ' . $count . ' time(s).'
-            );
+            throw new PHPUnit_Framework_ExpectationFailedException('Expected invocation at most ' . $this->allowedInvocations . ' times but it occured ' . $count . ' time(s).');
         }
     }
 }

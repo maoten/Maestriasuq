@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\Job as JobContract;
 
 class SyncJob extends Job implements JobContract
 {
+
     /**
      * The class name of the job.
      *
@@ -21,18 +22,21 @@ class SyncJob extends Job implements JobContract
      */
     protected $payload;
 
+
     /**
      * Create a new job instance.
      *
-     * @param  \Illuminate\Container\Container  $container
-     * @param  string  $payload
+     * @param  \Illuminate\Container\Container $container
+     * @param  string                          $payload
+     *
      * @return void
      */
     public function __construct(Container $container, $payload)
     {
-        $this->payload = $payload;
+        $this->payload   = $payload;
         $this->container = $container;
     }
+
 
     /**
      * Fire the job.
@@ -44,6 +48,7 @@ class SyncJob extends Job implements JobContract
         $this->resolveAndFire(json_decode($this->payload, true));
     }
 
+
     /**
      * Get the raw body string for the job.
      *
@@ -54,16 +59,19 @@ class SyncJob extends Job implements JobContract
         return $this->payload;
     }
 
+
     /**
      * Release the job back into the queue.
      *
-     * @param  int   $delay
+     * @param  int $delay
+     *
      * @return void
      */
     public function release($delay = 0)
     {
         parent::release($delay);
     }
+
 
     /**
      * Get the number of times the job has been attempted.
@@ -74,6 +82,7 @@ class SyncJob extends Job implements JobContract
     {
         return 1;
     }
+
 
     /**
      * Get the job identifier.

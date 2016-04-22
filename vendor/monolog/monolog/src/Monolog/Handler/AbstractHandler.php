@@ -22,14 +22,18 @@ use Monolog\Formatter\LineFormatter;
  */
 abstract class AbstractHandler implements HandlerInterface
 {
+
     protected $level = Logger::DEBUG;
+
     protected $bubble = true;
 
     /**
      * @var FormatterInterface
      */
     protected $formatter;
-    protected $processors = array();
+
+    protected $processors = [ ];
+
 
     /**
      * @param int     $level  The minimum logging level at which this handler will be triggered
@@ -41,6 +45,7 @@ abstract class AbstractHandler implements HandlerInterface
         $this->bubble = $bubble;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -48,6 +53,7 @@ abstract class AbstractHandler implements HandlerInterface
     {
         return $record['level'] >= $this->level;
     }
+
 
     /**
      * {@inheritdoc}
@@ -59,6 +65,7 @@ abstract class AbstractHandler implements HandlerInterface
         }
     }
 
+
     /**
      * Closes the handler.
      *
@@ -68,30 +75,34 @@ abstract class AbstractHandler implements HandlerInterface
     {
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function pushProcessor($callback)
     {
-        if (!is_callable($callback)) {
-            throw new \InvalidArgumentException('Processors must be valid callables (callback or object with an __invoke method), '.var_export($callback, true).' given');
+        if ( ! is_callable($callback)) {
+            throw new \InvalidArgumentException('Processors must be valid callables (callback or object with an __invoke method), ' . var_export($callback,
+                    true) . ' given');
         }
         array_unshift($this->processors, $callback);
 
         return $this;
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function popProcessor()
     {
-        if (!$this->processors) {
+        if ( ! $this->processors) {
             throw new \LogicException('You tried to pop from an empty processor stack.');
         }
 
         return array_shift($this->processors);
     }
+
 
     /**
      * {@inheritdoc}
@@ -103,22 +114,25 @@ abstract class AbstractHandler implements HandlerInterface
         return $this;
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function getFormatter()
     {
-        if (!$this->formatter) {
+        if ( ! $this->formatter) {
             $this->formatter = $this->getDefaultFormatter();
         }
 
         return $this->formatter;
     }
 
+
     /**
      * Sets minimum logging level at which this handler will be triggered.
      *
      * @param  int|string $level Level or level name
+     *
      * @return self
      */
     public function setLevel($level)
@@ -127,6 +141,7 @@ abstract class AbstractHandler implements HandlerInterface
 
         return $this;
     }
+
 
     /**
      * Gets minimum logging level at which this handler will be triggered.
@@ -138,11 +153,13 @@ abstract class AbstractHandler implements HandlerInterface
         return $this->level;
     }
 
+
     /**
      * Sets the bubbling behavior.
      *
      * @param  Boolean $bubble true means that this handler allows bubbling.
      *                         false means that bubbling is not permitted.
+     *
      * @return self
      */
     public function setBubble($bubble)
@@ -151,6 +168,7 @@ abstract class AbstractHandler implements HandlerInterface
 
         return $this;
     }
+
 
     /**
      * Gets the bubbling behavior.
@@ -163,6 +181,7 @@ abstract class AbstractHandler implements HandlerInterface
         return $this->bubble;
     }
 
+
     public function __destruct()
     {
         try {
@@ -171,6 +190,7 @@ abstract class AbstractHandler implements HandlerInterface
             // do nothing
         }
     }
+
 
     /**
      * Gets the default formatter.

@@ -7,15 +7,18 @@ use Mockery\Spy;
 
 class SpyTest extends \PHPUnit_Framework_TestCase
 {
+
     public function setup()
     {
         $this->container = new \Mockery\Container;
     }
 
+
     public function teardown()
     {
         $this->container->mockery_close();
     }
+
 
     /** @test */
     public function itVerifiesAMethodWasCalled()
@@ -28,6 +31,7 @@ class SpyTest extends \PHPUnit_Framework_TestCase
         $spy->shouldHaveReceived("someMethodThatWasNotCalled");
     }
 
+
     /** @test */
     public function itVerifiesAMethodWasNotCalled()
     {
@@ -39,17 +43,19 @@ class SpyTest extends \PHPUnit_Framework_TestCase
         $spy->shouldNotHaveReceived("myMethod");
     }
 
+
     /** @test */
     public function itVerifiesAMethodWasNotCalledWithParticularArguments()
     {
         $spy = m::spy();
         $spy->myMethod(123, 456);
 
-        $spy->shouldNotHaveReceived("myMethod", array(789, 10));
+        $spy->shouldNotHaveReceived("myMethod", [ 789, 10 ]);
 
         $this->setExpectedException("Mockery\Exception\InvalidCountException");
-        $spy->shouldNotHaveReceived("myMethod", array(123, 456));
+        $spy->shouldNotHaveReceived("myMethod", [ 123, 456 ]);
     }
+
 
     /** @test */
     public function itVerifiesAMethodWasCalledASpecificNumberOfTimes()
@@ -64,13 +70,14 @@ class SpyTest extends \PHPUnit_Framework_TestCase
         $spy->shouldHaveReceived("myMethod")->twice();
     }
 
+
     /** @test */
     public function itVerifiesAMethodWasCalledWithSpecificArguments()
     {
         $spy = m::spy();
         $spy->myMethod(123, "a string");
         $spy->shouldHaveReceived("myMethod")->with(123, "a string");
-        $spy->shouldHaveReceived("myMethod", array(123, "a string"));
+        $spy->shouldHaveReceived("myMethod", [ 123, "a string" ]);
 
         $this->setExpectedException("Mockery\Exception\InvalidCountException");
         $spy->shouldHaveReceived("myMethod")->with(123);

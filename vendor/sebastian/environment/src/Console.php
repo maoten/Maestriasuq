@@ -14,9 +14,11 @@ namespace SebastianBergmann\Environment;
  */
 class Console
 {
-    const STDIN  = 0;
+
+    const STDIN = 0;
     const STDOUT = 1;
     const STDERR = 2;
+
 
     /**
      * Returns true if STDOUT supports colorization.
@@ -32,12 +34,13 @@ class Console
             return false !== getenv('ANSICON') || 'ON' === getenv('ConEmuANSI') || 'xterm' === getenv('TERM');
         }
 
-        if (!defined('STDOUT')) {
+        if ( ! defined('STDOUT')) {
             return false;
         }
 
         return $this->isInteractive(STDOUT);
     }
+
 
     /**
      * Returns the number of columns of the terminal.
@@ -52,17 +55,10 @@ class Console
             if (preg_match('/^(\d+)x\d+ \(\d+x(\d+)\)$/', trim(getenv('ANSICON')), $matches)) {
                 $columns = $matches[1];
             } elseif (function_exists('proc_open')) {
-                $process = proc_open(
-                    'mode CON',
-                    array(
-                        1 => array('pipe', 'w'),
-                        2 => array('pipe', 'w')
-                    ),
-                    $pipes,
-                    null,
-                    null,
-                    array('suppress_errors' => true)
-                );
+                $process = proc_open('mode CON', [
+                        1 => [ 'pipe', 'w' ],
+                        2 => [ 'pipe', 'w' ]
+                    ], $pipes, null, null, [ 'suppress_errors' => true ]);
 
                 if (is_resource($process)) {
                     $info = stream_get_contents($pipes[1]);
@@ -80,7 +76,7 @@ class Console
             return $columns - 1;
         }
 
-        if (!$this->isInteractive(self::STDIN)) {
+        if ( ! $this->isInteractive(self::STDIN)) {
             return 80;
         }
 
@@ -98,6 +94,7 @@ class Console
 
         return 80;
     }
+
 
     /**
      * Returns if the file descriptor is an interactive terminal or not.

@@ -8,6 +8,7 @@ namespace Faker\Provider;
  */
 class Barcode extends \Faker\Provider\Base
 {
+
     private function ean($length = 13)
     {
         $code = $this->numerify(str_repeat('#', $length - 1));
@@ -15,24 +16,28 @@ class Barcode extends \Faker\Provider\Base
         return $code . static::eanChecksum($code);
     }
 
+
     /**
      * Utility function for computing EAN checksums
      */
     protected static function eanChecksum($input)
     {
-        $sequence = (strlen($input) - 1) == 8 ? array(3, 1) : array(1, 3);
-        $sums = 0;
+        $sequence = ( strlen($input) - 1 ) == 8 ? [ 3, 1 ] : [ 1, 3 ];
+        $sums     = 0;
         foreach (str_split($input) as $n => $digit) {
             $sums += $digit * $sequence[$n % 2];
         }
-        return (10 - $sums % 10) % 10;
+
+        return ( 10 - $sums % 10 ) % 10;
     }
+
 
     /**
      * ISBN-10 check digit
      * @link http://en.wikipedia.org/wiki/International_Standard_Book_Number#ISBN-10_check_digits
      *
-     * @param  string           $input ISBN without check-digit
+     * @param  string $input ISBN without check-digit
+     *
      * @throws \LengthException When wrong input length passed
      *
      * @return integer Check digit
@@ -48,17 +53,15 @@ class Barcode extends \Faker\Provider\Base
         }
 
         $digits = str_split($input);
-        array_walk(
-            $digits,
-            function (&$digit, $position) {
-                $digit = (10 - $position) * $digit;
-            }
-        );
-        $result = (11 - array_sum($digits) % 11) % 11;
+        array_walk($digits, function (&$digit, $position) {
+            $digit = ( 10 - $position ) * $digit;
+        });
+        $result = ( 11 - array_sum($digits) % 11 ) % 11;
 
         // 10 is replaced by X
-        return ($result < 10)?$result:'X';
+        return ( $result < 10 ) ? $result : 'X';
     }
+
 
     /**
      * Get a random EAN13 barcode.
@@ -70,6 +73,7 @@ class Barcode extends \Faker\Provider\Base
         return $this->ean(13);
     }
 
+
     /**
      * Get a random EAN8 barcode.
      * @return string
@@ -80,9 +84,10 @@ class Barcode extends \Faker\Provider\Base
         return $this->ean(8);
     }
 
+
     /**
      * Get a random ISBN-10 code
-     * @link http://en.wikipedia.org/wiki/International_Standard_Book_Number
+     * @link    http://en.wikipedia.org/wiki/International_Standard_Book_Number
      *
      * @return string
      * @example '4881416324'
@@ -94,9 +99,10 @@ class Barcode extends \Faker\Provider\Base
         return $code . static::isbnChecksum($code);
     }
 
+
     /**
      * Get a random ISBN-13 code
-     * @link http://en.wikipedia.org/wiki/International_Standard_Book_Number
+     * @link    http://en.wikipedia.org/wiki/International_Standard_Book_Number
      *
      * @return string
      * @example '9790404436093'

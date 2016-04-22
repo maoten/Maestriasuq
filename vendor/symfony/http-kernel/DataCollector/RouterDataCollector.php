@@ -23,18 +23,21 @@ use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
  */
 class RouterDataCollector extends DataCollector
 {
+
     protected $controllers;
+
 
     public function __construct()
     {
         $this->controllers = new \SplObjectStorage();
 
-        $this->data = array(
+        $this->data = [
             'redirect' => false,
-            'url' => null,
-            'route' => null,
-        );
+            'url'      => null,
+            'route'    => null,
+        ];
     }
+
 
     /**
      * {@inheritdoc}
@@ -43,20 +46,22 @@ class RouterDataCollector extends DataCollector
     {
         if ($response instanceof RedirectResponse) {
             $this->data['redirect'] = true;
-            $this->data['url'] = $response->getTargetUrl();
+            $this->data['url']      = $response->getTargetUrl();
 
             if ($this->controllers->contains($request)) {
                 $this->data['route'] = $this->guessRoute($request, $this->controllers[$request]);
             }
         }
 
-        unset($this->controllers[$request]);
+        unset( $this->controllers[$request] );
     }
+
 
     protected function guessRoute(Request $request, $controller)
     {
         return 'n/a';
     }
+
 
     /**
      * Remembers the controller associated to each request.
@@ -68,6 +73,7 @@ class RouterDataCollector extends DataCollector
         $this->controllers[$event->getRequest()] = $event->getController();
     }
 
+
     /**
      * @return bool Whether this request will result in a redirect
      */
@@ -75,6 +81,7 @@ class RouterDataCollector extends DataCollector
     {
         return $this->data['redirect'];
     }
+
 
     /**
      * @return string|null The target URL
@@ -84,6 +91,7 @@ class RouterDataCollector extends DataCollector
         return $this->data['url'];
     }
 
+
     /**
      * @return string|null The target route
      */
@@ -91,6 +99,7 @@ class RouterDataCollector extends DataCollector
     {
         return $this->data['route'];
     }
+
 
     /**
      * {@inheritdoc}

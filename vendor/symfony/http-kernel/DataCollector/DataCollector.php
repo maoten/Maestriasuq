@@ -23,22 +23,26 @@ use Symfony\Component\HttpKernel\DataCollector\Util\ValueExporter;
  */
 abstract class DataCollector implements DataCollectorInterface, \Serializable
 {
-    protected $data = array();
+
+    protected $data = [ ];
 
     /**
      * @var ValueExporter
      */
     private $valueExporter;
 
+
     public function serialize()
     {
         return serialize($this->data);
     }
 
+
     public function unserialize($data)
     {
         $this->data = unserialize($data);
     }
+
 
     /**
      * Converts a PHP variable to a string.

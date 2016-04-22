@@ -15,10 +15,12 @@
  */
 class PHPUnit_Framework_MockObject_Invocation_Object extends PHPUnit_Framework_MockObject_Invocation_Static
 {
+
     /**
      * @var object
      */
     public $object;
+
 
     /**
      * @param string $className

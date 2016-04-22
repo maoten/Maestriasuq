@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddDocumentosTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -23,6 +24,7 @@ class AddDocumentosTable extends Migration
         });
         DB::statement("ALTER TABLE documentos ADD file LONGBLOB NOT NULL");
     }
+
 
     /**
      * Reverse the migrations.

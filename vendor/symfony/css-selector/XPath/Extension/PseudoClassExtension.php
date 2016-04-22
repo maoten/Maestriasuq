@@ -26,22 +26,24 @@ use Symfony\Component\CssSelector\XPath\XPathExpr;
  */
 class PseudoClassExtension extends AbstractExtension
 {
+
     /**
      * {@inheritdoc}
      */
     public function getPseudoClassTranslators()
     {
-        return array(
-            'root' => array($this, 'translateRoot'),
-            'first-child' => array($this, 'translateFirstChild'),
-            'last-child' => array($this, 'translateLastChild'),
-            'first-of-type' => array($this, 'translateFirstOfType'),
-            'last-of-type' => array($this, 'translateLastOfType'),
-            'only-child' => array($this, 'translateOnlyChild'),
-            'only-of-type' => array($this, 'translateOnlyOfType'),
-            'empty' => array($this, 'translateEmpty'),
-        );
+        return [
+            'root'          => [ $this, 'translateRoot' ],
+            'first-child'   => [ $this, 'translateFirstChild' ],
+            'last-child'    => [ $this, 'translateLastChild' ],
+            'first-of-type' => [ $this, 'translateFirstOfType' ],
+            'last-of-type'  => [ $this, 'translateLastOfType' ],
+            'only-child'    => [ $this, 'translateOnlyChild' ],
+            'only-of-type'  => [ $this, 'translateOnlyOfType' ],
+            'empty'         => [ $this, 'translateEmpty' ],
+        ];
     }
+
 
     /**
      * @param XPathExpr $xpath
@@ -53,6 +55,7 @@ class PseudoClassExtension extends AbstractExtension
         return $xpath->addCondition('not(parent::*)');
     }
 
+
     /**
      * @param XPathExpr $xpath
      *
@@ -60,11 +63,9 @@ class PseudoClassExtension extends AbstractExtension
      */
     public function translateFirstChild(XPathExpr $xpath)
     {
-        return $xpath
-            ->addStarPrefix()
-            ->addNameTest()
-            ->addCondition('position() = 1');
+        return $xpath->addStarPrefix()->addNameTest()->addCondition('position() = 1');
     }
+
 
     /**
      * @param XPathExpr $xpath
@@ -73,11 +74,9 @@ class PseudoClassExtension extends AbstractExtension
      */
     public function translateLastChild(XPathExpr $xpath)
     {
-        return $xpath
-            ->addStarPrefix()
-            ->addNameTest()
-            ->addCondition('position() = last()');
+        return $xpath->addStarPrefix()->addNameTest()->addCondition('position() = last()');
     }
+
 
     /**
      * @param XPathExpr $xpath
@@ -92,10 +91,9 @@ class PseudoClassExtension extends AbstractExtension
             throw new ExpressionErrorException('"*:first-of-type" is not implemented.');
         }
 
-        return $xpath
-            ->addStarPrefix()
-            ->addCondition('position() = 1');
+        return $xpath->addStarPrefix()->addCondition('position() = 1');
     }
+
 
     /**
      * @param XPathExpr $xpath
@@ -110,10 +108,9 @@ class PseudoClassExtension extends AbstractExtension
             throw new ExpressionErrorException('"*:last-of-type" is not implemented.');
         }
 
-        return $xpath
-            ->addStarPrefix()
-            ->addCondition('position() = last()');
+        return $xpath->addStarPrefix()->addCondition('position() = last()');
     }
+
 
     /**
      * @param XPathExpr $xpath
@@ -122,11 +119,9 @@ class PseudoClassExtension extends AbstractExtension
      */
     public function translateOnlyChild(XPathExpr $xpath)
     {
-        return $xpath
-            ->addStarPrefix()
-            ->addNameTest()
-            ->addCondition('last() = 1');
+        return $xpath->addStarPrefix()->addNameTest()->addCondition('last() = 1');
     }
+
 
     /**
      * @param XPathExpr $xpath
@@ -144,6 +139,7 @@ class PseudoClassExtension extends AbstractExtension
         return $xpath->addCondition('last() = 1');
     }
 
+
     /**
      * @param XPathExpr $xpath
      *
@@ -153,6 +149,7 @@ class PseudoClassExtension extends AbstractExtension
     {
         return $xpath->addCondition('not(*) and not(string-length())');
     }
+
 
     /**
      * {@inheritdoc}

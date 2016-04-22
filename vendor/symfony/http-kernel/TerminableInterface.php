@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 interface TerminableInterface
 {
+
     /**
      * Terminates a request/response cycle.
      *

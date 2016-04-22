@@ -16,12 +16,14 @@ namespace Psy\Readline;
  */
 interface Readline
 {
+
     /**
      * Check whether this Readline class is supported by the current system.
      *
      * @return bool
      */
     public static function isSupported();
+
 
     /**
      * Add a line to the command history.
@@ -32,12 +34,14 @@ interface Readline
      */
     public function addHistory($line);
 
+
     /**
      * Clear the command history.
      *
      * @return bool Success
      */
     public function clearHistory();
+
 
     /**
      * List the command history.
@@ -46,12 +50,14 @@ interface Readline
      */
     public function listHistory();
 
+
     /**
      * Read the command history.
      *
      * @return bool Success
      */
     public function readHistory();
+
 
     /**
      * Read a single line of input from the user.
@@ -62,10 +68,12 @@ interface Readline
      */
     public function readline($prompt = null);
 
+
     /**
      * Redraw readline to redraw the display.
      */
     public function redisplay();
+
 
     /**
      * Write the command history to a file.

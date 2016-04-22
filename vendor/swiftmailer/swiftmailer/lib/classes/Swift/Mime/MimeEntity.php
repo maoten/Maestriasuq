@@ -15,6 +15,7 @@
  */
 interface Swift_Mime_MimeEntity extends Swift_Mime_CharsetObserver, Swift_Mime_EncodingObserver
 {
+
     /** Main message document; there can only be one of these */
     const LEVEL_TOP = 16;
 
@@ -27,6 +28,7 @@ interface Swift_Mime_MimeEntity extends Swift_Mime_CharsetObserver, Swift_Mime_E
     /** An entity which nests with the same precedence as embedded content */
     const LEVEL_RELATED = 65536;
 
+
     /**
      * Get the level at which this entity shall be nested in final document.
      *
@@ -38,12 +40,14 @@ interface Swift_Mime_MimeEntity extends Swift_Mime_CharsetObserver, Swift_Mime_E
      */
     public function getNestingLevel();
 
+
     /**
      * Get the qualified content-type of this mime entity.
      *
      * @return string
      */
     public function getContentType();
+
 
     /**
      * Returns a unique ID for this entity.
@@ -59,6 +63,7 @@ interface Swift_Mime_MimeEntity extends Swift_Mime_CharsetObserver, Swift_Mime_E
      */
     public function getId();
 
+
     /**
      * Get all children nested inside this entity.
      *
@@ -67,6 +72,7 @@ interface Swift_Mime_MimeEntity extends Swift_Mime_CharsetObserver, Swift_Mime_E
      * @return Swift_Mime_MimeEntity[]
      */
     public function getChildren();
+
 
     /**
      * Set all children nested inside this entity.
@@ -77,12 +83,14 @@ interface Swift_Mime_MimeEntity extends Swift_Mime_CharsetObserver, Swift_Mime_E
      */
     public function setChildren(array $children);
 
+
     /**
      * Get the collection of Headers in this Mime entity.
      *
      * @return Swift_Mime_HeaderSet
      */
     public function getHeaders();
+
 
     /**
      * Get the body content of this entity as a string.
@@ -93,6 +101,7 @@ interface Swift_Mime_MimeEntity extends Swift_Mime_CharsetObserver, Swift_Mime_E
      */
     public function getBody();
 
+
     /**
      * Set the body content of this entity as a string.
      *
@@ -101,12 +110,14 @@ interface Swift_Mime_MimeEntity extends Swift_Mime_CharsetObserver, Swift_Mime_E
      */
     public function setBody($body, $contentType = null);
 
+
     /**
      * Get this entire entity in its string form.
      *
      * @return string
      */
     public function toString();
+
 
     /**
      * Get this entire entity as a ByteStream.

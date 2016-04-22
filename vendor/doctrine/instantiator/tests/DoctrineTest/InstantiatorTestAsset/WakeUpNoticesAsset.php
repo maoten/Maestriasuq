@@ -28,6 +28,7 @@ use ArrayObject;
  */
 class WakeUpNoticesAsset extends ArrayObject
 {
+
     /**
      * Wakeup method called after un-serialization
      */

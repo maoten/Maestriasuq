@@ -17,12 +17,15 @@ use SebastianBergmann\Exporter\Exporter;
  */
 abstract class PHPUnit_Framework_Constraint implements Countable, PHPUnit_Framework_SelfDescribing
 {
+
     protected $exporter;
+
 
     public function __construct()
     {
         $this->exporter = new Exporter;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other
@@ -54,10 +57,11 @@ abstract class PHPUnit_Framework_Constraint implements Countable, PHPUnit_Framew
             return $success;
         }
 
-        if (!$success) {
+        if ( ! $success) {
             $this->fail($other, $description);
         }
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -74,6 +78,7 @@ abstract class PHPUnit_Framework_Constraint implements Countable, PHPUnit_Framew
         return false;
     }
 
+
     /**
      * Counts the number of constraint elements.
      *
@@ -86,21 +91,22 @@ abstract class PHPUnit_Framework_Constraint implements Countable, PHPUnit_Framew
         return 1;
     }
 
+
     /**
      * Throws an exception for the given compared value and test description
      *
-     * @param mixed                                          $other             Evaluated value or object.
-     * @param string                                         $description       Additional information about the test
+     * @param mixed                                          $other       Evaluated value or object.
+     * @param string                                         $description Additional information about the test
      * @param SebastianBergmann\Comparator\ComparisonFailure $comparisonFailure
      *
      * @throws PHPUnit_Framework_ExpectationFailedException
      */
-    protected function fail($other, $description, SebastianBergmann\Comparator\ComparisonFailure $comparisonFailure = null)
-    {
-        $failureDescription = sprintf(
-            'Failed asserting that %s.',
-            $this->failureDescription($other)
-        );
+    protected function fail(
+        $other,
+        $description,
+        SebastianBergmann\Comparator\ComparisonFailure $comparisonFailure = null
+    ) {
+        $failureDescription = sprintf('Failed asserting that %s.', $this->failureDescription($other));
 
         $additionalFailureDescription = $this->additionalFailureDescription($other);
 
@@ -108,15 +114,13 @@ abstract class PHPUnit_Framework_Constraint implements Countable, PHPUnit_Framew
             $failureDescription .= "\n" . $additionalFailureDescription;
         }
 
-        if (!empty($description)) {
+        if ( ! empty( $description )) {
             $failureDescription = $description . "\n" . $failureDescription;
         }
 
-        throw new PHPUnit_Framework_ExpectationFailedException(
-            $failureDescription,
-            $comparisonFailure
-        );
+        throw new PHPUnit_Framework_ExpectationFailedException($failureDescription, $comparisonFailure);
     }
+
 
     /**
      * Return additional failure description where needed
@@ -132,6 +136,7 @@ abstract class PHPUnit_Framework_Constraint implements Countable, PHPUnit_Framew
     {
         return '';
     }
+
 
     /**
      * Returns the description of the failure

@@ -1,7 +1,10 @@
 <?php
+
 class Issue797Test extends PHPUnit_Framework_TestCase
 {
+
     protected $preserveGlobalState = false;
+
 
     public function testBootstrapPhpIsExecutedInIsolation()
     {

@@ -8,9 +8,12 @@ use PhpParser\Node\Stmt;
 
 abstract class Declaration extends PhpParser\BuilderAbstract
 {
-    protected $attributes = array();
+
+    protected $attributes = [ ];
+
 
     abstract public function addStmt($stmt);
+
 
     /**
      * Adds multiple statements.
@@ -19,13 +22,15 @@ abstract class Declaration extends PhpParser\BuilderAbstract
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function addStmts(array $stmts) {
+    public function addStmts(array $stmts)
+    {
         foreach ($stmts as $stmt) {
             $this->addStmt($stmt);
         }
 
         return $this;
     }
+
 
     /**
      * Sets doc comment for the declaration.
@@ -34,10 +39,11 @@ abstract class Declaration extends PhpParser\BuilderAbstract
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function setDocComment($docComment) {
-        $this->attributes['comments'] = array(
+    public function setDocComment($docComment)
+    {
+        $this->attributes['comments'] = [
             $this->normalizeDocComment($docComment)
-        );
+        ];
 
         return $this;
     }

@@ -18,7 +18,9 @@ namespace Symfony\Component\Debug;
  */
 class Debug
 {
+
     private static $enabled = false;
+
 
     /**
      * Enables the debug tools.
@@ -48,7 +50,7 @@ class Debug
         if ('cli' !== php_sapi_name()) {
             ini_set('display_errors', 0);
             ExceptionHandler::register();
-        } elseif ($displayErrors && (!ini_get('log_errors') || ini_get('error_log'))) {
+        } elseif ($displayErrors && ( ! ini_get('log_errors') || ini_get('error_log') )) {
             // CLI - display errors only if they're not already logged to STDERR
             ini_set('display_errors', 1);
         }

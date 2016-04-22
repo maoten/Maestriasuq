@@ -16,6 +16,7 @@ use Psy\Exception\ParseErrorException;
 
 class ParseErrorExceptionTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testInstance()
     {
         $e = new ParseErrorException();
@@ -25,6 +26,7 @@ class ParseErrorExceptionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($e instanceof ParseErrorException);
     }
 
+
     public function testMessage()
     {
         $e = new ParseErrorException('{msg}', 1);
@@ -32,6 +34,7 @@ class ParseErrorExceptionTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('{msg}', $e->getMessage());
         $this->assertContains('PHP Parse error:', $e->getMessage());
     }
+
 
     public function testConstructFromParseError()
     {

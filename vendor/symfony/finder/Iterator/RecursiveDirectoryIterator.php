@@ -21,6 +21,7 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
 {
+
     /**
      * @var bool
      */
@@ -33,8 +34,11 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
 
     // these 3 properties take part of the performance optimization to avoid redoing the same work in all iterations
     private $rootPath;
+
     private $subPath;
+
     private $directorySeparator = '/';
+
 
     /**
      * Constructor.
@@ -47,17 +51,18 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
      */
     public function __construct($path, $flags, $ignoreUnreadableDirs = false)
     {
-        if ($flags & (self::CURRENT_AS_PATHNAME | self::CURRENT_AS_SELF)) {
+        if ($flags & ( self::CURRENT_AS_PATHNAME | self::CURRENT_AS_SELF )) {
             throw new \RuntimeException('This iterator only support returning current as fileinfo.');
         }
 
         parent::__construct($path, $flags);
         $this->ignoreUnreadableDirs = $ignoreUnreadableDirs;
-        $this->rootPath = $path;
-        if ('/' !== DIRECTORY_SEPARATOR && !($flags & self::UNIX_PATHS)) {
+        $this->rootPath             = $path;
+        if ('/' !== DIRECTORY_SEPARATOR && ! ( $flags & self::UNIX_PATHS )) {
             $this->directorySeparator = DIRECTORY_SEPARATOR;
         }
     }
+
 
     /**
      * Return an instance of SplFileInfo with support for relative paths.
@@ -76,8 +81,10 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
         }
         $subPathname .= $this->getFilename();
 
-        return new SplFileInfo($this->rootPath.$this->directorySeparator.$subPathname, $this->subPath, $subPathname);
+        return new SplFileInfo($this->rootPath . $this->directorySeparator . $subPathname, $this->subPath,
+            $subPathname);
     }
+
 
     /**
      * @return \RecursiveIterator
@@ -95,19 +102,20 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
 
                 // performance optimization to avoid redoing the same work in all children
                 $children->rewindable = &$this->rewindable;
-                $children->rootPath = $this->rootPath;
+                $children->rootPath   = $this->rootPath;
             }
 
             return $children;
         } catch (\UnexpectedValueException $e) {
             if ($this->ignoreUnreadableDirs) {
                 // If directory is unreadable and finder is set to ignore it, a fake empty content is returned.
-                return new \RecursiveArrayIterator(array());
+                return new \RecursiveArrayIterator([ ]);
             } else {
                 throw new AccessDeniedException($e->getMessage(), $e->getCode(), $e);
             }
         }
     }
+
 
     /**
      * Do nothing for non rewindable stream.
@@ -125,6 +133,7 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
 
         parent::rewind();
     }
+
 
     /**
      * Checks if the stream is rewindable.

@@ -15,9 +15,13 @@ namespace SebastianBergmann;
  */
 class Version
 {
+
     private $path;
+
     private $release;
+
     private $version;
+
 
     /**
      * @param string $release
@@ -28,6 +32,7 @@ class Version
         $this->release = $release;
         $this->path    = $path;
     }
+
 
     /**
      * @return string
@@ -57,13 +62,15 @@ class Version
         return $this->version;
     }
 
+
     /**
-     * @param  string      $path
+     * @param  string $path
+     *
      * @return bool|string
      */
     private function getGitInformation($path)
     {
-        if (!is_dir($path . DIRECTORY_SEPARATOR . '.git')) {
+        if ( ! is_dir($path . DIRECTORY_SEPARATOR . '.git')) {
             return false;
         }
 

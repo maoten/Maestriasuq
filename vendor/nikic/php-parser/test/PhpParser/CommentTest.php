@@ -4,7 +4,9 @@ namespace PhpParser;
 
 class CommentTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetSet() {
+
+    public function testGetSet()
+    {
         $comment = new Comment('/* Some comment */', 1);
 
         $this->assertSame('/* Some comment */', $comment->getText());
@@ -19,19 +21,23 @@ class CommentTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(10, $comment->getLine());
     }
 
+
     /**
      * @dataProvider provideTestReformatting
      */
-    public function testReformatting($commentText, $reformattedText) {
+    public function testReformatting($commentText, $reformattedText)
+    {
         $comment = new Comment($commentText);
         $this->assertSame($reformattedText, $comment->getReformattedText());
     }
 
-    public function provideTestReformatting() {
-        return array(
-            array('// Some text' . "\n", '// Some text'),
-            array('/* Some text */', '/* Some text */'),
-            array(
+
+    public function provideTestReformatting()
+    {
+        return [
+            [ '// Some text' . "\n", '// Some text' ],
+            [ '/* Some text */', '/* Some text */' ],
+            [
                 '/**
      * Some text.
      * Some more text.
@@ -40,8 +46,8 @@ class CommentTest extends \PHPUnit_Framework_TestCase
  * Some text.
  * Some more text.
  */'
-            ),
-            array(
+            ],
+            [
                 '/*
         Some text.
         Some more text.
@@ -50,22 +56,22 @@ class CommentTest extends \PHPUnit_Framework_TestCase
     Some text.
     Some more text.
 */'
-            ),
-            array(
+            ],
+            [
                 '/* Some text.
        More text.
        Even more text. */',
                 '/* Some text.
    More text.
    Even more text. */'
-            ),
+            ],
             // invalid comment -> no reformatting
-            array(
+            [
                 'hallo
     world',
                 'hallo
     world',
-            ),
-        );
+            ],
+        ];
     }
 }

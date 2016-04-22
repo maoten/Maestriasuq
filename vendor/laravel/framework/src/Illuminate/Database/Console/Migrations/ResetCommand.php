@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 class ResetCommand extends Command
 {
+
     use ConfirmableTrait;
 
     /**
@@ -32,10 +33,12 @@ class ResetCommand extends Command
      */
     protected $migrator;
 
+
     /**
      * Create a new migration rollback command instance.
      *
-     * @param  \Illuminate\Database\Migrations\Migrator  $migrator
+     * @param  \Illuminate\Database\Migrations\Migrator $migrator
+     *
      * @return void
      */
     public function __construct(Migrator $migrator)
@@ -45,6 +48,7 @@ class ResetCommand extends Command
         $this->migrator = $migrator;
     }
 
+
     /**
      * Execute the console command.
      *
@@ -52,13 +56,13 @@ class ResetCommand extends Command
      */
     public function fire()
     {
-        if (! $this->confirmToProceed()) {
+        if ( ! $this->confirmToProceed()) {
             return;
         }
 
         $this->migrator->setConnection($this->input->getOption('database'));
 
-        if (! $this->migrator->repositoryExists()) {
+        if ( ! $this->migrator->repositoryExists()) {
             $this->output->writeln('<comment>Migration table not found.</comment>');
 
             return;
@@ -76,6 +80,7 @@ class ResetCommand extends Command
         }
     }
 
+
     /**
      * Get the console command options.
      *
@@ -84,11 +89,11 @@ class ResetCommand extends Command
     protected function getOptions()
     {
         return [
-            ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'],
+            [ 'database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.' ],
 
-            ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production.'],
+            [ 'force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production.' ],
 
-            ['pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'],
+            [ 'pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.' ],
         ];
     }
 }

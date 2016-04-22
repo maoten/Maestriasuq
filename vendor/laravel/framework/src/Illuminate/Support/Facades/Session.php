@@ -8,6 +8,7 @@ namespace Illuminate\Support\Facades;
  */
 class Session extends Facade
 {
+
     /**
      * Get the registered name of the component.
      *

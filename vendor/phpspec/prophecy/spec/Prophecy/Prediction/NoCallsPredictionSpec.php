@@ -6,10 +6,12 @@ use PhpSpec\ObjectBehavior;
 
 class NoCallsPredictionSpec extends ObjectBehavior
 {
+
     function it_is_prediction()
     {
         $this->shouldHaveType('Prophecy\Prediction\PredictionInterface');
     }
+
 
     /**
      * @param \Prophecy\Prophecy\ObjectProphecy $object
@@ -17,8 +19,9 @@ class NoCallsPredictionSpec extends ObjectBehavior
      */
     function it_does_nothing_if_there_is_no_calls_made($object, $method)
     {
-        $this->check(array(), $object, $method)->shouldReturn(null);
+        $this->check([ ], $object, $method)->shouldReturn(null);
     }
+
 
     /**
      * @param \Prophecy\Prophecy\ObjectProphecy    $object
@@ -34,10 +37,10 @@ class NoCallsPredictionSpec extends ObjectBehavior
         $arguments->__toString()->willReturn('123');
 
         $call->getMethodName()->willReturn('getName');
-        $call->getArguments()->willReturn(array(5, 4, 'three'));
+        $call->getArguments()->willReturn([ 5, 4, 'three' ]);
         $call->getCallPlace()->willReturn('unknown');
 
-        $this->shouldThrow('Prophecy\Exception\Prediction\UnexpectedCallsException')
-            ->duringCheck(array($call), $object, $method);
+        $this->shouldThrow('Prophecy\Exception\Prediction\UnexpectedCallsException')->duringCheck([ $call ], $object,
+                $method);
     }
 }

@@ -16,12 +16,14 @@ use Psy\CodeCleaner\CalledClassPass;
 
 class CalledClassPassTest extends CodeCleanerTestCase
 {
+
     public function setUp()
     {
         $this->pass      = new CalledClassPass();
         $this->traverser = new NodeTraverser();
         $this->traverser->addVisitor($this->pass);
     }
+
 
     /**
      * @dataProvider invalidStatements
@@ -33,19 +35,21 @@ class CalledClassPassTest extends CodeCleanerTestCase
         $this->traverser->traverse($stmts);
     }
 
+
     public function invalidStatements()
     {
-        return array(
-            array('get_class()'),
-            array('get_class(null)'),
-            array('get_called_class()'),
-            array('get_called_class(null)'),
-            array('function foo() { return get_class(); }'),
-            array('function foo() { return get_class(null); }'),
-            array('function foo() { return get_called_class(); }'),
-            array('function foo() { return get_called_class(null); }'),
-        );
+        return [
+            [ 'get_class()' ],
+            [ 'get_class(null)' ],
+            [ 'get_called_class()' ],
+            [ 'get_called_class(null)' ],
+            [ 'function foo() { return get_class(); }' ],
+            [ 'function foo() { return get_class(null); }' ],
+            [ 'function foo() { return get_called_class(); }' ],
+            [ 'function foo() { return get_called_class(null); }' ],
+        ];
     }
+
 
     /**
      * @dataProvider validStatements
@@ -56,22 +60,24 @@ class CalledClassPassTest extends CodeCleanerTestCase
         $this->traverser->traverse($stmts);
     }
 
+
     public function validStatements()
     {
-        return array(
-            array('get_class($foo)'),
-            array('get_class(bar())'),
-            array('get_called_class($foo)'),
-            array('get_called_class(bar())'),
-            array('function foo($bar) { return get_class($bar); }'),
-            array('function foo($bar) { return get_called_class($bar); }'),
-            array('class Foo { function bar() { return get_class(); } }'),
-            array('class Foo { function bar() { return get_class(null); } }'),
-            array('class Foo { function bar() { return get_called_class(); } }'),
-            array('class Foo { function bar() { return get_called_class(null); } }'),
-            array('$foo = function () {}; $foo()'),
-        );
+        return [
+            [ 'get_class($foo)' ],
+            [ 'get_class(bar())' ],
+            [ 'get_called_class($foo)' ],
+            [ 'get_called_class(bar())' ],
+            [ 'function foo($bar) { return get_class($bar); }' ],
+            [ 'function foo($bar) { return get_called_class($bar); }' ],
+            [ 'class Foo { function bar() { return get_class(); } }' ],
+            [ 'class Foo { function bar() { return get_class(null); } }' ],
+            [ 'class Foo { function bar() { return get_called_class(); } }' ],
+            [ 'class Foo { function bar() { return get_called_class(null); } }' ],
+            [ '$foo = function () {}; $foo()' ],
+        ];
     }
+
 
     /**
      * @dataProvider validTraitStatements
@@ -86,13 +92,14 @@ class CalledClassPassTest extends CodeCleanerTestCase
         $this->traverser->traverse($stmts);
     }
 
+
     public function validTraitStatements()
     {
-        return array(
-            array('trait Foo { function bar() { return get_class(); } }'),
-            array('trait Foo { function bar() { return get_class(null); } }'),
-            array('trait Foo { function bar() { return get_called_class(); } }'),
-            array('trait Foo { function bar() { return get_called_class(null); } }'),
-        );
+        return [
+            [ 'trait Foo { function bar() { return get_class(); } }' ],
+            [ 'trait Foo { function bar() { return get_class(null); } }' ],
+            [ 'trait Foo { function bar() { return get_called_class(); } }' ],
+            [ 'trait Foo { function bar() { return get_called_class(null); } }' ],
+        ];
     }
 }

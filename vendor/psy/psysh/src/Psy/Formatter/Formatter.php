@@ -16,6 +16,7 @@ namespace Psy\Formatter;
  */
 interface Formatter
 {
+
     /**
      * @param \Reflector $reflector
      *

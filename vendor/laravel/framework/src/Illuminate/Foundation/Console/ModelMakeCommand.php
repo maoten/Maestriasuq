@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 class ModelMakeCommand extends GeneratorCommand
 {
+
     /**
      * The console command name.
      *
@@ -29,6 +30,7 @@ class ModelMakeCommand extends GeneratorCommand
      */
     protected $type = 'Model';
 
+
     /**
      * Execute the console command.
      *
@@ -40,10 +42,11 @@ class ModelMakeCommand extends GeneratorCommand
             if ($this->option('migration')) {
                 $table = Str::plural(Str::snake(class_basename($this->argument('name'))));
 
-                $this->call('make:migration', ['name' => "create_{$table}_table", '--create' => $table]);
+                $this->call('make:migration', [ 'name' => "create_{$table}_table", '--create' => $table ]);
             }
         }
     }
+
 
     /**
      * Get the stub file for the generator.
@@ -52,19 +55,22 @@ class ModelMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/stubs/model.stub';
+        return __DIR__ . '/stubs/model.stub';
     }
+
 
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param  string $rootNamespace
+     *
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)
     {
         return $rootNamespace;
     }
+
 
     /**
      * Get the console command options.
@@ -74,7 +80,7 @@ class ModelMakeCommand extends GeneratorCommand
     protected function getOptions()
     {
         return [
-            ['migration', 'm', InputOption::VALUE_NONE, 'Create a new migration file for the model.'],
+            [ 'migration', 'm', InputOption::VALUE_NONE, 'Create a new migration file for the model.' ],
         ];
     }
 }

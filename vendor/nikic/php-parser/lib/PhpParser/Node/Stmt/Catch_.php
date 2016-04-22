@@ -6,12 +6,16 @@ use PhpParser\Node;
 
 class Catch_ extends Node\Stmt
 {
+
     /** @var Node\Name Class of exception */
     public $type;
+
     /** @var string Variable for exception */
     public $var;
+
     /** @var Node[] Statements */
     public $stmts;
+
 
     /**
      * Constructs a catch node.
@@ -21,14 +25,17 @@ class Catch_ extends Node\Stmt
      * @param Node[]    $stmts      Statements
      * @param array     $attributes Additional attributes
      */
-    public function __construct(Node\Name $type, $var, array $stmts = array(), array $attributes = array()) {
+    public function __construct(Node\Name $type, $var, array $stmts = [ ], array $attributes = [ ])
+    {
         parent::__construct($attributes);
-        $this->type = $type;
-        $this->var = $var;
+        $this->type  = $type;
+        $this->var   = $var;
         $this->stmts = $stmts;
     }
 
-    public function getSubNodeNames() {
-        return array('type', 'var', 'stmts');
+
+    public function getSubNodeNames()
+    {
+        return [ 'type', 'var', 'stmts' ];
     }
 }

@@ -7,18 +7,21 @@ use BadMethodCallException;
 
 trait Macroable
 {
+
     /**
      * The registered string macros.
      *
      * @var array
      */
-    protected static $macros = [];
+    protected static $macros = [ ];
+
 
     /**
      * Register a custom macro.
      *
-     * @param  string    $name
-     * @param  callable  $macro
+     * @param  string   $name
+     * @param  callable $macro
+     *
      * @return void
      */
     public static function macro($name, callable $macro)
@@ -26,22 +29,26 @@ trait Macroable
         static::$macros[$name] = $macro;
     }
 
+
     /**
      * Checks if macro is registered.
      *
-     * @param  string  $name
+     * @param  string $name
+     *
      * @return bool
      */
     public static function hasMacro($name)
     {
-        return isset(static::$macros[$name]);
+        return isset( static::$macros[$name] );
     }
+
 
     /**
      * Dynamically handle calls to the class.
      *
-     * @param  string  $method
-     * @param  array   $parameters
+     * @param  string $method
+     * @param  array  $parameters
+     *
      * @return mixed
      *
      * @throws \BadMethodCallException
@@ -50,7 +57,8 @@ trait Macroable
     {
         if (static::hasMacro($method)) {
             if (static::$macros[$method] instanceof Closure) {
-                return call_user_func_array(Closure::bind(static::$macros[$method], null, get_called_class()), $parameters);
+                return call_user_func_array(Closure::bind(static::$macros[$method], null, get_called_class()),
+                    $parameters);
             } else {
                 return call_user_func_array(static::$macros[$method], $parameters);
             }
@@ -59,11 +67,13 @@ trait Macroable
         throw new BadMethodCallException("Method {$method} does not exist.");
     }
 
+
     /**
      * Dynamically handle calls to the class.
      *
-     * @param  string  $method
-     * @param  array   $parameters
+     * @param  string $method
+     * @param  array  $parameters
+     *
      * @return mixed
      *
      * @throws \BadMethodCallException

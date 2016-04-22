@@ -7,6 +7,7 @@ use LogicException;
 
 class Util
 {
+
     /**
      * Get normalized pathinfo.
      *
@@ -16,11 +17,12 @@ class Util
      */
     public static function pathinfo($path)
     {
-        $pathinfo = pathinfo($path) + compact('path');
+        $pathinfo            = pathinfo($path) + compact('path');
         $pathinfo['dirname'] = static::normalizeDirname($pathinfo['dirname']);
 
         return $pathinfo;
     }
+
 
     /**
      * Normalize a dirname return value.
@@ -34,6 +36,7 @@ class Util
         return $dirname === '.' ? '' : $dirname;
     }
 
+
     /**
      * Get a normalized dirname from a path.
      *
@@ -46,6 +49,7 @@ class Util
         return static::normalizeDirname(dirname($path));
     }
 
+
     /**
      * Map result arrays.
      *
@@ -56,10 +60,10 @@ class Util
      */
     public static function map(array $object, array $map)
     {
-        $result = [];
+        $result = [ ];
 
         foreach ($map as $from => $to) {
-            if ( ! isset($object[$from])) {
+            if ( ! isset( $object[$from] )) {
                 continue;
             }
 
@@ -68,6 +72,7 @@ class Util
 
         return $result;
     }
+
 
     /**
      * Normalize path.
@@ -85,9 +90,7 @@ class Util
         $normalized = static::normalizeRelativePath($normalized);
 
         if (preg_match('#/\.{2}|^\.{2}/|^\.{2}$#', $normalized)) {
-            throw new LogicException(
-                'Path is outside of the defined root, path: [' . $path . '], resolved: [' . $normalized . ']'
-            );
+            throw new LogicException('Path is outside of the defined root, path: [' . $path . '], resolved: [' . $normalized . ']');
         }
 
         $normalized = preg_replace('#\\\{2,}#', '\\', trim($normalized, '\\'));
@@ -95,6 +98,7 @@ class Util
 
         return $normalized;
     }
+
 
     /**
      * Normalize relative directories in a path.
@@ -118,6 +122,7 @@ class Util
         return $path;
     }
 
+
     /**
      * Normalize prefix.
      *
@@ -131,6 +136,7 @@ class Util
         return rtrim($prefix, $separator) . $separator;
     }
 
+
     /**
      * Get content size.
      *
@@ -142,6 +148,7 @@ class Util
     {
         return defined('MB_OVERLOAD_STRING') ? mb_strlen($contents, '8bit') : strlen($contents);
     }
+
 
     /**
      * Guess MIME Type based on the path of the file and it's content.
@@ -155,7 +162,7 @@ class Util
     {
         $mimeType = MimeType::detectByContent($content);
 
-        if (empty($mimeType) || in_array($mimeType, ['application/x-empty', 'text/plain', 'text/x-asm'])) {
+        if (empty( $mimeType ) || in_array($mimeType, [ 'application/x-empty', 'text/plain', 'text/x-asm' ])) {
             $extension = pathinfo($path, PATHINFO_EXTENSION);
 
             if ($extension) {
@@ -166,6 +173,7 @@ class Util
         return $mimeType;
     }
 
+
     /**
      * Emulate directories.
      *
@@ -175,25 +183,23 @@ class Util
      */
     public static function emulateDirectories(array $listing)
     {
-        $directories = [];
-        $listedDirectories = [];
+        $directories       = [ ];
+        $listedDirectories = [ ];
 
         foreach ($listing as $object) {
-            list($directories, $listedDirectories) = static::emulateObjectDirectories(
-                $object,
-                $directories,
-                $listedDirectories
-            );
+            list( $directories, $listedDirectories ) = static::emulateObjectDirectories($object, $directories,
+                $listedDirectories);
         }
 
         $directories = array_diff(array_unique($directories), array_unique($listedDirectories));
 
         foreach ($directories as $directory) {
-            $listing[] = static::pathinfo($directory) + ['type' => 'dir'];
+            $listing[] = static::pathinfo($directory) + [ 'type' => 'dir' ];
         }
 
         return $listing;
     }
+
 
     /**
      * Ensure a Config instance.
@@ -221,6 +227,7 @@ class Util
         throw new LogicException('A config should either be an array or a Flysystem\Config object.');
     }
 
+
     /**
      * Rewind a stream.
      *
@@ -233,12 +240,14 @@ class Util
         }
     }
 
+
     public static function isSeekableStream($resource)
     {
         $metadata = stream_get_meta_data($resource);
 
         return $metadata['seekable'];
     }
+
 
     /**
      * Get the size of a stream.
@@ -253,6 +262,7 @@ class Util
 
         return $stat['size'];
     }
+
 
     /**
      * Emulate the directories of a single object.
@@ -269,23 +279,23 @@ class Util
             $listedDirectories[] = $object['path'];
         }
 
-        if (empty($object['dirname'])) {
-            return [$directories, $listedDirectories];
+        if (empty( $object['dirname'] )) {
+            return [ $directories, $listedDirectories ];
         }
 
         $parent = $object['dirname'];
 
-        while ( ! empty($parent) && ! in_array($parent, $directories)) {
+        while ( ! empty( $parent ) && ! in_array($parent, $directories)) {
             $directories[] = $parent;
-            $parent = static::dirname($parent);
+            $parent        = static::dirname($parent);
         }
 
-        if (isset($object['type']) && $object['type'] === 'dir') {
+        if (isset( $object['type'] ) && $object['type'] === 'dir') {
             $listedDirectories[] = $object['path'];
 
-            return [$directories, $listedDirectories];
+            return [ $directories, $listedDirectories ];
         }
 
-        return [$directories, $listedDirectories];
+        return [ $directories, $listedDirectories ];
     }
 }

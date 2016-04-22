@@ -18,12 +18,14 @@ namespace Symfony\Component\EventDispatcher;
  */
 class ImmutableEventDispatcher implements EventDispatcherInterface
 {
+
     /**
      * The proxied dispatcher.
      *
      * @var EventDispatcherInterface
      */
     private $dispatcher;
+
 
     /**
      * Creates an unmodifiable proxy for an event dispatcher.
@@ -35,6 +37,7 @@ class ImmutableEventDispatcher implements EventDispatcherInterface
         $this->dispatcher = $dispatcher;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -42,6 +45,7 @@ class ImmutableEventDispatcher implements EventDispatcherInterface
     {
         return $this->dispatcher->dispatch($eventName, $event);
     }
+
 
     /**
      * {@inheritdoc}
@@ -51,6 +55,7 @@ class ImmutableEventDispatcher implements EventDispatcherInterface
         throw new \BadMethodCallException('Unmodifiable event dispatchers must not be modified.');
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -58,6 +63,7 @@ class ImmutableEventDispatcher implements EventDispatcherInterface
     {
         throw new \BadMethodCallException('Unmodifiable event dispatchers must not be modified.');
     }
+
 
     /**
      * {@inheritdoc}
@@ -67,6 +73,7 @@ class ImmutableEventDispatcher implements EventDispatcherInterface
         throw new \BadMethodCallException('Unmodifiable event dispatchers must not be modified.');
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -74,6 +81,7 @@ class ImmutableEventDispatcher implements EventDispatcherInterface
     {
         throw new \BadMethodCallException('Unmodifiable event dispatchers must not be modified.');
     }
+
 
     /**
      * {@inheritdoc}
@@ -83,6 +91,7 @@ class ImmutableEventDispatcher implements EventDispatcherInterface
         return $this->dispatcher->getListeners($eventName);
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -90,6 +99,7 @@ class ImmutableEventDispatcher implements EventDispatcherInterface
     {
         return $this->dispatcher->getListenerPriority($eventName, $listener);
     }
+
 
     /**
      * {@inheritdoc}

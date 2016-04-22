@@ -1,7 +1,7 @@
 <?php
 /**
  * phpDocumentor Source Tag Test
- * 
+ *
  * PHP version 5.3
  *
  * @author    Vasil Rangelov <boen.robot@gmail.com>
@@ -22,6 +22,7 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  */
 class SourceTagTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * Test that the \phpDocumentor\Reflection\DocBlock\Tag\SourceTag can
      * understand the @source DocBlock.
@@ -32,7 +33,7 @@ class SourceTagTest extends \PHPUnit_Framework_TestCase
      * @param string $exStartingLine
      * @param string $exLineCount
      *
-     * @covers \phpDocumentor\Reflection\DocBlock\Tag\SourceTag
+     * @covers       \phpDocumentor\Reflection\DocBlock\Tag\SourceTag
      * @dataProvider provideDataForConstuctor
      *
      * @return void
@@ -54,6 +55,7 @@ class SourceTagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($exLineCount, $tag->getLineCount());
     }
 
+
     /**
      * Data provider for testConstructorParesInputsIntoCorrectFields
      *
@@ -62,55 +64,55 @@ class SourceTagTest extends \PHPUnit_Framework_TestCase
     public function provideDataForConstuctor()
     {
         // $type, $content, $exContent, $exDescription, $exStartingLine, $exLineCount
-        return array(
-            array(
+        return [
+            [
                 'source',
                 '2',
                 '2',
                 '',
                 2,
                 null
-            ),
-            array(
+            ],
+            [
                 'source',
                 'Testing',
                 'Testing',
                 'Testing',
                 1,
                 null
-            ),
-            array(
+            ],
+            [
                 'source',
                 '2 Testing',
                 '2 Testing',
                 'Testing',
                 2,
                 null
-            ),
-            array(
+            ],
+            [
                 'source',
                 '2 3 Testing comments',
                 '2 3 Testing comments',
                 'Testing comments',
                 2,
                 3
-            ),
-            array(
+            ],
+            [
                 'source',
                 '2 -1 Testing comments',
                 '2 -1 Testing comments',
                 '-1 Testing comments',
                 2,
                 null
-            ),
-            array(
+            ],
+            [
                 'source',
                 '-1 1 Testing comments',
                 '-1 1 Testing comments',
                 '-1 1 Testing comments',
                 1,
                 null
-            )
-        );
+            ]
+        ];
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 class Lockout
 {
+
     /**
      * The throttled request.
      *
@@ -13,10 +14,12 @@ class Lockout
      */
     public $request;
 
+
     /**
      * Create a new event instance.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     *
      * @return void
      */
     public function __construct(Request $request)

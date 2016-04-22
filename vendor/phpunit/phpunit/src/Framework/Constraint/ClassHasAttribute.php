@@ -18,10 +18,12 @@
  */
 class PHPUnit_Framework_Constraint_ClassHasAttribute extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var string
      */
     protected $attributeName;
+
 
     /**
      * @param string $attributeName
@@ -31,6 +33,7 @@ class PHPUnit_Framework_Constraint_ClassHasAttribute extends PHPUnit_Framework_C
         parent::__construct();
         $this->attributeName = $attributeName;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -47,6 +50,7 @@ class PHPUnit_Framework_Constraint_ClassHasAttribute extends PHPUnit_Framework_C
         return $class->hasProperty($this->attributeName);
     }
 
+
     /**
      * Returns a string representation of the constraint.
      *
@@ -54,11 +58,9 @@ class PHPUnit_Framework_Constraint_ClassHasAttribute extends PHPUnit_Framework_C
      */
     public function toString()
     {
-        return sprintf(
-            'has attribute "%s"',
-            $this->attributeName
-        );
+        return sprintf('has attribute "%s"', $this->attributeName);
     }
+
 
     /**
      * Returns the description of the failure
@@ -72,11 +74,7 @@ class PHPUnit_Framework_Constraint_ClassHasAttribute extends PHPUnit_Framework_C
      */
     protected function failureDescription($other)
     {
-        return sprintf(
-            '%sclass "%s" %s',
-            is_object($other) ? 'object of ' : '',
-            is_object($other) ? get_class($other) : $other,
-            $this->toString()
-        );
+        return sprintf('%sclass "%s" %s', is_object($other) ? 'object of ' : '',
+            is_object($other) ? get_class($other) : $other, $this->toString());
     }
 }

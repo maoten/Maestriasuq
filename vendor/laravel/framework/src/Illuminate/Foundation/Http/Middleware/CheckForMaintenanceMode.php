@@ -8,6 +8,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CheckForMaintenanceMode
 {
+
     /**
      * The application implementation.
      *
@@ -15,10 +16,12 @@ class CheckForMaintenanceMode
      */
     protected $app;
 
+
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  \Illuminate\Contracts\Foundation\Application $app
+     *
      * @return void
      */
     public function __construct(Application $app)
@@ -26,11 +29,13 @@ class CheckForMaintenanceMode
         $this->app = $app;
     }
 
+
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure                 $next
+     *
      * @return mixed
      *
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException

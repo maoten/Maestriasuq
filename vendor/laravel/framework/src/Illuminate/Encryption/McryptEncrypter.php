@@ -13,6 +13,7 @@ use Illuminate\Contracts\Encryption\Encrypter as EncrypterContract;
  */
 class McryptEncrypter extends BaseEncrypter implements EncrypterContract
 {
+
     /**
      * The algorithm used for encryption.
      *
@@ -27,11 +28,13 @@ class McryptEncrypter extends BaseEncrypter implements EncrypterContract
      */
     protected $block;
 
+
     /**
      * Create a new encrypter instance.
      *
-     * @param  string  $key
-     * @param  string  $cipher
+     * @param  string $key
+     * @param  string $cipher
+     *
      * @return void
      *
      * @throws \RuntimeException
@@ -41,31 +44,34 @@ class McryptEncrypter extends BaseEncrypter implements EncrypterContract
         $key = (string) $key;
 
         if (static::supported($key, $cipher)) {
-            $this->key = $key;
+            $this->key    = $key;
             $this->cipher = $cipher;
-            $this->block = mcrypt_get_iv_size($this->cipher, MCRYPT_MODE_CBC);
+            $this->block  = mcrypt_get_iv_size($this->cipher, MCRYPT_MODE_CBC);
         } else {
             throw new RuntimeException('The only supported ciphers are MCRYPT_RIJNDAEL_128 and MCRYPT_RIJNDAEL_256.');
         }
     }
 
+
     /**
      * Determine if the given key and cipher combination is valid.
      *
-     * @param  string  $key
-     * @param  string  $cipher
+     * @param  string $key
+     * @param  string $cipher
+     *
      * @return bool
      */
     public static function supported($key, $cipher)
     {
-        return defined('MCRYPT_RIJNDAEL_128') &&
-                ($cipher === MCRYPT_RIJNDAEL_128 || $cipher === MCRYPT_RIJNDAEL_256);
+        return defined('MCRYPT_RIJNDAEL_128') && ( $cipher === MCRYPT_RIJNDAEL_128 || $cipher === MCRYPT_RIJNDAEL_256 );
     }
+
 
     /**
      * Encrypt the given value.
      *
-     * @param  string  $value
+     * @param  string $value
+     *
      * @return string
      *
      * @throws \Illuminate\Contracts\Encryption\EncryptException
@@ -83,18 +89,20 @@ class McryptEncrypter extends BaseEncrypter implements EncrypterContract
 
         $json = json_encode(compact('iv', 'value', 'mac'));
 
-        if (! is_string($json)) {
+        if ( ! is_string($json)) {
             throw new EncryptException('Could not encrypt the data.');
         }
 
         return base64_encode($json);
     }
 
+
     /**
      * Pad and use mcrypt on the given value and input vector.
      *
-     * @param  string  $value
-     * @param  string  $iv
+     * @param  string $value
+     * @param  string $iv
+     *
      * @return string
      */
     protected function padAndMcrypt($value, $iv)
@@ -104,10 +112,12 @@ class McryptEncrypter extends BaseEncrypter implements EncrypterContract
         return mcrypt_encrypt($this->cipher, $this->key, $value, MCRYPT_MODE_CBC, $iv);
     }
 
+
     /**
      * Decrypt the given value.
      *
-     * @param  string  $payload
+     * @param  string $payload
+     *
      * @return string
      */
     public function decrypt($payload)
@@ -124,11 +134,13 @@ class McryptEncrypter extends BaseEncrypter implements EncrypterContract
         return unserialize($this->stripPadding($this->mcryptDecrypt($value, $iv)));
     }
 
+
     /**
      * Run the mcrypt decryption routine for the value.
      *
-     * @param  string  $value
-     * @param  string  $iv
+     * @param  string $value
+     * @param  string $iv
+     *
      * @return string
      *
      * @throws \Illuminate\Contracts\Encryption\DecryptException
@@ -142,37 +154,43 @@ class McryptEncrypter extends BaseEncrypter implements EncrypterContract
         }
     }
 
+
     /**
      * Add PKCS7 padding to a given value.
      *
-     * @param  string  $value
+     * @param  string $value
+     *
      * @return string
      */
     protected function addPadding($value)
     {
-        $pad = $this->block - (strlen($value) % $this->block);
+        $pad = $this->block - ( strlen($value) % $this->block );
 
-        return $value.str_repeat(chr($pad), $pad);
+        return $value . str_repeat(chr($pad), $pad);
     }
+
 
     /**
      * Remove the padding from the given value.
      *
-     * @param  string  $value
+     * @param  string $value
+     *
      * @return string
      */
     protected function stripPadding($value)
     {
-        $pad = ord($value[($len = strlen($value)) - 1]);
+        $pad = ord($value[( $len = strlen($value) ) - 1]);
 
         return $this->paddingIsValid($pad, $value) ? substr($value, 0, $len - $pad) : $value;
     }
 
+
     /**
      * Determine if the given padding for a value is valid.
      *
-     * @param  string  $pad
-     * @param  string  $value
+     * @param  string $pad
+     * @param  string $value
+     *
      * @return bool
      */
     protected function paddingIsValid($pad, $value)
@@ -181,6 +199,7 @@ class McryptEncrypter extends BaseEncrypter implements EncrypterContract
 
         return substr($value, $beforePad) == str_repeat(substr($value, -1), $pad);
     }
+
 
     /**
      * Get the IV size for the cipher.
@@ -191,6 +210,7 @@ class McryptEncrypter extends BaseEncrypter implements EncrypterContract
     {
         return mcrypt_get_iv_size($this->cipher, MCRYPT_MODE_CBC);
     }
+
 
     /**
      * Get the random data source available for the OS.

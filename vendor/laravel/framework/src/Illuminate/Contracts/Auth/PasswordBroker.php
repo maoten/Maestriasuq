@@ -6,6 +6,7 @@ use Closure;
 
 interface PasswordBroker
 {
+
     /**
      * Constant representing a successfully sent reminder.
      *
@@ -41,36 +42,44 @@ interface PasswordBroker
      */
     const INVALID_TOKEN = 'passwords.token';
 
+
     /**
      * Send a password reset link to a user.
      *
-     * @param  array  $credentials
-     * @param  \Closure|null  $callback
+     * @param  array         $credentials
+     * @param  \Closure|null $callback
+     *
      * @return string
      */
     public function sendResetLink(array $credentials, Closure $callback = null);
 
+
     /**
      * Reset the password for the given token.
      *
-     * @param  array     $credentials
-     * @param  \Closure  $callback
+     * @param  array    $credentials
+     * @param  \Closure $callback
+     *
      * @return mixed
      */
     public function reset(array $credentials, Closure $callback);
 
+
     /**
      * Set a custom password validator.
      *
-     * @param  \Closure  $callback
+     * @param  \Closure $callback
+     *
      * @return void
      */
     public function validator(Closure $callback);
 
+
     /**
      * Determine if the passwords match for the request.
      *
-     * @param  array  $credentials
+     * @param  array $credentials
+     *
      * @return bool
      */
     public function validateNewPassword(array $credentials);

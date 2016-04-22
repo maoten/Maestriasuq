@@ -18,7 +18,9 @@ namespace Prophecy\Argument\Token;
  */
 class LogicalAndToken implements TokenInterface
 {
-    private $tokens = array();
+
+    private $tokens = [ ];
+
 
     /**
      * @param array $arguments exact values or tokens
@@ -26,12 +28,13 @@ class LogicalAndToken implements TokenInterface
     public function __construct(array $arguments)
     {
         foreach ($arguments as $argument) {
-            if (!$argument instanceof TokenInterface) {
+            if ( ! $argument instanceof TokenInterface) {
                 $argument = new ExactValueToken($argument);
             }
             $this->tokens[] = $argument;
         }
     }
+
 
     /**
      * Scores maximum score from scores returned by tokens for this argument if all of them score.
@@ -58,6 +61,7 @@ class LogicalAndToken implements TokenInterface
         return $maxScore;
     }
 
+
     /**
      * Returns false.
      *
@@ -67,6 +71,7 @@ class LogicalAndToken implements TokenInterface
     {
         return false;
     }
+
 
     /**
      * Returns string representation for token.

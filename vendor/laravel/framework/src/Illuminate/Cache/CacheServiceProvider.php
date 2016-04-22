@@ -7,12 +7,14 @@ use Illuminate\Cache\Console\ClearCommand;
 
 class CacheServiceProvider extends ServiceProvider
 {
+
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
     protected $defer = true;
+
 
     /**
      * Register the service provider.
@@ -36,6 +38,7 @@ class CacheServiceProvider extends ServiceProvider
         $this->registerCommands();
     }
 
+
     /**
      * Register the cache related console commands.
      *
@@ -50,6 +53,7 @@ class CacheServiceProvider extends ServiceProvider
         $this->commands('command.cache.clear');
     }
 
+
     /**
      * Get the services provided by the provider.
      *
@@ -58,7 +62,10 @@ class CacheServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            'cache', 'cache.store', 'memcached.connector', 'command.cache.clear',
+            'cache',
+            'cache.store',
+            'memcached.connector',
+            'command.cache.clear',
         ];
     }
 }

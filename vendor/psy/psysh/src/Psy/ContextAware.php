@@ -19,6 +19,7 @@ namespace Psy;
  */
 interface ContextAware
 {
+
     /**
      * Set the Context reference.
      *

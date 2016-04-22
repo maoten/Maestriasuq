@@ -14,32 +14,37 @@ class IsEmptyTraversable extends BaseMatcher
 {
 
     private static $_INSTANCE;
+
     private static $_NOT_INSTANCE;
 
     private $_empty;
+
 
     public function __construct($empty = true)
     {
         $this->_empty = $empty;
     }
 
+
     public function matches($item)
     {
-        if (!$item instanceof \Traversable) {
+        if ( ! $item instanceof \Traversable) {
             return false;
         }
 
         foreach ($item as $value) {
-            return !$this->_empty;
+            return ! $this->_empty;
         }
 
         return $this->_empty;
     }
 
+
     public function describeTo(Description $description)
     {
         $description->appendText($this->_empty ? 'an empty traversable' : 'a non-empty traversable');
     }
+
 
     /**
      * Returns true if traversable is empty.
@@ -48,12 +53,13 @@ class IsEmptyTraversable extends BaseMatcher
      */
     public static function emptyTraversable()
     {
-        if (!self::$_INSTANCE) {
+        if ( ! self::$_INSTANCE) {
             self::$_INSTANCE = new self;
         }
 
         return self::$_INSTANCE;
     }
+
 
     /**
      * Returns true if traversable is not empty.
@@ -62,7 +68,7 @@ class IsEmptyTraversable extends BaseMatcher
      */
     public static function nonEmptyTraversable()
     {
-        if (!self::$_NOT_INSTANCE) {
+        if ( ! self::$_NOT_INSTANCE) {
             self::$_NOT_INSTANCE = new self(false);
         }
 

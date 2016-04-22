@@ -15,6 +15,7 @@ use Symfony\Component\CssSelector\Parser\Reader;
 
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testIsEOF()
     {
         $reader = new Reader('');
@@ -30,6 +31,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($reader->isEOF());
     }
 
+
     public function testGetRemainingLength()
     {
         $reader = new Reader('hello');
@@ -42,6 +44,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $reader->getRemainingLength());
     }
 
+
     public function testGetSubstring()
     {
         $reader = new Reader('hello');
@@ -52,6 +55,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('ll', $reader->getSubstring(2));
         $this->assertEquals('lo', $reader->getSubstring(2, 1));
     }
+
 
     public function testGetOffset()
     {
@@ -64,17 +68,19 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($reader->getOffset('he'));
     }
 
+
     public function testFindPattern()
     {
         $reader = new Reader('hello');
 
         $this->assertFalse($reader->findPattern('/world/'));
-        $this->assertEquals(array('hello', 'h'), $reader->findPattern('/^([a-z]).*/'));
+        $this->assertEquals([ 'hello', 'h' ], $reader->findPattern('/^([a-z]).*/'));
 
         $this->assignPosition($reader, 2);
         $this->assertFalse($reader->findPattern('/^h.*/'));
-        $this->assertEquals(array('llo'), $reader->findPattern('/^llo$/'));
+        $this->assertEquals([ 'llo' ], $reader->findPattern('/^llo$/'));
     }
+
 
     public function testMoveForward()
     {
@@ -85,12 +91,14 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, $reader->getPosition());
     }
 
+
     public function testToEnd()
     {
         $reader = new Reader('hello');
         $reader->moveToEnd();
         $this->assertTrue($reader->isEOF());
     }
+
 
     private function assignPosition(Reader $reader, $value)
     {

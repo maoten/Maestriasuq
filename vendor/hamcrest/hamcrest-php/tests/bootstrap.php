@@ -9,10 +9,10 @@ if (defined('E_DEPRECATED')) {
 define('HAMCREST_TEST_BASE', realpath(dirname(__FILE__)));
 define('HAMCREST_BASE', realpath(dirname(dirname(__FILE__))));
 
-set_include_path(implode(PATH_SEPARATOR, array(
+set_include_path(implode(PATH_SEPARATOR, [
     HAMCREST_TEST_BASE,
     HAMCREST_BASE . '/hamcrest',
     get_include_path()
-)));
+]));
 
 require_once 'Hamcrest.php';

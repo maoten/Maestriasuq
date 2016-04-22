@@ -29,6 +29,7 @@ use BadMethodCallException;
  */
 class ArrayObjectAsset extends ArrayObject
 {
+
     /**
      * Constructor - should not be called
      *

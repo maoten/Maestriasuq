@@ -7,6 +7,7 @@ use Illuminate\Contracts\Broadcasting\Broadcaster;
 
 class PusherBroadcaster implements Broadcaster
 {
+
     /**
      * The Pusher SDK instance.
      *
@@ -14,10 +15,12 @@ class PusherBroadcaster implements Broadcaster
      */
     protected $pusher;
 
+
     /**
      * Create a new broadcaster instance.
      *
-     * @param  \Pusher  $pusher
+     * @param  \Pusher $pusher
+     *
      * @return void
      */
     public function __construct(Pusher $pusher)
@@ -25,13 +28,15 @@ class PusherBroadcaster implements Broadcaster
         $this->pusher = $pusher;
     }
 
+
     /**
      * {@inheritdoc}
      */
-    public function broadcast(array $channels, $event, array $payload = [])
+    public function broadcast(array $channels, $event, array $payload = [ ])
     {
         $this->pusher->trigger($channels, $event, $payload);
     }
+
 
     /**
      * Get the Pusher SDK instance.

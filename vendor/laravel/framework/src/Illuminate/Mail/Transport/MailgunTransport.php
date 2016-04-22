@@ -8,6 +8,7 @@ use GuzzleHttp\ClientInterface;
 
 class MailgunTransport extends Transport
 {
+
     /**
      * Guzzle client instance.
      *
@@ -36,20 +37,23 @@ class MailgunTransport extends Transport
      */
     protected $url;
 
+
     /**
      * Create a new Mailgun transport instance.
      *
-     * @param  \GuzzleHttp\ClientInterface  $client
-     * @param  string  $key
-     * @param  string  $domain
+     * @param  \GuzzleHttp\ClientInterface $client
+     * @param  string                      $key
+     * @param  string                      $domain
+     *
      * @return void
      */
     public function __construct(ClientInterface $client, $key, $domain)
     {
         $this->client = $client;
-        $this->key = $key;
+        $this->key    = $key;
         $this->setDomain($domain);
     }
+
 
     /**
      * {@inheritdoc}
@@ -58,20 +62,20 @@ class MailgunTransport extends Transport
     {
         $this->beforeSendPerformed($message);
 
-        $options = ['auth' => ['api', $this->key]];
+        $options = [ 'auth' => [ 'api', $this->key ] ];
 
         $to = $this->getTo($message);
 
-        $message->setBcc([]);
+        $message->setBcc([ ]);
 
         if (version_compare(ClientInterface::VERSION, '6') === 1) {
             $options['multipart'] = [
-                ['name' => 'to', 'contents' => $to],
-                ['name' => 'message', 'contents' => $message->toString(), 'filename' => 'message.mime'],
+                [ 'name' => 'to', 'contents' => $to ],
+                [ 'name' => 'message', 'contents' => $message->toString(), 'filename' => 'message.mime' ],
             ];
         } else {
             $options['body'] = [
-                'to' => $to,
+                'to'      => $to,
                 'message' => new PostFile('message', $message->toString()),
             ];
         }
@@ -79,26 +83,27 @@ class MailgunTransport extends Transport
         return $this->client->post($this->url, $options);
     }
 
+
     /**
      * Get the "to" payload field for the API request.
      *
-     * @param  \Swift_Mime_Message  $message
+     * @param  \Swift_Mime_Message $message
+     *
      * @return array
      */
     protected function getTo(Swift_Mime_Message $message)
     {
-        $formatted = [];
+        $formatted = [ ];
 
-        $contacts = array_merge(
-            (array) $message->getTo(), (array) $message->getCc(), (array) $message->getBcc()
-        );
+        $contacts = array_merge((array) $message->getTo(), (array) $message->getCc(), (array) $message->getBcc());
 
         foreach ($contacts as $address => $display) {
-            $formatted[] = $display ? $display." <$address>" : $address;
+            $formatted[] = $display ? $display . " <$address>" : $address;
         }
 
         return implode(',', $formatted);
     }
+
 
     /**
      * Get the API key being used by the transport.
@@ -110,16 +115,19 @@ class MailgunTransport extends Transport
         return $this->key;
     }
 
+
     /**
      * Set the API key being used by the transport.
      *
-     * @param  string  $key
+     * @param  string $key
+     *
      * @return string
      */
     public function setKey($key)
     {
         return $this->key = $key;
     }
+
 
     /**
      * Get the domain being used by the transport.
@@ -131,15 +139,17 @@ class MailgunTransport extends Transport
         return $this->domain;
     }
 
+
     /**
      * Set the domain being used by the transport.
      *
-     * @param  string  $domain
+     * @param  string $domain
+     *
      * @return void
      */
     public function setDomain($domain)
     {
-        $this->url = 'https://api.mailgun.net/v3/'.$domain.'/messages.mime';
+        $this->url = 'https://api.mailgun.net/v3/' . $domain . '/messages.mime';
 
         return $this->domain = $domain;
     }

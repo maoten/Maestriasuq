@@ -27,6 +27,7 @@ use Symfony\Component\CssSelector\XPath\XPathExpr;
  */
 class NodeExtension extends AbstractExtension
 {
+
     const ELEMENT_NAME_IN_LOWER_CASE = 1;
     const ATTRIBUTE_NAME_IN_LOWER_CASE = 2;
     const ATTRIBUTE_VALUE_IN_LOWER_CASE = 4;
@@ -35,6 +36,7 @@ class NodeExtension extends AbstractExtension
      * @var int
      */
     private $flags;
+
 
     /**
      * Constructor.
@@ -46,6 +48,7 @@ class NodeExtension extends AbstractExtension
         $this->flags = $flags;
     }
 
+
     /**
      * @param int  $flag
      * @param bool $on
@@ -54,16 +57,17 @@ class NodeExtension extends AbstractExtension
      */
     public function setFlag($flag, $on)
     {
-        if ($on && !$this->hasFlag($flag)) {
+        if ($on && ! $this->hasFlag($flag)) {
             $this->flags += $flag;
         }
 
-        if (!$on && $this->hasFlag($flag)) {
+        if ( ! $on && $this->hasFlag($flag)) {
             $this->flags -= $flag;
         }
 
         return $this;
     }
+
 
     /**
      * @param int $flag
@@ -75,23 +79,25 @@ class NodeExtension extends AbstractExtension
         return $this->flags & $flag;
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function getNodeTranslators()
     {
-        return array(
-            'Selector' => array($this, 'translateSelector'),
-            'CombinedSelector' => array($this, 'translateCombinedSelector'),
-            'Negation' => array($this, 'translateNegation'),
-            'Function' => array($this, 'translateFunction'),
-            'Pseudo' => array($this, 'translatePseudo'),
-            'Attribute' => array($this, 'translateAttribute'),
-            'Class' => array($this, 'translateClass'),
-            'Hash' => array($this, 'translateHash'),
-            'Element' => array($this, 'translateElement'),
-        );
+        return [
+            'Selector'         => [ $this, 'translateSelector' ],
+            'CombinedSelector' => [ $this, 'translateCombinedSelector' ],
+            'Negation'         => [ $this, 'translateNegation' ],
+            'Function'         => [ $this, 'translateFunction' ],
+            'Pseudo'           => [ $this, 'translatePseudo' ],
+            'Attribute'        => [ $this, 'translateAttribute' ],
+            'Class'            => [ $this, 'translateClass' ],
+            'Hash'             => [ $this, 'translateHash' ],
+            'Element'          => [ $this, 'translateElement' ],
+        ];
     }
+
 
     /**
      * @param Node\SelectorNode $node
@@ -104,6 +110,7 @@ class NodeExtension extends AbstractExtension
         return $translator->nodeToXPath($node->getTree());
     }
 
+
     /**
      * @param Node\CombinedSelectorNode $node
      * @param Translator                $translator
@@ -115,6 +122,7 @@ class NodeExtension extends AbstractExtension
         return $translator->addCombination($node->getCombinator(), $node->getSelector(), $node->getSubSelector());
     }
 
+
     /**
      * @param Node\NegationNode $node
      * @param Translator        $translator
@@ -123,7 +131,7 @@ class NodeExtension extends AbstractExtension
      */
     public function translateNegation(Node\NegationNode $node, Translator $translator)
     {
-        $xpath = $translator->nodeToXPath($node->getSelector());
+        $xpath    = $translator->nodeToXPath($node->getSelector());
         $subXpath = $translator->nodeToXPath($node->getSubSelector());
         $subXpath->addNameTest();
 
@@ -133,6 +141,7 @@ class NodeExtension extends AbstractExtension
 
         return $xpath->addCondition('0');
     }
+
 
     /**
      * @param Node\FunctionNode $node
@@ -147,6 +156,7 @@ class NodeExtension extends AbstractExtension
         return $translator->addFunction($xpath, $node);
     }
 
+
     /**
      * @param Node\PseudoNode $node
      * @param Translator      $translator
@@ -159,6 +169,7 @@ class NodeExtension extends AbstractExtension
 
         return $translator->addPseudoClass($xpath, $node->getIdentifier());
     }
+
 
     /**
      * @param Node\AttributeNode $node
@@ -180,9 +191,9 @@ class NodeExtension extends AbstractExtension
             $safe = $safe && $this->isSafeName($node->getNamespace());
         }
 
-        $attribute = $safe ? '@'.$name : sprintf('attribute::*[name() = %s]', Translator::getXpathLiteral($name));
-        $value = $node->getValue();
-        $xpath = $translator->nodeToXPath($node->getSelector());
+        $attribute = $safe ? '@' . $name : sprintf('attribute::*[name() = %s]', Translator::getXpathLiteral($name));
+        $value     = $node->getValue();
+        $xpath     = $translator->nodeToXPath($node->getSelector());
 
         if ($this->hasFlag(self::ATTRIBUTE_VALUE_IN_LOWER_CASE)) {
             $value = strtolower($value);
@@ -190,6 +201,7 @@ class NodeExtension extends AbstractExtension
 
         return $translator->addAttributeMatching($xpath, $node->getOperator(), $attribute, $value);
     }
+
 
     /**
      * @param Node\ClassNode $node
@@ -204,6 +216,7 @@ class NodeExtension extends AbstractExtension
         return $translator->addAttributeMatching($xpath, '~=', '@class', $node->getName());
     }
 
+
     /**
      * @param Node\HashNode $node
      * @param Translator    $translator
@@ -216,6 +229,7 @@ class NodeExtension extends AbstractExtension
 
         return $translator->addAttributeMatching($xpath, '=', '@id', $node->getId());
     }
+
 
     /**
      * @param Node\ElementNode $node
@@ -234,22 +248,23 @@ class NodeExtension extends AbstractExtension
             $safe = $this->isSafeName($element);
         } else {
             $element = '*';
-            $safe = true;
+            $safe    = true;
         }
 
         if ($node->getNamespace()) {
             $element = sprintf('%s:%s', $node->getNamespace(), $element);
-            $safe = $safe && $this->isSafeName($node->getNamespace());
+            $safe    = $safe && $this->isSafeName($node->getNamespace());
         }
 
         $xpath = new XPathExpr('', $element);
 
-        if (!$safe) {
+        if ( ! $safe) {
             $xpath->addNameTest();
         }
 
         return $xpath;
     }
+
 
     /**
      * {@inheritdoc}
@@ -258,6 +273,7 @@ class NodeExtension extends AbstractExtension
     {
         return 'node';
     }
+
 
     /**
      * Tests if given name is safe.

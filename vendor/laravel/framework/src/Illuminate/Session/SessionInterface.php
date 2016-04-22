@@ -7,12 +7,14 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface as BaseSessionInte
 
 interface SessionInterface extends BaseSessionInterface
 {
+
     /**
      * Get the session handler instance.
      *
      * @return \SessionHandlerInterface
      */
     public function getHandler();
+
 
     /**
      * Determine if the session handler needs a request.
@@ -21,10 +23,12 @@ interface SessionInterface extends BaseSessionInterface
      */
     public function handlerNeedsRequest();
 
+
     /**
      * Set the request on the handler instance.
      *
-     * @param  \Symfony\Component\HttpFoundation\Request  $request
+     * @param  \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return void
      */
     public function setRequestOnHandler(Request $request);

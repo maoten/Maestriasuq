@@ -13,23 +13,29 @@ namespace Monolog\Handler\SyslogUdp;
 
 class UdpSocket
 {
+
     const DATAGRAM_MAX_LENGTH = 65023;
 
     protected $ip;
+
     protected $port;
+
     protected $socket;
+
 
     public function __construct($ip, $port = 514)
     {
-        $this->ip = $ip;
-        $this->port = $port;
+        $this->ip     = $ip;
+        $this->port   = $port;
         $this->socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
     }
+
 
     public function write($line, $header = "")
     {
         $this->send($this->assembleMessage($line, $header));
     }
+
 
     public function close()
     {
@@ -39,13 +45,15 @@ class UdpSocket
         }
     }
 
+
     protected function send($chunk)
     {
-        if (!is_resource($this->socket)) {
-            throw new \LogicException('The UdpSocket to '.$this->ip.':'.$this->port.' has been closed and can not be written to anymore');
+        if ( ! is_resource($this->socket)) {
+            throw new \LogicException('The UdpSocket to ' . $this->ip . ':' . $this->port . ' has been closed and can not be written to anymore');
         }
         socket_sendto($this->socket, $chunk, strlen($chunk), $flags = 0, $this->ip, $this->port);
     }
+
 
     protected function assembleMessage($line, $header)
     {

@@ -13,7 +13,9 @@
  */
 class PHPUnit_Framework_Constraint_Callback extends PHPUnit_Framework_Constraint
 {
+
     private $callback;
+
 
     /**
      * @param callable $callback
@@ -22,17 +24,15 @@ class PHPUnit_Framework_Constraint_Callback extends PHPUnit_Framework_Constraint
      */
     public function __construct($callback)
     {
-        if (!is_callable($callback)) {
-            throw PHPUnit_Util_InvalidArgumentHelper::factory(
-                1,
-                'callable'
-            );
+        if ( ! is_callable($callback)) {
+            throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'callable');
         }
 
         parent::__construct();
 
         $this->callback = $callback;
     }
+
 
     /**
      * Evaluates the constraint for parameter $value. Returns true if the
@@ -46,6 +46,7 @@ class PHPUnit_Framework_Constraint_Callback extends PHPUnit_Framework_Constraint
     {
         return call_user_func($this->callback, $other);
     }
+
 
     /**
      * Returns a string representation of the constraint.

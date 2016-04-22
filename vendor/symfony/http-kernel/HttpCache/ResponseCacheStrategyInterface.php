@@ -25,12 +25,14 @@ use Symfony\Component\HttpFoundation\Response;
  */
 interface ResponseCacheStrategyInterface
 {
+
     /**
      * Adds a Response.
      *
      * @param Response $response
      */
     public function add(Response $response);
+
 
     /**
      * Updates the Response HTTP headers based on the embedded Responses.

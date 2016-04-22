@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class MorphTo extends BelongsTo
 {
+
     /**
      * The type of the polymorphic relation.
      *
@@ -27,7 +28,7 @@ class MorphTo extends BelongsTo
      *
      * @var array
      */
-    protected $dictionary = [];
+    protected $dictionary = [ ];
 
     /*
      * Indicates if soft-deleted model instances should be fetched.
@@ -36,15 +37,17 @@ class MorphTo extends BelongsTo
      */
     protected $withTrashed = false;
 
+
     /**
      * Create a new morph to relationship instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
-     * @param  string  $foreignKey
-     * @param  string  $otherKey
-     * @param  string  $type
-     * @param  string  $relation
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param  \Illuminate\Database\Eloquent\Model   $parent
+     * @param  string                                $foreignKey
+     * @param  string                                $otherKey
+     * @param  string                                $type
+     * @param  string                                $relation
+     *
      * @return void
      */
     public function __construct(Builder $query, Model $parent, $foreignKey, $otherKey, $type, $relation)
@@ -54,6 +57,7 @@ class MorphTo extends BelongsTo
         parent::__construct($query, $parent, $foreignKey, $otherKey, $relation);
     }
 
+
     /**
      * Get the results of the relationship.
      *
@@ -61,17 +65,19 @@ class MorphTo extends BelongsTo
      */
     public function getResults()
     {
-        if (! $this->otherKey) {
+        if ( ! $this->otherKey) {
             return;
         }
 
         return $this->query->first();
     }
 
+
     /**
      * Set the constraints for an eager load of the relation.
      *
-     * @param  array  $models
+     * @param  array $models
+     *
      * @return void
      */
     public function addEagerConstraints(array $models)
@@ -79,10 +85,12 @@ class MorphTo extends BelongsTo
         $this->buildDictionary($this->models = Collection::make($models));
     }
 
+
     /**
      * Build a dictionary with the models.
      *
-     * @param  \Illuminate\Database\Eloquent\Collection  $models
+     * @param  \Illuminate\Database\Eloquent\Collection $models
+     *
      * @return void
      */
     protected function buildDictionary(Collection $models)
@@ -94,12 +102,14 @@ class MorphTo extends BelongsTo
         }
     }
 
+
     /**
      * Match the eagerly loaded results to their parents.
      *
-     * @param  array   $models
-     * @param  \Illuminate\Database\Eloquent\Collection  $results
-     * @param  string  $relation
+     * @param  array                                    $models
+     * @param  \Illuminate\Database\Eloquent\Collection $results
+     * @param  string                                   $relation
+     *
      * @return array
      */
     public function match(array $models, Collection $results, $relation)
@@ -107,10 +117,12 @@ class MorphTo extends BelongsTo
         return $models;
     }
 
+
     /**
      * Associate the model instance to the given parent.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \Illuminate\Database\Eloquent\Model $model
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function associate($model)
@@ -121,6 +133,7 @@ class MorphTo extends BelongsTo
 
         return $this->parent->setRelation($this->relation, $model);
     }
+
 
     /**
      * Dissociate previously associated model from the given parent.
@@ -135,6 +148,7 @@ class MorphTo extends BelongsTo
 
         return $this->parent->setRelation($this->relation, null);
     }
+
 
     /**
      * Get the results of the relationship.
@@ -152,17 +166,19 @@ class MorphTo extends BelongsTo
         return $this->models;
     }
 
+
     /**
      * Match the results for a given type to their parents.
      *
-     * @param  string  $type
-     * @param  \Illuminate\Database\Eloquent\Collection  $results
+     * @param  string                                   $type
+     * @param  \Illuminate\Database\Eloquent\Collection $results
+     *
      * @return void
      */
     protected function matchToMorphParents($type, Collection $results)
     {
         foreach ($results as $result) {
-            if (isset($this->dictionary[$type][$result->getKey()])) {
+            if (isset( $this->dictionary[$type][$result->getKey()] )) {
                 foreach ($this->dictionary[$type][$result->getKey()] as $model) {
                     $model->setRelation($this->relation, $result);
                 }
@@ -170,17 +186,19 @@ class MorphTo extends BelongsTo
         }
     }
 
+
     /**
      * Get all of the relation results for a type.
      *
-     * @param  string  $type
+     * @param  string $type
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     protected function getResultsByType($type)
     {
         $instance = $this->createModelByType($type);
 
-        $key = $instance->getTable().'.'.$instance->getKeyName();
+        $key = $instance->getTable() . '.' . $instance->getKeyName();
 
         $query = $instance->newQuery();
 
@@ -189,10 +207,12 @@ class MorphTo extends BelongsTo
         return $query->whereIn($key, $this->gatherKeysByType($type)->all())->get();
     }
 
+
     /**
      * Gather all of the foreign keys for a given type.
      *
-     * @param  string  $type
+     * @param  string $type
+     *
      * @return array
      */
     protected function gatherKeysByType($type)
@@ -205,10 +225,12 @@ class MorphTo extends BelongsTo
         })->values()->unique();
     }
 
+
     /**
      * Create a new model instance by type.
      *
-     * @param  string  $type
+     * @param  string $type
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function createModelByType($type)
@@ -217,6 +239,7 @@ class MorphTo extends BelongsTo
 
         return new $class;
     }
+
 
     /**
      * Get the foreign key "type" name.
@@ -228,6 +251,7 @@ class MorphTo extends BelongsTo
         return $this->morphType;
     }
 
+
     /**
      * Get the dictionary used by the relationship.
      *
@@ -237,6 +261,7 @@ class MorphTo extends BelongsTo
     {
         return $this->dictionary;
     }
+
 
     /**
      * Fetch soft-deleted model instances with query.
@@ -252,10 +277,12 @@ class MorphTo extends BelongsTo
         return $this;
     }
 
+
     /**
      * Return trashed models with query if told so.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function useWithTrashed(Builder $query)

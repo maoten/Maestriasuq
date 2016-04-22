@@ -1,8 +1,15 @@
 <?php
+
 /**
  * Some comment
  */
-class Foo{function foo(){}
+class Foo
+{
+
+    function foo()
+    {
+    }
+
 
     /**
      * @param Baz $baz
@@ -11,6 +18,7 @@ class Foo{function foo(){}
     {
     }
 
+
     /**
      * @param Foobar $foobar
      */
@@ -18,9 +26,11 @@ class Foo{function foo(){}
     {
     }
 
+
     public function barfoo(Barfoo $barfoo)
     {
     }
+
 
     /**
      * This docblock does not belong to the baz function
@@ -29,6 +39,7 @@ class Foo{function foo(){}
     public function baz()
     {
     }
+
 
     public function blaz($x, $y)
     {

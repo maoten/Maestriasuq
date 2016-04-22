@@ -21,14 +21,16 @@ use Monolog\Handler\SyslogUdp\UdpSocket;
  */
 class SyslogUdpHandler extends AbstractSyslogHandler
 {
+
     protected $socket;
+
 
     /**
      * @param string  $host
      * @param int     $port
      * @param mixed   $facility
-     * @param int     $level    The minimum logging level at which this handler will be triggered
-     * @param Boolean $bubble   Whether the messages that are handled can bubble up the stack or not
+     * @param int     $level  The minimum logging level at which this handler will be triggered
+     * @param Boolean $bubble Whether the messages that are handled can bubble up the stack or not
      */
     public function __construct($host, $port = 514, $facility = LOG_USER, $level = Logger::DEBUG, $bubble = true)
     {
@@ -36,6 +38,7 @@ class SyslogUdpHandler extends AbstractSyslogHandler
 
         $this->socket = new UdpSocket($host, $port ?: 514);
     }
+
 
     protected function write(array $record)
     {
@@ -48,10 +51,12 @@ class SyslogUdpHandler extends AbstractSyslogHandler
         }
     }
 
+
     public function close()
     {
         $this->socket->close();
     }
+
 
     private function splitMessageIntoLines($message)
     {
@@ -62,6 +67,7 @@ class SyslogUdpHandler extends AbstractSyslogHandler
         return preg_split('/$\R?^/m', $message);
     }
 
+
     /**
      * Make common syslog header (see rfc5424)
      */
@@ -71,6 +77,7 @@ class SyslogUdpHandler extends AbstractSyslogHandler
 
         return "<$priority>1 ";
     }
+
 
     /**
      * Inject your own socket, mainly used for testing

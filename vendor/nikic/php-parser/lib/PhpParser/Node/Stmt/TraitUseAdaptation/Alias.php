@@ -6,10 +6,13 @@ use PhpParser\Node;
 
 class Alias extends Node\Stmt\TraitUseAdaptation
 {
+
     /** @var null|int New modifier */
     public $newModifier;
+
     /** @var null|string New name */
     public $newName;
+
 
     /**
      * Constructs a trait use precedence adaptation node.
@@ -20,15 +23,18 @@ class Alias extends Node\Stmt\TraitUseAdaptation
      * @param null|string    $newName     New name
      * @param array          $attributes  Additional attributes
      */
-    public function __construct($trait, $method, $newModifier, $newName, array $attributes = array()) {
+    public function __construct($trait, $method, $newModifier, $newName, array $attributes = [ ])
+    {
         parent::__construct($attributes);
-        $this->trait = $trait;
-        $this->method = $method;
+        $this->trait       = $trait;
+        $this->method      = $method;
         $this->newModifier = $newModifier;
-        $this->newName = $newName;
+        $this->newName     = $newName;
     }
 
-    public function getSubNodeNames() {
-        return array('trait', 'method', 'newModifier', 'newName');
+
+    public function getSubNodeNames()
+    {
+        return [ 'trait', 'method', 'newModifier', 'newName' ];
     }
 }

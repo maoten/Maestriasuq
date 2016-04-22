@@ -23,7 +23,9 @@ use Closure;
  */
 class CallbackPromise implements PromiseInterface
 {
+
     private $callback;
+
 
     /**
      * Initializes callback promise.
@@ -34,15 +36,14 @@ class CallbackPromise implements PromiseInterface
      */
     public function __construct($callback)
     {
-        if (!is_callable($callback)) {
-            throw new InvalidArgumentException(sprintf(
-                'Callable expected as an argument to CallbackPromise, but got %s.',
-                gettype($callback)
-            ));
+        if ( ! is_callable($callback)) {
+            throw new InvalidArgumentException(sprintf('Callable expected as an argument to CallbackPromise, but got %s.',
+                gettype($callback)));
         }
 
         $this->callback = $callback;
     }
+
 
     /**
      * Evaluates promise callback.

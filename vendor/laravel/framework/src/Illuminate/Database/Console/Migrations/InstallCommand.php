@@ -8,6 +8,7 @@ use Illuminate\Database\Migrations\MigrationRepositoryInterface;
 
 class InstallCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -29,10 +30,12 @@ class InstallCommand extends Command
      */
     protected $repository;
 
+
     /**
      * Create a new migration install command instance.
      *
-     * @param  \Illuminate\Database\Migrations\MigrationRepositoryInterface  $repository
+     * @param  \Illuminate\Database\Migrations\MigrationRepositoryInterface $repository
+     *
      * @return void
      */
     public function __construct(MigrationRepositoryInterface $repository)
@@ -41,6 +44,7 @@ class InstallCommand extends Command
 
         $this->repository = $repository;
     }
+
 
     /**
      * Execute the console command.
@@ -56,6 +60,7 @@ class InstallCommand extends Command
         $this->info('Migration table created successfully.');
     }
 
+
     /**
      * Get the console command options.
      *
@@ -64,7 +69,7 @@ class InstallCommand extends Command
     protected function getOptions()
     {
         return [
-            ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'],
+            [ 'database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.' ],
         ];
     }
 }

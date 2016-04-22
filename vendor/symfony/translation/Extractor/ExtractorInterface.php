@@ -21,6 +21,7 @@ use Symfony\Component\Translation\MessageCatalogue;
  */
 interface ExtractorInterface
 {
+
     /**
      * Extracts translation messages from files, a file or a directory to the catalogue.
      *
@@ -28,6 +29,7 @@ interface ExtractorInterface
      * @param MessageCatalogue $catalogue The catalogue
      */
     public function extract($resource, MessageCatalogue $catalogue);
+
 
     /**
      * Sets the prefix that should be used for new found messages.

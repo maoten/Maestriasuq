@@ -17,34 +17,31 @@ use Symfony\Component\Routing\RouteCollection;
 
 class PhpMatcherDumperTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @expectedException \LogicException
      */
     public function testDumpWhenSchemeIsUsedWithoutAProperDumper()
     {
         $collection = new RouteCollection();
-        $collection->add('secure', new Route(
-            '/secure',
-            array(),
-            array(),
-            array(),
-            '',
-            array('https')
-        ));
+        $collection->add('secure', new Route('/secure', [ ], [ ], [ ], '', [ 'https' ]));
         $dumper = new PhpMatcherDumper($collection);
         $dumper->dump();
     }
 
+
     /**
      * @dataProvider getRouteCollections
      */
-    public function testDump(RouteCollection $collection, $fixture, $options = array())
+    public function testDump(RouteCollection $collection, $fixture, $options = [ ])
     {
-        $basePath = __DIR__.'/../../Fixtures/dumper/';
+        $basePath = __DIR__ . '/../../Fixtures/dumper/';
 
         $dumper = new PhpMatcherDumper($collection);
-        $this->assertStringEqualsFile($basePath.$fixture, $dumper->dump($options), '->dump() correctly dumps routes as optimized PHP code.');
+        $this->assertStringEqualsFile($basePath . $fixture, $dumper->dump($options),
+            '->dump() correctly dumps routes as optimized PHP code.');
     }
+
 
     public function getRouteCollections()
     {
@@ -55,82 +52,29 @@ class PhpMatcherDumperTest extends \PHPUnit_Framework_TestCase
         $collection->add('overridden', new Route('/overridden'));
 
         // defaults and requirements
-        $collection->add('foo', new Route(
-            '/foo/{bar}',
-            array('def' => 'test'),
-            array('bar' => 'baz|symfony')
-        ));
+        $collection->add('foo', new Route('/foo/{bar}', [ 'def' => 'test' ], [ 'bar' => 'baz|symfony' ]));
         // method requirement
-        $collection->add('bar', new Route(
-            '/bar/{foo}',
-            array(),
-            array(),
-            array(),
-            '',
-            array(),
-            array('GET', 'head')
-        ));
+        $collection->add('bar', new Route('/bar/{foo}', [ ], [ ], [ ], '', [ ], [ 'GET', 'head' ]));
         // GET method requirement automatically adds HEAD as valid
-        $collection->add('barhead', new Route(
-            '/barhead/{foo}',
-            array(),
-            array(),
-            array(),
-            '',
-            array(),
-            array('GET')
-        ));
+        $collection->add('barhead', new Route('/barhead/{foo}', [ ], [ ], [ ], '', [ ], [ 'GET' ]));
         // simple
-        $collection->add('baz', new Route(
-            '/test/baz'
-        ));
+        $collection->add('baz', new Route('/test/baz'));
         // simple with extension
-        $collection->add('baz2', new Route(
-            '/test/baz.html'
-        ));
+        $collection->add('baz2', new Route('/test/baz.html'));
         // trailing slash
-        $collection->add('baz3', new Route(
-            '/test/baz3/'
-        ));
+        $collection->add('baz3', new Route('/test/baz3/'));
         // trailing slash with variable
-        $collection->add('baz4', new Route(
-            '/test/{foo}/'
-        ));
+        $collection->add('baz4', new Route('/test/{foo}/'));
         // trailing slash and method
-        $collection->add('baz5', new Route(
-            '/test/{foo}/',
-            array(),
-            array(),
-            array(),
-            '',
-            array(),
-            array('post')
-        ));
+        $collection->add('baz5', new Route('/test/{foo}/', [ ], [ ], [ ], '', [ ], [ 'post' ]));
         // complex name
-        $collection->add('baz.baz6', new Route(
-            '/test/{foo}/',
-            array(),
-            array(),
-            array(),
-            '',
-            array(),
-            array('put')
-        ));
+        $collection->add('baz.baz6', new Route('/test/{foo}/', [ ], [ ], [ ], '', [ ], [ 'put' ]));
         // defaults without variable
-        $collection->add('foofoo', new Route(
-            '/foofoo',
-            array('def' => 'test')
-        ));
+        $collection->add('foofoo', new Route('/foofoo', [ 'def' => 'test' ]));
         // pattern with quotes
-        $collection->add('quoter', new Route(
-            '/{quoter}',
-            array(),
-            array('quoter' => '[\']+')
-        ));
+        $collection->add('quoter', new Route('/{quoter}', [ ], [ 'quoter' => '[\']+' ]));
         // space in pattern
-        $collection->add('space', new Route(
-            '/spa ce'
-        ));
+        $collection->add('space', new Route('/spa ce'));
 
         // prefixes
         $collection1 = new RouteCollection();
@@ -140,7 +84,7 @@ class PhpMatcherDumperTest extends \PHPUnit_Framework_TestCase
         $collection1->addPrefix('/b\'b');
         $collection2 = new RouteCollection();
         $collection2->addCollection($collection1);
-        $collection2->add('overridden', new Route('/{var}', array(), array('var' => '.*')));
+        $collection2->add('overridden', new Route('/{var}', [ ], [ 'var' => '.*' ]));
         $collection1 = new RouteCollection();
         $collection1->add('foo2', new Route('/{foo1}'));
         $collection1->add('bar2', new Route('/{bar1}'));
@@ -152,7 +96,7 @@ class PhpMatcherDumperTest extends \PHPUnit_Framework_TestCase
         // overridden through addCollection() and multiple sub-collections with no own prefix
         $collection1 = new RouteCollection();
         $collection1->add('overridden2', new Route('/old'));
-        $collection1->add('helloWorld', new Route('/hello/{who}', array('who' => 'World!')));
+        $collection1->add('helloWorld', new Route('/hello/{who}', [ 'who' => 'World!' ]));
         $collection2 = new RouteCollection();
         $collection3 = new RouteCollection();
         $collection3->add('overridden2', new Route('/new'));
@@ -183,22 +127,22 @@ class PhpMatcherDumperTest extends \PHPUnit_Framework_TestCase
 
         $collection1 = new RouteCollection();
 
-        $route1 = new Route('/route1', array(), array(), array(), 'a.example.com');
+        $route1 = new Route('/route1', [ ], [ ], [ ], 'a.example.com');
         $collection1->add('route1', $route1);
 
-        $route2 = new Route('/c2/route2', array(), array(), array(), 'a.example.com');
+        $route2 = new Route('/c2/route2', [ ], [ ], [ ], 'a.example.com');
         $collection1->add('route2', $route2);
 
-        $route3 = new Route('/c2/route3', array(), array(), array(), 'b.example.com');
+        $route3 = new Route('/c2/route3', [ ], [ ], [ ], 'b.example.com');
         $collection1->add('route3', $route3);
 
-        $route4 = new Route('/route4', array(), array(), array(), 'a.example.com');
+        $route4 = new Route('/route4', [ ], [ ], [ ], 'a.example.com');
         $collection1->add('route4', $route4);
 
-        $route5 = new Route('/route5', array(), array(), array(), 'c.example.com');
+        $route5 = new Route('/route5', [ ], [ ], [ ], 'c.example.com');
         $collection1->add('route5', $route5);
 
-        $route6 = new Route('/route6', array(), array(), array(), null);
+        $route6 = new Route('/route6', [ ], [ ], [ ], null);
         $collection1->add('route6', $route6);
 
         $collection->addCollection($collection1);
@@ -207,25 +151,25 @@ class PhpMatcherDumperTest extends \PHPUnit_Framework_TestCase
 
         $collection1 = new RouteCollection();
 
-        $route11 = new Route('/route11', array(), array(), array(), '{var1}.example.com');
+        $route11 = new Route('/route11', [ ], [ ], [ ], '{var1}.example.com');
         $collection1->add('route11', $route11);
 
-        $route12 = new Route('/route12', array('var1' => 'val'), array(), array(), '{var1}.example.com');
+        $route12 = new Route('/route12', [ 'var1' => 'val' ], [ ], [ ], '{var1}.example.com');
         $collection1->add('route12', $route12);
 
-        $route13 = new Route('/route13/{name}', array(), array(), array(), '{var1}.example.com');
+        $route13 = new Route('/route13/{name}', [ ], [ ], [ ], '{var1}.example.com');
         $collection1->add('route13', $route13);
 
-        $route14 = new Route('/route14/{name}', array('var1' => 'val'), array(), array(), '{var1}.example.com');
+        $route14 = new Route('/route14/{name}', [ 'var1' => 'val' ], [ ], [ ], '{var1}.example.com');
         $collection1->add('route14', $route14);
 
-        $route15 = new Route('/route15/{name}', array(), array(), array(), 'c.example.com');
+        $route15 = new Route('/route15/{name}', [ ], [ ], [ ], 'c.example.com');
         $collection1->add('route15', $route15);
 
-        $route16 = new Route('/route16/{name}', array('var1' => 'val'), array(), array(), null);
+        $route16 = new Route('/route16/{name}', [ 'var1' => 'val' ], [ ], [ ], null);
         $collection1->add('route16', $route16);
 
-        $route17 = new Route('/route17', array(), array(), array(), null);
+        $route17 = new Route('/route17', [ ], [ ], [ ], null);
         $collection1->add('route17', $route17);
 
         $collection->addCollection($collection1);
@@ -249,24 +193,10 @@ class PhpMatcherDumperTest extends \PHPUnit_Framework_TestCase
         $redirectCollection = clone $collection;
 
         // force HTTPS redirection
-        $redirectCollection->add('secure', new Route(
-            '/secure',
-            array(),
-            array(),
-            array(),
-            '',
-            array('https')
-        ));
+        $redirectCollection->add('secure', new Route('/secure', [ ], [ ], [ ], '', [ 'https' ]));
 
         // force HTTP redirection
-        $redirectCollection->add('nonsecure', new Route(
-            '/nonsecure',
-            array(),
-            array(),
-            array(),
-            '',
-            array('http')
-        ));
+        $redirectCollection->add('nonsecure', new Route('/nonsecure', [ ], [ ], [ ], '', [ 'http' ]));
 
         /* test case 3 */
 
@@ -278,10 +208,14 @@ class PhpMatcherDumperTest extends \PHPUnit_Framework_TestCase
         $route->setCondition('context.getMethod() == "GET"');
         $rootprefixCollection->add('with-condition', $route);
 
-        return array(
-           array($collection, 'url_matcher1.php', array()),
-           array($redirectCollection, 'url_matcher2.php', array('base_class' => 'Symfony\Component\Routing\Tests\Fixtures\RedirectableUrlMatcher')),
-           array($rootprefixCollection, 'url_matcher3.php', array()),
-        );
+        return [
+            [ $collection, 'url_matcher1.php', [ ] ],
+            [
+                $redirectCollection,
+                'url_matcher2.php',
+                [ 'base_class' => 'Symfony\Component\Routing\Tests\Fixtures\RedirectableUrlMatcher' ]
+            ],
+            [ $rootprefixCollection, 'url_matcher3.php', [ ] ],
+        ];
     }
 }

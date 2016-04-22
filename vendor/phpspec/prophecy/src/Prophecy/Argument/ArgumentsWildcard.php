@@ -18,11 +18,14 @@ namespace Prophecy\Argument;
  */
 class ArgumentsWildcard
 {
+
     /**
      * @var Token\TokenInterface[]
      */
-    private $tokens = array();
+    private $tokens = [ ];
+
     private $string;
+
 
     /**
      * Initializes wildcard.
@@ -32,13 +35,14 @@ class ArgumentsWildcard
     public function __construct(array $arguments)
     {
         foreach ($arguments as $argument) {
-            if (!$argument instanceof Token\TokenInterface) {
+            if ( ! $argument instanceof Token\TokenInterface) {
                 $argument = new Token\ExactValueToken($argument);
             }
 
             $this->tokens[] = $argument;
         }
     }
+
 
     /**
      * Calculates wildcard match score for provided arguments.
@@ -56,7 +60,7 @@ class ArgumentsWildcard
         $arguments  = array_values($arguments);
         $totalScore = 0;
         foreach ($this->tokens as $i => $token) {
-            $argument = isset($arguments[$i]) ? $arguments[$i] : null;
+            $argument = isset( $arguments[$i] ) ? $arguments[$i] : null;
             if (1 >= $score = $token->scoreArgument($argument)) {
                 return false;
             }
@@ -75,6 +79,7 @@ class ArgumentsWildcard
         return $totalScore;
     }
 
+
     /**
      * Returns string representation for wildcard.
      *
@@ -90,6 +95,7 @@ class ArgumentsWildcard
 
         return $this->string;
     }
+
 
     /**
      * @return array

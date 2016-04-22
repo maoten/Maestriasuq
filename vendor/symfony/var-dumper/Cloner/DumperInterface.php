@@ -18,6 +18,7 @@ namespace Symfony\Component\VarDumper\Cloner;
  */
 interface DumperInterface
 {
+
     /**
      * Dumps a scalar value.
      *
@@ -26,6 +27,7 @@ interface DumperInterface
      * @param scalar $value  The scalar value being dumped.
      */
     public function dumpScalar(Cursor $cursor, $type, $value);
+
 
     /**
      * Dumps a string.
@@ -37,6 +39,7 @@ interface DumperInterface
      */
     public function dumpString(Cursor $cursor, $str, $bin, $cut);
 
+
     /**
      * Dumps while entering an hash.
      *
@@ -46,6 +49,7 @@ interface DumperInterface
      * @param bool   $hasChild When the dump of the hash has child item.
      */
     public function enterHash(Cursor $cursor, $type, $class, $hasChild);
+
 
     /**
      * Dumps while leaving an hash.

@@ -29,6 +29,7 @@ use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns;
  */
 class HashHandler implements HandlerInterface
 {
+
     /**
      * @var TokenizerPatterns
      */
@@ -38,6 +39,7 @@ class HashHandler implements HandlerInterface
      * @var TokenizerEscaping
      */
     private $escaping;
+
 
     /**
      * @param TokenizerPatterns $patterns
@@ -49,6 +51,7 @@ class HashHandler implements HandlerInterface
         $this->escaping = $escaping;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -56,7 +59,7 @@ class HashHandler implements HandlerInterface
     {
         $match = $reader->findPattern($this->patterns->getHashPattern());
 
-        if (!$match) {
+        if ( ! $match) {
             return false;
         }
 

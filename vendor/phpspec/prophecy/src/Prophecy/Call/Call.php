@@ -20,12 +20,19 @@ use Exception;
  */
 class Call
 {
+
     private $methodName;
+
     private $arguments;
+
     private $returnValue;
+
     private $exception;
+
     private $file;
+
     private $line;
+
 
     /**
      * Initializes call.
@@ -37,9 +44,14 @@ class Call
      * @param null|string $file
      * @param null|int    $line
      */
-    public function __construct($methodName, array $arguments, $returnValue,
-                                Exception $exception = null, $file, $line)
-    {
+    public function __construct(
+        $methodName,
+        array $arguments,
+        $returnValue,
+        Exception $exception = null,
+        $file,
+        $line
+    ) {
         $this->methodName  = $methodName;
         $this->arguments   = $arguments;
         $this->returnValue = $returnValue;
@@ -51,6 +63,7 @@ class Call
         }
     }
 
+
     /**
      * Returns called method name.
      *
@@ -60,6 +73,7 @@ class Call
     {
         return $this->methodName;
     }
+
 
     /**
      * Returns called method arguments.
@@ -71,6 +85,7 @@ class Call
         return $this->arguments;
     }
 
+
     /**
      * Returns called method return value.
      *
@@ -80,6 +95,7 @@ class Call
     {
         return $this->returnValue;
     }
+
 
     /**
      * Returns exception that call thrown.
@@ -91,6 +107,7 @@ class Call
         return $this->exception;
     }
 
+
     /**
      * Returns callee filename.
      *
@@ -101,6 +118,7 @@ class Call
         return $this->file;
     }
 
+
     /**
      * Returns callee line number.
      *
@@ -110,6 +128,7 @@ class Call
     {
         return $this->line;
     }
+
 
     /**
      * Returns short notation for callee place.

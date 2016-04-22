@@ -32,34 +32,36 @@ use ReflectionClass;
  */
 final class Instantiator implements InstantiatorInterface
 {
+
     /**
      * Markers used internally by PHP to define whether {@see \unserialize} should invoke
      * the method {@see \Serializable::unserialize()} when dealing with classes implementing
      * the {@see \Serializable} interface.
      */
-    const SERIALIZATION_FORMAT_USE_UNSERIALIZER   = 'C';
+    const SERIALIZATION_FORMAT_USE_UNSERIALIZER = 'C';
     const SERIALIZATION_FORMAT_AVOID_UNSERIALIZER = 'O';
 
     /**
      * @var \Closure[] of {@see \Closure} instances used to instantiate specific classes
      */
-    private static $cachedInstantiators = array();
+    private static $cachedInstantiators = [ ];
 
     /**
      * @var object[] of objects that can directly be cloned
      */
-    private static $cachedCloneables = array();
+    private static $cachedCloneables = [ ];
+
 
     /**
      * {@inheritDoc}
      */
     public function instantiate($className)
     {
-        if (isset(self::$cachedCloneables[$className])) {
+        if (isset( self::$cachedCloneables[$className] )) {
             return clone self::$cachedCloneables[$className];
         }
 
-        if (isset(self::$cachedInstantiators[$className])) {
+        if (isset( self::$cachedInstantiators[$className] )) {
             $factory = self::$cachedInstantiators[$className];
 
             return $factory();
@@ -67,6 +69,7 @@ final class Instantiator implements InstantiatorInterface
 
         return $this->buildAndCacheFromFactory($className);
     }
+
 
     /**
      * Builds the requested object and caches it in static properties for performance
@@ -87,6 +90,7 @@ final class Instantiator implements InstantiatorInterface
         return $instance;
     }
 
+
     /**
      * Builds a {@see \Closure} capable of instantiating the given $className without
      * invoking its constructor.
@@ -105,12 +109,8 @@ final class Instantiator implements InstantiatorInterface
             };
         }
 
-        $serializedString = sprintf(
-            '%s:%d:"%s":0:{}',
-            $this->getSerializationFormat($reflectionClass),
-            strlen($className),
-            $className
-        );
+        $serializedString = sprintf('%s:%d:"%s":0:{}', $this->getSerializationFormat($reflectionClass),
+            strlen($className), $className);
 
         $this->checkIfUnSerializationIsSupported($reflectionClass, $serializedString);
 
@@ -118,6 +118,7 @@ final class Instantiator implements InstantiatorInterface
             return unserialize($serializedString);
         };
     }
+
 
     /**
      * @param string $className
@@ -128,7 +129,7 @@ final class Instantiator implements InstantiatorInterface
      */
     private function getReflectionClass($className)
     {
-        if (! class_exists($className)) {
+        if ( ! class_exists($className)) {
             throw InvalidArgumentException::fromNonExistingClass($className);
         }
 
@@ -141,6 +142,7 @@ final class Instantiator implements InstantiatorInterface
         return $reflection;
     }
 
+
     /**
      * @param ReflectionClass $reflectionClass
      * @param string          $serializedString
@@ -152,13 +154,8 @@ final class Instantiator implements InstantiatorInterface
     private function checkIfUnSerializationIsSupported(ReflectionClass $reflectionClass, $serializedString)
     {
         set_error_handler(function ($code, $message, $file, $line) use ($reflectionClass, & $error) {
-            $error = UnexpectedValueException::fromUncleanUnSerialization(
-                $reflectionClass,
-                $message,
-                $code,
-                $file,
-                $line
-            );
+            $error = UnexpectedValueException::fromUncleanUnSerialization($reflectionClass, $message, $code, $file,
+                $line);
         });
 
         $this->attemptInstantiationViaUnSerialization($reflectionClass, $serializedString);
@@ -169,6 +166,7 @@ final class Instantiator implements InstantiatorInterface
             throw $error;
         }
     }
+
 
     /**
      * @param ReflectionClass $reflectionClass
@@ -189,6 +187,7 @@ final class Instantiator implements InstantiatorInterface
         }
     }
 
+
     /**
      * @param ReflectionClass $reflectionClass
      *
@@ -197,11 +196,12 @@ final class Instantiator implements InstantiatorInterface
     private function isInstantiableViaReflection(ReflectionClass $reflectionClass)
     {
         if (\PHP_VERSION_ID >= 50600) {
-            return ! ($this->hasInternalAncestors($reflectionClass) && $reflectionClass->isFinal());
+            return ! ( $this->hasInternalAncestors($reflectionClass) && $reflectionClass->isFinal() );
         }
 
         return \PHP_VERSION_ID >= 50400 && ! $this->hasInternalAncestors($reflectionClass);
     }
+
 
     /**
      * Verifies whether the given class is to be considered internal
@@ -221,6 +221,7 @@ final class Instantiator implements InstantiatorInterface
         return false;
     }
 
+
     /**
      * Verifies if the given PHP version implements the `Serializable` interface serialization
      * with an incompatible serialization format. If that's the case, use serialization marker
@@ -235,14 +236,13 @@ final class Instantiator implements InstantiatorInterface
      */
     private function getSerializationFormat(ReflectionClass $reflectionClass)
     {
-        if ($this->isPhpVersionWithBrokenSerializationFormat()
-            && $reflectionClass->implementsInterface('Serializable')
-        ) {
+        if ($this->isPhpVersionWithBrokenSerializationFormat() && $reflectionClass->implementsInterface('Serializable')) {
             return self::SERIALIZATION_FORMAT_USE_UNSERIALIZER;
         }
 
         return self::SERIALIZATION_FORMAT_AVOID_UNSERIALIZER;
     }
+
 
     /**
      * Checks whether the current PHP runtime uses an incompatible serialization format
@@ -253,6 +253,7 @@ final class Instantiator implements InstantiatorInterface
     {
         return PHP_VERSION_ID === 50429 || PHP_VERSION_ID === 50513;
     }
+
 
     /**
      * Checks if a class is cloneable

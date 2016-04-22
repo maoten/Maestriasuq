@@ -23,6 +23,7 @@ namespace Symfony\Component\CssSelector\XPath;
  */
 class XPathExpr
 {
+
     /**
      * @var string
      */
@@ -38,6 +39,7 @@ class XPathExpr
      */
     private $condition;
 
+
     /**
      * @param string $path
      * @param string $element
@@ -46,14 +48,15 @@ class XPathExpr
      */
     public function __construct($path = '', $element = '*', $condition = '', $starPrefix = false)
     {
-        $this->path = $path;
-        $this->element = $element;
+        $this->path      = $path;
+        $this->element   = $element;
         $this->condition = $condition;
 
         if ($starPrefix) {
             $this->addStarPrefix();
         }
     }
+
 
     /**
      * @return string
@@ -62,6 +65,7 @@ class XPathExpr
     {
         return $this->element;
     }
+
 
     /**
      * @param $condition
@@ -75,6 +79,7 @@ class XPathExpr
         return $this;
     }
 
+
     /**
      * @return string
      */
@@ -83,18 +88,20 @@ class XPathExpr
         return $this->condition;
     }
 
+
     /**
      * @return XPathExpr
      */
     public function addNameTest()
     {
         if ('*' !== $this->element) {
-            $this->addCondition('name() = '.Translator::getXpathLiteral($this->element));
+            $this->addCondition('name() = ' . Translator::getXpathLiteral($this->element));
             $this->element = '*';
         }
 
         return $this;
     }
+
 
     /**
      * @return XPathExpr
@@ -106,6 +113,7 @@ class XPathExpr
         return $this;
     }
 
+
     /**
      * Joins another XPathExpr with a combiner.
      *
@@ -116,27 +124,28 @@ class XPathExpr
      */
     public function join($combiner, XPathExpr $expr)
     {
-        $path = $this->__toString().$combiner;
+        $path = $this->__toString() . $combiner;
 
         if ('*/' !== $expr->path) {
             $path .= $expr->path;
         }
 
-        $this->path = $path;
-        $this->element = $expr->element;
+        $this->path      = $path;
+        $this->element   = $expr->element;
         $this->condition = $expr->condition;
 
         return $this;
     }
+
 
     /**
      * @return string
      */
     public function __toString()
     {
-        $path = $this->path.$this->element;
-        $condition = null === $this->condition || '' === $this->condition ? '' : '['.$this->condition.']';
+        $path      = $this->path . $this->element;
+        $condition = null === $this->condition || '' === $this->condition ? '' : '[' . $this->condition . ']';
 
-        return $path.$condition;
+        return $path . $condition;
     }
 }

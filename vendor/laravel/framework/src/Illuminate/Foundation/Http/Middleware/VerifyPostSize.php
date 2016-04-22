@@ -7,11 +7,13 @@ use Illuminate\Http\Exception\PostTooLargeException;
 
 class VerifyPostSize
 {
+
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure                 $next
+     *
      * @return mixed
      *
      * @throws \Illuminate\Http\Exception\PostTooLargeException
@@ -24,6 +26,7 @@ class VerifyPostSize
 
         return $next($request);
     }
+
 
     /**
      * Determine the server 'post_max_size' as bytes.

@@ -12,6 +12,7 @@ use Symfony\Component\HttpKernel\Bundle;
  */
 class BarCommand extends Command
 {
+
     public function __construct($example, $name = 'bar')
     {
     }

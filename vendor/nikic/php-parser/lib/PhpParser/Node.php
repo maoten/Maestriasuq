@@ -4,12 +4,14 @@ namespace PhpParser;
 
 interface Node
 {
+
     /**
      * Gets the type of the node.
      *
      * @return string Type of the node
      */
     public function getType();
+
 
     /**
      * Gets the names of the sub nodes.
@@ -18,6 +20,7 @@ interface Node
      */
     public function getSubNodeNames();
 
+
     /**
      * Gets line the node started in.
      *
@@ -25,12 +28,14 @@ interface Node
      */
     public function getLine();
 
+
     /**
      * Sets line the node started in.
      *
      * @param int $line Line
      */
     public function setLine($line);
+
 
     /**
      * Gets the doc comment of the node.
@@ -41,6 +46,7 @@ interface Node
      */
     public function getDocComment();
 
+
     /**
      * Sets an attribute on a node.
      *
@@ -48,6 +54,7 @@ interface Node
      * @param mixed  $value
      */
     public function setAttribute($key, $value);
+
 
     /**
      * Returns whether an attribute exists.
@@ -58,6 +65,7 @@ interface Node
      */
     public function hasAttribute($key);
 
+
     /**
      * Returns the value of an attribute.
      *
@@ -67,6 +75,7 @@ interface Node
      * @return mixed
      */
     public function &getAttribute($key, $default = null);
+
 
     /**
      * Returns all attributes for the given node.

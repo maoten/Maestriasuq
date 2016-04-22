@@ -25,6 +25,7 @@ use RuntimeException;
  */
 class ClassPreloader
 {
+
     /**
      * The printer.
      *
@@ -46,6 +47,7 @@ class ClassPreloader
      */
     protected $traverser;
 
+
     /**
      * Create a new class preloader instance.
      *
@@ -57,10 +59,11 @@ class ClassPreloader
      */
     public function __construct(PrettyPrinter $printer, Parser $parser, NodeTraverser $traverser)
     {
-        $this->printer = $printer;
-        $this->parser = $parser;
+        $this->printer   = $printer;
+        $this->parser    = $parser;
         $this->traverser = $traverser;
     }
+
 
     /**
      * Prepare the output file and directory.
@@ -80,13 +83,13 @@ class ClassPreloader
 
         $dir = dirname($output);
 
-        if (!is_dir($dir) && !mkdir($dir, 0777, true)) {
+        if ( ! is_dir($dir) && ! mkdir($dir, 0777, true)) {
             throw new RuntimeException("Unable to create directory $dir.");
         }
 
         $handle = fopen($output, 'w');
 
-        if (!$handle) {
+        if ( ! $handle) {
             throw new RuntimeException("Unable to open $output for writing.");
         }
 
@@ -99,6 +102,7 @@ class ClassPreloader
         return $handle;
     }
 
+
     /**
      * Get a pretty printed string of code from a file while applying visitors.
      *
@@ -110,11 +114,11 @@ class ClassPreloader
      */
     public function getCode($file, $comments = true)
     {
-        if (!is_string($file) || empty($file)) {
+        if ( ! is_string($file) || empty( $file )) {
             throw new RuntimeException('Invalid filename provided.');
         }
 
-        if (!is_readable($file)) {
+        if ( ! is_readable($file)) {
             throw new RuntimeException("Cannot open $file for reading.");
         }
 
@@ -125,10 +129,12 @@ class ClassPreloader
         }
 
         $parsed = $this->parser->parse($content);
-        $stmts = $this->traverser->traverseFile($parsed, $file);
+        $stmts  = $this->traverser->traverseFile($parsed, $file);
         $pretty = $this->printer->prettyPrint($stmts);
 
-        if (substr($pretty, 30) === '<?php declare(strict_types=1);' || substr($pretty, 30) === "<?php\ndeclare(strict_types=1);") {
+        if (substr($pretty, 30) === '<?php declare(strict_types=1);' || substr($pretty,
+                30) === "<?php\ndeclare(strict_types=1);"
+        ) {
             $pretty = substr($pretty, 32);
         } elseif (substr($pretty, 31) === "<?php\r\ndeclare(strict_types=1);") {
             $pretty = substr($pretty, 33);
@@ -138,6 +144,7 @@ class ClassPreloader
 
         return $this->getCodeWrappedIntoNamespace($parsed, $pretty);
     }
+
 
     /**
      * Wrap the code into a namespace.
@@ -150,13 +157,14 @@ class ClassPreloader
     protected function getCodeWrappedIntoNamespace(array $parsed, $pretty)
     {
         if ($this->parsedCodeHasNamespaces($parsed)) {
-            $pretty = preg_replace('/^\s*(namespace.*);/i', '${1} {', $pretty, 1)."\n}\n";
+            $pretty = preg_replace('/^\s*(namespace.*);/i', '${1} {', $pretty, 1) . "\n}\n";
         } else {
             $pretty = sprintf("namespace {\n%s\n}\n", $pretty);
         }
 
         return preg_replace('/(?<!.)[\r\n]+/', '', $pretty);
     }
+
 
     /**
      * Check parsed code for having namespaces.
@@ -169,13 +177,10 @@ class ClassPreloader
     {
         // Namespaces can only be on first level in the code,
         // so we make only check on it.
-        $node = array_filter(
-            $parsed,
-            function ($value) {
-                return $value instanceof NamespaceNode;
-            }
-        );
+        $node = array_filter($parsed, function ($value) {
+            return $value instanceof NamespaceNode;
+        });
 
-        return !empty($node);
+        return ! empty( $node );
     }
 }

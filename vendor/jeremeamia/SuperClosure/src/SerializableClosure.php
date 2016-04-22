@@ -12,6 +12,7 @@ use SuperClosure\Exception\ClosureUnserializationException;
  */
 class SerializableClosure implements \Serializable
 {
+
     /**
      * The closure being wrapped for serialization.
      *
@@ -33,6 +34,7 @@ class SerializableClosure implements \Serializable
      */
     private $data;
 
+
     /**
      * Create a new serializable closure instance.
      *
@@ -43,9 +45,10 @@ class SerializableClosure implements \Serializable
         \Closure $closure,
         SerializerInterface $serializer = null
     ) {
-        $this->closure = $closure;
+        $this->closure    = $closure;
         $this->serializer = $serializer ?: new Serializer;
     }
+
 
     /**
      * Return the original closure object.
@@ -56,6 +59,7 @@ class SerializableClosure implements \Serializable
     {
         return $this->closure;
     }
+
 
     /**
      * Delegates the closure invocation to the actual closure object.
@@ -75,6 +79,7 @@ class SerializableClosure implements \Serializable
         return call_user_func_array($this->closure, func_get_args());
     }
 
+
     /**
      * Clones the SerializableClosure with a new bound object and class scope.
      *
@@ -93,11 +98,9 @@ class SerializableClosure implements \Serializable
      */
     public function bindTo($newthis, $newscope = 'static')
     {
-        return new self(
-            $this->closure->bindTo($newthis, $newscope),
-            $this->serializer
-        );
+        return new self($this->closure->bindTo($newthis, $newscope), $this->serializer);
     }
+
 
     /**
      * Serializes the code, context, and binding of the closure.
@@ -109,17 +112,16 @@ class SerializableClosure implements \Serializable
     {
         try {
             $this->data = $this->data ?: $this->serializer->getData($this->closure, true);
+
             return serialize($this->data);
         } catch (\Exception $e) {
-            trigger_error(
-                'Serialization of closure failed: ' . $e->getMessage(),
-                E_USER_NOTICE
-            );
+            trigger_error('Serialization of closure failed: ' . $e->getMessage(), E_USER_NOTICE);
             // Note: The serialize() method of Serializable must return a string
             // or null and cannot throw exceptions.
             return null;
         }
     }
+
 
     /**
      * Unserializes the closure.
@@ -137,24 +139,20 @@ class SerializableClosure implements \Serializable
     public function unserialize($serialized)
     {
         // Unserialize the closure data and reconstruct the closure object.
-        $this->data = unserialize($serialized);
+        $this->data    = unserialize($serialized);
         $this->closure = __reconstruct_closure($this->data);
 
         // Throw an exception if the closure could not be reconstructed.
-        if (!$this->closure instanceof Closure) {
-            throw new ClosureUnserializationException(
-                'The closure is corrupted and cannot be unserialized.'
-            );
+        if ( ! $this->closure instanceof Closure) {
+            throw new ClosureUnserializationException('The closure is corrupted and cannot be unserialized.');
         }
 
         // Rebind the closure to its former binding and scope.
         if ($this->data['binding'] || $this->data['isStatic']) {
-            $this->closure = $this->closure->bindTo(
-                $this->data['binding'],
-                $this->data['scope']
-            );
+            $this->closure = $this->closure->bindTo($this->data['binding'], $this->data['scope']);
         }
     }
+
 
     /**
      * Returns closure data for `var_dump()`.
@@ -202,16 +200,16 @@ function __reconstruct_closure(array $__data)
 
     // Evaluate the code to recreate the closure.
     try {
-        if (isset($__recursive_reference)) {
+        if (isset( $__recursive_reference )) {
             // Special handling for recursive closures.
-            @eval("\${$__recursive_reference} = {$__data['code']};");
+            @eval( "\${$__recursive_reference} = {$__data['code']};" );
             $__closure = ${$__recursive_reference};
         } else {
-            @eval("\$__closure = {$__data['code']};");
+            @eval( "\$__closure = {$__data['code']};" );
         }
     } catch (\ParseError $e) {
         // Discard the parse error.
     }
 
-    return isset($__closure) ? $__closure : null;
+    return isset( $__closure ) ? $__closure : null;
 }

@@ -21,6 +21,7 @@ use Monolog\Logger;
  */
 class NativeMailerHandler extends MailHandler
 {
+
     /**
      * The email addresses to which the message will be sent
      * @var array
@@ -37,13 +38,13 @@ class NativeMailerHandler extends MailHandler
      * Optional headers for the message
      * @var array
      */
-    protected $headers = array();
+    protected $headers = [ ];
 
     /**
      * Optional parameters for the message
      * @var array
      */
-    protected $parameters = array();
+    protected $parameters = [ ];
 
     /**
      * The wordwrap length for the message
@@ -63,6 +64,7 @@ class NativeMailerHandler extends MailHandler
      */
     protected $encoding = 'utf-8';
 
+
     /**
      * @param string|array $to             The receiver of the mail
      * @param string       $subject        The subject of the mail
@@ -74,16 +76,18 @@ class NativeMailerHandler extends MailHandler
     public function __construct($to, $subject, $from, $level = Logger::ERROR, $bubble = true, $maxColumnWidth = 70)
     {
         parent::__construct($level, $bubble);
-        $this->to = is_array($to) ? $to : array($to);
+        $this->to      = is_array($to) ? $to : [ $to ];
         $this->subject = $subject;
         $this->addHeader(sprintf('From: %s', $from));
         $this->maxColumnWidth = $maxColumnWidth;
     }
 
+
     /**
      * Add headers to the message
      *
      * @param  string|array $headers Custom added headers
+     *
      * @return self
      */
     public function addHeader($headers)
@@ -98,10 +102,12 @@ class NativeMailerHandler extends MailHandler
         return $this;
     }
 
+
     /**
      * Add parameters to the message
      *
      * @param  string|array $parameters Custom added parameters
+     *
      * @return self
      */
     public function addParameter($parameters)
@@ -110,6 +116,7 @@ class NativeMailerHandler extends MailHandler
 
         return $this;
     }
+
 
     /**
      * {@inheritdoc}
@@ -128,6 +135,7 @@ class NativeMailerHandler extends MailHandler
         }
     }
 
+
     /**
      * @return string $contentType
      */
@@ -135,6 +143,7 @@ class NativeMailerHandler extends MailHandler
     {
         return $this->contentType;
     }
+
 
     /**
      * @return string $encoding
@@ -144,9 +153,11 @@ class NativeMailerHandler extends MailHandler
         return $this->encoding;
     }
 
+
     /**
      * @param  string $contentType The content type of the email - Defaults to text/plain. Use text/html for HTML
      *                             messages.
+     *
      * @return self
      */
     public function setContentType($contentType)
@@ -160,8 +171,10 @@ class NativeMailerHandler extends MailHandler
         return $this;
     }
 
+
     /**
      * @param  string $encoding
+     *
      * @return self
      */
     public function setEncoding($encoding)

@@ -28,6 +28,7 @@ use BadMethodCallException;
  */
 class UnCloneableAsset
 {
+
     /**
      * Constructor - should not be called
      *
@@ -37,6 +38,7 @@ class UnCloneableAsset
     {
         throw new BadMethodCallException('Not supposed to be called!');
     }
+
 
     /**
      * Magic `__clone` - should not be invoked

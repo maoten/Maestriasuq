@@ -20,6 +20,7 @@ use PhpParser\Node\Stmt\Return_ as ReturnStmt;
  */
 class ImplicitReturnPass extends CodeCleanerPass
 {
+
     /**
      * @param array $nodes
      */
@@ -27,11 +28,11 @@ class ImplicitReturnPass extends CodeCleanerPass
     {
         $last = end($nodes);
 
-        if ($last instanceof Expr && !($last instanceof Exit_)) {
-            $nodes[count($nodes) - 1] = new ReturnStmt($last, array(
+        if ($last instanceof Expr && ! ( $last instanceof Exit_ )) {
+            $nodes[count($nodes) - 1] = new ReturnStmt($last, [
                 'startLine' => $last->getLine(),
                 'endLine'   => $last->getLine(),
-            ));
+            ]);
         }
 
         return $nodes;

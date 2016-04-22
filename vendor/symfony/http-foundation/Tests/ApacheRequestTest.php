@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\ApacheRequest;
 
 class ApacheRequestTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @dataProvider provideServerVars
      */
@@ -28,65 +29,66 @@ class ApacheRequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedPathInfo, $request->getPathInfo(), '->getPathInfo() is correct');
     }
 
+
     public function provideServerVars()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'REQUEST_URI' => '/foo/app_dev.php/bar',
                     'SCRIPT_NAME' => '/foo/app_dev.php',
-                    'PATH_INFO' => '/bar',
-                ),
+                    'PATH_INFO'   => '/bar',
+                ],
                 '/foo/app_dev.php/bar',
                 '/foo/app_dev.php',
                 '/bar',
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'REQUEST_URI' => '/foo/bar',
                     'SCRIPT_NAME' => '/foo/app_dev.php',
-                ),
+                ],
                 '/foo/bar',
                 '/foo',
                 '/bar',
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'REQUEST_URI' => '/app_dev.php/foo/bar',
                     'SCRIPT_NAME' => '/app_dev.php',
-                    'PATH_INFO' => '/foo/bar',
-                ),
+                    'PATH_INFO'   => '/foo/bar',
+                ],
                 '/app_dev.php/foo/bar',
                 '/app_dev.php',
                 '/foo/bar',
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'REQUEST_URI' => '/foo/bar',
                     'SCRIPT_NAME' => '/app_dev.php',
-                ),
+                ],
                 '/foo/bar',
                 '',
                 '/foo/bar',
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'REQUEST_URI' => '/app_dev.php',
                     'SCRIPT_NAME' => '/app_dev.php',
-                ),
+                ],
                 '/app_dev.php',
                 '/app_dev.php',
                 '/',
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'REQUEST_URI' => '/',
                     'SCRIPT_NAME' => '/app_dev.php',
-                ),
+                ],
                 '/',
                 '',
                 '/',
-            ),
-        );
+            ],
+        ];
     }
 }

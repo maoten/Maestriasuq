@@ -12,10 +12,12 @@ use Illuminate\Database\Schema\Grammars\SqlServerGrammar as SchemaGrammar;
 
 class SqlServerConnection extends Connection
 {
+
     /**
      * Execute a Closure within a transaction.
      *
-     * @param  \Closure  $callback
+     * @param  \Closure $callback
+     *
      * @return mixed
      *
      * @throws \Exception|\Throwable
@@ -37,9 +39,9 @@ class SqlServerConnection extends Connection
             $this->getPdo()->exec('COMMIT TRAN');
         }
 
-        // If we catch an exception, we will roll back so nothing gets messed
-        // up in the database. Then we'll re-throw the exception so it can
-        // be handled how the developer sees fit for their applications.
+            // If we catch an exception, we will roll back so nothing gets messed
+            // up in the database. Then we'll re-throw the exception so it can
+            // be handled how the developer sees fit for their applications.
         catch (Exception $e) {
             $this->getPdo()->exec('ROLLBACK TRAN');
 
@@ -53,6 +55,7 @@ class SqlServerConnection extends Connection
         return $result;
     }
 
+
     /**
      * Get the default query grammar instance.
      *
@@ -62,6 +65,7 @@ class SqlServerConnection extends Connection
     {
         return $this->withTablePrefix(new QueryGrammar);
     }
+
 
     /**
      * Get the default schema grammar instance.
@@ -73,6 +77,7 @@ class SqlServerConnection extends Connection
         return $this->withTablePrefix(new SchemaGrammar);
     }
 
+
     /**
      * Get the default post processor instance.
      *
@@ -82,6 +87,7 @@ class SqlServerConnection extends Connection
     {
         return new SqlServerProcessor;
     }
+
 
     /**
      * Get the Doctrine DBAL driver.

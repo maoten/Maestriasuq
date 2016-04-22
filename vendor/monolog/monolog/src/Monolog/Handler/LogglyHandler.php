@@ -23,17 +23,19 @@ use Monolog\Formatter\LogglyFormatter;
  */
 class LogglyHandler extends AbstractProcessingHandler
 {
+
     const HOST = 'logs-01.loggly.com';
     const ENDPOINT_SINGLE = 'inputs';
     const ENDPOINT_BATCH = 'bulk';
 
     protected $token;
 
-    protected $tag = array();
+    protected $tag = [ ];
+
 
     public function __construct($token, $level = Logger::DEBUG, $bubble = true)
     {
-        if (!extension_loaded('curl')) {
+        if ( ! extension_loaded('curl')) {
             throw new \LogicException('The curl extension is needed to use the LogglyHandler');
         }
 
@@ -42,31 +44,35 @@ class LogglyHandler extends AbstractProcessingHandler
         parent::__construct($level, $bubble);
     }
 
+
     public function setTag($tag)
     {
-        $tag = !empty($tag) ? $tag : array();
-        $this->tag = is_array($tag) ? $tag : array($tag);
+        $tag       = ! empty( $tag ) ? $tag : [ ];
+        $this->tag = is_array($tag) ? $tag : [ $tag ];
     }
+
 
     public function addTag($tag)
     {
-        if (!empty($tag)) {
-            $tag = is_array($tag) ? $tag : array($tag);
+        if ( ! empty( $tag )) {
+            $tag       = is_array($tag) ? $tag : [ $tag ];
             $this->tag = array_unique(array_merge($this->tag, $tag));
         }
     }
+
 
     protected function write(array $record)
     {
         $this->send($record["formatted"], self::ENDPOINT_SINGLE);
     }
 
+
     public function handleBatch(array $records)
     {
         $level = $this->level;
 
         $records = array_filter($records, function ($record) use ($level) {
-            return ($record['level'] >= $level);
+            return ( $record['level'] >= $level );
         });
 
         if ($records) {
@@ -74,14 +80,15 @@ class LogglyHandler extends AbstractProcessingHandler
         }
     }
 
+
     protected function send($data, $endpoint)
     {
         $url = sprintf("https://%s/%s/%s/", self::HOST, $endpoint, $this->token);
 
-        $headers = array('Content-Type: application/json');
+        $headers = [ 'Content-Type: application/json' ];
 
-        if (!empty($this->tag)) {
-            $headers[] = 'X-LOGGLY-TAG: '.implode(',', $this->tag);
+        if ( ! empty( $this->tag )) {
+            $headers[] = 'X-LOGGLY-TAG: ' . implode(',', $this->tag);
         }
 
         $ch = curl_init();
@@ -94,6 +101,7 @@ class LogglyHandler extends AbstractProcessingHandler
 
         Curl\Util::execute($ch);
     }
+
 
     protected function getDefaultFormatter()
     {

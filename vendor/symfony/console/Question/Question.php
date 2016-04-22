@@ -21,14 +21,23 @@ use Symfony\Component\Console\Exception\LogicException;
  */
 class Question
 {
+
     private $question;
+
     private $attempts;
+
     private $hidden = false;
+
     private $hiddenFallback = true;
+
     private $autocompleterValues;
+
     private $validator;
+
     private $default;
+
     private $normalizer;
+
 
     /**
      * Constructor.
@@ -39,8 +48,9 @@ class Question
     public function __construct($question, $default = null)
     {
         $this->question = $question;
-        $this->default = $default;
+        $this->default  = $default;
     }
+
 
     /**
      * Returns the question.
@@ -52,6 +62,7 @@ class Question
         return $this->question;
     }
 
+
     /**
      * Returns the default answer.
      *
@@ -62,6 +73,7 @@ class Question
         return $this->default;
     }
 
+
     /**
      * Returns whether the user response must be hidden.
      *
@@ -71,6 +83,7 @@ class Question
     {
         return $this->hidden;
     }
+
 
     /**
      * Sets whether the user response must be hidden or not.
@@ -92,6 +105,7 @@ class Question
         return $this;
     }
 
+
     /**
      * In case the response can not be hidden, whether to fallback on non-hidden question or not.
      *
@@ -101,6 +115,7 @@ class Question
     {
         return $this->hiddenFallback;
     }
+
 
     /**
      * Sets whether to fallback on non-hidden question if the response can not be hidden.
@@ -116,6 +131,7 @@ class Question
         return $this;
     }
 
+
     /**
      * Gets values for the autocompleter.
      *
@@ -125,6 +141,7 @@ class Question
     {
         return $this->autocompleterValues;
     }
+
 
     /**
      * Sets values for the autocompleter.
@@ -142,8 +159,8 @@ class Question
             $values = array_merge(array_keys($values), array_values($values));
         }
 
-        if (null !== $values && !is_array($values)) {
-            if (!$values instanceof \Traversable || !$values instanceof \Countable) {
+        if (null !== $values && ! is_array($values)) {
+            if ( ! $values instanceof \Traversable || ! $values instanceof \Countable) {
                 throw new InvalidArgumentException('Autocompleter values can be either an array, `null` or an object implementing both `Countable` and `Traversable` interfaces.');
             }
         }
@@ -156,6 +173,7 @@ class Question
 
         return $this;
     }
+
 
     /**
      * Sets a validator for the question.
@@ -171,6 +189,7 @@ class Question
         return $this;
     }
 
+
     /**
      * Gets the validator for the question.
      *
@@ -180,6 +199,7 @@ class Question
     {
         return $this->validator;
     }
+
 
     /**
      * Sets the maximum number of attempts.
@@ -203,6 +223,7 @@ class Question
         return $this;
     }
 
+
     /**
      * Gets the maximum number of attempts.
      *
@@ -214,6 +235,7 @@ class Question
     {
         return $this->attempts;
     }
+
 
     /**
      * Sets a normalizer for the response.
@@ -231,6 +253,7 @@ class Question
         return $this;
     }
 
+
     /**
      * Gets the normalizer for the response.
      *
@@ -242,6 +265,7 @@ class Question
     {
         return $this->normalizer;
     }
+
 
     protected function isAssoc($array)
     {

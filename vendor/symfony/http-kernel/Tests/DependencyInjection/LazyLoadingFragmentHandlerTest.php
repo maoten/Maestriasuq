@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LazyLoadingFragmentHandlerTest extends \PHPUnit_Framework_TestCase
 {
+
     public function test()
     {
         $renderer = $this->getMock('Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface');

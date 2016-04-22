@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 
 class EventGenerateCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -21,6 +22,7 @@ class EventGenerateCommand extends Command
      */
     protected $description = 'Generate the missing events and listeners based on registration';
 
+
     /**
      * Execute the console command.
      *
@@ -28,21 +30,19 @@ class EventGenerateCommand extends Command
      */
     public function fire()
     {
-        $provider = $this->laravel->getProvider(
-            'Illuminate\Foundation\Support\Providers\EventServiceProvider'
-        );
+        $provider = $this->laravel->getProvider('Illuminate\Foundation\Support\Providers\EventServiceProvider');
 
         foreach ($provider->listens() as $event => $listeners) {
-            if (! Str::contains($event, '\\')) {
+            if ( ! Str::contains($event, '\\')) {
                 continue;
             }
 
-            $this->callSilent('make:event', ['name' => $event]);
+            $this->callSilent('make:event', [ 'name' => $event ]);
 
             foreach ($listeners as $listener) {
                 $listener = preg_replace('/@.+$/', '', $listener);
 
-                $this->callSilent('make:listener', ['name' => $listener, '--event' => $event]);
+                $this->callSilent('make:listener', [ 'name' => $listener, '--event' => $event ]);
             }
         }
 

@@ -18,6 +18,7 @@ namespace Symfony\Component\HttpFoundation;
  */
 class ApacheRequest extends Request
 {
+
     /**
      * {@inheritdoc}
      */
@@ -25,6 +26,7 @@ class ApacheRequest extends Request
     {
         return $this->server->get('REQUEST_URI');
     }
+
 
     /**
      * {@inheritdoc}

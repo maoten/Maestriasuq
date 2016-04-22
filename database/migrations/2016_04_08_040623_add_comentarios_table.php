@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddComentariosTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -14,7 +15,7 @@ class AddComentariosTable extends Migration
     {
         Schema::create('comentarios', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('comentarios',255);
+            $table->string('comentarios', 255);
             $table->integer('propuesta_id')->unsigned();
             $table->foreign('propuesta_id')->references('id')->on('propuesta')->onDelete('cascade');
             $table->integer('user_id')->unsigned();
@@ -22,6 +23,7 @@ class AddComentariosTable extends Migration
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

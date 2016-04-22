@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddTableJuradoPropuesta extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -14,12 +15,13 @@ class AddTableJuradoPropuesta extends Migration
     {
         Schema::create('jurado_propuesta', function (Blueprint $table) {
             $table->integer('propuesta_id')->unsigned();
-           $table->foreign('propuesta_id')->references('id')->on('propuesta')->onDelete('cascade');
-           $table->integer('jurado_id')->unsigned();
-           $table->foreign('jurado_id')->references('user_id')->on('jurados')->onDelete('cascade');
-           $table->timestamps();
-       });
+            $table->foreign('propuesta_id')->references('id')->on('propuesta')->onDelete('cascade');
+            $table->integer('jurado_id')->unsigned();
+            $table->foreign('jurado_id')->references('user_id')->on('jurados')->onDelete('cascade');
+            $table->timestamps();
+        });
     }
+
 
     /**
      * Reverse the migrations.

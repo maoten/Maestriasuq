@@ -39,6 +39,7 @@ use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
  */
 class MimeTypeGuesser implements MimeTypeGuesserInterface
 {
+
     /**
      * The singleton instance.
      *
@@ -51,7 +52,8 @@ class MimeTypeGuesser implements MimeTypeGuesserInterface
      *
      * @var array
      */
-    protected $guessers = array();
+    protected $guessers = [ ];
+
 
     /**
      * Returns the singleton instance.
@@ -67,6 +69,7 @@ class MimeTypeGuesser implements MimeTypeGuesserInterface
         return self::$instance;
     }
 
+
     /**
      * Resets the singleton instance.
      */
@@ -74,6 +77,7 @@ class MimeTypeGuesser implements MimeTypeGuesserInterface
     {
         self::$instance = null;
     }
+
 
     /**
      * Registers all natively provided mime type guessers.
@@ -89,6 +93,7 @@ class MimeTypeGuesser implements MimeTypeGuesserInterface
         }
     }
 
+
     /**
      * Registers a new mime type guesser.
      *
@@ -100,6 +105,7 @@ class MimeTypeGuesser implements MimeTypeGuesserInterface
     {
         array_unshift($this->guessers, $guesser);
     }
+
 
     /**
      * Tries to guess the mime type of the given file.
@@ -119,17 +125,17 @@ class MimeTypeGuesser implements MimeTypeGuesserInterface
      */
     public function guess($path)
     {
-        if (!is_file($path)) {
+        if ( ! is_file($path)) {
             throw new FileNotFoundException($path);
         }
 
-        if (!is_readable($path)) {
+        if ( ! is_readable($path)) {
             throw new AccessDeniedException($path);
         }
 
-        if (!$this->guessers) {
+        if ( ! $this->guessers) {
             $msg = 'Unable to guess the mime type as no guessers are available';
-            if (!FileinfoMimeTypeGuesser::isSupported()) {
+            if ( ! FileinfoMimeTypeGuesser::isSupported()) {
                 $msg .= ' (Did you enable the php_fileinfo extension?)';
             }
             throw new \LogicException($msg);

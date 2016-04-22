@@ -16,6 +16,7 @@ class IsArrayContainingInOrder extends TypeSafeDiagnosingMatcher
 
     private $_elementMatchers;
 
+
     public function __construct(array $elementMatchers)
     {
         parent::__construct(self::TYPE_ARRAY);
@@ -25,12 +26,13 @@ class IsArrayContainingInOrder extends TypeSafeDiagnosingMatcher
         $this->_elementMatchers = $elementMatchers;
     }
 
+
     protected function matchesSafelyWithDiagnosticDescription($array, Description $mismatchDescription)
     {
         $series = new SeriesMatchingOnce($this->_elementMatchers, $mismatchDescription);
 
         foreach ($array as $element) {
-            if (!$series->matches($element)) {
+            if ( ! $series->matches($element)) {
                 return false;
             }
         }
@@ -38,10 +40,12 @@ class IsArrayContainingInOrder extends TypeSafeDiagnosingMatcher
         return $series->isFinished();
     }
 
+
     public function describeTo(Description $description)
     {
         $description->appendList('[', ', ', ']', $this->_elementMatchers);
     }
+
 
     /**
      * An array with elements that match the given matchers in the same order.

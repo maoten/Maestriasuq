@@ -15,6 +15,7 @@ class IsInstanceOf extends DiagnosingMatcher
 
     private $_theClass;
 
+
     /**
      * Creates a new instance of IsInstanceOf
      *
@@ -27,17 +28,17 @@ class IsInstanceOf extends DiagnosingMatcher
         $this->_theClass = $theClass;
     }
 
+
     protected function matchesWithDiagnosticDescription($item, Description $mismatchDescription)
     {
-        if (!is_object($item)) {
+        if ( ! is_object($item)) {
             $mismatchDescription->appendText('was ')->appendValue($item);
 
             return false;
         }
 
-        if (!($item instanceof $this->_theClass)) {
-            $mismatchDescription->appendText('[' . get_class($item) . '] ')
-                                                    ->appendValue($item);
+        if ( ! ( $item instanceof $this->_theClass )) {
+            $mismatchDescription->appendText('[' . get_class($item) . '] ')->appendValue($item);
 
             return false;
         }
@@ -45,12 +46,12 @@ class IsInstanceOf extends DiagnosingMatcher
         return true;
     }
 
+
     public function describeTo(Description $description)
     {
-        $description->appendText('an instance of ')
-                                ->appendText($this->_theClass)
-                                ;
+        $description->appendText('an instance of ')->appendText($this->_theClass);
     }
+
 
     /**
      * Is the value an instance of a particular type?

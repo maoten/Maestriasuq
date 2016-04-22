@@ -8,21 +8,66 @@ namespace Faker\Provider\en_CA;
 
 class Address extends \Faker\Provider\en_US\Address
 {
-    protected static $postcode = array('?#? #?#', '?#?-#?#', '?#?#?#');
 
-    protected static $postcodeLetters = array('A','B','C','E','G','H','J','K','L','M','N','P','R','S','T','V','X','Y');
+    protected static $postcode = [ '?#? #?#', '?#?-#?#', '?#?#?#' ];
 
-    protected static $province = array(
-        'Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland and Labrador', 'Northwest Territories', 'Nova Scotia', 'Nunavut', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan', 'Yukon Territory',
-    );
+    protected static $postcodeLetters = [
+        'A',
+        'B',
+        'C',
+        'E',
+        'G',
+        'H',
+        'J',
+        'K',
+        'L',
+        'M',
+        'N',
+        'P',
+        'R',
+        'S',
+        'T',
+        'V',
+        'X',
+        'Y'
+    ];
 
-    protected static $provinceAbbr = array(
-        'AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'
-    );
+    protected static $province = [
+        'Alberta',
+        'British Columbia',
+        'Manitoba',
+        'New Brunswick',
+        'Newfoundland and Labrador',
+        'Northwest Territories',
+        'Nova Scotia',
+        'Nunavut',
+        'Ontario',
+        'Prince Edward Island',
+        'Quebec',
+        'Saskatchewan',
+        'Yukon Territory',
+    ];
 
-    protected static $addressFormats = array(
+    protected static $provinceAbbr = [
+        'AB',
+        'BC',
+        'MB',
+        'NB',
+        'NL',
+        'NT',
+        'NS',
+        'NU',
+        'ON',
+        'PE',
+        'QC',
+        'SK',
+        'YT'
+    ];
+
+    protected static $addressFormats = [
         "{{streetAddress}}\n{{city}}, {{provinceAbbr}}  {{postcode}}",
-    );
+    ];
+
 
     /**
      * @example 'Ontario'
@@ -32,6 +77,7 @@ class Address extends \Faker\Provider\en_US\Address
         return static::randomElement(static::$province);
     }
 
+
     /**
      * @example 'ON'
      */
@@ -39,6 +85,7 @@ class Address extends \Faker\Provider\en_US\Address
     {
         return static::randomElement(static::$provinceAbbr);
     }
+
 
     /**
      * Returns a postalcode-safe letter
@@ -48,6 +95,7 @@ class Address extends \Faker\Provider\en_US\Address
     {
         return static::randomElement(static::$postcodeLetters);
     }
+
 
     /**
      * @example A1B 2C3

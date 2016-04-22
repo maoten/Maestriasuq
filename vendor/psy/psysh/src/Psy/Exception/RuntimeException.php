@@ -16,7 +16,9 @@ namespace Psy\Exception;
  */
 class RuntimeException extends \RuntimeException implements Exception
 {
+
     private $rawMessage;
+
 
     /**
      * Make this bad boy.
@@ -30,6 +32,7 @@ class RuntimeException extends \RuntimeException implements Exception
         $this->rawMessage = $message;
         parent::__construct($message, $code, $previous);
     }
+
 
     /**
      * Return a raw (unformatted) version of the error message.

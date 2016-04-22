@@ -22,20 +22,16 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class TraceCommand extends Command
 {
+
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $this
-            ->setName('trace')
-            ->setDefinition(array(
-                new InputOption('include-psy', 'p', InputOption::VALUE_NONE,     'Include Psy in the call stack.'),
-                new InputOption('num',         'n', InputOption::VALUE_REQUIRED, 'Only include NUM lines.'),
-            ))
-            ->setDescription('Show the current call stack.')
-            ->setHelp(
-                <<<'HELP'
+        $this->setName('trace')->setDefinition([
+                new InputOption('include-psy', 'p', InputOption::VALUE_NONE, 'Include Psy in the call stack.'),
+                new InputOption('num', 'n', InputOption::VALUE_REQUIRED, 'Only include NUM lines.'),
+            ])->setDescription('Show the current call stack.')->setHelp(<<<'HELP'
 Show the current call stack.
 
 Optionally, include PsySH in the call stack by passing the <info>--include-psy</info> option.
@@ -47,6 +43,7 @@ HELP
             );
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -55,6 +52,7 @@ HELP
         $trace = $this->getBacktrace(new \Exception(), $input->getOption('num'), $input->getOption('include-psy'));
         $output->page($trace, ShellOutput::NUMBER_LINES);
     }
+
 
     /**
      * Get a backtrace for an exception.
@@ -78,19 +76,19 @@ HELP
             $count = PHP_INT_MAX;
         }
 
-        $lines = array();
+        $lines = [ ];
 
         $trace = $e->getTrace();
-        array_unshift($trace, array(
+        array_unshift($trace, [
             'function' => '',
             'file'     => $e->getFile() !== null ? $e->getFile() : 'n/a',
             'line'     => $e->getLine() !== null ? $e->getLine() : 'n/a',
-            'args'     => array(),
-        ));
+            'args'     => [ ],
+        ]);
 
-        if (!$includePsy) {
+        if ( ! $includePsy) {
             for ($i = count($trace) - 1; $i >= 0; $i--) {
-                $thing = isset($trace[$i]['class']) ? $trace[$i]['class'] : $trace[$i]['function'];
+                $thing = isset( $trace[$i]['class'] ) ? $trace[$i]['class'] : $trace[$i]['function'];
                 if (preg_match('/\\\\?Psy\\\\/', $thing)) {
                     $trace = array_slice($trace, $i + 1);
                     break;
@@ -99,24 +97,20 @@ HELP
         }
 
         for ($i = 0, $count = min($count, count($trace)); $i < $count; $i++) {
-            $class    = isset($trace[$i]['class']) ? $trace[$i]['class'] : '';
-            $type     = isset($trace[$i]['type']) ? $trace[$i]['type'] : '';
+            $class    = isset( $trace[$i]['class'] ) ? $trace[$i]['class'] : '';
+            $type     = isset( $trace[$i]['type'] ) ? $trace[$i]['type'] : '';
             $function = $trace[$i]['function'];
-            $file     = isset($trace[$i]['file']) ? $this->replaceCwd($cwd, $trace[$i]['file']) : 'n/a';
-            $line     = isset($trace[$i]['line']) ? $trace[$i]['line'] : 'n/a';
+            $file     = isset( $trace[$i]['file'] ) ? $this->replaceCwd($cwd, $trace[$i]['file']) : 'n/a';
+            $line     = isset( $trace[$i]['line'] ) ? $trace[$i]['line'] : 'n/a';
 
-            $lines[] = sprintf(
-                ' <class>%s</class>%s%s() at <info>%s:%s</info>',
-                OutputFormatter::escape($class),
-                OutputFormatter::escape($type),
-                OutputFormatter::escape($function),
-                OutputFormatter::escape($file),
-                OutputFormatter::escape($line)
-            );
+            $lines[] = sprintf(' <class>%s</class>%s%s() at <info>%s:%s</info>', OutputFormatter::escape($class),
+                OutputFormatter::escape($type), OutputFormatter::escape($function), OutputFormatter::escape($file),
+                OutputFormatter::escape($line));
         }
 
         return $lines;
     }
+
 
     /**
      * Replace the given directory from the start of a filepath.

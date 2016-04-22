@@ -15,8 +15,10 @@
  */
 class Swift_Plugins_Loggers_EchoLogger implements Swift_Plugins_Logger
 {
+
     /** Whether or not HTML should be output */
     private $_isHtml;
+
 
     /**
      * Create a new EchoLogger.
@@ -27,6 +29,7 @@ class Swift_Plugins_Loggers_EchoLogger implements Swift_Plugins_Logger
     {
         $this->_isHtml = $isHtml;
     }
+
 
     /**
      * Add a log entry.
@@ -42,12 +45,14 @@ class Swift_Plugins_Loggers_EchoLogger implements Swift_Plugins_Logger
         }
     }
 
+
     /**
      * Not implemented.
      */
     public function clear()
     {
     }
+
 
     /**
      * Not implemented.

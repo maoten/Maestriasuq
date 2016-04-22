@@ -19,12 +19,14 @@
  */
 class PHPUnit_Extensions_TestDecorator extends PHPUnit_Framework_Assert implements PHPUnit_Framework_Test, PHPUnit_Framework_SelfDescribing
 {
+
     /**
      * The Test to be decorated.
      *
      * @var object
      */
     protected $test = null;
+
 
     /**
      * Constructor.
@@ -36,6 +38,7 @@ class PHPUnit_Extensions_TestDecorator extends PHPUnit_Framework_Assert implemen
         $this->test = $test;
     }
 
+
     /**
      * Returns a string representation of the test.
      *
@@ -45,6 +48,7 @@ class PHPUnit_Extensions_TestDecorator extends PHPUnit_Framework_Assert implemen
     {
         return $this->test->toString();
     }
+
 
     /**
      * Runs the test and collects the
@@ -57,6 +61,7 @@ class PHPUnit_Extensions_TestDecorator extends PHPUnit_Framework_Assert implemen
         $this->test->run($result);
     }
 
+
     /**
      * Counts the number of test cases that
      * will be run by this test.
@@ -68,6 +73,7 @@ class PHPUnit_Extensions_TestDecorator extends PHPUnit_Framework_Assert implemen
         return count($this->test);
     }
 
+
     /**
      * Creates a default TestResult object.
      *
@@ -78,6 +84,7 @@ class PHPUnit_Extensions_TestDecorator extends PHPUnit_Framework_Assert implemen
         return new PHPUnit_Framework_TestResult;
     }
 
+
     /**
      * Returns the test to be run.
      *
@@ -87,6 +94,7 @@ class PHPUnit_Extensions_TestDecorator extends PHPUnit_Framework_Assert implemen
     {
         return $this->test;
     }
+
 
     /**
      * Runs the decorated test and collects the

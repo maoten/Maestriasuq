@@ -4,13 +4,16 @@ namespace Illuminate\Database;
 
 interface ConnectionResolverInterface
 {
+
     /**
      * Get a database connection instance.
      *
-     * @param  string  $name
+     * @param  string $name
+     *
      * @return \Illuminate\Database\ConnectionInterface
      */
     public function connection($name = null);
+
 
     /**
      * Get the default connection name.
@@ -19,10 +22,12 @@ interface ConnectionResolverInterface
      */
     public function getDefaultConnection();
 
+
     /**
      * Set the default connection name.
      *
-     * @param  string  $name
+     * @param  string $name
+     *
      * @return void
      */
     public function setDefaultConnection($name);

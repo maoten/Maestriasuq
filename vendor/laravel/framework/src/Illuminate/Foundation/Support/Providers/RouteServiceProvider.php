@@ -8,6 +8,7 @@ use Illuminate\Contracts\Routing\UrlGenerator;
 
 class RouteServiceProvider extends ServiceProvider
 {
+
     /**
      * The controller namespace for the application.
      *
@@ -15,10 +16,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected $namespace;
 
+
     /**
      * Bootstrap any application services.
      *
-     * @param  \Illuminate\Routing\Router  $router
+     * @param  \Illuminate\Routing\Router $router
+     *
      * @return void
      */
     public function boot(Router $router)
@@ -36,6 +39,7 @@ class RouteServiceProvider extends ServiceProvider
         }
     }
 
+
     /**
      * Set the root controller namespace for the application.
      *
@@ -50,6 +54,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->app[UrlGenerator::class]->setRootControllerNamespace($this->namespace);
     }
 
+
     /**
      * Load the cached routes for the application.
      *
@@ -62,6 +67,7 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Load the application routes.
      *
@@ -69,13 +75,15 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function loadRoutes()
     {
-        $this->app->call([$this, 'map']);
+        $this->app->call([ $this, 'map' ]);
     }
+
 
     /**
      * Load the standard routes file for the application.
      *
-     * @param  string  $path
+     * @param  string $path
+     *
      * @return mixed
      */
     protected function loadRoutesFrom($path)
@@ -86,10 +94,11 @@ class RouteServiceProvider extends ServiceProvider
             return require $path;
         }
 
-        $router->group(['namespace' => $this->namespace], function (Router $router) use ($path) {
+        $router->group([ 'namespace' => $this->namespace ], function (Router $router) use ($path) {
             require $path;
         });
     }
+
 
     /**
      * Register the service provider.
@@ -101,15 +110,17 @@ class RouteServiceProvider extends ServiceProvider
         //
     }
 
+
     /**
      * Pass dynamic methods onto the router instance.
      *
-     * @param  string  $method
+     * @param  string $method
      * @param  array  $parameters
+     *
      * @return mixed
      */
     public function __call($method, $parameters)
     {
-        return call_user_func_array([$this->app->make(Router::class), $method], $parameters);
+        return call_user_func_array([ $this->app->make(Router::class), $method ], $parameters);
     }
 }

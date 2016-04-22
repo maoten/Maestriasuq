@@ -15,15 +15,17 @@ namespace SebastianBergmann\Comparator;
  */
 class Factory
 {
+
     /**
      * @var Comparator[]
      */
-    private $comparators = array();
+    private $comparators = [ ];
 
     /**
      * @var Factory
      */
     private static $instance;
+
 
     /**
      * Constructs a new factory.
@@ -44,6 +46,7 @@ class Factory
         $this->register(new DateTimeComparator);
     }
 
+
     /**
      * @return Factory
      */
@@ -56,11 +59,13 @@ class Factory
         return self::$instance;
     }
 
+
     /**
      * Returns the correct comparator for comparing two values.
      *
-     * @param  mixed      $expected The first value to compare
-     * @param  mixed      $actual   The second value to compare
+     * @param  mixed $expected The first value to compare
+     * @param  mixed $actual   The second value to compare
+     *
      * @return Comparator
      */
     public function getComparatorFor($expected, $actual)
@@ -71,6 +76,7 @@ class Factory
             }
         }
     }
+
 
     /**
      * Registers a new comparator.
@@ -89,6 +95,7 @@ class Factory
         $comparator->setFactory($this);
     }
 
+
     /**
      * Unregisters a comparator.
      *
@@ -100,7 +107,7 @@ class Factory
     {
         foreach ($this->comparators as $key => $_comparator) {
             if ($comparator === $_comparator) {
-                unset($this->comparators[$key]);
+                unset( $this->comparators[$key] );
             }
         }
     }

@@ -18,10 +18,12 @@
  */
 class PHPUnit_Framework_Constraint_IsInstanceOf extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var string
      */
     protected $className;
+
 
     /**
      * @param string $className
@@ -31,6 +33,7 @@ class PHPUnit_Framework_Constraint_IsInstanceOf extends PHPUnit_Framework_Constr
         parent::__construct();
         $this->className = $className;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -42,8 +45,9 @@ class PHPUnit_Framework_Constraint_IsInstanceOf extends PHPUnit_Framework_Constr
      */
     protected function matches($other)
     {
-        return ($other instanceof $this->className);
+        return ( $other instanceof $this->className );
     }
+
 
     /**
      * Returns the description of the failure
@@ -57,13 +61,10 @@ class PHPUnit_Framework_Constraint_IsInstanceOf extends PHPUnit_Framework_Constr
      */
     protected function failureDescription($other)
     {
-        return sprintf(
-            '%s is an instance of %s "%s"',
-            $this->exporter->shortenedExport($other),
-            $this->getType(),
-            $this->className
-        );
+        return sprintf('%s is an instance of %s "%s"', $this->exporter->shortenedExport($other), $this->getType(),
+            $this->className);
     }
+
 
     /**
      * Returns a string representation of the constraint.
@@ -72,12 +73,9 @@ class PHPUnit_Framework_Constraint_IsInstanceOf extends PHPUnit_Framework_Constr
      */
     public function toString()
     {
-        return sprintf(
-            'is instance of %s "%s"',
-            $this->getType(),
-            $this->className
-        );
+        return sprintf('is instance of %s "%s"', $this->getType(), $this->className);
     }
+
 
     private function getType()
     {

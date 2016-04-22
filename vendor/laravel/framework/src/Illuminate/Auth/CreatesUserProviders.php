@@ -6,29 +6,30 @@ use InvalidArgumentException;
 
 trait CreatesUserProviders
 {
+
     /**
      * The registered custom provider creators.
      *
      * @var array
      */
-    protected $customProviderCreators = [];
+    protected $customProviderCreators = [ ];
+
 
     /**
      * Create the user provider implementation for the driver.
      *
-     * @param  string  $provider
+     * @param  string $provider
+     *
      * @return \Illuminate\Contracts\Auth\UserProvider
      *
      * @throws \InvalidArgumentException
      */
     public function createUserProvider($provider)
     {
-        $config = $this->app['config']['auth.providers.'.$provider];
+        $config = $this->app['config']['auth.providers.' . $provider];
 
-        if (isset($this->customProviderCreators[$config['driver']])) {
-            return call_user_func(
-                $this->customProviderCreators[$config['driver']], $this->app, $config
-            );
+        if (isset( $this->customProviderCreators[$config['driver']] )) {
+            return call_user_func($this->customProviderCreators[$config['driver']], $this->app, $config);
         }
 
         switch ($config['driver']) {
@@ -41,10 +42,12 @@ trait CreatesUserProviders
         }
     }
 
+
     /**
      * Create an instance of the database user provider.
      *
-     * @param  array  $config
+     * @param  array $config
+     *
      * @return \Illuminate\Auth\DatabaseUserProvider
      */
     protected function createDatabaseProvider($config)
@@ -54,10 +57,12 @@ trait CreatesUserProviders
         return new DatabaseUserProvider($connection, $this->app['hash'], $config['table']);
     }
 
+
     /**
      * Create an instance of the Eloquent user provider.
      *
-     * @param  array  $config
+     * @param  array $config
+     *
      * @return \Illuminate\Auth\EloquentUserProvider
      */
     protected function createEloquentProvider($config)

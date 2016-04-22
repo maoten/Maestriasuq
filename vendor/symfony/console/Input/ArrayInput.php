@@ -25,7 +25,9 @@ use Symfony\Component\Console\Exception\InvalidOptionException;
  */
 class ArrayInput extends Input
 {
+
     private $parameters;
+
 
     /**
      * Constructor.
@@ -39,6 +41,7 @@ class ArrayInput extends Input
 
         parent::__construct($definition);
     }
+
 
     /**
      * Returns the first argument from the raw parameters (not parsed).
@@ -56,6 +59,7 @@ class ArrayInput extends Input
         }
     }
 
+
     /**
      * Returns true if the raw parameters (not parsed) contain a value.
      *
@@ -72,7 +76,7 @@ class ArrayInput extends Input
         $values = (array) $values;
 
         foreach ($this->parameters as $k => $v) {
-            if (!is_int($k)) {
+            if ( ! is_int($k)) {
                 $v = $k;
             }
 
@@ -87,6 +91,7 @@ class ArrayInput extends Input
 
         return false;
     }
+
 
     /**
      * Returns the value of a raw option (not parsed).
@@ -105,7 +110,7 @@ class ArrayInput extends Input
         $values = (array) $values;
 
         foreach ($this->parameters as $k => $v) {
-            if ($onlyParams && ($k === '--' || (is_int($k) && $v === '--'))) {
+            if ($onlyParams && ( $k === '--' || ( is_int($k) && $v === '--' ) )) {
                 return false;
             }
 
@@ -121,6 +126,7 @@ class ArrayInput extends Input
         return $default;
     }
 
+
     /**
      * Returns a stringified representation of the args passed to the command.
      *
@@ -128,10 +134,10 @@ class ArrayInput extends Input
      */
     public function __toString()
     {
-        $params = array();
+        $params = [ ];
         foreach ($this->parameters as $param => $val) {
             if ($param && '-' === $param[0]) {
-                $params[] = $param.('' != $val ? '='.$this->escapeToken($val) : '');
+                $params[] = $param . ( '' != $val ? '=' . $this->escapeToken($val) : '' );
             } else {
                 $params[] = $this->escapeToken($val);
             }
@@ -139,6 +145,7 @@ class ArrayInput extends Input
 
         return implode(' ', $params);
     }
+
 
     /**
      * Processes command line arguments.
@@ -159,6 +166,7 @@ class ArrayInput extends Input
         }
     }
 
+
     /**
      * Adds a short option value.
      *
@@ -169,12 +177,13 @@ class ArrayInput extends Input
      */
     private function addShortOption($shortcut, $value)
     {
-        if (!$this->definition->hasShortcut($shortcut)) {
+        if ( ! $this->definition->hasShortcut($shortcut)) {
             throw new InvalidOptionException(sprintf('The "-%s" option does not exist.', $shortcut));
         }
 
         $this->addLongOption($this->definition->getOptionForShortcut($shortcut)->getName(), $value);
     }
+
 
     /**
      * Adds a long option value.
@@ -187,7 +196,7 @@ class ArrayInput extends Input
      */
     private function addLongOption($name, $value)
     {
-        if (!$this->definition->hasOption($name)) {
+        if ( ! $this->definition->hasOption($name)) {
             throw new InvalidOptionException(sprintf('The "--%s" option does not exist.', $name));
         }
 
@@ -204,6 +213,7 @@ class ArrayInput extends Input
         $this->options[$name] = $value;
     }
 
+
     /**
      * Adds an argument value.
      *
@@ -214,7 +224,7 @@ class ArrayInput extends Input
      */
     private function addArgument($name, $value)
     {
-        if (!$this->definition->hasArgument($name)) {
+        if ( ! $this->definition->hasArgument($name)) {
             throw new InvalidArgumentException(sprintf('The "%s" argument does not exist.', $name));
         }
 

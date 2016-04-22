@@ -21,25 +21,36 @@ use Symfony\Component\Process\Exception\LogicException;
  */
 class ProcessBuilder
 {
+
     private $arguments;
+
     private $cwd;
-    private $env = array();
+
+    private $env = [ ];
+
     private $input;
+
     private $timeout = 60;
-    private $options = array();
+
+    private $options = [ ];
+
     private $inheritEnv = true;
-    private $prefix = array();
+
+    private $prefix = [ ];
+
     private $outputDisabled = false;
+
 
     /**
      * Constructor.
      *
      * @param string[] $arguments An array of arguments
      */
-    public function __construct(array $arguments = array())
+    public function __construct(array $arguments = [ ])
     {
         $this->arguments = $arguments;
     }
+
 
     /**
      * Creates a process builder instance.
@@ -48,10 +59,11 @@ class ProcessBuilder
      *
      * @return ProcessBuilder
      */
-    public static function create(array $arguments = array())
+    public static function create(array $arguments = [ ])
     {
         return new static($arguments);
     }
+
 
     /**
      * Adds an unescaped argument to the command string.
@@ -67,6 +79,7 @@ class ProcessBuilder
         return $this;
     }
 
+
     /**
      * Adds a prefix to the command string.
      *
@@ -78,10 +91,11 @@ class ProcessBuilder
      */
     public function setPrefix($prefix)
     {
-        $this->prefix = is_array($prefix) ? $prefix : array($prefix);
+        $this->prefix = is_array($prefix) ? $prefix : [ $prefix ];
 
         return $this;
     }
+
 
     /**
      * Sets the arguments of the process.
@@ -100,6 +114,7 @@ class ProcessBuilder
         return $this;
     }
 
+
     /**
      * Sets the working directory.
      *
@@ -114,6 +129,7 @@ class ProcessBuilder
         return $this;
     }
 
+
     /**
      * Sets whether environment variables will be inherited or not.
      *
@@ -127,6 +143,7 @@ class ProcessBuilder
 
         return $this;
     }
+
 
     /**
      * Sets an environment variable.
@@ -146,6 +163,7 @@ class ProcessBuilder
         return $this;
     }
 
+
     /**
      * Adds a set of environment variables.
      *
@@ -164,6 +182,7 @@ class ProcessBuilder
         return $this;
     }
 
+
     /**
      * Sets the input of the process.
      *
@@ -179,6 +198,7 @@ class ProcessBuilder
 
         return $this;
     }
+
 
     /**
      * Sets the process timeout.
@@ -210,6 +230,7 @@ class ProcessBuilder
         return $this;
     }
 
+
     /**
      * Adds a proc_open option.
      *
@@ -225,6 +246,7 @@ class ProcessBuilder
         return $this;
     }
 
+
     /**
      * Disables fetching output and error output from the underlying process.
      *
@@ -237,6 +259,7 @@ class ProcessBuilder
         return $this;
     }
 
+
     /**
      * Enables fetching output and error output from the underlying process.
      *
@@ -248,6 +271,7 @@ class ProcessBuilder
 
         return $this;
     }
+
 
     /**
      * Creates a Process instance and returns it.
@@ -265,7 +289,7 @@ class ProcessBuilder
         $options = $this->options;
 
         $arguments = array_merge($this->prefix, $this->arguments);
-        $script = implode(' ', array_map(array(__NAMESPACE__.'\\ProcessUtils', 'escapeArgument'), $arguments));
+        $script    = implode(' ', array_map([ __NAMESPACE__ . '\\ProcessUtils', 'escapeArgument' ], $arguments));
 
         if ($this->inheritEnv) {
             $env = array_replace($_ENV, $_SERVER, $this->env);

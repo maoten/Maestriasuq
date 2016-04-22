@@ -20,7 +20,9 @@ use Symfony\Component\Console\Formatter\OutputFormatterInterface;
  */
 abstract class Helper implements HelperInterface
 {
+
     protected $helperSet = null;
+
 
     /**
      * Sets the helper set associated with this helper.
@@ -32,6 +34,7 @@ abstract class Helper implements HelperInterface
         $this->helperSet = $helperSet;
     }
 
+
     /**
      * Gets the helper set associated with this helper.
      *
@@ -41,6 +44,7 @@ abstract class Helper implements HelperInterface
     {
         return $this->helperSet;
     }
+
 
     /**
      * Returns the length of a string, using mb_strwidth if it is available.
@@ -58,19 +62,20 @@ abstract class Helper implements HelperInterface
         return mb_strwidth($string, $encoding);
     }
 
+
     public static function formatTime($secs)
     {
-        static $timeFormats = array(
-            array(0, '< 1 sec'),
-            array(2, '1 sec'),
-            array(59, 'secs', 1),
-            array(60, '1 min'),
-            array(3600, 'mins', 60),
-            array(5400, '1 hr'),
-            array(86400, 'hrs', 3600),
-            array(129600, '1 day'),
-            array(604800, 'days', 86400),
-        );
+        static $timeFormats = [
+            [ 0, '< 1 sec' ],
+            [ 2, '1 sec' ],
+            [ 59, 'secs', 1 ],
+            [ 60, '1 min' ],
+            [ 3600, 'mins', 60 ],
+            [ 5400, '1 hr' ],
+            [ 86400, 'hrs', 3600 ],
+            [ 129600, '1 day' ],
+            [ 604800, 'days', 86400 ],
+        ];
 
         foreach ($timeFormats as $format) {
             if ($secs >= $format[0]) {
@@ -81,9 +86,10 @@ abstract class Helper implements HelperInterface
                 return $format[1];
             }
 
-            return ceil($secs / $format[2]).' '.$format[1];
+            return ceil($secs / $format[2]) . ' ' . $format[1];
         }
     }
+
 
     public static function formatMemory($memory)
     {
@@ -101,6 +107,7 @@ abstract class Helper implements HelperInterface
 
         return sprintf('%d B', $memory);
     }
+
 
     public static function strlenWithoutDecoration(OutputFormatterInterface $formatter, $string)
     {

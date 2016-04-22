@@ -21,12 +21,13 @@ namespace Monolog\Handler;
  */
 abstract class AbstractProcessingHandler extends AbstractHandler
 {
+
     /**
      * {@inheritdoc}
      */
     public function handle(array $record)
     {
-        if (!$this->isHandling($record)) {
+        if ( ! $this->isHandling($record)) {
             return false;
         }
 
@@ -39,18 +40,22 @@ abstract class AbstractProcessingHandler extends AbstractHandler
         return false === $this->bubble;
     }
 
+
     /**
      * Writes the record down to the log of the implementing handler
      *
      * @param  array $record
+     *
      * @return void
      */
     abstract protected function write(array $record);
+
 
     /**
      * Processes a record.
      *
      * @param  array $record
+     *
      * @return array
      */
     protected function processRecord(array $record)

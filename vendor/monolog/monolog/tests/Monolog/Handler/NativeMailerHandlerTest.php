@@ -22,18 +22,22 @@ function mail($to, $subject, $message, $additional_headers = null, $additional_p
 
 class NativeMailerHandlerTest extends TestCase
 {
+
     protected function setUp()
     {
-        $GLOBALS['mail'] = array();
+        $GLOBALS['mail'] = [ ];
     }
+
 
     /**
      * @expectedException InvalidArgumentException
      */
     public function testConstructorHeaderInjection()
     {
-        $mailer = new NativeMailerHandler('spammer@example.org', 'dear victim', "receiver@example.org\r\nFrom: faked@attacker.org");
+        $mailer = new NativeMailerHandler('spammer@example.org', 'dear victim',
+            "receiver@example.org\r\nFrom: faked@attacker.org");
     }
+
 
     /**
      * @expectedException InvalidArgumentException
@@ -44,14 +48,16 @@ class NativeMailerHandlerTest extends TestCase
         $mailer->addHeader("Content-Type: text/html\r\nFrom: faked@attacker.org");
     }
 
+
     /**
      * @expectedException InvalidArgumentException
      */
     public function testSetterArrayHeaderInjection()
     {
         $mailer = new NativeMailerHandler('spammer@example.org', 'dear victim', 'receiver@example.org');
-        $mailer->addHeader(array("Content-Type: text/html\r\nFrom: faked@attacker.org"));
+        $mailer->addHeader([ "Content-Type: text/html\r\nFrom: faked@attacker.org" ]);
     }
+
 
     /**
      * @expectedException InvalidArgumentException
@@ -62,6 +68,7 @@ class NativeMailerHandlerTest extends TestCase
         $mailer->setContentType("text/html\r\nFrom: faked@attacker.org");
     }
 
+
     /**
      * @expectedException InvalidArgumentException
      */
@@ -71,14 +78,15 @@ class NativeMailerHandlerTest extends TestCase
         $mailer->setEncoding("utf-8\r\nFrom: faked@attacker.org");
     }
 
+
     public function testSend()
     {
-        $to = 'spammer@example.org';
+        $to      = 'spammer@example.org';
         $subject = 'dear victim';
-        $from = 'receiver@example.org';
+        $from    = 'receiver@example.org';
 
         $mailer = new NativeMailerHandler($to, $subject, $from);
-        $mailer->handleBatch(array());
+        $mailer->handleBatch([ ]);
 
         // batch is empty, nothing sent
         $this->assertEmpty($GLOBALS['mail']);

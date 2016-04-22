@@ -20,6 +20,7 @@ use Monolog\TestCase;
  */
 class FleepHookHandlerTest extends TestCase
 {
+
     /**
      * Default token to use in tests
      */
@@ -30,17 +31,19 @@ class FleepHookHandlerTest extends TestCase
      */
     private $handler;
 
+
     public function setUp()
     {
         parent::setUp();
 
-        if (!extension_loaded('openssl')) {
+        if ( ! extension_loaded('openssl')) {
             $this->markTestSkipped('This test requires openssl extension to run');
         }
 
         // Create instances of the handler and logger for convenience
         $this->handler = new FleepHookHandler(self::TOKEN);
     }
+
 
     /**
      * @covers ::__construct
@@ -51,29 +54,31 @@ class FleepHookHandlerTest extends TestCase
         $this->assertEquals(true, $this->handler->getBubble());
     }
 
+
     /**
      * @covers ::getDefaultFormatter
      */
     public function testHandlerUsesLineFormatterWhichIgnoresEmptyArrays()
     {
-        $record = array(
-            'message' => 'msg',
-            'context' => array(),
-            'level' => Logger::DEBUG,
+        $record = [
+            'message'    => 'msg',
+            'context'    => [ ],
+            'level'      => Logger::DEBUG,
             'level_name' => Logger::getLevelName(Logger::DEBUG),
-            'channel' => 'channel',
-            'datetime' => new \DateTime(),
-            'extra' => array(),
-        );
+            'channel'    => 'channel',
+            'datetime'   => new \DateTime(),
+            'extra'      => [ ],
+        ];
 
         $expectedFormatter = new LineFormatter(null, null, true, true);
-        $expected = $expectedFormatter->format($record);
+        $expected          = $expectedFormatter->format($record);
 
         $handlerFormatter = $this->handler->getFormatter();
-        $actual = $handlerFormatter->format($record);
+        $actual           = $handlerFormatter->format($record);
 
         $this->assertEquals($expected, $actual, 'Empty context and extra arrays should not be rendered');
     }
+
 
     /**
      * @covers ::__construct

@@ -29,6 +29,7 @@ use XMLReader;
  */
 class XMLReaderAsset extends XMLReader
 {
+
     /**
      * Constructor - should not be called
      *

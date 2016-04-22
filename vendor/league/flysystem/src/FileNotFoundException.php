@@ -6,10 +6,12 @@ use Exception as BaseException;
 
 class FileNotFoundException extends Exception
 {
+
     /**
      * @var string
      */
     protected $path;
+
 
     /**
      * Constructor.
@@ -24,6 +26,7 @@ class FileNotFoundException extends Exception
 
         parent::__construct('File not found at path: ' . $this->getPath(), $code, $previous);
     }
+
 
     /**
      * Get the path which was not found.

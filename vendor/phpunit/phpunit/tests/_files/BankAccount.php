@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -10,6 +11,7 @@
 
 class BankAccountException extends RuntimeException
 {
+
 }
 
 /**
@@ -19,12 +21,14 @@ class BankAccountException extends RuntimeException
  */
 class BankAccount
 {
+
     /**
      * The bank account's balance.
      *
      * @var float
      */
     protected $balance = 0;
+
 
     /**
      * Returns the bank account's balance.
@@ -35,6 +39,7 @@ class BankAccount
     {
         return $this->balance;
     }
+
 
     /**
      * Sets the bank account's balance.
@@ -52,6 +57,7 @@ class BankAccount
         }
     }
 
+
     /**
      * Deposits an amount of money to the bank account.
      *
@@ -65,6 +71,7 @@ class BankAccount
 
         return $this->getBalance();
     }
+
 
     /**
      * Withdraws an amount of money from the bank account.

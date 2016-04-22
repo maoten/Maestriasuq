@@ -16,6 +16,7 @@ namespace Psy\Exception;
  */
 interface Exception
 {
+
     /**
      * This is the only thing, really...
      *

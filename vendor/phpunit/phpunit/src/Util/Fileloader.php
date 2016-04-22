@@ -15,6 +15,7 @@
  */
 class PHPUnit_Util_Fileloader
 {
+
     /**
      * Checks if a PHP sourcefile is readable.
      * The sourcefile is loaded through the load() method.
@@ -29,16 +30,15 @@ class PHPUnit_Util_Fileloader
     {
         $includePathFilename = stream_resolve_include_path($filename);
 
-        if (!$includePathFilename || !is_readable($includePathFilename)) {
-            throw new PHPUnit_Framework_Exception(
-                sprintf('Cannot open file "%s".' . "\n", $filename)
-            );
+        if ( ! $includePathFilename || ! is_readable($includePathFilename)) {
+            throw new PHPUnit_Framework_Exception(sprintf('Cannot open file "%s".' . "\n", $filename));
         }
 
         self::load($includePathFilename);
 
         return $includePathFilename;
     }
+
 
     /**
      * Loads a PHP sourcefile.
@@ -56,10 +56,7 @@ class PHPUnit_Util_Fileloader
         include_once $filename;
 
         $newVariables     = get_defined_vars();
-        $newVariableNames = array_diff(
-            array_keys($newVariables),
-            $oldVariableNames
-        );
+        $newVariableNames = array_diff(array_keys($newVariables), $oldVariableNames);
 
         foreach ($newVariableNames as $variableName) {
             if ($variableName != 'oldVariableNames') {

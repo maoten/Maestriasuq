@@ -10,6 +10,7 @@ use Illuminate\Database\ConnectionInterface;
  */
 class LegacyDatabaseSessionHandler implements SessionHandlerInterface, ExistenceAwareInterface
 {
+
     /**
      * The database connection instance.
      *
@@ -31,18 +32,21 @@ class LegacyDatabaseSessionHandler implements SessionHandlerInterface, Existence
      */
     protected $exists;
 
+
     /**
      * Create a new database session handler instance.
      *
-     * @param  \Illuminate\Database\ConnectionInterface  $connection
-     * @param  string  $table
+     * @param  \Illuminate\Database\ConnectionInterface $connection
+     * @param  string                                   $table
+     *
      * @return void
      */
     public function __construct(ConnectionInterface $connection, $table)
     {
-        $this->table = $table;
+        $this->table      = $table;
         $this->connection = $connection;
     }
+
 
     /**
      * {@inheritdoc}
@@ -52,6 +56,7 @@ class LegacyDatabaseSessionHandler implements SessionHandlerInterface, Existence
         return true;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -60,6 +65,7 @@ class LegacyDatabaseSessionHandler implements SessionHandlerInterface, Existence
         return true;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -67,12 +73,13 @@ class LegacyDatabaseSessionHandler implements SessionHandlerInterface, Existence
     {
         $session = (object) $this->getQuery()->find($sessionId);
 
-        if (isset($session->payload)) {
+        if (isset( $session->payload )) {
             $this->exists = true;
 
             return base64_decode($session->payload);
         }
     }
+
 
     /**
      * {@inheritdoc}
@@ -81,16 +88,20 @@ class LegacyDatabaseSessionHandler implements SessionHandlerInterface, Existence
     {
         if ($this->exists) {
             $this->getQuery()->where('id', $sessionId)->update([
-                'payload' => base64_encode($data), 'last_activity' => time(),
+                'payload'       => base64_encode($data),
+                'last_activity' => time(),
             ]);
         } else {
             $this->getQuery()->insert([
-                'id' => $sessionId, 'payload' => base64_encode($data), 'last_activity' => time(),
+                'id'            => $sessionId,
+                'payload'       => base64_encode($data),
+                'last_activity' => time(),
             ]);
         }
 
         $this->exists = true;
     }
+
 
     /**
      * {@inheritdoc}
@@ -100,6 +111,7 @@ class LegacyDatabaseSessionHandler implements SessionHandlerInterface, Existence
         $this->getQuery()->where('id', $sessionId)->delete();
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -107,6 +119,7 @@ class LegacyDatabaseSessionHandler implements SessionHandlerInterface, Existence
     {
         $this->getQuery()->where('last_activity', '<=', time() - $lifetime)->delete();
     }
+
 
     /**
      * Get a fresh query builder instance for the table.
@@ -118,10 +131,12 @@ class LegacyDatabaseSessionHandler implements SessionHandlerInterface, Existence
         return $this->connection->table($this->table);
     }
 
+
     /**
      * Set the existence state for the session.
      *
-     * @param  bool  $value
+     * @param  bool $value
+     *
      * @return $this
      */
     public function setExists($value)

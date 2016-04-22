@@ -18,6 +18,7 @@ namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
  */
 class WriteCheckSessionHandler implements \SessionHandlerInterface
 {
+
     /**
      * @var \SessionHandlerInterface
      */
@@ -28,10 +29,12 @@ class WriteCheckSessionHandler implements \SessionHandlerInterface
      */
     private $readSessions;
 
+
     public function __construct(\SessionHandlerInterface $wrappedSessionHandler)
     {
         $this->wrappedSessionHandler = $wrappedSessionHandler;
     }
+
 
     /**
      * {@inheritdoc}
@@ -41,6 +44,7 @@ class WriteCheckSessionHandler implements \SessionHandlerInterface
         return $this->wrappedSessionHandler->close();
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -48,6 +52,7 @@ class WriteCheckSessionHandler implements \SessionHandlerInterface
     {
         return $this->wrappedSessionHandler->destroy($sessionId);
     }
+
 
     /**
      * {@inheritdoc}
@@ -57,6 +62,7 @@ class WriteCheckSessionHandler implements \SessionHandlerInterface
         return $this->wrappedSessionHandler->gc($maxlifetime);
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -64,6 +70,7 @@ class WriteCheckSessionHandler implements \SessionHandlerInterface
     {
         return $this->wrappedSessionHandler->open($savePath, $sessionName);
     }
+
 
     /**
      * {@inheritdoc}
@@ -77,12 +84,13 @@ class WriteCheckSessionHandler implements \SessionHandlerInterface
         return $session;
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function write($sessionId, $data)
     {
-        if (isset($this->readSessions[$sessionId]) && $data === $this->readSessions[$sessionId]) {
+        if (isset( $this->readSessions[$sessionId] ) && $data === $this->readSessions[$sessionId]) {
             return true;
         }
 

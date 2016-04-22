@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 class RouteListCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -45,12 +46,14 @@ class RouteListCommand extends Command
      *
      * @var array
      */
-    protected $headers = ['Domain', 'Method', 'URI', 'Name', 'Action', 'Middleware'];
+    protected $headers = [ 'Domain', 'Method', 'URI', 'Name', 'Action', 'Middleware' ];
+
 
     /**
      * Create a new route command instance.
      *
-     * @param  \Illuminate\Routing\Router  $router
+     * @param  \Illuminate\Routing\Router $router
+     *
      * @return void
      */
     public function __construct(Router $router)
@@ -60,6 +63,7 @@ class RouteListCommand extends Command
         $this->router = $router;
         $this->routes = $router->getRoutes();
     }
+
 
     /**
      * Execute the console command.
@@ -75,6 +79,7 @@ class RouteListCommand extends Command
         $this->displayRoutes($this->getRoutes());
     }
 
+
     /**
      * Compile the routes into a displayable format.
      *
@@ -82,7 +87,7 @@ class RouteListCommand extends Command
      */
     protected function getRoutes()
     {
-        $results = [];
+        $results = [ ];
 
         foreach ($this->routes as $route) {
             $results[] = $this->getRouteInformation($route);
@@ -101,28 +106,32 @@ class RouteListCommand extends Command
         return array_filter($results);
     }
 
+
     /**
      * Get the route information for a given route.
      *
-     * @param  \Illuminate\Routing\Route  $route
+     * @param  \Illuminate\Routing\Route $route
+     *
      * @return array
      */
     protected function getRouteInformation(Route $route)
     {
         return $this->filterRoute([
-            'host'   => $route->domain(),
-            'method' => implode('|', $route->methods()),
-            'uri'    => $route->uri(),
-            'name'   => $route->getName(),
-            'action' => $route->getActionName(),
+            'host'       => $route->domain(),
+            'method'     => implode('|', $route->methods()),
+            'uri'        => $route->uri(),
+            'name'       => $route->getName(),
+            'action'     => $route->getActionName(),
             'middleware' => $this->getMiddleware($route),
         ]);
     }
 
+
     /**
      * Display the route information on the console.
      *
-     * @param  array  $routes
+     * @param  array $routes
+     *
      * @return void
      */
     protected function displayRoutes(array $routes)
@@ -130,10 +139,12 @@ class RouteListCommand extends Command
         $this->table($this->headers, $routes);
     }
 
+
     /**
      * Get before filters.
      *
-     * @param  \Illuminate\Routing\Route  $route
+     * @param  \Illuminate\Routing\Route $route
+     *
      * @return string
      */
     protected function getMiddleware($route)
@@ -142,17 +153,19 @@ class RouteListCommand extends Command
 
         $actionName = $route->getActionName();
 
-        if (! empty($actionName) && $actionName !== 'Closure') {
+        if ( ! empty( $actionName ) && $actionName !== 'Closure') {
             $middlewares = array_merge($middlewares, $this->getControllerMiddleware($actionName));
         }
 
         return implode(',', $middlewares);
     }
 
+
     /**
      * Get the middleware for the given Controller@action name.
      *
-     * @param  string  $actionName
+     * @param  string $actionName
+     *
      * @return array
      */
     protected function getControllerMiddleware($actionName)
@@ -161,26 +174,26 @@ class RouteListCommand extends Command
 
         $segments = explode('@', $actionName);
 
-        return $this->getControllerMiddlewareFromInstance(
-            $this->laravel->make($segments[0]), $segments[1]
-        );
+        return $this->getControllerMiddlewareFromInstance($this->laravel->make($segments[0]), $segments[1]);
     }
+
 
     /**
      * Get the middlewares for the given controller instance and method.
      *
-     * @param  \Illuminate\Routing\Controller  $controller
-     * @param  string  $method
+     * @param  \Illuminate\Routing\Controller $controller
+     * @param  string                         $method
+     *
      * @return array
      */
     protected function getControllerMiddlewareFromInstance($controller, $method)
     {
         $middleware = $this->router->getMiddleware();
 
-        $results = [];
+        $results = [ ];
 
         foreach ($controller->getMiddleware() as $name => $options) {
-            if (! $this->methodExcludedByOptions($method, $options)) {
+            if ( ! $this->methodExcludedByOptions($method, $options)) {
                 $results[] = Arr::get($middleware, $name, $name);
             }
         }
@@ -188,35 +201,43 @@ class RouteListCommand extends Command
         return $results;
     }
 
+
     /**
      * Determine if the given options exclude a particular method.
      *
-     * @param  string  $method
+     * @param  string $method
      * @param  array  $options
+     *
      * @return bool
      */
     protected function methodExcludedByOptions($method, array $options)
     {
-        return (! empty($options['only']) && ! in_array($method, (array) $options['only'])) ||
-            (! empty($options['except']) && in_array($method, (array) $options['except']));
+        return ( ! empty( $options['only'] ) && ! in_array($method,
+                (array) $options['only']) ) || ( ! empty( $options['except'] ) && in_array($method,
+                (array) $options['except']) );
     }
+
 
     /**
      * Filter the route by URI and / or name.
      *
-     * @param  array  $route
+     * @param  array $route
+     *
      * @return array|null
      */
     protected function filterRoute(array $route)
     {
-        if (($this->option('name') && ! Str::contains($route['name'], $this->option('name'))) ||
-             $this->option('path') && ! Str::contains($route['uri'], $this->option('path')) ||
-             $this->option('method') && ! Str::contains($route['method'], $this->option('method'))) {
+        if (( $this->option('name') && ! Str::contains($route['name'],
+                    $this->option('name')) ) || $this->option('path') && ! Str::contains($route['uri'],
+                $this->option('path')) || $this->option('method') && ! Str::contains($route['method'],
+                $this->option('method'))
+        ) {
             return;
         }
 
         return $route;
     }
+
 
     /**
      * Get the console command options.
@@ -226,15 +247,21 @@ class RouteListCommand extends Command
     protected function getOptions()
     {
         return [
-            ['method', null, InputOption::VALUE_OPTIONAL, 'Filter the routes by method.'],
+            [ 'method', null, InputOption::VALUE_OPTIONAL, 'Filter the routes by method.' ],
 
-            ['name', null, InputOption::VALUE_OPTIONAL, 'Filter the routes by name.'],
+            [ 'name', null, InputOption::VALUE_OPTIONAL, 'Filter the routes by name.' ],
 
-            ['path', null, InputOption::VALUE_OPTIONAL, 'Filter the routes by path.'],
+            [ 'path', null, InputOption::VALUE_OPTIONAL, 'Filter the routes by path.' ],
 
-            ['reverse', 'r', InputOption::VALUE_NONE, 'Reverse the ordering of the routes.'],
+            [ 'reverse', 'r', InputOption::VALUE_NONE, 'Reverse the ordering of the routes.' ],
 
-            ['sort', null, InputOption::VALUE_OPTIONAL, 'The column (host, method, uri, name, action, middleware) to sort by.', 'uri'],
+            [
+                'sort',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'The column (host, method, uri, name, action, middleware) to sort by.',
+                'uri'
+            ],
         ];
     }
 }

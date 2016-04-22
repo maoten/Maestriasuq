@@ -21,20 +21,26 @@ use Prophecy\Exception\InvalidArgumentException;
  */
 class ClassNode
 {
+
     private $parentClass = 'stdClass';
-    private $interfaces  = array();
-    private $properties  = array();
-    private $unextendableMethods = array();
+
+    private $interfaces = [ ];
+
+    private $properties = [ ];
+
+    private $unextendableMethods = [ ];
 
     /**
      * @var MethodNode[]
      */
-    private $methods     = array();
+    private $methods = [ ];
+
 
     public function getParentClass()
     {
         return $this->parentClass;
     }
+
 
     /**
      * @param string $class
@@ -44,6 +50,7 @@ class ClassNode
         $this->parentClass = $class ?: 'stdClass';
     }
 
+
     /**
      * @return string[]
      */
@@ -51,6 +58,7 @@ class ClassNode
     {
         return $this->interfaces;
     }
+
 
     /**
      * @param string $interface
@@ -64,6 +72,7 @@ class ClassNode
         array_unshift($this->interfaces, $interface);
     }
 
+
     /**
      * @param string $interface
      *
@@ -74,23 +83,24 @@ class ClassNode
         return in_array($interface, $this->interfaces);
     }
 
+
     public function getProperties()
     {
         return $this->properties;
     }
 
+
     public function addProperty($name, $visibility = 'public')
     {
         $visibility = strtolower($visibility);
 
-        if (!in_array($visibility, array('public', 'private', 'protected'))) {
-            throw new InvalidArgumentException(sprintf(
-                '`%s` property visibility is not supported.', $visibility
-            ));
+        if ( ! in_array($visibility, [ 'public', 'private', 'protected' ])) {
+            throw new InvalidArgumentException(sprintf('`%s` property visibility is not supported.', $visibility));
         }
 
         $this->properties[$name] = $visibility;
     }
+
 
     /**
      * @return MethodNode[]
@@ -100,21 +110,22 @@ class ClassNode
         return $this->methods;
     }
 
+
     public function addMethod(MethodNode $method)
     {
-        if (!$this->isExtendable($method->getName())){
-            $message = sprintf(
-                'Method `%s` is not extendable, so can not be added.', $method->getName()
-            );
+        if ( ! $this->isExtendable($method->getName())) {
+            $message = sprintf('Method `%s` is not extendable, so can not be added.', $method->getName());
             throw new MethodNotExtendableException($message, $this->getParentClass(), $method->getName());
         }
         $this->methods[$method->getName()] = $method;
     }
 
+
     public function removeMethod($name)
     {
-        unset($this->methods[$name]);
+        unset( $this->methods[$name] );
     }
+
 
     /**
      * @param string $name
@@ -126,6 +137,7 @@ class ClassNode
         return $this->hasMethod($name) ? $this->methods[$name] : null;
     }
 
+
     /**
      * @param string $name
      *
@@ -133,8 +145,9 @@ class ClassNode
      */
     public function hasMethod($name)
     {
-        return isset($this->methods[$name]);
+        return isset( $this->methods[$name] );
     }
+
 
     /**
      * @return string[]
@@ -144,23 +157,26 @@ class ClassNode
         return $this->unextendableMethods;
     }
 
+
     /**
      * @param string $unextendableMethod
      */
     public function addUnextendableMethod($unextendableMethod)
     {
-        if (!$this->isExtendable($unextendableMethod)){
+        if ( ! $this->isExtendable($unextendableMethod)) {
             return;
         }
         $this->unextendableMethods[] = $unextendableMethod;
     }
 
+
     /**
      * @param string $method
+     *
      * @return bool
      */
     public function isExtendable($method)
     {
-        return !in_array($method, $this->unextendableMethods);
+        return ! in_array($method, $this->unextendableMethods);
     }
 }

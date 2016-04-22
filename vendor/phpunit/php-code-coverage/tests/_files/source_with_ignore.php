@@ -10,6 +10,7 @@ if ($neverHappens) {
  */
 class Foo
 {
+
     public function bar()
     {
     }
@@ -17,6 +18,7 @@ class Foo
 
 class Bar
 {
+
     /**
      * @codeCoverageIgnore
      */
@@ -32,6 +34,7 @@ function baz()
 
 interface Bor
 {
+
     public function foo();
 
 }

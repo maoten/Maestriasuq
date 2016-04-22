@@ -6,4 +6,5 @@ use PhpParser\Node\Expr\AssignOp;
 
 class Pow extends AssignOp
 {
+
 }

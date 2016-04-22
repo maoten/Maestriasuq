@@ -18,31 +18,42 @@ namespace Symfony\Component\Yaml\Exception;
  */
 class ParseException extends RuntimeException
 {
+
     private $parsedFile;
+
     private $parsedLine;
+
     private $snippet;
+
     private $rawMessage;
+
 
     /**
      * Constructor.
      *
-     * @param string     $message    The error message
+     * @param string     $message The error message
      * @param int        $parsedLine The line where the error occurred
-     * @param int        $snippet    The snippet of code near the problem
+     * @param int        $snippet The snippet of code near the problem
      * @param string     $parsedFile The file name where the error occurred
-     * @param \Exception $previous   The previous exception
+     * @param \Exception $previous The previous exception
      */
-    public function __construct($message, $parsedLine = -1, $snippet = null, $parsedFile = null, \Exception $previous = null)
-    {
+    public function __construct(
+        $message,
+        $parsedLine = -1,
+        $snippet = null,
+        $parsedFile = null,
+        \Exception $previous = null
+    ) {
         $this->parsedFile = $parsedFile;
         $this->parsedLine = $parsedLine;
-        $this->snippet = $snippet;
+        $this->snippet    = $snippet;
         $this->rawMessage = $message;
 
         $this->updateRepr();
 
         parent::__construct($this->message, 0, $previous);
     }
+
 
     /**
      * Gets the snippet of code near the error.
@@ -53,6 +64,7 @@ class ParseException extends RuntimeException
     {
         return $this->snippet;
     }
+
 
     /**
      * Sets the snippet of code near the error.
@@ -66,6 +78,7 @@ class ParseException extends RuntimeException
         $this->updateRepr();
     }
 
+
     /**
      * Gets the filename where the error occurred.
      *
@@ -77,6 +90,7 @@ class ParseException extends RuntimeException
     {
         return $this->parsedFile;
     }
+
 
     /**
      * Sets the filename where the error occurred.
@@ -90,6 +104,7 @@ class ParseException extends RuntimeException
         $this->updateRepr();
     }
 
+
     /**
      * Gets the line where the error occurred.
      *
@@ -99,6 +114,7 @@ class ParseException extends RuntimeException
     {
         return $this->parsedLine;
     }
+
 
     /**
      * Sets the line where the error occurred.
@@ -112,6 +128,7 @@ class ParseException extends RuntimeException
         $this->updateRepr();
     }
 
+
     private function updateRepr()
     {
         $this->message = $this->rawMessage;
@@ -119,11 +136,12 @@ class ParseException extends RuntimeException
         $dot = false;
         if ('.' === substr($this->message, -1)) {
             $this->message = substr($this->message, 0, -1);
-            $dot = true;
+            $dot           = true;
         }
 
         if (null !== $this->parsedFile) {
-            $this->message .= sprintf(' in %s', json_encode($this->parsedFile, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+            $this->message .= sprintf(' in %s',
+                json_encode($this->parsedFile, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
         }
 
         if ($this->parsedLine >= 0) {

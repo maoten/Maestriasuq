@@ -16,14 +16,19 @@ use Psy\Util\Mirror;
 
 class MirrorTest extends \PHPUnit_Framework_TestCase
 {
-    const FOO           = 1;
-    private $bar        = 2;
+
+    const FOO = 1;
+
+    private $bar = 2;
+
     private static $baz = 3;
+
 
     public function aPublicMethod()
     {
         // nada
     }
+
 
     public function testMirror()
     {
@@ -52,6 +57,7 @@ class MirrorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($refl instanceof \ReflectionProperty);
     }
 
+
     /**
      * @expectedException \RuntimeException
      */
@@ -59,6 +65,7 @@ class MirrorTest extends \PHPUnit_Framework_TestCase
     {
         Mirror::get($this, 'notAMethod');
     }
+
 
     /**
      * @expectedException \InvalidArgumentException
@@ -69,12 +76,13 @@ class MirrorTest extends \PHPUnit_Framework_TestCase
         Mirror::get($value);
     }
 
+
     public function invalidArguments()
     {
-        return array(
-            array('not_a_function_or_class'),
-            array(array()),
-            array(1),
-        );
+        return [
+            [ 'not_a_function_or_class' ],
+            [ [ ] ],
+            [ 1 ],
+        ];
     }
 }

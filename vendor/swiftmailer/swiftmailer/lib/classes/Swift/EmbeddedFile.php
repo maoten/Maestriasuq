@@ -15,6 +15,7 @@
  */
 class Swift_EmbeddedFile extends Swift_Mime_EmbeddedFile
 {
+
     /**
      * Create a new EmbeddedFile.
      *
@@ -26,11 +27,8 @@ class Swift_EmbeddedFile extends Swift_Mime_EmbeddedFile
      */
     public function __construct($data = null, $filename = null, $contentType = null)
     {
-        call_user_func_array(
-            array($this, 'Swift_Mime_EmbeddedFile::__construct'),
-            Swift_DependencyContainer::getInstance()
-                ->createDependenciesFor('mime.embeddedfile')
-            );
+        call_user_func_array([ $this, 'Swift_Mime_EmbeddedFile::__construct' ],
+            Swift_DependencyContainer::getInstance()->createDependenciesFor('mime.embeddedfile'));
 
         $this->setBody($data);
         $this->setFilename($filename);
@@ -38,6 +36,7 @@ class Swift_EmbeddedFile extends Swift_Mime_EmbeddedFile
             $this->setContentType($contentType);
         }
     }
+
 
     /**
      * Create a new EmbeddedFile.
@@ -53,6 +52,7 @@ class Swift_EmbeddedFile extends Swift_Mime_EmbeddedFile
         return new self($data, $filename, $contentType);
     }
 
+
     /**
      * Create a new EmbeddedFile from a filesystem path.
      *
@@ -62,8 +62,6 @@ class Swift_EmbeddedFile extends Swift_Mime_EmbeddedFile
      */
     public static function fromPath($path)
     {
-        return self::newInstance()->setFile(
-            new Swift_ByteStream_FileByteStream($path)
-            );
+        return self::newInstance()->setFile(new Swift_ByteStream_FileByteStream($path));
     }
 }

@@ -30,19 +30,23 @@ use Monolog\Formatter\FormatterInterface;
  */
 class HandlerWrapper implements HandlerInterface
 {
+
     /**
      * @var HandlerInterface
      */
     private $handler;
 
+
     /**
      * HandlerWrapper constructor.
+     *
      * @param HandlerInterface $handler
      */
     public function __construct(HandlerInterface $handler)
     {
         $this->handler = $handler;
     }
+
 
     /**
      * {@inheritdoc}
@@ -52,6 +56,7 @@ class HandlerWrapper implements HandlerInterface
         return $this->handler->isHandling($record);
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -60,6 +65,7 @@ class HandlerWrapper implements HandlerInterface
         return $this->handler->handle($record);
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -67,6 +73,7 @@ class HandlerWrapper implements HandlerInterface
     {
         return $this->handler->handleBatch($records);
     }
+
 
     /**
      * {@inheritdoc}
@@ -78,6 +85,7 @@ class HandlerWrapper implements HandlerInterface
         return $this;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -85,6 +93,7 @@ class HandlerWrapper implements HandlerInterface
     {
         return $this->handler->popProcessor();
     }
+
 
     /**
      * {@inheritdoc}
@@ -95,6 +104,7 @@ class HandlerWrapper implements HandlerInterface
 
         return $this;
     }
+
 
     /**
      * {@inheritdoc}

@@ -4,6 +4,7 @@ namespace League\Flysystem\Plugin;
 
 class ListFiles extends AbstractPlugin
 {
+
     /**
      * Get the method name.
      *
@@ -13,6 +14,7 @@ class ListFiles extends AbstractPlugin
     {
         return 'listFiles';
     }
+
 
     /**
      * List all files in the directory.

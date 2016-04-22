@@ -1,25 +1,23 @@
 <?php
 
-abstract class Swift_Transport_StreamBuffer_AbstractStreamBufferAcceptanceTest
-    extends \PHPUnit_Framework_TestCase
+abstract class Swift_Transport_StreamBuffer_AbstractStreamBufferAcceptanceTest extends \PHPUnit_Framework_TestCase
 {
+
     protected $_buffer;
 
+
     abstract protected function _initializeBuffer();
+
 
     public function setUp()
     {
         if (true == getenv('TRAVIS')) {
-            $this->markTestSkipped(
-                'Will fail on travis-ci if not skipped due to travis blocking '.
-                'socket mailing tcp connections.'
-             );
+            $this->markTestSkipped('Will fail on travis-ci if not skipped due to travis blocking ' . 'socket mailing tcp connections.');
         }
 
-        $this->_buffer = new Swift_Transport_StreamBuffer(
-            $this->getMock('Swift_ReplacementFilterFactory')
-        );
+        $this->_buffer = new Swift_Transport_StreamBuffer($this->getMock('Swift_ReplacementFilterFactory'));
     }
+
 
     public function testReadLine()
     {
@@ -33,6 +31,7 @@ abstract class Swift_Transport_StreamBuffer_AbstractStreamBufferAcceptanceTest
         $this->assertRegExp('/^[0-9]{3}.*?\r\n$/D', $line);
         $this->_buffer->terminate();
     }
+
 
     public function testWrite()
     {
@@ -53,6 +52,7 @@ abstract class Swift_Transport_StreamBuffer_AbstractStreamBufferAcceptanceTest
         $this->_buffer->terminate();
     }
 
+
     public function testBindingOtherStreamsMirrorsWriteOperations()
     {
         $this->_initializeBuffer();
@@ -60,18 +60,10 @@ abstract class Swift_Transport_StreamBuffer_AbstractStreamBufferAcceptanceTest
         $is1 = $this->_createMockInputStream();
         $is2 = $this->_createMockInputStream();
 
-        $is1->expects($this->at(0))
-            ->method('write')
-            ->with('x');
-        $is1->expects($this->at(1))
-            ->method('write')
-            ->with('y');
-        $is2->expects($this->at(0))
-            ->method('write')
-            ->with('x');
-        $is2->expects($this->at(1))
-            ->method('write')
-            ->with('y');
+        $is1->expects($this->at(0))->method('write')->with('x');
+        $is1->expects($this->at(1))->method('write')->with('y');
+        $is2->expects($this->at(0))->method('write')->with('x');
+        $is2->expects($this->at(1))->method('write')->with('y');
 
         $this->_buffer->bind($is1);
         $this->_buffer->bind($is2);
@@ -80,6 +72,7 @@ abstract class Swift_Transport_StreamBuffer_AbstractStreamBufferAcceptanceTest
         $this->_buffer->write('y');
     }
 
+
     public function testBindingOtherStreamsMirrorsFlushOperations()
     {
         $this->_initializeBuffer();
@@ -87,16 +80,15 @@ abstract class Swift_Transport_StreamBuffer_AbstractStreamBufferAcceptanceTest
         $is1 = $this->_createMockInputStream();
         $is2 = $this->_createMockInputStream();
 
-        $is1->expects($this->once())
-            ->method('flushBuffers');
-        $is2->expects($this->once())
-            ->method('flushBuffers');
+        $is1->expects($this->once())->method('flushBuffers');
+        $is2->expects($this->once())->method('flushBuffers');
 
         $this->_buffer->bind($is1);
         $this->_buffer->bind($is2);
 
         $this->_buffer->flushBuffers();
     }
+
 
     public function testUnbindingStreamPreventsFurtherWrites()
     {
@@ -105,15 +97,9 @@ abstract class Swift_Transport_StreamBuffer_AbstractStreamBufferAcceptanceTest
         $is1 = $this->_createMockInputStream();
         $is2 = $this->_createMockInputStream();
 
-        $is1->expects($this->at(0))
-            ->method('write')
-            ->with('x');
-        $is1->expects($this->at(1))
-            ->method('write')
-            ->with('y');
-        $is2->expects($this->once())
-            ->method('write')
-            ->with('x');
+        $is1->expects($this->at(0))->method('write')->with('x');
+        $is1->expects($this->at(1))->method('write')->with('y');
+        $is2->expects($this->once())->method('write')->with('x');
 
         $this->_buffer->bind($is1);
         $this->_buffer->bind($is2);
@@ -124,6 +110,7 @@ abstract class Swift_Transport_StreamBuffer_AbstractStreamBufferAcceptanceTest
 
         $this->_buffer->write('y');
     }
+
 
     // -- Creation Methods
 

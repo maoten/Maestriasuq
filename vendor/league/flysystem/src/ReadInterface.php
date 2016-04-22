@@ -4,6 +4,7 @@ namespace League\Flysystem;
 
 interface ReadInterface
 {
+
     /**
      * Check whether a file exists.
      *
@@ -12,6 +13,7 @@ interface ReadInterface
      * @return array|bool|null
      */
     public function has($path);
+
 
     /**
      * Read a file.
@@ -22,6 +24,7 @@ interface ReadInterface
      */
     public function read($path);
 
+
     /**
      * Read a file as a stream.
      *
@@ -30,6 +33,7 @@ interface ReadInterface
      * @return array|false
      */
     public function readStream($path);
+
 
     /**
      * List contents of a directory.
@@ -41,6 +45,7 @@ interface ReadInterface
      */
     public function listContents($directory = '', $recursive = false);
 
+
     /**
      * Get all the meta data of a file or directory.
      *
@@ -49,6 +54,7 @@ interface ReadInterface
      * @return array|false
      */
     public function getMetadata($path);
+
 
     /**
      * Get all the meta data of a file or directory.
@@ -59,6 +65,7 @@ interface ReadInterface
      */
     public function getSize($path);
 
+
     /**
      * Get the mimetype of a file.
      *
@@ -68,6 +75,7 @@ interface ReadInterface
      */
     public function getMimetype($path);
 
+
     /**
      * Get the timestamp of a file.
      *
@@ -76,6 +84,7 @@ interface ReadInterface
      * @return array|false
      */
     public function getTimestamp($path);
+
 
     /**
      * Get the visibility of a file.

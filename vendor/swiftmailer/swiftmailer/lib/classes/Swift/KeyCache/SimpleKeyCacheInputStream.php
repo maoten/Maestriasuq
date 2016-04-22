@@ -15,6 +15,7 @@
  */
 class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCacheInputStream
 {
+
     /** The KeyCache being written to */
     private $_keyCache;
 
@@ -27,6 +28,7 @@ class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCach
     /** A stream to write through on each write() */
     private $_writeThrough = null;
 
+
     /**
      * Set the KeyCache to wrap.
      *
@@ -36,6 +38,7 @@ class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCach
     {
         $this->_keyCache = $keyCache;
     }
+
 
     /**
      * Specify a stream to write through for each write().
@@ -47,24 +50,24 @@ class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCach
         $this->_writeThrough = $is;
     }
 
+
     /**
      * Writes $bytes to the end of the stream.
      *
      * @param string                $bytes
-     * @param Swift_InputByteStream $is    optional
+     * @param Swift_InputByteStream $is optional
      */
     public function write($bytes, Swift_InputByteStream $is = null)
     {
-        $this->_keyCache->setString(
-            $this->_nsKey, $this->_itemKey, $bytes, Swift_KeyCache::MODE_APPEND
-            );
-        if (isset($is)) {
+        $this->_keyCache->setString($this->_nsKey, $this->_itemKey, $bytes, Swift_KeyCache::MODE_APPEND);
+        if (isset( $is )) {
             $is->write($bytes);
         }
-        if (isset($this->_writeThrough)) {
+        if (isset( $this->_writeThrough )) {
             $this->_writeThrough->write($bytes);
         }
     }
+
 
     /**
      * Not used.
@@ -73,6 +76,7 @@ class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCach
     {
     }
 
+
     /**
      * Not used.
      */
@@ -80,12 +84,14 @@ class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCach
     {
     }
 
+
     /**
      * Not used.
      */
     public function unbind(Swift_InputByteStream $is)
     {
     }
+
 
     /**
      * Flush the contents of the stream (empty it) and set the internal pointer
@@ -95,6 +101,7 @@ class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCach
     {
         $this->_keyCache->clearKey($this->_nsKey, $this->_itemKey);
     }
+
 
     /**
      * Set the nsKey which will be written to.
@@ -106,6 +113,7 @@ class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCach
         $this->_nsKey = $nsKey;
     }
 
+
     /**
      * Set the itemKey which will be written to.
      *
@@ -115,6 +123,7 @@ class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCach
     {
         $this->_itemKey = $itemKey;
     }
+
 
     /**
      * Any implementation should be cloneable, allowing the clone to access a

@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 
 class GenericUser implements UserContract
 {
+
     /**
      * All of the user's attributes.
      *
@@ -13,16 +14,19 @@ class GenericUser implements UserContract
      */
     protected $attributes;
 
+
     /**
      * Create a new generic User object.
      *
-     * @param  array  $attributes
+     * @param  array $attributes
+     *
      * @return void
      */
     public function __construct(array $attributes)
     {
         $this->attributes = $attributes;
     }
+
 
     /**
      * Get the name of the unique identifier for the user.
@@ -33,6 +37,7 @@ class GenericUser implements UserContract
     {
         return 'id';
     }
+
 
     /**
      * Get the unique identifier for the user.
@@ -46,6 +51,7 @@ class GenericUser implements UserContract
         return $this->attributes[$name];
     }
 
+
     /**
      * Get the password for the user.
      *
@@ -55,6 +61,7 @@ class GenericUser implements UserContract
     {
         return $this->attributes['password'];
     }
+
 
     /**
      * Get the "remember me" token value.
@@ -66,16 +73,19 @@ class GenericUser implements UserContract
         return $this->attributes[$this->getRememberTokenName()];
     }
 
+
     /**
      * Set the "remember me" token value.
      *
-     * @param  string  $value
+     * @param  string $value
+     *
      * @return void
      */
     public function setRememberToken($value)
     {
         $this->attributes[$this->getRememberTokenName()] = $value;
     }
+
 
     /**
      * Get the column name for the "remember me" token.
@@ -87,10 +97,12 @@ class GenericUser implements UserContract
         return 'remember_token';
     }
 
+
     /**
      * Dynamically access the user's attributes.
      *
-     * @param  string  $key
+     * @param  string $key
+     *
      * @return mixed
      */
     public function __get($key)
@@ -98,11 +110,13 @@ class GenericUser implements UserContract
         return $this->attributes[$key];
     }
 
+
     /**
      * Dynamically set an attribute on the user.
      *
-     * @param  string  $key
+     * @param  string $key
      * @param  mixed  $value
+     *
      * @return void
      */
     public function __set($key, $value)
@@ -110,25 +124,29 @@ class GenericUser implements UserContract
         $this->attributes[$key] = $value;
     }
 
+
     /**
      * Dynamically check if a value is set on the user.
      *
-     * @param  string  $key
+     * @param  string $key
+     *
      * @return bool
      */
     public function __isset($key)
     {
-        return isset($this->attributes[$key]);
+        return isset( $this->attributes[$key] );
     }
+
 
     /**
      * Dynamically unset a value on the user.
      *
-     * @param  string  $key
+     * @param  string $key
+     *
      * @return void
      */
     public function __unset($key)
     {
-        unset($this->attributes[$key]);
+        unset( $this->attributes[$key] );
     }
 }

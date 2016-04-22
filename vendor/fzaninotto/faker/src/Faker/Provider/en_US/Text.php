@@ -4,6 +4,7 @@ namespace Faker\Provider\en_US;
 
 class Text extends \Faker\Provider\Text
 {
+
     /**
      * Project Gutenberg's Alice's Adventures in Wonderland, by Lewis Carroll
      *

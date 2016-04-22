@@ -26,7 +26,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DumpCommand extends ReflectingCommand implements PresenterAware
 {
+
     private $presenter;
+
 
     /**
      * PresenterAware interface.
@@ -38,21 +40,18 @@ class DumpCommand extends ReflectingCommand implements PresenterAware
         $this->presenter = $presenter;
     }
 
+
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $this
-            ->setName('dump')
-            ->setDefinition(array(
+        $this->setName('dump')->setDefinition([
                 new InputArgument('target', InputArgument::REQUIRED, 'A target object or primitive to dump.', null),
                 new InputOption('depth', '', InputOption::VALUE_REQUIRED, 'Depth to parse', 10),
-                new InputOption('all', 'a', InputOption::VALUE_NONE, 'Include private and protected methods and properties.'),
-            ))
-            ->setDescription('Dump an object or primitive.')
-            ->setHelp(
-                <<<'HELP'
+                new InputOption('all', 'a', InputOption::VALUE_NONE,
+                    'Include private and protected methods and properties.'),
+            ])->setDescription('Dump an object or primitive.')->setHelp(<<<'HELP'
 Dump an object or primitive.
 
 This is like var_dump but <strong>way</strong> awesomer.
@@ -64,6 +63,7 @@ HELP
             );
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -73,6 +73,7 @@ HELP
         $target = $this->resolveTarget($input->getArgument('target'));
         $output->page($this->presenter->present($target, $depth, $input->getOption('all') ? Presenter::VERBOSE : 0));
     }
+
 
     /**
      * Resolve dump target name.
@@ -85,7 +86,7 @@ HELP
      */
     protected function resolveTarget($target)
     {
-        $matches = array();
+        $matches = [ ];
         if (preg_match(self::INSTANCE, $target, $matches)) {
             return $this->getScopeVariable($matches[1]);
         } else {

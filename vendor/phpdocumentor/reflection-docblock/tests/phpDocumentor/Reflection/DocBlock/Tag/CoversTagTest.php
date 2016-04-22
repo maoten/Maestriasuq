@@ -1,7 +1,7 @@
 <?php
 /**
  * phpDocumentor Covers Tag Test
- * 
+ *
  * PHP version 5.3
  *
  * @author    Daniel O'Connor <daniel.oconnor@gmail.com>
@@ -22,6 +22,7 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  */
 class CoversTagTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * Test that the \phpDocumentor\Reflection\DocBlock\Tag\CoversTag can create
      * a link for the covers doc block.
@@ -31,7 +32,7 @@ class CoversTagTest extends \PHPUnit_Framework_TestCase
      * @param string $exContent
      * @param string $exReference
      *
-     * @covers \phpDocumentor\Reflection\DocBlock\Tag\CoversTag
+     * @covers       \phpDocumentor\Reflection\DocBlock\Tag\CoversTag
      * @dataProvider provideDataForConstuctor
      *
      * @return void
@@ -51,6 +52,7 @@ class CoversTagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($exReference, $tag->getReference());
     }
 
+
     /**
      * Data provider for testConstructorParesInputsIntoCorrectFields
      *
@@ -59,28 +61,28 @@ class CoversTagTest extends \PHPUnit_Framework_TestCase
     public function provideDataForConstuctor()
     {
         // $type, $content, $exContent, $exDescription, $exReference
-        return array(
-            array(
+        return [
+            [
                 'covers',
                 'Foo::bar()',
                 'Foo::bar()',
                 '',
                 'Foo::bar()'
-            ),
-            array(
+            ],
+            [
                 'covers',
                 'Foo::bar() Testing',
                 'Foo::bar() Testing',
                 'Testing',
                 'Foo::bar()',
-            ),
-            array(
+            ],
+            [
                 'covers',
                 'Foo::bar() Testing comments',
                 'Foo::bar() Testing comments',
                 'Testing comments',
                 'Foo::bar()',
-            ),
-        );
+            ],
+        ];
     }
 }

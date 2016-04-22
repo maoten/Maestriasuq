@@ -18,6 +18,7 @@ namespace Symfony\Component\HttpFoundation\Session\Flash;
  */
 class FlashBag implements FlashBagInterface
 {
+
     private $name = 'flashes';
 
     /**
@@ -25,7 +26,7 @@ class FlashBag implements FlashBagInterface
      *
      * @var array
      */
-    private $flashes = array();
+    private $flashes = [ ];
 
     /**
      * The storage key for flashes in the session.
@@ -33,6 +34,7 @@ class FlashBag implements FlashBagInterface
      * @var string
      */
     private $storageKey;
+
 
     /**
      * Constructor.
@@ -44,6 +46,7 @@ class FlashBag implements FlashBagInterface
         $this->storageKey = $storageKey;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -52,10 +55,12 @@ class FlashBag implements FlashBagInterface
         return $this->name;
     }
 
+
     public function setName($name)
     {
         $this->name = $name;
     }
+
 
     /**
      * {@inheritdoc}
@@ -65,6 +70,7 @@ class FlashBag implements FlashBagInterface
         $this->flashes = &$flashes;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -73,13 +79,15 @@ class FlashBag implements FlashBagInterface
         $this->flashes[$type][] = $message;
     }
 
+
     /**
      * {@inheritdoc}
      */
-    public function peek($type, array $default = array())
+    public function peek($type, array $default = [ ])
     {
         return $this->has($type) ? $this->flashes[$type] : $default;
     }
+
 
     /**
      * {@inheritdoc}
@@ -89,32 +97,35 @@ class FlashBag implements FlashBagInterface
         return $this->flashes;
     }
 
+
     /**
      * {@inheritdoc}
      */
-    public function get($type, array $default = array())
+    public function get($type, array $default = [ ])
     {
-        if (!$this->has($type)) {
+        if ( ! $this->has($type)) {
             return $default;
         }
 
         $return = $this->flashes[$type];
 
-        unset($this->flashes[$type]);
+        unset( $this->flashes[$type] );
 
         return $return;
     }
+
 
     /**
      * {@inheritdoc}
      */
     public function all()
     {
-        $return = $this->peekAll();
-        $this->flashes = array();
+        $return        = $this->peekAll();
+        $this->flashes = [ ];
 
         return $return;
     }
+
 
     /**
      * {@inheritdoc}
@@ -124,6 +135,7 @@ class FlashBag implements FlashBagInterface
         $this->flashes[$type] = (array) $messages;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -131,6 +143,7 @@ class FlashBag implements FlashBagInterface
     {
         $this->flashes = $messages;
     }
+
 
     /**
      * {@inheritdoc}
@@ -140,6 +153,7 @@ class FlashBag implements FlashBagInterface
         return array_key_exists($type, $this->flashes) && $this->flashes[$type];
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -148,6 +162,7 @@ class FlashBag implements FlashBagInterface
         return array_keys($this->flashes);
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -155,6 +170,7 @@ class FlashBag implements FlashBagInterface
     {
         return $this->storageKey;
     }
+
 
     /**
      * {@inheritdoc}

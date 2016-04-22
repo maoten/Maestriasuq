@@ -21,10 +21,12 @@
  */
 class PHPUnit_Framework_Constraint_PCREMatch extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var string
      */
     protected $pattern;
+
 
     /**
      * @param string $pattern
@@ -34,6 +36,7 @@ class PHPUnit_Framework_Constraint_PCREMatch extends PHPUnit_Framework_Constrain
         parent::__construct();
         $this->pattern = $pattern;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -48,6 +51,7 @@ class PHPUnit_Framework_Constraint_PCREMatch extends PHPUnit_Framework_Constrain
         return preg_match($this->pattern, $other) > 0;
     }
 
+
     /**
      * Returns a string representation of the constraint.
      *
@@ -55,9 +59,6 @@ class PHPUnit_Framework_Constraint_PCREMatch extends PHPUnit_Framework_Constrain
      */
     public function toString()
     {
-        return sprintf(
-            'matches PCRE pattern "%s"',
-            $this->pattern
-        );
+        return sprintf('matches PCRE pattern "%s"', $this->pattern);
     }
 }

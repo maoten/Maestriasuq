@@ -16,10 +16,12 @@
  */
 class PHPUnit_Framework_Constraint_StringEndsWith extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var string
      */
     protected $suffix;
+
 
     /**
      * @param string $suffix
@@ -29,6 +31,7 @@ class PHPUnit_Framework_Constraint_StringEndsWith extends PHPUnit_Framework_Cons
         parent::__construct();
         $this->suffix = $suffix;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -42,6 +45,7 @@ class PHPUnit_Framework_Constraint_StringEndsWith extends PHPUnit_Framework_Cons
     {
         return substr($other, 0 - strlen($this->suffix)) == $this->suffix;
     }
+
 
     /**
      * Returns a string representation of the constraint.

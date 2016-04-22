@@ -15,6 +15,7 @@
  */
 interface Swift_Mime_HeaderEncoder extends Swift_Encoder
 {
+
     /**
      * Get the MIME name of this content encoding scheme.
      *

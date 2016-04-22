@@ -17,6 +17,7 @@ use Symfony\Component\Config\Resource\DirectoryResource;
 
 class DirectoryLoader extends FileLoader
 {
+
     /**
      * {@inheritdoc}
      */
@@ -30,7 +31,7 @@ class DirectoryLoader extends FileLoader
         foreach (scandir($path) as $dir) {
             if ('.' !== $dir[0]) {
                 $this->setCurrentDir($path);
-                $subPath = $path.'/'.$dir;
+                $subPath = $path . '/' . $dir;
                 $subType = null;
 
                 if (is_dir($subPath)) {
@@ -45,6 +46,7 @@ class DirectoryLoader extends FileLoader
 
         return $collection;
     }
+
 
     /**
      * {@inheritdoc}

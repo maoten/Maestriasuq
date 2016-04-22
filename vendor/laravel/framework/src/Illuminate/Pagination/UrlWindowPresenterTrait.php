@@ -4,6 +4,7 @@ namespace Illuminate\Pagination;
 
 trait UrlWindowPresenterTrait
 {
+
     /**
      * Render the actual link slider.
      *
@@ -30,10 +31,12 @@ trait UrlWindowPresenterTrait
         return $html;
     }
 
+
     /**
      * Get the links for the URLs in the given array.
      *
-     * @param  array  $urls
+     * @param  array $urls
+     *
      * @return string
      */
     protected function getUrlLinks(array $urls)
@@ -47,12 +50,14 @@ trait UrlWindowPresenterTrait
         return $html;
     }
 
+
     /**
      * Get HTML wrapper for a page link.
      *
-     * @param  string  $url
-     * @param  int  $page
-     * @param  string|null  $rel
+     * @param  string      $url
+     * @param  int         $page
+     * @param  string|null $rel
+     *
      * @return string
      */
     protected function getPageLinkWrapper($url, $page, $rel = null)

@@ -27,10 +27,12 @@ namespace Symfony\Component\EventDispatcher;
  */
 class Event
 {
+
     /**
      * @var bool Whether no further event listeners should be triggered
      */
     private $propagationStopped = false;
+
 
     /**
      * Returns whether further event listeners should be triggered.
@@ -43,6 +45,7 @@ class Event
     {
         return $this->propagationStopped;
     }
+
 
     /**
      * Stops the propagation of the event to further event listeners.

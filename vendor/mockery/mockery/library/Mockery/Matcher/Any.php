@@ -27,12 +27,14 @@ class Any extends MatcherAbstract
      * Check if the actual value matches the expected.
      *
      * @param mixed $actual
+     *
      * @return bool
      */
     public function match(&$actual)
     {
         return true;
     }
+
 
     /**
      * Return a string representation of this Matcher

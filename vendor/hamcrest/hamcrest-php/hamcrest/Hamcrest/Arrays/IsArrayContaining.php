@@ -17,12 +17,14 @@ class IsArrayContaining extends TypeSafeMatcher
 
     private $_elementMatcher;
 
+
     public function __construct(Matcher $elementMatcher)
     {
         parent::__construct(self::TYPE_ARRAY);
 
         $this->_elementMatcher = $elementMatcher;
     }
+
 
     protected function matchesSafely($array)
     {
@@ -35,18 +37,18 @@ class IsArrayContaining extends TypeSafeMatcher
         return false;
     }
 
+
     protected function describeMismatchSafely($array, Description $mismatchDescription)
     {
         $mismatchDescription->appendText('was ')->appendValue($array);
     }
 
+
     public function describeTo(Description $description)
     {
-        $description
-                 ->appendText('an array containing ')
-                 ->appendDescriptionOf($this->_elementMatcher)
-        ;
+        $description->appendText('an array containing ')->appendDescriptionOf($this->_elementMatcher);
     }
+
 
     /**
      * Evaluates to true if any item in an array satisfies the given matcher.

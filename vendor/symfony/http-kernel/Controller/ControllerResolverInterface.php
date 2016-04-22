@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 interface ControllerResolverInterface
 {
+
     /**
      * Returns the Controller instance associated with a Request.
      *
@@ -42,6 +43,7 @@ interface ControllerResolverInterface
      * @throws \LogicException If the controller can't be found
      */
     public function getController(Request $request);
+
 
     /**
      * Returns the arguments to pass to the controller.

@@ -2,14 +2,18 @@
 
 class Swift_Mime_ContentEncoder_Base64ContentEncoderAcceptanceTest extends \PHPUnit_Framework_TestCase
 {
+
     private $_samplesDir;
+
     private $_encoder;
+
 
     public function setUp()
     {
-        $this->_samplesDir = realpath(__DIR__.'/../../../../_samples/charsets');
-        $this->_encoder = new Swift_Mime_ContentEncoder_Base64ContentEncoder();
+        $this->_samplesDir = realpath(__DIR__ . '/../../../../_samples/charsets');
+        $this->_encoder    = new Swift_Mime_ContentEncoder_Base64ContentEncoder();
     }
+
 
     public function testEncodingAndDecodingSamples()
     {
@@ -19,7 +23,7 @@ class Swift_Mime_ContentEncoder_Base64ContentEncoderAcceptanceTest extends \PHPU
                 continue;
             }
 
-            $sampleDir = $this->_samplesDir.'/'.$encodingDir;
+            $sampleDir = $this->_samplesDir . '/' . $encodingDir;
 
             if (is_dir($sampleDir)) {
                 $fileFp = opendir($sampleDir);
@@ -28,7 +32,7 @@ class Swift_Mime_ContentEncoder_Base64ContentEncoderAcceptanceTest extends \PHPU
                         continue;
                     }
 
-                    $text = file_get_contents($sampleDir.'/'.$sampleFile);
+                    $text = file_get_contents($sampleDir . '/' . $sampleFile);
 
                     $os = new Swift_ByteStream_ArrayByteStream();
                     $os->write($text);
@@ -42,11 +46,8 @@ class Swift_Mime_ContentEncoder_Base64ContentEncoderAcceptanceTest extends \PHPU
                         $encoded .= $bytes;
                     }
 
-                    $this->assertEquals(
-                        base64_decode($encoded), $text,
-                        '%s: Encoded string should decode back to original string for sample '.
-                        $sampleDir.'/'.$sampleFile
-                        );
+                    $this->assertEquals(base64_decode($encoded), $text,
+                        '%s: Encoded string should decode back to original string for sample ' . $sampleDir . '/' . $sampleFile);
                 }
                 closedir($fileFp);
             }

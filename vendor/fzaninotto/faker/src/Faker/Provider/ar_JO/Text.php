@@ -9,8 +9,10 @@ class Text extends \Faker\Provider\Text
      * generates text string in arabic
      *
      * @example ' ولا النوم ولا القرار وكان يقال: لا يجد المريض لذة الطعام والشراب'
-     * @param  integer                   $maxNbChars
-     * @param  integer                   $indexSize
+     *
+     * @param  integer $maxNbChars
+     * @param  integer $indexSize
+     *
      * @return string
      * @throws \InvalidArgumentException
      */
@@ -28,12 +30,12 @@ class Text extends \Faker\Provider\Text
             throw new \InvalidArgumentException('indexSize must be at most 5');
         }
 
-        $words = $this->getConsecutiveWords($indexSize);
-        $result = array();
+        $words        = $this->getConsecutiveWords($indexSize);
+        $result       = [ ];
         $resultLength = 0;
         // take a random starting point
         $next = static::randomKey($words);
-        while ($resultLength < $maxNbChars && isset($words[$next])) {
+        while ($resultLength < $maxNbChars && isset( $words[$next] )) {
             // fetch a random word to append
             $word = static::randomElement($words[$next]);
 
@@ -44,7 +46,7 @@ class Text extends \Faker\Provider\Text
             array_shift($currentWords);
             $next = implode(' ', $currentWords);
 
-            if ($resultLength == 0 && !preg_match('/^\p{Arabic}/u', $word)) {
+            if ($resultLength == 0 && ! preg_match('/^\p{Arabic}/u', $word)) {
                 continue;
             }
             // append the element
@@ -58,8 +60,9 @@ class Text extends \Faker\Provider\Text
         // build result
         $result = implode(' ', $result);
 
-        return $result.'.';
+        return $result . '.';
     }
+
 
     /**
      * License: Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)

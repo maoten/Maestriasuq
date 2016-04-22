@@ -7,6 +7,7 @@ use Swift_Mime_Message;
 
 class SesTransport extends Transport
 {
+
     /**
      * The Amazon SES instance.
      *
@@ -14,16 +15,19 @@ class SesTransport extends Transport
      */
     protected $ses;
 
+
     /**
      * Create a new SES transport instance.
      *
-     * @param  \Aws\Ses\SesClient  $ses
+     * @param  \Aws\Ses\SesClient $ses
+     *
      * @return void
      */
     public function __construct(SesClient $ses)
     {
         $this->ses = $ses;
     }
+
 
     /**
      * {@inheritdoc}
@@ -33,7 +37,7 @@ class SesTransport extends Transport
         $this->beforeSendPerformed($message);
 
         return $this->ses->sendRawEmail([
-            'Source' => key($message->getSender() ?: $message->getFrom()),
+            'Source'     => key($message->getSender() ?: $message->getFrom()),
             'RawMessage' => [
                 'Data' => $message->toString(),
             ],

@@ -19,5 +19,6 @@ use Exception;
  */
 class StrictTypesException extends Exception implements VisitorExceptionInterface
 {
+
     //
 }

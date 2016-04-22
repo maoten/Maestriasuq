@@ -9,6 +9,7 @@ class DescribedAsTest extends \Hamcrest\AbstractMatcherTest
         return \Hamcrest\Core\DescribedAs::describedAs('irrelevant', anything());
     }
 
+
     public function testOverridesDescriptionOfOtherMatcherWithThatPassedToConstructor()
     {
         $m1 = describedAs('m1 description', anything());
@@ -18,12 +19,14 @@ class DescribedAsTest extends \Hamcrest\AbstractMatcherTest
         $this->assertDescription('m2 description', $m2);
     }
 
+
     public function testAppendsValuesToDescription()
     {
         $m = describedAs('value 1 = %0, value 2 = %1', anything(), 33, 97);
 
         $this->assertDescription('value 1 = <33>, value 2 = <97>', $m);
     }
+
 
     public function testDelegatesMatchingToAnotherMatcher()
     {

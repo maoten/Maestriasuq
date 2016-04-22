@@ -18,6 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class InterfaceEnumerator extends Enumerator
 {
+
     /**
      * {@inheritdoc}
      */
@@ -36,20 +37,21 @@ class InterfaceEnumerator extends Enumerator
         }
 
         // only list interfaces if we are specifically asked
-        if (!$input->getOption('interfaces')) {
+        if ( ! $input->getOption('interfaces')) {
             return;
         }
 
         $interfaces = $this->prepareInterfaces(get_declared_interfaces());
 
-        if (empty($interfaces)) {
+        if (empty( $interfaces )) {
             return;
         }
 
-        return array(
+        return [
             'Interfaces' => $interfaces,
-        );
+        ];
     }
+
 
     /**
      * Prepare formatted interface array.
@@ -63,15 +65,15 @@ class InterfaceEnumerator extends Enumerator
         natcasesort($interfaces);
 
         // My kingdom for a generator.
-        $ret = array();
+        $ret = [ ];
 
         foreach ($interfaces as $name) {
             if ($this->showItem($name)) {
-                $ret[$name] = array(
+                $ret[$name] = [
                     'name'  => $name,
                     'style' => self::IS_CLASS,
                     'value' => $this->presentSignature($name),
-                );
+                ];
             }
         }
 

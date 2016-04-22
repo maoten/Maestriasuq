@@ -27,6 +27,7 @@ class Type extends MatcherAbstract
      * Check if the actual value matches the expected.
      *
      * @param mixed $actual
+     *
      * @return bool
      */
     public function match(&$actual)
@@ -34,12 +35,13 @@ class Type extends MatcherAbstract
         $function = 'is_' . strtolower($this->_expected);
         if (function_exists($function)) {
             return $function($actual);
-        } elseif (is_string($this->_expected)
-        && (class_exists($this->_expected) || interface_exists($this->_expected))) {
+        } elseif (is_string($this->_expected) && ( class_exists($this->_expected) || interface_exists($this->_expected) )) {
             return $actual instanceof $this->_expected;
         }
+
         return false;
     }
+
 
     /**
      * Return a string representation of this Matcher

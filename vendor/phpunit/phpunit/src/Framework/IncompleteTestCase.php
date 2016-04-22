@@ -15,6 +15,7 @@
  */
 class PHPUnit_Framework_IncompleteTestCase extends PHPUnit_Framework_TestCase
 {
+
     /**
      * @var string
      */
@@ -45,6 +46,7 @@ class PHPUnit_Framework_IncompleteTestCase extends PHPUnit_Framework_TestCase
      */
     protected $useOutputBuffering = false;
 
+
     /**
      * @param string $className
      * @param string $methodName
@@ -56,6 +58,7 @@ class PHPUnit_Framework_IncompleteTestCase extends PHPUnit_Framework_TestCase
         parent::__construct($className . '::' . $methodName);
     }
 
+
     /**
      * @throws PHPUnit_Framework_Exception
      */
@@ -64,6 +67,7 @@ class PHPUnit_Framework_IncompleteTestCase extends PHPUnit_Framework_TestCase
         $this->markTestIncomplete($this->message);
     }
 
+
     /**
      * @return string
      */
@@ -71,6 +75,7 @@ class PHPUnit_Framework_IncompleteTestCase extends PHPUnit_Framework_TestCase
     {
         return $this->message;
     }
+
 
     /**
      * Returns a string representation of the test case.

@@ -16,6 +16,7 @@
  */
 class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Framework_TestListener
 {
+
     /**
      * @var int
      */
@@ -30,6 +31,7 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
      * @var bool
      */
     protected $testSuccessful = true;
+
 
     /**
      * Constructor.
@@ -46,6 +48,7 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
         $this->write("TAP version 13\n");
     }
 
+
     /**
      * An error occurred.
      *
@@ -58,6 +61,7 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
         $this->writeNotOk($test, 'Error');
     }
 
+
     /**
      * A failure occurred.
      *
@@ -69,36 +73,29 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
     {
         $this->writeNotOk($test, 'Failure');
 
-        $message = explode(
-            "\n",
-            PHPUnit_Framework_TestFailure::exceptionToString($e)
-        );
+        $message = explode("\n", PHPUnit_Framework_TestFailure::exceptionToString($e));
 
-        $diagnostic = array(
-          'message'  => $message[0],
-          'severity' => 'fail'
-        );
+        $diagnostic = [
+            'message'  => $message[0],
+            'severity' => 'fail'
+        ];
 
         if ($e instanceof PHPUnit_Framework_ExpectationFailedException) {
             $cf = $e->getComparisonFailure();
 
             if ($cf !== null) {
-                $diagnostic['data'] = array(
-                  'got'      => $cf->getActual(),
-                  'expected' => $cf->getExpected()
-                );
+                $diagnostic['data'] = [
+                    'got'      => $cf->getActual(),
+                    'expected' => $cf->getExpected()
+                ];
             }
         }
 
         $yaml = new Symfony\Component\Yaml\Dumper;
 
-        $this->write(
-            sprintf(
-                "  ---\n%s  ...\n",
-                $yaml->dump($diagnostic, 2, 2)
-            )
-        );
+        $this->write(sprintf("  ---\n%s  ...\n", $yaml->dump($diagnostic, 2, 2)));
     }
+
 
     /**
      * Incomplete test.
@@ -112,6 +109,7 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
         $this->writeNotOk($test, '', 'TODO Incomplete Test');
     }
 
+
     /**
      * Risky test.
      *
@@ -123,16 +121,12 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
      */
     public function addRiskyTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->write(
-            sprintf(
-                "ok %d - # RISKY%s\n",
-                $this->testNumber,
-                $e->getMessage() != '' ? ' ' . $e->getMessage() : ''
-            )
-        );
+        $this->write(sprintf("ok %d - # RISKY%s\n", $this->testNumber,
+                $e->getMessage() != '' ? ' ' . $e->getMessage() : ''));
 
         $this->testSuccessful = false;
     }
+
 
     /**
      * Skipped test.
@@ -145,16 +139,12 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->write(
-            sprintf(
-                "ok %d - # SKIP%s\n",
-                $this->testNumber,
-                $e->getMessage() != '' ? ' ' . $e->getMessage() : ''
-            )
-        );
+        $this->write(sprintf("ok %d - # SKIP%s\n", $this->testNumber,
+                $e->getMessage() != '' ? ' ' . $e->getMessage() : ''));
 
         $this->testSuccessful = false;
     }
+
 
     /**
      * A testsuite started.
@@ -165,6 +155,7 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
     {
         $this->testSuiteLevel++;
     }
+
 
     /**
      * A testsuite ended.
@@ -180,6 +171,7 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
         }
     }
 
+
     /**
      * A test started.
      *
@@ -191,6 +183,7 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
         $this->testSuccessful = true;
     }
 
+
     /**
      * A test ended.
      *
@@ -200,17 +193,12 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
         if ($this->testSuccessful === true) {
-            $this->write(
-                sprintf(
-                    "ok %d - %s\n",
-                    $this->testNumber,
-                    PHPUnit_Util_Test::describe($test)
-                )
-            );
+            $this->write(sprintf("ok %d - %s\n", $this->testNumber, PHPUnit_Util_Test::describe($test)));
         }
 
         $this->writeDiagnostics($test);
     }
+
 
     /**
      * @param PHPUnit_Framework_Test $test
@@ -219,39 +207,28 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
      */
     protected function writeNotOk(PHPUnit_Framework_Test $test, $prefix = '', $directive = '')
     {
-        $this->write(
-            sprintf(
-                "not ok %d - %s%s%s\n",
-                $this->testNumber,
-                $prefix != '' ? $prefix . ': ' : '',
-                PHPUnit_Util_Test::describe($test),
-                $directive != '' ? ' # ' . $directive : ''
-            )
-        );
+        $this->write(sprintf("not ok %d - %s%s%s\n", $this->testNumber, $prefix != '' ? $prefix . ': ' : '',
+                PHPUnit_Util_Test::describe($test), $directive != '' ? ' # ' . $directive : ''));
 
         $this->testSuccessful = false;
     }
+
 
     /**
      * @param PHPUnit_Framework_Test $test
      */
     private function writeDiagnostics(PHPUnit_Framework_Test $test)
     {
-        if (!$test instanceof PHPUnit_Framework_TestCase) {
+        if ( ! $test instanceof PHPUnit_Framework_TestCase) {
             return;
         }
 
-        if (!$test->hasOutput()) {
+        if ( ! $test->hasOutput()) {
             return;
         }
 
         foreach (explode("\n", trim($test->getActualOutput())) as $line) {
-            $this->write(
-                sprintf(
-                    "# %s\n",
-                    $line
-                )
-            );
+            $this->write(sprintf("# %s\n", $line));
         }
     }
 }

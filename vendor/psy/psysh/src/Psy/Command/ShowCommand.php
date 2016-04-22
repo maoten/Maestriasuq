@@ -25,7 +25,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ShowCommand extends ReflectingCommand
 {
+
     private $colorMode;
+
 
     /**
      * @param null|string $colorMode (default: null)
@@ -37,19 +39,16 @@ class ShowCommand extends ReflectingCommand
         return parent::__construct();
     }
 
+
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $this
-            ->setName('show')
-            ->setDefinition(array(
-                new InputArgument('value', InputArgument::REQUIRED, 'Function, class, instance, constant, method or property to show.'),
-            ))
-            ->setDescription('Show the code for an object, class, constant, method or property.')
-            ->setHelp(
-                <<<HELP
+        $this->setName('show')->setDefinition([
+                new InputArgument('value', InputArgument::REQUIRED,
+                    'Function, class, instance, constant, method or property to show.'),
+            ])->setDescription('Show the code for an object, class, constant, method or property.')->setHelp(<<<HELP
 Show the code for an object, class, constant, method or property.
 
 e.g.
@@ -59,12 +58,13 @@ HELP
             );
     }
 
+
     /**
      * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        list($value, $reflector) = $this->getTargetAndReflector($input->getArgument('value'));
+        list( $value, $reflector ) = $this->getTargetAndReflector($input->getArgument('value'));
 
         try {
             $output->page(CodeFormatter::format($reflector, $this->colorMode), ShellOutput::OUTPUT_RAW);

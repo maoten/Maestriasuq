@@ -16,10 +16,12 @@
  */
 class PHPUnit_Framework_Constraint_StringStartsWith extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var string
      */
     protected $prefix;
+
 
     /**
      * @param string $prefix
@@ -29,6 +31,7 @@ class PHPUnit_Framework_Constraint_StringStartsWith extends PHPUnit_Framework_Co
         parent::__construct();
         $this->prefix = $prefix;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -42,6 +45,7 @@ class PHPUnit_Framework_Constraint_StringStartsWith extends PHPUnit_Framework_Co
     {
         return strpos($other, $this->prefix) === 0;
     }
+
 
     /**
      * Returns a string representation of the constraint.

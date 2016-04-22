@@ -28,18 +28,21 @@ class CompositeExpectation implements ExpectationInterface
      *
      * @var array
      */
-    protected $_expectations = array();
+    protected $_expectations = [ ];
+
 
     /**
      * Add an expectation to the composite
      *
      * @param \Mockery\Expectation|\Mockery\CompositeExpectation $expectation
+     *
      * @return void
      */
     public function add($expectation)
     {
         $this->_expectations[] = $expectation;
     }
+
 
     /**
      * @param mixed ...
@@ -49,20 +52,24 @@ class CompositeExpectation implements ExpectationInterface
         return $this->__call(__FUNCTION__, func_get_args());
     }
 
+
     /**
      * Intercept any expectation calls and direct against all expectations
      *
      * @param string $method
-     * @param array $args
+     * @param array  $args
+     *
      * @return self
      */
     public function __call($method, array $args)
     {
         foreach ($this->_expectations as $expectation) {
-            call_user_func_array(array($expectation, $method), $args);
+            call_user_func_array([ $expectation, $method ], $args);
         }
+
         return $this;
     }
+
 
     /**
      * Return order number of the first expectation
@@ -73,8 +80,10 @@ class CompositeExpectation implements ExpectationInterface
     {
         reset($this->_expectations);
         $first = current($this->_expectations);
+
         return $first->getOrderNumber();
     }
+
 
     /**
      * Return the parent mock of the first expectation
@@ -85,8 +94,10 @@ class CompositeExpectation implements ExpectationInterface
     {
         reset($this->_expectations);
         $first = current($this->_expectations);
+
         return $first->getMock();
     }
+
 
     /**
      * Mockery API alias to getMock
@@ -98,11 +109,13 @@ class CompositeExpectation implements ExpectationInterface
         return $this->getMock();
     }
 
+
     /**
      * Starts a new expectation addition on the first mock which is the primary
      * target outside of a demeter chain
      *
      * @param mixed ...
+     *
      * @return \Mockery\Expectation
      */
     public function shouldReceive()
@@ -110,8 +123,10 @@ class CompositeExpectation implements ExpectationInterface
         $args = func_get_args();
         reset($this->_expectations);
         $first = current($this->_expectations);
-        return call_user_func_array(array($first->getMock(), 'shouldReceive'), $args);
+
+        return call_user_func_array([ $first->getMock(), 'shouldReceive' ], $args);
     }
+
 
     /**
      * Return the string summary of this composite expectation
@@ -121,11 +136,12 @@ class CompositeExpectation implements ExpectationInterface
     public function __toString()
     {
         $return = '[';
-        $parts = array();
+        $parts  = [ ];
         foreach ($this->_expectations as $exp) {
             $parts[] = (string) $exp;
         }
         $return .= implode(', ', $parts) . ']';
+
         return $return;
     }
 }

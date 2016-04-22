@@ -15,6 +15,7 @@
  */
 class PHPUnit_Framework_Error extends PHPUnit_Framework_Exception
 {
+
     /**
      * Constructor.
      *
@@ -28,7 +29,7 @@ class PHPUnit_Framework_Error extends PHPUnit_Framework_Exception
     {
         parent::__construct($message, $code, $previous);
 
-        $this->file  = $file;
-        $this->line  = $line;
+        $this->file = $file;
+        $this->line = $line;
     }
 }

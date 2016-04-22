@@ -4,6 +4,7 @@ namespace Illuminate\Auth\Access;
 
 class Response
 {
+
     /**
      * The response message.
      *
@@ -11,15 +12,17 @@ class Response
      */
     protected $message;
 
+
     /**
      * Create a new response.
      *
-     * @param  string|null  $message
+     * @param  string|null $message
      */
     public function __construct($message = null)
     {
         $this->message = $message;
     }
+
 
     /**
      * Get the response message.
@@ -30,6 +33,7 @@ class Response
     {
         return $this->message;
     }
+
 
     /**
      * Get the string representation of the message.

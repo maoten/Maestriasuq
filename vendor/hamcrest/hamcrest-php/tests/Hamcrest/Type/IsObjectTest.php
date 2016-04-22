@@ -9,10 +9,12 @@ class IsObjectTest extends \Hamcrest\AbstractMatcherTest
         return \Hamcrest\Type\IsObject::objectValue();
     }
 
+
     public function testEvaluatesToTrueIfArgumentMatchesType()
     {
         assertThat(new \stdClass, objectValue());
     }
+
 
     public function testEvaluatesToFalseIfArgumentDoesntMatchType()
     {
@@ -21,10 +23,12 @@ class IsObjectTest extends \Hamcrest\AbstractMatcherTest
         assertThat('foo', not(objectValue()));
     }
 
+
     public function testHasAReadableDescription()
     {
         $this->assertDescription('an object', objectValue());
     }
+
 
     public function testDecribesActualTypeInMismatchMessage()
     {

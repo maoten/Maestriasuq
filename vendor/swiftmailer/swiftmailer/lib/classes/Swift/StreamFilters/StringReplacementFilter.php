@@ -15,11 +15,13 @@
  */
 class Swift_StreamFilters_StringReplacementFilter implements Swift_StreamFilter
 {
+
     /** The needle(s) to search for */
     private $_search;
 
     /** The replacement(s) to make */
     private $_replace;
+
 
     /**
      * Create a new StringReplacementFilter with $search and $replace.
@@ -29,9 +31,10 @@ class Swift_StreamFilters_StringReplacementFilter implements Swift_StreamFilter
      */
     public function __construct($search, $replace)
     {
-        $this->_search = $search;
+        $this->_search  = $search;
         $this->_replace = $replace;
     }
+
 
     /**
      * Returns true if based on the buffer passed more bytes should be buffered.
@@ -51,6 +54,7 @@ class Swift_StreamFilters_StringReplacementFilter implements Swift_StreamFilter
 
         return false;
     }
+
 
     /**
      * Perform the actual replacements on $buffer and return the result.

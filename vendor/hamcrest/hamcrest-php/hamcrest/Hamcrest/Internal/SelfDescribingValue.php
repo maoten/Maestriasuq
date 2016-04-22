@@ -15,10 +15,12 @@ class SelfDescribingValue implements SelfDescribing
 
     private $_value;
 
+
     public function __construct($value)
     {
         $this->_value = $value;
     }
+
 
     public function describeTo(Description $description)
     {

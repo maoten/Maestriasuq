@@ -15,6 +15,7 @@
  */
 interface Swift_Plugins_Logger
 {
+
     /**
      * Add a log entry.
      *
@@ -22,10 +23,12 @@ interface Swift_Plugins_Logger
      */
     public function add($entry);
 
+
     /**
      * Clear the log contents.
      */
     public function clear();
+
 
     /**
      * Get this log as a string.

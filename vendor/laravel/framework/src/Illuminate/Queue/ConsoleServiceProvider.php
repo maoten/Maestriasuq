@@ -10,12 +10,14 @@ use Illuminate\Queue\Console\ForgetFailedCommand;
 
 class ConsoleServiceProvider extends ServiceProvider
 {
+
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
     protected $defer = true;
+
 
     /**
      * Register the service provider.
@@ -40,11 +42,9 @@ class ConsoleServiceProvider extends ServiceProvider
             return new FlushFailedCommand;
         });
 
-        $this->commands(
-            'command.queue.failed', 'command.queue.retry',
-            'command.queue.forget', 'command.queue.flush'
-        );
+        $this->commands('command.queue.failed', 'command.queue.retry', 'command.queue.forget', 'command.queue.flush');
     }
+
 
     /**
      * Get the services provided by the provider.
@@ -54,8 +54,10 @@ class ConsoleServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            'command.queue.failed', 'command.queue.retry',
-            'command.queue.forget', 'command.queue.flush',
+            'command.queue.failed',
+            'command.queue.retry',
+            'command.queue.forget',
+            'command.queue.flush',
         ];
     }
 }

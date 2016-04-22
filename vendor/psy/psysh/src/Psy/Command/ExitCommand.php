@@ -22,18 +22,16 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ExitCommand extends Command
 {
+
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $this
-            ->setName('exit')
-            ->setAliases(array('quit', 'q'))
-            ->setDefinition(array())
-            ->setDescription('End the current session and return to caller.')
-            ->setHelp(
-                <<<'HELP'
+        $this->setName('exit')->setAliases([
+                'quit',
+                'q'
+            ])->setDefinition([ ])->setDescription('End the current session and return to caller.')->setHelp(<<<'HELP'
 End the current session and return to caller.
 
 e.g.
@@ -41,6 +39,7 @@ e.g.
 HELP
             );
     }
+
 
     /**
      * {@inheritdoc}

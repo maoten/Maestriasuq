@@ -13,10 +13,12 @@
  */
 class PHPUnit_Framework_Constraint_Attribute extends PHPUnit_Framework_Constraint_Composite
 {
+
     /**
      * @var string
      */
     protected $attributeName;
+
 
     /**
      * @param PHPUnit_Framework_Constraint $constraint
@@ -28,6 +30,7 @@ class PHPUnit_Framework_Constraint_Attribute extends PHPUnit_Framework_Constrain
 
         $this->attributeName = $attributeName;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other
@@ -49,15 +52,10 @@ class PHPUnit_Framework_Constraint_Attribute extends PHPUnit_Framework_Constrain
      */
     public function evaluate($other, $description = '', $returnResult = false)
     {
-        return parent::evaluate(
-            PHPUnit_Framework_Assert::readAttribute(
-                $other,
-                $this->attributeName
-            ),
-            $description,
-            $returnResult
-        );
+        return parent::evaluate(PHPUnit_Framework_Assert::readAttribute($other, $this->attributeName), $description,
+            $returnResult);
     }
+
 
     /**
      * Returns a string representation of the constraint.
@@ -66,9 +64,9 @@ class PHPUnit_Framework_Constraint_Attribute extends PHPUnit_Framework_Constrain
      */
     public function toString()
     {
-        return 'attribute "' . $this->attributeName . '" ' .
-               $this->innerConstraint->toString();
+        return 'attribute "' . $this->attributeName . '" ' . $this->innerConstraint->toString();
     }
+
 
     /**
      * Returns the description of the failure

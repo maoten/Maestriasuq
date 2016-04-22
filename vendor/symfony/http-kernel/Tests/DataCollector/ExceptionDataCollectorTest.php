@@ -18,12 +18,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ExceptionDataCollectorTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testCollect()
     {
-        $e = new \Exception('foo', 500);
-        $c = new ExceptionDataCollector();
+        $e         = new \Exception('foo', 500);
+        $c         = new ExceptionDataCollector();
         $flattened = FlattenException::create($e);
-        $trace = $flattened->getTrace();
+        $trace     = $flattened->getTrace();
 
         $this->assertFalse($c->hasException());
 

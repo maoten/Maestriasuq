@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddTableModalidad extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -13,13 +14,14 @@ class AddTableModalidad extends Migration
     public function up()
     {
         Schema::create('modalidad', function (Blueprint $table) {
-        $table->increments('id');
-        $table->string('nombre')->unique();
-        $table->timestamps();
-    });
-       DB::statement("INSERT INTO `modalidad` (`nombre`) VALUES ('Investigación')");
-       DB::statement("INSERT INTO `modalidad` (`nombre`) VALUES ('Profundización')");
-   }
+            $table->increments('id');
+            $table->string('nombre')->unique();
+            $table->timestamps();
+        });
+        DB::statement("INSERT INTO `modalidad` (`nombre`) VALUES ('Investigación')");
+        DB::statement("INSERT INTO `modalidad` (`nombre`) VALUES ('Profundización')");
+    }
+
 
     /**
      * Reverse the migrations.
@@ -28,6 +30,6 @@ class AddTableModalidad extends Migration
      */
     public function down()
     {
-         Schema::drop('modalidad');
+        Schema::drop('modalidad');
     }
 }

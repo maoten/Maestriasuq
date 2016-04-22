@@ -29,14 +29,18 @@ use Prophecy\Exception\Prediction\AggregateException;
  */
 class Prophet
 {
+
     private $doubler;
+
     private $revealer;
+
     private $util;
 
     /**
      * @var ObjectProphecy[]
      */
-    private $prophecies = array();
+    private $prophecies = [ ];
+
 
     /**
      * Initializes Prophet.
@@ -45,9 +49,11 @@ class Prophet
      * @param null|RevealerInterface $revealer
      * @param null|StringUtil        $util
      */
-    public function __construct(Doubler $doubler = null, RevealerInterface $revealer = null,
-                                StringUtil $util = null)
-    {
+    public function __construct(
+        Doubler $doubler = null,
+        RevealerInterface $revealer = null,
+        StringUtil $util = null
+    ) {
         if (null === $doubler) {
             $doubler = new Doubler;
             $doubler->registerClassPatch(new ClassPatch\SplFileInfoPatch);
@@ -65,6 +71,7 @@ class Prophet
         $this->util     = $util ?: new StringUtil;
     }
 
+
     /**
      * Creates new object prophecy.
      *
@@ -74,11 +81,8 @@ class Prophet
      */
     public function prophesize($classOrInterface = null)
     {
-        $this->prophecies[] = $prophecy = new ObjectProphecy(
-            new LazyDouble($this->doubler),
-            new CallCenter($this->util),
-            $this->revealer
-        );
+        $this->prophecies[] = $prophecy = new ObjectProphecy(new LazyDouble($this->doubler),
+            new CallCenter($this->util), $this->revealer);
 
         if ($classOrInterface && class_exists($classOrInterface)) {
             return $prophecy->willExtend($classOrInterface);
@@ -91,6 +95,7 @@ class Prophet
         return $prophecy;
     }
 
+
     /**
      * Returns all created object prophecies.
      *
@@ -101,6 +106,7 @@ class Prophet
         return $this->prophecies;
     }
 
+
     /**
      * Returns Doubler instance assigned to this Prophet.
      *
@@ -110,6 +116,7 @@ class Prophet
     {
         return $this->doubler;
     }
+
 
     /**
      * Checks all predictions defined by prophecies of this Prophet.

@@ -7,10 +7,13 @@ use PhpParser\Node\Expr;
 
 class ClassConstFetch extends Expr
 {
+
     /** @var Name|Expr Class name */
     public $class;
+
     /** @var string Constant name */
     public $name;
+
 
     /**
      * Constructs a class const fetch node.
@@ -19,13 +22,16 @@ class ClassConstFetch extends Expr
      * @param string    $name       Constant name
      * @param array     $attributes Additional attributes
      */
-    public function __construct($class, $name, array $attributes = array()) {
+    public function __construct($class, $name, array $attributes = [ ])
+    {
         parent::__construct($attributes);
         $this->class = $class;
-        $this->name = $name;
+        $this->name  = $name;
     }
 
-    public function getSubNodeNames() {
-        return array('class', 'name');
+
+    public function getSubNodeNames()
+    {
+        return [ 'class', 'name' ];
     }
 }

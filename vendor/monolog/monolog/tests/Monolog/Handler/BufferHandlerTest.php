@@ -16,7 +16,9 @@ use Monolog\Logger;
 
 class BufferHandlerTest extends TestCase
 {
+
     private $shutdownCheckHandler;
+
 
     /**
      * @covers Monolog\Handler\BufferHandler::__construct
@@ -25,7 +27,7 @@ class BufferHandlerTest extends TestCase
      */
     public function testHandleBuffers()
     {
-        $test = new TestHandler();
+        $test    = new TestHandler();
         $handler = new BufferHandler($test);
         $handler->handle($this->getRecord(Logger::DEBUG));
         $handler->handle($this->getRecord(Logger::INFO));
@@ -36,34 +38,37 @@ class BufferHandlerTest extends TestCase
         $this->assertTrue(count($test->getRecords()) === 2);
     }
 
+
     /**
      * @covers Monolog\Handler\BufferHandler::close
      * @covers Monolog\Handler\BufferHandler::flush
      */
     public function testPropagatesRecordsAtEndOfRequest()
     {
-        $test = new TestHandler();
+        $test    = new TestHandler();
         $handler = new BufferHandler($test);
         $handler->handle($this->getRecord(Logger::WARNING));
         $handler->handle($this->getRecord(Logger::DEBUG));
         $this->shutdownCheckHandler = $test;
-        register_shutdown_function(array($this, 'checkPropagation'));
+        register_shutdown_function([ $this, 'checkPropagation' ]);
     }
+
 
     public function checkPropagation()
     {
-        if (!$this->shutdownCheckHandler->hasWarningRecords() || !$this->shutdownCheckHandler->hasDebugRecords()) {
+        if ( ! $this->shutdownCheckHandler->hasWarningRecords() || ! $this->shutdownCheckHandler->hasDebugRecords()) {
             echo '!!! BufferHandlerTest::testPropagatesRecordsAtEndOfRequest failed to verify that the messages have been propagated' . PHP_EOL;
-            exit(1);
+            exit( 1 );
         }
     }
+
 
     /**
      * @covers Monolog\Handler\BufferHandler::handle
      */
     public function testHandleBufferLimit()
     {
-        $test = new TestHandler();
+        $test    = new TestHandler();
         $handler = new BufferHandler($test, 2);
         $handler->handle($this->getRecord(Logger::DEBUG));
         $handler->handle($this->getRecord(Logger::DEBUG));
@@ -75,12 +80,13 @@ class BufferHandlerTest extends TestCase
         $this->assertFalse($test->hasDebugRecords());
     }
 
+
     /**
      * @covers Monolog\Handler\BufferHandler::handle
      */
     public function testHandleBufferLimitWithFlushOnOverflow()
     {
-        $test = new TestHandler();
+        $test    = new TestHandler();
         $handler = new BufferHandler($test, 3, Logger::DEBUG, true, true);
 
         // send two records
@@ -105,12 +111,13 @@ class BufferHandlerTest extends TestCase
         $this->assertTrue($test->hasInfoRecords());
     }
 
+
     /**
      * @covers Monolog\Handler\BufferHandler::handle
      */
     public function testHandleLevel()
     {
-        $test = new TestHandler();
+        $test    = new TestHandler();
         $handler = new BufferHandler($test, 0, Logger::INFO);
         $handler->handle($this->getRecord(Logger::DEBUG));
         $handler->handle($this->getRecord(Logger::INFO));
@@ -122,12 +129,13 @@ class BufferHandlerTest extends TestCase
         $this->assertFalse($test->hasDebugRecords());
     }
 
+
     /**
      * @covers Monolog\Handler\BufferHandler::flush
      */
     public function testFlush()
     {
-        $test = new TestHandler();
+        $test    = new TestHandler();
         $handler = new BufferHandler($test, 0);
         $handler->handle($this->getRecord(Logger::DEBUG));
         $handler->handle($this->getRecord(Logger::INFO));
@@ -137,12 +145,13 @@ class BufferHandlerTest extends TestCase
         $this->assertFalse($test->hasWarningRecords());
     }
 
+
     /**
      * @covers Monolog\Handler\BufferHandler::handle
      */
     public function testHandleUsesProcessors()
     {
-        $test = new TestHandler();
+        $test    = new TestHandler();
         $handler = new BufferHandler($test);
         $handler->pushProcessor(function ($record) {
             $record['extra']['foo'] = true;

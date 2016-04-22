@@ -21,7 +21,9 @@ use Prophecy\Exception\Doubler\ClassCreatorException;
  */
 class ClassCreator
 {
+
     private $generator;
+
 
     /**
      * Initializes creator.
@@ -32,6 +34,7 @@ class ClassCreator
     {
         $this->generator = $generator ?: new ClassCodeGenerator;
     }
+
 
     /**
      * Creates class.
@@ -45,21 +48,16 @@ class ClassCreator
      */
     public function create($classname, Node\ClassNode $class)
     {
-        $code = $this->generator->generate($classname, $class);
-        $return = eval($code);
+        $code   = $this->generator->generate($classname, $class);
+        $return = eval( $code );
 
-        if (!class_exists($classname, false)) {
+        if ( ! class_exists($classname, false)) {
             if (count($class->getInterfaces())) {
-                throw new ClassCreatorException(sprintf(
-                    'Could not double `%s` and implement interfaces: [%s].',
-                    $class->getParentClass(), implode(', ', $class->getInterfaces())
-                ), $class);
+                throw new ClassCreatorException(sprintf('Could not double `%s` and implement interfaces: [%s].',
+                    $class->getParentClass(), implode(', ', $class->getInterfaces())), $class);
             }
 
-            throw new ClassCreatorException(
-                sprintf('Could not double `%s`.', $class->getParentClass()),
-                $class
-            );
+            throw new ClassCreatorException(sprintf('Could not double `%s`.', $class->getParentClass()), $class);
         }
 
         return $return;

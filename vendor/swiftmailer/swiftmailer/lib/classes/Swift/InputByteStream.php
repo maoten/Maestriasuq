@@ -18,6 +18,7 @@
  */
 interface Swift_InputByteStream
 {
+
     /**
      * Writes $bytes to the end of the stream.
      *
@@ -36,6 +37,7 @@ interface Swift_InputByteStream
      */
     public function write($bytes);
 
+
     /**
      * For any bytes that are currently buffered inside the stream, force them
      * off the buffer.
@@ -43,6 +45,7 @@ interface Swift_InputByteStream
      * @throws Swift_IoException
      */
     public function commit();
+
 
     /**
      * Attach $is to this stream.
@@ -54,6 +57,7 @@ interface Swift_InputByteStream
      */
     public function bind(Swift_InputByteStream $is);
 
+
     /**
      * Remove an already bound stream.
      *
@@ -64,6 +68,7 @@ interface Swift_InputByteStream
      * @param Swift_InputByteStream $is
      */
     public function unbind(Swift_InputByteStream $is);
+
 
     /**
      * Flush the contents of the stream (empty it) and set the internal pointer

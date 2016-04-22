@@ -15,10 +15,12 @@ namespace SebastianBergmann\Environment;
  */
 class Runtime
 {
+
     /**
      * @var string
      */
     private static $binary;
+
 
     /**
      * Returns true when Xdebug is supported or
@@ -31,6 +33,7 @@ class Runtime
         return $this->hasXdebug() || $this->hasPHPDBGCodeCoverage();
     }
 
+
     /**
      * Returns the path to the binary of the current runtime.
      * Appends ' --php' to the path when the runtime is HHVM.
@@ -41,7 +44,7 @@ class Runtime
     {
         // HHVM
         if (self::$binary === null && $this->isHHVM()) {
-            if ((self::$binary = getenv('PHP_BINARY')) === false) {
+            if (( self::$binary = getenv('PHP_BINARY') ) === false) {
                 self::$binary = PHP_BINARY;
             }
 
@@ -55,7 +58,7 @@ class Runtime
 
         // PHP < 5.4.0
         if (self::$binary === null) {
-            if (PHP_SAPI == 'cli' && isset($_SERVER['_'])) {
+            if (PHP_SAPI == 'cli' && isset( $_SERVER['_'] )) {
                 if (strpos($_SERVER['_'], 'phpunit') !== false) {
                     $file = file($_SERVER['_']);
 
@@ -72,11 +75,11 @@ class Runtime
         }
 
         if (self::$binary === null) {
-            $possibleBinaryLocations = array(
+            $possibleBinaryLocations = [
                 PHP_BINDIR . '/php',
                 PHP_BINDIR . '/php-cli.exe',
                 PHP_BINDIR . '/php.exe'
-            );
+            ];
 
             foreach ($possibleBinaryLocations as $binary) {
                 if (is_readable($binary)) {
@@ -93,6 +96,7 @@ class Runtime
         return self::$binary;
     }
 
+
     /**
      * @return string
      */
@@ -100,6 +104,7 @@ class Runtime
     {
         return $this->getName() . ' ' . $this->getVersion();
     }
+
 
     /**
      * @return string
@@ -115,6 +120,7 @@ class Runtime
         }
     }
 
+
     /**
      * @return string
      */
@@ -126,6 +132,7 @@ class Runtime
             return 'http://php.net/';
         }
     }
+
 
     /**
      * @return string
@@ -139,6 +146,7 @@ class Runtime
         }
     }
 
+
     /**
      * Returns true when the runtime used is PHP and Xdebug is loaded.
      *
@@ -146,8 +154,9 @@ class Runtime
      */
     public function hasXdebug()
     {
-        return ($this->isPHP() || $this->isHHVM()) && extension_loaded('xdebug');
+        return ( $this->isPHP() || $this->isHHVM() ) && extension_loaded('xdebug');
     }
+
 
     /**
      * Returns true when the runtime used is HHVM.
@@ -159,6 +168,7 @@ class Runtime
         return defined('HHVM_VERSION');
     }
 
+
     /**
      * Returns true when the runtime used is PHP without the PHPDBG SAPI.
      *
@@ -166,8 +176,9 @@ class Runtime
      */
     public function isPHP()
     {
-        return !$this->isHHVM() && !$this->isPHPDBG();
+        return ! $this->isHHVM() && ! $this->isPHPDBG();
     }
+
 
     /**
      * Returns true when the runtime used is PHP with the PHPDBG SAPI.
@@ -176,8 +187,9 @@ class Runtime
      */
     public function isPHPDBG()
     {
-        return PHP_SAPI === 'phpdbg' && !$this->isHHVM();
+        return PHP_SAPI === 'phpdbg' && ! $this->isHHVM();
     }
+
 
     /**
      * Returns true when the runtime used is PHP with the PHPDBG SAPI

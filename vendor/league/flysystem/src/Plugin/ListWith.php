@@ -4,6 +4,7 @@ namespace League\Flysystem\Plugin;
 
 class ListWith extends AbstractPlugin
 {
+
     /**
      * Get the method name.
      *
@@ -14,6 +15,7 @@ class ListWith extends AbstractPlugin
         return 'listWith';
     }
 
+
     /**
      * List contents with metadata.
      *
@@ -23,19 +25,20 @@ class ListWith extends AbstractPlugin
      *
      * @return array listing with metadata
      */
-    public function handle(array $keys = [], $directory = '', $recursive = false)
+    public function handle(array $keys = [ ], $directory = '', $recursive = false)
     {
         $contents = $this->filesystem->listContents($directory, $recursive);
 
         foreach ($contents as $index => $object) {
             if ($object['type'] === 'file') {
-                $missingKeys = array_diff($keys, array_keys($object));
-                $contents[$index] = array_reduce($missingKeys, [$this, 'getMetadataByName'], $object);
+                $missingKeys      = array_diff($keys, array_keys($object));
+                $contents[$index] = array_reduce($missingKeys, [ $this, 'getMetadataByName' ], $object);
             }
         }
 
         return $contents;
     }
+
 
     /**
      * Get a meta-data value by key name.

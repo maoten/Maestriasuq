@@ -16,6 +16,7 @@
  */
 class PHP_CodeCoverage_Util_InvalidArgumentHelper
 {
+
     /**
      * @param int    $argument
      * @param string $type
@@ -25,15 +26,8 @@ class PHP_CodeCoverage_Util_InvalidArgumentHelper
     {
         $stack = debug_backtrace(false);
 
-        return new PHP_CodeCoverage_Exception(
-            sprintf(
-                'Argument #%d%sof %s::%s() must be a %s',
-                $argument,
-                $value !== null ? ' (' . gettype($value) . '#' . $value . ')' : ' (No Value) ',
-                $stack[1]['class'],
-                $stack[1]['function'],
-                $type
-            )
-        );
+        return new PHP_CodeCoverage_Exception(sprintf('Argument #%d%sof %s::%s() must be a %s', $argument,
+                $value !== null ? ' (' . gettype($value) . '#' . $value . ')' : ' (No Value) ', $stack[1]['class'],
+                $stack[1]['function'], $type));
     }
 }

@@ -4,6 +4,7 @@ namespace Illuminate\Http;
 
 trait ResponseTrait
 {
+
     /**
      * Get the status code for the response.
      *
@@ -13,6 +14,7 @@ trait ResponseTrait
     {
         return $this->getStatusCode();
     }
+
 
     /**
      * Get the content of the response.
@@ -24,12 +26,14 @@ trait ResponseTrait
         return $this->getContent();
     }
 
+
     /**
      * Set a header on the Response.
      *
-     * @param  string  $key
-     * @param  string  $value
-     * @param  bool    $replace
+     * @param  string $key
+     * @param  string $value
+     * @param  bool   $replace
+     *
      * @return $this
      */
     public function header($key, $value, $replace = true)
@@ -39,10 +43,12 @@ trait ResponseTrait
         return $this;
     }
 
+
     /**
      * Add an array of headers to the response.
      *
-     * @param  array  $headers
+     * @param  array $headers
+     *
      * @return $this
      */
     public function withHeaders(array $headers)
@@ -54,21 +60,25 @@ trait ResponseTrait
         return $this;
     }
 
-    /**
-     * Add a cookie to the response.
-     *
-     * @param  \Symfony\Component\HttpFoundation\Cookie|mixed  $cookie
-     * @return $this
-     */
-    public function cookie($cookie)
-    {
-        return call_user_func_array([$this, 'withCookie'], func_get_args());
-    }
 
     /**
      * Add a cookie to the response.
      *
-     * @param  \Symfony\Component\HttpFoundation\Cookie|mixed  $cookie
+     * @param  \Symfony\Component\HttpFoundation\Cookie|mixed $cookie
+     *
+     * @return $this
+     */
+    public function cookie($cookie)
+    {
+        return call_user_func_array([ $this, 'withCookie' ], func_get_args());
+    }
+
+
+    /**
+     * Add a cookie to the response.
+     *
+     * @param  \Symfony\Component\HttpFoundation\Cookie|mixed $cookie
+     *
      * @return $this
      */
     public function withCookie($cookie)

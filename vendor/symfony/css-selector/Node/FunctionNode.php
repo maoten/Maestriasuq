@@ -25,6 +25,7 @@ use Symfony\Component\CssSelector\Parser\Token;
  */
 class FunctionNode extends AbstractNode
 {
+
     /**
      * @var NodeInterface
      */
@@ -40,17 +41,19 @@ class FunctionNode extends AbstractNode
      */
     private $arguments;
 
+
     /**
      * @param NodeInterface $selector
      * @param string        $name
      * @param Token[]       $arguments
      */
-    public function __construct(NodeInterface $selector, $name, array $arguments = array())
+    public function __construct(NodeInterface $selector, $name, array $arguments = [ ])
     {
-        $this->selector = $selector;
-        $this->name = strtolower($name);
+        $this->selector  = $selector;
+        $this->name      = strtolower($name);
         $this->arguments = $arguments;
     }
+
 
     /**
      * @return NodeInterface
@@ -60,6 +63,7 @@ class FunctionNode extends AbstractNode
         return $this->selector;
     }
 
+
     /**
      * @return string
      */
@@ -67,6 +71,7 @@ class FunctionNode extends AbstractNode
     {
         return $this->name;
     }
+
 
     /**
      * @return Token[]
@@ -76,6 +81,7 @@ class FunctionNode extends AbstractNode
         return $this->arguments;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -84,15 +90,17 @@ class FunctionNode extends AbstractNode
         return $this->selector->getSpecificity()->plus(new Specificity(0, 1, 0));
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function __toString()
     {
         $arguments = implode(', ', array_map(function (Token $token) {
-            return "'".$token->getValue()."'";
+            return "'" . $token->getValue() . "'";
         }, $this->arguments));
 
-        return sprintf('%s[%s:%s(%s)]', $this->getNodeName(), $this->selector, $this->name, $arguments ? '['.$arguments.']' : '');
+        return sprintf('%s[%s:%s(%s)]', $this->getNodeName(), $this->selector, $this->name,
+            $arguments ? '[' . $arguments . ']' : '');
     }
 }

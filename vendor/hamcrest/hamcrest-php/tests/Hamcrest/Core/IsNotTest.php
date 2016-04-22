@@ -9,11 +9,13 @@ class IsNotTest extends \Hamcrest\AbstractMatcherTest
         return \Hamcrest\Core\IsNot::not('something');
     }
 
+
     public function testEvaluatesToTheTheLogicalNegationOfAnotherMatcher()
     {
         $this->assertMatches(not(equalTo('A')), 'B', 'should match');
         $this->assertDoesNotMatch(not(equalTo('B')), 'B', 'should not match');
     }
+
 
     public function testProvidesConvenientShortcutForNotEqualTo()
     {
@@ -22,6 +24,7 @@ class IsNotTest extends \Hamcrest\AbstractMatcherTest
         $this->assertDoesNotMatch(not('A'), 'A', 'should not match');
         $this->assertDoesNotMatch(not('B'), 'B', 'should not match');
     }
+
 
     public function testUsesDescriptionOfNegatedMatcherWithPrefix()
     {

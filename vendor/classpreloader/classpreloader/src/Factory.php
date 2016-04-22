@@ -28,6 +28,7 @@ use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
  */
 class Factory
 {
+
     /**
      * Create a new class preloader instance.
      *
@@ -37,18 +38,19 @@ class Factory
      *
      * @return \ClassPreloader\ClassPreloader
      */
-    public function create(array $options = [])
+    public function create(array $options = [ ])
     {
         $printer = new PrettyPrinter();
 
         $parser = $this->getParser();
 
-        $options = array_merge(['dir' => true, 'file' => true, 'skip' => false, 'strict' => false], $options);
+        $options = array_merge([ 'dir' => true, 'file' => true, 'skip' => false, 'strict' => false ], $options);
 
         $traverser = $this->getTraverser($options['dir'], $options['file'], $options['skip'], $options['strict']);
 
         return new ClassPreloader($printer, $parser, $traverser);
     }
+
 
     /**
      * Get the parser to use.
@@ -63,6 +65,7 @@ class Factory
 
         return new Parser(new Lexer());
     }
+
 
     /**
      * Get the node traverser to use.
@@ -86,7 +89,7 @@ class Factory
             $traverser->addVisitor(new FileVisitor($skip));
         }
 
-        if (!$strict) {
+        if ( ! $strict) {
             $traverser->addVisitor(new StrictTypesVisitor());
         }
 

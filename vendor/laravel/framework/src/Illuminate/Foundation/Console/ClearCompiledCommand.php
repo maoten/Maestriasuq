@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 class ClearCompiledCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -19,6 +20,7 @@ class ClearCompiledCommand extends Command
      * @var string
      */
     protected $description = 'Remove the compiled class file';
+
 
     /**
      * Execute the console command.

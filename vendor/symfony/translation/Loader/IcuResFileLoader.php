@@ -23,16 +23,17 @@ use Symfony\Component\Config\Resource\DirectoryResource;
  */
 class IcuResFileLoader implements LoaderInterface
 {
+
     /**
      * {@inheritdoc}
      */
     public function load($resource, $locale, $domain = 'messages')
     {
-        if (!stream_is_local($resource)) {
+        if ( ! stream_is_local($resource)) {
             throw new InvalidResourceException(sprintf('This is not a local file "%s".', $resource));
         }
 
-        if (!is_dir($resource)) {
+        if ( ! is_dir($resource)) {
             throw new NotFoundResourceException(sprintf('File "%s" not found.', $resource));
         }
 
@@ -43,13 +44,13 @@ class IcuResFileLoader implements LoaderInterface
             $rb = null;
         }
 
-        if (!$rb) {
+        if ( ! $rb) {
             throw new InvalidResourceException(sprintf('Cannot load resource "%s"', $resource));
         } elseif (intl_is_failure($rb->getErrorCode())) {
             throw new InvalidResourceException($rb->getErrorMessage(), $rb->getErrorCode());
         }
 
-        $messages = $this->flatten($rb);
+        $messages  = $this->flatten($rb);
         $catalogue = new MessageCatalogue($locale);
         $catalogue->add($messages, $domain);
 
@@ -59,6 +60,7 @@ class IcuResFileLoader implements LoaderInterface
 
         return $catalogue;
     }
+
 
     /**
      * Flattens an ResourceBundle.
@@ -76,10 +78,10 @@ class IcuResFileLoader implements LoaderInterface
      *
      * @return array the flattened ResourceBundle
      */
-    protected function flatten(\ResourceBundle $rb, array &$messages = array(), $path = null)
+    protected function flatten(\ResourceBundle $rb, array &$messages = [ ], $path = null)
     {
         foreach ($rb as $key => $value) {
-            $nodePath = $path ? $path.'.'.$key : $key;
+            $nodePath = $path ? $path . '.' . $key : $key;
             if ($value instanceof \ResourceBundle) {
                 $this->flatten($value, $messages, $nodePath);
             } else {

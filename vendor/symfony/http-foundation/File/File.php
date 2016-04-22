@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\File\MimeType\ExtensionGuesser;
  */
 class File extends \SplFileInfo
 {
+
     /**
      * Constructs a new file from the given path.
      *
@@ -33,12 +34,13 @@ class File extends \SplFileInfo
      */
     public function __construct($path, $checkPath = true)
     {
-        if ($checkPath && !is_file($path)) {
+        if ($checkPath && ! is_file($path)) {
             throw new FileNotFoundException($path);
         }
 
         parent::__construct($path);
     }
+
 
     /**
      * Returns the extension based on the mime type.
@@ -55,11 +57,12 @@ class File extends \SplFileInfo
      */
     public function guessExtension()
     {
-        $type = $this->getMimeType();
+        $type    = $this->getMimeType();
         $guesser = ExtensionGuesser::getInstance();
 
         return $guesser->guess($type);
     }
+
 
     /**
      * Returns the mime type of the file.
@@ -79,6 +82,7 @@ class File extends \SplFileInfo
         return $guesser->guess($this->getPathname());
     }
 
+
     /**
      * Moves the file to a new location.
      *
@@ -93,9 +97,10 @@ class File extends \SplFileInfo
     {
         $target = $this->getTargetFile($directory, $name);
 
-        if (!@rename($this->getPathname(), $target)) {
+        if ( ! @rename($this->getPathname(), $target)) {
             $error = error_get_last();
-            throw new FileException(sprintf('Could not move the file "%s" to "%s" (%s)', $this->getPathname(), $target, strip_tags($error['message'])));
+            throw new FileException(sprintf('Could not move the file "%s" to "%s" (%s)', $this->getPathname(), $target,
+                strip_tags($error['message'])));
         }
 
         @chmod($target, 0666 & ~umask());
@@ -103,20 +108,23 @@ class File extends \SplFileInfo
         return $target;
     }
 
+
     protected function getTargetFile($directory, $name = null)
     {
-        if (!is_dir($directory)) {
-            if (false === @mkdir($directory, 0777, true) && !is_dir($directory)) {
+        if ( ! is_dir($directory)) {
+            if (false === @mkdir($directory, 0777, true) && ! is_dir($directory)) {
                 throw new FileException(sprintf('Unable to create the "%s" directory', $directory));
             }
-        } elseif (!is_writable($directory)) {
+        } elseif ( ! is_writable($directory)) {
             throw new FileException(sprintf('Unable to write in the "%s" directory', $directory));
         }
 
-        $target = rtrim($directory, '/\\').DIRECTORY_SEPARATOR.(null === $name ? $this->getBasename() : $this->getName($name));
+        $target = rtrim($directory,
+                '/\\') . DIRECTORY_SEPARATOR . ( null === $name ? $this->getBasename() : $this->getName($name) );
 
         return new self($target, false);
     }
+
 
     /**
      * Returns locale independent base name of the given path.
@@ -128,7 +136,7 @@ class File extends \SplFileInfo
     protected function getName($name)
     {
         $originalName = str_replace('\\', '/', $name);
-        $pos = strrpos($originalName, '/');
+        $pos          = strrpos($originalName, '/');
         $originalName = false === $pos ? $originalName : substr($originalName, $pos + 1);
 
         return $originalName;

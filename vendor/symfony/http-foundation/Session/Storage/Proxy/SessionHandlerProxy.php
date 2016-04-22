@@ -18,10 +18,12 @@ namespace Symfony\Component\HttpFoundation\Session\Storage\Proxy;
  */
 class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterface
 {
+
     /**
      * @var \SessionHandlerInterface
      */
     protected $handler;
+
 
     /**
      * Constructor.
@@ -30,8 +32,8 @@ class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterf
      */
     public function __construct(\SessionHandlerInterface $handler)
     {
-        $this->handler = $handler;
-        $this->wrapper = ($handler instanceof \SessionHandler);
+        $this->handler         = $handler;
+        $this->wrapper         = ( $handler instanceof \SessionHandler );
         $this->saveHandlerName = $this->wrapper ? ini_get('session.save_handler') : 'user';
     }
 
@@ -45,6 +47,7 @@ class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterf
         return (bool) $this->handler->open($savePath, $sessionName);
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -52,6 +55,7 @@ class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterf
     {
         return (bool) $this->handler->close();
     }
+
 
     /**
      * {@inheritdoc}
@@ -61,6 +65,7 @@ class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterf
         return (string) $this->handler->read($sessionId);
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -69,6 +74,7 @@ class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterf
         return (bool) $this->handler->write($sessionId, $data);
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -76,6 +82,7 @@ class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterf
     {
         return (bool) $this->handler->destroy($sessionId);
     }
+
 
     /**
      * {@inheritdoc}

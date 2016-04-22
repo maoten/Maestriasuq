@@ -16,6 +16,7 @@ use Psy\Exception\FatalErrorException;
 
 class FatalErrorExceptionTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testInstance()
     {
         $e = new FatalErrorException();
@@ -24,6 +25,7 @@ class FatalErrorExceptionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($e instanceof \ErrorException);
         $this->assertTrue($e instanceof FatalErrorException);
     }
+
 
     public function testMessage()
     {
@@ -34,6 +36,7 @@ class FatalErrorExceptionTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('{filename}', $e->getMessage());
         $this->assertContains('line 13', $e->getMessage());
     }
+
 
     public function testMessageWithNoFilename()
     {

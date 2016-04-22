@@ -7,16 +7,19 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler;
 
 class SessionManager extends Manager
 {
+
     /**
      * Call a custom driver creator.
      *
-     * @param  string  $driver
+     * @param  string $driver
+     *
      * @return mixed
      */
     protected function callCustomCreator($driver)
     {
         return $this->buildSession(parent::callCustomCreator($driver));
     }
+
 
     /**
      * Create an instance of the "array" session driver.
@@ -27,6 +30,7 @@ class SessionManager extends Manager
     {
         return $this->buildSession(new NullSessionHandler);
     }
+
 
     /**
      * Create an instance of the "cookie" session driver.
@@ -40,6 +44,7 @@ class SessionManager extends Manager
         return $this->buildSession(new CookieSessionHandler($this->app['cookie'], $lifetime));
     }
 
+
     /**
      * Create an instance of the file session driver.
      *
@@ -49,6 +54,7 @@ class SessionManager extends Manager
     {
         return $this->createNativeDriver();
     }
+
 
     /**
      * Create an instance of the file session driver.
@@ -61,6 +67,7 @@ class SessionManager extends Manager
 
         return $this->buildSession(new FileSessionHandler($this->app['files'], $path));
     }
+
 
     /**
      * Create an instance of the database session driver.
@@ -75,6 +82,7 @@ class SessionManager extends Manager
 
         return $this->buildSession(new DatabaseSessionHandler($connection, $table, $this->app));
     }
+
 
     /**
      * Create an instance of the legacy database session driver.
@@ -92,6 +100,7 @@ class SessionManager extends Manager
         return $this->buildSession(new LegacyDatabaseSessionHandler($connection, $table));
     }
 
+
     /**
      * Get the database connection for the database driver.
      *
@@ -104,6 +113,7 @@ class SessionManager extends Manager
         return $this->app['db']->connection($connection);
     }
 
+
     /**
      * Create an instance of the APC session driver.
      *
@@ -113,6 +123,7 @@ class SessionManager extends Manager
     {
         return $this->createCacheBased('apc');
     }
+
 
     /**
      * Create an instance of the Memcached session driver.
@@ -124,6 +135,7 @@ class SessionManager extends Manager
         return $this->createCacheBased('memcached');
     }
 
+
     /**
      * Create an instance of the Wincache session driver.
      *
@@ -133,6 +145,7 @@ class SessionManager extends Manager
     {
         return $this->createCacheBased('wincache');
     }
+
 
     /**
      * Create an instance of the Redis session driver.
@@ -148,10 +161,12 @@ class SessionManager extends Manager
         return $this->buildSession($handler);
     }
 
+
     /**
      * Create an instance of a cache driven driver.
      *
-     * @param  string  $driver
+     * @param  string $driver
+     *
      * @return \Illuminate\Session\Store
      */
     protected function createCacheBased($driver)
@@ -159,10 +174,12 @@ class SessionManager extends Manager
         return $this->buildSession($this->createCacheHandler($driver));
     }
 
+
     /**
      * Create the cache based session handler instance.
      *
-     * @param  string  $driver
+     * @param  string $driver
+     *
      * @return \Illuminate\Session\CacheBasedSessionHandler
      */
     protected function createCacheHandler($driver)
@@ -172,22 +189,23 @@ class SessionManager extends Manager
         return new CacheBasedSessionHandler(clone $this->app['cache']->driver($driver), $minutes);
     }
 
+
     /**
      * Build the session instance.
      *
-     * @param  \SessionHandlerInterface  $handler
+     * @param  \SessionHandlerInterface $handler
+     *
      * @return \Illuminate\Session\Store
      */
     protected function buildSession($handler)
     {
         if ($this->app['config']['session.encrypt']) {
-            return new EncryptedStore(
-                $this->app['config']['session.cookie'], $handler, $this->app['encrypter']
-            );
+            return new EncryptedStore($this->app['config']['session.cookie'], $handler, $this->app['encrypter']);
         } else {
             return new Store($this->app['config']['session.cookie'], $handler);
         }
     }
+
 
     /**
      * Get the session configuration.
@@ -199,6 +217,7 @@ class SessionManager extends Manager
         return $this->app['config']['session'];
     }
 
+
     /**
      * Get the default session driver name.
      *
@@ -209,10 +228,12 @@ class SessionManager extends Manager
         return $this->app['config']['session.driver'];
     }
 
+
     /**
      * Set the default session driver name.
      *
-     * @param  string  $name
+     * @param  string $name
+     *
      * @return void
      */
     public function setDefaultDriver($name)

@@ -8,18 +8,21 @@ use Prophecy\Doubler\Generator\Node\MethodNode;
 
 class KeywordPatchSpec extends ObjectBehavior
 {
+
     function it_is_a_patch()
     {
         $this->shouldBeAnInstanceOf('Prophecy\Doubler\ClassPatch\ClassPatchInterface');
     }
+
 
     function its_priority_is_49()
     {
         $this->getPriority()->shouldReturn(49);
     }
 
+
     /**
-     * @param \Prophecy\Doubler\Generator\Node\ClassNode $node
+     * @param \Prophecy\Doubler\Generator\Node\ClassNode  $node
      * @param \Prophecy\Doubler\Generator\Node\MethodNode $method1
      * @param \Prophecy\Doubler\Generator\Node\MethodNode $method2
      * @param \Prophecy\Doubler\Generator\Node\MethodNode $method3
@@ -33,11 +36,11 @@ class KeywordPatchSpec extends ObjectBehavior
         $method2->getName()->willReturn('eval');
         $method3->getName()->willReturn('notKeyword');
 
-        $node->getMethods()->willReturn(array(
-            'echo' => $method1,
-            'eval' => $method2,
+        $node->getMethods()->willReturn([
+            'echo'       => $method1,
+            'eval'       => $method2,
             'notKeyword' => $method3,
-        ));
+        ]);
 
         $this->apply($node);
     }

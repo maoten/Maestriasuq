@@ -1,6 +1,7 @@
 <?php namespace Laracasts\Flash;
 
-interface SessionStore {
+interface SessionStore
+{
 
     /**
      * Flash a message to the session.

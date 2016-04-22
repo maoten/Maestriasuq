@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Pivot extends Model
 {
+
     /**
      * The parent model of the relationship.
      *
@@ -33,15 +34,17 @@ class Pivot extends Model
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $guarded = [ ];
+
 
     /**
      * Create a new pivot model instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
-     * @param  array   $attributes
-     * @param  string  $table
-     * @param  bool    $exists
+     * @param  \Illuminate\Database\Eloquent\Model $parent
+     * @param  array                               $attributes
+     * @param  string                              $table
+     * @param  bool                                $exists
+     *
      * @return void
      */
     public function __construct(Model $parent, $attributes, $table, $exists = false)
@@ -69,10 +72,12 @@ class Pivot extends Model
         $this->timestamps = $this->hasTimestampAttributes();
     }
 
+
     /**
      * Set the keys for a save update query.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function setKeysForSaveQuery(Builder $query)
@@ -81,6 +86,7 @@ class Pivot extends Model
 
         return $query->where($this->otherKey, $this->getAttribute($this->otherKey));
     }
+
 
     /**
      * Delete the pivot model record from the database.
@@ -91,6 +97,7 @@ class Pivot extends Model
     {
         return $this->getDeleteQuery()->delete();
     }
+
 
     /**
      * Get the query builder for a delete operation on the pivot.
@@ -106,6 +113,7 @@ class Pivot extends Model
         return $query->where($this->otherKey, $this->getAttribute($this->otherKey));
     }
 
+
     /**
      * Get the foreign key column name.
      *
@@ -115,6 +123,7 @@ class Pivot extends Model
     {
         return $this->foreignKey;
     }
+
 
     /**
      * Get the "other key" column name.
@@ -126,11 +135,13 @@ class Pivot extends Model
         return $this->otherKey;
     }
 
+
     /**
      * Set the key names for the pivot model instance.
      *
-     * @param  string  $foreignKey
-     * @param  string  $otherKey
+     * @param  string $foreignKey
+     * @param  string $otherKey
+     *
      * @return $this
      */
     public function setPivotKeys($foreignKey, $otherKey)
@@ -142,6 +153,7 @@ class Pivot extends Model
         return $this;
     }
 
+
     /**
      * Determine if the pivot model has timestamp attributes.
      *
@@ -152,6 +164,7 @@ class Pivot extends Model
         return array_key_exists($this->getCreatedAtColumn(), $this->attributes);
     }
 
+
     /**
      * Get the name of the "created at" column.
      *
@@ -161,6 +174,7 @@ class Pivot extends Model
     {
         return $this->parent->getCreatedAtColumn();
     }
+
 
     /**
      * Get the name of the "updated at" column.

@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 
 class Inspiring
 {
+
     /**
      * Get an inspiring quote.
      *

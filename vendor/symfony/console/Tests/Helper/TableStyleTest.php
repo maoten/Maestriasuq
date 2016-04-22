@@ -15,6 +15,7 @@ use Symfony\Component\Console\Helper\TableStyle;
 
 class TableStyleTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @expectedException        \InvalidArgumentException
      * @expectedExceptionMessage Invalid padding type. Expected one of (STR_PAD_LEFT, STR_PAD_RIGHT, STR_PAD_BOTH).

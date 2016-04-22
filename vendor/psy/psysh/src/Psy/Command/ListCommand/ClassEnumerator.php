@@ -18,6 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class ClassEnumerator extends Enumerator
 {
+
     /**
      * {@inheritdoc}
      */
@@ -36,20 +37,21 @@ class ClassEnumerator extends Enumerator
         }
 
         // only list classes if we are specifically asked
-        if (!$input->getOption('classes')) {
+        if ( ! $input->getOption('classes')) {
             return;
         }
 
         $classes = $this->prepareClasses(get_declared_classes());
 
-        if (empty($classes)) {
+        if (empty( $classes )) {
             return;
         }
 
-        return array(
+        return [
             'Classes' => $classes,
-        );
+        ];
     }
+
 
     /**
      * Prepare formatted class array.
@@ -63,15 +65,15 @@ class ClassEnumerator extends Enumerator
         natcasesort($classes);
 
         // My kingdom for a generator.
-        $ret = array();
+        $ret = [ ];
 
         foreach ($classes as $name) {
             if ($this->showItem($name)) {
-                $ret[$name] = array(
+                $ret[$name] = [
                     'name'  => $name,
                     'style' => self::IS_CLASS,
                     'value' => $this->presentSignature($name),
-                );
+                ];
             }
         }
 

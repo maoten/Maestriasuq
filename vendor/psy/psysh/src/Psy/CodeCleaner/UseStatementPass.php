@@ -29,9 +29,13 @@ use PhpParser\Node\Stmt\Use_ as UseStmt;
  */
 class UseStatementPass extends NamespaceAwarePass
 {
-    private $aliases       = array();
-    private $lastAliases   = array();
+
+    private $aliases = [ ];
+
+    private $lastAliases = [ ];
+
     private $lastNamespace = null;
+
 
     /**
      * Re-load the last set of use statements on re-entering a namespace.
@@ -52,6 +56,7 @@ class UseStatementPass extends NamespaceAwarePass
             }
         }
     }
+
 
     /**
      * If this statement is a namespace, forget all the aliases we had.
@@ -75,7 +80,7 @@ class UseStatementPass extends NamespaceAwarePass
             // Start fresh, since we're done with this namespace.
             $this->lastNamespace = $node->name;
             $this->lastAliases   = $this->aliases;
-            $this->aliases       = array();
+            $this->aliases       = [ ];
         } else {
             foreach ($node as $name => $subNode) {
                 if ($subNode instanceof Name) {
@@ -89,6 +94,7 @@ class UseStatementPass extends NamespaceAwarePass
             return $node;
         }
     }
+
 
     /**
      * Find class/namespace aliases.

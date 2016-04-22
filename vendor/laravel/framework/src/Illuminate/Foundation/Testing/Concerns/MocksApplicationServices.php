@@ -7,26 +7,29 @@ use Exception;
 
 trait MocksApplicationServices
 {
+
     /**
      * All of the fired events.
      *
      * @var array
      */
-    protected $firedEvents = [];
+    protected $firedEvents = [ ];
 
     /**
      * All of the dispatched jobs.
      *
      * @var array
      */
-    protected $dispatchedJobs = [];
+    protected $dispatchedJobs = [ ];
+
 
     /**
      * Specify a list of events that should be fired for the given operation.
      *
      * These events will be mocked, so that handlers will not actually be executed.
      *
-     * @param  array|string  $events
+     * @param  array|string $events
+     *
      * @return $this
      *
      * @throws \Exception
@@ -41,21 +44,21 @@ trait MocksApplicationServices
             $fired = $this->getFiredEvents($events);
 
             if ($eventsNotFired = array_diff($events, $fired)) {
-                throw new Exception(
-                    'These expected events were not fired: ['.implode(', ', $eventsNotFired).']'
-                );
+                throw new Exception('These expected events were not fired: [' . implode(', ', $eventsNotFired) . ']');
             }
         });
 
         return $this;
     }
 
+
     /**
      * Specify a list of events that should not be fired for the given operation.
      *
      * These events will be mocked, so that handlers will not actually be executed.
      *
-     * @param  array|string  $events
+     * @param  array|string $events
+     *
      * @return $this
      */
     public function doesntExpectEvents($events)
@@ -66,14 +69,13 @@ trait MocksApplicationServices
 
         $this->beforeApplicationDestroyed(function () use ($events) {
             if ($fired = $this->getFiredEvents($events)) {
-                throw new Exception(
-                    'These unexpected events were fired: ['.implode(', ', $fired).']'
-                );
+                throw new Exception('These unexpected events were fired: [' . implode(', ', $fired) . ']');
             }
         });
 
         return $this;
     }
+
 
     /**
      * Mock the event dispatcher so all events are silenced and collected.
@@ -93,10 +95,12 @@ trait MocksApplicationServices
         return $this;
     }
 
+
     /**
      * Filter the given events against the fired events.
      *
-     * @param  array  $events
+     * @param  array $events
+     *
      * @return array
      */
     protected function getFiredEvents(array $events)
@@ -104,12 +108,14 @@ trait MocksApplicationServices
         return $this->getDispatched($events, $this->firedEvents);
     }
 
+
     /**
      * Specify a list of jobs that should be dispatched for the given operation.
      *
      * These jobs will be mocked, so that handlers will not actually be executed.
      *
-     * @param  array|string  $jobs
+     * @param  array|string $jobs
+     *
      * @return $this
      */
     protected function expectsJobs($jobs)
@@ -122,21 +128,22 @@ trait MocksApplicationServices
             $dispatched = $this->getDispatchedJobs($jobs);
 
             if ($jobsNotDispatched = array_diff($jobs, $dispatched)) {
-                throw new Exception(
-                    'These expected jobs were not dispatched: ['.implode(', ', $jobsNotDispatched).']'
-                );
+                throw new Exception('These expected jobs were not dispatched: [' . implode(', ',
+                        $jobsNotDispatched) . ']');
             }
         });
 
         return $this;
     }
 
+
     /**
      * Specify a list of jobs that should not be dispatched for the given operation.
      *
      * These jobs will be mocked, so that handlers will not actually be executed.
      *
-     * @param  array|string  $jobs
+     * @param  array|string $jobs
+     *
      * @return $this
      */
     protected function doesntExpectJobs($jobs)
@@ -147,14 +154,13 @@ trait MocksApplicationServices
 
         $this->beforeApplicationDestroyed(function () use ($jobs) {
             if ($dispatched = $this->getDispatchedJobs($jobs)) {
-                throw new Exception(
-                    'These unexpected jobs were dispatched: ['.implode(', ', $dispatched).']'
-                );
+                throw new Exception('These unexpected jobs were dispatched: [' . implode(', ', $dispatched) . ']');
             }
         });
 
         return $this;
     }
+
 
     /**
      * Mock the job dispatcher so all jobs are silenced and collected.
@@ -169,17 +175,17 @@ trait MocksApplicationServices
             $this->dispatchedJobs[] = $dispatched;
         });
 
-        $this->app->instance(
-            'Illuminate\Contracts\Bus\Dispatcher', $mock
-        );
+        $this->app->instance('Illuminate\Contracts\Bus\Dispatcher', $mock);
 
         return $this;
     }
 
+
     /**
      * Filter the given jobs against the dispatched jobs.
      *
-     * @param  array  $jobs
+     * @param  array $jobs
+     *
      * @return array
      */
     protected function getDispatchedJobs(array $jobs)
@@ -187,11 +193,13 @@ trait MocksApplicationServices
         return $this->getDispatched($jobs, $this->dispatchedJobs);
     }
 
+
     /**
      * Filter the given classes against an array of dispatched classes.
      *
-     * @param  array  $classes
-     * @param  array  $dispatched
+     * @param  array $classes
+     * @param  array $dispatched
+     *
      * @return array
      */
     protected function getDispatched(array $classes, array $dispatched)
@@ -201,18 +209,21 @@ trait MocksApplicationServices
         });
     }
 
+
     /**
      * Check if the given class exists in an array of dispatched classes.
      *
-     * @param  string  $needle
-     * @param  array   $haystack
+     * @param  string $needle
+     * @param  array  $haystack
+     *
      * @return bool
      */
     protected function wasDispatched($needle, array $haystack)
     {
         foreach ($haystack as $dispatched) {
-            if ((is_string($dispatched) && ($dispatched === $needle || is_subclass_of($dispatched, $needle))) ||
-                $dispatched instanceof $needle) {
+            if (( is_string($dispatched) && ( $dispatched === $needle || is_subclass_of($dispatched,
+                            $needle) ) ) || $dispatched instanceof $needle
+            ) {
                 return true;
             }
         }

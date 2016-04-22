@@ -19,10 +19,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ConfigDataCollectorTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testCollect()
     {
         $kernel = new KernelForTest('test', true);
-        $c = new ConfigDataCollector();
+        $c      = new ConfigDataCollector();
         $c->setCacheVersionInfo(false);
         $c->setKernel($kernel);
         $c->collect(new Request(), new Response());
@@ -43,15 +44,7 @@ class ConfigDataCollectorTest extends \PHPUnit_Framework_TestCase
         }
 
         // if else clause because we don't know it
-        if (((extension_loaded('eaccelerator') && ini_get('eaccelerator.enable'))
-                ||
-                (extension_loaded('apc') && ini_get('apc.enabled'))
-                ||
-                (extension_loaded('Zend OPcache') && ini_get('opcache.enable'))
-                ||
-                (extension_loaded('xcache') && ini_get('xcache.cacher'))
-                ||
-                (extension_loaded('wincache') && ini_get('wincache.ocenabled')))) {
+        if (( ( extension_loaded('eaccelerator') && ini_get('eaccelerator.enable') ) || ( extension_loaded('apc') && ini_get('apc.enabled') ) || ( extension_loaded('Zend OPcache') && ini_get('opcache.enable') ) || ( extension_loaded('xcache') && ini_get('xcache.cacher') ) || ( extension_loaded('wincache') && ini_get('wincache.ocenabled') ) )) {
             $this->assertTrue($c->hasAccelerator());
         } else {
             $this->assertFalse($c->hasAccelerator());
@@ -61,19 +54,23 @@ class ConfigDataCollectorTest extends \PHPUnit_Framework_TestCase
 
 class KernelForTest extends Kernel
 {
+
     public function getName()
     {
         return 'testkernel';
     }
 
+
     public function registerBundles()
     {
     }
 
+
     public function getBundles()
     {
-        return array();
+        return [ ];
     }
+
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {

@@ -20,6 +20,7 @@ class IsResource extends IsTypeOf
         parent::__construct('resource');
     }
 
+
     /**
      * Is the value a resource?
      *

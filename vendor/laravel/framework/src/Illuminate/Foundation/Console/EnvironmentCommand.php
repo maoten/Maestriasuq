@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 class EnvironmentCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -20,6 +21,7 @@ class EnvironmentCommand extends Command
      */
     protected $description = 'Display the current framework environment';
 
+
     /**
      * Execute the console command.
      *
@@ -27,6 +29,6 @@ class EnvironmentCommand extends Command
      */
     public function fire()
     {
-        $this->line('<info>Current application environment:</info> <comment>'.$this->laravel['env'].'</comment>');
+        $this->line('<info>Current application environment:</info> <comment>' . $this->laravel['env'] . '</comment>');
     }
 }

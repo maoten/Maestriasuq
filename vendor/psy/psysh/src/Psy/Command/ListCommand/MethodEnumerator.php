@@ -18,6 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class MethodEnumerator extends Enumerator
 {
+
     /**
      * {@inheritdoc}
      */
@@ -30,39 +31,40 @@ class MethodEnumerator extends Enumerator
         }
 
         // We can only list methods on actual class (or object) reflectors.
-        if (!$reflector instanceof \ReflectionClass) {
+        if ( ! $reflector instanceof \ReflectionClass) {
             return;
         }
 
         // only list methods if we are specifically asked
-        if (!$input->getOption('methods')) {
+        if ( ! $input->getOption('methods')) {
             return;
         }
 
         $showAll = $input->getOption('all');
         $methods = $this->prepareMethods($this->getMethods($showAll, $reflector));
 
-        if (empty($methods)) {
+        if (empty( $methods )) {
             return;
         }
 
-        $ret = array();
+        $ret                                  = [ ];
         $ret[$this->getKindLabel($reflector)] = $methods;
 
         return $ret;
     }
 
+
     /**
      * Get defined methods for the given class or object Reflector.
      *
-     * @param bool       $showAll   Include private and protected methods.
+     * @param bool       $showAll Include private and protected methods.
      * @param \Reflector $reflector
      *
      * @return array
      */
     protected function getMethods($showAll, \Reflector $reflector)
     {
-        $methods = array();
+        $methods = [ ];
         foreach ($reflector->getMethods() as $name => $method) {
             if ($showAll || $method->isPublic()) {
                 $methods[$method->getName()] = $method;
@@ -75,6 +77,7 @@ class MethodEnumerator extends Enumerator
         return $methods;
     }
 
+
     /**
      * Prepare formatted method array.
      *
@@ -85,20 +88,21 @@ class MethodEnumerator extends Enumerator
     protected function prepareMethods(array $methods)
     {
         // My kingdom for a generator.
-        $ret = array();
+        $ret = [ ];
 
         foreach ($methods as $name => $method) {
             if ($this->showItem($name)) {
-                $ret[$name] = array(
+                $ret[$name] = [
                     'name'  => $name,
                     'style' => $this->getVisibilityStyle($method),
                     'value' => $this->presentSignature($method),
-                );
+                ];
             }
         }
 
         return $ret;
     }
+
 
     /**
      * Get a label for the particular kind of "class" represented.
@@ -117,6 +121,7 @@ class MethodEnumerator extends Enumerator
             return 'Class Methods';
         }
     }
+
 
     /**
      * Get output style for the given method's visibility.

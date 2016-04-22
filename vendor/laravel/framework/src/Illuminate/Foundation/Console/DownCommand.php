@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 class DownCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -20,6 +21,7 @@ class DownCommand extends Command
      */
     protected $description = 'Put the application into maintenance mode';
 
+
     /**
      * Execute the console command.
      *
@@ -27,7 +29,7 @@ class DownCommand extends Command
      */
     public function fire()
     {
-        touch($this->laravel->storagePath().'/framework/down');
+        touch($this->laravel->storagePath() . '/framework/down');
 
         $this->comment('Application is now in maintenance mode.');
     }

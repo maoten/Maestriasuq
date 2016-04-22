@@ -15,9 +15,11 @@
  */
 class PHP_CodeCoverage_Util
 {
+
     /**
      * @param  float $a
      * @param  float $b
+     *
      * @return float ($a / $b) * 100
      */
     public static function percent($a, $b, $asString = false, $fixedWidth = false)
@@ -27,7 +29,7 @@ class PHP_CodeCoverage_Util
         }
 
         if ($b > 0) {
-            $percent = ($a / $b) * 100;
+            $percent = ( $a / $b ) * 100;
         } else {
             $percent = 100;
         }

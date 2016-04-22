@@ -18,18 +18,20 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Test class for NullSessionHandler.
  *
- * @author Drak <drak@zikula.org>
+ * @author              Drak <drak@zikula.org>
  *
  * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
  */
 class NullSessionHandlerTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testSaveHandlers()
     {
         $storage = $this->getStorage();
         $this->assertEquals('user', ini_get('session.save_handler'));
     }
+
 
     public function testSession()
     {
@@ -41,6 +43,7 @@ class NullSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('unique', $session->get('something'));
     }
 
+
     public function testNothingIsPersisted()
     {
         session_id('nullsessionstorage');
@@ -51,8 +54,9 @@ class NullSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($session->get('something'));
     }
 
+
     public function getStorage()
     {
-        return new NativeSessionStorage(array(), new NullSessionHandler());
+        return new NativeSessionStorage([ ], new NullSessionHandler());
     }
 }

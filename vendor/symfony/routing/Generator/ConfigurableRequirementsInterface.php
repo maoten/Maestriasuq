@@ -37,6 +37,7 @@ namespace Symfony\Component\Routing\Generator;
  */
 interface ConfigurableRequirementsInterface
 {
+
     /**
      * Enables or disables the exception on incorrect parameters.
      * Passing null will deactivate the requirements check completely.
@@ -44,6 +45,7 @@ interface ConfigurableRequirementsInterface
      * @param bool|null $enabled
      */
     public function setStrictRequirements($enabled);
+
 
     /**
      * Returns whether to throw an exception on incorrect parameters.

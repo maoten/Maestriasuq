@@ -12,25 +12,31 @@ class SeriesMatchingOnce
 {
 
     private $_elementMatchers;
+
     private $_keys;
+
     private $_mismatchDescription;
+
     private $_nextMatchKey;
+
 
     public function __construct(array $elementMatchers, Description $mismatchDescription)
     {
-        $this->_elementMatchers = $elementMatchers;
-        $this->_keys = array_keys($elementMatchers);
+        $this->_elementMatchers     = $elementMatchers;
+        $this->_keys                = array_keys($elementMatchers);
         $this->_mismatchDescription = $mismatchDescription;
     }
+
 
     public function matches($item)
     {
         return $this->_isNotSurplus($item) && $this->_isMatched($item);
     }
 
+
     public function isFinished()
     {
-        if (!empty($this->_elementMatchers)) {
+        if ( ! empty( $this->_elementMatchers )) {
             $nextMatcher = current($this->_elementMatchers);
             $this->_mismatchDescription->appendText('No item matched: ')->appendDescriptionOf($nextMatcher);
 
@@ -40,11 +46,12 @@ class SeriesMatchingOnce
         return true;
     }
 
+
     // -- Private Methods
 
     private function _isNotSurplus($item)
     {
-        if (empty($this->_elementMatchers)) {
+        if (empty( $this->_elementMatchers )) {
             $this->_mismatchDescription->appendText('Not matched: ')->appendValue($item);
 
             return false;
@@ -53,12 +60,13 @@ class SeriesMatchingOnce
         return true;
     }
 
+
     private function _isMatched($item)
     {
         $this->_nextMatchKey = array_shift($this->_keys);
-        $nextMatcher = array_shift($this->_elementMatchers);
+        $nextMatcher         = array_shift($this->_elementMatchers);
 
-        if (!$nextMatcher->matches($item)) {
+        if ( ! $nextMatcher->matches($item)) {
             $this->_describeMismatch($nextMatcher, $item);
 
             return false;
@@ -66,6 +74,7 @@ class SeriesMatchingOnce
 
         return true;
     }
+
 
     private function _describeMismatch(Matcher $matcher, $item)
     {

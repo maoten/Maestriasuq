@@ -28,14 +28,17 @@ use Psy\Exception\FatalErrorException;
  */
 class FunctionReturnInWriteContextPass extends CodeCleanerPass
 {
+
     const EXCEPTION_MESSAGE = "Can't use function return value in write context";
 
     private $isPhp55;
+
 
     public function __construct()
     {
         $this->isPhp55 = version_compare(PHP_VERSION, '5.5', '>=');
     }
+
 
     /**
      * Validate that the functions are used correctly.
@@ -58,7 +61,7 @@ class FunctionReturnInWriteContextPass extends CodeCleanerPass
             }
         } elseif ($node instanceof IssetNode) {
             foreach ($node->vars as $var) {
-                if (!$this->isCallNode($var)) {
+                if ( ! $this->isCallNode($var)) {
                     continue;
                 }
 
@@ -68,12 +71,13 @@ class FunctionReturnInWriteContextPass extends CodeCleanerPass
                     throw new FatalErrorException(self::EXCEPTION_MESSAGE);
                 }
             }
-        } elseif ($node instanceof EmptyNode && !$this->isPhp55 && $this->isCallNode($node->expr)) {
+        } elseif ($node instanceof EmptyNode && ! $this->isPhp55 && $this->isCallNode($node->expr)) {
             throw new FatalErrorException(self::EXCEPTION_MESSAGE);
         } elseif ($node instanceof AssignNode && $this->isCallNode($node->var)) {
             throw new FatalErrorException(self::EXCEPTION_MESSAGE);
         }
     }
+
 
     private function isCallNode(Node $node)
     {

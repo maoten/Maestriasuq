@@ -16,6 +16,7 @@
  */
 class Swift_Mime_ContentEncoder_RawContentEncoder implements Swift_Mime_ContentEncoder
 {
+
     /**
      * Encode a given string to produce an encoded string.
      *
@@ -30,6 +31,7 @@ class Swift_Mime_ContentEncoder_RawContentEncoder implements Swift_Mime_ContentE
         return $string;
     }
 
+
     /**
      * Encode stream $in to stream $out.
      *
@@ -38,12 +40,17 @@ class Swift_Mime_ContentEncoder_RawContentEncoder implements Swift_Mime_ContentE
      * @param int                    $firstLineOffset ignored
      * @param int                    $maxLineLength   ignored
      */
-    public function encodeByteStream(Swift_OutputByteStream $os, Swift_InputByteStream $is, $firstLineOffset = 0, $maxLineLength = 0)
-    {
-        while (false !== ($bytes = $os->read(8192))) {
+    public function encodeByteStream(
+        Swift_OutputByteStream $os,
+        Swift_InputByteStream $is,
+        $firstLineOffset = 0,
+        $maxLineLength = 0
+    ) {
+        while (false !== ( $bytes = $os->read(8192) )) {
             $is->write($bytes);
         }
     }
+
 
     /**
      * Get the name of this encoding scheme.
@@ -54,6 +61,7 @@ class Swift_Mime_ContentEncoder_RawContentEncoder implements Swift_Mime_ContentE
     {
         return 'raw';
     }
+
 
     /**
      * Not used.

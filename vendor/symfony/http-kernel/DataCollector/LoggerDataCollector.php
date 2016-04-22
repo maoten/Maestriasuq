@@ -22,25 +22,27 @@ use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
  */
 class LoggerDataCollector extends DataCollector implements LateDataCollectorInterface
 {
-    private $errorNames = array(
-        E_DEPRECATED => 'E_DEPRECATED',
-        E_USER_DEPRECATED => 'E_USER_DEPRECATED',
-        E_NOTICE => 'E_NOTICE',
-        E_USER_NOTICE => 'E_USER_NOTICE',
-        E_STRICT => 'E_STRICT',
-        E_WARNING => 'E_WARNING',
-        E_USER_WARNING => 'E_USER_WARNING',
-        E_COMPILE_WARNING => 'E_COMPILE_WARNING',
-        E_CORE_WARNING => 'E_CORE_WARNING',
-        E_USER_ERROR => 'E_USER_ERROR',
+
+    private $errorNames = [
+        E_DEPRECATED        => 'E_DEPRECATED',
+        E_USER_DEPRECATED   => 'E_USER_DEPRECATED',
+        E_NOTICE            => 'E_NOTICE',
+        E_USER_NOTICE       => 'E_USER_NOTICE',
+        E_STRICT            => 'E_STRICT',
+        E_WARNING           => 'E_WARNING',
+        E_USER_WARNING      => 'E_USER_WARNING',
+        E_COMPILE_WARNING   => 'E_COMPILE_WARNING',
+        E_CORE_WARNING      => 'E_CORE_WARNING',
+        E_USER_ERROR        => 'E_USER_ERROR',
         E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
-        E_COMPILE_ERROR => 'E_COMPILE_ERROR',
-        E_PARSE => 'E_PARSE',
-        E_ERROR => 'E_ERROR',
-        E_CORE_ERROR => 'E_CORE_ERROR',
-    );
+        E_COMPILE_ERROR     => 'E_COMPILE_ERROR',
+        E_PARSE             => 'E_PARSE',
+        E_ERROR             => 'E_ERROR',
+        E_CORE_ERROR        => 'E_CORE_ERROR',
+    ];
 
     private $logger;
+
 
     public function __construct($logger = null)
     {
@@ -48,6 +50,7 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
             $this->logger = $logger;
         }
     }
+
 
     /**
      * {@inheritdoc}
@@ -57,16 +60,18 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
         // everything is done as late as possible
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function lateCollect()
     {
         if (null !== $this->logger) {
-            $this->data = $this->computeErrorsCount();
+            $this->data         = $this->computeErrorsCount();
             $this->data['logs'] = $this->sanitizeLogs($this->logger->getLogs());
         }
     }
+
 
     /**
      * Gets the called events.
@@ -77,8 +82,9 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
      */
     public function countErrors()
     {
-        return isset($this->data['error_count']) ? $this->data['error_count'] : 0;
+        return isset( $this->data['error_count'] ) ? $this->data['error_count'] : 0;
     }
+
 
     /**
      * Gets the logs.
@@ -87,23 +93,27 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
      */
     public function getLogs()
     {
-        return isset($this->data['logs']) ? $this->data['logs'] : array();
+        return isset( $this->data['logs'] ) ? $this->data['logs'] : [ ];
     }
+
 
     public function getPriorities()
     {
-        return isset($this->data['priorities']) ? $this->data['priorities'] : array();
+        return isset( $this->data['priorities'] ) ? $this->data['priorities'] : [ ];
     }
+
 
     public function countDeprecations()
     {
-        return isset($this->data['deprecation_count']) ? $this->data['deprecation_count'] : 0;
+        return isset( $this->data['deprecation_count'] ) ? $this->data['deprecation_count'] : 0;
     }
+
 
     public function countScreams()
     {
-        return isset($this->data['scream_count']) ? $this->data['scream_count'] : 0;
+        return isset( $this->data['scream_count'] ) ? $this->data['scream_count'] : 0;
     }
+
 
     /**
      * {@inheritdoc}
@@ -113,30 +123,31 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
         return 'logger';
     }
 
+
     private function sanitizeLogs($logs)
     {
-        $errorContextById = array();
-        $sanitizedLogs = array();
+        $errorContextById = [ ];
+        $sanitizedLogs    = [ ];
 
         foreach ($logs as $log) {
             $context = $this->sanitizeContext($log['context']);
 
-            if (isset($context['type'], $context['file'], $context['line'], $context['level'])) {
-                $errorId = md5("{$context['type']}/{$context['line']}/{$context['file']}\x00{$log['message']}", true);
-                $silenced = !($context['type'] & $context['level']);
-                if (isset($this->errorNames[$context['type']])) {
-                    $context = array_merge(array('name' => $this->errorNames[$context['type']]), $context);
+            if (isset( $context['type'], $context['file'], $context['line'], $context['level'] )) {
+                $errorId  = md5("{$context['type']}/{$context['line']}/{$context['file']}\x00{$log['message']}", true);
+                $silenced = ! ( $context['type'] & $context['level'] );
+                if (isset( $this->errorNames[$context['type']] )) {
+                    $context = array_merge([ 'name' => $this->errorNames[$context['type']] ], $context);
                 }
 
-                if (isset($errorContextById[$errorId])) {
-                    if (isset($errorContextById[$errorId]['errorCount'])) {
+                if (isset( $errorContextById[$errorId] )) {
+                    if (isset( $errorContextById[$errorId]['errorCount'] )) {
                         ++$errorContextById[$errorId]['errorCount'];
                     } else {
                         $errorContextById[$errorId]['errorCount'] = 2;
                     }
 
-                    if (!$silenced && isset($errorContextById[$errorId]['scream'])) {
-                        unset($errorContextById[$errorId]['scream']);
+                    if ( ! $silenced && isset( $errorContextById[$errorId]['scream'] )) {
+                        unset( $errorContextById[$errorId]['scream'] );
                         $errorContextById[$errorId]['level'] = $context['level'];
                     }
 
@@ -149,7 +160,7 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
                 }
 
                 $log['context'] = &$context;
-                unset($context);
+                unset( $context );
             } else {
                 $log['context'] = $context;
             }
@@ -159,6 +170,7 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
 
         return $sanitizedLogs;
     }
+
 
     private function sanitizeContext($context)
     {
@@ -181,29 +193,30 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
         return $context;
     }
 
+
     private function computeErrorsCount()
     {
-        $count = array(
-            'error_count' => $this->logger->countErrors(),
+        $count = [
+            'error_count'       => $this->logger->countErrors(),
             'deprecation_count' => 0,
-            'scream_count' => 0,
-            'priorities' => array(),
-        );
+            'scream_count'      => 0,
+            'priorities'        => [ ],
+        ];
 
         foreach ($this->logger->getLogs() as $log) {
-            if (isset($count['priorities'][$log['priority']])) {
+            if (isset( $count['priorities'][$log['priority']] )) {
                 ++$count['priorities'][$log['priority']]['count'];
             } else {
-                $count['priorities'][$log['priority']] = array(
+                $count['priorities'][$log['priority']] = [
                     'count' => 1,
-                    'name' => $log['priorityName'],
-                );
+                    'name'  => $log['priorityName'],
+                ];
             }
 
-            if (isset($log['context']['type'], $log['context']['level'])) {
+            if (isset( $log['context']['type'], $log['context']['level'] )) {
                 if (E_DEPRECATED === $log['context']['type'] || E_USER_DEPRECATED === $log['context']['type']) {
                     ++$count['deprecation_count'];
-                } elseif (!($log['context']['type'] & $log['context']['level'])) {
+                } elseif ( ! ( $log['context']['type'] & $log['context']['level'] )) {
                     ++$count['scream_count'];
                 }
             }

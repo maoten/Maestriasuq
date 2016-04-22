@@ -16,14 +16,10 @@ class IsTraversableWithSize extends FeatureMatcher
 
     public function __construct(Matcher $sizeMatcher)
     {
-        parent::__construct(
-            self::TYPE_OBJECT,
-            'Traversable',
-            $sizeMatcher,
-            'a traversable with size',
-            'traversable size'
-        );
+        parent::__construct(self::TYPE_OBJECT, 'Traversable', $sizeMatcher, 'a traversable with size',
+            'traversable size');
     }
+
 
     protected function featureValueOf($actual)
     {
@@ -34,6 +30,7 @@ class IsTraversableWithSize extends FeatureMatcher
 
         return $size;
     }
+
 
     /**
      * Does traversable size satisfy a given matcher?

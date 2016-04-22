@@ -9,6 +9,7 @@ class IsScalarTest extends \Hamcrest\AbstractMatcherTest
         return \Hamcrest\Type\IsScalar::scalarValue();
     }
 
+
     public function testEvaluatesToTrueIfArgumentMatchesType()
     {
         assertThat(true, scalarValue());
@@ -17,23 +18,26 @@ class IsScalarTest extends \Hamcrest\AbstractMatcherTest
         assertThat('5', scalarValue());
     }
 
+
     public function testEvaluatesToFalseIfArgumentDoesntMatchType()
     {
         assertThat(null, not(scalarValue()));
-        assertThat(array(), not(scalarValue()));
-        assertThat(array(5), not(scalarValue()));
+        assertThat([ ], not(scalarValue()));
+        assertThat([ 5 ], not(scalarValue()));
         assertThat(tmpfile(), not(scalarValue()));
         assertThat(new \stdClass(), not(scalarValue()));
     }
+
 
     public function testHasAReadableDescription()
     {
         $this->assertDescription('a scalar', scalarValue());
     }
 
+
     public function testDecribesActualTypeInMismatchMessage()
     {
         $this->assertMismatchDescription('was null', scalarValue(), null);
-        $this->assertMismatchDescription('was an array ["foo"]', scalarValue(), array('foo'));
+        $this->assertMismatchDescription('was an array ["foo"]', scalarValue(), [ 'foo' ]);
     }
 }

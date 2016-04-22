@@ -9,6 +9,7 @@ class IsAnythingTest extends \Hamcrest\AbstractMatcherTest
         return \Hamcrest\Core\IsAnything::anything();
     }
 
+
     public function testAlwaysEvaluatesToTrue()
     {
         assertThat(null, anything());
@@ -16,10 +17,12 @@ class IsAnythingTest extends \Hamcrest\AbstractMatcherTest
         assertThat('hi', anything());
     }
 
+
     public function testHasUsefulDefaultDescription()
     {
         $this->assertDescription('ANYTHING', anything());
     }
+
 
     public function testCanOverrideDescription()
     {

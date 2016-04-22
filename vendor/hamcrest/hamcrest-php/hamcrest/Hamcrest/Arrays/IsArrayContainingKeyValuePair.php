@@ -12,20 +12,22 @@ use Hamcrest\Util;
 /**
  * @namespace
  */
-
 class IsArrayContainingKeyValuePair extends TypeSafeMatcher
 {
 
     private $_keyMatcher;
+
     private $_valueMatcher;
+
 
     public function __construct(Matcher $keyMatcher, Matcher $valueMatcher)
     {
         parent::__construct(self::TYPE_ARRAY);
 
-        $this->_keyMatcher = $keyMatcher;
+        $this->_keyMatcher   = $keyMatcher;
         $this->_valueMatcher = $valueMatcher;
     }
+
 
     protected function matchesSafely($array)
     {
@@ -38,12 +40,11 @@ class IsArrayContainingKeyValuePair extends TypeSafeMatcher
         return false;
     }
 
+
     protected function describeMismatchSafely($array, Description $mismatchDescription)
     {
         //Not using appendValueList() so that keys can be shown
-        $mismatchDescription->appendText('array was ')
-                                                ->appendText('[')
-                                                ;
+        $mismatchDescription->appendText('array was ')->appendText('[');
         $loop = false;
         foreach ($array as $key => $value) {
             if ($loop) {
@@ -55,15 +56,12 @@ class IsArrayContainingKeyValuePair extends TypeSafeMatcher
         $mismatchDescription->appendText(']');
     }
 
+
     public function describeTo(Description $description)
     {
-        $description->appendText('array containing [')
-                                ->appendDescriptionOf($this->_keyMatcher)
-                                ->appendText(' => ')
-                                ->appendDescriptionOf($this->_valueMatcher)
-                                ->appendText(']')
-                                ;
+        $description->appendText('array containing [')->appendDescriptionOf($this->_keyMatcher)->appendText(' => ')->appendDescriptionOf($this->_valueMatcher)->appendText(']');
     }
+
 
     /**
      * Test if an array has both an key and value in parity with each other.
@@ -72,9 +70,6 @@ class IsArrayContainingKeyValuePair extends TypeSafeMatcher
      */
     public static function hasKeyValuePair($key, $value)
     {
-        return new self(
-            Util::wrapValueWithIsEqual($key),
-            Util::wrapValueWithIsEqual($value)
-        );
+        return new self(Util::wrapValueWithIsEqual($key), Util::wrapValueWithIsEqual($value));
     }
 }

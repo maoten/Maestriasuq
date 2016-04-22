@@ -2,12 +2,15 @@
 
 class Swift_Bug71Test extends \PHPUnit_Framework_TestCase
 {
+
     private $_message;
+
 
     public function setUp()
     {
         $this->_message = new Swift_Message('test');
     }
+
 
     public function testCallingToStringAfterSettingNewBodyReflectsChanges()
     {

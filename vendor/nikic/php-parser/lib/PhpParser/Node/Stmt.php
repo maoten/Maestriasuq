@@ -6,4 +6,5 @@ use PhpParser\NodeAbstract;
 
 abstract class Stmt extends NodeAbstract
 {
+
 }

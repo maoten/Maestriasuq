@@ -26,6 +26,7 @@ use Psy\Exception\FatalErrorException;
  */
 class CallTimePassByReferencePass extends CodeCleanerPass
 {
+
     /**
      * Validate of use call-time pass-by-reference.
      *
@@ -39,7 +40,7 @@ class CallTimePassByReferencePass extends CodeCleanerPass
             return;
         }
 
-        if (!$node instanceof FunctionCall && !$node instanceof MethodCall && !$node instanceof StaticCall) {
+        if ( ! $node instanceof FunctionCall && ! $node instanceof MethodCall && ! $node instanceof StaticCall) {
             return;
         }
 

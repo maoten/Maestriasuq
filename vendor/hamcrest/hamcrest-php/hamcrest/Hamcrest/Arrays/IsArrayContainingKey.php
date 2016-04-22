@@ -17,12 +17,14 @@ class IsArrayContainingKey extends TypeSafeMatcher
 
     private $_keyMatcher;
 
+
     public function __construct(Matcher $keyMatcher)
     {
         parent::__construct(self::TYPE_ARRAY);
 
         $this->_keyMatcher = $keyMatcher;
     }
+
 
     protected function matchesSafely($array)
     {
@@ -35,12 +37,11 @@ class IsArrayContainingKey extends TypeSafeMatcher
         return false;
     }
 
+
     protected function describeMismatchSafely($array, Description $mismatchDescription)
     {
         //Not using appendValueList() so that keys can be shown
-        $mismatchDescription->appendText('array was ')
-                                                ->appendText('[')
-                                                ;
+        $mismatchDescription->appendText('array was ')->appendText('[');
         $loop = false;
         foreach ($array as $key => $value) {
             if ($loop) {
@@ -52,13 +53,12 @@ class IsArrayContainingKey extends TypeSafeMatcher
         $mismatchDescription->appendText(']');
     }
 
+
     public function describeTo(Description $description)
     {
-        $description
-                 ->appendText('array with key ')
-                 ->appendDescriptionOf($this->_keyMatcher)
-                 ;
+        $description->appendText('array with key ')->appendDescriptionOf($this->_keyMatcher);
     }
+
 
     /**
      * Evaluates to true if any key in an array matches the given matcher.

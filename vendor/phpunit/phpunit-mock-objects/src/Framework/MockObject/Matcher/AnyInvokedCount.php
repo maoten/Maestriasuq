@@ -16,6 +16,7 @@
  */
 class PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount extends PHPUnit_Framework_MockObject_Matcher_InvokedRecorder
 {
+
     /**
      * @return string
      */
@@ -23,6 +24,7 @@ class PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount extends PHPUnit_Frame
     {
         return 'invoked zero or more times';
     }
+
 
     /**
      */

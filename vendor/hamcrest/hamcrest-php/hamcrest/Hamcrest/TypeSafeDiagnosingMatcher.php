@@ -14,6 +14,7 @@ abstract class TypeSafeDiagnosingMatcher extends TypeSafeMatcher
         return $this->matchesSafelyWithDiagnosticDescription($item, new NullDescription());
     }
 
+
     final public function describeMismatchSafely($item, Description $mismatchDescription)
     {
         $this->matchesSafelyWithDiagnosticDescription($item, $mismatchDescription);

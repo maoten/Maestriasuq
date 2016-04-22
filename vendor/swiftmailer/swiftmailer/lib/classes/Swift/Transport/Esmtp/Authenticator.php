@@ -15,12 +15,14 @@
  */
 interface Swift_Transport_Esmtp_Authenticator
 {
+
     /**
      * Get the name of the AUTH mechanism this Authenticator handles.
      *
      * @return string
      */
     public function getAuthKeyword();
+
 
     /**
      * Try to authenticate the user with $username and $password.

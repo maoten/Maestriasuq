@@ -20,27 +20,35 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class TestMultipleHttpKernel extends HttpKernel implements ControllerResolverInterface
 {
-    protected $bodies = array();
-    protected $statuses = array();
-    protected $headers = array();
+
+    protected $bodies = [ ];
+
+    protected $statuses = [ ];
+
+    protected $headers = [ ];
+
     protected $called = false;
+
     protected $backendRequest;
+
 
     public function __construct($responses)
     {
         foreach ($responses as $response) {
-            $this->bodies[] = $response['body'];
+            $this->bodies[]   = $response['body'];
             $this->statuses[] = $response['status'];
-            $this->headers[] = $response['headers'];
+            $this->headers[]  = $response['headers'];
         }
 
         parent::__construct(new EventDispatcher(), $this);
     }
 
+
     public function getBackendRequest()
     {
         return $this->backendRequest;
     }
+
 
     public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = false)
     {
@@ -49,15 +57,18 @@ class TestMultipleHttpKernel extends HttpKernel implements ControllerResolverInt
         return parent::handle($request, $type, $catch);
     }
 
+
     public function getController(Request $request)
     {
-        return array($this, 'callController');
+        return [ $this, 'callController' ];
     }
+
 
     public function getArguments(Request $request, $controller)
     {
-        return array($request);
+        return [ $request ];
     }
+
 
     public function callController(Request $request)
     {
@@ -68,10 +79,12 @@ class TestMultipleHttpKernel extends HttpKernel implements ControllerResolverInt
         return $response;
     }
 
+
     public function hasBeenCalled()
     {
         return $this->called;
     }
+
 
     public function reset()
     {

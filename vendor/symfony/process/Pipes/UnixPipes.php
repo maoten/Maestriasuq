@@ -22,17 +22,21 @@ use Symfony\Component\Process\Process;
  */
 class UnixPipes extends AbstractPipes
 {
+
     /** @var bool */
     private $ttyMode;
+
     /** @var bool */
     private $ptyMode;
+
     /** @var bool */
     private $disableOutput;
 
+
     public function __construct($ttyMode, $ptyMode, $input, $disableOutput)
     {
-        $this->ttyMode = (bool) $ttyMode;
-        $this->ptyMode = (bool) $ptyMode;
+        $this->ttyMode       = (bool) $ttyMode;
+        $this->ptyMode       = (bool) $ptyMode;
         $this->disableOutput = (bool) $disableOutput;
 
         if (is_resource($input)) {
@@ -42,10 +46,12 @@ class UnixPipes extends AbstractPipes
         }
     }
 
+
     public function __destruct()
     {
         $this->close();
     }
+
 
     /**
      * {@inheritdoc}
@@ -55,43 +61,45 @@ class UnixPipes extends AbstractPipes
         if ($this->disableOutput) {
             $nullstream = fopen('/dev/null', 'c');
 
-            return array(
-                array('pipe', 'r'),
+            return [
+                [ 'pipe', 'r' ],
                 $nullstream,
                 $nullstream,
-            );
+            ];
         }
 
         if ($this->ttyMode) {
-            return array(
-                array('file', '/dev/tty', 'r'),
-                array('file', '/dev/tty', 'w'),
-                array('file', '/dev/tty', 'w'),
-            );
+            return [
+                [ 'file', '/dev/tty', 'r' ],
+                [ 'file', '/dev/tty', 'w' ],
+                [ 'file', '/dev/tty', 'w' ],
+            ];
         }
 
         if ($this->ptyMode && Process::isPtySupported()) {
-            return array(
-                array('pty'),
-                array('pty'),
-                array('pty'),
-            );
+            return [
+                [ 'pty' ],
+                [ 'pty' ],
+                [ 'pty' ],
+            ];
         }
 
-        return array(
-            array('pipe', 'r'),
-            array('pipe', 'w'), // stdout
-            array('pipe', 'w'), // stderr
-        );
+        return [
+            [ 'pipe', 'r' ],
+            [ 'pipe', 'w' ], // stdout
+            [ 'pipe', 'w' ], // stderr
+        ];
     }
+
 
     /**
      * {@inheritdoc}
      */
     public function getFiles()
     {
-        return array();
+        return [ ];
     }
+
 
     /**
      * {@inheritdoc}
@@ -100,38 +108,38 @@ class UnixPipes extends AbstractPipes
     {
         // only stdin is left open, job has been done !
         // we can now close it
-        if (1 === count($this->pipes) && array(0) === array_keys($this->pipes)) {
+        if (1 === count($this->pipes) && [ 0 ] === array_keys($this->pipes)) {
             fclose($this->pipes[0]);
-            unset($this->pipes[0]);
+            unset( $this->pipes[0] );
         }
 
-        if (empty($this->pipes)) {
-            return array();
+        if (empty( $this->pipes )) {
+            return [ ];
         }
 
         $this->unblock();
 
-        $read = array();
+        $read = [ ];
 
         if (null !== $this->input) {
             // if input is a resource, let's add it to stream_select argument to
             // fill a buffer
-            $r = array_merge($this->pipes, array('input' => $this->input));
+            $r = array_merge($this->pipes, [ 'input' => $this->input ]);
         } else {
             $r = $this->pipes;
         }
         // discard read on stdin
-        unset($r[0]);
+        unset( $r[0] );
 
-        $w = isset($this->pipes[0]) ? array($this->pipes[0]) : null;
+        $w = isset( $this->pipes[0] ) ? [ $this->pipes[0] ] : null;
         $e = null;
 
         // let's have a look if something changed in streams
         if (false === $n = @stream_select($r, $w, $e, 0, $blocking ? Process::TIMEOUT_PRECISION * 1E6 : 0)) {
             // if a system call has been interrupted, forget about it, let's try again
             // otherwise, an error occurred, let's reset pipes
-            if (!$this->hasSystemCallBeenInterrupted()) {
-                $this->pipes = array();
+            if ( ! $this->hasSystemCallBeenInterrupted()) {
+                $this->pipes = [ ];
             }
 
             return $read;
@@ -145,7 +153,7 @@ class UnixPipes extends AbstractPipes
         foreach ($r as $pipe) {
             // prior PHP 5.4 the array passed to stream_select is modified and
             // lose key association, we have to find back the key
-            $type = (false !== $found = array_search($pipe, $this->pipes)) ? $found : 'input';
+            $type = ( false !== $found = array_search($pipe, $this->pipes) ) ? $found : 'input';
             $data = '';
             while ('' !== $dataread = (string) fread($pipe, self::CHUNK_SIZE)) {
                 $data .= $dataread;
@@ -159,14 +167,14 @@ class UnixPipes extends AbstractPipes
                 }
             }
 
-            if (false === $data || (true === $close && feof($pipe) && '' === $data)) {
+            if (false === $data || ( true === $close && feof($pipe) && '' === $data )) {
                 if ($type === 'input') {
                     // no more data to read on input resource
                     // use an empty buffer in the next reads
                     $this->input = null;
                 } else {
                     fclose($this->pipes[$type]);
-                    unset($this->pipes[$type]);
+                    unset( $this->pipes[$type] );
                 }
             }
         }
@@ -183,13 +191,14 @@ class UnixPipes extends AbstractPipes
         }
 
         // no input to read on resource, buffer is empty and stdin still open
-        if ('' === $this->inputBuffer && null === $this->input && isset($this->pipes[0])) {
+        if ('' === $this->inputBuffer && null === $this->input && isset( $this->pipes[0] )) {
             fclose($this->pipes[0]);
-            unset($this->pipes[0]);
+            unset( $this->pipes[0] );
         }
 
         return $read;
     }
+
 
     /**
      * {@inheritdoc}
@@ -198,6 +207,7 @@ class UnixPipes extends AbstractPipes
     {
         return (bool) $this->pipes;
     }
+
 
     /**
      * Creates a new UnixPipes instance.

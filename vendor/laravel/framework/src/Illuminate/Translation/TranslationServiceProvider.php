@@ -6,12 +6,14 @@ use Illuminate\Support\ServiceProvider;
 
 class TranslationServiceProvider extends ServiceProvider
 {
+
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
     protected $defer = true;
+
 
     /**
      * Register the service provider.
@@ -38,6 +40,7 @@ class TranslationServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the translation line loader.
      *
@@ -50,6 +53,7 @@ class TranslationServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Get the services provided by the provider.
      *
@@ -57,6 +61,6 @@ class TranslationServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['translator', 'translation.loader'];
+        return [ 'translator', 'translation.loader' ];
     }
 }

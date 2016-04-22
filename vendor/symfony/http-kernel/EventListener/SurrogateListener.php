@@ -23,7 +23,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class SurrogateListener implements EventSubscriberInterface
 {
+
     private $surrogate;
+
 
     /**
      * Constructor.
@@ -35,6 +37,7 @@ class SurrogateListener implements EventSubscriberInterface
         $this->surrogate = $surrogate;
     }
 
+
     /**
      * Filters the Response.
      *
@@ -42,17 +45,18 @@ class SurrogateListener implements EventSubscriberInterface
      */
     public function onKernelResponse(FilterResponseEvent $event)
     {
-        if (!$event->isMasterRequest() || null === $this->surrogate) {
+        if ( ! $event->isMasterRequest() || null === $this->surrogate) {
             return;
         }
 
         $this->surrogate->addSurrogateControl($event->getResponse());
     }
 
+
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             KernelEvents::RESPONSE => 'onKernelResponse',
-        );
+        ];
     }
 }

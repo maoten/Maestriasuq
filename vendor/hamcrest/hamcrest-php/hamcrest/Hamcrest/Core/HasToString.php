@@ -17,14 +17,9 @@ class HasToString extends FeatureMatcher
 
     public function __construct(Matcher $toStringMatcher)
     {
-        parent::__construct(
-            self::TYPE_OBJECT,
-            null,
-            $toStringMatcher,
-            'an object with toString()',
-            'toString()'
-        );
+        parent::__construct(self::TYPE_OBJECT, null, $toStringMatcher, 'an object with toString()', 'toString()');
     }
+
 
     public function matchesSafelyWithDiagnosticDescription($actual, Description $mismatchDescription)
     {
@@ -35,6 +30,7 @@ class HasToString extends FeatureMatcher
         return false;
     }
 
+
     protected function featureValueOf($actual)
     {
         if (method_exists($actual, 'toString')) {
@@ -43,6 +39,7 @@ class HasToString extends FeatureMatcher
 
         return (string) $actual;
     }
+
 
     /**
      * Does array size satisfy a given matcher?

@@ -23,12 +23,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ThrowUpCommand extends Command implements ContextAware
 {
+
     /**
      * Context instance (for ContextAware interface).
      *
      * @var Context
      */
     protected $context;
+
 
     /**
      * ContextAware interface.
@@ -40,19 +42,15 @@ class ThrowUpCommand extends Command implements ContextAware
         $this->context = $context;
     }
 
+
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $this
-            ->setName('throw-up')
-            ->setDefinition(array(
+        $this->setName('throw-up')->setDefinition([
                 new InputArgument('exception', InputArgument::OPTIONAL, 'Exception to throw'),
-            ))
-            ->setDescription('Throw an exception out of the Psy Shell.')
-            ->setHelp(
-                <<<'HELP'
+            ])->setDescription('Throw an exception out of the Psy Shell.')->setHelp(<<<'HELP'
 Throws an exception out of the current the Psy Shell instance.
 
 By default it throws the most recent exception.
@@ -63,6 +61,7 @@ e.g.
 HELP
             );
     }
+
 
     /**
      * {@inheritdoc}
@@ -78,7 +77,7 @@ HELP
             $orig = $this->context->getLastException();
         }
 
-        if (!$orig instanceof \Exception) {
+        if ( ! $orig instanceof \Exception) {
             throw new \InvalidArgumentException('throw-up can only throw Exceptions');
         }
 

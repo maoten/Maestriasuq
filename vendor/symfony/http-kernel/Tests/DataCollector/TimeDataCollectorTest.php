@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class TimeDataCollectorTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testCollect()
     {
         $c = new TimeDataCollector();
@@ -44,7 +45,7 @@ class TimeDataCollectorTest extends \PHPUnit_Framework_TestCase
         $kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
         $kernel->expects($this->once())->method('getStartTime')->will($this->returnValue(123456));
 
-        $c = new TimeDataCollector($kernel);
+        $c       = new TimeDataCollector($kernel);
         $request = new Request();
         $request->server->set('REQUEST_TIME', 1);
 

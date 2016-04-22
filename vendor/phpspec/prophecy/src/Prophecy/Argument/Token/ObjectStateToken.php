@@ -22,16 +22,21 @@ use Prophecy\Util\StringUtil;
  */
 class ObjectStateToken implements TokenInterface
 {
+
     private $name;
+
     private $value;
+
     private $util;
+
     private $comparatorFactory;
+
 
     /**
      * Initializes token.
      *
      * @param string            $methodName
-     * @param mixed             $value             Expected return value
+     * @param mixed             $value Expected return value
      * @param null|StringUtil   $util
      * @param ComparatorFactory $comparatorFactory
      */
@@ -48,6 +53,7 @@ class ObjectStateToken implements TokenInterface
         $this->comparatorFactory = $comparatorFactory ?: ComparatorFactory::getInstance();
     }
 
+
     /**
      * Scores 8 if argument is an object, which method returns expected value.
      *
@@ -58,14 +64,13 @@ class ObjectStateToken implements TokenInterface
     public function scoreArgument($argument)
     {
         if (is_object($argument) && method_exists($argument, $this->name)) {
-            $actual = call_user_func(array($argument, $this->name));
+            $actual = call_user_func([ $argument, $this->name ]);
 
-            $comparator = $this->comparatorFactory->getComparatorFor(
-                $actual, $this->value
-            );
+            $comparator = $this->comparatorFactory->getComparatorFor($actual, $this->value);
 
             try {
                 $comparator->assertEquals($actual, $this->value);
+
                 return 8;
             } catch (ComparisonFailure $failure) {
                 return false;
@@ -79,6 +84,7 @@ class ObjectStateToken implements TokenInterface
         return false;
     }
 
+
     /**
      * Returns false.
      *
@@ -89,6 +95,7 @@ class ObjectStateToken implements TokenInterface
         return false;
     }
 
+
     /**
      * Returns string representation for token.
      *
@@ -96,9 +103,6 @@ class ObjectStateToken implements TokenInterface
      */
     public function __toString()
     {
-        return sprintf('state(%s(), %s)',
-            $this->name,
-            $this->util->stringify($this->value)
-        );
+        return sprintf('state(%s(), %s)', $this->name, $this->util->stringify($this->value));
     }
 }

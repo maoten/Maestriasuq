@@ -21,10 +21,11 @@ use Psy\Util\Mirror;
  */
 abstract class ReflectingCommand extends Command implements ContextAware
 {
-    const CLASS_OR_FUNC   = '/^[\\\\\w]+$/';
-    const INSTANCE        = '/^\$(\w+)$/';
-    const CLASS_MEMBER    = '/^([\\\\\w]+)::(\w+)$/';
-    const CLASS_STATIC    = '/^([\\\\\w]+)::\$(\w+)$/';
+
+    const CLASS_OR_FUNC = '/^[\\\\\w]+$/';
+    const INSTANCE = '/^\$(\w+)$/';
+    const CLASS_MEMBER = '/^([\\\\\w]+)::(\w+)$/';
+    const CLASS_STATIC = '/^([\\\\\w]+)::\$(\w+)$/';
     const INSTANCE_MEMBER = '/^\$(\w+)(::|->)(\w+)$/';
     const INSTANCE_STATIC = '/^\$(\w+)::\$(\w+)$/';
 
@@ -35,6 +36,7 @@ abstract class ReflectingCommand extends Command implements ContextAware
      */
     protected $context;
 
+
     /**
      * ContextAware interface.
      *
@@ -44,6 +46,7 @@ abstract class ReflectingCommand extends Command implements ContextAware
     {
         $this->context = $context;
     }
+
 
     /**
      * Get the target for a value.
@@ -58,36 +61,37 @@ abstract class ReflectingCommand extends Command implements ContextAware
     protected function getTarget($valueName, $classOnly = false)
     {
         $valueName = trim($valueName);
-        $matches   = array();
+        $matches   = [ ];
         switch (true) {
             case preg_match(self::CLASS_OR_FUNC, $valueName, $matches):
-                return array($this->resolveName($matches[0], true), null, 0);
+                return [ $this->resolveName($matches[0], true), null, 0 ];
 
             case preg_match(self::INSTANCE, $valueName, $matches):
-                return array($this->resolveInstance($matches[1]), null, 0);
+                return [ $this->resolveInstance($matches[1]), null, 0 ];
 
-            case !$classOnly && preg_match(self::CLASS_MEMBER, $valueName, $matches):
-                return array($this->resolveName($matches[1]), $matches[2], Mirror::CONSTANT | Mirror::METHOD);
+            case ! $classOnly && preg_match(self::CLASS_MEMBER, $valueName, $matches):
+                return [ $this->resolveName($matches[1]), $matches[2], Mirror::CONSTANT | Mirror::METHOD ];
 
-            case !$classOnly && preg_match(self::CLASS_STATIC, $valueName, $matches):
-                return array($this->resolveName($matches[1]), $matches[2], Mirror::STATIC_PROPERTY | Mirror::PROPERTY);
+            case ! $classOnly && preg_match(self::CLASS_STATIC, $valueName, $matches):
+                return [ $this->resolveName($matches[1]), $matches[2], Mirror::STATIC_PROPERTY | Mirror::PROPERTY ];
 
-            case !$classOnly && preg_match(self::INSTANCE_MEMBER, $valueName, $matches):
+            case ! $classOnly && preg_match(self::INSTANCE_MEMBER, $valueName, $matches):
                 if ($matches[2] === '->') {
                     $kind = Mirror::METHOD | Mirror::PROPERTY;
                 } else {
                     $kind = Mirror::CONSTANT | Mirror::METHOD;
                 }
 
-                return array($this->resolveInstance($matches[1]), $matches[3], $kind);
+                return [ $this->resolveInstance($matches[1]), $matches[3], $kind ];
 
-            case !$classOnly && preg_match(self::INSTANCE_STATIC, $valueName, $matches):
-                return array($this->resolveInstance($matches[1]), $matches[2], Mirror::STATIC_PROPERTY);
+            case ! $classOnly && preg_match(self::INSTANCE_STATIC, $valueName, $matches):
+                return [ $this->resolveInstance($matches[1]), $matches[2], Mirror::STATIC_PROPERTY ];
 
             default:
                 throw new RuntimeException('Unknown target: ' . $valueName);
         }
     }
+
 
     /**
      * Resolve a class or function name (with the current shell namespace).
@@ -106,13 +110,14 @@ abstract class ReflectingCommand extends Command implements ContextAware
         if ($namespace = $this->getApplication()->getNamespace()) {
             $fullName = $namespace . '\\' . $name;
 
-            if (class_exists($fullName) || interface_exists($fullName) || ($includeFunctions && function_exists($fullName))) {
+            if (class_exists($fullName) || interface_exists($fullName) || ( $includeFunctions && function_exists($fullName) )) {
                 return $fullName;
             }
         }
 
         return $name;
     }
+
 
     /**
      * Get a Reflector and documentation for a function, class or instance, constant, method or property.
@@ -124,10 +129,11 @@ abstract class ReflectingCommand extends Command implements ContextAware
      */
     protected function getTargetAndReflector($valueName, $classOnly = false)
     {
-        list($value, $member, $kind) = $this->getTarget($valueName, $classOnly);
+        list( $value, $member, $kind ) = $this->getTarget($valueName, $classOnly);
 
-        return array($value, Mirror::get($value, $member, $kind));
+        return [ $value, Mirror::get($value, $member, $kind) ];
     }
+
 
     /**
      * Return a variable instance from the current scope.
@@ -141,12 +147,13 @@ abstract class ReflectingCommand extends Command implements ContextAware
     protected function resolveInstance($name)
     {
         $value = $this->getScopeVariable($name);
-        if (!is_object($value)) {
+        if ( ! is_object($value)) {
             throw new RuntimeException('Unable to inspect a non-object');
         }
 
         return $value;
     }
+
 
     /**
      * Get a variable from the current shell scope.
@@ -159,6 +166,7 @@ abstract class ReflectingCommand extends Command implements ContextAware
     {
         return $this->context->get($name);
     }
+
 
     /**
      * Get all scope variables from the current shell scope.

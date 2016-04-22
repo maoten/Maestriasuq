@@ -22,12 +22,14 @@ use Symfony\Component\Process\Exception\InvalidArgumentException;
  */
 class ProcessUtils
 {
+
     /**
      * This class should not be instantiated.
      */
     private function __construct()
     {
     }
+
 
     /**
      * Escapes a string to be used as a shell argument.
@@ -48,13 +50,13 @@ class ProcessUtils
             }
 
             $escapedArgument = '';
-            $quote = false;
+            $quote           = false;
             foreach (preg_split('/(")/', $argument, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE) as $part) {
                 if ('"' === $part) {
                     $escapedArgument .= '\\"';
                 } elseif (self::isSurroundedBy($part, '%')) {
                     // Avoid environment variable expansion
-                    $escapedArgument .= '^%"'.substr($part, 1, -1).'"^%';
+                    $escapedArgument .= '^%"' . substr($part, 1, -1) . '"^%';
                 } else {
                     // escape trailing backslash
                     if ('\\' === substr($part, -1)) {
@@ -65,7 +67,7 @@ class ProcessUtils
                 }
             }
             if ($quote) {
-                $escapedArgument = '"'.$escapedArgument.'"';
+                $escapedArgument = '"' . $escapedArgument . '"';
             }
 
             return $escapedArgument;
@@ -73,6 +75,7 @@ class ProcessUtils
 
         return escapeshellarg($argument);
     }
+
 
     /**
      * Validates and normalizes a Process input.
@@ -99,6 +102,7 @@ class ProcessUtils
 
         return $input;
     }
+
 
     private static function isSurroundedBy($arg, $char)
     {

@@ -15,12 +15,14 @@
  */
 interface Swift_KeyCache_KeyCacheInputStream extends Swift_InputByteStream
 {
+
     /**
      * Set the KeyCache to wrap.
      *
      * @param Swift_KeyCache $keyCache
      */
     public function setKeyCache(Swift_KeyCache $keyCache);
+
 
     /**
      * Set the nsKey which will be written to.
@@ -29,6 +31,7 @@ interface Swift_KeyCache_KeyCacheInputStream extends Swift_InputByteStream
      */
     public function setNsKey($nsKey);
 
+
     /**
      * Set the itemKey which will be written to.
      *
@@ -36,12 +39,14 @@ interface Swift_KeyCache_KeyCacheInputStream extends Swift_InputByteStream
      */
     public function setItemKey($itemKey);
 
+
     /**
      * Specify a stream to write through for each write().
      *
      * @param Swift_InputByteStream $is
      */
     public function setWriteThroughStream(Swift_InputByteStream $is);
+
 
     /**
      * Any implementation should be cloneable, allowing the clone to access a

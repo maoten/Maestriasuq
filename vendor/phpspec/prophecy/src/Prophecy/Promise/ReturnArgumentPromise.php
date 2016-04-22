@@ -22,10 +22,12 @@ use Prophecy\Prophecy\MethodProphecy;
  */
 class ReturnArgumentPromise implements PromiseInterface
 {
+
     /**
      * @var int
      */
     private $index;
+
 
     /**
      * Initializes callback promise.
@@ -36,14 +38,13 @@ class ReturnArgumentPromise implements PromiseInterface
      */
     public function __construct($index = 0)
     {
-        if (!is_int($index) || $index < 0) {
-            throw new InvalidArgumentException(sprintf(
-                'Zero-based index expected as argument to ReturnArgumentPromise, but got %s.',
-                $index
-            ));
+        if ( ! is_int($index) || $index < 0) {
+            throw new InvalidArgumentException(sprintf('Zero-based index expected as argument to ReturnArgumentPromise, but got %s.',
+                $index));
         }
         $this->index = $index;
     }
+
 
     /**
      * Returns nth argument if has one, null otherwise.

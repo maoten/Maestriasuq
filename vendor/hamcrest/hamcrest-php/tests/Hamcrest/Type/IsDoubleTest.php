@@ -9,11 +9,13 @@ class IsDoubleTest extends \Hamcrest\AbstractMatcherTest
         return \Hamcrest\Type\IsDouble::doubleValue();
     }
 
+
     public function testEvaluatesToTrueIfArgumentMatchesType()
     {
         assertThat((float) 5.2, floatValue());
         assertThat((double) 5.3, doubleValue());
     }
+
 
     public function testEvaluatesToFalseIfArgumentDoesntMatchType()
     {
@@ -22,10 +24,12 @@ class IsDoubleTest extends \Hamcrest\AbstractMatcherTest
         assertThat('foo', not(doubleValue()));
     }
 
+
     public function testHasAReadableDescription()
     {
         $this->assertDescription('a double', doubleValue());
     }
+
 
     public function testDecribesActualTypeInMismatchMessage()
     {

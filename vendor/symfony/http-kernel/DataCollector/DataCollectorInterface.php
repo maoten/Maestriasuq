@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 interface DataCollectorInterface
 {
+
     /**
      * Collects data for the given Request and Response.
      *
@@ -29,6 +30,7 @@ interface DataCollectorInterface
      * @param \Exception $exception An Exception instance
      */
     public function collect(Request $request, Response $response, \Exception $exception = null);
+
 
     /**
      * Returns the name of the collector.

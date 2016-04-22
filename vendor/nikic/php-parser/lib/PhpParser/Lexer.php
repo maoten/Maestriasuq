@@ -6,16 +6,23 @@ use PhpParser\Parser\Tokens;
 
 class Lexer
 {
+
     protected $code;
+
     protected $tokens;
+
     protected $pos;
+
     protected $line;
+
     protected $filePos;
 
     protected $tokenMap;
+
     protected $dropTokens;
 
     protected $usedAttributes;
+
 
     /**
      * Creates a Lexer.
@@ -26,21 +33,23 @@ class Lexer
      *                       'startFilePos', 'endFilePos'. The option defaults to the first three.
      *                       For more info see getNextToken() docs.
      */
-    public function __construct(array $options = array()) {
+    public function __construct(array $options = [ ])
+    {
         // map from internal tokens to PhpParser tokens
         $this->tokenMap = $this->createTokenMap();
 
         // map of tokens to drop while lexing (the map is only used for isset lookup,
         // that's why the value is simply set to 1; the value is never actually used.)
-        $this->dropTokens = array_fill_keys(array(T_WHITESPACE, T_OPEN_TAG), 1);
+        $this->dropTokens = array_fill_keys([ T_WHITESPACE, T_OPEN_TAG ], 1);
 
         // the usedAttributes member is a map of the used attribute names to a dummy
         // value (here "true")
-        $options += array(
-            'usedAttributes' => array('comments', 'startLine', 'endLine'),
-        );
+        $options += [
+            'usedAttributes' => [ 'comments', 'startLine', 'endLine' ],
+        ];
         $this->usedAttributes = array_fill_keys($options['usedAttributes'], true);
     }
+
 
     /**
      * Initializes the lexer for lexing the provided source code.
@@ -49,7 +58,8 @@ class Lexer
      *
      * @throws Error on lexing errors (unterminated comment or unexpected character)
      */
-    public function startLexing($code) {
+    public function startLexing($code)
+    {
         $scream = ini_set('xdebug.scream', '0');
 
         $this->resetErrors();
@@ -60,44 +70,41 @@ class Lexer
             ini_set('xdebug.scream', $scream);
         }
 
-        $this->code = $code; // keep the code around for __halt_compiler() handling
-        $this->pos  = -1;
-        $this->line =  1;
+        $this->code    = $code; // keep the code around for __halt_compiler() handling
+        $this->pos     = -1;
+        $this->line    = 1;
         $this->filePos = 0;
     }
 
-    protected function resetErrors() {
+
+    protected function resetErrors()
+    {
         if (function_exists('error_clear_last')) {
             error_clear_last();
         } else {
             // set error_get_last() to defined state by forcing an undefined variable error
-            set_error_handler(function() { return false; }, 0);
+            set_error_handler(function () {
+                return false;
+            }, 0);
             @$undefinedVariable;
             restore_error_handler();
         }
     }
 
-    protected function handleErrors() {
+
+    protected function handleErrors()
+    {
         $error = error_get_last();
         if (null === $error) {
             return;
         }
 
-        if (preg_match(
-            '~^Unterminated comment starting line ([0-9]+)$~',
-            $error['message'], $matches
-        )) {
+        if (preg_match('~^Unterminated comment starting line ([0-9]+)$~', $error['message'], $matches)) {
             throw new Error('Unterminated comment', (int) $matches[1]);
         }
 
-        if (preg_match(
-            '~^Unexpected character in input:  \'(.)\' \(ASCII=([0-9]+)\)~s',
-            $error['message'], $matches
-        )) {
-            throw new Error(sprintf(
-                'Unexpected character "%s" (ASCII %d)',
-                $matches[1], $matches[2]
-            ));
+        if (preg_match('~^Unexpected character in input:  \'(.)\' \(ASCII=([0-9]+)\)~s', $error['message'], $matches)) {
+            throw new Error(sprintf('Unexpected character "%s" (ASCII %d)', $matches[1], $matches[2]));
         }
 
         // PHP cuts error message after null byte, so need special case
@@ -105,6 +112,7 @@ class Lexer
             throw new Error('Unexpected null byte');
         }
     }
+
 
     /**
      * Fetches the next token.
@@ -128,22 +136,23 @@ class Lexer
      *
      * @return int Token id
      */
-    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
-        $startAttributes = array();
-        $endAttributes   = array();
+    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null)
+    {
+        $startAttributes = [ ];
+        $endAttributes   = [ ];
 
         while (1) {
-            if (isset($this->tokens[++$this->pos])) {
+            if (isset( $this->tokens[++$this->pos] )) {
                 $token = $this->tokens[$this->pos];
             } else {
                 // EOF token with ID 0
                 $token = "\0";
             }
 
-            if (isset($this->usedAttributes['startTokenPos'])) {
+            if (isset( $this->usedAttributes['startTokenPos'] )) {
                 $startAttributes['startTokenPos'] = $this->pos;
             }
-            if (isset($this->usedAttributes['startFilePos'])) {
+            if (isset( $this->usedAttributes['startFilePos'] )) {
                 $startAttributes['startFilePos'] = $this->filePos;
             }
 
@@ -159,16 +168,16 @@ class Lexer
                     $id = ord($token);
                 }
 
-                if (isset($this->usedAttributes['startLine'])) {
+                if (isset( $this->usedAttributes['startLine'] )) {
                     $startAttributes['startLine'] = $this->line;
                 }
-                if (isset($this->usedAttributes['endLine'])) {
+                if (isset( $this->usedAttributes['endLine'] )) {
                     $endAttributes['endLine'] = $this->line;
                 }
-                if (isset($this->usedAttributes['endTokenPos'])) {
+                if (isset( $this->usedAttributes['endTokenPos'] )) {
                     $endAttributes['endTokenPos'] = $this->pos;
                 }
-                if (isset($this->usedAttributes['endFilePos'])) {
+                if (isset( $this->usedAttributes['endFilePos'] )) {
                     $endAttributes['endFilePos'] = $this->filePos - 1;
                 }
 
@@ -178,26 +187,26 @@ class Lexer
                 $this->filePos += strlen($token[1]);
 
                 if (T_COMMENT === $token[0]) {
-                    if (isset($this->usedAttributes['comments'])) {
+                    if (isset( $this->usedAttributes['comments'] )) {
                         $startAttributes['comments'][] = new Comment($token[1], $token[2]);
                     }
                 } elseif (T_DOC_COMMENT === $token[0]) {
-                    if (isset($this->usedAttributes['comments'])) {
+                    if (isset( $this->usedAttributes['comments'] )) {
                         $startAttributes['comments'][] = new Comment\Doc($token[1], $token[2]);
                     }
-                } elseif (!isset($this->dropTokens[$token[0]])) {
+                } elseif ( ! isset( $this->dropTokens[$token[0]] )) {
                     $value = $token[1];
 
-                    if (isset($this->usedAttributes['startLine'])) {
+                    if (isset( $this->usedAttributes['startLine'] )) {
                         $startAttributes['startLine'] = $token[2];
                     }
-                    if (isset($this->usedAttributes['endLine'])) {
+                    if (isset( $this->usedAttributes['endLine'] )) {
                         $endAttributes['endLine'] = $this->line;
                     }
-                    if (isset($this->usedAttributes['endTokenPos'])) {
+                    if (isset( $this->usedAttributes['endTokenPos'] )) {
                         $endAttributes['endTokenPos'] = $this->pos;
                     }
-                    if (isset($this->usedAttributes['endFilePos'])) {
+                    if (isset( $this->usedAttributes['endFilePos'] )) {
                         $endAttributes['endFilePos'] = $this->filePos - 1;
                     }
 
@@ -209,6 +218,7 @@ class Lexer
         throw new \RuntimeException('Reached end of lexer loop');
     }
 
+
     /**
      * Returns the token array for current code.
      *
@@ -219,23 +229,26 @@ class Lexer
      *
      * @return array Array of tokens in token_get_all() format
      */
-    public function getTokens() {
+    public function getTokens()
+    {
         return $this->tokens;
     }
+
 
     /**
      * Handles __halt_compiler() by returning the text after it.
      *
      * @return string Remaining text
      */
-    public function handleHaltCompiler() {
+    public function handleHaltCompiler()
+    {
         // text after T_HALT_COMPILER, still including ();
         $textAfter = substr($this->code, $this->filePos);
 
         // ensure that it is followed by ();
         // this simplifies the situation, by not allowing any comments
         // in between of the tokens.
-        if (!preg_match('~^\s*\(\s*\)\s*(?:;|\?>\r?\n?)~', $textAfter, $matches)) {
+        if ( ! preg_match('~^\s*\(\s*\)\s*(?:;|\?>\r?\n?)~', $textAfter, $matches)) {
             throw new Error('__HALT_COMPILER must be followed by "();"');
         }
 
@@ -246,6 +259,7 @@ class Lexer
         return (string) substr($textAfter, strlen($matches[0])); // (string) converts false to ''
     }
 
+
     /**
      * Creates the token map.
      *
@@ -255,8 +269,9 @@ class Lexer
      *
      * @return array The token map
      */
-    protected function createTokenMap() {
-        $tokenMap = array();
+    protected function createTokenMap()
+    {
+        $tokenMap = [ ];
 
         // 256 is the minimum possible token number, as everything below
         // it is an ASCII value
@@ -264,19 +279,21 @@ class Lexer
             if (T_DOUBLE_COLON === $i) {
                 // T_DOUBLE_COLON is equivalent to T_PAAMAYIM_NEKUDOTAYIM
                 $tokenMap[$i] = Tokens::T_PAAMAYIM_NEKUDOTAYIM;
-            } elseif(T_OPEN_TAG_WITH_ECHO === $i) {
+            } elseif (T_OPEN_TAG_WITH_ECHO === $i) {
                 // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
                 $tokenMap[$i] = Tokens::T_ECHO;
-            } elseif(T_CLOSE_TAG === $i) {
+            } elseif (T_CLOSE_TAG === $i) {
                 // T_CLOSE_TAG is equivalent to ';'
                 $tokenMap[$i] = ord(';');
             } elseif ('UNKNOWN' !== $name = token_name($i)) {
                 if ('T_HASHBANG' === $name) {
                     // HHVM uses a special token for #! hashbang lines
                     $tokenMap[$i] = Tokens::T_INLINE_HTML;
-                } else if (defined($name = 'PhpParser\Parser\Tokens::' . $name)) {
-                    // Other tokens can be mapped directly
-                    $tokenMap[$i] = constant($name);
+                } else {
+                    if (defined($name = 'PhpParser\Parser\Tokens::' . $name)) {
+                        // Other tokens can be mapped directly
+                        $tokenMap[$i] = constant($name);
+                    }
                 }
             }
         }

@@ -7,10 +7,12 @@ use RuntimeException;
 
 class MemcachedConnector
 {
+
     /**
      * Create a new Memcached connection.
      *
-     * @param  array  $servers
+     * @param  array $servers
+     *
      * @return \Memcached
      *
      * @throws \RuntimeException
@@ -23,14 +25,12 @@ class MemcachedConnector
         // the server to the Memcached connection. Once we have added all of these
         // servers we'll verify the connection is successful and return it back.
         foreach ($servers as $server) {
-            $memcached->addServer(
-                $server['host'], $server['port'], $server['weight']
-            );
+            $memcached->addServer($server['host'], $server['port'], $server['weight']);
         }
 
         $memcachedStatus = $memcached->getVersion();
 
-        if (! is_array($memcachedStatus)) {
+        if ( ! is_array($memcachedStatus)) {
             throw new RuntimeException('No Memcached servers added.');
         }
 
@@ -40,6 +40,7 @@ class MemcachedConnector
 
         return $memcached;
     }
+
 
     /**
      * Get a new Memcached instance.

@@ -8,15 +8,18 @@ use RuntimeException;
 
 class CallbackPredictionSpec extends ObjectBehavior
 {
+
     function let()
     {
         $this->beConstructedWith('get_class');
     }
 
+
     function it_is_prediction()
     {
         $this->shouldHaveType('Prophecy\Prediction\PredictionInterface');
     }
+
 
     /**
      * @param \Prophecy\Prophecy\ObjectProphecy $object
@@ -31,6 +34,6 @@ class CallbackPredictionSpec extends ObjectBehavior
 
         $this->beConstructedWith($returnFirstCallCallback);
 
-        $this->shouldThrow('RuntimeException')->duringCheck(array($call), $object, $method);
+        $this->shouldThrow('RuntimeException')->duringCheck([ $call ], $object, $method);
     }
 }

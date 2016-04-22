@@ -18,6 +18,7 @@ namespace Symfony\Component\VarDumper\Caster;
  */
 class Caster
 {
+
     const EXCLUDE_VERBOSE = 1;
     const EXCLUDE_VIRTUAL = 2;
     const EXCLUDE_DYNAMIC = 4;
@@ -32,6 +33,7 @@ class Caster
     const PREFIX_VIRTUAL = "\0~\0";
     const PREFIX_DYNAMIC = "\0+\0";
     const PREFIX_PROTECTED = "\0*\0";
+
 
     /**
      * Casts objects to arrays and adds the dynamic property prefix.
@@ -52,10 +54,10 @@ class Caster
         if ($a) {
             $p = array_keys($a);
             foreach ($p as $i => $k) {
-                if (!isset($k[0]) || ("\0" !== $k[0] && !$reflector->hasProperty($k))) {
-                    $p[$i] = self::PREFIX_DYNAMIC.$k;
-                } elseif (isset($k[16]) && "\0" === $k[16] && 0 === strpos($k, "\0class@anonymous\0")) {
-                    $p[$i] = "\0".$reflector->getParentClass().'@anonymous'.strrchr($k, "\0");
+                if ( ! isset( $k[0] ) || ( "\0" !== $k[0] && ! $reflector->hasProperty($k) )) {
+                    $p[$i] = self::PREFIX_DYNAMIC . $k;
+                } elseif (isset( $k[16] ) && "\0" === $k[16] && 0 === strpos($k, "\0class@anonymous\0")) {
+                    $p[$i] = "\0" . $reflector->getParentClass() . '@anonymous' . strrchr($k, "\0");
                 }
             }
             $a = array_combine($p, $a);
@@ -64,6 +66,7 @@ class Caster
         return $a;
     }
 
+
     /**
      * Filters out the specified properties.
      *
@@ -71,12 +74,14 @@ class Caster
      * When EXCLUDE_STRICT is set, an "and" logic is applied: all bits must match for a property to be removed.
      *
      * @param array    $a                The array containing the properties to filter.
-     * @param int      $filter           A bit field of Caster::EXCLUDE_* constants specifying which properties to filter out.
-     * @param string[] $listedProperties List of properties to exclude when Caster::EXCLUDE_VERBOSE is set, and to preserve when Caster::EXCLUDE_NOT_IMPORTANT is set.
+     * @param int      $filter           A bit field of Caster::EXCLUDE_* constants specifying which properties to
+     *                                   filter out.
+     * @param string[] $listedProperties List of properties to exclude when Caster::EXCLUDE_VERBOSE is set, and to
+     *                                   preserve when Caster::EXCLUDE_NOT_IMPORTANT is set.
      *
      * @return array The filtered array
      */
-    public static function filter(array $a, $filter, array $listedProperties = array())
+    public static function filter(array $a, $filter, array $listedProperties = [ ])
     {
         foreach ($a as $k => $v) {
             $type = self::EXCLUDE_STRICT & $filter;
@@ -84,17 +89,17 @@ class Caster
             if (null === $v) {
                 $type |= self::EXCLUDE_NULL & $filter;
             }
-            if (empty($v)) {
+            if (empty( $v )) {
                 $type |= self::EXCLUDE_EMPTY & $filter;
             }
-            if ((self::EXCLUDE_NOT_IMPORTANT & $filter) && !in_array($k, $listedProperties, true)) {
+            if (( self::EXCLUDE_NOT_IMPORTANT & $filter ) && ! in_array($k, $listedProperties, true)) {
                 $type |= self::EXCLUDE_NOT_IMPORTANT;
             }
-            if ((self::EXCLUDE_VERBOSE & $filter) && in_array($k, $listedProperties, true)) {
+            if (( self::EXCLUDE_VERBOSE & $filter ) && in_array($k, $listedProperties, true)) {
                 $type |= self::EXCLUDE_VERBOSE;
             }
 
-            if (!isset($k[1]) || "\0" !== $k[0]) {
+            if ( ! isset( $k[1] ) || "\0" !== $k[0]) {
                 $type |= self::EXCLUDE_PUBLIC & $filter;
             } elseif ('~' === $k[1]) {
                 $type |= self::EXCLUDE_VIRTUAL & $filter;
@@ -106,8 +111,8 @@ class Caster
                 $type |= self::EXCLUDE_PRIVATE & $filter;
             }
 
-            if ((self::EXCLUDE_STRICT & $filter) ? $type === $filter : $type) {
-                unset($a[$k]);
+            if (( self::EXCLUDE_STRICT & $filter ) ? $type === $filter : $type) {
+                unset( $a[$k] );
             }
         }
 

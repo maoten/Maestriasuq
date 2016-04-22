@@ -6,6 +6,7 @@ use Illuminate\Container\Container;
 
 trait AppNamespaceDetectorTrait
 {
+
     /**
      * Get the application namespace.
      *

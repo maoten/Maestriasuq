@@ -14,15 +14,18 @@ use PHPUnit_Framework_TestCase;
 
 class ParserTest extends PHPUnit_Framework_TestCase
 {
+
     /**
      * @var Parser
      */
     private $parser;
 
+
     protected function setUp()
     {
         $this->parser = new Parser;
     }
+
 
     public function testParse()
     {
@@ -39,6 +42,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
 
         $this->assertCount(5, $chunks[0]->getLines());
     }
+
 
     public function testParseWithMultipleChunks()
     {

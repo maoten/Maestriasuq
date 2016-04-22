@@ -29,6 +29,7 @@ class AtLeast extends CountValidatorAbstract
      * Checks if the validator can accept an additional nth call
      *
      * @param int $n
+     *
      * @return bool
      */
     public function isEligible($n)
@@ -36,27 +37,19 @@ class AtLeast extends CountValidatorAbstract
         return true;
     }
 
+
     /**
      * Validate the call count against this validator
      *
      * @param int $n
+     *
      * @return bool
      */
     public function validate($n)
     {
         if ($this->_limit > $n) {
-            $exception = new Mockery\Exception\InvalidCountException(
-                'Method ' . (string) $this->_expectation
-                . ' from ' . $this->_expectation->getMock()->mockery_getName()
-                . ' should be called' . PHP_EOL
-                . ' at least ' . $this->_limit . ' times but called ' . $n
-                . ' times.'
-            );
-            $exception->setMock($this->_expectation->getMock())
-                ->setMethodName((string) $this->_expectation)
-                ->setExpectedCountComparative('>=')
-                ->setExpectedCount($this->_limit)
-                ->setActualCount($n);
+            $exception = new Mockery\Exception\InvalidCountException('Method ' . (string) $this->_expectation . ' from ' . $this->_expectation->getMock()->mockery_getName() . ' should be called' . PHP_EOL . ' at least ' . $this->_limit . ' times but called ' . $n . ' times.');
+            $exception->setMock($this->_expectation->getMock())->setMethodName((string) $this->_expectation)->setExpectedCountComparative('>=')->setExpectedCount($this->_limit)->setActualCount($n);
             throw $exception;
         }
     }

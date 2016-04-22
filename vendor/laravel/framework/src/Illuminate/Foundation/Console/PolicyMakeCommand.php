@@ -6,6 +6,7 @@ use Illuminate\Console\GeneratorCommand;
 
 class PolicyMakeCommand extends GeneratorCommand
 {
+
     /**
      * The console command name.
      *
@@ -27,6 +28,7 @@ class PolicyMakeCommand extends GeneratorCommand
      */
     protected $type = 'Policy';
 
+
     /**
      * Get the stub file for the generator.
      *
@@ -34,17 +36,19 @@ class PolicyMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/stubs/policy.stub';
+        return __DIR__ . '/stubs/policy.stub';
     }
+
 
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param  string $rootNamespace
+     *
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\Policies';
+        return $rootNamespace . '\Policies';
     }
 }

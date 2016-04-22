@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
-use Validator;
-
 class PropuestaRequest extends Request
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -17,6 +15,7 @@ class PropuestaRequest extends Request
         return true;
     }
 
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -25,8 +24,8 @@ class PropuestaRequest extends Request
     public function rules()
     {
         return [
-        'titulo'=>'min:5|max:255|required',
-        'propuesta' => 'required'
+            'titulo' => 'min:5|max:255|required'
+            //'propuesta' => 'required'
         ];
     }
 }

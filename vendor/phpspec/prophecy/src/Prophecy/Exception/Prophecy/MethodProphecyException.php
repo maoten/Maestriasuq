@@ -15,7 +15,9 @@ use Prophecy\Prophecy\MethodProphecy;
 
 class MethodProphecyException extends ObjectProphecyException
 {
+
     private $methodProphecy;
+
 
     public function __construct($message, MethodProphecy $methodProphecy)
     {
@@ -23,6 +25,7 @@ class MethodProphecyException extends ObjectProphecyException
 
         $this->methodProphecy = $methodProphecy;
     }
+
 
     /**
      * @return MethodProphecy

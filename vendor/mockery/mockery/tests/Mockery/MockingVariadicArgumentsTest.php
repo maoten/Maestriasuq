@@ -31,10 +31,12 @@ class MockingVariadicArgumentsTest extends MockeryTestCase
         $this->container = new \Mockery\Container;
     }
 
+
     public function teardown()
     {
         $this->container->mockery_close();
     }
+
 
     /** @test */
     public function shouldAllowMockingVariadicArguments()
@@ -46,9 +48,9 @@ class MockingVariadicArgumentsTest extends MockeryTestCase
     }
 }
 
-
 abstract class TestWithVariadicArguments
 {
+
     public function foo(...$bar)
     {
         return $bar;

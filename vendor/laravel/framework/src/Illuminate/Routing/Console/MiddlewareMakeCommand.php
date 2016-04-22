@@ -6,6 +6,7 @@ use Illuminate\Console\GeneratorCommand;
 
 class MiddlewareMakeCommand extends GeneratorCommand
 {
+
     /**
      * The console command name.
      *
@@ -27,6 +28,7 @@ class MiddlewareMakeCommand extends GeneratorCommand
      */
     protected $type = 'Middleware';
 
+
     /**
      * Get the stub file for the generator.
      *
@@ -34,17 +36,19 @@ class MiddlewareMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/stubs/middleware.stub';
+        return __DIR__ . '/stubs/middleware.stub';
     }
+
 
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param  string $rootNamespace
+     *
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\Http\Middleware';
+        return $rootNamespace . '\Http\Middleware';
     }
 }

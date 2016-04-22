@@ -7,6 +7,7 @@ use spec\Prophecy\Exception\Prophecy;
 
 class MethodProphecyExceptionSpec extends ObjectBehavior
 {
+
     /**
      * @param \Prophecy\Prophecy\ObjectProphecy $objectProphecy
      * @param \Prophecy\Prophecy\MethodProphecy $methodProphecy
@@ -18,10 +19,12 @@ class MethodProphecyExceptionSpec extends ObjectBehavior
         $this->beConstructedWith('message', $methodProphecy);
     }
 
+
     function it_extends_DoubleException()
     {
         $this->shouldBeAnInstanceOf('Prophecy\Exception\Prophecy\ObjectProphecyException');
     }
+
 
     function it_holds_a_stub_reference($methodProphecy)
     {

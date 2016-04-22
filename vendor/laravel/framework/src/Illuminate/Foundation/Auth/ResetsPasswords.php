@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Password;
 
 trait ResetsPasswords
 {
+
     use RedirectsUsers;
+
 
     /**
      * Display the form to request a password reset link.
@@ -20,6 +22,7 @@ trait ResetsPasswords
     {
         return $this->showLinkRequestForm();
     }
+
 
     /**
      * Display the form to request a password reset link.
@@ -39,10 +42,12 @@ trait ResetsPasswords
         return view('auth.password');
     }
 
+
     /**
      * Send a reset link to the given user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function postEmail(Request $request)
@@ -50,15 +55,17 @@ trait ResetsPasswords
         return $this->sendResetLinkEmail($request);
     }
 
+
     /**
      * Send a reset link to the given user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function sendResetLinkEmail(Request $request)
     {
-        $this->validate($request, ['email' => 'required|email']);
+        $this->validate($request, [ 'email' => 'required|email' ]);
 
         $broker = $this->getBroker();
 
@@ -76,6 +83,7 @@ trait ResetsPasswords
         }
     }
 
+
     /**
      * Get the e-mail subject line to be used for the reset link email.
      *
@@ -86,10 +94,12 @@ trait ResetsPasswords
         return property_exists($this, 'subject') ? $this->subject : 'Your Password Reset Link';
     }
 
+
     /**
      * Get the response for after the reset link has been successfully sent.
      *
-     * @param  string  $response
+     * @param  string $response
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function getSendResetLinkEmailSuccessResponse($response)
@@ -97,24 +107,28 @@ trait ResetsPasswords
         return redirect()->back()->with('status', trans($response));
     }
 
+
     /**
      * Get the response for after the reset link could not be sent.
      *
-     * @param  string  $response
+     * @param  string $response
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function getSendResetLinkEmailFailureResponse($response)
     {
-        return redirect()->back()->withErrors(['email' => trans($response)]);
+        return redirect()->back()->withErrors([ 'email' => trans($response) ]);
     }
+
 
     /**
      * Display the password reset view for the given token.
      *
      * If no token is present, display the link request form.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string|null  $token
+     * @param  \Illuminate\Http\Request $request
+     * @param  string|null              $token
+     *
      * @return \Illuminate\Http\Response
      */
     public function getReset(Request $request, $token = null)
@@ -122,13 +136,15 @@ trait ResetsPasswords
         return $this->showResetForm($request, $token);
     }
 
+
     /**
      * Display the password reset view for the given token.
      *
      * If no token is present, display the link request form.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string|null  $token
+     * @param  \Illuminate\Http\Request $request
+     * @param  string|null              $token
+     *
      * @return \Illuminate\Http\Response
      */
     public function showResetForm(Request $request, $token = null)
@@ -150,10 +166,12 @@ trait ResetsPasswords
         return view('auth.reset')->with(compact('token', 'email'));
     }
 
+
     /**
      * Reset the given user's password.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function postReset(Request $request)
@@ -161,19 +179,19 @@ trait ResetsPasswords
         return $this->reset($request);
     }
 
+
     /**
      * Reset the given user's password.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function reset(Request $request)
     {
         $this->validate($request, $this->getResetValidationRules());
 
-        $credentials = $request->only(
-            'email', 'password', 'password_confirmation', 'token'
-        );
+        $credentials = $request->only('email', 'password', 'password_confirmation', 'token');
 
         $broker = $this->getBroker();
 
@@ -190,6 +208,7 @@ trait ResetsPasswords
         }
     }
 
+
     /**
      * Get the password reset validation rules.
      *
@@ -198,17 +217,19 @@ trait ResetsPasswords
     protected function getResetValidationRules()
     {
         return [
-            'token' => 'required',
-            'email' => 'required|email',
+            'token'    => 'required',
+            'email'    => 'required|email',
             'password' => 'required|confirmed|min:6',
         ];
     }
 
+
     /**
      * Reset the given user's password.
      *
-     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
-     * @param  string  $password
+     * @param  \Illuminate\Contracts\Auth\CanResetPassword $user
+     * @param  string                                      $password
+     *
      * @return void
      */
     protected function resetPassword($user, $password)
@@ -220,10 +241,12 @@ trait ResetsPasswords
         Auth::guard($this->getGuard())->login($user);
     }
 
+
     /**
      * Get the response for after a successful password reset.
      *
-     * @param  string  $response
+     * @param  string $response
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function getResetSuccessResponse($response)
@@ -231,19 +254,20 @@ trait ResetsPasswords
         return redirect($this->redirectPath())->with('status', trans($response));
     }
 
+
     /**
      * Get the response for after a failing password reset.
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @param  string  $response
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function getResetFailureResponse(Request $request, $response)
     {
-        return redirect()->back()
-            ->withInput($request->only('email'))
-            ->withErrors(['email' => trans($response)]);
+        return redirect()->back()->withInput($request->only('email'))->withErrors([ 'email' => trans($response) ]);
     }
+
 
     /**
      * Get the broker to be used during password reset.
@@ -254,6 +278,7 @@ trait ResetsPasswords
     {
         return property_exists($this, 'broker') ? $this->broker : null;
     }
+
 
     /**
      * Get the guard to be used during password reset.

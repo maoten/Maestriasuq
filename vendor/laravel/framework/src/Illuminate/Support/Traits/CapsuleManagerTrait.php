@@ -7,6 +7,7 @@ use Illuminate\Contracts\Container\Container;
 
 trait CapsuleManagerTrait
 {
+
     /**
      * The current globally used instance.
      *
@@ -21,20 +22,23 @@ trait CapsuleManagerTrait
      */
     protected $container;
 
+
     /**
      * Setup the IoC container instance.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param  \Illuminate\Contracts\Container\Container $container
+     *
      * @return void
      */
     protected function setupContainer(Container $container)
     {
         $this->container = $container;
 
-        if (! $this->container->bound('config')) {
+        if ( ! $this->container->bound('config')) {
             $this->container->instance('config', new Fluent);
         }
     }
+
 
     /**
      * Make this capsule instance available globally.
@@ -46,6 +50,7 @@ trait CapsuleManagerTrait
         static::$instance = $this;
     }
 
+
     /**
      * Get the IoC container instance.
      *
@@ -56,10 +61,12 @@ trait CapsuleManagerTrait
         return $this->container;
     }
 
+
     /**
      * Set the IoC container instance.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param  \Illuminate\Contracts\Container\Container $container
+     *
      * @return void
      */
     public function setContainer(Container $container)

@@ -20,6 +20,7 @@ namespace Symfony\Component\EventDispatcher;
  */
 interface EventDispatcherInterface
 {
+
     /**
      * Dispatches an event to all registered listeners.
      *
@@ -33,6 +34,7 @@ interface EventDispatcherInterface
      */
     public function dispatch($eventName, Event $event = null);
 
+
     /**
      * Adds an event listener that listens on the specified events.
      *
@@ -42,6 +44,7 @@ interface EventDispatcherInterface
      *                            listener will be triggered in the chain (defaults to 0)
      */
     public function addListener($eventName, $listener, $priority = 0);
+
 
     /**
      * Adds an event subscriber.
@@ -53,6 +56,7 @@ interface EventDispatcherInterface
      */
     public function addSubscriber(EventSubscriberInterface $subscriber);
 
+
     /**
      * Removes an event listener from the specified events.
      *
@@ -61,12 +65,14 @@ interface EventDispatcherInterface
      */
     public function removeListener($eventName, $listener);
 
+
     /**
      * Removes an event subscriber.
      *
      * @param EventSubscriberInterface $subscriber The subscriber
      */
     public function removeSubscriber(EventSubscriberInterface $subscriber);
+
 
     /**
      * Gets the listeners of a specific event or all listeners sorted by descending priority.
@@ -76,6 +82,7 @@ interface EventDispatcherInterface
      * @return array The event listeners for the specified event, or all event listeners by event name
      */
     public function getListeners($eventName = null);
+
 
     /**
      * Gets the listener priority for a specific event.
@@ -88,6 +95,7 @@ interface EventDispatcherInterface
      * @return int|null The event listener priority
      */
     public function getListenerPriority($eventName, $listener);
+
 
     /**
      * Checks whether an event has any registered listeners.

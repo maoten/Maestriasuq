@@ -15,6 +15,7 @@
  */
 class PHPUnit_Framework_TestFailure
 {
+
     /**
      * @var string
      */
@@ -30,6 +31,7 @@ class PHPUnit_Framework_TestFailure
      */
     protected $thrownException;
 
+
     /**
      * Constructs a TestFailure with the given test and exception.
      *
@@ -43,11 +45,12 @@ class PHPUnit_Framework_TestFailure
         } else {
             $this->testName = get_class($failedTest);
         }
-        if (!$failedTest instanceof PHPUnit_Framework_TestCase || !$failedTest->isInIsolation()) {
+        if ( ! $failedTest instanceof PHPUnit_Framework_TestCase || ! $failedTest->isInIsolation()) {
             $this->failedTest = $failedTest;
         }
         $this->thrownException = $thrownException;
     }
+
 
     /**
      * Returns a short description of the failure.
@@ -56,12 +59,9 @@ class PHPUnit_Framework_TestFailure
      */
     public function toString()
     {
-        return sprintf(
-            '%s: %s',
-            $this->testName,
-            $this->thrownException->getMessage()
-        );
+        return sprintf('%s: %s', $this->testName, $this->thrownException->getMessage());
     }
+
 
     /**
      * Returns a description for the thrown exception.
@@ -74,6 +74,7 @@ class PHPUnit_Framework_TestFailure
     {
         return self::exceptionToString($this->thrownException);
     }
+
 
     /**
      * Returns a description for an exception.
@@ -93,7 +94,7 @@ class PHPUnit_Framework_TestFailure
                 $buffer = $buffer . $e->getComparisonFailure()->getDiff();
             }
 
-            if (!empty($buffer)) {
+            if ( ! empty( $buffer )) {
                 $buffer = trim($buffer) . "\n";
             }
         } elseif ($e instanceof PHPUnit_Framework_Error) {
@@ -107,6 +108,7 @@ class PHPUnit_Framework_TestFailure
         return $buffer;
     }
 
+
     /**
      * Returns the name of the failing test (including data set, if any).
      *
@@ -118,6 +120,7 @@ class PHPUnit_Framework_TestFailure
     {
         return $this->testName;
     }
+
 
     /**
      * Returns the failing test.
@@ -134,6 +137,7 @@ class PHPUnit_Framework_TestFailure
         return $this->failedTest;
     }
 
+
     /**
      * Gets the thrown exception.
      *
@@ -143,6 +147,7 @@ class PHPUnit_Framework_TestFailure
     {
         return $this->thrownException;
     }
+
 
     /**
      * Returns the exception's message.
@@ -154,6 +159,7 @@ class PHPUnit_Framework_TestFailure
         return $this->thrownException()->getMessage();
     }
 
+
     /**
      * Returns true if the thrown exception
      * is of type AssertionFailedError.
@@ -162,6 +168,6 @@ class PHPUnit_Framework_TestFailure
      */
     public function isFailure()
     {
-        return ($this->thrownException() instanceof PHPUnit_Framework_AssertionFailedError);
+        return ( $this->thrownException() instanceof PHPUnit_Framework_AssertionFailedError );
     }
 }

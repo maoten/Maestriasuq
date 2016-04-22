@@ -18,22 +18,23 @@
  */
 class PHPUnit_Framework_Constraint_IsType extends PHPUnit_Framework_Constraint
 {
-    const TYPE_ARRAY    = 'array';
-    const TYPE_BOOL     = 'bool';
-    const TYPE_FLOAT    = 'float';
-    const TYPE_INT      = 'int';
-    const TYPE_NULL     = 'null';
-    const TYPE_NUMERIC  = 'numeric';
-    const TYPE_OBJECT   = 'object';
+
+    const TYPE_ARRAY = 'array';
+    const TYPE_BOOL = 'bool';
+    const TYPE_FLOAT = 'float';
+    const TYPE_INT = 'int';
+    const TYPE_NULL = 'null';
+    const TYPE_NUMERIC = 'numeric';
+    const TYPE_OBJECT = 'object';
     const TYPE_RESOURCE = 'resource';
-    const TYPE_STRING   = 'string';
-    const TYPE_SCALAR   = 'scalar';
+    const TYPE_STRING = 'string';
+    const TYPE_SCALAR = 'scalar';
     const TYPE_CALLABLE = 'callable';
 
     /**
      * @var array
      */
-    protected $types = array(
+    protected $types = [
         'array'    => true,
         'boolean'  => true,
         'bool'     => true,
@@ -49,12 +50,13 @@ class PHPUnit_Framework_Constraint_IsType extends PHPUnit_Framework_Constraint
         'string'   => true,
         'scalar'   => true,
         'callable' => true
-    );
+    ];
 
     /**
      * @var string
      */
     protected $type;
+
 
     /**
      * @param string $type
@@ -65,18 +67,14 @@ class PHPUnit_Framework_Constraint_IsType extends PHPUnit_Framework_Constraint
     {
         parent::__construct();
 
-        if (!isset($this->types[$type])) {
-            throw new PHPUnit_Framework_Exception(
-                sprintf(
-                    'Type specified for PHPUnit_Framework_Constraint_IsType <%s> ' .
-                    'is not a valid type.',
-                    $type
-                )
-            );
+        if ( ! isset( $this->types[$type] )) {
+            throw new PHPUnit_Framework_Exception(sprintf('Type specified for PHPUnit_Framework_Constraint_IsType <%s> ' . 'is not a valid type.',
+                    $type));
         }
 
         $this->type = $type;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -128,6 +126,7 @@ class PHPUnit_Framework_Constraint_IsType extends PHPUnit_Framework_Constraint
         }
     }
 
+
     /**
      * Returns a string representation of the constraint.
      *
@@ -135,9 +134,6 @@ class PHPUnit_Framework_Constraint_IsType extends PHPUnit_Framework_Constraint
      */
     public function toString()
     {
-        return sprintf(
-            'is of type "%s"',
-            $this->type
-        );
+        return sprintf('is of type "%s"', $this->type);
     }
 }

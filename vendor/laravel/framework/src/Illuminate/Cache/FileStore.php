@@ -9,6 +9,7 @@ use Illuminate\Contracts\Cache\Store;
 
 class FileStore implements Store
 {
+
     use RetrievesMultipleKeys;
 
     /**
@@ -25,23 +26,27 @@ class FileStore implements Store
      */
     protected $directory;
 
+
     /**
      * Create a new file cache store instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
-     * @param  string  $directory
+     * @param  \Illuminate\Filesystem\Filesystem $files
+     * @param  string                            $directory
+     *
      * @return void
      */
     public function __construct(Filesystem $files, $directory)
     {
-        $this->files = $files;
+        $this->files     = $files;
         $this->directory = $directory;
     }
+
 
     /**
      * Retrieve an item from the cache by key.
      *
-     * @param  string|array  $key
+     * @param  string|array $key
+     *
      * @return mixed
      */
     public function get($key)
@@ -49,10 +54,12 @@ class FileStore implements Store
         return Arr::get($this->getPayload($key), 'data');
     }
 
+
     /**
      * Retrieve an item and expiry time from the cache by key.
      *
-     * @param  string  $key
+     * @param  string $key
+     *
      * @return array
      */
     protected function getPayload($key)
@@ -65,7 +72,7 @@ class FileStore implements Store
         try {
             $expire = substr($contents = $this->files->get($path), 0, 10);
         } catch (Exception $e) {
-            return ['data' => null, 'time' => null];
+            return [ 'data' => null, 'time' => null ];
         }
 
         // If the current time is greater than expiration timestamps we will delete
@@ -74,7 +81,7 @@ class FileStore implements Store
         if (time() >= $expire) {
             $this->forget($key);
 
-            return ['data' => null, 'time' => null];
+            return [ 'data' => null, 'time' => null ];
         }
 
         $data = unserialize(substr($contents, 10));
@@ -82,64 +89,72 @@ class FileStore implements Store
         // Next, we'll extract the number of minutes that are remaining for a cache
         // so that we can properly retain the time for things like the increment
         // operation that may be performed on the cache. We'll round this out.
-        $time = ceil(($expire - time()) / 60);
+        $time = ceil(( $expire - time() ) / 60);
 
         return compact('data', 'time');
     }
 
+
     /**
      * Store an item in the cache for a given number of minutes.
      *
-     * @param  string  $key
-     * @param  mixed   $value
-     * @param  int     $minutes
+     * @param  string $key
+     * @param  mixed  $value
+     * @param  int    $minutes
+     *
      * @return void
      */
     public function put($key, $value, $minutes)
     {
-        $value = $this->expiration($minutes).serialize($value);
+        $value = $this->expiration($minutes) . serialize($value);
 
         $this->createCacheDirectory($path = $this->path($key));
 
         $this->files->put($path, $value);
     }
 
+
     /**
      * Create the file cache directory if necessary.
      *
-     * @param  string  $path
+     * @param  string $path
+     *
      * @return void
      */
     protected function createCacheDirectory($path)
     {
-        if (! $this->files->exists(dirname($path))) {
+        if ( ! $this->files->exists(dirname($path))) {
             $this->files->makeDirectory(dirname($path), 0777, true, true);
         }
     }
 
+
     /**
      * Increment the value of an item in the cache.
      *
-     * @param  string  $key
-     * @param  mixed   $value
+     * @param  string $key
+     * @param  mixed  $value
+     *
      * @return int
      */
     public function increment($key, $value = 1)
     {
         $raw = $this->getPayload($key);
 
-        $int = ((int) $raw['data']) + $value;
+        $int = ( (int) $raw['data'] ) + $value;
 
         $this->put($key, $int, (int) $raw['time']);
 
         return $int;
     }
 
+
     /**
      * Decrement the value of an item in the cache.
      *
-     * @param  string  $key
-     * @param  mixed   $value
+     * @param  string $key
+     * @param  mixed  $value
+     *
      * @return int
      */
     public function decrement($key, $value = 1)
@@ -147,11 +162,13 @@ class FileStore implements Store
         return $this->increment($key, $value * -1);
     }
 
+
     /**
      * Store an item in the cache indefinitely.
      *
-     * @param  string  $key
-     * @param  mixed   $value
+     * @param  string $key
+     * @param  mixed  $value
+     *
      * @return void
      */
     public function forever($key, $value)
@@ -159,10 +176,12 @@ class FileStore implements Store
         $this->put($key, $value, 0);
     }
 
+
     /**
      * Remove an item from the cache.
      *
-     * @param  string  $key
+     * @param  string $key
+     *
      * @return bool
      */
     public function forget($key)
@@ -175,6 +194,7 @@ class FileStore implements Store
 
         return false;
     }
+
 
     /**
      * Remove all items from the cache.
@@ -190,28 +210,32 @@ class FileStore implements Store
         }
     }
 
+
     /**
      * Get the full path for the given cache key.
      *
-     * @param  string  $key
+     * @param  string $key
+     *
      * @return string
      */
     protected function path($key)
     {
         $parts = array_slice(str_split($hash = sha1($key), 2), 0, 2);
 
-        return $this->directory.'/'.implode('/', $parts).'/'.$hash;
+        return $this->directory . '/' . implode('/', $parts) . '/' . $hash;
     }
+
 
     /**
      * Get the expiration time based on the given minutes.
      *
-     * @param  int  $minutes
+     * @param  int $minutes
+     *
      * @return int
      */
     protected function expiration($minutes)
     {
-        $time = time() + ($minutes * 60);
+        $time = time() + ( $minutes * 60 );
 
         if ($minutes === 0 || $time > 9999999999) {
             return 9999999999;
@@ -219,6 +243,7 @@ class FileStore implements Store
 
         return $time;
     }
+
 
     /**
      * Get the Filesystem instance.
@@ -230,6 +255,7 @@ class FileStore implements Store
         return $this->files;
     }
 
+
     /**
      * Get the working directory of the cache.
      *
@@ -239,6 +265,7 @@ class FileStore implements Store
     {
         return $this->directory;
     }
+
 
     /**
      * Get the cache key prefix.

@@ -15,6 +15,7 @@
  */
 interface Swift_Signers_BodySigner extends Swift_Signer
 {
+
     /**
      * Change the Swift_Signed_Message to apply the singing.
      *
@@ -23,6 +24,7 @@ interface Swift_Signers_BodySigner extends Swift_Signer
      * @return Swift_Signers_BodySigner
      */
     public function signMessage(Swift_Message $message);
+
 
     /**
      * Return the list of header a signer might tamper.

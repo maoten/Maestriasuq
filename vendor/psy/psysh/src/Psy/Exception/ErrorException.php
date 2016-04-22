@@ -16,7 +16,9 @@ namespace Psy\Exception;
  */
 class ErrorException extends \ErrorException implements Exception
 {
+
     private $rawMessage;
+
 
     /**
      * Construct a Psy ErrorException.
@@ -28,11 +30,17 @@ class ErrorException extends \ErrorException implements Exception
      * @param int       $lineno   (default: null)
      * @param Exception $previous (default: null)
      */
-    public function __construct($message = '', $code = 0, $severity = 1, $filename = null, $lineno = null, $previous = null)
-    {
+    public function __construct(
+        $message = '',
+        $code = 0,
+        $severity = 1,
+        $filename = null,
+        $lineno = null,
+        $previous = null
+    ) {
         $this->rawMessage = $message;
 
-        if (!empty($filename) && preg_match('{Psy[/\\\\]ExecutionLoop}', $filename)) {
+        if ( ! empty( $filename ) && preg_match('{Psy[/\\\\]ExecutionLoop}', $filename)) {
             $filename = '';
         }
 
@@ -57,6 +65,7 @@ class ErrorException extends \ErrorException implements Exception
         parent::__construct($message, $code, $severity, $filename, $lineno, $previous);
     }
 
+
     /**
      * Get the raw (unformatted) message for this error.
      *
@@ -66,6 +75,7 @@ class ErrorException extends \ErrorException implements Exception
     {
         return $this->rawMessage;
     }
+
 
     /**
      * Helper for throwing an ErrorException.

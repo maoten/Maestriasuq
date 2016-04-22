@@ -8,6 +8,7 @@ use Illuminate\Contracts\Pipeline\Hub as HubContract;
 
 class Hub implements HubContract
 {
+
     /**
      * The container implementation.
      *
@@ -20,12 +21,14 @@ class Hub implements HubContract
      *
      * @var array
      */
-    protected $pipelines = [];
+    protected $pipelines = [ ];
+
 
     /**
      * Create a new Hub instance.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param  \Illuminate\Contracts\Container\Container $container
+     *
      * @return void
      */
     public function __construct(Container $container)
@@ -33,10 +36,12 @@ class Hub implements HubContract
         $this->container = $container;
     }
 
+
     /**
      * Define the default named pipeline.
      *
-     * @param  \Closure  $callback
+     * @param  \Closure $callback
+     *
      * @return void
      */
     public function defaults(Closure $callback)
@@ -44,11 +49,13 @@ class Hub implements HubContract
         return $this->pipeline('default', $callback);
     }
 
+
     /**
      * Define a new named pipeline.
      *
-     * @param  string  $name
-     * @param  \Closure  $callback
+     * @param  string   $name
+     * @param  \Closure $callback
+     *
      * @return void
      */
     public function pipeline($name, Closure $callback)
@@ -56,19 +63,19 @@ class Hub implements HubContract
         $this->pipelines[$name] = $callback;
     }
 
+
     /**
      * Send an object through one of the available pipelines.
      *
-     * @param  mixed  $object
-     * @param  string|null  $pipeline
+     * @param  mixed       $object
+     * @param  string|null $pipeline
+     *
      * @return mixed
      */
     public function pipe($object, $pipeline = null)
     {
         $pipeline = $pipeline ?: 'default';
 
-        return call_user_func(
-            $this->pipelines[$pipeline], new Pipeline($this->container), $object
-        );
+        return call_user_func($this->pipelines[$pipeline], new Pipeline($this->container), $object);
     }
 }

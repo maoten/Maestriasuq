@@ -27,16 +27,18 @@ class MustBe extends MatcherAbstract
      * Check if the actual value matches the expected.
      *
      * @param mixed $actual
+     *
      * @return bool
      */
     public function match(&$actual)
     {
-        if (!is_object($actual)) {
+        if ( ! is_object($actual)) {
             return $this->_expected === $actual;
         } else {
             return $this->_expected == $actual;
         }
     }
+
 
     /**
      * Return a string representation of this Matcher

@@ -13,10 +13,12 @@
  */
 abstract class PHPUnit_Framework_Constraint_Composite extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var PHPUnit_Framework_Constraint
      */
     protected $innerConstraint;
+
 
     /**
      * @param PHPUnit_Framework_Constraint $innerConstraint
@@ -26,6 +28,7 @@ abstract class PHPUnit_Framework_Constraint_Composite extends PHPUnit_Framework_
         parent::__construct();
         $this->innerConstraint = $innerConstraint;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other
@@ -48,15 +51,12 @@ abstract class PHPUnit_Framework_Constraint_Composite extends PHPUnit_Framework_
     public function evaluate($other, $description = '', $returnResult = false)
     {
         try {
-            return $this->innerConstraint->evaluate(
-                $other,
-                $description,
-                $returnResult
-            );
+            return $this->innerConstraint->evaluate($other, $description, $returnResult);
         } catch (PHPUnit_Framework_ExpectationFailedException $e) {
             $this->fail($other, $description);
         }
     }
+
 
     /**
      * Counts the number of constraint elements.

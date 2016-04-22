@@ -28,10 +28,15 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ResponseCacheStrategy implements ResponseCacheStrategyInterface
 {
+
     private $cacheable = true;
+
     private $embeddedResponses = 0;
-    private $ttls = array();
-    private $maxAges = array();
+
+    private $ttls = [ ];
+
+    private $maxAges = [ ];
+
 
     /**
      * {@inheritdoc}
@@ -41,12 +46,13 @@ class ResponseCacheStrategy implements ResponseCacheStrategyInterface
         if ($response->isValidateable()) {
             $this->cacheable = false;
         } else {
-            $this->ttls[] = $response->getTtl();
+            $this->ttls[]    = $response->getTtl();
             $this->maxAges[] = $response->getMaxAge();
         }
 
         ++$this->embeddedResponses;
     }
+
 
     /**
      * {@inheritdoc}
@@ -67,13 +73,13 @@ class ResponseCacheStrategy implements ResponseCacheStrategyInterface
             $this->cacheable = false;
         }
 
-        if (!$this->cacheable) {
+        if ( ! $this->cacheable) {
             $response->headers->set('Cache-Control', 'no-cache, must-revalidate');
 
             return;
         }
 
-        $this->ttls[] = $response->getTtl();
+        $this->ttls[]    = $response->getTtl();
         $this->maxAges[] = $response->getMaxAge();
 
         if (null !== $maxAge = min($this->maxAges)) {

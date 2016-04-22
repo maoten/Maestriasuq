@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Tests\Fixtures\CustomXmlFileLoader;
 
 class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testSupports()
     {
         $loader = new XmlFileLoader($this->getMock('Symfony\Component\Config\FileLocator'));
@@ -28,11 +29,12 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($loader->supports('foo.xml', 'foo'), '->supports() checks the resource type if specified');
     }
 
+
     public function testLoadWithRoute()
     {
-        $loader = new XmlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+        $loader          = new XmlFileLoader(new FileLocator([ __DIR__ . '/../Fixtures' ]));
         $routeCollection = $loader->load('validpattern.xml');
-        $route = $routeCollection->get('blog_show');
+        $route           = $routeCollection->get('blog_show');
 
         $this->assertInstanceOf('Symfony\Component\Routing\Route', $route);
         $this->assertSame('/blog/{slug}', $route->getPath());
@@ -40,14 +42,15 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('MyBundle:Blog:show', $route->getDefault('_controller'));
         $this->assertSame('\w+', $route->getRequirement('locale'));
         $this->assertSame('RouteCompiler', $route->getOption('compiler_class'));
-        $this->assertEquals(array('GET', 'POST', 'PUT', 'OPTIONS'), $route->getMethods());
-        $this->assertEquals(array('https'), $route->getSchemes());
+        $this->assertEquals([ 'GET', 'POST', 'PUT', 'OPTIONS' ], $route->getMethods());
+        $this->assertEquals([ 'https' ], $route->getSchemes());
         $this->assertEquals('context.getMethod() == "GET"', $route->getCondition());
     }
 
+
     public function testLoadWithNamespacePrefix()
     {
-        $loader = new XmlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+        $loader          = new XmlFileLoader(new FileLocator([ __DIR__ . '/../Fixtures' ]));
         $routeCollection = $loader->load('namespaceprefix.xml');
 
         $this->assertCount(1, $routeCollection->all(), 'One route is loaded');
@@ -62,11 +65,12 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('RouteCompiler', $route->getOption('compiler_class'));
     }
 
+
     public function testLoadWithImport()
     {
-        $loader = new XmlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+        $loader          = new XmlFileLoader(new FileLocator([ __DIR__ . '/../Fixtures' ]));
         $routeCollection = $loader->load('validresource.xml');
-        $routes = $routeCollection->all();
+        $routes          = $routeCollection->all();
 
         $this->assertCount(2, $routes, 'Two routes are loaded');
         $this->assertContainsOnly('Symfony\Component\Routing\Route', $routes);
@@ -81,15 +85,17 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+
     /**
      * @expectedException \InvalidArgumentException
      * @dataProvider getPathsToInvalidFiles
      */
     public function testLoadThrowsExceptionWithInvalidFile($filePath)
     {
-        $loader = new XmlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+        $loader = new XmlFileLoader(new FileLocator([ __DIR__ . '/../Fixtures' ]));
         $loader->load($filePath);
     }
+
 
     /**
      * @expectedException \InvalidArgumentException
@@ -97,14 +103,22 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadThrowsExceptionWithInvalidFileEvenWithoutSchemaValidation($filePath)
     {
-        $loader = new CustomXmlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+        $loader = new CustomXmlFileLoader(new FileLocator([ __DIR__ . '/../Fixtures' ]));
         $loader->load($filePath);
     }
 
+
     public function getPathsToInvalidFiles()
     {
-        return array(array('nonvalidnode.xml'), array('nonvalidroute.xml'), array('nonvalid.xml'), array('missing_id.xml'), array('missing_path.xml'));
+        return [
+            [ 'nonvalidnode.xml' ],
+            [ 'nonvalidroute.xml' ],
+            [ 'nonvalid.xml' ],
+            [ 'missing_id.xml' ],
+            [ 'missing_path.xml' ]
+        ];
     }
+
 
     /**
      * @expectedException \InvalidArgumentException
@@ -112,15 +126,16 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testDocTypeIsNotAllowed()
     {
-        $loader = new XmlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+        $loader = new XmlFileLoader(new FileLocator([ __DIR__ . '/../Fixtures' ]));
         $loader->load('withdoctype.xml');
     }
 
+
     public function testNullValues()
     {
-        $loader = new XmlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+        $loader          = new XmlFileLoader(new FileLocator([ __DIR__ . '/../Fixtures' ]));
         $routeCollection = $loader->load('null_values.xml');
-        $route = $routeCollection->get('blog_show');
+        $route           = $routeCollection->get('blog_show');
 
         $this->assertTrue($route->hasDefault('foo'));
         $this->assertNull($route->getDefault('foo'));

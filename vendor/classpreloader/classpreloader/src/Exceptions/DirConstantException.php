@@ -19,5 +19,6 @@ use Exception;
  */
 class DirConstantException extends Exception implements VisitorExceptionInterface
 {
+
     //
 }

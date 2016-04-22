@@ -29,10 +29,15 @@ use Symfony\Component\Console\Output\StreamOutput;
  */
 class ApplicationTester
 {
+
     private $application;
+
     private $input;
+
     private $output;
+
     private $statusCode;
+
 
     /**
      * Constructor.
@@ -43,6 +48,7 @@ class ApplicationTester
     {
         $this->application = $application;
     }
+
 
     /**
      * Executes the application.
@@ -58,23 +64,24 @@ class ApplicationTester
      *
      * @return int The command exit code
      */
-    public function run(array $input, $options = array())
+    public function run(array $input, $options = [ ])
     {
         $this->input = new ArrayInput($input);
-        if (isset($options['interactive'])) {
+        if (isset( $options['interactive'] )) {
             $this->input->setInteractive($options['interactive']);
         }
 
         $this->output = new StreamOutput(fopen('php://memory', 'w', false));
-        if (isset($options['decorated'])) {
+        if (isset( $options['decorated'] )) {
             $this->output->setDecorated($options['decorated']);
         }
-        if (isset($options['verbosity'])) {
+        if (isset( $options['verbosity'] )) {
             $this->output->setVerbosity($options['verbosity']);
         }
 
         return $this->statusCode = $this->application->run($this->input, $this->output);
     }
+
 
     /**
      * Gets the display returned by the last execution of the application.
@@ -96,6 +103,7 @@ class ApplicationTester
         return $display;
     }
 
+
     /**
      * Gets the input instance used by the last execution of the application.
      *
@@ -106,6 +114,7 @@ class ApplicationTester
         return $this->input;
     }
 
+
     /**
      * Gets the output instance used by the last execution of the application.
      *
@@ -115,6 +124,7 @@ class ApplicationTester
     {
         return $this->output;
     }
+
 
     /**
      * Gets the status code returned by the last execution of the application.

@@ -15,6 +15,7 @@ class InternetTest extends \PHPUnit_Framework_TestCase
      */
     private $faker;
 
+
     public function setUp()
     {
         $faker = new Generator();
@@ -23,6 +24,7 @@ class InternetTest extends \PHPUnit_Framework_TestCase
         $faker->addProvider(new Company($faker));
         $this->faker = $faker;
     }
+
 
     public function testEmailIsValid()
     {

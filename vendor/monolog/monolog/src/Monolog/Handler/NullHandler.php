@@ -23,6 +23,7 @@ use Monolog\Logger;
  */
 class NullHandler extends AbstractHandler
 {
+
     /**
      * @param int $level The minimum logging level at which this handler will be triggered
      */
@@ -30,6 +31,7 @@ class NullHandler extends AbstractHandler
     {
         parent::__construct($level, false);
     }
+
 
     /**
      * {@inheritdoc}

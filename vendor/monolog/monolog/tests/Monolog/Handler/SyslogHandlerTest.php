@@ -15,6 +15,7 @@ use Monolog\Logger;
 
 class SyslogHandlerTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @covers Monolog\Handler\SyslogHandler::__construct
      */
@@ -32,6 +33,7 @@ class SyslogHandlerTest extends \PHPUnit_Framework_TestCase
         $handler = new SyslogHandler('test', LOG_USER, Logger::DEBUG, true, LOG_PERROR);
         $this->assertInstanceOf('Monolog\Handler\SyslogHandler', $handler);
     }
+
 
     /**
      * @covers Monolog\Handler\SyslogHandler::__construct

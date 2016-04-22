@@ -21,6 +21,7 @@ namespace Symfony\Component\DomCrawler\Field;
  */
 class InputFormField extends FormField
 {
+
     /**
      * Initializes the form field.
      *
@@ -29,7 +30,8 @@ class InputFormField extends FormField
     protected function initialize()
     {
         if ('input' !== $this->node->nodeName && 'button' !== $this->node->nodeName) {
-            throw new \LogicException(sprintf('An InputFormField can only be created from an input or button tag (%s given).', $this->node->nodeName));
+            throw new \LogicException(sprintf('An InputFormField can only be created from an input or button tag (%s given).',
+                $this->node->nodeName));
         }
 
         if ('checkbox' === strtolower($this->node->getAttribute('type'))) {

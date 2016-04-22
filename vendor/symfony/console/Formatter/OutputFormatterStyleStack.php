@@ -18,6 +18,7 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
  */
 class OutputFormatterStyleStack
 {
+
     /**
      * @var OutputFormatterStyleInterface[]
      */
@@ -27,6 +28,7 @@ class OutputFormatterStyleStack
      * @var OutputFormatterStyleInterface
      */
     private $emptyStyle;
+
 
     /**
      * Constructor.
@@ -39,13 +41,15 @@ class OutputFormatterStyleStack
         $this->reset();
     }
 
+
     /**
      * Resets stack (ie. empty internal arrays).
      */
     public function reset()
     {
-        $this->styles = array();
+        $this->styles = [ ];
     }
+
 
     /**
      * Pushes a style in the stack.
@@ -56,6 +60,7 @@ class OutputFormatterStyleStack
     {
         $this->styles[] = $style;
     }
+
 
     /**
      * Pops a style from the stack.
@@ -68,7 +73,7 @@ class OutputFormatterStyleStack
      */
     public function pop(OutputFormatterStyleInterface $style = null)
     {
-        if (empty($this->styles)) {
+        if (empty( $this->styles )) {
             return $this->emptyStyle;
         }
 
@@ -87,6 +92,7 @@ class OutputFormatterStyleStack
         throw new InvalidArgumentException('Incorrectly nested style tag found.');
     }
 
+
     /**
      * Computes current style with stacks top codes.
      *
@@ -94,12 +100,13 @@ class OutputFormatterStyleStack
      */
     public function getCurrent()
     {
-        if (empty($this->styles)) {
+        if (empty( $this->styles )) {
             return $this->emptyStyle;
         }
 
         return $this->styles[count($this->styles) - 1];
     }
+
 
     /**
      * @param OutputFormatterStyleInterface $emptyStyle
@@ -112,6 +119,7 @@ class OutputFormatterStyleStack
 
         return $this;
     }
+
 
     /**
      * @return OutputFormatterStyleInterface

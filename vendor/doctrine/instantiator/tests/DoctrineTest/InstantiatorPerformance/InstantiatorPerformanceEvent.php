@@ -29,10 +29,12 @@ use Doctrine\Instantiator\Instantiator;
  */
 class InstantiatorPerformanceEvent extends AthleticEvent
 {
+
     /**
      * @var \Doctrine\Instantiator\Instantiator
      */
     private $instantiator;
+
 
     /**
      * {@inheritDoc}
@@ -48,46 +50,51 @@ class InstantiatorPerformanceEvent extends AthleticEvent
         $this->instantiator->instantiate('DoctrineTest\\InstantiatorTestAsset\\UnCloneableAsset');
     }
 
+
     /**
      * @iterations 20000
      * @baseline
-     * @group instantiation
+     * @group      instantiation
      */
     public function testInstantiateSelf()
     {
         $this->instantiator->instantiate(__CLASS__);
     }
 
+
     /**
      * @iterations 20000
-     * @group instantiation
+     * @group      instantiation
      */
     public function testInstantiateInternalClass()
     {
         $this->instantiator->instantiate('ArrayObject');
     }
 
+
     /**
      * @iterations 20000
-     * @group instantiation
+     * @group      instantiation
      */
     public function testInstantiateSimpleSerializableAssetClass()
     {
         $this->instantiator->instantiate('DoctrineTest\\InstantiatorTestAsset\\SimpleSerializableAsset');
     }
 
+
     /**
      * @iterations 20000
-     * @group instantiation
+     * @group      instantiation
      */
     public function testInstantiateSerializableArrayObjectAsset()
     {
         $this->instantiator->instantiate('DoctrineTest\\InstantiatorTestAsset\\SerializableArrayObjectAsset');
     }
 
+
     /**
      * @iterations 20000
-     * @group instantiation
+     * @group      instantiation
      */
     public function testInstantiateUnCloneableAsset()
     {

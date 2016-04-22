@@ -8,6 +8,7 @@ use Illuminate\Contracts\Pipeline\Pipeline as PipelineContract;
 
 class Pipeline implements PipelineContract
 {
+
     /**
      * The container implementation.
      *
@@ -27,7 +28,7 @@ class Pipeline implements PipelineContract
      *
      * @var array
      */
-    protected $pipes = [];
+    protected $pipes = [ ];
 
     /**
      * The method to call on each pipe.
@@ -36,10 +37,12 @@ class Pipeline implements PipelineContract
      */
     protected $method = 'handle';
 
+
     /**
      * Create a new class instance.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param  \Illuminate\Contracts\Container\Container $container
+     *
      * @return void
      */
     public function __construct(Container $container)
@@ -47,10 +50,12 @@ class Pipeline implements PipelineContract
         $this->container = $container;
     }
 
+
     /**
      * Set the object being sent through the pipeline.
      *
-     * @param  mixed  $passable
+     * @param  mixed $passable
+     *
      * @return $this
      */
     public function send($passable)
@@ -60,10 +65,12 @@ class Pipeline implements PipelineContract
         return $this;
     }
 
+
     /**
      * Set the array of pipes.
      *
-     * @param  array|mixed  $pipes
+     * @param  array|mixed $pipes
+     *
      * @return $this
      */
     public function through($pipes)
@@ -73,10 +80,12 @@ class Pipeline implements PipelineContract
         return $this;
     }
 
+
     /**
      * Set the method to call on the pipes.
      *
-     * @param  string  $method
+     * @param  string $method
+     *
      * @return $this
      */
     public function via($method)
@@ -86,10 +95,12 @@ class Pipeline implements PipelineContract
         return $this;
     }
 
+
     /**
      * Run the pipeline with a final destination callback.
      *
-     * @param  \Closure  $destination
+     * @param  \Closure $destination
+     *
      * @return mixed
      */
     public function then(Closure $destination)
@@ -98,10 +109,9 @@ class Pipeline implements PipelineContract
 
         $pipes = array_reverse($this->pipes);
 
-        return call_user_func(
-            array_reduce($pipes, $this->getSlice(), $firstSlice), $this->passable
-        );
+        return call_user_func(array_reduce($pipes, $this->getSlice(), $firstSlice), $this->passable);
     }
+
 
     /**
      * Get a Closure that represents a slice of the application onion.
@@ -118,19 +128,21 @@ class Pipeline implements PipelineContract
                 if ($pipe instanceof Closure) {
                     return call_user_func($pipe, $passable, $stack);
                 } else {
-                    list($name, $parameters) = $this->parsePipeString($pipe);
+                    list( $name, $parameters ) = $this->parsePipeString($pipe);
 
-                    return call_user_func_array([$this->container->make($name), $this->method],
-                            array_merge([$passable, $stack], $parameters));
+                    return call_user_func_array([ $this->container->make($name), $this->method ],
+                        array_merge([ $passable, $stack ], $parameters));
                 }
             };
         };
     }
 
+
     /**
      * Get the initial slice to begin the stack call.
      *
-     * @param  \Closure  $destination
+     * @param  \Closure $destination
+     *
      * @return \Closure
      */
     protected function getInitialSlice(Closure $destination)
@@ -140,20 +152,22 @@ class Pipeline implements PipelineContract
         };
     }
 
+
     /**
      * Parse full pipe string to get name and parameters.
      *
      * @param  string $pipe
+     *
      * @return array
      */
     protected function parsePipeString($pipe)
     {
-        list($name, $parameters) = array_pad(explode(':', $pipe, 2), 2, []);
+        list( $name, $parameters ) = array_pad(explode(':', $pipe, 2), 2, [ ]);
 
         if (is_string($parameters)) {
             $parameters = explode(',', $parameters);
         }
 
-        return [$name, $parameters];
+        return [ $name, $parameters ];
     }
 }

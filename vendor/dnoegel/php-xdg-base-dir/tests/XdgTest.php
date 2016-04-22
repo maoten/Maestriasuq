@@ -2,6 +2,7 @@
 
 class XdgTest extends PHPUnit_Framework_TestCase
 {
+
     /**
      * @return \XdgBaseDir\Xdg
      */
@@ -10,11 +11,13 @@ class XdgTest extends PHPUnit_Framework_TestCase
         return new \XdgBaseDir\Xdg();
     }
 
+
     public function testGetHomeDir()
     {
-         putenv('HOME=/fake-dir');
-         $this->assertEquals('/fake-dir', $this->getXdg()->getHomeDir());
+        putenv('HOME=/fake-dir');
+        $this->assertEquals('/fake-dir', $this->getXdg()->getHomeDir());
     }
+
 
     public function testGetFallbackHomeDir()
     {
@@ -24,6 +27,7 @@ class XdgTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('C:/fake-dir', $this->getXdg()->getHomeDir());
     }
 
+
     public function testXdgPutCache()
     {
         putenv('XDG_DATA_HOME=tmp/');
@@ -32,17 +36,20 @@ class XdgTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('tmp/', $this->getXdg()->getHomeCacheDir());
     }
 
+
     public function testXdgPutData()
     {
         putenv('XDG_DATA_HOME=tmp/');
         $this->assertEquals('tmp/', $this->getXdg()->getHomeDataDir());
     }
 
+
     public function testXdgPutConfig()
     {
         putenv('XDG_CONFIG_HOME=tmp/');
         $this->assertEquals('tmp/', $this->getXdg()->getHomeConfigDir());
     }
+
 
     public function testXdgDataDirsShouldIncludeHomeDataDir()
     {
@@ -52,12 +59,14 @@ class XdgTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('tmp/', array_flip($this->getXdg()->getDataDirs()));
     }
 
+
     public function testXdgConfigDirsShouldIncludeHomeConfigDir()
     {
         putenv('XDG_CONFIG_HOME=tmp/');
 
         $this->assertArrayHasKey('tmp/', array_flip($this->getXdg()->getConfigDirs()));
     }
+
 
     /**
      * If XDG_RUNTIME_DIR is set, it should be returned
@@ -70,6 +79,7 @@ class XdgTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(is_dir($runtimeDir), true);
     }
 
+
     /**
      * In strict mode, an exception should be shown if XDG_RUNTIME_DIR does not exist
      *
@@ -81,16 +91,18 @@ class XdgTest extends PHPUnit_Framework_TestCase
         $this->getXdg()->getRuntimeDir(true);
     }
 
+
     /**
      * In fallback mode a directory should be created
      */
     public function testGetRuntimeDirShouldCreateDirectory()
     {
         putenv('XDG_RUNTIME_DIR=');
-        $dir = $this->getXdg()->getRuntimeDir(false);
+        $dir        = $this->getXdg()->getRuntimeDir(false);
         $permission = decoct(fileperms($dir) & 0777);
         $this->assertEquals(700, $permission);
     }
+
 
     /**
      * Ensure, that the fallback directories are created with correct permission

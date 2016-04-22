@@ -21,7 +21,9 @@ use ReflectionClass;
  */
 class NameGenerator
 {
+
     private static $counter = 1;
+
 
     /**
      * Generates name.
@@ -33,7 +35,7 @@ class NameGenerator
      */
     public function name(ReflectionClass $class = null, array $interfaces)
     {
-        $parts = array();
+        $parts = [ ];
 
         if (null !== $class) {
             $parts[] = $class->getName();
@@ -43,7 +45,7 @@ class NameGenerator
             }
         }
 
-        if (!count($parts)) {
+        if ( ! count($parts)) {
             $parts[] = 'stdClass';
         }
 

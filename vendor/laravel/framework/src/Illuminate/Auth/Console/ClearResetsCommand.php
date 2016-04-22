@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 class ClearResetsCommand extends Command
 {
+
     /**
      * The name and signature of the console command.
      *
@@ -19,6 +20,7 @@ class ClearResetsCommand extends Command
      * @var string
      */
     protected $description = 'Flush expired password reset tokens';
+
 
     /**
      * Execute the console command.

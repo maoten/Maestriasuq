@@ -20,6 +20,7 @@ class IsString extends IsTypeOf
         parent::__construct('string');
     }
 
+
     /**
      * Is the value a string?
      *

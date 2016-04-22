@@ -18,9 +18,11 @@ use Symfony\Component\DomCrawler\Field\FormField;
  */
 class FormFieldRegistry
 {
-    private $fields = array();
+
+    private $fields = [ ];
 
     private $base;
+
 
     /**
      * Adds a field to the registry.
@@ -35,8 +37,8 @@ class FormFieldRegistry
 
         $target = &$this->fields;
         while ($segments) {
-            if (!is_array($target)) {
-                $target = array();
+            if ( ! is_array($target)) {
+                $target = [ ];
             }
             $path = array_shift($segments);
             if ('' === $path) {
@@ -48,6 +50,7 @@ class FormFieldRegistry
         $target = $field;
     }
 
+
     /**
      * Removes a field and its children from the registry.
      *
@@ -58,16 +61,17 @@ class FormFieldRegistry
     public function remove($name)
     {
         $segments = $this->getSegments($name);
-        $target = &$this->fields;
+        $target   = &$this->fields;
         while (count($segments) > 1) {
             $path = array_shift($segments);
-            if (!array_key_exists($path, $target)) {
+            if ( ! array_key_exists($path, $target)) {
                 return;
             }
             $target = &$target[$path];
         }
-        unset($target[array_shift($segments)]);
+        unset( $target[array_shift($segments)] );
     }
+
 
     /**
      * Returns the value of the field and its children.
@@ -82,10 +86,10 @@ class FormFieldRegistry
     public function &get($name)
     {
         $segments = $this->getSegments($name);
-        $target = &$this->fields;
+        $target   = &$this->fields;
         while ($segments) {
             $path = array_shift($segments);
-            if (!array_key_exists($path, $target)) {
+            if ( ! array_key_exists($path, $target)) {
                 throw new \InvalidArgumentException(sprintf('Unreachable field "%s"', $path));
             }
             $target = &$target[$path];
@@ -93,6 +97,7 @@ class FormFieldRegistry
 
         return $target;
     }
+
 
     /**
      * Tests whether the form has the given field.
@@ -112,6 +117,7 @@ class FormFieldRegistry
         }
     }
 
+
     /**
      * Set the value of a field and its children.
      *
@@ -124,7 +130,7 @@ class FormFieldRegistry
     public function set($name, $value)
     {
         $target = &$this->get($name);
-        if ((!is_array($value) && $target instanceof Field\FormField) || $target instanceof Field\ChoiceFormField) {
+        if (( ! is_array($value) && $target instanceof Field\FormField ) || $target instanceof Field\ChoiceFormField) {
             $target->setValue($value);
         } elseif (is_array($value)) {
             $fields = self::create($name, $value);
@@ -136,6 +142,7 @@ class FormFieldRegistry
         }
     }
 
+
     /**
      * Returns the list of field with their value.
      *
@@ -145,6 +152,7 @@ class FormFieldRegistry
     {
         return $this->walk($this->fields, $this->base);
     }
+
 
     /**
      * Creates an instance of the class.
@@ -159,12 +167,13 @@ class FormFieldRegistry
      */
     private static function create($base, array $values)
     {
-        $registry = new static();
-        $registry->base = $base;
+        $registry         = new static();
+        $registry->base   = $base;
         $registry->fields = $values;
 
         return $registry;
     }
+
 
     /**
      * Transforms a PHP array in a list of fully qualified name / value.
@@ -175,10 +184,10 @@ class FormFieldRegistry
      *
      * @return array The list of fields as array((string) Fully qualified name => (mixed) value)
      */
-    private function walk(array $array, $base = '', array &$output = array())
+    private function walk(array $array, $base = '', array &$output = [ ])
     {
         foreach ($array as $k => $v) {
-            $path = empty($base) ? $k : sprintf('%s[%s]', $base, $k);
+            $path = empty( $base ) ? $k : sprintf('%s[%s]', $base, $k);
             if (is_array($v)) {
                 $this->walk($v, $path, $output);
             } else {
@@ -188,6 +197,7 @@ class FormFieldRegistry
 
         return $output;
     }
+
 
     /**
      * Splits a field name into segments as a web browser would do.
@@ -205,8 +215,8 @@ class FormFieldRegistry
     private function getSegments($name)
     {
         if (preg_match('/^(?P<base>[^[]+)(?P<extra>(\[.*)|$)/', $name, $m)) {
-            $segments = array($m['base']);
-            while (!empty($m['extra'])) {
+            $segments = [ $m['base'] ];
+            while ( ! empty( $m['extra'] )) {
                 if (preg_match('/^\[(?P<segment>.*?)\](?P<extra>.*)$/', $m['extra'], $m)) {
                     $segments[] = $m['segment'];
                 } else {

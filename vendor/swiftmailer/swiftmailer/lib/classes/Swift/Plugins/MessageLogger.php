@@ -15,15 +15,18 @@
  */
 class Swift_Plugins_MessageLogger implements Swift_Events_SendListener
 {
+
     /**
      * @var array
      */
     private $messages;
 
+
     public function __construct()
     {
-        $this->messages = array();
+        $this->messages = [ ];
     }
+
 
     /**
      * Get the message list.
@@ -35,6 +38,7 @@ class Swift_Plugins_MessageLogger implements Swift_Events_SendListener
         return $this->messages;
     }
 
+
     /**
      * Get the message count.
      *
@@ -45,13 +49,15 @@ class Swift_Plugins_MessageLogger implements Swift_Events_SendListener
         return count($this->messages);
     }
 
+
     /**
      * Empty the message list.
      */
     public function clear()
     {
-        $this->messages = array();
+        $this->messages = [ ];
     }
+
 
     /**
      * Invoked immediately before the Message is sent.
@@ -62,6 +68,7 @@ class Swift_Plugins_MessageLogger implements Swift_Events_SendListener
     {
         $this->messages[] = clone $evt->getMessage();
     }
+
 
     /**
      * Invoked immediately after the Message is sent.

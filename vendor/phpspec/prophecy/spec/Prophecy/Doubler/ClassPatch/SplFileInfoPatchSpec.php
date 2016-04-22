@@ -7,15 +7,18 @@ use Prophecy\Argument;
 
 class SplFileInfoPatchSpec extends ObjectBehavior
 {
+
     function it_is_a_patch()
     {
         $this->shouldBeAnInstanceOf('Prophecy\Doubler\ClassPatch\ClassPatchInterface');
     }
 
+
     function its_priority_is_50()
     {
         $this->getPriority()->shouldReturn(50);
     }
+
 
     /**
      * @param \Prophecy\Doubler\Generator\Node\ClassNode $node
@@ -26,6 +29,7 @@ class SplFileInfoPatchSpec extends ObjectBehavior
         $this->supports($node)->shouldReturn(false);
     }
 
+
     /**
      * @param \Prophecy\Doubler\Generator\Node\ClassNode $node
      */
@@ -35,6 +39,7 @@ class SplFileInfoPatchSpec extends ObjectBehavior
         $this->supports($node)->shouldReturn(true);
     }
 
+
     /**
      * @param \Prophecy\Doubler\Generator\Node\ClassNode $node
      */
@@ -43,6 +48,7 @@ class SplFileInfoPatchSpec extends ObjectBehavior
         $node->getParentClass()->willReturn('SplFileInfo');
         $this->supports($node)->shouldReturn(true);
     }
+
 
     /**
      * @param \Prophecy\Doubler\Generator\Node\ClassNode $node
@@ -55,6 +61,7 @@ class SplFileInfoPatchSpec extends ObjectBehavior
 
         $this->apply($node);
     }
+
 
     /**
      * @param \Prophecy\Doubler\Generator\Node\ClassNode  $node
@@ -71,6 +78,7 @@ class SplFileInfoPatchSpec extends ObjectBehavior
         $this->apply($node);
     }
 
+
     /**
      * @param \Prophecy\Doubler\Generator\Node\ClassNode  $node
      * @param \Prophecy\Doubler\Generator\Node\MethodNode $method
@@ -81,7 +89,7 @@ class SplFileInfoPatchSpec extends ObjectBehavior
         $node->getMethod('__construct')->willReturn($method);
         $node->getParentClass()->willReturn('DirectoryIterator');
 
-        $method->setCode(Argument::that(function($value) {
+        $method->setCode(Argument::that(function ($value) {
             return strpos($value, '.php') === false;
         }))->shouldBeCalled();
 

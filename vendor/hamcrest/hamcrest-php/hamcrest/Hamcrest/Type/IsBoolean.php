@@ -20,6 +20,7 @@ class IsBoolean extends IsTypeOf
         parent::__construct('boolean');
     }
 
+
     /**
      * Is the value a boolean?
      *

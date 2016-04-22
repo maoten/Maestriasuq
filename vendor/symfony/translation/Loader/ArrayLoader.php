@@ -20,6 +20,7 @@ use Symfony\Component\Translation\MessageCatalogue;
  */
 class ArrayLoader implements LoaderInterface
 {
+
     /**
      * {@inheritdoc}
      */
@@ -31,6 +32,7 @@ class ArrayLoader implements LoaderInterface
 
         return $catalogue;
     }
+
 
     /**
      * Flattens an nested array of translations.
@@ -53,13 +55,13 @@ class ArrayLoader implements LoaderInterface
         }
         foreach ($subnode as $key => $value) {
             if (is_array($value)) {
-                $nodePath = $path ? $path.'.'.$key : $key;
+                $nodePath = $path ? $path . '.' . $key : $key;
                 $this->flatten($messages, $value, $nodePath);
                 if (null === $path) {
-                    unset($messages[$key]);
+                    unset( $messages[$key] );
                 }
             } elseif (null !== $path) {
-                $messages[$path.'.'.$key] = $value;
+                $messages[$path . '.' . $key] = $value;
             }
         }
     }

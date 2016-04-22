@@ -15,6 +15,7 @@
  */
 interface PHP_CodeCoverage_Driver
 {
+
     /**
      * @var int
      * @see http://xdebug.org/docs/code_coverage
@@ -33,10 +34,12 @@ interface PHP_CodeCoverage_Driver
      */
     const LINE_NOT_EXECUTABLE = -2;
 
+
     /**
      * Start collection of code coverage information.
      */
     public function start();
+
 
     /**
      * Stop collection of code coverage information.

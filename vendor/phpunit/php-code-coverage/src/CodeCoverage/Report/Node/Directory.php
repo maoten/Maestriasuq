@@ -15,20 +15,21 @@
  */
 class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Node implements IteratorAggregate
 {
+
     /**
      * @var PHP_CodeCoverage_Report_Node[]
      */
-    protected $children = array();
+    protected $children = [ ];
 
     /**
      * @var PHP_CodeCoverage_Report_Node_Directory[]
      */
-    protected $directories = array();
+    protected $directories = [ ];
 
     /**
      * @var PHP_CodeCoverage_Report_Node_File[]
      */
-    protected $files = array();
+    protected $files = [ ];
 
     /**
      * @var array
@@ -105,6 +106,7 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
      */
     protected $numTestedFunctions = -1;
 
+
     /**
      * Returns the number of files in/under this node.
      *
@@ -123,6 +125,7 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
         return $this->numFiles;
     }
 
+
     /**
      * Returns an iterator for this node.
      *
@@ -130,16 +133,16 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
      */
     public function getIterator()
     {
-        return new RecursiveIteratorIterator(
-            new PHP_CodeCoverage_Report_Node_Iterator($this),
-            RecursiveIteratorIterator::SELF_FIRST
-        );
+        return new RecursiveIteratorIterator(new PHP_CodeCoverage_Report_Node_Iterator($this),
+            RecursiveIteratorIterator::SELF_FIRST);
     }
+
 
     /**
      * Adds a new directory.
      *
-     * @param  string                                 $name
+     * @param  string $name
+     *
      * @return PHP_CodeCoverage_Report_Node_Directory
      */
     public function addDirectory($name)
@@ -152,25 +155,21 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
         return $directory;
     }
 
+
     /**
      * Adds a new file.
      *
-     * @param  string                            $name
-     * @param  array                             $coverageData
-     * @param  array                             $testData
-     * @param  bool                              $cacheTokens
+     * @param  string $name
+     * @param  array  $coverageData
+     * @param  array  $testData
+     * @param  bool   $cacheTokens
+     *
      * @return PHP_CodeCoverage_Report_Node_File
      * @throws PHP_CodeCoverage_Exception
      */
     public function addFile($name, array $coverageData, array $testData, $cacheTokens)
     {
-        $file = new PHP_CodeCoverage_Report_Node_File(
-            $name,
-            $this,
-            $coverageData,
-            $testData,
-            $cacheTokens
-        );
+        $file = new PHP_CodeCoverage_Report_Node_File($name, $this, $coverageData, $testData, $cacheTokens);
 
         $this->children[] = $file;
         $this->files[]    = &$this->children[count($this->children) - 1];
@@ -180,6 +179,7 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
 
         return $file;
     }
+
 
     /**
      * Returns the directories in this directory.
@@ -191,6 +191,7 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
         return $this->directories;
     }
 
+
     /**
      * Returns the files in this directory.
      *
@@ -200,6 +201,7 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
     {
         return $this->files;
     }
+
 
     /**
      * Returns the child nodes of this node.
@@ -211,6 +213,7 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
         return $this->children;
     }
 
+
     /**
      * Returns the classes of this node.
      *
@@ -219,18 +222,16 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
     public function getClasses()
     {
         if ($this->classes === null) {
-            $this->classes = array();
+            $this->classes = [ ];
 
             foreach ($this->children as $child) {
-                $this->classes = array_merge(
-                    $this->classes,
-                    $child->getClasses()
-                );
+                $this->classes = array_merge($this->classes, $child->getClasses());
             }
         }
 
         return $this->classes;
     }
+
 
     /**
      * Returns the traits of this node.
@@ -240,18 +241,16 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
     public function getTraits()
     {
         if ($this->traits === null) {
-            $this->traits = array();
+            $this->traits = [ ];
 
             foreach ($this->children as $child) {
-                $this->traits = array_merge(
-                    $this->traits,
-                    $child->getTraits()
-                );
+                $this->traits = array_merge($this->traits, $child->getTraits());
             }
         }
 
         return $this->traits;
     }
+
 
     /**
      * Returns the functions of this node.
@@ -261,18 +260,16 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
     public function getFunctions()
     {
         if ($this->functions === null) {
-            $this->functions = array();
+            $this->functions = [ ];
 
             foreach ($this->children as $child) {
-                $this->functions = array_merge(
-                    $this->functions,
-                    $child->getFunctions()
-                );
+                $this->functions = array_merge($this->functions, $child->getFunctions());
             }
         }
 
         return $this->functions;
     }
+
 
     /**
      * Returns the LOC/CLOC/NCLOC of this node.
@@ -282,19 +279,20 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
     public function getLinesOfCode()
     {
         if ($this->linesOfCode === null) {
-            $this->linesOfCode = array('loc' => 0, 'cloc' => 0, 'ncloc' => 0);
+            $this->linesOfCode = [ 'loc' => 0, 'cloc' => 0, 'ncloc' => 0 ];
 
             foreach ($this->children as $child) {
                 $linesOfCode = $child->getLinesOfCode();
 
-                $this->linesOfCode['loc']   += $linesOfCode['loc'];
-                $this->linesOfCode['cloc']  += $linesOfCode['cloc'];
+                $this->linesOfCode['loc'] += $linesOfCode['loc'];
+                $this->linesOfCode['cloc'] += $linesOfCode['cloc'];
                 $this->linesOfCode['ncloc'] += $linesOfCode['ncloc'];
             }
         }
 
         return $this->linesOfCode;
     }
+
 
     /**
      * Returns the number of executable lines.
@@ -314,6 +312,7 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
         return $this->numExecutableLines;
     }
 
+
     /**
      * Returns the number of executed lines.
      *
@@ -331,6 +330,7 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
 
         return $this->numExecutedLines;
     }
+
 
     /**
      * Returns the number of classes.
@@ -350,6 +350,7 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
         return $this->numClasses;
     }
 
+
     /**
      * Returns the number of tested classes.
      *
@@ -367,6 +368,7 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
 
         return $this->numTestedClasses;
     }
+
 
     /**
      * Returns the number of traits.
@@ -386,6 +388,7 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
         return $this->numTraits;
     }
 
+
     /**
      * Returns the number of tested traits.
      *
@@ -403,6 +406,7 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
 
         return $this->numTestedTraits;
     }
+
 
     /**
      * Returns the number of methods.
@@ -422,6 +426,7 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
         return $this->numMethods;
     }
 
+
     /**
      * Returns the number of tested methods.
      *
@@ -440,6 +445,7 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
         return $this->numTestedMethods;
     }
 
+
     /**
      * Returns the number of functions.
      *
@@ -457,6 +463,7 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
 
         return $this->numFunctions;
     }
+
 
     /**
      * Returns the number of tested functions.

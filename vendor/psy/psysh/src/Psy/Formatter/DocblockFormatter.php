@@ -19,10 +19,12 @@ use Symfony\Component\Console\Formatter\OutputFormatter;
  */
 class DocblockFormatter implements Formatter
 {
-    private static $vectorParamTemplates = array(
+
+    private static $vectorParamTemplates = [
         'type' => 'info',
         'var'  => 'strong',
-    );
+    ];
+
 
     /**
      * Format a docblock.
@@ -34,17 +36,17 @@ class DocblockFormatter implements Formatter
     public static function format(\Reflector $reflector)
     {
         $docblock = new Docblock($reflector);
-        $chunks   = array();
+        $chunks   = [ ];
 
-        if (!empty($docblock->desc)) {
+        if ( ! empty( $docblock->desc )) {
             $chunks[] = '<comment>Description:</comment>';
             $chunks[] = self::indent(OutputFormatter::escape($docblock->desc), '  ');
             $chunks[] = '';
         }
 
-        if (!empty($docblock->tags)) {
+        if ( ! empty( $docblock->tags )) {
             foreach ($docblock::$vectors as $name => $vector) {
-                if (isset($docblock->tags[$name])) {
+                if (isset( $docblock->tags[$name] )) {
                     $chunks[] = sprintf('<comment>%s:</comment>', self::inflect($name));
                     $chunks[] = self::formatVector($vector, $docblock->tags[$name]);
                     $chunks[] = '';
@@ -52,7 +54,7 @@ class DocblockFormatter implements Formatter
             }
 
             $tags = self::formatTags(array_keys($docblock::$vectors), $docblock->tags);
-            if (!empty($tags)) {
+            if ( ! empty( $tags )) {
                 $chunks[] = $tags;
                 $chunks[] = '';
             }
@@ -60,6 +62,7 @@ class DocblockFormatter implements Formatter
 
         return rtrim(implode("\n", $chunks));
     }
+
 
     /**
      * Format a docblock vector, for example, `@throws`, `@param`, or `@return`.
@@ -73,12 +76,12 @@ class DocblockFormatter implements Formatter
      */
     private static function formatVector(array $vector, array $lines)
     {
-        $template = array(' ');
+        $template = [ ' ' ];
         foreach ($vector as $type) {
             $max = 0;
             foreach ($lines as $line) {
                 $chunk = $line[$type];
-                $cur = empty($chunk) ? 0 : strlen($chunk) + 1;
+                $cur   = empty( $chunk ) ? 0 : strlen($chunk) + 1;
                 if ($cur > $max) {
                     $max = $cur;
                 }
@@ -89,11 +92,12 @@ class DocblockFormatter implements Formatter
         $template = implode(' ', $template);
 
         return implode("\n", array_map(function ($line) use ($template) {
-            $escaped = array_map(array('Symfony\Component\Console\Formatter\OutputFormatter', 'escape'), $line);
+            $escaped = array_map([ 'Symfony\Component\Console\Formatter\OutputFormatter', 'escape' ], $line);
 
             return rtrim(vsprintf($template, $escaped));
         }, $lines));
     }
+
 
     /**
      * Format docblock tags.
@@ -105,7 +109,7 @@ class DocblockFormatter implements Formatter
      */
     private static function formatTags(array $skip, array $tags)
     {
-        $chunks = array();
+        $chunks = [ ];
 
         foreach ($tags as $name => $values) {
             if (in_array($name, $skip)) {
@@ -113,7 +117,8 @@ class DocblockFormatter implements Formatter
             }
 
             foreach ($values as $value) {
-                $chunks[] = sprintf('<comment>%s%s</comment> %s', self::inflect($name), empty($value) ? '' : ':', OutputFormatter::escape($value));
+                $chunks[] = sprintf('<comment>%s%s</comment> %s', self::inflect($name), empty( $value ) ? '' : ':',
+                    OutputFormatter::escape($value));
             }
 
             $chunks[] = '';
@@ -121,6 +126,7 @@ class DocblockFormatter implements Formatter
 
         return implode("\n", $chunks);
     }
+
 
     /**
      * Get a docblock vector template.
@@ -132,12 +138,13 @@ class DocblockFormatter implements Formatter
      */
     private static function getVectorParamTemplate($type, $max)
     {
-        if (!isset(self::$vectorParamTemplates[$type])) {
+        if ( ! isset( self::$vectorParamTemplates[$type] )) {
             return sprintf('%%-%ds', $max);
         }
 
         return sprintf('<%s>%%-%ds</%s>', self::$vectorParamTemplates[$type], $max, self::$vectorParamTemplates[$type]);
     }
+
 
     /**
      * Indent a string.
@@ -151,6 +158,7 @@ class DocblockFormatter implements Formatter
     {
         return $indent . str_replace("\n", "\n" . $indent, $text);
     }
+
 
     /**
      * Convert underscored or whitespace separated words into sentence case.

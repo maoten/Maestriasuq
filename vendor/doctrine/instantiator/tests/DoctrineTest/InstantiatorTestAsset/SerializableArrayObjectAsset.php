@@ -30,6 +30,7 @@ use Serializable;
  */
 class SerializableArrayObjectAsset extends ArrayObject implements Serializable
 {
+
     /**
      * Constructor - should not be called
      *
@@ -40,6 +41,7 @@ class SerializableArrayObjectAsset extends ArrayObject implements Serializable
         throw new BadMethodCallException('Not supposed to be called!');
     }
 
+
     /**
      * {@inheritDoc}
      */
@@ -47,6 +49,7 @@ class SerializableArrayObjectAsset extends ArrayObject implements Serializable
     {
         return '';
     }
+
 
     /**
      * {@inheritDoc}

@@ -1,12 +1,16 @@
 <?php
+
 class BankAccount
 {
+
     protected $balance = 0;
+
 
     public function getBalance()
     {
         return $this->balance;
     }
+
 
     protected function setBalance($balance)
     {
@@ -17,12 +21,14 @@ class BankAccount
         }
     }
 
+
     public function depositMoney($balance)
     {
         $this->setBalance($this->getBalance() + $balance);
 
         return $this->getBalance();
     }
+
 
     public function withdrawMoney($balance)
     {

@@ -15,6 +15,7 @@
  */
 interface Swift_FileStream extends Swift_OutputByteStream
 {
+
     /**
      * Get the complete path to the file.
      *

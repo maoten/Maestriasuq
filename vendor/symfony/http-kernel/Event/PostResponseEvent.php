@@ -25,7 +25,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class PostResponseEvent extends KernelEvent
 {
+
     private $response;
+
 
     public function __construct(HttpKernelInterface $kernel, Request $request, Response $response)
     {
@@ -33,6 +35,7 @@ class PostResponseEvent extends KernelEvent
 
         $this->response = $response;
     }
+
 
     /**
      * Returns the response for which this event was thrown.

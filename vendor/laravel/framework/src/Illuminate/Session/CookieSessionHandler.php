@@ -8,6 +8,7 @@ use Illuminate\Contracts\Cookie\QueueingFactory as CookieJar;
 
 class CookieSessionHandler implements SessionHandlerInterface
 {
+
     /**
      * The cookie jar instance.
      *
@@ -22,18 +23,21 @@ class CookieSessionHandler implements SessionHandlerInterface
      */
     protected $request;
 
+
     /**
      * Create a new cookie driven handler instance.
      *
-     * @param  \Illuminate\Contracts\Cookie\QueueingFactory  $cookie
-     * @param  int  $minutes
+     * @param  \Illuminate\Contracts\Cookie\QueueingFactory $cookie
+     * @param  int                                          $minutes
+     *
      * @return void
      */
     public function __construct(CookieJar $cookie, $minutes)
     {
-        $this->cookie = $cookie;
+        $this->cookie  = $cookie;
         $this->minutes = $minutes;
     }
+
 
     /**
      * {@inheritdoc}
@@ -43,6 +47,7 @@ class CookieSessionHandler implements SessionHandlerInterface
         return true;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -50,6 +55,7 @@ class CookieSessionHandler implements SessionHandlerInterface
     {
         return true;
     }
+
 
     /**
      * {@inheritdoc}
@@ -59,6 +65,7 @@ class CookieSessionHandler implements SessionHandlerInterface
         return $this->request->cookies->get($sessionId) ?: '';
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -66,6 +73,7 @@ class CookieSessionHandler implements SessionHandlerInterface
     {
         $this->cookie->queue($sessionId, $data, $this->minutes);
     }
+
 
     /**
      * {@inheritdoc}
@@ -75,6 +83,7 @@ class CookieSessionHandler implements SessionHandlerInterface
         $this->cookie->queue($this->cookie->forget($sessionId));
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -83,10 +92,12 @@ class CookieSessionHandler implements SessionHandlerInterface
         return true;
     }
 
+
     /**
      * Set the request instance.
      *
-     * @param  \Symfony\Component\HttpFoundation\Request  $request
+     * @param  \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return void
      */
     public function setRequest(Request $request)

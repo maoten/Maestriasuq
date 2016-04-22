@@ -6,6 +6,7 @@ use InvalidArgumentException;
 
 class GetWithMetadata extends AbstractPlugin
 {
+
     /**
      * Get the method name.
      *
@@ -15,6 +16,7 @@ class GetWithMetadata extends AbstractPlugin
     {
         return 'getWithMetadata';
     }
+
 
     /**
      * Get metadata for an object with required metadata.

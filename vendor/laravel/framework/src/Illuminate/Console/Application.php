@@ -13,6 +13,7 @@ use Illuminate\Contracts\Console\Application as ApplicationContract;
 
 class Application extends SymfonyApplication implements ApplicationContract
 {
+
     /**
      * The Laravel application instance.
      *
@@ -27,12 +28,14 @@ class Application extends SymfonyApplication implements ApplicationContract
      */
     protected $lastOutput;
 
+
     /**
      * Create a new Artisan console application.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $laravel
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
-     * @param  string  $version
+     * @param  \Illuminate\Contracts\Container\Container $laravel
+     * @param  \Illuminate\Contracts\Events\Dispatcher   $events
+     * @param  string                                    $version
+     *
      * @return void
      */
     public function __construct(Container $laravel, Dispatcher $events, $version)
@@ -46,14 +49,16 @@ class Application extends SymfonyApplication implements ApplicationContract
         $events->fire(new Events\ArtisanStarting($this));
     }
 
+
     /**
      * Run an Artisan console command by name.
      *
-     * @param  string  $command
+     * @param  string $command
      * @param  array  $parameters
+     *
      * @return int
      */
-    public function call($command, array $parameters = [])
+    public function call($command, array $parameters = [ ])
     {
         $parameters = collect($parameters)->prepend($command);
 
@@ -68,6 +73,7 @@ class Application extends SymfonyApplication implements ApplicationContract
         return $result;
     }
 
+
     /**
      * Get the output for the last run command.
      *
@@ -78,10 +84,12 @@ class Application extends SymfonyApplication implements ApplicationContract
         return $this->lastOutput ? $this->lastOutput->fetch() : '';
     }
 
+
     /**
      * Add a command to the console.
      *
-     * @param  \Symfony\Component\Console\Command\Command  $command
+     * @param  \Symfony\Component\Console\Command\Command $command
+     *
      * @return \Symfony\Component\Console\Command\Command
      */
     public function add(SymfonyCommand $command)
@@ -93,10 +101,12 @@ class Application extends SymfonyApplication implements ApplicationContract
         return $this->addToParent($command);
     }
 
+
     /**
      * Add the command to the parent instance.
      *
-     * @param  \Symfony\Component\Console\Command\Command  $command
+     * @param  \Symfony\Component\Console\Command\Command $command
+     *
      * @return \Symfony\Component\Console\Command\Command
      */
     protected function addToParent(SymfonyCommand $command)
@@ -104,10 +114,12 @@ class Application extends SymfonyApplication implements ApplicationContract
         return parent::add($command);
     }
 
+
     /**
      * Add a command, resolving through the application.
      *
-     * @param  string  $command
+     * @param  string $command
+     *
      * @return \Symfony\Component\Console\Command\Command
      */
     public function resolve($command)
@@ -115,10 +127,12 @@ class Application extends SymfonyApplication implements ApplicationContract
         return $this->add($this->laravel->make($command));
     }
 
+
     /**
      * Resolve an array of commands through the application.
      *
-     * @param  array|mixed  $commands
+     * @param  array|mixed $commands
+     *
      * @return $this
      */
     public function resolveCommands($commands)
@@ -131,6 +145,7 @@ class Application extends SymfonyApplication implements ApplicationContract
 
         return $this;
     }
+
 
     /**
      * Get the default input definitions for the applications.
@@ -148,6 +163,7 @@ class Application extends SymfonyApplication implements ApplicationContract
         return $definition;
     }
 
+
     /**
      * Get the global environment option for the definition.
      *
@@ -159,6 +175,7 @@ class Application extends SymfonyApplication implements ApplicationContract
 
         return new InputOption('--env', null, InputOption::VALUE_OPTIONAL, $message);
     }
+
 
     /**
      * Get the Laravel application instance.

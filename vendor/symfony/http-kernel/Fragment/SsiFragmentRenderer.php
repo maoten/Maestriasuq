@@ -18,6 +18,7 @@ namespace Symfony\Component\HttpKernel\Fragment;
  */
 class SsiFragmentRenderer extends AbstractSurrogateFragmentRenderer
 {
+
     /**
      * {@inheritdoc}
      */

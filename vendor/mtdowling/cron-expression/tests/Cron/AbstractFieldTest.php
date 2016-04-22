@@ -9,6 +9,7 @@ use Cron\DayOfWeekField;
  */
 class AbstractFieldTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @covers Cron\AbstractField::isRange
      */
@@ -18,6 +19,7 @@ class AbstractFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($f->isRange('1-2'));
         $this->assertFalse($f->isRange('2'));
     }
+
 
     /**
      * @covers Cron\AbstractField::isIncrementsOfRanges
@@ -32,6 +34,7 @@ class AbstractFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($f->isIncrementsOfRanges('3-12/2'));
     }
 
+
     /**
      * @covers Cron\AbstractField::isInRange
      */
@@ -44,6 +47,7 @@ class AbstractFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($f->isInRange(3, '4-12'));
         $this->assertFalse($f->isInRange(13, '4-12'));
     }
+
 
     /**
      * @covers Cron\AbstractField::isInIncrementsOfRanges
@@ -66,6 +70,7 @@ class AbstractFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($f->isInIncrementsOfRanges(14, '4/10'));
         $this->assertTrue($f->isInIncrementsOfRanges(34, '4/10'));
     }
+
 
     /**
      * @covers Cron\AbstractField::isSatisfied

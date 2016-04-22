@@ -16,13 +16,15 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class TestEventDispatcher extends EventDispatcher implements TraceableEventDispatcherInterface
 {
+
     public function getCalledListeners()
     {
-        return array('foo');
+        return [ 'foo' ];
     }
+
 
     public function getNotCalledListeners()
     {
-        return array('bar');
+        return [ 'bar' ];
     }
 }

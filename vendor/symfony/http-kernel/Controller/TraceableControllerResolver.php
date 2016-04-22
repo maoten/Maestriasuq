@@ -21,8 +21,11 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class TraceableControllerResolver implements ControllerResolverInterface
 {
+
     private $resolver;
+
     private $stopwatch;
+
 
     /**
      * Constructor.
@@ -32,9 +35,10 @@ class TraceableControllerResolver implements ControllerResolverInterface
      */
     public function __construct(ControllerResolverInterface $resolver, Stopwatch $stopwatch)
     {
-        $this->resolver = $resolver;
+        $this->resolver  = $resolver;
         $this->stopwatch = $stopwatch;
     }
+
 
     /**
      * {@inheritdoc}
@@ -49,6 +53,7 @@ class TraceableControllerResolver implements ControllerResolverInterface
 
         return $ret;
     }
+
 
     /**
      * {@inheritdoc}

@@ -23,6 +23,7 @@ namespace Symfony\Component\CssSelector\XPath\Extension;
  */
 interface ExtensionInterface
 {
+
     /**
      * Returns node translators.
      *
@@ -32,12 +33,14 @@ interface ExtensionInterface
      */
     public function getNodeTranslators();
 
+
     /**
      * Returns combination translators.
      *
      * @return callable[]
      */
     public function getCombinationTranslators();
+
 
     /**
      * Returns function translators.
@@ -46,6 +49,7 @@ interface ExtensionInterface
      */
     public function getFunctionTranslators();
 
+
     /**
      * Returns pseudo-class translators.
      *
@@ -53,12 +57,14 @@ interface ExtensionInterface
      */
     public function getPseudoClassTranslators();
 
+
     /**
      * Returns attribute operation translators.
      *
      * @return callable[]
      */
     public function getAttributeMatchingTranslators();
+
 
     /**
      * Returns extension name.

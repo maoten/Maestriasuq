@@ -16,6 +16,7 @@ namespace Symfony\Component\HttpFoundation\Session\Attribute;
  */
 class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Countable
 {
+
     private $name = 'attributes';
 
     /**
@@ -26,7 +27,8 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
     /**
      * @var array
      */
-    protected $attributes = array();
+    protected $attributes = [ ];
+
 
     /**
      * Constructor.
@@ -38,6 +40,7 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
         $this->storageKey = $storageKey;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -46,10 +49,12 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
         return $this->name;
     }
 
+
     public function setName($name)
     {
         $this->name = $name;
     }
+
 
     /**
      * {@inheritdoc}
@@ -59,6 +64,7 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
         $this->attributes = &$attributes;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -66,6 +72,7 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
     {
         return $this->storageKey;
     }
+
 
     /**
      * {@inheritdoc}
@@ -75,6 +82,7 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
         return array_key_exists($name, $this->attributes);
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -82,6 +90,7 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
     {
         return array_key_exists($name, $this->attributes) ? $this->attributes[$name] : $default;
     }
+
 
     /**
      * {@inheritdoc}
@@ -91,6 +100,7 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
         $this->attributes[$name] = $value;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -99,16 +109,18 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
         return $this->attributes;
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function replace(array $attributes)
     {
-        $this->attributes = array();
+        $this->attributes = [ ];
         foreach ($attributes as $key => $value) {
             $this->set($key, $value);
         }
     }
+
 
     /**
      * {@inheritdoc}
@@ -118,22 +130,24 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
         $retval = null;
         if (array_key_exists($name, $this->attributes)) {
             $retval = $this->attributes[$name];
-            unset($this->attributes[$name]);
+            unset( $this->attributes[$name] );
         }
 
         return $retval;
     }
+
 
     /**
      * {@inheritdoc}
      */
     public function clear()
     {
-        $return = $this->attributes;
-        $this->attributes = array();
+        $return           = $this->attributes;
+        $this->attributes = [ ];
 
         return $return;
     }
+
 
     /**
      * Returns an iterator for attributes.
@@ -144,6 +158,7 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
     {
         return new \ArrayIterator($this->attributes);
     }
+
 
     /**
      * Returns the number of attributes.

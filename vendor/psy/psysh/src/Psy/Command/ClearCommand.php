@@ -21,23 +21,20 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ClearCommand extends Command
 {
+
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $this
-            ->setName('clear')
-            ->setDefinition(array())
-            ->setDescription('Clear the Psy Shell screen.')
-            ->setHelp(
-                <<<'HELP'
+        $this->setName('clear')->setDefinition([ ])->setDescription('Clear the Psy Shell screen.')->setHelp(<<<'HELP'
 Clear the Psy Shell screen.
 
 Pro Tip: If your PHP has readline support, you should be able to use ctrl+l too!
 HELP
             );
     }
+
 
     /**
      * {@inheritdoc}

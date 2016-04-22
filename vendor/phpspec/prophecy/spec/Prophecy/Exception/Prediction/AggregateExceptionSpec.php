@@ -6,16 +6,19 @@ use PhpSpec\ObjectBehavior;
 
 class AggregateExceptionSpec extends ObjectBehavior
 {
+
     function let()
     {
         $this->beConstructedWith(null);
     }
+
 
     function it_is_prediction_exception()
     {
         $this->shouldBeAnInstanceOf('RuntimeException');
         $this->shouldBeAnInstanceOf('Prophecy\Exception\Prediction\PredictionException');
     }
+
 
     /**
      * @param \Prophecy\Prophecy\ObjectProphecy $object
@@ -26,10 +29,12 @@ class AggregateExceptionSpec extends ObjectBehavior
         $this->getObjectProphecy()->shouldReturn($object);
     }
 
+
     function it_should_not_have_exceptions_at_the_beginning()
     {
         $this->getExceptions()->shouldHaveCount(0);
     }
+
 
     /**
      * @param \Prophecy\Exception\Prediction\PredictionException $exception
@@ -40,8 +45,9 @@ class AggregateExceptionSpec extends ObjectBehavior
 
         $this->append($exception);
 
-        $this->getExceptions()->shouldReturn(array($exception));
+        $this->getExceptions()->shouldReturn([ $exception ]);
     }
+
 
     /**
      * @param \Prophecy\Exception\Prediction\PredictionException $exception

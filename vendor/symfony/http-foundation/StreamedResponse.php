@@ -20,14 +20,17 @@ namespace Symfony\Component\HttpFoundation;
  * to stream the response back to the client. The flush() method
  * can also be used if needed.
  *
- * @see flush()
+ * @see    flush()
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
 class StreamedResponse extends Response
 {
+
     protected $callback;
+
     protected $streamed;
+
 
     /**
      * Constructor.
@@ -36,7 +39,7 @@ class StreamedResponse extends Response
      * @param int           $status   The response status code
      * @param array         $headers  An array of response headers
      */
-    public function __construct(callable $callback = null, $status = 200, $headers = array())
+    public function __construct(callable $callback = null, $status = 200, $headers = [ ])
     {
         parent::__construct(null, $status, $headers);
 
@@ -45,6 +48,7 @@ class StreamedResponse extends Response
         }
         $this->streamed = false;
     }
+
 
     /**
      * Factory method for chainability.
@@ -55,10 +59,11 @@ class StreamedResponse extends Response
      *
      * @return StreamedResponse
      */
-    public static function create($callback = null, $status = 200, $headers = array())
+    public static function create($callback = null, $status = 200, $headers = [ ])
     {
         return new static($callback, $status, $headers);
     }
+
 
     /**
      * Sets the PHP callback associated with this Response.
@@ -69,6 +74,7 @@ class StreamedResponse extends Response
     {
         $this->callback = $callback;
     }
+
 
     /**
      * {@inheritdoc}
@@ -90,6 +96,7 @@ class StreamedResponse extends Response
         call_user_func($this->callback);
     }
 
+
     /**
      * {@inheritdoc}
      *
@@ -101,6 +108,7 @@ class StreamedResponse extends Response
             throw new \LogicException('The content cannot be set on a StreamedResponse instance.');
         }
     }
+
 
     /**
      * {@inheritdoc}

@@ -26,10 +26,11 @@ use Symfony\Component\CssSelector\Exception\SyntaxErrorException;
  */
 class TokenStream
 {
+
     /**
      * @var Token[]
      */
-    private $tokens = array();
+    private $tokens = [ ];
 
     /**
      * @var bool
@@ -39,7 +40,7 @@ class TokenStream
     /**
      * @var Token[]
      */
-    private $used = array();
+    private $used = [ ];
 
     /**
      * @var int
@@ -56,6 +57,7 @@ class TokenStream
      */
     private $peeking = false;
 
+
     /**
      * Pushes a token.
      *
@@ -70,6 +72,7 @@ class TokenStream
         return $this;
     }
 
+
     /**
      * Freezes stream.
      *
@@ -82,6 +85,7 @@ class TokenStream
         return $this;
     }
 
+
     /**
      * Returns next token.
      *
@@ -93,17 +97,18 @@ class TokenStream
     {
         if ($this->peeking) {
             $this->peeking = false;
-            $this->used[] = $this->peeked;
+            $this->used[]  = $this->peeked;
 
             return $this->peeked;
         }
 
-        if (!isset($this->tokens[$this->cursor])) {
+        if ( ! isset( $this->tokens[$this->cursor] )) {
             throw new InternalErrorException('Unexpected token stream end.');
         }
 
         return $this->tokens[$this->cursor++];
     }
+
 
     /**
      * Returns peeked token.
@@ -112,13 +117,14 @@ class TokenStream
      */
     public function getPeek()
     {
-        if (!$this->peeking) {
-            $this->peeked = $this->getNext();
+        if ( ! $this->peeking) {
+            $this->peeked  = $this->getNext();
             $this->peeking = true;
         }
 
         return $this->peeked;
     }
+
 
     /**
      * Returns used tokens.
@@ -129,6 +135,7 @@ class TokenStream
     {
         return $this->used;
     }
+
 
     /**
      * Returns nex identifier token.
@@ -141,12 +148,13 @@ class TokenStream
     {
         $next = $this->getNext();
 
-        if (!$next->isIdentifier()) {
+        if ( ! $next->isIdentifier()) {
             throw SyntaxErrorException::unexpectedToken('identifier', $next);
         }
 
         return $next->getValue();
     }
+
 
     /**
      * Returns nex identifier or star delimiter token.
@@ -163,12 +171,13 @@ class TokenStream
             return $next->getValue();
         }
 
-        if ($next->isDelimiter(array('*'))) {
+        if ($next->isDelimiter([ '*' ])) {
             return;
         }
 
         throw SyntaxErrorException::unexpectedToken('identifier or "*"', $next);
     }
+
 
     /**
      * Skips next whitespace if any.

@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 interface SurrogateInterface
 {
+
     /**
      * Returns surrogate name.
      *
@@ -23,12 +24,14 @@ interface SurrogateInterface
      */
     public function getName();
 
+
     /**
      * Returns a new cache strategy instance.
      *
      * @return ResponseCacheStrategyInterface A ResponseCacheStrategyInterface instance
      */
     public function createCacheStrategy();
+
 
     /**
      * Checks that at least one surrogate has Surrogate capability.
@@ -39,12 +42,14 @@ interface SurrogateInterface
      */
     public function hasSurrogateCapability(Request $request);
 
+
     /**
      * Adds Surrogate-capability to the given Request.
      *
      * @param Request $request A Request instance
      */
     public function addSurrogateCapability(Request $request);
+
 
     /**
      * Adds HTTP headers to specify that the Response needs to be parsed for Surrogate.
@@ -55,6 +60,7 @@ interface SurrogateInterface
      */
     public function addSurrogateControl(Response $response);
 
+
     /**
      * Checks that the Response needs to be parsed for Surrogate tags.
      *
@@ -63,6 +69,7 @@ interface SurrogateInterface
      * @return bool true if the Response needs to be parsed, false otherwise
      */
     public function needsParsing(Response $response);
+
 
     /**
      * Renders a Surrogate tag.
@@ -76,6 +83,7 @@ interface SurrogateInterface
      */
     public function renderIncludeTag($uri, $alt = null, $ignoreErrors = true, $comment = '');
 
+
     /**
      * Replaces a Response Surrogate tags with the included resource content.
      *
@@ -85,6 +93,7 @@ interface SurrogateInterface
      * @return Response
      */
     public function process(Request $request, Response $response);
+
 
     /**
      * Handles a Surrogate from the cache.

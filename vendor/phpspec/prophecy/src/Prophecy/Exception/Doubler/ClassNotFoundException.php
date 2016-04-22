@@ -13,7 +13,9 @@ namespace Prophecy\Exception\Doubler;
 
 class ClassNotFoundException extends DoubleException
 {
+
     private $classname;
+
 
     /**
      * @param string $message
@@ -25,6 +27,7 @@ class ClassNotFoundException extends DoubleException
 
         $this->classname = $classname;
     }
+
 
     public function getClassname()
     {

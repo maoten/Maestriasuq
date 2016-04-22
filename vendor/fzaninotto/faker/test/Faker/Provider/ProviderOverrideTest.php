@@ -18,6 +18,7 @@ use Faker;
  */
 class ProviderOverrideTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * Constants with regular expression patterns for testing the output.
      *
@@ -31,8 +32,10 @@ class ProviderOverrideTest extends \PHPUnit_Framework_TestCase
      */
     const TEST_EMAIL_REGEX = '/^(.+)@(.+)$/ui';
 
+
     /**
      * @dataProvider localeDataProvider
+     *
      * @param string $locale
      */
     public function testAddress($locale = null)
@@ -48,6 +51,7 @@ class ProviderOverrideTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider localeDataProvider
+     *
      * @param string $locale
      */
     public function testCompany($locale = null)
@@ -60,6 +64,7 @@ class ProviderOverrideTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider localeDataProvider
+     *
      * @param string $locale
      */
     public function testDateTime($locale = null)
@@ -73,6 +78,7 @@ class ProviderOverrideTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider localeDataProvider
+     *
      * @param string $locale
      */
     public function testInternet($locale = null)
@@ -90,6 +96,7 @@ class ProviderOverrideTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider localeDataProvider
+     *
      * @param string $locale
      */
     public function testPerson($locale = null)
@@ -105,6 +112,7 @@ class ProviderOverrideTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider localeDataProvider
+     *
      * @param string $locale
      */
     public function testPhoneNumber($locale = null)
@@ -117,6 +125,7 @@ class ProviderOverrideTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider localeDataProvider
+     *
      * @param string $locale
      */
     public function testUserAgent($locale = null)
@@ -147,12 +156,12 @@ class ProviderOverrideTest extends \PHPUnit_Framework_TestCase
     public function localeDataProvider()
     {
         $locales = $this->getAllLocales();
-        $data = array();
+        $data    = [ ];
 
         foreach ($locales as $locale) {
-            $data[] = array(
+            $data[] = [
                 $locale
-            );
+            ];
         }
 
         return $data;
@@ -166,22 +175,22 @@ class ProviderOverrideTest extends \PHPUnit_Framework_TestCase
      */
     private function getAllLocales()
     {
-        static $locales = array();
+        static $locales = [ ];
 
-        if ( ! empty($locales)) {
+        if ( ! empty( $locales )) {
             return $locales;
         }
 
         // Finding all PHP files in the xx_XX directories
-        $providerDir = __DIR__ .'/../../../src/Faker/Provider';
-        foreach (glob($providerDir .'/*_*/*.php') as $file) {
+        $providerDir = __DIR__ . '/../../../src/Faker/Provider';
+        foreach (glob($providerDir . '/*_*/*.php') as $file) {
             $localisation = basename(dirname($file));
 
-            if (isset($locales[ $localisation ])) {
+            if (isset( $locales[$localisation] )) {
                 continue;
             }
 
-            $locales[ $localisation ] = $localisation;
+            $locales[$localisation] = $localisation;
         }
 
         return $locales;

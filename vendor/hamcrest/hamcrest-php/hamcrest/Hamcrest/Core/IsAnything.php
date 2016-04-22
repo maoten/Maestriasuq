@@ -15,20 +15,24 @@ class IsAnything extends BaseMatcher
 
     private $_message;
 
+
     public function __construct($message = 'ANYTHING')
     {
         $this->_message = $message;
     }
+
 
     public function matches($item)
     {
         return true;
     }
 
+
     public function describeTo(Description $description)
     {
         $description->appendText($this->_message);
     }
+
 
     /**
      * This matcher always evaluates to true.

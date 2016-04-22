@@ -4,6 +4,7 @@ namespace League\Flysystem;
 
 class File extends Handler
 {
+
     /**
      * Check whether the file exists.
      *
@@ -13,6 +14,7 @@ class File extends Handler
     {
         return $this->filesystem->has($this->path);
     }
+
 
     /**
      * Read the file.
@@ -24,6 +26,7 @@ class File extends Handler
         return $this->filesystem->read($this->path);
     }
 
+
     /**
      * Read the file as a stream.
      *
@@ -33,6 +36,7 @@ class File extends Handler
     {
         return $this->filesystem->readStream($this->path);
     }
+
 
     /**
      * Write the new file.
@@ -46,6 +50,7 @@ class File extends Handler
         return $this->filesystem->write($this->path, $content);
     }
 
+
     /**
      * Write the new file using a stream.
      *
@@ -57,6 +62,7 @@ class File extends Handler
     {
         return $this->filesystem->writeStream($this->path, $resource);
     }
+
 
     /**
      * Update the file contents.
@@ -70,6 +76,7 @@ class File extends Handler
         return $this->filesystem->update($this->path, $content);
     }
 
+
     /**
      * Update the file contents with a stream.
      *
@@ -81,6 +88,7 @@ class File extends Handler
     {
         return $this->filesystem->updateStream($this->path, $resource);
     }
+
 
     /**
      * Create the file or update if exists.
@@ -94,6 +102,7 @@ class File extends Handler
         return $this->filesystem->put($this->path, $content);
     }
 
+
     /**
      * Create the file or update if exists using a stream.
      *
@@ -105,6 +114,7 @@ class File extends Handler
     {
         return $this->filesystem->putStream($this->path, $resource);
     }
+
 
     /**
      * Rename the file.
@@ -124,6 +134,7 @@ class File extends Handler
         return false;
     }
 
+
     /**
      * Copy the file.
      *
@@ -140,6 +151,7 @@ class File extends Handler
         return false;
     }
 
+
     /**
      * Get the file's timestamp.
      *
@@ -149,6 +161,7 @@ class File extends Handler
     {
         return $this->filesystem->getTimestamp($this->path);
     }
+
 
     /**
      * Get the file's mimetype.
@@ -160,6 +173,7 @@ class File extends Handler
         return $this->filesystem->getMimetype($this->path);
     }
 
+
     /**
      * Get the file's visibility.
      *
@@ -169,6 +183,7 @@ class File extends Handler
     {
         return $this->filesystem->getVisibility($this->path);
     }
+
 
     /**
      * Get the file's metadata.
@@ -180,6 +195,7 @@ class File extends Handler
         return $this->filesystem->getMetadata($this->path);
     }
 
+
     /**
      * Get the file size.
      *
@@ -189,6 +205,7 @@ class File extends Handler
     {
         return $this->filesystem->getSize($this->path);
     }
+
 
     /**
      * Delete the file.

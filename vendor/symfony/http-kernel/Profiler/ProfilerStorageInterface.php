@@ -18,6 +18,7 @@ namespace Symfony\Component\HttpKernel\Profiler;
  */
 interface ProfilerStorageInterface
 {
+
     /**
      * Finds profiler tokens for the given criteria.
      *
@@ -32,6 +33,7 @@ interface ProfilerStorageInterface
      */
     public function find($ip, $url, $limit, $method, $start = null, $end = null);
 
+
     /**
      * Reads data associated with the given token.
      *
@@ -43,6 +45,7 @@ interface ProfilerStorageInterface
      */
     public function read($token);
 
+
     /**
      * Saves a Profile.
      *
@@ -51,6 +54,7 @@ interface ProfilerStorageInterface
      * @return bool Write operation successful
      */
     public function write(Profile $profile);
+
 
     /**
      * Purges all data from the database.

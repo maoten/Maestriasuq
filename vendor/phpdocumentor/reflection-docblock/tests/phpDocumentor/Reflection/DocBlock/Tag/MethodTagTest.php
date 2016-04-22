@@ -1,7 +1,7 @@
 <?php
 /**
  * phpDocumentor Method Tag Test
- * 
+ *
  * PHP version 5.3
  *
  * @author    Mike van Riel <mike.vanriel@naenius.com>
@@ -22,19 +22,20 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  */
 class MethodTagTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @param string $signature       The signature to test.
      * @param bool   $valid           Whether the given signature is expected to
-     *     be valid.
+     *                                be valid.
      * @param string $expected_name   The method name that is expected from this
-     *     signature.
+     *                                signature.
      * @param string $expected_return The return type that is expected from this
-     *     signature.
+     *                                signature.
      * @param bool   $paramCount      Number of parameters in the signature.
      * @param string $description     The short description mentioned in the
-     *     signature.
-     * 
-     * @covers \phpDocumentor\Reflection\DocBlock\Tag\MethodTag
+     *                                signature.
+     *
+     * @covers       \phpDocumentor\Reflection\DocBlock\Tag\MethodTag
      * @dataProvider getTestSignatures
      *
      * @return void
@@ -49,16 +50,12 @@ class MethodTagTest extends \PHPUnit_Framework_TestCase
         $description
     ) {
         ob_start();
-        $tag = new MethodTag('method', $signature);
+        $tag    = new MethodTag('method', $signature);
         $stdout = ob_get_clean();
 
-        $this->assertSame(
-            $valid,
-            empty($stdout),
-            'No error should have been output if the signature is valid'
-        );
+        $this->assertSame($valid, empty( $stdout ), 'No error should have been output if the signature is valid');
 
-        if (!$valid) {
+        if ( ! $valid) {
             return;
         }
 
@@ -69,78 +66,159 @@ class MethodTagTest extends \PHPUnit_Framework_TestCase
         $this->assertCount($paramCount, $tag->getArguments());
     }
 
+
     public function getTestSignatures()
     {
-        return array(
+        return [
             // TODO: Verify this case
 //            array(
 //                'foo',
 //                false, 'foo', '', false, 0, ''
 //            ),
-            array(
+            [
                 'foo()',
-                true, 'foo', 'void', false, 0, ''
-            ),
-            array(
+                true,
+                'foo',
+                'void',
+                false,
+                0,
+                ''
+            ],
+            [
                 'foo() description',
-                true, 'foo', 'void', false, 0, 'description'
-            ),
-            array(
+                true,
+                'foo',
+                'void',
+                false,
+                0,
+                'description'
+            ],
+            [
                 'int foo()',
-                true, 'foo', 'int', false, 0, ''
-            ),
-            array(
+                true,
+                'foo',
+                'int',
+                false,
+                0,
+                ''
+            ],
+            [
                 'int foo() description',
-                true, 'foo', 'int', false, 0, 'description'
-            ),
-            array(
+                true,
+                'foo',
+                'int',
+                false,
+                0,
+                'description'
+            ],
+            [
                 'int foo($a, $b)',
-                true, 'foo', 'int', false, 2, ''
-            ),
-            array(
+                true,
+                'foo',
+                'int',
+                false,
+                2,
+                ''
+            ],
+            [
                 'int foo() foo(int $a, int $b)',
-                true, 'foo', 'int', false, 2, ''
-            ),
-            array(
+                true,
+                'foo',
+                'int',
+                false,
+                2,
+                ''
+            ],
+            [
                 'int foo(int $a, int $b)',
-                true, 'foo', 'int', false, 2, ''
-            ),
-            array(
+                true,
+                'foo',
+                'int',
+                false,
+                2,
+                ''
+            ],
+            [
                 'null|int foo(int $a, int $b)',
-                true, 'foo', 'null|int', false, 2, ''
-            ),
-            array(
+                true,
+                'foo',
+                'null|int',
+                false,
+                2,
+                ''
+            ],
+            [
                 'int foo(null|int $a, int $b)',
-                true, 'foo', 'int', false, 2, ''
-            ),
-            array(
+                true,
+                'foo',
+                'int',
+                false,
+                2,
+                ''
+            ],
+            [
                 '\Exception foo() foo(Exception $a, Exception $b)',
-                true, 'foo', '\Exception', false, 2, ''
-            ),
-            array(
+                true,
+                'foo',
+                '\Exception',
+                false,
+                2,
+                ''
+            ],
+            [
                 'int foo() foo(Exception $a, Exception $b) description',
-                true, 'foo', 'int', false, 2, 'description'
-            ),
-            array(
+                true,
+                'foo',
+                'int',
+                false,
+                2,
+                'description'
+            ],
+            [
                 'int foo() foo(\Exception $a, \Exception $b) description',
-                true, 'foo', 'int', false, 2, 'description'
-            ),
-            array(
+                true,
+                'foo',
+                'int',
+                false,
+                2,
+                'description'
+            ],
+            [
                 'void()',
-                true, 'void', 'void', false, 0, ''
-            ),
-            array(
+                true,
+                'void',
+                'void',
+                false,
+                0,
+                ''
+            ],
+            [
                 'static foo()',
-                true, 'foo', 'static', false, 0, ''
-            ),
-            array(
+                true,
+                'foo',
+                'static',
+                false,
+                0,
+                ''
+            ],
+            [
                 'static void foo()',
-                true, 'foo', 'void', true, 0, ''
-            ),
-            array(
+                true,
+                'foo',
+                'void',
+                true,
+                0,
+                ''
+            ],
+            [
                 'static static foo()',
-                true, 'foo', 'static', true, 0, ''
-            )
-        );
+                true,
+                'foo',
+                'static',
+                true,
+                0,
+                ''
+            ]
+        ];
     }
 }

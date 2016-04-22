@@ -18,6 +18,7 @@ namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
  */
 class MemcacheSessionHandler implements \SessionHandlerInterface
 {
+
     /**
      * @var \Memcache Memcache driver.
      */
@@ -33,6 +34,7 @@ class MemcacheSessionHandler implements \SessionHandlerInterface
      */
     private $prefix;
 
+
     /**
      * Constructor.
      *
@@ -45,18 +47,18 @@ class MemcacheSessionHandler implements \SessionHandlerInterface
      *
      * @throws \InvalidArgumentException When unsupported options are passed
      */
-    public function __construct(\Memcache $memcache, array $options = array())
+    public function __construct(\Memcache $memcache, array $options = [ ])
     {
-        if ($diff = array_diff(array_keys($options), array('prefix', 'expiretime'))) {
-            throw new \InvalidArgumentException(sprintf(
-                'The following options are not supported "%s"', implode(', ', $diff)
-            ));
+        if ($diff = array_diff(array_keys($options), [ 'prefix', 'expiretime' ])) {
+            throw new \InvalidArgumentException(sprintf('The following options are not supported "%s"',
+                implode(', ', $diff)));
         }
 
         $this->memcache = $memcache;
-        $this->ttl = isset($options['expiretime']) ? (int) $options['expiretime'] : 86400;
-        $this->prefix = isset($options['prefix']) ? $options['prefix'] : 'sf2s';
+        $this->ttl      = isset( $options['expiretime'] ) ? (int) $options['expiretime'] : 86400;
+        $this->prefix   = isset( $options['prefix'] ) ? $options['prefix'] : 'sf2s';
     }
+
 
     /**
      * {@inheritdoc}
@@ -66,6 +68,7 @@ class MemcacheSessionHandler implements \SessionHandlerInterface
         return true;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -74,29 +77,33 @@ class MemcacheSessionHandler implements \SessionHandlerInterface
         return $this->memcache->close();
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function read($sessionId)
     {
-        return $this->memcache->get($this->prefix.$sessionId) ?: '';
+        return $this->memcache->get($this->prefix . $sessionId) ?: '';
     }
+
 
     /**
      * {@inheritdoc}
      */
     public function write($sessionId, $data)
     {
-        return $this->memcache->set($this->prefix.$sessionId, $data, 0, time() + $this->ttl);
+        return $this->memcache->set($this->prefix . $sessionId, $data, 0, time() + $this->ttl);
     }
+
 
     /**
      * {@inheritdoc}
      */
     public function destroy($sessionId)
     {
-        return $this->memcache->delete($this->prefix.$sessionId);
+        return $this->memcache->delete($this->prefix . $sessionId);
     }
+
 
     /**
      * {@inheritdoc}
@@ -106,6 +113,7 @@ class MemcacheSessionHandler implements \SessionHandlerInterface
         // not required here because memcache will auto expire the records anyhow.
         return true;
     }
+
 
     /**
      * Return a Memcache instance.

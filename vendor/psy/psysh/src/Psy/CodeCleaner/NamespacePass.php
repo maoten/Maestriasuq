@@ -28,8 +28,11 @@ use Psy\CodeCleaner;
  */
 class NamespacePass extends CodeCleanerPass
 {
+
     private $namespace = null;
+
     private $cleaner;
+
 
     /**
      * @param CodeCleaner $cleaner
@@ -38,6 +41,7 @@ class NamespacePass extends CodeCleanerPass
     {
         $this->cleaner = $cleaner;
     }
+
 
     /**
      * If this is a standalone namespace line, remember it for later.
@@ -50,20 +54,21 @@ class NamespacePass extends CodeCleanerPass
     public function beforeTraverse(array $nodes)
     {
         $first = reset($nodes);
-        if (count($nodes) === 1 && $first instanceof NamespaceStmt && empty($first->stmts)) {
+        if (count($nodes) === 1 && $first instanceof NamespaceStmt && empty( $first->stmts )) {
             $this->setNamespace($first->name);
         } else {
             foreach ($nodes as $key => $node) {
                 if ($node instanceof NamespaceStmt) {
                     $this->setNamespace(null);
                 } elseif ($this->namespace !== null) {
-                    $nodes[$key] = new NamespaceStmt($this->namespace, array($node));
+                    $nodes[$key] = new NamespaceStmt($this->namespace, [ $node ]);
                 }
             }
         }
 
         return $nodes;
     }
+
 
     /**
      * Remember the namespace and (re)set the namespace on the CodeCleaner as

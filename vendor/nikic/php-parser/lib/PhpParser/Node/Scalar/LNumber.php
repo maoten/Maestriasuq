@@ -6,8 +6,10 @@ use PhpParser\Node\Scalar;
 
 class LNumber extends Scalar
 {
+
     /** @var int Number value */
     public $value;
+
 
     /**
      * Constructs an integer number scalar node.
@@ -15,14 +17,18 @@ class LNumber extends Scalar
      * @param int   $value      Value of the number
      * @param array $attributes Additional attributes
      */
-    public function __construct($value, array $attributes = array()) {
+    public function __construct($value, array $attributes = [ ])
+    {
         parent::__construct($attributes);
         $this->value = $value;
     }
 
-    public function getSubNodeNames() {
-        return array('value');
+
+    public function getSubNodeNames()
+    {
+        return [ 'value' ];
     }
+
 
     /**
      * @internal
@@ -33,7 +39,8 @@ class LNumber extends Scalar
      *
      * @return int The parsed number
      */
-    public static function parse($str) {
+    public static function parse($str)
+    {
         // handle plain 0 specially
         if ('0' === $str) {
             return 0;

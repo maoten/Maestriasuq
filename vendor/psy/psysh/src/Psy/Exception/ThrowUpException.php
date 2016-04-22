@@ -16,6 +16,7 @@ namespace Psy\Exception;
  */
 class ThrowUpException extends \Exception implements Exception
 {
+
     /**
      * {@inheritdoc}
      */
@@ -24,6 +25,7 @@ class ThrowUpException extends \Exception implements Exception
         $message = sprintf("Throwing %s with message '%s'", get_class($exception), $exception->getMessage());
         parent::__construct($message, $exception->getCode(), $exception);
     }
+
 
     /**
      * Return a raw (unformatted) version of the error message.

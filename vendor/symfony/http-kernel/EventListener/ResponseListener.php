@@ -22,12 +22,15 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class ResponseListener implements EventSubscriberInterface
 {
+
     private $charset;
+
 
     public function __construct($charset)
     {
         $this->charset = $charset;
     }
+
 
     /**
      * Filters the Response.
@@ -36,7 +39,7 @@ class ResponseListener implements EventSubscriberInterface
      */
     public function onKernelResponse(FilterResponseEvent $event)
     {
-        if (!$event->isMasterRequest()) {
+        if ( ! $event->isMasterRequest()) {
             return;
         }
 
@@ -49,10 +52,11 @@ class ResponseListener implements EventSubscriberInterface
         $response->prepare($event->getRequest());
     }
 
+
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             KernelEvents::RESPONSE => 'onKernelResponse',
-        );
+        ];
     }
 }

@@ -22,7 +22,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 abstract class OutputStyle implements OutputInterface, StyleInterface
 {
+
     private $output;
+
 
     /**
      * @param OutputInterface $output
@@ -32,6 +34,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
         $this->output = $output;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -39,6 +42,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     {
         $this->output->write(str_repeat(PHP_EOL, $count));
     }
+
 
     /**
      * @param int $max
@@ -50,6 +54,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
         return new ProgressBar($this->output, $max);
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -57,6 +62,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     {
         $this->output->write($messages, $newline, $type);
     }
+
 
     /**
      * {@inheritdoc}
@@ -66,6 +72,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
         $this->output->writeln($messages, $type);
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -73,6 +80,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     {
         $this->output->setVerbosity($level);
     }
+
 
     /**
      * {@inheritdoc}
@@ -82,6 +90,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
         return $this->output->getVerbosity();
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -89,6 +98,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     {
         $this->output->setDecorated($decorated);
     }
+
 
     /**
      * {@inheritdoc}
@@ -98,6 +108,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
         return $this->output->isDecorated();
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -105,6 +116,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     {
         $this->output->setFormatter($formatter);
     }
+
 
     /**
      * {@inheritdoc}
@@ -114,6 +126,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
         return $this->output->getFormatter();
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -121,6 +134,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     {
         return $this->output->isQuiet();
     }
+
 
     /**
      * {@inheritdoc}
@@ -130,6 +144,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
         return $this->output->isVerbose();
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -137,6 +152,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     {
         return $this->output->isVeryVerbose();
     }
+
 
     /**
      * {@inheritdoc}

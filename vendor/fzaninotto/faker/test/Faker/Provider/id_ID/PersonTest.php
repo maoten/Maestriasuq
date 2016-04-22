@@ -7,6 +7,7 @@ use Faker\Provider\id_ID\Person;
 
 class PersonTest extends \PHPUnit_Framework_TestCase
 {
+
     public function setUp()
     {
         $faker = new Generator();
@@ -14,11 +15,13 @@ class PersonTest extends \PHPUnit_Framework_TestCase
         $this->faker = $faker;
     }
 
+
     public function testIfFirstNameMaleCanReturnData()
     {
         $firstNameMale = $this->faker->firstNameMale();
         $this->assertNotEmpty($firstNameMale);
     }
+
 
     public function testIfLastNameMaleCanReturnData()
     {
@@ -26,11 +29,13 @@ class PersonTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($lastNameMale);
     }
 
+
     public function testIfFirstNameFemaleCanReturnData()
     {
         $firstNameFemale = $this->faker->firstNameFemale();
         $this->assertNotEmpty($firstNameFemale);
     }
+
 
     public function testIfLastNameFemaleCanReturnData()
     {

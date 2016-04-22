@@ -16,6 +16,7 @@ namespace Psy\Exception;
  */
 class ParseErrorException extends \PhpParser\Error implements Exception
 {
+
     /**
      * Constructor!
      *
@@ -27,6 +28,7 @@ class ParseErrorException extends \PhpParser\Error implements Exception
         $message = sprintf('PHP Parse error: %s', $message);
         parent::__construct($message, $line);
     }
+
 
     /**
      * Create a ParseErrorException from a PhpParser Error.

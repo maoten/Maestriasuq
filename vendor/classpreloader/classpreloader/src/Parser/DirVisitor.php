@@ -24,12 +24,14 @@ use PhpParser\Node\Scalar\String_ as StringNode;
  */
 class DirVisitor extends AbstractNodeVisitor
 {
+
     /**
      * Should we skip the file if it contains a dir constant?
      *
      * @var bool
      */
     protected $skip = false;
+
 
     /**
      * Create a new directory visitor instance.
@@ -42,6 +44,7 @@ class DirVisitor extends AbstractNodeVisitor
     {
         $this->skip = $skip;
     }
+
 
     /**
      * Enter and modify the node.

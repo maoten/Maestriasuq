@@ -36,8 +36,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ListCommand extends ReflectingCommand implements PresenterAware
 {
+
     protected $presenter;
+
     protected $enumerators;
+
 
     /**
      * PresenterAware interface.
@@ -49,42 +52,45 @@ class ListCommand extends ReflectingCommand implements PresenterAware
         $this->presenter = $presenter;
     }
 
+
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $this
-            ->setName('ls')
-            ->setAliases(array('list', 'dir'))
-            ->setDefinition(array(
+        $this->setName('ls')->setAliases([ 'list', 'dir' ])->setDefinition([
                 new InputArgument('target', InputArgument::OPTIONAL, 'A target class or object to list.', null),
 
-                new InputOption('vars',        '',  InputOption::VALUE_NONE,     'Display variables.'),
-                new InputOption('constants',   'c', InputOption::VALUE_NONE,     'Display defined constants.'),
-                new InputOption('functions',   'f', InputOption::VALUE_NONE,     'Display defined functions.'),
-                new InputOption('classes',     'k', InputOption::VALUE_NONE,     'Display declared classes.'),
-                new InputOption('interfaces',  'I', InputOption::VALUE_NONE,     'Display declared interfaces.'),
-                new InputOption('traits',      't', InputOption::VALUE_NONE,     'Display declared traits.'),
+                new InputOption('vars', '', InputOption::VALUE_NONE, 'Display variables.'),
+                new InputOption('constants', 'c', InputOption::VALUE_NONE, 'Display defined constants.'),
+                new InputOption('functions', 'f', InputOption::VALUE_NONE, 'Display defined functions.'),
+                new InputOption('classes', 'k', InputOption::VALUE_NONE, 'Display declared classes.'),
+                new InputOption('interfaces', 'I', InputOption::VALUE_NONE, 'Display declared interfaces.'),
+                new InputOption('traits', 't', InputOption::VALUE_NONE, 'Display declared traits.'),
 
-                new InputOption('properties',  'p', InputOption::VALUE_NONE,     'Display class or object properties (public properties by default).'),
-                new InputOption('methods',     'm', InputOption::VALUE_NONE,     'Display class or object methods (public methods by default).'),
+                new InputOption('properties', 'p', InputOption::VALUE_NONE,
+                    'Display class or object properties (public properties by default).'),
+                new InputOption('methods', 'm', InputOption::VALUE_NONE,
+                    'Display class or object methods (public methods by default).'),
 
-                new InputOption('grep',        'G', InputOption::VALUE_REQUIRED, 'Limit to items matching the given pattern (string or regex).'),
-                new InputOption('insensitive', 'i', InputOption::VALUE_NONE,     'Case-insensitive search (requires --grep).'),
-                new InputOption('invert',      'v', InputOption::VALUE_NONE,     'Inverted search (requires --grep).'),
+                new InputOption('grep', 'G', InputOption::VALUE_REQUIRED,
+                    'Limit to items matching the given pattern (string or regex).'),
+                new InputOption('insensitive', 'i', InputOption::VALUE_NONE,
+                    'Case-insensitive search (requires --grep).'),
+                new InputOption('invert', 'v', InputOption::VALUE_NONE, 'Inverted search (requires --grep).'),
 
-                new InputOption('globals',     'g', InputOption::VALUE_NONE,     'Include global variables.'),
-                new InputOption('internal',    'n', InputOption::VALUE_NONE,     'Limit to internal functions and classes.'),
-                new InputOption('user',        'u', InputOption::VALUE_NONE,     'Limit to user-defined constants, functions and classes.'),
-                new InputOption('category',    'C', InputOption::VALUE_REQUIRED, 'Limit to constants in a specific category (e.g. "date").'),
+                new InputOption('globals', 'g', InputOption::VALUE_NONE, 'Include global variables.'),
+                new InputOption('internal', 'n', InputOption::VALUE_NONE, 'Limit to internal functions and classes.'),
+                new InputOption('user', 'u', InputOption::VALUE_NONE,
+                    'Limit to user-defined constants, functions and classes.'),
+                new InputOption('category', 'C', InputOption::VALUE_REQUIRED,
+                    'Limit to constants in a specific category (e.g. "date").'),
 
-                new InputOption('all',         'a', InputOption::VALUE_NONE,     'Include private and protected methods and properties.'),
-                new InputOption('long',        'l', InputOption::VALUE_NONE,     'List in long format: includes class names and method signatures.'),
-            ))
-            ->setDescription('List local, instance or class variables, methods and constants.')
-            ->setHelp(
-                <<<'HELP'
+                new InputOption('all', 'a', InputOption::VALUE_NONE,
+                    'Include private and protected methods and properties.'),
+                new InputOption('long', 'l', InputOption::VALUE_NONE,
+                    'List in long format: includes class names and method signatures.'),
+            ])->setDescription('List local, instance or class variables, methods and constants.')->setHelp(<<<'HELP'
 List variables, constants, classes, interfaces, traits, functions, methods,
 and properties.
 
@@ -105,6 +111,7 @@ HELP
             );
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -116,7 +123,7 @@ HELP
         $method = $input->getOption('long') ? 'writeLong' : 'write';
 
         if ($target = $input->getArgument('target')) {
-            list($target, $reflector) = $this->getTargetAndReflector($target, true);
+            list( $target, $reflector ) = $this->getTargetAndReflector($target, true);
         } else {
             $reflector = null;
         }
@@ -135,15 +142,16 @@ HELP
         }
     }
 
+
     /**
      * Initialize Enumerators.
      */
     protected function initEnumerators()
     {
-        if (!isset($this->enumerators)) {
+        if ( ! isset( $this->enumerators )) {
             $mgr = $this->presenter;
 
-            $this->enumerators = array(
+            $this->enumerators = [
                 new ClassConstantEnumerator($mgr),
                 new ClassEnumerator($mgr),
                 new ConstantEnumerator($mgr),
@@ -154,9 +162,10 @@ HELP
                 new MethodEnumerator($mgr),
                 new TraitEnumerator($mgr),
                 new VariableEnumerator($mgr, $this->context),
-            );
+            ];
         }
     }
+
 
     /**
      * Write the list items to $output.
@@ -171,10 +180,11 @@ HELP
         }
 
         foreach ($result as $label => $items) {
-            $names = array_map(array($this, 'formatItemName'), $items);
+            $names = array_map([ $this, 'formatItemName' ], $items);
             $output->writeln(sprintf('<strong>%s</strong>: %s', $label, implode(', ', $names)));
         }
     }
+
 
     /**
      * Write the list items to $output.
@@ -196,9 +206,9 @@ HELP
             $output->writeln('');
             $output->writeln(sprintf('<strong>%s:</strong>', $label));
 
-            $table->setRows(array());
+            $table->setRows([ ]);
             foreach ($items as $item) {
-                $table->addRow(array($this->formatItemName($item), $item['value']));
+                $table->addRow([ $this->formatItemName($item), $item['value'] ]);
             }
 
             if ($table instanceof TableHelper) {
@@ -208,6 +218,7 @@ HELP
             }
         }
     }
+
 
     /**
      * Format an item name given its visibility.
@@ -221,6 +232,7 @@ HELP
         return sprintf('<%s>%s</%s>', $item['style'], OutputFormatter::escape($item['name']), $item['style']);
     }
 
+
     /**
      * Validate that input options make sense, provide defaults when called without options.
      *
@@ -231,23 +243,23 @@ HELP
     private function validateInput(InputInterface $input)
     {
         // grep, invert and insensitive
-        if (!$input->getOption('grep')) {
-            foreach (array('invert', 'insensitive') as $option) {
+        if ( ! $input->getOption('grep')) {
+            foreach ([ 'invert', 'insensitive' ] as $option) {
                 if ($input->getOption($option)) {
                     throw new RuntimeException('--' . $option . ' does not make sense without --grep');
                 }
             }
         }
 
-        if (!$input->getArgument('target')) {
+        if ( ! $input->getArgument('target')) {
             // if no target is passed, there can be no properties or methods
-            foreach (array('properties', 'methods') as $option) {
+            foreach ([ 'properties', 'methods' ] as $option) {
                 if ($input->getOption($option)) {
                     throw new RuntimeException('--' . $option . ' does not make sense without a specified target.');
                 }
             }
 
-            foreach (array('globals', 'vars', 'constants', 'functions', 'classes', 'interfaces', 'traits') as $option) {
+            foreach ([ 'globals', 'vars', 'constants', 'functions', 'classes', 'interfaces', 'traits' ] as $option) {
                 if ($input->getOption($option)) {
                     return;
                 }
@@ -257,22 +269,22 @@ HELP
             $input->setOption('vars', true);
         } else {
             // if a target is passed, classes, functions, etc don't make sense
-            foreach (array('vars', 'globals', 'functions', 'classes', 'interfaces', 'traits') as $option) {
+            foreach ([ 'vars', 'globals', 'functions', 'classes', 'interfaces', 'traits' ] as $option) {
                 if ($input->getOption($option)) {
                     throw new RuntimeException('--' . $option . ' does not make sense with a specified target.');
                 }
             }
 
-            foreach (array('constants', 'properties', 'methods') as $option) {
+            foreach ([ 'constants', 'properties', 'methods' ] as $option) {
                 if ($input->getOption($option)) {
                     return;
                 }
             }
 
             // default to --constants --properties --methods if no other options are passed
-            $input->setOption('constants',  true);
+            $input->setOption('constants', true);
             $input->setOption('properties', true);
-            $input->setOption('methods',    true);
+            $input->setOption('methods', true);
         }
     }
 }

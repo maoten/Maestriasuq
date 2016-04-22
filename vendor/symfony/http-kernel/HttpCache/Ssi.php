@@ -22,11 +22,14 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 class Ssi implements SurrogateInterface
 {
+
     private $contentTypes;
-    private $phpEscapeMap = array(
-        array('<?', '<%', '<s', '<S'),
-        array('<?php echo "<?"; ?>', '<?php echo "<%"; ?>', '<?php echo "<s"; ?>', '<?php echo "<S"; ?>'),
-    );
+
+    private $phpEscapeMap = [
+        [ '<?', '<%', '<s', '<S' ],
+        [ '<?php echo "<?"; ?>', '<?php echo "<%"; ?>', '<?php echo "<s"; ?>', '<?php echo "<S"; ?>' ],
+    ];
+
 
     /**
      * Constructor.
@@ -34,10 +37,12 @@ class Ssi implements SurrogateInterface
      * @param array $contentTypes An array of content-type that should be parsed for SSI information.
      *                            (default: text/html, text/xml, application/xhtml+xml, and application/xml)
      */
-    public function __construct(array $contentTypes = array('text/html', 'text/xml', 'application/xhtml+xml', 'application/xml'))
-    {
+    public function __construct(
+        array $contentTypes = [ 'text/html', 'text/xml', 'application/xhtml+xml', 'application/xml' ]
+    ) {
         $this->contentTypes = $contentTypes;
     }
+
 
     /**
      * {@inheritdoc}
@@ -47,6 +52,7 @@ class Ssi implements SurrogateInterface
         return 'ssi';
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -54,6 +60,7 @@ class Ssi implements SurrogateInterface
     {
         return new ResponseCacheStrategy();
     }
+
 
     /**
      * {@inheritdoc}
@@ -67,16 +74,18 @@ class Ssi implements SurrogateInterface
         return false !== strpos($value, 'SSI/1.0');
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function addSurrogateCapability(Request $request)
     {
         $current = $request->headers->get('Surrogate-Capability');
-        $new = 'symfony2="SSI/1.0"';
+        $new     = 'symfony2="SSI/1.0"';
 
-        $request->headers->set('Surrogate-Capability', $current ? $current.', '.$new : $new);
+        $request->headers->set('Surrogate-Capability', $current ? $current . ', ' . $new : $new);
     }
+
 
     /**
      * {@inheritdoc}
@@ -88,17 +97,19 @@ class Ssi implements SurrogateInterface
         }
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function needsParsing(Response $response)
     {
-        if (!$control = $response->headers->get('Surrogate-Control')) {
+        if ( ! $control = $response->headers->get('Surrogate-Control')) {
             return false;
         }
 
         return (bool) preg_match('#content="[^"]*SSI/1.0[^"]*"#', $control);
     }
+
 
     /**
      * {@inheritdoc}
@@ -108,18 +119,19 @@ class Ssi implements SurrogateInterface
         return sprintf('<!--#include virtual="%s" -->', $uri);
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function process(Request $request, Response $response)
     {
         $type = $response->headers->get('Content-Type');
-        if (empty($type)) {
+        if (empty( $type )) {
             $type = 'text/html';
         }
 
         $parts = explode(';', $type);
-        if (!in_array($parts[0], $this->contentTypes)) {
+        if ( ! in_array($parts[0], $this->contentTypes)) {
             return $response;
         }
 
@@ -130,20 +142,19 @@ class Ssi implements SurrogateInterface
         $chunks[0] = str_replace($this->phpEscapeMap[0], $this->phpEscapeMap[1], $chunks[0]);
 
         $i = 1;
-        while (isset($chunks[$i])) {
-            $options = array();
+        while (isset( $chunks[$i] )) {
+            $options = [ ];
             preg_match_all('/(virtual)="([^"]*?)"/', $chunks[$i], $matches, PREG_SET_ORDER);
             foreach ($matches as $set) {
                 $options[$set[1]] = $set[2];
             }
 
-            if (!isset($options['virtual'])) {
+            if ( ! isset( $options['virtual'] )) {
                 throw new \RuntimeException('Unable to process an SSI tag without a "virtual" attribute.');
             }
 
-            $chunks[$i] = sprintf('<?php echo $this->surrogate->handle($this, %s, \'\', false) ?>'."\n",
-                var_export($options['virtual'], true)
-            );
+            $chunks[$i] = sprintf('<?php echo $this->surrogate->handle($this, %s, \'\', false) ?>' . "\n",
+                var_export($options['virtual'], true));
             ++$i;
             $chunks[$i] = str_replace($this->phpEscapeMap[0], $this->phpEscapeMap[1], $chunks[$i]);
             ++$i;
@@ -166,18 +177,21 @@ class Ssi implements SurrogateInterface
         }
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function handle(HttpCache $cache, $uri, $alt, $ignoreErrors)
     {
-        $subRequest = Request::create($uri, 'get', array(), $cache->getRequest()->cookies->all(), array(), $cache->getRequest()->server->all());
+        $subRequest = Request::create($uri, 'get', [ ], $cache->getRequest()->cookies->all(), [ ],
+            $cache->getRequest()->server->all());
 
         try {
             $response = $cache->handle($subRequest, HttpKernelInterface::SUB_REQUEST, true);
 
-            if (!$response->isSuccessful()) {
-                throw new \RuntimeException(sprintf('Error when rendering "%s" (Status code is %s).', $subRequest->getUri(), $response->getStatusCode()));
+            if ( ! $response->isSuccessful()) {
+                throw new \RuntimeException(sprintf('Error when rendering "%s" (Status code is %s).',
+                    $subRequest->getUri(), $response->getStatusCode()));
             }
 
             return $response->getContent();
@@ -186,7 +200,7 @@ class Ssi implements SurrogateInterface
                 return $this->handle($cache, $alt, '', $ignoreErrors);
             }
 
-            if (!$ignoreErrors) {
+            if ( ! $ignoreErrors) {
                 throw $e;
             }
         }

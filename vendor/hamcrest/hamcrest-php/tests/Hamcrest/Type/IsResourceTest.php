@@ -9,10 +9,12 @@ class IsResourceTest extends \Hamcrest\AbstractMatcherTest
         return \Hamcrest\Type\IsResource::resourceValue();
     }
 
+
     public function testEvaluatesToTrueIfArgumentMatchesType()
     {
         assertThat(tmpfile(), resourceValue());
     }
+
 
     public function testEvaluatesToFalseIfArgumentDoesntMatchType()
     {
@@ -21,10 +23,12 @@ class IsResourceTest extends \Hamcrest\AbstractMatcherTest
         assertThat('foo', not(resourceValue()));
     }
 
+
     public function testHasAReadableDescription()
     {
         $this->assertDescription('a resource', resourceValue());
     }
+
 
     public function testDecribesActualTypeInMismatchMessage()
     {

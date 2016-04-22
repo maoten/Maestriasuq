@@ -21,6 +21,7 @@
  */
 class PHPUnit_Framework_Constraint_StringContains extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var string
      */
@@ -30,6 +31,7 @@ class PHPUnit_Framework_Constraint_StringContains extends PHPUnit_Framework_Cons
      * @var bool
      */
     protected $ignoreCase;
+
 
     /**
      * @param string $string
@@ -42,6 +44,7 @@ class PHPUnit_Framework_Constraint_StringContains extends PHPUnit_Framework_Cons
         $this->string     = $string;
         $this->ignoreCase = $ignoreCase;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -60,6 +63,7 @@ class PHPUnit_Framework_Constraint_StringContains extends PHPUnit_Framework_Cons
         }
     }
 
+
     /**
      * Returns a string representation of the constraint.
      *
@@ -73,9 +77,6 @@ class PHPUnit_Framework_Constraint_StringContains extends PHPUnit_Framework_Cons
             $string = $this->string;
         }
 
-        return sprintf(
-            'contains "%s"',
-            $string
-        );
+        return sprintf('contains "%s"', $string);
     }
 }

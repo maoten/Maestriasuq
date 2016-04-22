@@ -24,6 +24,7 @@ use Psr\Log\LoggerInterface;
  */
 class Profiler
 {
+
     /**
      * @var ProfilerStorageInterface
      */
@@ -32,7 +33,7 @@ class Profiler
     /**
      * @var DataCollectorInterface[]
      */
-    private $collectors = array();
+    private $collectors = [ ];
 
     /**
      * @var LoggerInterface
@@ -44,6 +45,7 @@ class Profiler
      */
     private $enabled = true;
 
+
     /**
      * Constructor.
      *
@@ -53,8 +55,9 @@ class Profiler
     public function __construct(ProfilerStorageInterface $storage, LoggerInterface $logger = null)
     {
         $this->storage = $storage;
-        $this->logger = $logger;
+        $this->logger  = $logger;
     }
+
 
     /**
      * Disables the profiler.
@@ -64,6 +67,7 @@ class Profiler
         $this->enabled = false;
     }
 
+
     /**
      * Enables the profiler.
      */
@@ -71,6 +75,7 @@ class Profiler
     {
         $this->enabled = true;
     }
+
 
     /**
      * Loads the Profile for the given Response.
@@ -81,12 +86,13 @@ class Profiler
      */
     public function loadProfileFromResponse(Response $response)
     {
-        if (!$token = $response->headers->get('X-Debug-Token')) {
+        if ( ! $token = $response->headers->get('X-Debug-Token')) {
             return false;
         }
 
         return $this->loadProfile($token);
     }
+
 
     /**
      * Loads the Profile for the given token.
@@ -99,6 +105,7 @@ class Profiler
     {
         return $this->storage->read($token);
     }
+
 
     /**
      * Saves a Profile.
@@ -116,12 +123,14 @@ class Profiler
             }
         }
 
-        if (!($ret = $this->storage->write($profile)) && null !== $this->logger) {
-            $this->logger->warning('Unable to store the profiler information.', array('configured_storage' => get_class($this->storage)));
+        if ( ! ( $ret = $this->storage->write($profile) ) && null !== $this->logger) {
+            $this->logger->warning('Unable to store the profiler information.',
+                [ 'configured_storage' => get_class($this->storage) ]);
         }
 
         return $ret;
     }
+
 
     /**
      * Purges all data from the storage.
@@ -130,6 +139,7 @@ class Profiler
     {
         $this->storage->purge();
     }
+
 
     /**
      * Finds profiler tokens for the given criteria.
@@ -149,6 +159,7 @@ class Profiler
     {
         return $this->storage->find($ip, $url, $limit, $method, $this->getTimestamp($start), $this->getTimestamp($end));
     }
+
 
     /**
      * Collects data for the given Response.
@@ -184,6 +195,7 @@ class Profiler
         return $profile;
     }
 
+
     /**
      * Gets the Collectors associated with this profiler.
      *
@@ -194,18 +206,20 @@ class Profiler
         return $this->collectors;
     }
 
+
     /**
      * Sets the Collectors associated with this profiler.
      *
      * @param DataCollectorInterface[] $collectors An array of collectors
      */
-    public function set(array $collectors = array())
+    public function set(array $collectors = [ ])
     {
-        $this->collectors = array();
+        $this->collectors = [ ];
         foreach ($collectors as $collector) {
             $this->add($collector);
         }
     }
+
 
     /**
      * Adds a Collector.
@@ -217,6 +231,7 @@ class Profiler
         $this->collectors[$collector->getName()] = $collector;
     }
 
+
     /**
      * Returns true if a Collector for the given name exists.
      *
@@ -226,8 +241,9 @@ class Profiler
      */
     public function has($name)
     {
-        return isset($this->collectors[$name]);
+        return isset( $this->collectors[$name] );
     }
+
 
     /**
      * Gets a Collector by name.
@@ -240,12 +256,13 @@ class Profiler
      */
     public function get($name)
     {
-        if (!isset($this->collectors[$name])) {
+        if ( ! isset( $this->collectors[$name] )) {
             throw new \InvalidArgumentException(sprintf('Collector "%s" does not exist.', $name));
         }
 
         return $this->collectors[$name];
     }
+
 
     private function getTimestamp($value)
     {
@@ -254,7 +271,7 @@ class Profiler
         }
 
         try {
-            $value = new \DateTime(is_numeric($value) ? '@'.$value : $value);
+            $value = new \DateTime(is_numeric($value) ? '@' . $value : $value);
         } catch (\Exception $e) {
             return;
         }

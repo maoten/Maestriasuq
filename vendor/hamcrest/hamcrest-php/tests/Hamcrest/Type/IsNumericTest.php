@@ -9,6 +9,7 @@ class IsNumericTest extends \Hamcrest\AbstractMatcherTest
         return \Hamcrest\Type\IsNumeric::numericValue();
     }
 
+
     public function testEvaluatesToTrueIfArgumentMatchesType()
     {
         assertThat(5, numericValue());
@@ -28,6 +29,7 @@ class IsNumericTest extends \Hamcrest\AbstractMatcherTest
         assertThat('0x4F2a04', numericValue());
     }
 
+
     public function testEvaluatesToFalseIfArgumentDoesntMatchType()
     {
         assertThat(false, not(numericValue()));
@@ -36,10 +38,12 @@ class IsNumericTest extends \Hamcrest\AbstractMatcherTest
         assertThat('5foo', not(numericValue()));
     }
 
+
     public function testHasAReadableDescription()
     {
         $this->assertDescription('a number', numericValue());
     }
+
 
     public function testDecribesActualTypeInMismatchMessage()
     {

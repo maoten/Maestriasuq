@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
  */
 interface SessionInterface
 {
+
     /**
      * Starts the session storage.
      *
@@ -29,12 +30,14 @@ interface SessionInterface
      */
     public function start();
 
+
     /**
      * Returns the session ID.
      *
      * @return string The session ID.
      */
     public function getId();
+
 
     /**
      * Sets the session ID.
@@ -43,6 +46,7 @@ interface SessionInterface
      */
     public function setId($id);
 
+
     /**
      * Returns the session name.
      *
@@ -50,12 +54,14 @@ interface SessionInterface
      */
     public function getName();
 
+
     /**
      * Sets the session name.
      *
      * @param string $name
      */
     public function setName($name);
+
 
     /**
      * Invalidates the current session.
@@ -72,6 +78,7 @@ interface SessionInterface
      */
     public function invalidate($lifetime = null);
 
+
     /**
      * Migrates the current session to a new session id while maintaining all
      * session attributes.
@@ -86,6 +93,7 @@ interface SessionInterface
      */
     public function migrate($destroy = false, $lifetime = null);
 
+
     /**
      * Force the session to be saved and closed.
      *
@@ -95,6 +103,7 @@ interface SessionInterface
      */
     public function save();
 
+
     /**
      * Checks if an attribute is defined.
      *
@@ -103,6 +112,7 @@ interface SessionInterface
      * @return bool true if the attribute is defined, false otherwise
      */
     public function has($name);
+
 
     /**
      * Returns an attribute.
@@ -114,6 +124,7 @@ interface SessionInterface
      */
     public function get($name, $default = null);
 
+
     /**
      * Sets an attribute.
      *
@@ -122,6 +133,7 @@ interface SessionInterface
      */
     public function set($name, $value);
 
+
     /**
      * Returns attributes.
      *
@@ -129,12 +141,14 @@ interface SessionInterface
      */
     public function all();
 
+
     /**
      * Sets attributes.
      *
      * @param array $attributes Attributes
      */
     public function replace(array $attributes);
+
 
     /**
      * Removes an attribute.
@@ -145,10 +159,12 @@ interface SessionInterface
      */
     public function remove($name);
 
+
     /**
      * Clears all attributes.
      */
     public function clear();
+
 
     /**
      * Checks if the session was started.
@@ -157,12 +173,14 @@ interface SessionInterface
      */
     public function isStarted();
 
+
     /**
      * Registers a SessionBagInterface with the session.
      *
      * @param SessionBagInterface $bag
      */
     public function registerBag(SessionBagInterface $bag);
+
 
     /**
      * Gets a bag instance by name.
@@ -172,6 +190,7 @@ interface SessionInterface
      * @return SessionBagInterface
      */
     public function getBag($name);
+
 
     /**
      * Gets session meta.

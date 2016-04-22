@@ -7,10 +7,13 @@ use PhpParser\Node\Expr;
 
 class StaticPropertyFetch extends Expr
 {
+
     /** @var Name|Expr Class name */
     public $class;
+
     /** @var string|Expr Property name */
     public $name;
+
 
     /**
      * Constructs a static property fetch node.
@@ -19,13 +22,16 @@ class StaticPropertyFetch extends Expr
      * @param string|Expr $name       Property name
      * @param array       $attributes Additional attributes
      */
-    public function __construct($class, $name, array $attributes = array()) {
+    public function __construct($class, $name, array $attributes = [ ])
+    {
         parent::__construct($attributes);
         $this->class = $class;
-        $this->name = $name;
+        $this->name  = $name;
     }
 
-    public function getSubNodeNames() {
-        return array('class', 'name');
+
+    public function getSubNodeNames()
+    {
+        return [ 'class', 'name' ];
     }
 }

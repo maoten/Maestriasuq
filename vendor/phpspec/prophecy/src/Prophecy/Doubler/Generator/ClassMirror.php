@@ -25,7 +25,8 @@ use ReflectionParameter;
  */
 class ClassMirror
 {
-    private static $reflectableMethods = array(
+
+    private static $reflectableMethods = [
         '__construct',
         '__destruct',
         '__sleep',
@@ -33,7 +34,8 @@ class ClassMirror
         '__toString',
         '__call',
         '__invoke'
-    );
+    ];
+
 
     /**
      * Reflects provided arguments into class node.
@@ -51,30 +53,21 @@ class ClassMirror
 
         if (null !== $class) {
             if (true === $class->isInterface()) {
-                throw new InvalidArgumentException(sprintf(
-                    "Could not reflect %s as a class, because it\n".
-                    "is interface - use the second argument instead.",
-                    $class->getName()
-                ));
+                throw new InvalidArgumentException(sprintf("Could not reflect %s as a class, because it\n" . "is interface - use the second argument instead.",
+                    $class->getName()));
             }
 
             $this->reflectClassToNode($class, $node);
         }
 
         foreach ($interfaces as $interface) {
-            if (!$interface instanceof ReflectionClass) {
-                throw new InvalidArgumentException(sprintf(
-                    "[ReflectionClass \$interface1 [, ReflectionClass \$interface2]] array expected as\n".
-                    "a second argument to `ClassMirror::reflect(...)`, but got %s.",
-                    is_object($interface) ? get_class($interface).' class' : gettype($interface)
-                ));
+            if ( ! $interface instanceof ReflectionClass) {
+                throw new InvalidArgumentException(sprintf("[ReflectionClass \$interface1 [, ReflectionClass \$interface2]] array expected as\n" . "a second argument to `ClassMirror::reflect(...)`, but got %s.",
+                    is_object($interface) ? get_class($interface) . ' class' : gettype($interface)));
             }
             if (false === $interface->isInterface()) {
-                throw new InvalidArgumentException(sprintf(
-                    "Could not reflect %s as an interface, because it\n".
-                    "is class - use the first argument instead.",
-                    $interface->getName()
-                ));
+                throw new InvalidArgumentException(sprintf("Could not reflect %s as an interface, because it\n" . "is class - use the first argument instead.",
+                    $interface->getName()));
             }
 
             $this->reflectInterfaceToNode($interface, $node);
@@ -85,12 +78,12 @@ class ClassMirror
         return $node;
     }
 
+
     private function reflectClassToNode(ReflectionClass $class, Node\ClassNode $node)
     {
         if (true === $class->isFinal()) {
-            throw new ClassMirrorException(sprintf(
-                'Could not reflect class %s as it is marked final.', $class->getName()
-            ), $class);
+            throw new ClassMirrorException(sprintf('Could not reflect class %s as it is marked final.',
+                $class->getName()), $class);
         }
 
         $node->setParentClass($class->getName());
@@ -104,8 +97,7 @@ class ClassMirror
         }
 
         foreach ($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
-            if (0 === strpos($method->getName(), '_')
-                && !in_array($method->getName(), self::$reflectableMethods)) {
+            if (0 === strpos($method->getName(), '_') && ! in_array($method->getName(), self::$reflectableMethods)) {
                 continue;
             }
 
@@ -118,6 +110,7 @@ class ClassMirror
         }
     }
 
+
     private function reflectInterfaceToNode(ReflectionClass $interface, Node\ClassNode $node)
     {
         $node->addInterface($interface->getName());
@@ -126,6 +119,7 @@ class ClassMirror
             $this->reflectMethodToNode($method, $node);
         }
     }
+
 
     private function reflectMethodToNode(ReflectionMethod $method, Node\ClassNode $classNode)
     {
@@ -144,7 +138,7 @@ class ClassMirror
         }
 
         if (version_compare(PHP_VERSION, '7.0', '>=') && true === $method->hasReturnType()) {
-            $returnType = (string) $method->getReturnType();
+            $returnType      = (string) $method->getReturnType();
             $returnTypeLower = strtolower($returnType);
 
             if ('self' === $returnTypeLower) {
@@ -165,6 +159,7 @@ class ClassMirror
 
         $classNode->addMethod($node);
     }
+
 
     private function reflectArgumentToNode(ReflectionParameter $parameter, Node\MethodNode $methodNode)
     {
@@ -188,6 +183,7 @@ class ClassMirror
         $methodNode->addArgument($node);
     }
 
+
     private function hasDefaultValue(ReflectionParameter $parameter)
     {
         if ($this->isVariadic($parameter)) {
@@ -201,14 +197,16 @@ class ClassMirror
         return $parameter->isOptional() || $this->isNullable($parameter);
     }
 
+
     private function getDefaultValue(ReflectionParameter $parameter)
     {
-        if (!$parameter->isDefaultValueAvailable()) {
+        if ( ! $parameter->isDefaultValueAvailable()) {
             return null;
         }
 
         return $parameter->getDefaultValue();
     }
+
 
     private function getTypeHint(ReflectionParameter $parameter)
     {
@@ -231,15 +229,18 @@ class ClassMirror
         return null;
     }
 
+
     private function isVariadic(ReflectionParameter $parameter)
     {
         return PHP_VERSION_ID >= 50600 && $parameter->isVariadic();
     }
 
+
     private function isNullable(ReflectionParameter $parameter)
     {
         return $parameter->allowsNull() && null !== $this->getTypeHint($parameter);
     }
+
 
     private function getParameterClassName(ReflectionParameter $parameter)
     {
@@ -248,7 +249,7 @@ class ClassMirror
         } catch (\ReflectionException $e) {
             preg_match('/\[\s\<\w+?>\s([\w,\\\]+)/s', $parameter, $matches);
 
-            return isset($matches[1]) ? $matches[1] : null;
+            return isset( $matches[1] ) ? $matches[1] : null;
         }
     }
 }

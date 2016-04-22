@@ -6,8 +6,10 @@ use PhpParser\Node;
 
 class Echo_ extends Node\Stmt
 {
+
     /** @var Node\Expr[] Expressions */
     public $exprs;
+
 
     /**
      * Constructs an echo node.
@@ -15,12 +17,15 @@ class Echo_ extends Node\Stmt
      * @param Node\Expr[] $exprs      Expressions
      * @param array       $attributes Additional attributes
      */
-    public function __construct(array $exprs, array $attributes = array()) {
+    public function __construct(array $exprs, array $attributes = [ ])
+    {
         parent::__construct($attributes);
         $this->exprs = $exprs;
     }
 
-    public function getSubNodeNames() {
-        return array('exprs');
+
+    public function getSubNodeNames()
+    {
+        return [ 'exprs' ];
     }
 }

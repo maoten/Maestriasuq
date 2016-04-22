@@ -21,16 +21,21 @@ use Monolog\Logger;
  */
 class GitProcessor
 {
+
     private $level;
+
     private static $cache;
+
 
     public function __construct($level = Logger::DEBUG)
     {
         $this->level = Logger::toMonologLevel($level);
     }
 
+
     /**
      * @param  array $record
+     *
      * @return array
      */
     public function __invoke(array $record)
@@ -45,6 +50,7 @@ class GitProcessor
         return $record;
     }
 
+
     private static function getGitInfo()
     {
         if (self::$cache) {
@@ -53,12 +59,12 @@ class GitProcessor
 
         $branches = `git branch -v --no-abbrev`;
         if (preg_match('{^\* (.+?)\s+([a-f0-9]{40})(?:\s|$)}m', $branches, $matches)) {
-            return self::$cache = array(
+            return self::$cache = [
                 'branch' => $matches[1],
                 'commit' => $matches[2],
-            );
+            ];
         }
 
-        return self::$cache = array();
+        return self::$cache = [ ];
     }
 }

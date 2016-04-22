@@ -141,7 +141,7 @@ a, button {
 	}
 
 	/* Placing the icon */
-	
+
 	.icon {
 		padding-top: 1.4em;
 	}
@@ -164,7 +164,7 @@ a, button {
 	.opciones a:active ,
 	.opciones a:focus {
 		height: 10em;
-	}	
+	}
 
 	/* Making the text follow the height animation */
 	.no-touch .opciones a:hover .icon + span {
@@ -196,12 +196,12 @@ a, button {
 		-o-transition: box-shadow .6s ease-in-out;
 		-ms-transition: box-shadow .6s ease-in-out;
 		transition: box-shadow .6s ease-in-out;
-	}	
-	
+	}
+
 	/* Animate the box-shadow to create the effect */
 	.no-touch .opciones a:hover i,
 	.no-touch .opciones a:active i,
-	.no-touch .opciones a:focus i {		
+	.no-touch .opciones a:focus i {
 		box-shadow: 0 0 0 0 rgba(255,255,255,0.2);
 		-webkit-transition: box-shadow .4s ease-in-out;
 		-moz-transition: box-shadow .4s ease-in-out;
@@ -209,7 +209,7 @@ a, button {
 		-ms-transition: box-shadow .4s ease-in-out;
 		transition: box-shadow .4s ease-in-out;
 	}
-		
+
 }
 
 @media (min-width: 50em) and (max-width: 61.250em) {
@@ -223,7 +223,7 @@ a, button {
 
 /* The "tablet" and "mobile" version */
 
-@media (max-width: 49.938em) {		
+@media (max-width: 49.938em) {
 
 	/* Instead of adding a border, we transition the background color */
 	.no-touch .opciones ul li:nth-child(6n+1) a:hover,
@@ -268,27 +268,27 @@ a, button {
 		-o-transition: background 0.5s;
 		-ms-transition: background 0.5s;
 		transition: background 0.5s;
-	}	
+	}
 
 }
 
 /* CSS specific to the 2x3 columns version */
 @media (min-width:32.5em) and (max-width: 49.938em) {
-	
+
 	/* Creating the 2 column layout using floating elements once again */
 	.opciones li {
 		display: block;
 		float: left;
 		width: 50%;
 	}
-	
+
 	/* Adding some padding to make the elements look nicer*/
 	.opciones a {
-		padding: 0.8em;		
+		padding: 0.8em;
 	}
 
 	/* Displaying the icons on the left, and the text on the right side using inlin-block*/
-	.opciones li span, 
+	.opciones li span,
 	.opciones li span.icon {
 		display: inline-block;
 	}
@@ -327,12 +327,12 @@ a, button {
 	.no-touch .opciones li:focus i {
 		border: 4px solid rgba(255,255,255,0.1);
 	}
-	
+
 }
 
 /* Adapting the font size and width for smaller screns*/
 @media (min-width: 32.5em) and (max-width: 38.688em) {
-	
+
 	.opciones li span.icon {
 		width: 50%;
 	}
@@ -344,7 +344,7 @@ a, button {
 
 /* Styling the toggle menu link and hiding it */
 .opciones .navtoogle{
-	display: none;	
+	display: none;
 	width: 100%;
 	padding: 0.5em 0.5em 0.8em;
 	font-family: 'Lato',Calibri,Arial,sans-serif;
@@ -352,7 +352,7 @@ a, button {
 	text-align: left;
 	color: rgb(7, 16, 15);
 	font-size: 1.2em;
-	background: none;	
+	background: none;
 	border: none;
 	border-bottom: 4px solid rgb(221, 221, 221);
 	cursor: pointer;
@@ -376,23 +376,23 @@ a, button {
 		margin: 0;
 		display: block;
 	}
-	
+
 	/* Animating the height of the navigation when the button is clicked */
-	
+
 	/* When JavaScript is disabled, we hide the menu */
 	.no-js .opciones ul {
 		max-height: 30em;
 		overflow: hidden;
 	}
-	
+
 	/* When JavaScript is enabled, we hide the menu */
 	.js .opciones ul {
-		max-height: 0em;
+		max-height: 0;
 		overflow: hidden;
 	}
-	
+
 	/* Displaying the menu when the user has clicked on the button*/
-	.js .opciones .active + ul {		
+	.js .opciones .active + ul {
 		max-height: 30em;
 		overflow: hidden;
 		-webkit-transition: max-height .4s;
@@ -403,21 +403,21 @@ a, button {
 	}
 
 	/* Adapting the layout of the menu for smaller screens : icon on the left and text on the right*/
-	
+
 	.opciones li span {
 		display: inline-block;
 		height: 100%;
 	}
 
 	.opciones a {
-		padding: 0.5em;		
+		padding: 0.5em;
 	}
-	
+
 	.icon + span {
 		margin-left: 1em;
 		font-size: 0.8em;
 	}
-	
+
 	/* Adding a left border of 8 px with a different color for each menu item*/
 	/*.opciones li:nth-child(6n+1) {
 		border-left: 8px solid rgb(174, 78, 1);

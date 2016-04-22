@@ -7,12 +7,14 @@ use Illuminate\Database\Console\Seeds\SeedCommand;
 
 class SeedServiceProvider extends ServiceProvider
 {
+
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
     protected $defer = true;
+
 
     /**
      * Register the service provider.
@@ -30,6 +32,7 @@ class SeedServiceProvider extends ServiceProvider
         $this->commands('command.seed');
     }
 
+
     /**
      * Register the seed console command.
      *
@@ -42,6 +45,7 @@ class SeedServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Get the services provided by the provider.
      *
@@ -49,6 +53,6 @@ class SeedServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['seeder', 'command.seed'];
+        return [ 'seeder', 'command.seed' ];
     }
 }

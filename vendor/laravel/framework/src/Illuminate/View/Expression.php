@@ -9,4 +9,5 @@ use Illuminate\Support\HtmlString;
  */
 class Expression extends HtmlString
 {
+
 }

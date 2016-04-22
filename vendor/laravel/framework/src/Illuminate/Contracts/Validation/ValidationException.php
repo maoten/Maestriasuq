@@ -7,6 +7,7 @@ use Illuminate\Contracts\Support\MessageProvider;
 
 class ValidationException extends RuntimeException
 {
+
     /**
      * The message provider implementation.
      *
@@ -14,16 +15,19 @@ class ValidationException extends RuntimeException
      */
     protected $provider;
 
+
     /**
      * Create a new validation exception instance.
      *
-     * @param  \Illuminate\Contracts\Support\MessageProvider  $provider
+     * @param  \Illuminate\Contracts\Support\MessageProvider $provider
+     *
      * @return void
      */
     public function __construct(MessageProvider $provider)
     {
         $this->provider = $provider;
     }
+
 
     /**
      * Get the validation error message provider.
@@ -34,6 +38,7 @@ class ValidationException extends RuntimeException
     {
         return $this->provider->getMessageBag();
     }
+
 
     /**
      * Get the validation error message provider.

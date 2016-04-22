@@ -10,6 +10,7 @@ use Illuminate\Database\ConnectionResolverInterface as Resolver;
 
 class SeedCommand extends Command
 {
+
     use ConfirmableTrait;
 
     /**
@@ -33,10 +34,12 @@ class SeedCommand extends Command
      */
     protected $resolver;
 
+
     /**
      * Create a new database seed command instance.
      *
-     * @param  \Illuminate\Database\ConnectionResolverInterface  $resolver
+     * @param  \Illuminate\Database\ConnectionResolverInterface $resolver
+     *
      * @return void
      */
     public function __construct(Resolver $resolver)
@@ -46,6 +49,7 @@ class SeedCommand extends Command
         $this->resolver = $resolver;
     }
 
+
     /**
      * Execute the console command.
      *
@@ -53,7 +57,7 @@ class SeedCommand extends Command
      */
     public function fire()
     {
-        if (! $this->confirmToProceed()) {
+        if ( ! $this->confirmToProceed()) {
             return;
         }
 
@@ -63,6 +67,7 @@ class SeedCommand extends Command
             $this->getSeeder()->run();
         });
     }
+
 
     /**
      * Get a seeder instance from the container.
@@ -76,6 +81,7 @@ class SeedCommand extends Command
         return $class->setContainer($this->laravel)->setCommand($this);
     }
 
+
     /**
      * Get the name of the database connection to use.
      *
@@ -88,6 +94,7 @@ class SeedCommand extends Command
         return $database ?: $this->laravel['config']['database.default'];
     }
 
+
     /**
      * Get the console command options.
      *
@@ -96,11 +103,11 @@ class SeedCommand extends Command
     protected function getOptions()
     {
         return [
-            ['class', null, InputOption::VALUE_OPTIONAL, 'The class name of the root seeder', 'DatabaseSeeder'],
+            [ 'class', null, InputOption::VALUE_OPTIONAL, 'The class name of the root seeder', 'DatabaseSeeder' ],
 
-            ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to seed'],
+            [ 'database', null, InputOption::VALUE_OPTIONAL, 'The database connection to seed' ],
 
-            ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production.'],
+            [ 'force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production.' ],
         ];
     }
 }

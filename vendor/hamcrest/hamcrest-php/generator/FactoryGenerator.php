@@ -12,6 +12,7 @@
  */
 class FactoryGenerator
 {
+
     /**
      * Path to the Hamcrest PHP files to process.
      *
@@ -24,16 +25,19 @@ class FactoryGenerator
      */
     private $factoryFiles;
 
+
     public function __construct($path)
     {
-        $this->path = $path;
-        $this->factoryFiles = array();
+        $this->path         = $path;
+        $this->factoryFiles = [ ];
     }
+
 
     public function addFactoryFile(FactoryFile $factoryFile)
     {
         $this->factoryFiles[] = $factoryFile;
     }
+
 
     public function generate()
     {
@@ -49,6 +53,7 @@ class FactoryGenerator
         }
     }
 
+
     public function write()
     {
         foreach ($this->factoryFiles as $file) {
@@ -57,10 +62,11 @@ class FactoryGenerator
         }
     }
 
+
     public function getClassesWithFactoryMethods()
     {
-        $classes = array();
-        $files = $this->getSortedFiles();
+        $classes = [ ];
+        $files   = $this->getSortedFiles();
         foreach ($files as $file) {
             $class = $this->getFactoryClass($file);
             if ($class !== null) {
@@ -71,10 +77,11 @@ class FactoryGenerator
         return $classes;
     }
 
+
     public function getSortedFiles()
     {
-        $iter = \File_Iterator_Factory::getFileIterator($this->path, '.php');
-        $files = array();
+        $iter  = \File_Iterator_Factory::getFileIterator($this->path, '.php');
+        $files = [ ];
         foreach ($iter as $file) {
             $files[] = $file;
         }
@@ -82,6 +89,7 @@ class FactoryGenerator
 
         return $files;
     }
+
 
     public function getFactoryClass($file)
     {
@@ -100,12 +108,12 @@ class FactoryGenerator
         return null;
     }
 
+
     public function getFactoryClassName($file)
     {
         $content = file_get_contents($file);
-        if (preg_match('/namespace\s+(.+);/', $content, $namespace)
-            && preg_match('/\n\s*class\s+(\w+)\s+extends\b/', $content, $className)
-            && preg_match('/@factory\b/', $content)
+        if (preg_match('/namespace\s+(.+);/', $content, $namespace) && preg_match('/\n\s*class\s+(\w+)\s+extends\b/',
+                $content, $className) && preg_match('/@factory\b/', $content)
         ) {
             return $namespace[1] . '\\' . $className[1];
         }

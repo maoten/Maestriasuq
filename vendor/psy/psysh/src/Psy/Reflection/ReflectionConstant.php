@@ -18,9 +18,13 @@ namespace Psy\Reflection;
  */
 class ReflectionConstant implements \Reflector
 {
+
     private $class;
+
     private $name;
+
     private $value;
+
 
     /**
      * Construct a ReflectionConstant object.
@@ -30,7 +34,7 @@ class ReflectionConstant implements \Reflector
      */
     public function __construct($class, $name)
     {
-        if (!$class instanceof \ReflectionClass) {
+        if ( ! $class instanceof \ReflectionClass) {
             $class = new \ReflectionClass($class);
         }
 
@@ -38,12 +42,13 @@ class ReflectionConstant implements \Reflector
         $this->name  = $name;
 
         $constants = $class->getConstants();
-        if (!array_key_exists($name, $constants)) {
+        if ( ! array_key_exists($name, $constants)) {
             throw new \InvalidArgumentException('Unknown constant: ' . $name);
         }
 
         $this->value = $constants[$name];
     }
+
 
     /**
      * Gets the declaring class.
@@ -55,6 +60,7 @@ class ReflectionConstant implements \Reflector
         return $this->class;
     }
 
+
     /**
      * Gets the constant name.
      *
@@ -65,6 +71,7 @@ class ReflectionConstant implements \Reflector
         return $this->name;
     }
 
+
     /**
      * Gets the value of the constant.
      *
@@ -74,6 +81,7 @@ class ReflectionConstant implements \Reflector
     {
         return $this->value;
     }
+
 
     /**
      * Gets the constant's file name.
@@ -87,6 +95,7 @@ class ReflectionConstant implements \Reflector
         // return $this->class->getFileName();
     }
 
+
     /**
      * Get the code start line.
      *
@@ -96,6 +105,7 @@ class ReflectionConstant implements \Reflector
     {
         throw new \RuntimeException('Not yet implemented because it\'s unclear what I should do here :)');
     }
+
 
     /**
      * Get the code end line.
@@ -107,6 +117,7 @@ class ReflectionConstant implements \Reflector
         return $this->getStartLine();
     }
 
+
     /**
      * Get the constant's docblock.
      *
@@ -117,6 +128,7 @@ class ReflectionConstant implements \Reflector
         return false;
     }
 
+
     /**
      * Export the constant? I don't think this is possible.
      *
@@ -126,6 +138,7 @@ class ReflectionConstant implements \Reflector
     {
         throw new \RuntimeException('Not yet implemented because it\'s unclear what I should do here :)');
     }
+
 
     /**
      * To string.

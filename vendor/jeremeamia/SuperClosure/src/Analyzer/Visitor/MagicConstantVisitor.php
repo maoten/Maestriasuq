@@ -13,10 +13,12 @@ use PhpParser\NodeVisitorAbstract as NodeVisitor;
  */
 final class MagicConstantVisitor extends NodeVisitor
 {
+
     /**
      * @var array
      */
     private $location;
+
 
     /**
      * @param array $location
@@ -25,6 +27,7 @@ final class MagicConstantVisitor extends NodeVisitor
     {
         $this->location = $location;
     }
+
 
     public function leaveNode(AstNode $node)
     {

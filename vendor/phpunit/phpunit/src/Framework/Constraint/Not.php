@@ -15,10 +15,12 @@
  */
 class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var PHPUnit_Framework_Constraint
      */
     protected $constraint;
+
 
     /**
      * @param PHPUnit_Framework_Constraint $constraint
@@ -27,12 +29,13 @@ class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
     {
         parent::__construct();
 
-        if (!($constraint instanceof PHPUnit_Framework_Constraint)) {
+        if ( ! ( $constraint instanceof PHPUnit_Framework_Constraint )) {
             $constraint = new PHPUnit_Framework_Constraint_IsEqual($constraint);
         }
 
         $this->constraint = $constraint;
     }
+
 
     /**
      * @param string $string
@@ -41,8 +44,7 @@ class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
      */
     public static function negate($string)
     {
-        return str_replace(
-            array(
+        return str_replace([
             'contains ',
             'exists',
             'has ',
@@ -53,22 +55,20 @@ class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
             'ends with ',
             'reference ',
             'not not '
-            ),
-            array(
-            'does not contain ',
-            'does not exist',
-            'does not have ',
-            'is not ',
-            'are not ',
-            'does not match ',
-            'starts not with ',
-            'ends not with ',
-            'don\'t reference ',
-            'not '
-            ),
-            $string
-        );
+        ], [
+                'does not contain ',
+                'does not exist',
+                'does not have ',
+                'is not ',
+                'are not ',
+                'does not match ',
+                'starts not with ',
+                'ends not with ',
+                'don\'t reference ',
+                'not '
+            ], $string);
     }
+
 
     /**
      * Evaluates the constraint for parameter $other
@@ -90,16 +90,17 @@ class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
      */
     public function evaluate($other, $description = '', $returnResult = false)
     {
-        $success = !$this->constraint->evaluate($other, $description, true);
+        $success = ! $this->constraint->evaluate($other, $description, true);
 
         if ($returnResult) {
             return $success;
         }
 
-        if (!$success) {
+        if ( ! $success) {
             $this->fail($other, $description);
         }
     }
+
 
     /**
      * Returns the description of the failure
@@ -120,11 +121,10 @@ class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
                 return 'not( ' . $this->constraint->failureDescription($other) . ' )';
 
             default:
-                return self::negate(
-                    $this->constraint->failureDescription($other)
-                );
+                return self::negate($this->constraint->failureDescription($other));
         }
     }
+
 
     /**
      * Returns a string representation of the constraint.
@@ -140,11 +140,10 @@ class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
                 return 'not( ' . $this->constraint->toString() . ' )';
 
             default:
-                return self::negate(
-                    $this->constraint->toString()
-                );
+                return self::negate($this->constraint->toString());
         }
     }
+
 
     /**
      * Counts the number of constraint elements.

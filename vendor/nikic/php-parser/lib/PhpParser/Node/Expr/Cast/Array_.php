@@ -6,4 +6,5 @@ use PhpParser\Node\Expr\Cast;
 
 class Array_ extends Cast
 {
+
 }

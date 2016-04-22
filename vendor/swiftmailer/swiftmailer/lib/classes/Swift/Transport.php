@@ -15,6 +15,7 @@
  */
 interface Swift_Transport
 {
+
     /**
      * Test if this Transport mechanism has started.
      *
@@ -22,15 +23,18 @@ interface Swift_Transport
      */
     public function isStarted();
 
+
     /**
      * Start this Transport mechanism.
      */
     public function start();
 
+
     /**
      * Stop this Transport mechanism.
      */
     public function stop();
+
 
     /**
      * Send the given Message.
@@ -44,6 +48,7 @@ interface Swift_Transport
      * @return int
      */
     public function send(Swift_Mime_Message $message, &$failedRecipients = null);
+
 
     /**
      * Register a plugin in the Transport.

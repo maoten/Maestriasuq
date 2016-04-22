@@ -19,6 +19,7 @@ namespace Symfony\Component\Translation;
  */
 class MessageSelector
 {
+
     /**
      * Given a message with different plural translations separated by a
      * pipe (|), this method returns the correct portion of the message based
@@ -47,13 +48,14 @@ class MessageSelector
      */
     public function choose($message, $number, $locale)
     {
-        $parts = explode('|', $message);
-        $explicitRules = array();
-        $standardRules = array();
+        $parts         = explode('|', $message);
+        $explicitRules = [ ];
+        $standardRules = [ ];
         foreach ($parts as $part) {
             $part = trim($part);
 
-            if (preg_match('/^(?P<interval>'.Interval::getIntervalRegexp().')\s*(?P<message>.*?)$/xs', $part, $matches)) {
+            if (preg_match('/^(?P<interval>' . Interval::getIntervalRegexp() . ')\s*(?P<message>.*?)$/xs', $part,
+                $matches)) {
                 $explicitRules[$matches['interval']] = $matches['message'];
             } elseif (preg_match('/^\w+\:\s*(.*?)$/', $part, $matches)) {
                 $standardRules[] = $matches[1];
@@ -71,14 +73,15 @@ class MessageSelector
 
         $position = PluralizationRules::get($number, $locale);
 
-        if (!isset($standardRules[$position])) {
+        if ( ! isset( $standardRules[$position] )) {
             // when there's exactly one rule given, and that rule is a standard
             // rule, use this rule
-            if (1 === count($parts) && isset($standardRules[0])) {
+            if (1 === count($parts) && isset( $standardRules[0] )) {
                 return $standardRules[0];
             }
 
-            throw new \InvalidArgumentException(sprintf('Unable to choose a translation for "%s" with locale "%s" for value "%d". Double check that this translation has the correct plural options (e.g. "There is one apple|There are %%count%% apples").', $message, $locale, $number));
+            throw new \InvalidArgumentException(sprintf('Unable to choose a translation for "%s" with locale "%s" for value "%d". Double check that this translation has the correct plural options (e.g. "There is one apple|There are %%count%% apples").',
+                $message, $locale, $number));
         }
 
         return $standardRules[$position];

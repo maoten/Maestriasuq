@@ -18,6 +18,7 @@ namespace Symfony\Component\HttpFoundation\Session\Storage\Proxy;
  */
 abstract class AbstractProxy
 {
+
     /**
      * Flag if handler wraps an internal PHP session handler (using \SessionHandler).
      *
@@ -30,6 +31,7 @@ abstract class AbstractProxy
      */
     protected $saveHandlerName;
 
+
     /**
      * Gets the session.save_handler name.
      *
@@ -39,6 +41,7 @@ abstract class AbstractProxy
     {
         return $this->saveHandlerName;
     }
+
 
     /**
      * Is this proxy handler and instance of \SessionHandlerInterface.
@@ -50,6 +53,7 @@ abstract class AbstractProxy
         return $this instanceof \SessionHandlerInterface;
     }
 
+
     /**
      * Returns true if this handler wraps an internal PHP session save handler using \SessionHandler.
      *
@@ -59,6 +63,7 @@ abstract class AbstractProxy
     {
         return $this->wrapper;
     }
+
 
     /**
      * Has a session started?
@@ -70,6 +75,7 @@ abstract class AbstractProxy
         return \PHP_SESSION_ACTIVE === session_status();
     }
 
+
     /**
      * Gets the session ID.
      *
@@ -79,6 +85,7 @@ abstract class AbstractProxy
     {
         return session_id();
     }
+
 
     /**
      * Sets the session ID.
@@ -96,6 +103,7 @@ abstract class AbstractProxy
         session_id($id);
     }
 
+
     /**
      * Gets the session name.
      *
@@ -105,6 +113,7 @@ abstract class AbstractProxy
     {
         return session_name();
     }
+
 
     /**
      * Sets the session name.

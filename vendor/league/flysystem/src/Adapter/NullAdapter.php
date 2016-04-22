@@ -8,8 +8,10 @@ use League\Flysystem\Config;
 
 class NullAdapter extends AbstractAdapter
 {
+
     use StreamedTrait;
     use StreamedCopyTrait;
+
 
     /**
      * Check whether a file is present.
@@ -23,12 +25,13 @@ class NullAdapter extends AbstractAdapter
         return false;
     }
 
+
     /**
      * @inheritdoc
      */
     public function write($path, $contents, Config $config)
     {
-        $type = 'file';
+        $type   = 'file';
         $result = compact('contents', 'type', 'path');
 
         if ($visibility = $config->get('visibility')) {
@@ -38,6 +41,7 @@ class NullAdapter extends AbstractAdapter
         return $result;
     }
 
+
     /**
      * @inheritdoc
      */
@@ -45,6 +49,7 @@ class NullAdapter extends AbstractAdapter
     {
         return false;
     }
+
 
     /**
      * @inheritdoc
@@ -54,6 +59,7 @@ class NullAdapter extends AbstractAdapter
         return false;
     }
 
+
     /**
      * @inheritdoc
      */
@@ -61,6 +67,7 @@ class NullAdapter extends AbstractAdapter
     {
         return false;
     }
+
 
     /**
      * @inheritdoc
@@ -70,13 +77,15 @@ class NullAdapter extends AbstractAdapter
         return false;
     }
 
+
     /**
      * @inheritdoc
      */
     public function listContents($directory = '', $recursive = false)
     {
-        return [];
+        return [ ];
     }
+
 
     /**
      * @inheritdoc
@@ -86,6 +95,7 @@ class NullAdapter extends AbstractAdapter
         return false;
     }
 
+
     /**
      * @inheritdoc
      */
@@ -93,6 +103,7 @@ class NullAdapter extends AbstractAdapter
     {
         return false;
     }
+
 
     /**
      * @inheritdoc
@@ -102,6 +113,7 @@ class NullAdapter extends AbstractAdapter
         return false;
     }
 
+
     /**
      * @inheritdoc
      */
@@ -109,6 +121,7 @@ class NullAdapter extends AbstractAdapter
     {
         return false;
     }
+
 
     /**
      * @inheritdoc
@@ -118,6 +131,7 @@ class NullAdapter extends AbstractAdapter
         return false;
     }
 
+
     /**
      * @inheritdoc
      */
@@ -126,13 +140,15 @@ class NullAdapter extends AbstractAdapter
         return compact('visibility');
     }
 
+
     /**
      * @inheritdoc
      */
     public function createDir($dirname, Config $config)
     {
-        return ['path' => $dirname, 'type' => 'dir'];
+        return [ 'path' => $dirname, 'type' => 'dir' ];
     }
+
 
     /**
      * @inheritdoc

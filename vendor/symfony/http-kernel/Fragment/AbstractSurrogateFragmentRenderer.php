@@ -24,9 +24,13 @@ use Symfony\Component\HttpKernel\UriSigner;
  */
 abstract class AbstractSurrogateFragmentRenderer extends RoutableFragmentRenderer
 {
+
     private $surrogate;
+
     private $inlineStrategy;
+
     private $signer;
+
 
     /**
      * Constructor.
@@ -38,12 +42,16 @@ abstract class AbstractSurrogateFragmentRenderer extends RoutableFragmentRendere
      * @param FragmentRendererInterface $inlineStrategy The inline strategy to use when the surrogate is not supported
      * @param UriSigner                 $signer
      */
-    public function __construct(SurrogateInterface $surrogate = null, FragmentRendererInterface $inlineStrategy, UriSigner $signer = null)
-    {
-        $this->surrogate = $surrogate;
+    public function __construct(
+        SurrogateInterface $surrogate = null,
+        FragmentRendererInterface $inlineStrategy,
+        UriSigner $signer = null
+    ) {
+        $this->surrogate      = $surrogate;
         $this->inlineStrategy = $inlineStrategy;
-        $this->signer = $signer;
+        $this->signer         = $signer;
     }
+
 
     /**
      * {@inheritdoc}
@@ -61,9 +69,9 @@ abstract class AbstractSurrogateFragmentRenderer extends RoutableFragmentRendere
      *
      * @see Symfony\Component\HttpKernel\HttpCache\SurrogateInterface
      */
-    public function render($uri, Request $request, array $options = array())
+    public function render($uri, Request $request, array $options = [ ])
     {
-        if (!$this->surrogate || !$this->surrogate->hasSurrogateCapability($request)) {
+        if ( ! $this->surrogate || ! $this->surrogate->hasSurrogateCapability($request)) {
             return $this->inlineStrategy->render($uri, $request, $options);
         }
 
@@ -71,15 +79,18 @@ abstract class AbstractSurrogateFragmentRenderer extends RoutableFragmentRendere
             $uri = $this->generateSignedFragmentUri($uri, $request);
         }
 
-        $alt = isset($options['alt']) ? $options['alt'] : null;
+        $alt = isset( $options['alt'] ) ? $options['alt'] : null;
         if ($alt instanceof ControllerReference) {
             $alt = $this->generateSignedFragmentUri($alt, $request);
         }
 
-        $tag = $this->surrogate->renderIncludeTag($uri, $alt, isset($options['ignore_errors']) ? $options['ignore_errors'] : false, isset($options['comment']) ? $options['comment'] : '');
+        $tag = $this->surrogate->renderIncludeTag($uri, $alt,
+            isset( $options['ignore_errors'] ) ? $options['ignore_errors'] : false,
+            isset( $options['comment'] ) ? $options['comment'] : '');
 
         return new Response($tag);
     }
+
 
     private function generateSignedFragmentUri($uri, Request $request)
     {

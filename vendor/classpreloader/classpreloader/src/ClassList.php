@@ -19,6 +19,7 @@ namespace ClassPreloader;
  */
 class ClassList
 {
+
     /**
      * The head node of the list.
      *
@@ -33,6 +34,7 @@ class ClassList
      */
     protected $current;
 
+
     /**
      * Create a new class list instance.
      *
@@ -43,6 +45,7 @@ class ClassList
         $this->clear();
     }
 
+
     /**
      * Clear the contents of the list and reset the head node and current node.
      *
@@ -50,9 +53,10 @@ class ClassList
      */
     public function clear()
     {
-        $this->head = new ClassNode();
+        $this->head    = new ClassNode();
         $this->current = $this->head;
     }
+
 
     /**
      * Traverse to the next node in the list.
@@ -61,13 +65,14 @@ class ClassList
      */
     public function next()
     {
-        if (isset($this->current->next)) {
+        if (isset( $this->current->next )) {
             $this->current = $this->current->next;
         } else {
             $this->current->next = new ClassNode(null, $this->current);
-            $this->current = $this->current->next;
+            $this->current       = $this->current->next;
         }
     }
+
 
     /**
      * Insert a value at the current position in the list.
@@ -81,13 +86,13 @@ class ClassList
      */
     public function push($value)
     {
-        if (!$this->current->value) {
+        if ( ! $this->current->value) {
             $this->current->value = $value;
         } else {
-            $temp = $this->current;
-            $this->current = new ClassNode($value, $temp->prev);
+            $temp                = $this->current;
+            $this->current       = new ClassNode($value, $temp->prev);
             $this->current->next = $temp;
-            $temp->prev = $this->current;
+            $temp->prev          = $this->current;
             if ($temp === $this->head) {
                 $this->head = $this->current;
             } else {
@@ -96,6 +101,7 @@ class ClassList
         }
     }
 
+
     /**
      * Traverse the ClassList and return a list of classes.
      *
@@ -103,11 +109,11 @@ class ClassList
      */
     public function getClasses()
     {
-        $classes = [];
+        $classes = [ ];
         $current = $this->head;
         while ($current && $current->value) {
             $classes[] = $current->value;
-            $current = $current->next;
+            $current   = $current->next;
         }
 
         return array_filter($classes);

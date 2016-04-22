@@ -16,14 +16,17 @@ use Symfony\Component\Console\Command\Command;
 
 class HelperSetTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testConstructor()
     {
         $mock_helper = $this->getGenericMockHelper('fake_helper');
-        $helperset = new HelperSet(array('fake_helper_alias' => $mock_helper));
+        $helperset   = new HelperSet([ 'fake_helper_alias' => $mock_helper ]);
 
-        $this->assertEquals($mock_helper, $helperset->get('fake_helper_alias'), '__construct sets given helper to helpers');
+        $this->assertEquals($mock_helper, $helperset->get('fake_helper_alias'),
+            '__construct sets given helper to helpers');
         $this->assertTrue($helperset->has('fake_helper_alias'), '__construct sets helper alias for given helper');
     }
+
 
     public function testSet()
     {
@@ -43,33 +46,41 @@ class HelperSetTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($helperset->has('fake_helper_alias'), '->set() adds helper alias when set');
     }
 
+
     public function testHas()
     {
-        $helperset = new HelperSet(array('fake_helper_alias' => $this->getGenericMockHelper('fake_helper')));
+        $helperset = new HelperSet([ 'fake_helper_alias' => $this->getGenericMockHelper('fake_helper') ]);
         $this->assertTrue($helperset->has('fake_helper'), '->has() finds set helper');
         $this->assertTrue($helperset->has('fake_helper_alias'), '->has() finds set helper by alias');
     }
+
 
     public function testGet()
     {
         $helper_01 = $this->getGenericMockHelper('fake_helper_01');
         $helper_02 = $this->getGenericMockHelper('fake_helper_02');
-        $helperset = new HelperSet(array('fake_helper_01_alias' => $helper_01, 'fake_helper_02_alias' => $helper_02));
+        $helperset = new HelperSet([ 'fake_helper_01_alias' => $helper_01, 'fake_helper_02_alias' => $helper_02 ]);
         $this->assertEquals($helper_01, $helperset->get('fake_helper_01'), '->get() returns correct helper by name');
-        $this->assertEquals($helper_01, $helperset->get('fake_helper_01_alias'), '->get() returns correct helper by alias');
+        $this->assertEquals($helper_01, $helperset->get('fake_helper_01_alias'),
+            '->get() returns correct helper by alias');
         $this->assertEquals($helper_02, $helperset->get('fake_helper_02'), '->get() returns correct helper by name');
-        $this->assertEquals($helper_02, $helperset->get('fake_helper_02_alias'), '->get() returns correct helper by alias');
+        $this->assertEquals($helper_02, $helperset->get('fake_helper_02_alias'),
+            '->get() returns correct helper by alias');
 
         $helperset = new HelperSet();
         try {
             $helperset->get('foo');
             $this->fail('->get() throws InvalidArgumentException when helper not found');
         } catch (\Exception $e) {
-            $this->assertInstanceOf('\InvalidArgumentException', $e, '->get() throws InvalidArgumentException when helper not found');
-            $this->assertInstanceOf('Symfony\Component\Console\Exception\ExceptionInterface', $e, '->get() throws domain specific exception when helper not found');
-            $this->assertContains('The helper "foo" is not defined.', $e->getMessage(), '->get() throws InvalidArgumentException when helper not found');
+            $this->assertInstanceOf('\InvalidArgumentException', $e,
+                '->get() throws InvalidArgumentException when helper not found');
+            $this->assertInstanceOf('Symfony\Component\Console\Exception\ExceptionInterface', $e,
+                '->get() throws domain specific exception when helper not found');
+            $this->assertContains('The helper "foo" is not defined.', $e->getMessage(),
+                '->get() throws InvalidArgumentException when helper not found');
         }
     }
+
 
     public function testSetCommand()
     {
@@ -83,16 +94,19 @@ class HelperSetTest extends \PHPUnit_Framework_TestCase
         $helperset = new HelperSet();
         $helperset->setCommand($cmd_01);
         $helperset->setCommand($cmd_02);
-        $this->assertEquals($cmd_02, $helperset->getCommand(), '->setCommand() overwrites stored command with consecutive calls');
+        $this->assertEquals($cmd_02, $helperset->getCommand(),
+            '->setCommand() overwrites stored command with consecutive calls');
     }
+
 
     public function testGetCommand()
     {
-        $cmd = new Command('foo');
+        $cmd       = new Command('foo');
         $helperset = new HelperSet();
         $helperset->setCommand($cmd);
         $this->assertEquals($cmd, $helperset->getCommand(), '->getCommand() retrieves stored command');
     }
+
 
     public function testIteration()
     {
@@ -100,13 +114,14 @@ class HelperSetTest extends \PHPUnit_Framework_TestCase
         $helperset->set($this->getGenericMockHelper('fake_helper_01', $helperset));
         $helperset->set($this->getGenericMockHelper('fake_helper_02', $helperset));
 
-        $helpers = array('fake_helper_01', 'fake_helper_02');
-        $i = 0;
+        $helpers = [ 'fake_helper_01', 'fake_helper_02' ];
+        $i       = 0;
 
         foreach ($helperset as $helper) {
             $this->assertEquals($helpers[$i++], $helper->getName());
         }
     }
+
 
     /**
      * Create a generic mock for the helper interface. Optionally check for a call to setHelperSet with a specific
@@ -118,14 +133,10 @@ class HelperSetTest extends \PHPUnit_Framework_TestCase
     private function getGenericMockHelper($name, HelperSet $helperset = null)
     {
         $mock_helper = $this->getMock('\Symfony\Component\Console\Helper\HelperInterface');
-        $mock_helper->expects($this->any())
-            ->method('getName')
-            ->will($this->returnValue($name));
+        $mock_helper->expects($this->any())->method('getName')->will($this->returnValue($name));
 
         if ($helperset) {
-            $mock_helper->expects($this->any())
-                ->method('setHelperSet')
-                ->with($this->equalTo($helperset));
+            $mock_helper->expects($this->any())->method('setHelperSet')->with($this->equalTo($helperset));
         }
 
         return $mock_helper;

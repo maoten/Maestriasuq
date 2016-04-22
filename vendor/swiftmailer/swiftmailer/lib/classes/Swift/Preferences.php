@@ -15,13 +15,16 @@
  */
 class Swift_Preferences
 {
+
     /** Singleton instance */
     private static $_instance = null;
+
 
     /** Constructor not to be used */
     private function __construct()
     {
     }
+
 
     /**
      * Gets the instance of Preferences.
@@ -30,12 +33,13 @@ class Swift_Preferences
      */
     public static function getInstance()
     {
-        if (!isset(self::$_instance)) {
+        if ( ! isset( self::$_instance )) {
             self::$_instance = new self();
         }
 
         return self::$_instance;
     }
+
 
     /**
      * Set the default charset used.
@@ -46,11 +50,11 @@ class Swift_Preferences
      */
     public function setCharset($charset)
     {
-        Swift_DependencyContainer::getInstance()
-            ->register('properties.charset')->asValue($charset);
+        Swift_DependencyContainer::getInstance()->register('properties.charset')->asValue($charset);
 
         return $this;
     }
+
 
     /**
      * Set the directory where temporary files can be saved.
@@ -61,11 +65,11 @@ class Swift_Preferences
      */
     public function setTempDir($dir)
     {
-        Swift_DependencyContainer::getInstance()
-            ->register('tempdir')->asValue($dir);
+        Swift_DependencyContainer::getInstance()->register('tempdir')->asValue($dir);
 
         return $this;
     }
+
 
     /**
      * Set the type of cache to use (i.e. "disk" or "array").
@@ -76,11 +80,11 @@ class Swift_Preferences
      */
     public function setCacheType($type)
     {
-        Swift_DependencyContainer::getInstance()
-            ->register('cache')->asAliasOf(sprintf('cache.%s', $type));
+        Swift_DependencyContainer::getInstance()->register('cache')->asAliasOf(sprintf('cache.%s', $type));
 
         return $this;
     }
+
 
     /**
      * Set the QuotedPrintable dot escaper preference.
@@ -91,12 +95,11 @@ class Swift_Preferences
      */
     public function setQPDotEscape($dotEscape)
     {
-        $dotEscape = !empty($dotEscape);
-        Swift_DependencyContainer::getInstance()
-            ->register('mime.qpcontentencoder')
-            ->asNewInstanceOf('Swift_Mime_ContentEncoder_QpContentEncoder')
-            ->withDependencies(array('mime.charstream', 'mime.bytecanonicalizer'))
-            ->addConstructorValue($dotEscape);
+        $dotEscape = ! empty( $dotEscape );
+        Swift_DependencyContainer::getInstance()->register('mime.qpcontentencoder')->asNewInstanceOf('Swift_Mime_ContentEncoder_QpContentEncoder')->withDependencies([
+                'mime.charstream',
+                'mime.bytecanonicalizer'
+            ])->addConstructorValue($dotEscape);
 
         return $this;
     }

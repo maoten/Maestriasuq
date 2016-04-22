@@ -6,6 +6,7 @@ use Illuminate\Database\ConnectionResolverInterface as Resolver;
 
 class DatabaseMigrationRepository implements MigrationRepositoryInterface
 {
+
     /**
      * The database connection resolver instance.
      *
@@ -27,18 +28,21 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
      */
     protected $connection;
 
+
     /**
      * Create a new database migration repository instance.
      *
-     * @param  \Illuminate\Database\ConnectionResolverInterface  $resolver
-     * @param  string  $table
+     * @param  \Illuminate\Database\ConnectionResolverInterface $resolver
+     * @param  string                                           $table
+     *
      * @return void
      */
     public function __construct(Resolver $resolver, $table)
     {
-        $this->table = $table;
+        $this->table    = $table;
         $this->resolver = $resolver;
     }
+
 
     /**
      * Get the ran migrations.
@@ -47,11 +51,9 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
      */
     public function getRan()
     {
-        return $this->table()
-                ->orderBy('batch', 'asc')
-                ->orderBy('migration', 'asc')
-                ->pluck('migration');
+        return $this->table()->orderBy('batch', 'asc')->orderBy('migration', 'asc')->pluck('migration');
     }
+
 
     /**
      * Get the last migration batch.
@@ -65,30 +67,35 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
         return $query->orderBy('migration', 'desc')->get();
     }
 
+
     /**
      * Log that a migration was run.
      *
-     * @param  string  $file
-     * @param  int     $batch
+     * @param  string $file
+     * @param  int    $batch
+     *
      * @return void
      */
     public function log($file, $batch)
     {
-        $record = ['migration' => $file, 'batch' => $batch];
+        $record = [ 'migration' => $file, 'batch' => $batch ];
 
         $this->table()->insert($record);
     }
 
+
     /**
      * Remove a migration from the log.
      *
-     * @param  object  $migration
+     * @param  object $migration
+     *
      * @return void
      */
     public function delete($migration)
     {
         $this->table()->where('migration', $migration->migration)->delete();
     }
+
 
     /**
      * Get the next migration batch number.
@@ -100,6 +107,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
         return $this->getLastBatchNumber() + 1;
     }
 
+
     /**
      * Get the last migration batch number.
      *
@@ -109,6 +117,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
     {
         return $this->table()->max('batch');
     }
+
 
     /**
      * Create the migration repository data store.
@@ -129,6 +138,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
         });
     }
 
+
     /**
      * Determine if the migration repository exists.
      *
@@ -141,6 +151,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
         return $schema->hasTable($this->table);
     }
 
+
     /**
      * Get a query builder for the migration table.
      *
@@ -150,6 +161,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
     {
         return $this->getConnection()->table($this->table);
     }
+
 
     /**
      * Get the connection resolver instance.
@@ -161,6 +173,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
         return $this->resolver;
     }
 
+
     /**
      * Resolve the database connection instance.
      *
@@ -171,10 +184,12 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
         return $this->resolver->connection($this->connection);
     }
 
+
     /**
      * Set the information source to gather data.
      *
-     * @param  string  $name
+     * @param  string $name
+     *
      * @return void
      */
     public function setSource($name)

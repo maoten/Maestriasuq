@@ -4,12 +4,15 @@ namespace Mockery;
 
 class ReceivedMethodCalls
 {
-    private $methodCalls = array();
-    
+
+    private $methodCalls = [ ];
+
+
     public function push(MethodCall $methodCall)
     {
         $this->methodCalls[] = $methodCall;
     }
+
 
     public function verify(Expectation $expectation)
     {
@@ -18,7 +21,7 @@ class ReceivedMethodCalls
                 continue;
             }
 
-            if (!$expectation->matchArgs($methodCall->getArgs())) {
+            if ( ! $expectation->matchArgs($methodCall->getArgs())) {
                 continue;
             }
 

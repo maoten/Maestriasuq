@@ -9,6 +9,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
 class AuthServiceProvider extends ServiceProvider
 {
+
     /**
      * Register the service provider.
      *
@@ -24,6 +25,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->registerRequestRebindHandler();
     }
+
 
     /**
      * Register the authenticator services.
@@ -46,6 +48,7 @@ class AuthServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register a resolver for the authenticated user.
      *
@@ -53,12 +56,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected function registerUserResolver()
     {
-        $this->app->bind(
-            AuthenticatableContract::class, function ($app) {
-                return call_user_func($app['auth']->userResolver());
-            }
-        );
+        $this->app->bind(AuthenticatableContract::class, function ($app) {
+            return call_user_func($app['auth']->userResolver());
+        });
     }
+
 
     /**
      * Register the access gate service.
@@ -73,6 +75,7 @@ class AuthServiceProvider extends ServiceProvider
             });
         });
     }
+
 
     /**
      * Register a resolver for the authenticated user.

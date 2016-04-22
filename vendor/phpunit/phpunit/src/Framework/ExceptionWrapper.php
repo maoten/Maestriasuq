@@ -21,6 +21,7 @@
  */
 class PHPUnit_Framework_ExceptionWrapper extends PHPUnit_Framework_Exception
 {
+
     /**
      * @var string
      */
@@ -30,6 +31,7 @@ class PHPUnit_Framework_ExceptionWrapper extends PHPUnit_Framework_Exception
      * @var PHPUnit_Framework_ExceptionWrapper|null
      */
     protected $previous;
+
 
     /**
      * @param Throwable|Exception $e
@@ -47,13 +49,14 @@ class PHPUnit_Framework_ExceptionWrapper extends PHPUnit_Framework_Exception
         $this->serializableTrace = $e->getTrace();
 
         foreach ($this->serializableTrace as $i => $call) {
-            unset($this->serializableTrace[$i]['args']);
+            unset( $this->serializableTrace[$i]['args'] );
         }
 
         if ($e->getPrevious()) {
             $this->previous = new self($e->getPrevious());
         }
     }
+
 
     /**
      * @return string
@@ -63,6 +66,7 @@ class PHPUnit_Framework_ExceptionWrapper extends PHPUnit_Framework_Exception
         return $this->classname;
     }
 
+
     /**
      * @return PHPUnit_Framework_ExceptionWrapper
      */
@@ -70,6 +74,7 @@ class PHPUnit_Framework_ExceptionWrapper extends PHPUnit_Framework_Exception
     {
         return $this->previous;
     }
+
 
     /**
      * @return string

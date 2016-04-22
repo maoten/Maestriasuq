@@ -17,6 +17,7 @@ namespace Psy\VarDumper;
  */
 interface PresenterAware
 {
+
     /**
      * Set a reference to the Presenter.
      *

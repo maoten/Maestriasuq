@@ -23,7 +23,9 @@ require_once dirname(__DIR__) . '/Framework/Error/Deprecated.php';
  */
 class PHPUnit_Util_ErrorHandler
 {
-    protected static $errorStack = array();
+
+    protected static $errorStack = [ ];
+
 
     /**
      * Returns the error stack.
@@ -35,6 +37,7 @@ class PHPUnit_Util_ErrorHandler
         return self::$errorStack;
     }
 
+
     /**
      * @param int    $errno
      * @param string $errstr
@@ -45,11 +48,11 @@ class PHPUnit_Util_ErrorHandler
      */
     public static function handleError($errno, $errstr, $errfile, $errline)
     {
-        if (!($errno & error_reporting())) {
+        if ( ! ( $errno & error_reporting() )) {
             return false;
         }
 
-        self::$errorStack[] = array($errno, $errstr, $errfile, $errline);
+        self::$errorStack[] = [ $errno, $errstr, $errfile, $errline ];
 
         $trace = debug_backtrace(false);
         array_shift($trace);
@@ -85,6 +88,7 @@ class PHPUnit_Util_ErrorHandler
         throw new $exception($errstr, $errno, $errfile, $errline);
     }
 
+
     /**
      * Registers an error handler and returns a function that will restore
      * the previous handler when invoked
@@ -97,8 +101,9 @@ class PHPUnit_Util_ErrorHandler
     {
         $terminator = function () {
             static $expired = false;
-            if (!$expired) {
+            if ( ! $expired) {
                 $expired = true;
+
                 // cleans temporary error handler
                 return restore_error_handler();
             }

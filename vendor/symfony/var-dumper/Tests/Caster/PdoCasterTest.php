@@ -19,15 +19,16 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  */
 class PdoCasterTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @requires extension pdo_sqlite
      */
     public function testCastPdo()
     {
         $pdo = new \PDO('sqlite::memory:');
-        $pdo->setAttribute(\PDO::ATTR_STATEMENT_CLASS, array('PDOStatement', array($pdo)));
+        $pdo->setAttribute(\PDO::ATTR_STATEMENT_CLASS, [ 'PDOStatement', [ $pdo ] ]);
 
-        $cast = PdoCaster::castPdo($pdo, array(), new Stub(), false);
+        $cast = PdoCaster::castPdo($pdo, [ ], new Stub(), false);
 
         $this->assertInstanceOf('Symfony\Component\VarDumper\Caster\EnumStub', $cast["\0~\0attributes"]);
 
@@ -36,21 +37,21 @@ class PdoCasterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('NATURAL', $attr['CASE']->class);
         $this->assertSame('BOTH', $attr['DEFAULT_FETCH_MODE']->class);
 
-        $xCast = array(
+        $xCast = [
             "\0~\0inTransaction" => $pdo->inTransaction(),
-            "\0~\0attributes" => array(
-                'CASE' => $attr['CASE'],
-                'ERRMODE' => $attr['ERRMODE'],
-                'PERSISTENT' => false,
-                'DRIVER_NAME' => 'sqlite',
-                'ORACLE_NULLS' => $attr['ORACLE_NULLS'],
-                'CLIENT_VERSION' => $pdo->getAttribute(\PDO::ATTR_CLIENT_VERSION),
-                'SERVER_VERSION' => $pdo->getAttribute(\PDO::ATTR_SERVER_VERSION),
-                'STATEMENT_CLASS' => array('PDOStatement'),
+            "\0~\0attributes"    => [
+                'CASE'               => $attr['CASE'],
+                'ERRMODE'            => $attr['ERRMODE'],
+                'PERSISTENT'         => false,
+                'DRIVER_NAME'        => 'sqlite',
+                'ORACLE_NULLS'       => $attr['ORACLE_NULLS'],
+                'CLIENT_VERSION'     => $pdo->getAttribute(\PDO::ATTR_CLIENT_VERSION),
+                'SERVER_VERSION'     => $pdo->getAttribute(\PDO::ATTR_SERVER_VERSION),
+                'STATEMENT_CLASS'    => [ 'PDOStatement' ],
                 'DEFAULT_FETCH_MODE' => $attr['DEFAULT_FETCH_MODE'],
-            ),
-        );
-        unset($cast["\0~\0attributes"]['STATEMENT_CLASS'][1]);
+            ],
+        ];
+        unset( $cast["\0~\0attributes"]['STATEMENT_CLASS'][1] );
 
         $this->assertSame($xCast, $cast);
     }

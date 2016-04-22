@@ -23,6 +23,7 @@ namespace Symfony\Component\CssSelector\Parser;
  */
 class Reader
 {
+
     /**
      * @var string
      */
@@ -38,6 +39,7 @@ class Reader
      */
     private $position = 0;
 
+
     /**
      * @param string $source
      */
@@ -47,6 +49,7 @@ class Reader
         $this->length = strlen($source);
     }
 
+
     /**
      * @return bool
      */
@@ -54,6 +57,7 @@ class Reader
     {
         return $this->position >= $this->length;
     }
+
 
     /**
      * @return int
@@ -63,6 +67,7 @@ class Reader
         return $this->position;
     }
 
+
     /**
      * @return int
      */
@@ -70,6 +75,7 @@ class Reader
     {
         return $this->length - $this->position;
     }
+
 
     /**
      * @param int $length
@@ -82,6 +88,7 @@ class Reader
         return substr($this->source, $this->position + $offset, $length);
     }
 
+
     /**
      * @param string $string
      *
@@ -93,6 +100,7 @@ class Reader
 
         return false === $position ? false : $position - $this->position;
     }
+
 
     /**
      * @param string $pattern
@@ -110,6 +118,7 @@ class Reader
         return false;
     }
 
+
     /**
      * @param int $length
      */
@@ -117,6 +126,7 @@ class Reader
     {
         $this->position += $length;
     }
+
 
     /**
      */

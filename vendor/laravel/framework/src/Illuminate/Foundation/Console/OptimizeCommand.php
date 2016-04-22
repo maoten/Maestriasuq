@@ -10,6 +10,7 @@ use ClassPreloader\Exceptions\VisitorExceptionInterface;
 
 class OptimizeCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -31,10 +32,12 @@ class OptimizeCommand extends Command
      */
     protected $composer;
 
+
     /**
      * Create a new optimize command instance.
      *
-     * @param  \Illuminate\Support\Composer  $composer
+     * @param  \Illuminate\Support\Composer $composer
+     *
      * @return void
      */
     public function __construct(Composer $composer)
@@ -43,6 +46,7 @@ class OptimizeCommand extends Command
 
         $this->composer = $composer;
     }
+
 
     /**
      * Execute the console command.
@@ -67,6 +71,7 @@ class OptimizeCommand extends Command
         }
     }
 
+
     /**
      * Generate the compiled class file.
      *
@@ -74,13 +79,13 @@ class OptimizeCommand extends Command
      */
     protected function compileClasses()
     {
-        $preloader = (new Factory)->create(['skip' => true]);
+        $preloader = (new Factory)->create([ 'skip' => true ]);
 
         $handle = $preloader->prepareOutput($this->laravel->getCachedCompilePath());
 
         foreach ($this->getClassFiles() as $file) {
             try {
-                fwrite($handle, $preloader->getCode($file, false)."\n");
+                fwrite($handle, $preloader->getCode($file, false) . "\n");
             } catch (VisitorExceptionInterface $e) {
                 //
             }
@@ -88,6 +93,7 @@ class OptimizeCommand extends Command
 
         fclose($handle);
     }
+
 
     /**
      * Get the classes that should be combined and compiled.
@@ -98,16 +104,17 @@ class OptimizeCommand extends Command
     {
         $app = $this->laravel;
 
-        $core = require __DIR__.'/Optimize/config.php';
+        $core = require __DIR__ . '/Optimize/config.php';
 
-        $files = array_merge($core, $app['config']->get('compile.files', []));
+        $files = array_merge($core, $app['config']->get('compile.files', [ ]));
 
-        foreach ($app['config']->get('compile.providers', []) as $provider) {
-            $files = array_merge($files, forward_static_call([$provider, 'compiles']));
+        foreach ($app['config']->get('compile.providers', [ ]) as $provider) {
+            $files = array_merge($files, forward_static_call([ $provider, 'compiles' ]));
         }
 
         return array_map('realpath', $files);
     }
+
 
     /**
      * Get the console command options.
@@ -117,9 +124,9 @@ class OptimizeCommand extends Command
     protected function getOptions()
     {
         return [
-            ['force', null, InputOption::VALUE_NONE, 'Force the compiled class file to be written.'],
+            [ 'force', null, InputOption::VALUE_NONE, 'Force the compiled class file to be written.' ],
 
-            ['psr', null, InputOption::VALUE_NONE, 'Do not optimize Composer dump-autoload.'],
+            [ 'psr', null, InputOption::VALUE_NONE, 'Do not optimize Composer dump-autoload.' ],
         ];
     }
 }

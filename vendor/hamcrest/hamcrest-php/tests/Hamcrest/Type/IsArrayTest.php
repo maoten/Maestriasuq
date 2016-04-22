@@ -9,11 +9,13 @@ class IsArrayTest extends \Hamcrest\AbstractMatcherTest
         return \Hamcrest\Type\IsArray::arrayValue();
     }
 
+
     public function testEvaluatesToTrueIfArgumentMatchesType()
     {
-        assertThat(array('5', 5), arrayValue());
-        assertThat(array(), arrayValue());
+        assertThat([ '5', 5 ], arrayValue());
+        assertThat([ ], arrayValue());
     }
+
 
     public function testEvaluatesToFalseIfArgumentDoesntMatchType()
     {
@@ -22,10 +24,12 @@ class IsArrayTest extends \Hamcrest\AbstractMatcherTest
         assertThat('foo', not(arrayValue()));
     }
 
+
     public function testHasAReadableDescription()
     {
         $this->assertDescription('an array', arrayValue());
     }
+
 
     public function testDecribesActualTypeInMismatchMessage()
     {

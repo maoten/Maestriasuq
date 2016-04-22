@@ -13,10 +13,12 @@
  */
 class PHPUnit_Framework_Constraint_ExceptionMessageRegExp extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var int
      */
     protected $expectedMessageRegExp;
+
 
     /**
      * @param string $expected
@@ -26,6 +28,7 @@ class PHPUnit_Framework_Constraint_ExceptionMessageRegExp extends PHPUnit_Framew
         parent::__construct();
         $this->expectedMessageRegExp = $expected;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -40,13 +43,12 @@ class PHPUnit_Framework_Constraint_ExceptionMessageRegExp extends PHPUnit_Framew
         $match = PHPUnit_Util_Regex::pregMatchSafe($this->expectedMessageRegExp, $other->getMessage());
 
         if (false === $match) {
-            throw new PHPUnit_Framework_Exception(
-                "Invalid expected exception message regex given: '{$this->expectedMessageRegExp}'"
-            );
+            throw new PHPUnit_Framework_Exception("Invalid expected exception message regex given: '{$this->expectedMessageRegExp}'");
         }
 
         return 1 === $match;
     }
+
 
     /**
      * Returns the description of the failure
@@ -60,12 +62,9 @@ class PHPUnit_Framework_Constraint_ExceptionMessageRegExp extends PHPUnit_Framew
      */
     protected function failureDescription($other)
     {
-        return sprintf(
-            "exception message '%s' matches '%s'",
-            $other->getMessage(),
-            $this->expectedMessageRegExp
-        );
+        return sprintf("exception message '%s' matches '%s'", $other->getMessage(), $this->expectedMessageRegExp);
     }
+
 
     /**
      * @return string

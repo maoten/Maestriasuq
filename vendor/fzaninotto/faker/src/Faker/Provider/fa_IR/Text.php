@@ -4,12 +4,15 @@ namespace Faker\Provider\fa_IR;
 
 class Text extends \Faker\Provider\Text
 {
+
     /**
      * generates text string in arabic
      *
      * @example 'از تاریخ‌الشعرا را بکوبند روی نبش دیوار کوچه‌شان. تابلوی مدرسه.'
-     * @param  integer                   $maxNbChars
-     * @param  integer                   $indexSize
+     *
+     * @param  integer $maxNbChars
+     * @param  integer $indexSize
+     *
      * @return string
      * @throws \InvalidArgumentException
      */
@@ -27,12 +30,12 @@ class Text extends \Faker\Provider\Text
             throw new \InvalidArgumentException('indexSize must be at most 5');
         }
 
-        $words = $this->getConsecutiveWords($indexSize);
-        $result = array();
+        $words        = $this->getConsecutiveWords($indexSize);
+        $result       = [ ];
         $resultLength = 0;
         // take a random starting point
         $next = static::randomKey($words);
-        while ($resultLength < $maxNbChars && isset($words[$next])) {
+        while ($resultLength < $maxNbChars && isset( $words[$next] )) {
             // fetch a random word to append
             $word = static::randomElement($words[$next]);
 
@@ -43,7 +46,7 @@ class Text extends \Faker\Provider\Text
             array_shift($currentWords);
             $next = implode(' ', $currentWords);
 
-            if ($resultLength == 0 && !preg_match('/^[\x{0600}-\x{06FF}]/u', $word)) {
+            if ($resultLength == 0 && ! preg_match('/^[\x{0600}-\x{06FF}]/u', $word)) {
                 continue;
             }
             // append the element
@@ -57,8 +60,9 @@ class Text extends \Faker\Provider\Text
         // build result
         $result = implode(' ', $result);
 
-        return $result.'.';
+        return $result . '.';
     }
+
 
     /**
      * License: Creative Commons Attribution-ShareAlike License

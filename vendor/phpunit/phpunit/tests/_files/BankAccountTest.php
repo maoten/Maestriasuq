@@ -15,27 +15,31 @@
  */
 class BankAccountTest extends PHPUnit_Framework_TestCase
 {
+
     protected $ba;
+
 
     protected function setUp()
     {
         $this->ba = new BankAccount;
     }
 
+
     /**
      * @covers BankAccount::getBalance
-     * @group balanceIsInitiallyZero
-     * @group specification
+     * @group  balanceIsInitiallyZero
+     * @group  specification
      */
     public function testBalanceIsInitiallyZero()
     {
         $this->assertEquals(0, $this->ba->getBalance());
     }
 
+
     /**
      * @covers BankAccount::withdrawMoney
-     * @group balanceCannotBecomeNegative
-     * @group specification
+     * @group  balanceCannotBecomeNegative
+     * @group  specification
      */
     public function testBalanceCannotBecomeNegative()
     {
@@ -50,10 +54,11 @@ class BankAccountTest extends PHPUnit_Framework_TestCase
         $this->fail();
     }
 
+
     /**
      * @covers BankAccount::depositMoney
-     * @group balanceCannotBecomeNegative
-     * @group specification
+     * @group  balanceCannotBecomeNegative
+     * @group  specification
      */
     public function testBalanceCannotBecomeNegative2()
     {

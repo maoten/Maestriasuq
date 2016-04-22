@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\Factory as ViewFactory;
 
 class ShareErrorsFromSession
 {
+
     /**
      * The view factory implementation.
      *
@@ -15,10 +16,12 @@ class ShareErrorsFromSession
      */
     protected $view;
 
+
     /**
      * Create a new error binder instance.
      *
-     * @param  \Illuminate\Contracts\View\Factory  $view
+     * @param  \Illuminate\Contracts\View\Factory $view
+     *
      * @return void
      */
     public function __construct(ViewFactory $view)
@@ -26,11 +29,13 @@ class ShareErrorsFromSession
         $this->view = $view;
     }
 
+
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -38,9 +43,7 @@ class ShareErrorsFromSession
         // If the current session has an "errors" variable bound to it, we will share
         // its value with all view instances so the views can easily access errors
         // without having to bind. An empty bag is set when there aren't errors.
-        $this->view->share(
-            'errors', $request->session()->get('errors') ?: new ViewErrorBag
-        );
+        $this->view->share('errors', $request->session()->get('errors') ?: new ViewErrorBag);
 
         // Putting the errors in the view for every view allows the developer to just
         // assume that some errors are always available, which is convenient since

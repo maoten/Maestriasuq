@@ -11,6 +11,7 @@ use Illuminate\Contracts\Encryption\Encrypter as EncrypterContract;
 
 class EncryptCookies
 {
+
     /**
      * The encrypter instance.
      *
@@ -23,12 +24,14 @@ class EncryptCookies
      *
      * @var array
      */
-    protected $except = [];
+    protected $except = [ ];
+
 
     /**
      * Create a new CookieGuard instance.
      *
-     * @param  \Illuminate\Contracts\Encryption\Encrypter  $encrypter
+     * @param  \Illuminate\Contracts\Encryption\Encrypter $encrypter
+     *
      * @return void
      */
     public function __construct(EncrypterContract $encrypter)
@@ -36,10 +39,12 @@ class EncryptCookies
         $this->encrypter = $encrypter;
     }
 
+
     /**
      * Disable encryption for the given cookie name(s).
      *
      * @param string|array $cookieName
+     *
      * @return void
      */
     public function disableFor($cookieName)
@@ -47,11 +52,13 @@ class EncryptCookies
         $this->except = array_merge($this->except, (array) $cookieName);
     }
 
+
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -59,10 +66,12 @@ class EncryptCookies
         return $this->encrypt($next($this->decrypt($request)));
     }
 
+
     /**
      * Decrypt the cookies on the request.
      *
-     * @param  \Symfony\Component\HttpFoundation\Request  $request
+     * @param  \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\Request
      */
     protected function decrypt(Request $request)
@@ -82,28 +91,30 @@ class EncryptCookies
         return $request;
     }
 
+
     /**
      * Decrypt the given cookie and return the value.
      *
-     * @param  string|array  $cookie
+     * @param  string|array $cookie
+     *
      * @return string|array
      */
     protected function decryptCookie($cookie)
     {
-        return is_array($cookie)
-                        ? $this->decryptArray($cookie)
-                        : $this->encrypter->decrypt($cookie);
+        return is_array($cookie) ? $this->decryptArray($cookie) : $this->encrypter->decrypt($cookie);
     }
+
 
     /**
      * Decrypt an array based cookie.
      *
-     * @param  array  $cookie
+     * @param  array $cookie
+     *
      * @return array
      */
     protected function decryptArray(array $cookie)
     {
-        $decrypted = [];
+        $decrypted = [ ];
 
         foreach ($cookie as $key => $value) {
             if (is_string($value)) {
@@ -114,10 +125,12 @@ class EncryptCookies
         return $decrypted;
     }
 
+
     /**
      * Encrypt the cookies on an outgoing response.
      *
-     * @param  \Symfony\Component\HttpFoundation\Response  $response
+     * @param  \Symfony\Component\HttpFoundation\Response $response
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function encrypt(Response $response)
@@ -127,33 +140,33 @@ class EncryptCookies
                 continue;
             }
 
-            $response->headers->setCookie($this->duplicate(
-                $cookie, $this->encrypter->encrypt($cookie->getValue())
-            ));
+            $response->headers->setCookie($this->duplicate($cookie, $this->encrypter->encrypt($cookie->getValue())));
         }
 
         return $response;
     }
 
+
     /**
      * Duplicate a cookie with a new value.
      *
-     * @param  \Symfony\Component\HttpFoundation\Cookie  $c
-     * @param  mixed  $value
+     * @param  \Symfony\Component\HttpFoundation\Cookie $c
+     * @param  mixed                                    $value
+     *
      * @return \Symfony\Component\HttpFoundation\Cookie
      */
     protected function duplicate(Cookie $c, $value)
     {
-        return new Cookie(
-            $c->getName(), $value, $c->getExpiresTime(), $c->getPath(),
-            $c->getDomain(), $c->isSecure(), $c->isHttpOnly()
-        );
+        return new Cookie($c->getName(), $value, $c->getExpiresTime(), $c->getPath(), $c->getDomain(), $c->isSecure(),
+            $c->isHttpOnly());
     }
+
 
     /**
      * Determine whether encryption has been disabled for the given cookie.
      *
      * @param  string $name
+     *
      * @return bool
      */
     public function isDisabled($name)

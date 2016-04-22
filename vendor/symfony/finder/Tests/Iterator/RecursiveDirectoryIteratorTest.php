@@ -15,6 +15,7 @@ use Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator;
 
 class RecursiveDirectoryIteratorTest extends IteratorTestCase
 {
+
     /**
      * @group network
      */
@@ -31,6 +32,7 @@ class RecursiveDirectoryIteratorTest extends IteratorTestCase
         $this->assertTrue(true);
     }
 
+
     /**
      * @group network
      */
@@ -42,11 +44,11 @@ class RecursiveDirectoryIteratorTest extends IteratorTestCase
             $this->markTestSkipped('Unsupported stream "ftp".');
         }
 
-        $contains = array(
-            'ftp://speedtest.tele2.net'.DIRECTORY_SEPARATOR.'1000GB.zip',
-            'ftp://speedtest.tele2.net'.DIRECTORY_SEPARATOR.'100GB.zip',
-        );
-        $actual = array();
+        $contains = [
+            'ftp://speedtest.tele2.net' . DIRECTORY_SEPARATOR . '1000GB.zip',
+            'ftp://speedtest.tele2.net' . DIRECTORY_SEPARATOR . '100GB.zip',
+        ];
+        $actual   = [ ];
 
         $i->seek(0);
         $actual[] = $i->getPathname();

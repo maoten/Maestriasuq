@@ -9,6 +9,7 @@ use Illuminate\Contracts\Redis\Database as DatabaseContract;
 
 class Database implements DatabaseContract
 {
+
     /**
      * The host address of the database.
      *
@@ -16,13 +17,15 @@ class Database implements DatabaseContract
      */
     protected $clients;
 
+
     /**
      * Create a new Redis connection instance.
      *
-     * @param  array  $servers
+     * @param  array $servers
+     *
      * @return void
      */
-    public function __construct(array $servers = [])
+    public function __construct(array $servers = [ ])
     {
         $cluster = Arr::pull($servers, 'cluster');
 
@@ -35,28 +38,32 @@ class Database implements DatabaseContract
         }
     }
 
+
     /**
      * Create a new aggregate client supporting sharding.
      *
-     * @param  array  $servers
-     * @param  array  $options
+     * @param  array $servers
+     * @param  array $options
+     *
      * @return array
      */
-    protected function createAggregateClient(array $servers, array $options = [])
+    protected function createAggregateClient(array $servers, array $options = [ ])
     {
-        return ['default' => new Client(array_values($servers), $options)];
+        return [ 'default' => new Client(array_values($servers), $options) ];
     }
+
 
     /**
      * Create an array of single connection clients.
      *
-     * @param  array  $servers
-     * @param  array  $options
+     * @param  array $servers
+     * @param  array $options
+     *
      * @return array
      */
-    protected function createSingleClients(array $servers, array $options = [])
+    protected function createSingleClients(array $servers, array $options = [ ])
     {
-        $clients = [];
+        $clients = [ ];
 
         foreach ($servers as $key => $server) {
             $clients[$key] = new Client($server, $options);
@@ -65,10 +72,12 @@ class Database implements DatabaseContract
         return $clients;
     }
 
+
     /**
      * Get a specific Redis connection instance.
      *
-     * @param  string  $name
+     * @param  string $name
+     *
      * @return \Predis\ClientInterface|null
      */
     public function connection($name = 'default')
@@ -76,32 +85,36 @@ class Database implements DatabaseContract
         return Arr::get($this->clients, $name ?: 'default');
     }
 
+
     /**
      * Run a command against the Redis database.
      *
-     * @param  string  $method
-     * @param  array   $parameters
+     * @param  string $method
+     * @param  array  $parameters
+     *
      * @return mixed
      */
-    public function command($method, array $parameters = [])
+    public function command($method, array $parameters = [ ])
     {
-        return call_user_func_array([$this->clients['default'], $method], $parameters);
+        return call_user_func_array([ $this->clients['default'], $method ], $parameters);
     }
+
 
     /**
      * Subscribe to a set of given channels for messages.
      *
-     * @param  array|string  $channels
-     * @param  \Closure  $callback
-     * @param  string  $connection
-     * @param  string  $method
+     * @param  array|string $channels
+     * @param  \Closure     $callback
+     * @param  string       $connection
+     * @param  string       $method
+     *
      * @return void
      */
     public function subscribe($channels, Closure $callback, $connection = null, $method = 'subscribe')
     {
         $loop = $this->connection($connection)->pubSubLoop();
 
-        call_user_func_array([$loop, $method], (array) $channels);
+        call_user_func_array([ $loop, $method ], (array) $channels);
 
         foreach ($loop as $message) {
             if ($message->kind === 'message' || $message->kind === 'pmessage') {
@@ -109,15 +122,17 @@ class Database implements DatabaseContract
             }
         }
 
-        unset($loop);
+        unset( $loop );
     }
+
 
     /**
      * Subscribe to a set of given channels with wildcards.
      *
-     * @param  array|string  $channels
-     * @param  \Closure  $callback
-     * @param  string  $connection
+     * @param  array|string $channels
+     * @param  \Closure     $callback
+     * @param  string       $connection
+     *
      * @return void
      */
     public function psubscribe($channels, Closure $callback, $connection = null)
@@ -125,11 +140,13 @@ class Database implements DatabaseContract
         return $this->subscribe($channels, $callback, $connection, __FUNCTION__);
     }
 
+
     /**
      * Dynamically make a Redis command.
      *
-     * @param  string  $method
-     * @param  array   $parameters
+     * @param  string $method
+     * @param  array  $parameters
+     *
      * @return mixed
      */
     public function __call($method, $parameters)

@@ -20,10 +20,12 @@ namespace Symfony\Component\Routing\Matcher\Dumper;
  */
 class DumperPrefixCollection extends DumperCollection
 {
+
     /**
      * @var string
      */
     private $prefix = '';
+
 
     /**
      * Returns the prefix.
@@ -35,6 +37,7 @@ class DumperPrefixCollection extends DumperCollection
         return $this->prefix;
     }
 
+
     /**
      * Sets the prefix.
      *
@@ -44,6 +47,7 @@ class DumperPrefixCollection extends DumperCollection
     {
         $this->prefix = $prefix;
     }
+
 
     /**
      * Adds a route in the tree.
@@ -80,6 +84,7 @@ class DumperPrefixCollection extends DumperCollection
         throw new \LogicException('The collection root must not have a prefix');
     }
 
+
     /**
      * Merges nodes whose prefix ends with a slash.
      *
@@ -87,7 +92,7 @@ class DumperPrefixCollection extends DumperCollection
      */
     public function mergeSlashNodes()
     {
-        $children = array();
+        $children = [ ];
 
         foreach ($this as $child) {
             if ($child instanceof self) {

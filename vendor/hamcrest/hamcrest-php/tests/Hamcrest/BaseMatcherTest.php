@@ -10,10 +10,12 @@ class BaseMatcherTest extends \Hamcrest\BaseMatcher
         throw new \RuntimeException();
     }
 
+
     public function describeTo(\Hamcrest\Description $description)
     {
         $description->appendText('SOME DESCRIPTION');
     }
+
 
     public function testDescribesItselfWithToStringMethod()
     {

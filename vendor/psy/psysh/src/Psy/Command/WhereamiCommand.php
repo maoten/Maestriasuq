@@ -24,7 +24,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class WhereamiCommand extends Command
 {
+
     private $colorMode;
+
 
     /**
      * @param null|string $colorMode (default: null)
@@ -42,19 +44,15 @@ class WhereamiCommand extends Command
         return parent::__construct();
     }
 
+
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $this
-            ->setName('whereami')
-            ->setDefinition(array(
+        $this->setName('whereami')->setDefinition([
                 new InputOption('num', 'n', InputOption::VALUE_OPTIONAL, 'Number of lines before and after.', '5'),
-            ))
-            ->setDescription('Show where you are in the code.')
-            ->setHelp(
-                <<<'HELP'
+            ])->setDescription('Show where you are in the code.')->setHelp(<<<'HELP'
 Show where you are in the code.
 
 Optionally, include how many lines before and after you want to display.
@@ -66,6 +64,7 @@ HELP
             );
     }
 
+
     /**
      * Obtains the correct trace in the full backtrace.
      *
@@ -74,10 +73,10 @@ HELP
     protected function trace()
     {
         foreach ($this->backtrace as $i => $backtrace) {
-            if (!isset($backtrace['class'], $backtrace['function'])) {
+            if ( ! isset( $backtrace['class'], $backtrace['function'] )) {
                 continue;
             }
-            $correctClass = $backtrace['class'] === 'Psy\Shell';
+            $correctClass    = $backtrace['class'] === 'Psy\Shell';
             $correctFunction = $backtrace['function'] === 'debug';
             if ($correctClass && $correctFunction) {
                 return $backtrace;
@@ -86,6 +85,7 @@ HELP
 
         return end($this->backtrace);
     }
+
 
     /**
      * Determine the file and line based on the specific backtrace.
@@ -107,17 +107,18 @@ HELP
         return compact('file', 'line');
     }
 
+
     /**
      * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $info = $this->fileInfo();
-        $num = $input->getOption('num');
-        $factory = new ConsoleColorFactory($this->colorMode);
-        $colors = $factory->getConsoleColor();
+        $info        = $this->fileInfo();
+        $num         = $input->getOption('num');
+        $factory     = new ConsoleColorFactory($this->colorMode);
+        $colors      = $factory->getConsoleColor();
         $highlighter = new Highlighter($colors);
-        $contents = file_get_contents($info['file']);
+        $contents    = file_get_contents($info['file']);
         $output->page($highlighter->getCodeSnippet($contents, $info['line'], $num, $num), ShellOutput::OUTPUT_RAW);
     }
 }

@@ -20,10 +20,11 @@ namespace Psy\TabCompletion\Matcher;
  */
 class VariablesMatcher extends AbstractContextAwareMatcher
 {
+
     /**
      * {@inheritdoc}
      */
-    public function getMatches(array $tokens, array $info = array())
+    public function getMatches(array $tokens, array $info = [ ])
     {
         $var = str_replace('$', '', $this->getInput($tokens));
 
@@ -31,6 +32,7 @@ class VariablesMatcher extends AbstractContextAwareMatcher
             return AbstractMatcher::startsWith($var, $variable);
         });
     }
+
 
     /**
      * {@inheritdoc}
@@ -40,7 +42,7 @@ class VariablesMatcher extends AbstractContextAwareMatcher
         $token = array_pop($tokens);
 
         switch (true) {
-            case self::hasToken(array(self::T_OPEN_TAG, self::T_VARIABLE), $token):
+            case self::hasToken([ self::T_OPEN_TAG, self::T_VARIABLE ], $token):
             case is_string($token) && $token === '$':
             case self::isOperator($token):
                 return true;

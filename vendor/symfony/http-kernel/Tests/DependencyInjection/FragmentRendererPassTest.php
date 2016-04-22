@@ -17,6 +17,7 @@ use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 
 class FragmentRendererPassTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * Tests that content rendering not implementing FragmentRendererInterface
      * trigger an exception.
@@ -26,72 +27,49 @@ class FragmentRendererPassTest extends \PHPUnit_Framework_TestCase
     public function testContentRendererWithoutInterface()
     {
         // one service, not implementing any interface
-        $services = array(
-            'my_content_renderer' => array(array('alias' => 'foo')),
-        );
+        $services = [
+            'my_content_renderer' => [ [ 'alias' => 'foo' ] ],
+        ];
 
         $definition = $this->getMock('Symfony\Component\DependencyInjection\Definition');
 
-        $builder = $this->getMock(
-            'Symfony\Component\DependencyInjection\ContainerBuilder',
-            array('hasDefinition', 'findTaggedServiceIds', 'getDefinition')
-        );
-        $builder->expects($this->any())
-            ->method('hasDefinition')
-            ->will($this->returnValue(true));
+        $builder = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder',
+            [ 'hasDefinition', 'findTaggedServiceIds', 'getDefinition' ]);
+        $builder->expects($this->any())->method('hasDefinition')->will($this->returnValue(true));
 
         // We don't test kernel.fragment_renderer here
-        $builder->expects($this->atLeastOnce())
-            ->method('findTaggedServiceIds')
-            ->will($this->returnValue($services));
+        $builder->expects($this->atLeastOnce())->method('findTaggedServiceIds')->will($this->returnValue($services));
 
-        $builder->expects($this->atLeastOnce())
-            ->method('getDefinition')
-            ->will($this->returnValue($definition));
+        $builder->expects($this->atLeastOnce())->method('getDefinition')->will($this->returnValue($definition));
 
         $pass = new FragmentRendererPass();
         $pass->process($builder);
     }
 
+
     public function testValidContentRenderer()
     {
-        $services = array(
-            'my_content_renderer' => array(array('alias' => 'foo')),
-        );
+        $services = [
+            'my_content_renderer' => [ [ 'alias' => 'foo' ] ],
+        ];
 
         $renderer = $this->getMock('Symfony\Component\DependencyInjection\Definition');
-        $renderer
-            ->expects($this->once())
-            ->method('addMethodCall')
-            ->with('addRendererService', array('foo', 'my_content_renderer'))
-        ;
+        $renderer->expects($this->once())->method('addMethodCall')->with('addRendererService',
+                [ 'foo', 'my_content_renderer' ]);
 
         $definition = $this->getMock('Symfony\Component\DependencyInjection\Definition');
-        $definition->expects($this->atLeastOnce())
-            ->method('getClass')
-            ->will($this->returnValue('Symfony\Component\HttpKernel\Tests\DependencyInjection\RendererService'));
-        $definition
-            ->expects($this->once())
-            ->method('isPublic')
-            ->will($this->returnValue(true))
-        ;
+        $definition->expects($this->atLeastOnce())->method('getClass')->will($this->returnValue('Symfony\Component\HttpKernel\Tests\DependencyInjection\RendererService'));
+        $definition->expects($this->once())->method('isPublic')->will($this->returnValue(true));
 
-        $builder = $this->getMock(
-            'Symfony\Component\DependencyInjection\ContainerBuilder',
-            array('hasDefinition', 'findTaggedServiceIds', 'getDefinition')
-        );
-        $builder->expects($this->any())
-            ->method('hasDefinition')
-            ->will($this->returnValue(true));
+        $builder = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder',
+            [ 'hasDefinition', 'findTaggedServiceIds', 'getDefinition' ]);
+        $builder->expects($this->any())->method('hasDefinition')->will($this->returnValue(true));
 
         // We don't test kernel.fragment_renderer here
-        $builder->expects($this->atLeastOnce())
-            ->method('findTaggedServiceIds')
-            ->will($this->returnValue($services));
+        $builder->expects($this->atLeastOnce())->method('findTaggedServiceIds')->will($this->returnValue($services));
 
-        $builder->expects($this->atLeastOnce())
-            ->method('getDefinition')
-            ->will($this->onConsecutiveCalls($renderer, $definition));
+        $builder->expects($this->atLeastOnce())->method('getDefinition')->will($this->onConsecutiveCalls($renderer,
+                $definition));
 
         $pass = new FragmentRendererPass();
         $pass->process($builder);
@@ -100,9 +78,11 @@ class FragmentRendererPassTest extends \PHPUnit_Framework_TestCase
 
 class RendererService implements FragmentRendererInterface
 {
-    public function render($uri, Request $request = null, array $options = array())
+
+    public function render($uri, Request $request = null, array $options = [ ])
     {
     }
+
 
     public function getName()
     {

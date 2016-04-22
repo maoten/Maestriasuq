@@ -30,16 +30,19 @@ use Psy\Exception\FatalErrorException;
  */
 class ValidClassNamePass extends NamespaceAwarePass
 {
-    const CLASS_TYPE     = 'class';
+
+    const CLASS_TYPE = 'class';
     const INTERFACE_TYPE = 'interface';
-    const TRAIT_TYPE     = 'trait';
+    const TRAIT_TYPE = 'trait';
 
     protected $checkTraits;
+
 
     public function __construct()
     {
         $this->checkTraits = function_exists('trait_exists');
     }
+
 
     /**
      * Validate class, interface and trait statements, and `new` expressions.
@@ -69,6 +72,7 @@ class ValidClassNamePass extends NamespaceAwarePass
         }
     }
 
+
     /**
      * Validate a class definition statement.
      *
@@ -77,11 +81,12 @@ class ValidClassNamePass extends NamespaceAwarePass
     protected function validateClassStatement(ClassStmt $stmt)
     {
         $this->ensureCanDefine($stmt);
-        if (isset($stmt->extends)) {
+        if (isset( $stmt->extends )) {
             $this->ensureClassExists($this->getFullyQualifiedName($stmt->extends), $stmt);
         }
         $this->ensureInterfacesExist($stmt->implements, $stmt);
     }
+
 
     /**
      * Validate an interface definition statement.
@@ -94,6 +99,7 @@ class ValidClassNamePass extends NamespaceAwarePass
         $this->ensureInterfacesExist($stmt->extends, $stmt);
     }
 
+
     /**
      * Validate a trait definition statement.
      *
@@ -104,6 +110,7 @@ class ValidClassNamePass extends NamespaceAwarePass
         $this->ensureCanDefine($stmt);
     }
 
+
     /**
      * Validate a `new` expression.
      *
@@ -112,10 +119,11 @@ class ValidClassNamePass extends NamespaceAwarePass
     protected function validateNewExpression(NewExpr $stmt)
     {
         // if class name is an expression or an anonymous class, give it a pass for now
-        if (!$stmt->class instanceof Expr && !$stmt->class instanceof ClassStmt) {
+        if ( ! $stmt->class instanceof Expr && ! $stmt->class instanceof ClassStmt) {
             $this->ensureClassExists($this->getFullyQualifiedName($stmt->class), $stmt);
         }
     }
+
 
     /**
      * Validate a class constant fetch expression's class.
@@ -125,16 +133,16 @@ class ValidClassNamePass extends NamespaceAwarePass
     protected function validateClassConstFetchExpression(ClassConstFetch $stmt)
     {
         // there is no need to check exists for ::class const for php 5.5 or newer
-        if (strtolower($stmt->name) === 'class'
-            && version_compare(PHP_VERSION, '5.5', '>=')) {
+        if (strtolower($stmt->name) === 'class' && version_compare(PHP_VERSION, '5.5', '>=')) {
             return;
         }
 
         // if class name is an expression, give it a pass for now
-        if (!$stmt->class instanceof Expr) {
+        if ( ! $stmt->class instanceof Expr) {
             $this->ensureClassOrInterfaceExists($this->getFullyQualifiedName($stmt->class), $stmt);
         }
     }
+
 
     /**
      * Validate a class constant fetch expression's class.
@@ -144,10 +152,11 @@ class ValidClassNamePass extends NamespaceAwarePass
     protected function validateStaticCallExpression(StaticCall $stmt)
     {
         // if class name is an expression, give it a pass for now
-        if (!$stmt->class instanceof Expr) {
+        if ( ! $stmt->class instanceof Expr) {
             $this->ensureMethodExists($this->getFullyQualifiedName($stmt->class), $stmt->name, $stmt);
         }
     }
+
 
     /**
      * Ensure that no class, interface or trait name collides with a new definition.
@@ -179,6 +188,7 @@ class ValidClassNamePass extends NamespaceAwarePass
         $this->currentScope[strtolower($name)] = $this->getScopeType($stmt);
     }
 
+
     /**
      * Ensure that a referenced class exists.
      *
@@ -189,10 +199,11 @@ class ValidClassNamePass extends NamespaceAwarePass
      */
     protected function ensureClassExists($name, $stmt)
     {
-        if (!$this->classExists($name)) {
+        if ( ! $this->classExists($name)) {
             throw $this->createError(sprintf('Class \'%s\' not found', $name), $stmt);
         }
     }
+
 
     /**
      * Ensure that a referenced class _or interface_ exists.
@@ -204,10 +215,11 @@ class ValidClassNamePass extends NamespaceAwarePass
      */
     protected function ensureClassOrInterfaceExists($name, $stmt)
     {
-        if (!$this->classExists($name) && !$this->interfaceExists($name)) {
+        if ( ! $this->classExists($name) && ! $this->interfaceExists($name)) {
             throw $this->createError(sprintf('Class \'%s\' not found', $name), $stmt);
         }
     }
+
 
     /**
      * Ensure that a statically called method exists.
@@ -223,7 +235,7 @@ class ValidClassNamePass extends NamespaceAwarePass
         $this->ensureClassExists($class, $stmt);
 
         // let's pretend all calls to self, parent and static are valid
-        if (in_array(strtolower($class), array('self', 'parent', 'static'))) {
+        if (in_array(strtolower($class), [ 'self', 'parent', 'static' ])) {
             return;
         }
 
@@ -232,17 +244,18 @@ class ValidClassNamePass extends NamespaceAwarePass
             return;
         }
 
-        if (!method_exists($class, $name) && !method_exists($class, '__callStatic')) {
+        if ( ! method_exists($class, $name) && ! method_exists($class, '__callStatic')) {
             throw $this->createError(sprintf('Call to undefined method %s::%s()', $class, $name), $stmt);
         }
     }
+
 
     /**
      * Ensure that a referenced interface exists.
      *
      * @throws FatalErrorException
      *
-     * @param $interfaces
+     * @param      $interfaces
      * @param Stmt $stmt
      */
     protected function ensureInterfacesExist($interfaces, $stmt)
@@ -250,11 +263,12 @@ class ValidClassNamePass extends NamespaceAwarePass
         foreach ($interfaces as $interface) {
             /** @var string $name */
             $name = $this->getFullyQualifiedName($interface);
-            if (!$this->interfaceExists($name)) {
+            if ( ! $this->interfaceExists($name)) {
                 throw $this->createError(sprintf('Interface \'%s\' not found', $name), $stmt);
             }
         }
     }
+
 
     /**
      * Get a symbol type key for storing in the scope name cache.
@@ -274,6 +288,7 @@ class ValidClassNamePass extends NamespaceAwarePass
         }
     }
 
+
     /**
      * Check whether a class exists, or has been defined in the current code snippet.
      *
@@ -288,12 +303,13 @@ class ValidClassNamePass extends NamespaceAwarePass
         // Give `self`, `static` and `parent` a pass. This will actually let
         // some errors through, since we're not checking whether the keyword is
         // being used in a class scope.
-        if (in_array(strtolower($name), array('self', 'static', 'parent'))) {
+        if (in_array(strtolower($name), [ 'self', 'static', 'parent' ])) {
             return true;
         }
 
         return class_exists($name) || $this->findInScope($name) === self::CLASS_TYPE;
     }
+
 
     /**
      * Check whether an interface exists, or has been defined in the current code snippet.
@@ -307,6 +323,7 @@ class ValidClassNamePass extends NamespaceAwarePass
         return interface_exists($name) || $this->findInScope($name) === self::INTERFACE_TYPE;
     }
 
+
     /**
      * Check whether a trait exists, or has been defined in the current code snippet.
      *
@@ -316,8 +333,9 @@ class ValidClassNamePass extends NamespaceAwarePass
      */
     protected function traitExists($name)
     {
-        return $this->checkTraits && (trait_exists($name) || $this->findInScope($name) === self::TRAIT_TYPE);
+        return $this->checkTraits && ( trait_exists($name) || $this->findInScope($name) === self::TRAIT_TYPE );
     }
+
 
     /**
      * Find a symbol in the current code snippet scope.
@@ -329,10 +347,11 @@ class ValidClassNamePass extends NamespaceAwarePass
     protected function findInScope($name)
     {
         $name = strtolower($name);
-        if (isset($this->currentScope[$name])) {
+        if (isset( $this->currentScope[$name] )) {
             return $this->currentScope[$name];
         }
     }
+
 
     /**
      * Error creation factory.

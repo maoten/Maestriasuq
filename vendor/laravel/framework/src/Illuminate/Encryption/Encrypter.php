@@ -9,6 +9,7 @@ use Illuminate\Contracts\Encryption\Encrypter as EncrypterContract;
 
 class Encrypter extends BaseEncrypter implements EncrypterContract
 {
+
     /**
      * The algorithm used for encryption.
      *
@@ -16,11 +17,13 @@ class Encrypter extends BaseEncrypter implements EncrypterContract
      */
     protected $cipher;
 
+
     /**
      * Create a new encrypter instance.
      *
-     * @param  string  $key
-     * @param  string  $cipher
+     * @param  string $key
+     * @param  string $cipher
+     *
      * @return void
      *
      * @throws \RuntimeException
@@ -30,31 +33,35 @@ class Encrypter extends BaseEncrypter implements EncrypterContract
         $key = (string) $key;
 
         if (static::supported($key, $cipher)) {
-            $this->key = $key;
+            $this->key    = $key;
             $this->cipher = $cipher;
         } else {
             throw new RuntimeException('The only supported ciphers are AES-128-CBC and AES-256-CBC with the correct key lengths.');
         }
     }
 
+
     /**
      * Determine if the given key and cipher combination is valid.
      *
-     * @param  string  $key
-     * @param  string  $cipher
+     * @param  string $key
+     * @param  string $cipher
+     *
      * @return bool
      */
     public static function supported($key, $cipher)
     {
         $length = mb_strlen($key, '8bit');
 
-        return ($cipher === 'AES-128-CBC' && $length === 16) || ($cipher === 'AES-256-CBC' && $length === 32);
+        return ( $cipher === 'AES-128-CBC' && $length === 16 ) || ( $cipher === 'AES-256-CBC' && $length === 32 );
     }
+
 
     /**
      * Encrypt the given value.
      *
-     * @param  string  $value
+     * @param  string $value
+     *
      * @return string
      *
      * @throws \Illuminate\Contracts\Encryption\EncryptException
@@ -76,17 +83,19 @@ class Encrypter extends BaseEncrypter implements EncrypterContract
 
         $json = json_encode(compact('iv', 'value', 'mac'));
 
-        if (! is_string($json)) {
+        if ( ! is_string($json)) {
             throw new EncryptException('Could not encrypt the data.');
         }
 
         return base64_encode($json);
     }
 
+
     /**
      * Decrypt the given value.
      *
-     * @param  string  $payload
+     * @param  string $payload
+     *
      * @return string
      *
      * @throws \Illuminate\Contracts\Encryption\DecryptException
@@ -105,6 +114,7 @@ class Encrypter extends BaseEncrypter implements EncrypterContract
 
         return unserialize($decrypted);
     }
+
 
     /**
      * Get the IV size for the cipher.

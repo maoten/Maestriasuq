@@ -15,6 +15,7 @@
  */
 class PHPUnit_Framework_Constraint_IsAnything extends PHPUnit_Framework_Constraint
 {
+
     /**
      * Evaluates the constraint for parameter $other
      *
@@ -38,6 +39,7 @@ class PHPUnit_Framework_Constraint_IsAnything extends PHPUnit_Framework_Constrai
         return $returnResult ? true : null;
     }
 
+
     /**
      * Returns a string representation of the constraint.
      *
@@ -47,6 +49,7 @@ class PHPUnit_Framework_Constraint_IsAnything extends PHPUnit_Framework_Constrai
     {
         return 'is anything';
     }
+
 
     /**
      * Counts the number of constraint elements.

@@ -4,6 +4,7 @@ namespace Illuminate\Auth\Events;
 
 class Attempting
 {
+
     /**
      * The credentials for the user.
      *
@@ -25,17 +26,18 @@ class Attempting
      */
     public $login;
 
+
     /**
      * Create a new event instance.
      *
-     * @param  array  $credentials
+     * @param  array $credentials
      * @param  bool  $remember
      * @param  bool  $login
      */
     public function __construct($credentials, $remember, $login)
     {
-        $this->login = $login;
-        $this->remember = $remember;
+        $this->login       = $login;
+        $this->remember    = $remember;
         $this->credentials = $credentials;
     }
 }

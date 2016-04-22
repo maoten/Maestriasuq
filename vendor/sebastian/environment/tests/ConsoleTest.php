@@ -14,15 +14,18 @@ use PHPUnit_Framework_TestCase;
 
 class ConsoleTest extends PHPUnit_Framework_TestCase
 {
+
     /**
      * @var \SebastianBergmann\Environment\Console
      */
     private $console;
 
+
     protected function setUp()
     {
         $this->console = new Console;
     }
+
 
     /**
      * @covers \SebastianBergmann\Environment\Console::isInteractive
@@ -32,6 +35,7 @@ class ConsoleTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('boolean', $this->console->isInteractive());
     }
 
+
     /**
      * @covers \SebastianBergmann\Environment\Console::isInteractive
      */
@@ -39,6 +43,7 @@ class ConsoleTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInternalType('boolean', $this->console->isInteractive(STDOUT));
     }
+
 
     /**
      * @covers \SebastianBergmann\Environment\Console::hasColorSupport
@@ -48,6 +53,7 @@ class ConsoleTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInternalType('boolean', $this->console->hasColorSupport());
     }
+
 
     /**
      * @covers \SebastianBergmann\Environment\Console::getNumberOfColumns

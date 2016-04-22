@@ -7,14 +7,8 @@ use PHPUnit_Framework_TestCase;
 
 abstract class TestCase extends PHPUnit_Framework_TestCase
 {
-    use Concerns\InteractsWithContainer,
-        Concerns\MakesHttpRequests,
-        Concerns\ImpersonatesUsers,
-        Concerns\InteractsWithAuthentication,
-        Concerns\InteractsWithConsole,
-        Concerns\InteractsWithDatabase,
-        Concerns\InteractsWithSession,
-        Concerns\MocksApplicationServices;
+
+    use Concerns\InteractsWithContainer, Concerns\MakesHttpRequests, Concerns\ImpersonatesUsers, Concerns\InteractsWithAuthentication, Concerns\InteractsWithConsole, Concerns\InteractsWithDatabase, Concerns\InteractsWithSession, Concerns\MocksApplicationServices;
 
     /**
      * The Illuminate application instance.
@@ -28,14 +22,14 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $afterApplicationCreatedCallbacks = [];
+    protected $afterApplicationCreatedCallbacks = [ ];
 
     /**
      * The callbacks that should be run before the application is destroyed.
      *
      * @var array
      */
-    protected $beforeApplicationDestroyedCallbacks = [];
+    protected $beforeApplicationDestroyedCallbacks = [ ];
 
     /**
      * Indicates if we have made it through the base setUp function.
@@ -43,6 +37,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
      * @var bool
      */
     protected $setUpHasRun = false;
+
 
     /**
      * Creates the application.
@@ -53,6 +48,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
      */
     abstract public function createApplication();
 
+
     /**
      * Setup the test environment.
      *
@@ -60,7 +56,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        if (! $this->app) {
+        if ( ! $this->app) {
             $this->refreshApplication();
         }
 
@@ -72,6 +68,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 
         $this->setUpHasRun = true;
     }
+
 
     /**
      * Refresh the application instance.
@@ -85,6 +82,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         $this->app = $this->createApplication();
     }
 
+
     /**
      * Boot the testing helper traits.
      *
@@ -94,22 +92,23 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     {
         $uses = array_flip(class_uses_recursive(get_class($this)));
 
-        if (isset($uses[DatabaseTransactions::class])) {
+        if (isset( $uses[DatabaseTransactions::class] )) {
             $this->beginDatabaseTransaction();
         }
 
-        if (isset($uses[DatabaseMigrations::class])) {
+        if (isset( $uses[DatabaseMigrations::class] )) {
             $this->runDatabaseMigrations();
         }
 
-        if (isset($uses[WithoutMiddleware::class])) {
+        if (isset( $uses[WithoutMiddleware::class] )) {
             $this->disableMiddlewareForAllTests();
         }
 
-        if (isset($uses[WithoutEvents::class])) {
+        if (isset( $uses[WithoutEvents::class] )) {
             $this->disableEventsForAllTests();
         }
     }
+
 
     /**
      * Clean up the testing environment before the next test.
@@ -135,17 +134,19 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         $this->setUpHasRun = false;
 
         if (property_exists($this, 'serverVariables')) {
-            $this->serverVariables = [];
+            $this->serverVariables = [ ];
         }
 
-        $this->afterApplicationCreatedCallbacks = [];
-        $this->beforeApplicationDestroyedCallbacks = [];
+        $this->afterApplicationCreatedCallbacks    = [ ];
+        $this->beforeApplicationDestroyedCallbacks = [ ];
     }
+
 
     /**
      * Register a callback to be run after the application is created.
      *
-     * @param  callable  $callback
+     * @param  callable $callback
+     *
      * @return void
      */
     protected function afterApplicationCreated(callable $callback)
@@ -157,10 +158,12 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         }
     }
 
+
     /**
      * Register a callback to be run before the application is destroyed.
      *
-     * @param  callable  $callback
+     * @param  callable $callback
+     *
      * @return void
      */
     protected function beforeApplicationDestroyed(callable $callback)

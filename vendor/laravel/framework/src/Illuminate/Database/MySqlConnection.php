@@ -10,6 +10,7 @@ use Illuminate\Database\Schema\Grammars\MySqlGrammar as SchemaGrammar;
 
 class MySqlConnection extends Connection
 {
+
     /**
      * Get a schema builder instance for the connection.
      *
@@ -24,6 +25,7 @@ class MySqlConnection extends Connection
         return new MySqlBuilder($this);
     }
 
+
     /**
      * Get the default query grammar instance.
      *
@@ -33,6 +35,7 @@ class MySqlConnection extends Connection
     {
         return $this->withTablePrefix(new QueryGrammar);
     }
+
 
     /**
      * Get the default schema grammar instance.
@@ -44,6 +47,7 @@ class MySqlConnection extends Connection
         return $this->withTablePrefix(new SchemaGrammar);
     }
 
+
     /**
      * Get the default post processor instance.
      *
@@ -53,6 +57,7 @@ class MySqlConnection extends Connection
     {
         return new MySqlProcessor;
     }
+
 
     /**
      * Get the Doctrine DBAL driver.

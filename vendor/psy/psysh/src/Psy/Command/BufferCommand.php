@@ -23,26 +23,22 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class BufferCommand extends Command
 {
+
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $this
-            ->setName('buffer')
-            ->setAliases(array('buf'))
-            ->setDefinition(array(
+        $this->setName('buffer')->setAliases([ 'buf' ])->setDefinition([
                 new InputOption('clear', '', InputOption::VALUE_NONE, 'Clear the current buffer.'),
-            ))
-            ->setDescription('Show (or clear) the contents of the code input buffer.')
-            ->setHelp(
-                <<<'HELP'
+            ])->setDescription('Show (or clear) the contents of the code input buffer.')->setHelp(<<<'HELP'
 Show the contents of the code buffer for the current multi-line expression.
 
 Optionally, clear the buffer by passing the <info>--clear</info> option.
 HELP
             );
     }
+
 
     /**
      * {@inheritdoc}
@@ -58,11 +54,12 @@ HELP
         }
     }
 
+
     /**
      * A helper method for wrapping buffer lines in `<urgent>` and `<return>` formatter strings.
      *
      * @param array  $lines
-     * @param string $type  (default: 'return')
+     * @param string $type (default: 'return')
      *
      * @return array Formatted strings
      */

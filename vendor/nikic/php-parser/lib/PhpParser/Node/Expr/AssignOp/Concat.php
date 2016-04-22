@@ -6,4 +6,5 @@ use PhpParser\Node\Expr\AssignOp;
 
 class Concat extends AssignOp
 {
+
 }

@@ -15,7 +15,9 @@ use ReflectionClass;
 
 class ClassMirrorException extends \RuntimeException implements DoublerException
 {
+
     private $class;
+
 
     public function __construct($message, ReflectionClass $class)
     {
@@ -23,6 +25,7 @@ class ClassMirrorException extends \RuntimeException implements DoublerException
 
         $this->class = $class;
     }
+
 
     public function getReflectedClass()
     {

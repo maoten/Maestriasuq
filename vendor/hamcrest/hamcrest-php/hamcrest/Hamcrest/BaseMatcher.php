@@ -1,9 +1,9 @@
 <?php
 namespace Hamcrest;
 
-/*
- Copyright (c) 2009 hamcrest.org
- */
+    /*
+     Copyright (c) 2009 hamcrest.org
+     */
 
 /**
  * BaseClass for all Matcher implementations.
@@ -17,6 +17,7 @@ abstract class BaseMatcher implements Matcher
     {
         $description->appendText('was ')->appendValue($item);
     }
+
 
     public function __toString()
     {

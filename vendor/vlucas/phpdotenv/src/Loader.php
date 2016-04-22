@@ -14,6 +14,7 @@ use Dotenv\Exception\InvalidPathException;
  */
 class Loader
 {
+
     /**
      * The file path.
      *
@@ -28,6 +29,7 @@ class Loader
      */
     protected $immutable;
 
+
     /**
      * Create a new loader instance.
      *
@@ -38,9 +40,10 @@ class Loader
      */
     public function __construct($filePath, $immutable = false)
     {
-        $this->filePath = $filePath;
+        $this->filePath  = $filePath;
         $this->immutable = $immutable;
     }
+
 
     /**
      * Load `.env` file in given directory.
@@ -52,15 +55,16 @@ class Loader
         $this->ensureFileIsReadable();
 
         $filePath = $this->filePath;
-        $lines = $this->readLinesFromFile($filePath);
+        $lines    = $this->readLinesFromFile($filePath);
         foreach ($lines as $line) {
-            if (!$this->isComment($line) && $this->looksLikeSetter($line)) {
+            if ( ! $this->isComment($line) && $this->looksLikeSetter($line)) {
                 $this->setEnvironmentVariable($line);
             }
         }
 
         return $lines;
     }
+
 
     /**
      * Ensures the given filePath is readable.
@@ -71,10 +75,11 @@ class Loader
      */
     protected function ensureFileIsReadable()
     {
-        if (!is_readable($this->filePath) || !is_file($this->filePath)) {
+        if ( ! is_readable($this->filePath) || ! is_file($this->filePath)) {
             throw new InvalidPathException(sprintf('Unable to read the environment file at %s.', $this->filePath));
         }
     }
+
 
     /**
      * Normalise the given environment variable.
@@ -92,14 +97,15 @@ class Loader
      */
     protected function normaliseEnvironmentVariable($name, $value)
     {
-        list($name, $value) = $this->splitCompoundStringIntoParts($name, $value);
-        list($name, $value) = $this->sanitiseVariableName($name, $value);
-        list($name, $value) = $this->sanitiseVariableValue($name, $value);
+        list( $name, $value ) = $this->splitCompoundStringIntoParts($name, $value);
+        list( $name, $value ) = $this->sanitiseVariableName($name, $value);
+        list( $name, $value ) = $this->sanitiseVariableValue($name, $value);
 
         $value = $this->resolveNestedVariables($value);
 
-        return array($name, $value);
+        return [ $name, $value ];
     }
+
 
     /**
      * Process the runtime filters.
@@ -113,12 +119,13 @@ class Loader
      */
     public function processFilters($name, $value)
     {
-        list($name, $value) = $this->splitCompoundStringIntoParts($name, $value);
-        list($name, $value) = $this->sanitiseVariableName($name, $value);
-        list($name, $value) = $this->sanitiseVariableValue($name, $value);
+        list( $name, $value ) = $this->splitCompoundStringIntoParts($name, $value);
+        list( $name, $value ) = $this->sanitiseVariableName($name, $value);
+        list( $name, $value ) = $this->sanitiseVariableValue($name, $value);
 
-        return array($name, $value);
+        return [ $name, $value ];
     }
+
 
     /**
      * Read lines from the file, auto detecting line endings.
@@ -138,6 +145,7 @@ class Loader
         return $lines;
     }
 
+
     /**
      * Determine if the line in the file is a comment, e.g. begins with a #.
      *
@@ -150,6 +158,7 @@ class Loader
         return strpos(trim($line), '#') === 0;
     }
 
+
     /**
      * Determine if the given line looks like it's setting a variable.
      *
@@ -161,6 +170,7 @@ class Loader
     {
         return strpos($line, '=') !== false;
     }
+
 
     /**
      * Split the compound string into parts.
@@ -176,11 +186,12 @@ class Loader
     protected function splitCompoundStringIntoParts($name, $value)
     {
         if (strpos($name, '=') !== false) {
-            list($name, $value) = array_map('trim', explode('=', $name, 2));
+            list( $name, $value ) = array_map('trim', explode('=', $name, 2));
         }
 
-        return array($name, $value);
+        return [ $name, $value ];
     }
+
 
     /**
      * Strips quotes from the environment variable value.
@@ -195,14 +206,13 @@ class Loader
     protected function sanitiseVariableValue($name, $value)
     {
         $value = trim($value);
-        if (!$value) {
-            return array($name, $value);
+        if ( ! $value) {
+            return [ $name, $value ];
         }
 
         if ($this->beginsWithAQuote($value)) { // value starts with a quote
-            $quote = $value[0];
-            $regexPattern = sprintf(
-                '/^
+            $quote        = $value[0];
+            $regexPattern = sprintf('/^
                 %1$s          # match a quote at the start of the value
                 (             # capturing sub-pattern used
                  (?:          # we do not need to capture this
@@ -213,12 +223,10 @@ class Loader
                 )             # end of the capturing sub-pattern
                 %1$s          # and the closing quote
                 .*$           # and discard any string after the closing quote
-                /mx',
-                $quote
-            );
-            $value = preg_replace($regexPattern, '$1', $value);
-            $value = str_replace("\\$quote", $quote, $value);
-            $value = str_replace('\\\\', '\\', $value);
+                /mx', $quote);
+            $value        = preg_replace($regexPattern, '$1', $value);
+            $value        = str_replace("\\$quote", $quote, $value);
+            $value        = str_replace('\\\\', '\\', $value);
         } else {
             $parts = explode(' #', $value, 2);
             $value = trim($parts[0]);
@@ -229,8 +237,9 @@ class Loader
             }
         }
 
-        return array($name, trim($value));
+        return [ $name, trim($value) ];
     }
+
 
     /**
      * Resolve the nested variables.
@@ -246,22 +255,19 @@ class Loader
     {
         if (strpos($value, '$') !== false) {
             $loader = $this;
-            $value = preg_replace_callback(
-                '/\${([a-zA-Z0-9_]+)}/',
-                function ($matchedPatterns) use ($loader) {
-                    $nestedVariable = $loader->getEnvironmentVariable($matchedPatterns[1]);
-                    if ($nestedVariable === null) {
-                        return $matchedPatterns[0];
-                    } else {
-                        return $nestedVariable;
-                    }
-                },
-                $value
-            );
+            $value  = preg_replace_callback('/\${([a-zA-Z0-9_]+)}/', function ($matchedPatterns) use ($loader) {
+                $nestedVariable = $loader->getEnvironmentVariable($matchedPatterns[1]);
+                if ($nestedVariable === null) {
+                    return $matchedPatterns[0];
+                } else {
+                    return $nestedVariable;
+                }
+            }, $value);
         }
 
         return $value;
     }
+
 
     /**
      * Strips quotes and the optional leading "export " from the environment variable name.
@@ -273,10 +279,11 @@ class Loader
      */
     protected function sanitiseVariableName($name, $value)
     {
-        $name = trim(str_replace(array('export ', '\'', '"'), '', $name));
+        $name = trim(str_replace([ 'export ', '\'', '"' ], '', $name));
 
-        return array($name, $value);
+        return [ $name, $value ];
     }
+
 
     /**
      * Determine if the given string begins with a quote.
@@ -289,6 +296,7 @@ class Loader
     {
         return strpbrk($value[0], '"\'') !== false;
     }
+
 
     /**
      * Search the different places for environment variables and return first value found.
@@ -306,9 +314,11 @@ class Loader
                 return $_SERVER[$name];
             default:
                 $value = getenv($name);
+
                 return $value === false ? null : $value; // switch getenv default to null
         }
     }
+
 
     /**
      * Set an environment variable.
@@ -327,7 +337,7 @@ class Loader
      */
     public function setEnvironmentVariable($name, $value = null)
     {
-        list($name, $value) = $this->normaliseEnvironmentVariable($name, $value);
+        list( $name, $value ) = $this->normaliseEnvironmentVariable($name, $value);
 
         // Don't overwrite existing environment variables if we're immutable
         // Ruby's dotenv does this with `ENV[key] ||= value`.
@@ -337,9 +347,10 @@ class Loader
 
         putenv("$name=$value");
 
-        $_ENV[$name] = $value;
+        $_ENV[$name]    = $value;
         $_SERVER[$name] = $value;
     }
+
 
     /**
      * Clear an environment variable.
@@ -366,6 +377,6 @@ class Loader
 
         putenv($name);
 
-        unset($_ENV[$name], $_SERVER[$name]);
+        unset( $_ENV[$name], $_SERVER[$name] );
     }
 }

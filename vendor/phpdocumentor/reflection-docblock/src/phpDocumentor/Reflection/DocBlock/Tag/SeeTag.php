@@ -23,8 +23,10 @@ use phpDocumentor\Reflection\DocBlock\Tag;
  */
 class SeeTag extends Tag
 {
+
     /** @var string */
     protected $refers = null;
+
 
     /**
      * {@inheritdoc}
@@ -34,8 +36,10 @@ class SeeTag extends Tag
         if (null === $this->content) {
             $this->content = "{$this->refers} {$this->description}";
         }
+
         return $this->content;
     }
+
 
     /**
      * {@inheritdoc}
@@ -48,11 +52,13 @@ class SeeTag extends Tag
         // any output is considered a type
         $this->refers = $parts[0];
 
-        $this->setDescription(isset($parts[1]) ? $parts[1] : '');
+        $this->setDescription(isset( $parts[1] ) ? $parts[1] : '');
 
         $this->content = $content;
+
         return $this;
     }
+
 
     /**
      * Gets the structural element this tag refers to.
@@ -64,11 +70,12 @@ class SeeTag extends Tag
         return $this->refers;
     }
 
+
     /**
      * Sets the structural element this tag refers to.
-     * 
+     *
      * @param string $refers The new type this tag refers to.
-     * 
+     *
      * @return $this
      */
     public function setReference($refers)
@@ -76,6 +83,7 @@ class SeeTag extends Tag
         $this->refers = $refers;
 
         $this->content = null;
+
         return $this;
     }
 }

@@ -30,6 +30,7 @@ use Psy\Exception\FatalErrorException;
  */
 class ValidConstantPass extends NamespaceAwarePass
 {
+
     /**
      * Validate that namespaced constant references will succeed.
      *
@@ -44,13 +45,14 @@ class ValidConstantPass extends NamespaceAwarePass
     {
         if ($node instanceof ConstFetch && count($node->name->parts) > 1) {
             $name = $this->getFullyQualifiedName($node->name);
-            if (!defined($name)) {
+            if ( ! defined($name)) {
                 throw new FatalErrorException(sprintf('Undefined constant %s', $name), 0, 1, null, $node->getLine());
             }
         } elseif ($node instanceof ClassConstFetch) {
             $this->validateClassConstFetchExpression($node);
         }
     }
+
 
     /**
      * Validate a class constant fetch expression.
@@ -67,16 +69,16 @@ class ValidConstantPass extends NamespaceAwarePass
         }
 
         // if class name is an expression, give it a pass for now
-        if (!$stmt->class instanceof Expr) {
+        if ( ! $stmt->class instanceof Expr) {
             $className = $this->getFullyQualifiedName($stmt->class);
 
             // if the class doesn't exist, don't throw an exception… it might be
             // defined in the same line it's used or something stupid like that.
             if (class_exists($className) || interface_exists($className)) {
                 $constName = sprintf('%s::%s', $className, $stmt->name);
-                if (!defined($constName)) {
+                if ( ! defined($constName)) {
                     $constType = class_exists($className) ? 'Class' : 'Interface';
-                    $msg = sprintf('%s constant \'%s\' not found', $constType, $constName);
+                    $msg       = sprintf('%s constant \'%s\' not found', $constType, $constName);
                     throw new FatalErrorException($msg, 0, 1, null, $stmt->getLine());
                 }
             }

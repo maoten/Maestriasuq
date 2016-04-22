@@ -6,10 +6,11 @@ class UtilTest extends \PhpUnit_Framework_TestCase
 
     public function testWrapValueWithIsEqualLeavesMatchersUntouched()
     {
-        $matcher = new \Hamcrest\Text\MatchesPattern('/fo+/');
+        $matcher    = new \Hamcrest\Text\MatchesPattern('/fo+/');
         $newMatcher = \Hamcrest\Util::wrapValueWithIsEqual($matcher);
         $this->assertSame($matcher, $newMatcher);
     }
+
 
     public function testWrapValueWithIsEqualWrapsPrimitive()
     {
@@ -18,24 +19,27 @@ class UtilTest extends \PhpUnit_Framework_TestCase
         $this->assertTrue($matcher->matches('foo'));
     }
 
+
     public function testCheckAllAreMatchersAcceptsMatchers()
     {
-        \Hamcrest\Util::checkAllAreMatchers(array(
+        \Hamcrest\Util::checkAllAreMatchers([
             new \Hamcrest\Text\MatchesPattern('/fo+/'),
             new \Hamcrest\Core\IsEqual('foo'),
-        ));
+        ]);
     }
+
 
     /**
      * @expectedException InvalidArgumentException
      */
     public function testCheckAllAreMatchersFailsForPrimitive()
     {
-        \Hamcrest\Util::checkAllAreMatchers(array(
+        \Hamcrest\Util::checkAllAreMatchers([
             new \Hamcrest\Text\MatchesPattern('/fo+/'),
             'foo',
-        ));
+        ]);
     }
+
 
     private function callAndAssertCreateMatcherArray($items)
     {
@@ -49,31 +53,35 @@ class UtilTest extends \PhpUnit_Framework_TestCase
         return $matchers;
     }
 
+
     public function testCreateMatcherArrayLeavesMatchersUntouched()
     {
-        $matcher = new \Hamcrest\Text\MatchesPattern('/fo+/');
-        $items = array($matcher);
+        $matcher  = new \Hamcrest\Text\MatchesPattern('/fo+/');
+        $items    = [ $matcher ];
         $matchers = $this->callAndAssertCreateMatcherArray($items);
         $this->assertSame($matcher, $matchers[0]);
     }
 
+
     public function testCreateMatcherArrayWrapsPrimitiveWithIsEqualMatcher()
     {
-        $matchers = $this->callAndAssertCreateMatcherArray(array('foo'));
+        $matchers = $this->callAndAssertCreateMatcherArray([ 'foo' ]);
         $this->assertInstanceOf('Hamcrest\Core\IsEqual', $matchers[0]);
         $this->assertTrue($matchers[0]->matches('foo'));
     }
 
+
     public function testCreateMatcherArrayDoesntModifyOriginalArray()
     {
-        $items = array('foo');
+        $items = [ 'foo' ];
         $this->callAndAssertCreateMatcherArray($items);
         $this->assertSame('foo', $items[0]);
     }
 
+
     public function testCreateMatcherArrayUnwrapsSingleArrayElement()
     {
-        $matchers = $this->callAndAssertCreateMatcherArray(array(array('foo')));
+        $matchers = $this->callAndAssertCreateMatcherArray([ [ 'foo' ] ]);
         $this->assertInstanceOf('Hamcrest\Core\IsEqual', $matchers[0]);
         $this->assertTrue($matchers[0]->matches('foo'));
     }

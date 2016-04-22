@@ -15,6 +15,7 @@
  */
 abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer implements PHPUnit_Framework_TestListener
 {
+
     /**
      * @var PHPUnit_Util_TestDox_NamePrettifier
      */
@@ -33,7 +34,7 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
     /**
      * @var array
      */
-    protected $tests = array();
+    protected $tests = [ ];
 
     /**
      * @var int
@@ -70,6 +71,7 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
      */
     protected $currentTestMethodPrettified;
 
+
     /**
      * Constructor.
      *
@@ -83,6 +85,7 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
         $this->startRun();
     }
 
+
     /**
      * Flush buffer and close output.
      */
@@ -94,6 +97,7 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
         parent::flush();
     }
 
+
     /**
      * An error occurred.
      *
@@ -103,13 +107,14 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if (!$this->isOfInterest($test)) {
+        if ( ! $this->isOfInterest($test)) {
             return;
         }
 
         $this->testStatus = PHPUnit_Runner_BaseTestRunner::STATUS_ERROR;
         $this->failed++;
     }
+
 
     /**
      * A failure occurred.
@@ -120,13 +125,14 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
-        if (!$this->isOfInterest($test)) {
+        if ( ! $this->isOfInterest($test)) {
             return;
         }
 
         $this->testStatus = PHPUnit_Runner_BaseTestRunner::STATUS_FAILURE;
         $this->failed++;
     }
+
 
     /**
      * Incomplete test.
@@ -137,13 +143,14 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if (!$this->isOfInterest($test)) {
+        if ( ! $this->isOfInterest($test)) {
             return;
         }
 
         $this->testStatus = PHPUnit_Runner_BaseTestRunner::STATUS_INCOMPLETE;
         $this->incomplete++;
     }
+
 
     /**
      * Risky test.
@@ -156,13 +163,14 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
      */
     public function addRiskyTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if (!$this->isOfInterest($test)) {
+        if ( ! $this->isOfInterest($test)) {
             return;
         }
 
         $this->testStatus = PHPUnit_Runner_BaseTestRunner::STATUS_RISKY;
         $this->risky++;
     }
+
 
     /**
      * Skipped test.
@@ -175,13 +183,14 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if (!$this->isOfInterest($test)) {
+        if ( ! $this->isOfInterest($test)) {
             return;
         }
 
         $this->testStatus = PHPUnit_Runner_BaseTestRunner::STATUS_SKIPPED;
         $this->skipped++;
     }
+
 
     /**
      * A testsuite started.
@@ -194,6 +203,7 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
     {
     }
 
+
     /**
      * A testsuite ended.
      *
@@ -205,6 +215,7 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
     {
     }
 
+
     /**
      * A test started.
      *
@@ -212,7 +223,7 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
-        if (!$this->isOfInterest($test)) {
+        if ( ! $this->isOfInterest($test)) {
             return;
         }
 
@@ -227,24 +238,25 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
             $this->startClass($class);
 
             $this->testClass = $class;
-            $this->tests     = array();
+            $this->tests     = [ ];
         }
 
         $prettified = false;
 
         $annotations = $test->getAnnotations();
 
-        if (isset($annotations['method']['testdox'][0])) {
+        if (isset( $annotations['method']['testdox'][0] )) {
             $this->currentTestMethodPrettified = $annotations['method']['testdox'][0];
             $prettified                        = true;
         }
 
-        if (!$prettified) {
+        if ( ! $prettified) {
             $this->currentTestMethodPrettified = $this->prettifier->prettifyTestMethod($test->getName(false));
         }
 
         $this->testStatus = PHPUnit_Runner_BaseTestRunner::STATUS_PASSED;
     }
+
 
     /**
      * A test ended.
@@ -254,11 +266,11 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        if (!$this->isOfInterest($test)) {
+        if ( ! $this->isOfInterest($test)) {
             return;
         }
 
-        if (!isset($this->tests[$this->currentTestMethodPrettified])) {
+        if ( ! isset( $this->tests[$this->currentTestMethodPrettified] )) {
             if ($this->testStatus == PHPUnit_Runner_BaseTestRunner::STATUS_PASSED) {
                 $this->tests[$this->currentTestMethodPrettified]['success'] = 1;
                 $this->tests[$this->currentTestMethodPrettified]['failure'] = 0;
@@ -278,6 +290,7 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
         $this->currentTestMethodPrettified = null;
     }
 
+
     /**
      * @since  Method available since Release 2.3.0
      */
@@ -290,12 +303,14 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
         $this->endClass($this->testClass);
     }
 
+
     /**
      * Handler for 'start run' event.
      */
     protected function startRun()
     {
     }
+
 
     /**
      * Handler for 'start class' event.
@@ -305,6 +320,7 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
     protected function startClass($name)
     {
     }
+
 
     /**
      * Handler for 'on test' event.
@@ -316,6 +332,7 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
     {
     }
 
+
     /**
      * Handler for 'end class' event.
      *
@@ -325,12 +342,14 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
     {
     }
 
+
     /**
      * Handler for 'end run' event.
      */
     protected function endRun()
     {
     }
+
 
     private function isOfInterest(PHPUnit_Framework_Test $test)
     {

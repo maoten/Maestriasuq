@@ -18,14 +18,14 @@ namespace Monolog\Handler;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  *
- * @method bool hasEmergency($record)
- * @method bool hasAlert($record)
- * @method bool hasCritical($record)
- * @method bool hasError($record)
- * @method bool hasWarning($record)
- * @method bool hasNotice($record)
- * @method bool hasInfo($record)
- * @method bool hasDebug($record)
+ * @method bool hasEmergency( $record )
+ * @method bool hasAlert( $record )
+ * @method bool hasCritical( $record )
+ * @method bool hasError( $record )
+ * @method bool hasWarning( $record )
+ * @method bool hasNotice( $record )
+ * @method bool hasInfo( $record )
+ * @method bool hasDebug( $record )
  *
  * @method bool hasEmergencyRecords()
  * @method bool hasAlertRecords()
@@ -36,47 +36,52 @@ namespace Monolog\Handler;
  * @method bool hasInfoRecords()
  * @method bool hasDebugRecords()
  *
- * @method bool hasEmergencyThatContains($message)
- * @method bool hasAlertThatContains($message)
- * @method bool hasCriticalThatContains($message)
- * @method bool hasErrorThatContains($message)
- * @method bool hasWarningThatContains($message)
- * @method bool hasNoticeThatContains($message)
- * @method bool hasInfoThatContains($message)
- * @method bool hasDebugThatContains($message)
+ * @method bool hasEmergencyThatContains( $message )
+ * @method bool hasAlertThatContains( $message )
+ * @method bool hasCriticalThatContains( $message )
+ * @method bool hasErrorThatContains( $message )
+ * @method bool hasWarningThatContains( $message )
+ * @method bool hasNoticeThatContains( $message )
+ * @method bool hasInfoThatContains( $message )
+ * @method bool hasDebugThatContains( $message )
  *
- * @method bool hasEmergencyThatMatches($message)
- * @method bool hasAlertThatMatches($message)
- * @method bool hasCriticalThatMatches($message)
- * @method bool hasErrorThatMatches($message)
- * @method bool hasWarningThatMatches($message)
- * @method bool hasNoticeThatMatches($message)
- * @method bool hasInfoThatMatches($message)
- * @method bool hasDebugThatMatches($message)
+ * @method bool hasEmergencyThatMatches( $message )
+ * @method bool hasAlertThatMatches( $message )
+ * @method bool hasCriticalThatMatches( $message )
+ * @method bool hasErrorThatMatches( $message )
+ * @method bool hasWarningThatMatches( $message )
+ * @method bool hasNoticeThatMatches( $message )
+ * @method bool hasInfoThatMatches( $message )
+ * @method bool hasDebugThatMatches( $message )
  *
- * @method bool hasEmergencyThatPasses($message)
- * @method bool hasAlertThatPasses($message)
- * @method bool hasCriticalThatPasses($message)
- * @method bool hasErrorThatPasses($message)
- * @method bool hasWarningThatPasses($message)
- * @method bool hasNoticeThatPasses($message)
- * @method bool hasInfoThatPasses($message)
- * @method bool hasDebugThatPasses($message)
+ * @method bool hasEmergencyThatPasses( $message )
+ * @method bool hasAlertThatPasses( $message )
+ * @method bool hasCriticalThatPasses( $message )
+ * @method bool hasErrorThatPasses( $message )
+ * @method bool hasWarningThatPasses( $message )
+ * @method bool hasNoticeThatPasses( $message )
+ * @method bool hasInfoThatPasses( $message )
+ * @method bool hasDebugThatPasses( $message )
  */
 class TestHandler extends AbstractProcessingHandler
 {
-    protected $records = array();
-    protected $recordsByLevel = array();
+
+    protected $records = [ ];
+
+    protected $recordsByLevel = [ ];
+
 
     public function getRecords()
     {
         return $this->records;
     }
 
+
     protected function hasRecordRecords($level)
     {
-        return isset($this->recordsByLevel[$level]);
+        return isset( $this->recordsByLevel[$level] );
     }
+
 
     protected function hasRecord($record, $level)
     {
@@ -89,12 +94,14 @@ class TestHandler extends AbstractProcessingHandler
         }, $level);
     }
 
+
     public function hasRecordThatContains($message, $level)
     {
         return $this->hasRecordThatPasses(function ($rec) use ($message) {
             return strpos($rec['message'], $message) !== false;
         }, $level);
     }
+
 
     public function hasRecordThatMatches($regex, $level)
     {
@@ -103,13 +110,14 @@ class TestHandler extends AbstractProcessingHandler
         }, $level);
     }
 
+
     public function hasRecordThatPasses($predicate, $level)
     {
-        if (!is_callable($predicate)) {
+        if ( ! is_callable($predicate)) {
             throw new \InvalidArgumentException("Expected a callable for hasRecordThatSucceeds");
         }
 
-        if (!isset($this->recordsByLevel[$level])) {
+        if ( ! isset( $this->recordsByLevel[$level] )) {
             return false;
         }
 
@@ -122,24 +130,26 @@ class TestHandler extends AbstractProcessingHandler
         return false;
     }
 
+
     /**
      * {@inheritdoc}
      */
     protected function write(array $record)
     {
         $this->recordsByLevel[$record['level']][] = $record;
-        $this->records[] = $record;
+        $this->records[]                          = $record;
     }
+
 
     public function __call($method, $args)
     {
         if (preg_match('/(.*)(Debug|Info|Notice|Warning|Error|Critical|Alert|Emergency)(.*)/', $method, $matches) > 0) {
             $genericMethod = $matches[1] . 'Record' . $matches[3];
-            $level = constant('Monolog\Logger::' . strtoupper($matches[2]));
+            $level         = constant('Monolog\Logger::' . strtoupper($matches[2]));
             if (method_exists($this, $genericMethod)) {
                 $args[] = $level;
 
-                return call_user_func_array(array($this, $genericMethod), $args);
+                return call_user_func_array([ $this, $genericMethod ], $args);
             }
         }
 

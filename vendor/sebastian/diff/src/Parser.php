@@ -15,6 +15,7 @@ namespace SebastianBergmann\Diff;
  */
 class Parser
 {
+
     /**
      * @param string $string
      *
@@ -24,17 +25,18 @@ class Parser
     {
         $lines     = preg_split('(\r\n|\r|\n)', $string);
         $lineCount = count($lines);
-        $diffs     = array();
+        $diffs     = [ ];
         $diff      = null;
-        $collected = array();
+        $collected = [ ];
 
         for ($i = 0; $i < $lineCount; ++$i) {
-            if (preg_match('(^---\\s+(?P<file>\\S+))', $lines[$i], $fromMatch) &&
-                preg_match('(^\\+\\+\\+\\s+(?P<file>\\S+))', $lines[$i + 1], $toMatch)) {
+            if (preg_match('(^---\\s+(?P<file>\\S+))', $lines[$i],
+                    $fromMatch) && preg_match('(^\\+\\+\\+\\s+(?P<file>\\S+))', $lines[$i + 1], $toMatch)
+            ) {
                 if ($diff !== null) {
                     $this->parseFileDiff($diff, $collected);
                     $diffs[]   = $diff;
-                    $collected = array();
+                    $collected = [ ];
                 }
 
                 $diff = new Diff($fromMatch['file'], $toMatch['file']);
@@ -47,7 +49,7 @@ class Parser
             }
         }
 
-        if (count($collected) && ($diff !== null)) {
+        if (count($collected) && ( $diff !== null )) {
             $this->parseFileDiff($diff, $collected);
             $diffs[] = $diff;
         }
@@ -55,25 +57,23 @@ class Parser
         return $diffs;
     }
 
+
     /**
      * @param Diff  $diff
      * @param array $lines
      */
     private function parseFileDiff(Diff $diff, array $lines)
     {
-        $chunks = array();
+        $chunks = [ ];
 
         foreach ($lines as $line) {
-            if (preg_match('/^@@\s+-(?P<start>\d+)(?:,\s*(?P<startrange>\d+))?\s+\+(?P<end>\d+)(?:,\s*(?P<endrange>\d+))?\s+@@/', $line, $match)) {
-                $chunk = new Chunk(
-                    $match['start'],
-                    isset($match['startrange']) ? max(1, $match['startrange']) : 1,
-                    $match['end'],
-                    isset($match['endrange']) ? max(1, $match['endrange']) : 1
-                );
+            if (preg_match('/^@@\s+-(?P<start>\d+)(?:,\s*(?P<startrange>\d+))?\s+\+(?P<end>\d+)(?:,\s*(?P<endrange>\d+))?\s+@@/',
+                $line, $match)) {
+                $chunk = new Chunk($match['start'], isset( $match['startrange'] ) ? max(1, $match['startrange']) : 1,
+                    $match['end'], isset( $match['endrange'] ) ? max(1, $match['endrange']) : 1);
 
                 $chunks[]  = $chunk;
-                $diffLines = array();
+                $diffLines = [ ];
                 continue;
             }
 
@@ -88,7 +88,7 @@ class Parser
 
                 $diffLines[] = new Line($type, $match['line']);
 
-                if (isset($chunk)) {
+                if (isset( $chunk )) {
                     $chunk->setLines($diffLines);
                 }
             }

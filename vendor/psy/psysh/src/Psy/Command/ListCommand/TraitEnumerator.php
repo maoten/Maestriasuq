@@ -18,13 +18,14 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class TraitEnumerator extends Enumerator
 {
+
     /**
      * {@inheritdoc}
      */
     protected function listItems(InputInterface $input, \Reflector $reflector = null, $target = null)
     {
         // bail early if current PHP doesn't know about traits.
-        if (!function_exists('trait_exists')) {
+        if ( ! function_exists('trait_exists')) {
             return;
         }
 
@@ -41,20 +42,21 @@ class TraitEnumerator extends Enumerator
         }
 
         // only list traits if we are specifically asked
-        if (!$input->getOption('traits')) {
+        if ( ! $input->getOption('traits')) {
             return;
         }
 
         $traits = $this->prepareTraits(get_declared_traits());
 
-        if (empty($traits)) {
+        if (empty( $traits )) {
             return;
         }
 
-        return array(
+        return [
             'Traits' => $traits,
-        );
+        ];
     }
+
 
     /**
      * Prepare formatted trait array.
@@ -68,15 +70,15 @@ class TraitEnumerator extends Enumerator
         natcasesort($traits);
 
         // My kingdom for a generator.
-        $ret = array();
+        $ret = [ ];
 
         foreach ($traits as $name) {
             if ($this->showItem($name)) {
-                $ret[$name] = array(
+                $ret[$name] = [
                     'name'  => $name,
                     'style' => self::IS_CLASS,
                     'value' => $this->presentSignature($name),
-                );
+                ];
             }
         }
 

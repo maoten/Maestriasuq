@@ -24,11 +24,13 @@ use phpDocumentor\Reflection\DocBlock\Type\Collection;
  */
 class ReturnTag extends Tag
 {
+
     /** @var string The raw type component. */
     protected $type = '';
-    
+
     /** @var Collection The parsed type component. */
     protected $types = null;
+
 
     /**
      * {@inheritdoc}
@@ -42,6 +44,7 @@ class ReturnTag extends Tag
         return $this->content;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -52,14 +55,16 @@ class ReturnTag extends Tag
         $parts = preg_split('/\s+/Su', $this->description, 2);
 
         // any output is considered a type
-        $this->type = $parts[0];
+        $this->type  = $parts[0];
         $this->types = null;
 
-        $this->setDescription(isset($parts[1]) ? $parts[1] : '');
+        $this->setDescription(isset( $parts[1] ) ? $parts[1] : '');
 
         $this->content = $content;
+
         return $this;
     }
+
 
     /**
      * Returns the unique types of the variable.
@@ -71,6 +76,7 @@ class ReturnTag extends Tag
         return $this->getTypesCollection()->getArrayCopy();
     }
 
+
     /**
      * Returns the type section of the variable.
      *
@@ -81,19 +87,18 @@ class ReturnTag extends Tag
         return (string) $this->getTypesCollection();
     }
 
+
     /**
      * Returns the type collection.
-     * 
+     *
      * @return void
      */
     protected function getTypesCollection()
     {
         if (null === $this->types) {
-            $this->types = new Collection(
-                array($this->type),
-                $this->docblock ? $this->docblock->getContext() : null
-            );
+            $this->types = new Collection([ $this->type ], $this->docblock ? $this->docblock->getContext() : null);
         }
+
         return $this->types;
     }
 }

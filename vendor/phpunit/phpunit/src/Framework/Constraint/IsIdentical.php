@@ -23,6 +23,7 @@
  */
 class PHPUnit_Framework_Constraint_IsIdentical extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var float
      */
@@ -33,6 +34,7 @@ class PHPUnit_Framework_Constraint_IsIdentical extends PHPUnit_Framework_Constra
      */
     protected $value;
 
+
     /**
      * @param mixed $value
      */
@@ -41,6 +43,7 @@ class PHPUnit_Framework_Constraint_IsIdentical extends PHPUnit_Framework_Constra
         parent::__construct();
         $this->value = $value;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other
@@ -62,9 +65,7 @@ class PHPUnit_Framework_Constraint_IsIdentical extends PHPUnit_Framework_Constra
      */
     public function evaluate($other, $description = '', $returnResult = false)
     {
-        if (is_double($this->value) && is_double($other) &&
-            !is_infinite($this->value) && !is_infinite($other) &&
-            !is_nan($this->value) && !is_nan($other)) {
+        if (is_double($this->value) && is_double($other) && ! is_infinite($this->value) && ! is_infinite($other) && ! is_nan($this->value) && ! is_nan($other)) {
             $success = abs($this->value - $other) < self::EPSILON;
         } else {
             $success = $this->value === $other;
@@ -74,22 +75,18 @@ class PHPUnit_Framework_Constraint_IsIdentical extends PHPUnit_Framework_Constra
             return $success;
         }
 
-        if (!$success) {
+        if ( ! $success) {
             $f = null;
 
             // if both values are strings, make sure a diff is generated
             if (is_string($this->value) && is_string($other)) {
-                $f = new SebastianBergmann\Comparator\ComparisonFailure(
-                    $this->value,
-                    $other,
-                    $this->value,
-                    $other
-                );
+                $f = new SebastianBergmann\Comparator\ComparisonFailure($this->value, $other, $this->value, $other);
             }
 
             $this->fail($other, $description, $f);
         }
     }
+
 
     /**
      * Returns the description of the failure
@@ -114,6 +111,7 @@ class PHPUnit_Framework_Constraint_IsIdentical extends PHPUnit_Framework_Constra
         return parent::failureDescription($other);
     }
 
+
     /**
      * Returns a string representation of the constraint.
      *
@@ -122,11 +120,9 @@ class PHPUnit_Framework_Constraint_IsIdentical extends PHPUnit_Framework_Constra
     public function toString()
     {
         if (is_object($this->value)) {
-            return 'is identical to an object of class "' .
-                   get_class($this->value) . '"';
+            return 'is identical to an object of class "' . get_class($this->value) . '"';
         } else {
-            return 'is identical to ' .
-                   $this->exporter->export($this->value);
+            return 'is identical to ' . $this->exporter->export($this->value);
         }
     }
 }

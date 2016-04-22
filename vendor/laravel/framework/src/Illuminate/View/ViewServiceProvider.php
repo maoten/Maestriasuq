@@ -10,6 +10,7 @@ use Illuminate\View\Compilers\BladeCompiler;
 
 class ViewServiceProvider extends ServiceProvider
 {
+
     /**
      * Register the service provider.
      *
@@ -24,6 +25,7 @@ class ViewServiceProvider extends ServiceProvider
         $this->registerFactory();
     }
 
+
     /**
      * Register the engine resolver instance.
      *
@@ -37,18 +39,20 @@ class ViewServiceProvider extends ServiceProvider
             // Next we will register the various engines with the resolver so that the
             // environment can resolve the engines it needs for various views based
             // on the extension of view files. We call a method for each engines.
-            foreach (['php', 'blade'] as $engine) {
-                $this->{'register'.ucfirst($engine).'Engine'}($resolver);
+            foreach ([ 'php', 'blade' ] as $engine) {
+                $this->{'register' . ucfirst($engine) . 'Engine'}($resolver);
             }
 
             return $resolver;
         });
     }
 
+
     /**
      * Register the PHP engine implementation.
      *
-     * @param  \Illuminate\View\Engines\EngineResolver  $resolver
+     * @param  \Illuminate\View\Engines\EngineResolver $resolver
+     *
      * @return void
      */
     public function registerPhpEngine($resolver)
@@ -58,10 +62,12 @@ class ViewServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the Blade engine implementation.
      *
-     * @param  \Illuminate\View\Engines\EngineResolver  $resolver
+     * @param  \Illuminate\View\Engines\EngineResolver $resolver
+     *
      * @return void
      */
     public function registerBladeEngine($resolver)
@@ -82,6 +88,7 @@ class ViewServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the view finder implementation.
      *
@@ -95,6 +102,7 @@ class ViewServiceProvider extends ServiceProvider
             return new FileViewFinder($app['files'], $paths);
         });
     }
+
 
     /**
      * Register the view environment.

@@ -26,8 +26,11 @@ use Monolog\Logger;
  */
 class IFTTTHandler extends AbstractProcessingHandler
 {
+
     private $eventName;
+
     private $secretKey;
+
 
     /**
      * @param string  $eventName The name of the IFTTT Maker event that should be triggered
@@ -43,26 +46,28 @@ class IFTTTHandler extends AbstractProcessingHandler
         parent::__construct($level, $bubble);
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function write(array $record)
     {
-        $postData = array(
+        $postData   = [
             "value1" => $record["channel"],
             "value2" => $record["level_name"],
             "value3" => $record["message"],
-        );
+        ];
         $postString = json_encode($postData);
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://maker.ifttt.com/trigger/" . $this->eventName . "/with/key/" . $this->secretKey);
+        curl_setopt($ch, CURLOPT_URL,
+            "https://maker.ifttt.com/trigger/" . $this->eventName . "/with/key/" . $this->secretKey);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postString);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Content-Type: application/json",
-        ));
+        ]);
 
         Curl\Util::execute($ch);
     }

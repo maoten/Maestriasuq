@@ -15,6 +15,7 @@
  */
 interface PHPUnit_Framework_TestListener
 {
+
     /**
      * An error occurred.
      *
@@ -23,6 +24,7 @@ interface PHPUnit_Framework_TestListener
      * @param float                  $time
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time);
+
 
     /**
      * A failure occurred.
@@ -33,6 +35,7 @@ interface PHPUnit_Framework_TestListener
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time);
 
+
     /**
      * Incomplete test.
      *
@@ -41,6 +44,7 @@ interface PHPUnit_Framework_TestListener
      * @param float                  $time
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time);
+
 
     /**
      * Risky test.
@@ -53,6 +57,7 @@ interface PHPUnit_Framework_TestListener
      */
     public function addRiskyTest(PHPUnit_Framework_Test $test, Exception $e, $time);
 
+
     /**
      * Skipped test.
      *
@@ -64,6 +69,7 @@ interface PHPUnit_Framework_TestListener
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time);
 
+
     /**
      * A test suite started.
      *
@@ -72,6 +78,7 @@ interface PHPUnit_Framework_TestListener
      * @since  Method available since Release 2.2.0
      */
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite);
+
 
     /**
      * A test suite ended.
@@ -82,12 +89,14 @@ interface PHPUnit_Framework_TestListener
      */
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite);
 
+
     /**
      * A test started.
      *
      * @param PHPUnit_Framework_Test $test
      */
     public function startTest(PHPUnit_Framework_Test $test);
+
 
     /**
      * A test ended.

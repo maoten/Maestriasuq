@@ -6,6 +6,7 @@ use League\Flysystem\Config;
 
 trait StreamedCopyTrait
 {
+
     /**
      * Copy a file.
      *
@@ -37,6 +38,7 @@ trait StreamedCopyTrait
      * @param string $path
      */
     abstract public function readStream($path);
+
 
     /**
      * @param string $path

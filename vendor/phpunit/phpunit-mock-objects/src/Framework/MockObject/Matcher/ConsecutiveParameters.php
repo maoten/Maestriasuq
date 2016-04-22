@@ -20,15 +20,17 @@
  */
 class PHPUnit_Framework_MockObject_Matcher_ConsecutiveParameters extends PHPUnit_Framework_MockObject_Matcher_StatelessInvocation
 {
-    /**
-     * @var array
-     */
-    private $_parameterGroups = array();
 
     /**
      * @var array
      */
-    private $_invocations = array();
+    private $_parameterGroups = [ ];
+
+    /**
+     * @var array
+     */
+    private $_invocations = [ ];
+
 
     /**
      * @param array $parameterGroups
@@ -37,13 +39,14 @@ class PHPUnit_Framework_MockObject_Matcher_ConsecutiveParameters extends PHPUnit
     {
         foreach ($parameterGroups as $index => $parameters) {
             foreach ($parameters as $parameter) {
-                if (!($parameter instanceof \PHPUnit_Framework_Constraint)) {
+                if ( ! ( $parameter instanceof \PHPUnit_Framework_Constraint )) {
                     $parameter = new \PHPUnit_Framework_Constraint_IsEqual($parameter);
                 }
                 $this->_parameterGroups[$index][] = $parameter;
             }
         }
     }
+
 
     /**
      * @return string
@@ -55,8 +58,10 @@ class PHPUnit_Framework_MockObject_Matcher_ConsecutiveParameters extends PHPUnit
         return $text;
     }
 
+
     /**
      * @param  PHPUnit_Framework_MockObject_Invocation $invocation
+     *
      * @return bool
      */
     public function matches(PHPUnit_Framework_MockObject_Invocation $invocation)
@@ -68,6 +73,7 @@ class PHPUnit_Framework_MockObject_Matcher_ConsecutiveParameters extends PHPUnit
         return false;
     }
 
+
     public function verify()
     {
         foreach ($this->_invocations as $callIndex => $invocation) {
@@ -75,49 +81,38 @@ class PHPUnit_Framework_MockObject_Matcher_ConsecutiveParameters extends PHPUnit
         }
     }
 
+
     /**
      * Verify a single invocation
      *
-     * @param  PHPUnit_Framework_MockObject_Invocation      $invocation
-     * @param  int                                          $callIndex
+     * @param  PHPUnit_Framework_MockObject_Invocation $invocation
+     * @param  int                                     $callIndex
+     *
      * @throws PHPUnit_Framework_ExpectationFailedException
      */
     private function verifyInvocation(PHPUnit_Framework_MockObject_Invocation $invocation, $callIndex)
     {
 
-        if (isset($this->_parameterGroups[$callIndex])) {
+        if (isset( $this->_parameterGroups[$callIndex] )) {
             $parameters = $this->_parameterGroups[$callIndex];
         } else {
-          // no parameter assertion for this call index
+            // no parameter assertion for this call index
             return;
         }
 
         if ($invocation === null) {
-            throw new PHPUnit_Framework_ExpectationFailedException(
-                'Mocked method does not exist.'
-            );
+            throw new PHPUnit_Framework_ExpectationFailedException('Mocked method does not exist.');
         }
 
         if (count($invocation->parameters) < count($parameters)) {
-            throw new PHPUnit_Framework_ExpectationFailedException(
-                sprintf(
-                    'Parameter count for invocation %s is too low.',
-                    $invocation->toString()
-                )
-            );
+            throw new PHPUnit_Framework_ExpectationFailedException(sprintf('Parameter count for invocation %s is too low.',
+                    $invocation->toString()));
         }
 
         foreach ($parameters as $i => $parameter) {
-            $parameter->evaluate(
-                $invocation->parameters[$i],
-                sprintf(
-                    'Parameter %s for invocation #%d %s does not match expected ' .
-                    'value.',
-                    $i,
-                    $callIndex,
-                    $invocation->toString()
-                )
-            );
+            $parameter->evaluate($invocation->parameters[$i],
+                sprintf('Parameter %s for invocation #%d %s does not match expected ' . 'value.', $i, $callIndex,
+                    $invocation->toString()));
         }
     }
 }

@@ -21,20 +21,24 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
  */
 class HelperSet implements \IteratorAggregate
 {
-    private $helpers = array();
+
+    private $helpers = [ ];
+
     private $command;
+
 
     /**
      * Constructor.
      *
      * @param Helper[] $helpers An array of helper.
      */
-    public function __construct(array $helpers = array())
+    public function __construct(array $helpers = [ ])
     {
         foreach ($helpers as $alias => $helper) {
             $this->set($helper, is_int($alias) ? null : $alias);
         }
     }
+
 
     /**
      * Sets a helper.
@@ -52,6 +56,7 @@ class HelperSet implements \IteratorAggregate
         $helper->setHelperSet($this);
     }
 
+
     /**
      * Returns true if the helper if defined.
      *
@@ -61,8 +66,9 @@ class HelperSet implements \IteratorAggregate
      */
     public function has($name)
     {
-        return isset($this->helpers[$name]);
+        return isset( $this->helpers[$name] );
     }
+
 
     /**
      * Gets a helper value.
@@ -75,12 +81,13 @@ class HelperSet implements \IteratorAggregate
      */
     public function get($name)
     {
-        if (!$this->has($name)) {
+        if ( ! $this->has($name)) {
             throw new InvalidArgumentException(sprintf('The helper "%s" is not defined.', $name));
         }
 
         return $this->helpers[$name];
     }
+
 
     /**
      * Sets the command associated with this helper set.
@@ -92,6 +99,7 @@ class HelperSet implements \IteratorAggregate
         $this->command = $command;
     }
 
+
     /**
      * Gets the command associated with this helper set.
      *
@@ -101,6 +109,7 @@ class HelperSet implements \IteratorAggregate
     {
         return $this->command;
     }
+
 
     public function getIterator()
     {

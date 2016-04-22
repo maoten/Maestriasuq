@@ -24,7 +24,9 @@ use Prophecy\Exception\Prediction\UnexpectedCallsException;
  */
 class NoCallsPrediction implements PredictionInterface
 {
+
     private $util;
+
 
     /**
      * Initializes prediction.
@@ -35,6 +37,7 @@ class NoCallsPrediction implements PredictionInterface
     {
         $this->util = $util ?: new StringUtil;
     }
+
 
     /**
      * Tests that there were no calls made.
@@ -47,22 +50,14 @@ class NoCallsPrediction implements PredictionInterface
      */
     public function check(array $calls, ObjectProphecy $object, MethodProphecy $method)
     {
-        if (!count($calls)) {
+        if ( ! count($calls)) {
             return;
         }
 
         $verb = count($calls) === 1 ? 'was' : 'were';
 
-        throw new UnexpectedCallsException(sprintf(
-            "No calls expected that match:\n".
-            "  %s->%s(%s)\n".
-            "but %d %s made:\n%s",
-            get_class($object->reveal()),
-            $method->getMethodName(),
-            $method->getArgumentsWildcard(),
-            count($calls),
-            $verb,
-            $this->util->stringifyCalls($calls)
-        ), $method, $calls);
+        throw new UnexpectedCallsException(sprintf("No calls expected that match:\n" . "  %s->%s(%s)\n" . "but %d %s made:\n%s",
+            get_class($object->reveal()), $method->getMethodName(), $method->getArgumentsWildcard(), count($calls),
+            $verb, $this->util->stringifyCalls($calls)), $method, $calls);
     }
 }

@@ -23,6 +23,7 @@ use Psy\Exception\FatalErrorException;
  */
 class AssignThisVariablePass extends CodeCleanerPass
 {
+
     /**
      * Validate that the user input does not assign the `$this` variable.
      *

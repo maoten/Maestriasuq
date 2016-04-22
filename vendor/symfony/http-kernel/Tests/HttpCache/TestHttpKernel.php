@@ -20,51 +20,65 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class TestHttpKernel extends HttpKernel implements ControllerResolverInterface
 {
+
     protected $body;
+
     protected $status;
+
     protected $headers;
+
     protected $called = false;
+
     protected $customizer;
+
     protected $catch = false;
+
     protected $backendRequest;
+
 
     public function __construct($body, $status, $headers, \Closure $customizer = null)
     {
-        $this->body = $body;
-        $this->status = $status;
-        $this->headers = $headers;
+        $this->body       = $body;
+        $this->status     = $status;
+        $this->headers    = $headers;
         $this->customizer = $customizer;
 
         parent::__construct(new EventDispatcher(), $this);
     }
+
 
     public function getBackendRequest()
     {
         return $this->backendRequest;
     }
 
+
     public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = false)
     {
-        $this->catch = $catch;
+        $this->catch          = $catch;
         $this->backendRequest = $request;
 
         return parent::handle($request, $type, $catch);
     }
+
 
     public function isCatchingExceptions()
     {
         return $this->catch;
     }
 
+
     public function getController(Request $request)
     {
-        return array($this, 'callController');
+        return [ $this, 'callController' ];
     }
+
 
     public function getArguments(Request $request, $controller)
     {
-        return array($request);
+        return [ $request ];
     }
+
 
     public function callController(Request $request)
     {
@@ -79,10 +93,12 @@ class TestHttpKernel extends HttpKernel implements ControllerResolverInterface
         return $response;
     }
 
+
     public function hasBeenCalled()
     {
         return $this->called;
     }
+
 
     public function reset()
     {

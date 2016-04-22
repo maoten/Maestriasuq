@@ -21,10 +21,15 @@ namespace Mockery;
 
 class Loader
 {
+
     private $_fileExtension = '.php';
+
     private $_namespace;
+
     private $_includePath;
+
     private $_namespaceSeparator = '\\';
+
 
     /**
      * Creates a new <tt>Loader</tt> that loads classes of the
@@ -34,9 +39,10 @@ class Loader
      */
     public function __construct($ns = 'Mockery', $includePath = null)
     {
-        $this->_namespace = $ns;
+        $this->_namespace   = $ns;
         $this->_includePath = $includePath;
     }
+
 
     /**
      * Sets the namespace separator used by classes in the namespace of this class loader.
@@ -48,6 +54,7 @@ class Loader
         $this->_namespaceSeparator = $sep;
     }
 
+
     /**
      * Gets the namespace seperator used by classes in the namespace of this class loader.
      *
@@ -57,6 +64,7 @@ class Loader
     {
         return $this->_namespaceSeparator;
     }
+
 
     /**
      * Sets the base include path for all class files in the namespace of this class loader.
@@ -68,6 +76,7 @@ class Loader
         $this->_includePath = $includePath;
     }
 
+
     /**
      * Gets the base include path for all class files in the namespace of this class loader.
      *
@@ -77,6 +86,7 @@ class Loader
     {
         return $this->_includePath;
     }
+
 
     /**
      * Sets the file extension of class files in the namespace of this class loader.
@@ -88,6 +98,7 @@ class Loader
         $this->_fileExtension = $fileExtension;
     }
 
+
     /**
      * Gets the file extension of class files in the namespace of this class loader.
      *
@@ -98,6 +109,7 @@ class Loader
         return $this->_fileExtension;
     }
 
+
     /**
      * Installs this class loader on the SPL autoload stack.
      *
@@ -105,51 +117,59 @@ class Loader
      */
     public function register($prepend = false)
     {
-        spl_autoload_register(array($this, 'loadClass'), true, $prepend);
+        spl_autoload_register([ $this, 'loadClass' ], true, $prepend);
     }
+
 
     /**
      * Uninstalls this class loader from the SPL autoloader stack.
      */
     public function unregister()
     {
-        spl_autoload_unregister(array($this, 'loadClass'));
+        spl_autoload_unregister([ $this, 'loadClass' ]);
     }
+
 
     /**
      * Loads the given class or interface.
      *
      * @param string $className The name of the class to load.
+     *
      * @return void
      */
     public function loadClass($className)
     {
         if ($className === 'Mockery') {
             require $this->getFullPath('Mockery.php');
+
             return;
         }
-        if (null === $this->_namespace
-        || $this->_namespace.$this->_namespaceSeparator === substr($className, 0, strlen($this->_namespace.$this->_namespaceSeparator))) {
-            $fileName = '';
+        if (null === $this->_namespace || $this->_namespace . $this->_namespaceSeparator === substr($className, 0,
+                strlen($this->_namespace . $this->_namespaceSeparator))
+        ) {
+            $fileName  = '';
             $namespace = '';
-            if (false !== ($lastNsPos = strripos($className, $this->_namespaceSeparator))) {
+            if (false !== ( $lastNsPos = strripos($className, $this->_namespaceSeparator) )) {
                 $namespace = substr($className, 0, $lastNsPos);
                 $className = substr($className, $lastNsPos + 1);
-                $fileName = str_replace($this->_namespaceSeparator, DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+                $fileName  = str_replace($this->_namespaceSeparator, DIRECTORY_SEPARATOR,
+                        $namespace) . DIRECTORY_SEPARATOR;
             }
             $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . $this->_fileExtension;
             require $this->getFullPath($fileName);
         }
     }
 
+
     /**
      * Returns full path for $fileName if _includePath is set, or leaves as-is for PHP's internal search in 'require'.
      *
      * @param string $fileName relative to include path.
+     *
      * @return string
      */
     private function getFullPath($fileName)
     {
-        return ($this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '') . $fileName;
+        return ( $this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '' ) . $fileName;
     }
 }

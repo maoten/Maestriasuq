@@ -22,6 +22,7 @@ namespace Cron;
  */
 class DayOfMonthField extends AbstractField
 {
+
     /**
      * Get the nearest day of the week for a given day in a month
      *
@@ -33,8 +34,8 @@ class DayOfMonthField extends AbstractField
      */
     private static function getNearestWeekday($currentYear, $currentMonth, $targetDay)
     {
-        $tday = str_pad($targetDay, 2, '0', STR_PAD_LEFT);
-        $target = \DateTime::createFromFormat('Y-m-d', "$currentYear-$currentMonth-$tday");
+        $tday           = str_pad($targetDay, 2, '0', STR_PAD_LEFT);
+        $target         = \DateTime::createFromFormat('Y-m-d', "$currentYear-$currentMonth-$tday");
         $currentWeekday = (int) $target->format('N');
 
         if ($currentWeekday < 6) {
@@ -43,7 +44,7 @@ class DayOfMonthField extends AbstractField
 
         $lastDayOfMonth = $target->format('t');
 
-        foreach (array(-1, 1, -2, 2) as $i) {
+        foreach ([ -1, 1, -2, 2 ] as $i) {
             $adjusted = $targetDay + $i;
             if ($adjusted > 0 && $adjusted <= $lastDayOfMonth) {
                 $target->setDate($currentYear, $currentMonth, $adjusted);
@@ -53,6 +54,7 @@ class DayOfMonthField extends AbstractField
             }
         }
     }
+
 
     public function isSatisfiedBy(\DateTime $date, $value)
     {
@@ -72,16 +74,15 @@ class DayOfMonthField extends AbstractField
         if (strpos($value, 'W')) {
             // Parse the target day
             $targetDay = substr($value, 0, strpos($value, 'W'));
+
             // Find out if the current day is the nearest day of the week
-            return $date->format('j') == self::getNearestWeekday(
-                $date->format('Y'),
-                $date->format('m'),
-                $targetDay
-            )->format('j');
+            return $date->format('j') == self::getNearestWeekday($date->format('Y'), $date->format('m'),
+                $targetDay)->format('j');
         }
 
         return $this->isSatisfied($date->format('d'), $value);
     }
+
 
     public function increment(\DateTime $date, $invert = false)
     {
@@ -95,6 +96,7 @@ class DayOfMonthField extends AbstractField
 
         return $this;
     }
+
 
     public function validate($value)
     {

@@ -1,7 +1,7 @@
 <?php
 /**
  * phpDocumentor Example Tag Test
- * 
+ *
  * PHP version 5.3
  *
  * @author    Vasil Rangelov <boen.robot@gmail.com>
@@ -22,6 +22,7 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  */
 class ExampleTagTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * Test that the \phpDocumentor\Reflection\DocBlock\Tag\SourceTag can
      * understand the @source DocBlock.
@@ -33,7 +34,7 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
      * @param string $exLineCount
      * @param string $exFilepath
      *
-     * @covers \phpDocumentor\Reflection\DocBlock\Tag\ExampleTag
+     * @covers       \phpDocumentor\Reflection\DocBlock\Tag\ExampleTag
      * @dataProvider provideDataForConstuctor
      *
      * @return void
@@ -57,6 +58,7 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($exFilePath, $tag->getFilePath());
     }
 
+
     /**
      * Data provider for testConstructorParesInputsIntoCorrectFields
      *
@@ -71,8 +73,8 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
         // $exStartingLine,
         // $exLineCount,
         // $exFilePath
-        return array(
-            array(
+        return [
+            [
                 'example',
                 'file.php',
                 'file.php',
@@ -80,8 +82,8 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
                 1,
                 null,
                 'file.php'
-            ),
-            array(
+            ],
+            [
                 'example',
                 'Testing comments',
                 'Testing comments',
@@ -89,8 +91,8 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
                 1,
                 null,
                 'Testing'
-            ),
-            array(
+            ],
+            [
                 'example',
                 'file.php 2 Testing',
                 'file.php 2 Testing',
@@ -98,8 +100,8 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
                 2,
                 null,
                 'file.php'
-            ),
-            array(
+            ],
+            [
                 'example',
                 'file.php 2 3 Testing comments',
                 'file.php 2 3 Testing comments',
@@ -107,8 +109,8 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
                 2,
                 3,
                 'file.php'
-            ),
-            array(
+            ],
+            [
                 'example',
                 'file.php 2 -1 Testing comments',
                 'file.php 2 -1 Testing comments',
@@ -116,8 +118,8 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
                 2,
                 null,
                 'file.php'
-            ),
-            array(
+            ],
+            [
                 'example',
                 'file.php -1 1 Testing comments',
                 'file.php -1 1 Testing comments',
@@ -125,8 +127,8 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
                 1,
                 null,
                 'file.php'
-            ),
-            array(
+            ],
+            [
                 'example',
                 '"file with spaces.php" Testing comments',
                 '"file with spaces.php" Testing comments',
@@ -134,8 +136,8 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
                 1,
                 null,
                 'file with spaces.php'
-            ),
-            array(
+            ],
+            [
                 'example',
                 '"file with spaces.php" 2 Testing comments',
                 '"file with spaces.php" 2 Testing comments',
@@ -143,8 +145,8 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
                 2,
                 null,
                 'file with spaces.php'
-            ),
-            array(
+            ],
+            [
                 'example',
                 '"file with spaces.php" 2 3 Testing comments',
                 '"file with spaces.php" 2 3 Testing comments',
@@ -152,8 +154,8 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
                 2,
                 3,
                 'file with spaces.php'
-            ),
-            array(
+            ],
+            [
                 'example',
                 '"file with spaces.php" 2 -3 Testing comments',
                 '"file with spaces.php" 2 -3 Testing comments',
@@ -161,8 +163,8 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
                 2,
                 null,
                 'file with spaces.php'
-            ),
-            array(
+            ],
+            [
                 'example',
                 '"file with spaces.php" -2 3 Testing comments',
                 '"file with spaces.php" -2 3 Testing comments',
@@ -170,8 +172,8 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
                 1,
                 null,
                 'file with spaces.php'
-            ),
-            array(
+            ],
+            [
                 'example',
                 'file%20with%20spaces.php Testing comments',
                 'file%20with%20spaces.php Testing comments',
@@ -179,8 +181,8 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
                 1,
                 null,
                 'file with spaces.php'
-            ),
-            array(
+            ],
+            [
                 'example',
                 'folder/file%20with%20spaces.php Testing comments',
                 'folder/file%20with%20spaces.php Testing comments',
@@ -188,8 +190,8 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
                 1,
                 null,
                 'folder/file with spaces.php'
-            ),
-            array(
+            ],
+            [
                 'example',
                 'http://example.com/file%20with%20spaces.php Testing comments',
                 'http://example.com/file%20with%20spaces.php Testing comments',
@@ -197,7 +199,7 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
                 1,
                 null,
                 'http://example.com/file%20with%20spaces.php'
-            )
-        );
+            ]
+        ];
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Migrations\MigrationCreator;
 
 class MigrateMakeCommand extends BaseCommand
 {
+
     /**
      * The console command signature.
      *
@@ -38,20 +39,23 @@ class MigrateMakeCommand extends BaseCommand
      */
     protected $composer;
 
+
     /**
      * Create a new migration install command instance.
      *
-     * @param  \Illuminate\Database\Migrations\MigrationCreator  $creator
-     * @param  \Illuminate\Support\Composer  $composer
+     * @param  \Illuminate\Database\Migrations\MigrationCreator $creator
+     * @param  \Illuminate\Support\Composer                     $composer
+     *
      * @return void
      */
     public function __construct(MigrationCreator $creator, Composer $composer)
     {
         parent::__construct();
 
-        $this->creator = $creator;
+        $this->creator  = $creator;
         $this->composer = $composer;
     }
+
 
     /**
      * Execute the console command.
@@ -69,7 +73,7 @@ class MigrateMakeCommand extends BaseCommand
 
         $create = $this->input->getOption('create');
 
-        if (! $table && is_string($create)) {
+        if ( ! $table && is_string($create)) {
             $table = $create;
         }
 
@@ -81,12 +85,14 @@ class MigrateMakeCommand extends BaseCommand
         $this->composer->dumpAutoloads();
     }
 
+
     /**
      * Write the migration file to disk.
      *
-     * @param  string  $name
-     * @param  string  $table
-     * @param  bool    $create
+     * @param  string $name
+     * @param  string $table
+     * @param  bool   $create
+     *
      * @return string
      */
     protected function writeMigration($name, $table, $create)
@@ -98,6 +104,7 @@ class MigrateMakeCommand extends BaseCommand
         $this->line("<info>Created Migration:</info> $file");
     }
 
+
     /**
      * Get migration path (either specified by '--path' option or default location).
      *
@@ -105,8 +112,8 @@ class MigrateMakeCommand extends BaseCommand
      */
     protected function getMigrationPath()
     {
-        if (! is_null($targetPath = $this->input->getOption('path'))) {
-            return $this->laravel->basePath().'/'.$targetPath;
+        if ( ! is_null($targetPath = $this->input->getOption('path'))) {
+            return $this->laravel->basePath() . '/' . $targetPath;
         }
 
         return parent::getMigrationPath();

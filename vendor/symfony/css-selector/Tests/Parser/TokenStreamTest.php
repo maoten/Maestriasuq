@@ -16,6 +16,7 @@ use Symfony\Component\CssSelector\Parser\TokenStream;
 
 class TokenStreamTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testGetNext()
     {
         $stream = new TokenStream();
@@ -27,6 +28,7 @@ class TokenStreamTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($t2, $stream->getNext());
         $this->assertSame($t3, $stream->getNext());
     }
+
 
     public function testGetPeek()
     {
@@ -42,6 +44,7 @@ class TokenStreamTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($t2, $stream->getNext());
     }
 
+
     public function testGetNextIdentifier()
     {
         $stream = new TokenStream();
@@ -49,6 +52,7 @@ class TokenStreamTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('h1', $stream->getNextIdentifier());
     }
+
 
     public function testFailToGetNextIdentifier()
     {
@@ -58,6 +62,7 @@ class TokenStreamTest extends \PHPUnit_Framework_TestCase
         $stream->push(new Token(Token::TYPE_DELIMITER, '.', 2));
         $stream->getNextIdentifier();
     }
+
 
     public function testGetNextIdentifierOrStar()
     {
@@ -70,6 +75,7 @@ class TokenStreamTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($stream->getNextIdentifierOrStar());
     }
 
+
     public function testFailToGetNextIdentifierOrStar()
     {
         $this->setExpectedException('Symfony\Component\CssSelector\Exception\SyntaxErrorException');
@@ -78,6 +84,7 @@ class TokenStreamTest extends \PHPUnit_Framework_TestCase
         $stream->push(new Token(Token::TYPE_DELIMITER, '.', 2));
         $stream->getNextIdentifierOrStar();
     }
+
 
     public function testSkipWhitespace()
     {

@@ -13,10 +13,12 @@
  */
 class PHPUnit_Framework_Constraint_ExceptionCode extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var int
      */
     protected $expectedCode;
+
 
     /**
      * @param int $expected
@@ -26,6 +28,7 @@ class PHPUnit_Framework_Constraint_ExceptionCode extends PHPUnit_Framework_Const
         parent::__construct();
         $this->expectedCode = $expected;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -40,6 +43,7 @@ class PHPUnit_Framework_Constraint_ExceptionCode extends PHPUnit_Framework_Const
         return (string) $other->getCode() == (string) $this->expectedCode;
     }
 
+
     /**
      * Returns the description of the failure
      *
@@ -52,12 +56,10 @@ class PHPUnit_Framework_Constraint_ExceptionCode extends PHPUnit_Framework_Const
      */
     protected function failureDescription($other)
     {
-        return sprintf(
-            '%s is equal to expected exception code %s',
-            $this->exporter->export($other->getCode()),
-            $this->exporter->export($this->expectedCode)
-        );
+        return sprintf('%s is equal to expected exception code %s', $this->exporter->export($other->getCode()),
+            $this->exporter->export($this->expectedCode));
     }
+
 
     /**
      * @return string

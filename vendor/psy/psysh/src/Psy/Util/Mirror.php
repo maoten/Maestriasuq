@@ -19,10 +19,12 @@ use Psy\Reflection\ReflectionConstant;
  */
 class Mirror
 {
-    const CONSTANT        = 1;
-    const METHOD          = 2;
+
+    const CONSTANT = 1;
+    const METHOD = 2;
     const STATIC_PROPERTY = 4;
-    const PROPERTY        = 8;
+    const PROPERTY = 8;
+
 
     /**
      * Get a Reflector for a function, class or instance, constant, method or property.
@@ -60,13 +62,11 @@ class Mirror
         } elseif ($filter & self::STATIC_PROPERTY && $class->hasProperty($member) && $class->getProperty($member)->isStatic()) {
             return $class->getProperty($member);
         } else {
-            throw new RuntimeException(sprintf(
-                'Unknown member %s on class %s',
-                $member,
-                is_object($value) ? get_class($value) : $value
-            ));
+            throw new RuntimeException(sprintf('Unknown member %s on class %s', $member,
+                is_object($value) ? get_class($value) : $value));
         }
     }
+
 
     /**
      * Get a ReflectionClass (or ReflectionObject) if possible.
@@ -83,9 +83,9 @@ class Mirror
             return new \ReflectionObject($value);
         }
 
-        if (!is_string($value)) {
+        if ( ! is_string($value)) {
             throw new \InvalidArgumentException('Mirror expects an object or class');
-        } elseif (!class_exists($value) && !interface_exists($value) && !(function_exists('trait_exists') && trait_exists($value))) {
+        } elseif ( ! class_exists($value) && ! interface_exists($value) && ! ( function_exists('trait_exists') && trait_exists($value) )) {
             throw new \InvalidArgumentException('Unknown class or function: ' . $value);
         }
 

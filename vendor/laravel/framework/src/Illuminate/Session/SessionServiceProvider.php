@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 
 class SessionServiceProvider extends ServiceProvider
 {
+
     /**
      * Register the service provider.
      *
@@ -20,6 +21,7 @@ class SessionServiceProvider extends ServiceProvider
         $this->app->singleton('Illuminate\Session\Middleware\StartSession');
     }
 
+
     /**
      * Register the session manager instance.
      *
@@ -31,6 +33,7 @@ class SessionServiceProvider extends ServiceProvider
             return new SessionManager($app);
         });
     }
+
 
     /**
      * Register the session driver instance.

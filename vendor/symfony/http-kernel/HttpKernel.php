@@ -33,9 +33,13 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class HttpKernel implements HttpKernelInterface, TerminableInterface
 {
+
     protected $dispatcher;
+
     protected $resolver;
+
     protected $requestStack;
+
 
     /**
      * Constructor.
@@ -44,12 +48,16 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
      * @param ControllerResolverInterface $resolver     A ControllerResolverInterface instance
      * @param RequestStack                $requestStack A stack for master/sub requests
      */
-    public function __construct(EventDispatcherInterface $dispatcher, ControllerResolverInterface $resolver, RequestStack $requestStack = null)
-    {
-        $this->dispatcher = $dispatcher;
-        $this->resolver = $resolver;
+    public function __construct(
+        EventDispatcherInterface $dispatcher,
+        ControllerResolverInterface $resolver,
+        RequestStack $requestStack = null
+    ) {
+        $this->dispatcher   = $dispatcher;
+        $this->resolver     = $resolver;
         $this->requestStack = $requestStack ?: new RequestStack();
     }
+
 
     /**
      * {@inheritdoc}
@@ -71,6 +79,7 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
         }
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -79,6 +88,7 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
         $this->dispatcher->dispatch(KernelEvents::TERMINATE, new PostResponseEvent($this, $request, $response));
     }
 
+
     /**
      * @throws \LogicException If the request stack is empty
      *
@@ -86,7 +96,7 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
      */
     public function terminateWithException(\Exception $exception)
     {
-        if (!$request = $this->requestStack->getMasterRequest()) {
+        if ( ! $request = $this->requestStack->getMasterRequest()) {
             throw new \LogicException('Request stack is empty', 0, $exception);
         }
 
@@ -98,13 +108,15 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
         $this->terminate($request, $response);
     }
 
+
     /**
      * Handles a request to convert it to a response.
      *
      * Exceptions are not caught.
      *
      * @param Request $request A Request instance
-     * @param int     $type    The type of the request (one of HttpKernelInterface::MASTER_REQUEST or HttpKernelInterface::SUB_REQUEST)
+     * @param int     $type    The type of the request (one of HttpKernelInterface::MASTER_REQUEST or
+     *                         HttpKernelInterface::SUB_REQUEST)
      *
      * @return Response A Response instance
      *
@@ -125,7 +137,8 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
 
         // load controller
         if (false === $controller = $this->resolver->getController($request)) {
-            throw new NotFoundHttpException(sprintf('Unable to find the controller for path "%s". The route is wrongly configured.', $request->getPathInfo()));
+            throw new NotFoundHttpException(sprintf('Unable to find the controller for path "%s". The route is wrongly configured.',
+                $request->getPathInfo()));
         }
 
         $event = new FilterControllerEvent($this, $controller, $request, $type);
@@ -139,7 +152,7 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
         $response = call_user_func_array($controller, $arguments);
 
         // view
-        if (!$response instanceof Response) {
+        if ( ! $response instanceof Response) {
             $event = new GetResponseForControllerResultEvent($this, $request, $type, $response);
             $this->dispatcher->dispatch(KernelEvents::VIEW, $event);
 
@@ -147,7 +160,7 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
                 $response = $event->getResponse();
             }
 
-            if (!$response instanceof Response) {
+            if ( ! $response instanceof Response) {
                 $msg = sprintf('The controller must return a response (%s given).', $this->varToString($response));
 
                 // the user may have forgotten to return something
@@ -161,12 +174,14 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
         return $this->filterResponse($response, $request, $type);
     }
 
+
     /**
      * Filters a response object.
      *
      * @param Response $response A Response instance
      * @param Request  $request  An error message in case the response is not a Response object
-     * @param int      $type     The type of the request (one of HttpKernelInterface::MASTER_REQUEST or HttpKernelInterface::SUB_REQUEST)
+     * @param int      $type     The type of the request (one of HttpKernelInterface::MASTER_REQUEST or
+     *                           HttpKernelInterface::SUB_REQUEST)
      *
      * @return Response The filtered Response instance
      *
@@ -183,6 +198,7 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
         return $event->getResponse();
     }
 
+
     /**
      * Publishes the finish request event, then pop the request from the stack.
      *
@@ -198,6 +214,7 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
         $this->dispatcher->dispatch(KernelEvents::FINISH_REQUEST, new FinishRequestEvent($this, $request, $type));
         $this->requestStack->pop();
     }
+
 
     /**
      * Handles an exception by trying to convert it to a Response.
@@ -218,7 +235,7 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
         // a listener might have replaced the exception
         $e = $event->getException();
 
-        if (!$event->hasResponse()) {
+        if ( ! $event->hasResponse()) {
             $this->finishRequest($request, $type);
 
             throw $e;
@@ -231,7 +248,7 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
             $response->setStatusCode($response->headers->get('X-Status-Code'));
 
             $response->headers->remove('X-Status-Code');
-        } elseif (!$response->isClientError() && !$response->isServerError() && !$response->isRedirect()) {
+        } elseif ( ! $response->isClientError() && ! $response->isServerError() && ! $response->isRedirect()) {
             // ensure that we actually have an error response
             if ($e instanceof HttpExceptionInterface) {
                 // keep the HTTP status code and headers
@@ -249,6 +266,7 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
         }
     }
 
+
     private function varToString($var)
     {
         if (is_object($var)) {
@@ -256,7 +274,7 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
         }
 
         if (is_array($var)) {
-            $a = array();
+            $a = [ ];
             foreach ($var as $k => $v) {
                 $a[] = sprintf('%s => %s', $k, $this->varToString($v));
             }

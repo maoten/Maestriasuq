@@ -33,6 +33,7 @@ namespace Symfony\Component\Translation;
  */
 class Interval
 {
+
     /**
      * Tests if the given number is in the math interval.
      *
@@ -47,7 +48,7 @@ class Interval
     {
         $interval = trim($interval);
 
-        if (!preg_match('/^'.self::getIntervalRegexp().'$/x', $interval, $matches)) {
+        if ( ! preg_match('/^' . self::getIntervalRegexp() . '$/x', $interval, $matches)) {
             throw new \InvalidArgumentException(sprintf('"%s" is not a valid interval.', $interval));
         }
 
@@ -58,17 +59,15 @@ class Interval
                 }
             }
         } else {
-            $leftNumber = self::convertNumber($matches['left']);
+            $leftNumber  = self::convertNumber($matches['left']);
             $rightNumber = self::convertNumber($matches['right']);
 
-            return
-                ('[' === $matches['left_delimiter'] ? $number >= $leftNumber : $number > $leftNumber)
-                && (']' === $matches['right_delimiter'] ? $number <= $rightNumber : $number < $rightNumber)
-            ;
+            return ( '[' === $matches['left_delimiter'] ? $number >= $leftNumber : $number > $leftNumber ) && ( ']' === $matches['right_delimiter'] ? $number <= $rightNumber : $number < $rightNumber );
         }
 
         return false;
     }
+
 
     /**
      * Returns a Regexp that matches valid intervals.
@@ -93,6 +92,7 @@ class Interval
         (?P<right_delimiter>[\[\]])
 EOF;
     }
+
 
     private static function convertNumber($number)
     {

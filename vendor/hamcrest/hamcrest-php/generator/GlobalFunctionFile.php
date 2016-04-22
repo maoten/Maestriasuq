@@ -6,10 +6,12 @@
 
 class GlobalFunctionFile extends FactoryFile
 {
+
     /**
      * @var string containing function definitions
      */
     private $functions;
+
 
     public function __construct($file)
     {
@@ -17,10 +19,12 @@ class GlobalFunctionFile extends FactoryFile
         $this->functions = '';
     }
 
+
     public function addCall(FactoryCall $call)
     {
         $this->functions .= PHP_EOL . $this->generateFactoryCall($call);
     }
+
 
     public function build()
     {
@@ -31,11 +35,12 @@ class GlobalFunctionFile extends FactoryFile
         $this->addPart('functions_footer');
     }
 
+
     public function generateFactoryCall(FactoryCall $call)
     {
         $code = "if (!function_exists('{$call->getName()}')) {";
-        $code.= parent::generateFactoryCall($call);
-        $code.= "}\n";
+        $code .= parent::generateFactoryCall($call);
+        $code .= "}\n";
 
         return $code;
     }

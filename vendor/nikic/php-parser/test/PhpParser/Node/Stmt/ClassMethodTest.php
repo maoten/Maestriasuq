@@ -4,19 +4,23 @@ namespace PhpParser\Node\Stmt;
 
 class ClassMethodTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @dataProvider provideModifiers
      */
-    public function testModifiers($modifier) {
-        $node = new ClassMethod('foo', array(
+    public function testModifiers($modifier)
+    {
+        $node = new ClassMethod('foo', [
             'type' => constant('PhpParser\Node\Stmt\Class_::MODIFIER_' . strtoupper($modifier))
-        ));
+        ]);
 
         $this->assertTrue($node->{'is' . $modifier}());
     }
 
-    public function testNoModifiers() {
-        $node = new ClassMethod('foo', array('type' => 0));
+
+    public function testNoModifiers()
+    {
+        $node = new ClassMethod('foo', [ 'type' => 0 ]);
 
         $this->assertTrue($node->isPublic());
         $this->assertFalse($node->isProtected());
@@ -26,16 +30,19 @@ class ClassMethodTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($node->isStatic());
     }
 
-    public function provideModifiers() {
-        return array(
-            array('public'),
-            array('protected'),
-            array('private'),
-            array('abstract'),
-            array('final'),
-            array('static'),
-        );
+
+    public function provideModifiers()
+    {
+        return [
+            [ 'public' ],
+            [ 'protected' ],
+            [ 'private' ],
+            [ 'abstract' ],
+            [ 'final' ],
+            [ 'static' ],
+        ];
     }
+
 
     /**
      * Checks that implicit public modifier detection for method is working
@@ -46,18 +53,20 @@ class ClassMethodTest extends \PHPUnit_Framework_TestCase
      */
     public function testImplicitPublic($modifier)
     {
-        $node = new ClassMethod('foo', array(
+        $node = new ClassMethod('foo', [
             'type' => constant('PhpParser\Node\Stmt\Class_::MODIFIER_' . strtoupper($modifier))
-        ));
+        ]);
 
         $this->assertTrue($node->isPublic(), 'Node should be implicitly public');
     }
 
-    public function implicitPublicModifiers() {
-        return array(
-            array('abstract'),
-            array('final'),
-            array('static'),
-        );
+
+    public function implicitPublicModifiers()
+    {
+        return [
+            [ 'abstract' ],
+            [ 'final' ],
+            [ 'static' ],
+        ];
     }
 }

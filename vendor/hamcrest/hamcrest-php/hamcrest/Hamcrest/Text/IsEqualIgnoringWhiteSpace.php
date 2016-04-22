@@ -16,6 +16,7 @@ class IsEqualIgnoringWhiteSpace extends TypeSafeMatcher
 
     private $_string;
 
+
     public function __construct($string)
     {
         parent::__construct(self::TYPE_STRING);
@@ -23,24 +24,24 @@ class IsEqualIgnoringWhiteSpace extends TypeSafeMatcher
         $this->_string = $string;
     }
 
+
     protected function matchesSafely($item)
     {
-        return (strtolower($this->_stripSpace($item))
-                === strtolower($this->_stripSpace($this->_string)));
+        return ( strtolower($this->_stripSpace($item)) === strtolower($this->_stripSpace($this->_string)) );
     }
+
 
     protected function describeMismatchSafely($item, Description $mismatchDescription)
     {
         $mismatchDescription->appendText('was ')->appendText($item);
     }
 
+
     public function describeTo(Description $description)
     {
-        $description->appendText('equalToIgnoringWhiteSpace(')
-                                ->appendValue($this->_string)
-                                ->appendText(')')
-                                ;
+        $description->appendText('equalToIgnoringWhiteSpace(')->appendValue($this->_string)->appendText(')');
     }
+
 
     /**
      * Matches if value is a string equal to $string, regardless of whitespace.
@@ -51,6 +52,7 @@ class IsEqualIgnoringWhiteSpace extends TypeSafeMatcher
     {
         return new self($string);
     }
+
 
     // -- Private Methods
 

@@ -9,12 +9,14 @@ use Swift_Events_EventListener;
 
 abstract class Transport implements Swift_Transport
 {
+
     /**
      * The plug-ins registered with the transport.
      *
      * @var array
      */
-    public $plugins = [];
+    public $plugins = [ ];
+
 
     /**
      * {@inheritdoc}
@@ -24,6 +26,7 @@ abstract class Transport implements Swift_Transport
         return true;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -31,6 +34,7 @@ abstract class Transport implements Swift_Transport
     {
         return true;
     }
+
 
     /**
      * {@inheritdoc}
@@ -40,10 +44,12 @@ abstract class Transport implements Swift_Transport
         return true;
     }
 
+
     /**
      * Register a plug-in with the transport.
      *
-     * @param  \Swift_Events_EventListener  $plugin
+     * @param  \Swift_Events_EventListener $plugin
+     *
      * @return void
      */
     public function registerPlugin(Swift_Events_EventListener $plugin)
@@ -51,10 +57,12 @@ abstract class Transport implements Swift_Transport
         array_push($this->plugins, $plugin);
     }
 
+
     /**
      * Iterate through registered plugins and execute plugins' methods.
      *
-     * @param  \Swift_Mime_Message  $message
+     * @param  \Swift_Mime_Message $message
+     *
      * @return void
      */
     protected function beforeSendPerformed(Swift_Mime_Message $message)

@@ -4,6 +4,7 @@ namespace Illuminate\Cache\Events;
 
 class KeyForgotten
 {
+
     /**
      * The key that was forgotten.
      *
@@ -18,16 +19,18 @@ class KeyForgotten
      */
     public $tags;
 
+
     /**
      * Create a new event instance.
      *
-     * @param  string  $key
+     * @param  string $key
      * @param  array  $tags
+     *
      * @return void
      */
-    public function __construct($key, $tags = [])
+    public function __construct($key, $tags = [ ])
     {
-        $this->key = $key;
+        $this->key  = $key;
         $this->tags = $tags;
     }
 }

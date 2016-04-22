@@ -4,6 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property null|string mime
+ * @property int         size
+ * @property mixed       propuesta_id
+ * @property null|string name
+ */
 class Documentos extends Model
 {
 
@@ -20,11 +26,17 @@ class Documentos extends Model
      * @var array
      */
     protected $fillable = [
-    'name', 'file','mime','size','propuesta_id'
+        'name',
+        'file',
+        'mime',
+        'size',
+        'propuesta_id'
     ];
-    
-    public function propuesta(){
-       return $this->belongsTo('App\Propuesta');
-   }
-    
+
+
+    public function propuesta()
+    {
+        return $this->belongsTo('App\Propuesta');
+    }
+
 }

@@ -7,17 +7,20 @@ use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 
 class AuthServiceProvider extends ServiceProvider
 {
+
     /**
      * The policy mappings for the application.
      *
      * @var array
      */
-    protected $policies = [];
+    protected $policies = [ ];
+
 
     /**
      * Register the application's policies.
      *
-     * @param  \Illuminate\Contracts\Auth\Access\Gate  $gate
+     * @param  \Illuminate\Contracts\Auth\Access\Gate $gate
+     *
      * @return void
      */
     public function registerPolicies(GateContract $gate)
@@ -26,6 +29,7 @@ class AuthServiceProvider extends ServiceProvider
             $gate->policy($key, $value);
         }
     }
+
 
     /**
      * {@inheritdoc}

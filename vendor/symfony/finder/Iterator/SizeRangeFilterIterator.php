@@ -20,7 +20,9 @@ use Symfony\Component\Finder\Comparator\NumberComparator;
  */
 class SizeRangeFilterIterator extends FilterIterator
 {
-    private $comparators = array();
+
+    private $comparators = [ ];
+
 
     /**
      * Constructor.
@@ -35,6 +37,7 @@ class SizeRangeFilterIterator extends FilterIterator
         parent::__construct($iterator);
     }
 
+
     /**
      * Filters the iterator values.
      *
@@ -43,13 +46,13 @@ class SizeRangeFilterIterator extends FilterIterator
     public function accept()
     {
         $fileinfo = $this->current();
-        if (!$fileinfo->isFile()) {
+        if ( ! $fileinfo->isFile()) {
             return true;
         }
 
         $filesize = $fileinfo->getSize();
         foreach ($this->comparators as $compare) {
-            if (!$compare->test($filesize)) {
+            if ( ! $compare->test($filesize)) {
                 return false;
             }
         }

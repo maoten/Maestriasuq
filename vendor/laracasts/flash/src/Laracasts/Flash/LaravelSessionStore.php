@@ -2,12 +2,14 @@
 
 use Illuminate\Session\Store;
 
-class LaravelSessionStore implements SessionStore {
+class LaravelSessionStore implements SessionStore
+{
 
     /**
      * @var Store
      */
     private $session;
+
 
     /**
      * @param Store $session
@@ -16,6 +18,7 @@ class LaravelSessionStore implements SessionStore {
     {
         $this->session = $session;
     }
+
 
     /**
      * Flash a message to the session.

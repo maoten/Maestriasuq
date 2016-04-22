@@ -21,22 +21,29 @@ use Symfony\Component\Console\Exception\LogicException;
  */
 class InputOption
 {
+
     const VALUE_NONE = 1;
     const VALUE_REQUIRED = 2;
     const VALUE_OPTIONAL = 4;
     const VALUE_IS_ARRAY = 8;
 
     private $name;
+
     private $shortcut;
+
     private $mode;
+
     private $default;
+
     private $description;
+
 
     /**
      * Constructor.
      *
      * @param string       $name        The option name
-     * @param string|array $shortcut    The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
+     * @param string|array $shortcut    The shortcuts, can be null, a string of shortcuts delimited by | or an array of
+     *                                  shortcuts
      * @param int          $mode        The option mode: One of the VALUE_* constants
      * @param string       $description A description text
      * @param mixed        $default     The default value (must be null for self::VALUE_NONE)
@@ -49,11 +56,11 @@ class InputOption
             $name = substr($name, 2);
         }
 
-        if (empty($name)) {
+        if (empty( $name )) {
             throw new InvalidArgumentException('An option name cannot be empty.');
         }
 
-        if (empty($shortcut)) {
+        if (empty( $shortcut )) {
             $shortcut = null;
         }
 
@@ -63,30 +70,31 @@ class InputOption
             }
             $shortcuts = preg_split('{(\|)-?}', ltrim($shortcut, '-'));
             $shortcuts = array_filter($shortcuts);
-            $shortcut = implode('|', $shortcuts);
+            $shortcut  = implode('|', $shortcuts);
 
-            if (empty($shortcut)) {
+            if (empty( $shortcut )) {
                 throw new InvalidArgumentException('An option shortcut cannot be empty.');
             }
         }
 
         if (null === $mode) {
             $mode = self::VALUE_NONE;
-        } elseif (!is_int($mode) || $mode > 15 || $mode < 1) {
+        } elseif ( ! is_int($mode) || $mode > 15 || $mode < 1) {
             throw new InvalidArgumentException(sprintf('Option mode "%s" is not valid.', $mode));
         }
 
-        $this->name = $name;
-        $this->shortcut = $shortcut;
-        $this->mode = $mode;
+        $this->name        = $name;
+        $this->shortcut    = $shortcut;
+        $this->mode        = $mode;
         $this->description = $description;
 
-        if ($this->isArray() && !$this->acceptValue()) {
+        if ($this->isArray() && ! $this->acceptValue()) {
             throw new InvalidArgumentException('Impossible to have an option mode VALUE_IS_ARRAY if the option does not accept a value.');
         }
 
         $this->setDefault($default);
     }
+
 
     /**
      * Returns the option shortcut.
@@ -98,6 +106,7 @@ class InputOption
         return $this->shortcut;
     }
 
+
     /**
      * Returns the option name.
      *
@@ -107,6 +116,7 @@ class InputOption
     {
         return $this->name;
     }
+
 
     /**
      * Returns true if the option accepts a value.
@@ -118,6 +128,7 @@ class InputOption
         return $this->isValueRequired() || $this->isValueOptional();
     }
 
+
     /**
      * Returns true if the option requires a value.
      *
@@ -125,8 +136,9 @@ class InputOption
      */
     public function isValueRequired()
     {
-        return self::VALUE_REQUIRED === (self::VALUE_REQUIRED & $this->mode);
+        return self::VALUE_REQUIRED === ( self::VALUE_REQUIRED & $this->mode );
     }
+
 
     /**
      * Returns true if the option takes an optional value.
@@ -135,8 +147,9 @@ class InputOption
      */
     public function isValueOptional()
     {
-        return self::VALUE_OPTIONAL === (self::VALUE_OPTIONAL & $this->mode);
+        return self::VALUE_OPTIONAL === ( self::VALUE_OPTIONAL & $this->mode );
     }
+
 
     /**
      * Returns true if the option can take multiple values.
@@ -145,8 +158,9 @@ class InputOption
      */
     public function isArray()
     {
-        return self::VALUE_IS_ARRAY === (self::VALUE_IS_ARRAY & $this->mode);
+        return self::VALUE_IS_ARRAY === ( self::VALUE_IS_ARRAY & $this->mode );
     }
+
 
     /**
      * Sets the default value.
@@ -157,20 +171,21 @@ class InputOption
      */
     public function setDefault($default = null)
     {
-        if (self::VALUE_NONE === (self::VALUE_NONE & $this->mode) && null !== $default) {
+        if (self::VALUE_NONE === ( self::VALUE_NONE & $this->mode ) && null !== $default) {
             throw new LogicException('Cannot set a default value when using InputOption::VALUE_NONE mode.');
         }
 
         if ($this->isArray()) {
             if (null === $default) {
-                $default = array();
-            } elseif (!is_array($default)) {
+                $default = [ ];
+            } elseif ( ! is_array($default)) {
                 throw new LogicException('A default value for an array option must be an array.');
             }
         }
 
         $this->default = $this->acceptValue() ? $default : false;
     }
+
 
     /**
      * Returns the default value.
@@ -182,6 +197,7 @@ class InputOption
         return $this->default;
     }
 
+
     /**
      * Returns the description text.
      *
@@ -192,6 +208,7 @@ class InputOption
         return $this->description;
     }
 
+
     /**
      * Checks whether the given option equals this one.
      *
@@ -201,12 +218,6 @@ class InputOption
      */
     public function equals(InputOption $option)
     {
-        return $option->getName() === $this->getName()
-            && $option->getShortcut() === $this->getShortcut()
-            && $option->getDefault() === $this->getDefault()
-            && $option->isArray() === $this->isArray()
-            && $option->isValueRequired() === $this->isValueRequired()
-            && $option->isValueOptional() === $this->isValueOptional()
-        ;
+        return $option->getName() === $this->getName() && $option->getShortcut() === $this->getShortcut() && $option->getDefault() === $this->getDefault() && $option->isArray() === $this->isArray() && $option->isValueRequired() === $this->isValueRequired() && $option->isValueOptional() === $this->isValueOptional();
     }
 }

@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class ListenCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -30,10 +31,12 @@ class ListenCommand extends Command
      */
     protected $listener;
 
+
     /**
      * Create a new queue listen command.
      *
-     * @param  \Illuminate\Queue\Listener  $listener
+     * @param  \Illuminate\Queue\Listener $listener
+     *
      * @return void
      */
     public function __construct(Listener $listener)
@@ -42,6 +45,7 @@ class ListenCommand extends Command
 
         $this->listener = $listener;
     }
+
 
     /**
      * Execute the console command.
@@ -68,15 +72,15 @@ class ListenCommand extends Command
         // connection being run for the queue operation currently being executed.
         $queue = $this->getQueue($connection);
 
-        $this->listener->listen(
-            $connection, $queue, $delay, $memory, $timeout
-        );
+        $this->listener->listen($connection, $queue, $delay, $memory, $timeout);
     }
+
 
     /**
      * Get the name of the queue connection to listen on.
      *
-     * @param  string  $connection
+     * @param  string $connection
+     *
      * @return string
      */
     protected function getQueue($connection)
@@ -89,6 +93,7 @@ class ListenCommand extends Command
 
         return $this->input->getOption('queue') ?: $queue;
     }
+
 
     /**
      * Set the options on the queue listener.
@@ -108,6 +113,7 @@ class ListenCommand extends Command
         });
     }
 
+
     /**
      * Get the console command arguments.
      *
@@ -116,9 +122,10 @@ class ListenCommand extends Command
     protected function getArguments()
     {
         return [
-            ['connection', InputArgument::OPTIONAL, 'The name of connection'],
+            [ 'connection', InputArgument::OPTIONAL, 'The name of connection' ],
         ];
     }
+
 
     /**
      * Get the console command options.
@@ -128,17 +135,23 @@ class ListenCommand extends Command
     protected function getOptions()
     {
         return [
-            ['queue', null, InputOption::VALUE_OPTIONAL, 'The queue to listen on', null],
+            [ 'queue', null, InputOption::VALUE_OPTIONAL, 'The queue to listen on', null ],
 
-            ['delay', null, InputOption::VALUE_OPTIONAL, 'Amount of time to delay failed jobs', 0],
+            [ 'delay', null, InputOption::VALUE_OPTIONAL, 'Amount of time to delay failed jobs', 0 ],
 
-            ['memory', null, InputOption::VALUE_OPTIONAL, 'The memory limit in megabytes', 128],
+            [ 'memory', null, InputOption::VALUE_OPTIONAL, 'The memory limit in megabytes', 128 ],
 
-            ['timeout', null, InputOption::VALUE_OPTIONAL, 'Seconds a job may run before timing out', 60],
+            [ 'timeout', null, InputOption::VALUE_OPTIONAL, 'Seconds a job may run before timing out', 60 ],
 
-            ['sleep', null, InputOption::VALUE_OPTIONAL, 'Seconds to wait before checking queue for jobs', 3],
+            [ 'sleep', null, InputOption::VALUE_OPTIONAL, 'Seconds to wait before checking queue for jobs', 3 ],
 
-            ['tries', null, InputOption::VALUE_OPTIONAL, 'Number of times to attempt a job before logging it failed', 0],
+            [
+                'tries',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Number of times to attempt a job before logging it failed',
+                0
+            ],
         ];
     }
 }

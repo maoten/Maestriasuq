@@ -20,8 +20,11 @@ use Monolog\Logger;
  */
 class SwiftMailerHandler extends MailHandler
 {
+
     protected $mailer;
+
     private $messageTemplate;
+
 
     /**
      * @param \Swift_Mailer           $mailer  The mailer to use
@@ -33,9 +36,10 @@ class SwiftMailerHandler extends MailHandler
     {
         parent::__construct($level, $bubble);
 
-        $this->mailer = $mailer;
+        $this->mailer          = $mailer;
         $this->messageTemplate = $message;
     }
+
 
     /**
      * {@inheritdoc}
@@ -45,11 +49,13 @@ class SwiftMailerHandler extends MailHandler
         $this->mailer->send($this->buildMessage($content, $records));
     }
 
+
     /**
      * Creates instance of Swift_Message to be sent
      *
-     * @param  string         $content formatted email body to be sent
-     * @param  array          $records Log records that formed the content
+     * @param  string $content formatted email body to be sent
+     * @param  array  $records Log records that formed the content
+     *
      * @return \Swift_Message
      */
     protected function buildMessage($content, array $records)
@@ -62,7 +68,7 @@ class SwiftMailerHandler extends MailHandler
             $message = call_user_func($this->messageTemplate, $content, $records);
         }
 
-        if (!$message instanceof \Swift_Message) {
+        if ( ! $message instanceof \Swift_Message) {
             throw new \InvalidArgumentException('Could not resolve message as instance of Swift_Message or a callable returning it');
         }
 
@@ -72,17 +78,19 @@ class SwiftMailerHandler extends MailHandler
         return $message;
     }
 
+
     /**
      * BC getter, to be removed in 2.0
      */
     public function __get($name)
     {
         if ($name === 'message') {
-            trigger_error('SwiftMailerHandler->message is deprecated, use ->buildMessage() instead to retrieve the message', E_USER_DEPRECATED);
+            trigger_error('SwiftMailerHandler->message is deprecated, use ->buildMessage() instead to retrieve the message',
+                E_USER_DEPRECATED);
 
-            return $this->buildMessage(null, array());
+            return $this->buildMessage(null, [ ]);
         }
 
-        throw new \InvalidArgumentException('Invalid property '.$name);
+        throw new \InvalidArgumentException('Invalid property ' . $name);
     }
 }

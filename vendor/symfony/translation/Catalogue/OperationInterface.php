@@ -34,12 +34,14 @@ use Symfony\Component\Translation\MessageCatalogueInterface;
  */
 interface OperationInterface
 {
+
     /**
      * Returns domains affected by operation.
      *
      * @return array
      */
     public function getDomains();
+
 
     /**
      * Returns all valid messages ('all') after operation.
@@ -50,6 +52,7 @@ interface OperationInterface
      */
     public function getMessages($domain);
 
+
     /**
      * Returns new messages ('new') after operation.
      *
@@ -59,6 +62,7 @@ interface OperationInterface
      */
     public function getNewMessages($domain);
 
+
     /**
      * Returns obsolete messages ('obsolete') after operation.
      *
@@ -67,6 +71,7 @@ interface OperationInterface
      * @return array
      */
     public function getObsoleteMessages($domain);
+
 
     /**
      * Returns resulting catalogue ('result').

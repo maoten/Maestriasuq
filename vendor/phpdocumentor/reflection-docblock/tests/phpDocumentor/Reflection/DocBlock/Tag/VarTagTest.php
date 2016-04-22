@@ -1,7 +1,7 @@
 <?php
 /**
  * phpDocumentor Var Tag Test
- * 
+ *
  * PHP version 5.3
  *
  * @author    Daniel O'Connor <daniel.oconnor@gmail.com>
@@ -22,6 +22,7 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  */
 class VarTagTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * Test that the \phpDocumentor\Reflection\DocBlock\Tag\VarTag can
      * understand the @var doc block.
@@ -32,7 +33,7 @@ class VarTagTest extends \PHPUnit_Framework_TestCase
      * @param string $exVariable
      * @param string $exDescription
      *
-     * @covers \phpDocumentor\Reflection\DocBlock\Tag\VarTag
+     * @covers       \phpDocumentor\Reflection\DocBlock\Tag\VarTag
      * @dataProvider provideDataForConstuctor
      *
      * @return void
@@ -52,6 +53,7 @@ class VarTagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($exDescription, $tag->getDescription());
     }
 
+
     /**
      * Data provider for testConstructorParesInputsIntoCorrectFields
      *
@@ -60,35 +62,35 @@ class VarTagTest extends \PHPUnit_Framework_TestCase
     public function provideDataForConstuctor()
     {
         // $type, $content, $exType, $exVariable, $exDescription
-        return array(
-            array(
+        return [
+            [
                 'var',
                 'int',
                 'int',
                 '',
                 ''
-            ),
-            array(
+            ],
+            [
                 'var',
                 'int $bob',
                 'int',
                 '$bob',
                 ''
-            ),
-            array(
+            ],
+            [
                 'var',
                 'int $bob Number of bobs',
                 'int',
                 '$bob',
                 'Number of bobs'
-            ),
-            array(
+            ],
+            [
                 'var',
                 '',
                 '',
                 '',
                 ''
-            ),
-        );
+            ],
+        ];
     }
 }

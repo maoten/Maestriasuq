@@ -17,30 +17,31 @@ use SebastianBergmann\Exporter\Exporter;
  */
 class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framework_MockObject_Invocation, PHPUnit_Framework_SelfDescribing
 {
-    /**
-     * @var array
-     */
-    protected static $uncloneableExtensions = array(
-      'mysqli'    => true,
-      'SQLite'    => true,
-      'sqlite3'   => true,
-      'tidy'      => true,
-      'xmlwriter' => true,
-      'xsl'       => true
-    );
 
     /**
      * @var array
      */
-    protected static $uncloneableClasses = array(
-      'Closure',
-      'COMPersistHelper',
-      'IteratorIterator',
-      'RecursiveIteratorIterator',
-      'SplFileObject',
-      'PDORow',
-      'ZipArchive'
-    );
+    protected static $uncloneableExtensions = [
+        'mysqli'    => true,
+        'SQLite'    => true,
+        'sqlite3'   => true,
+        'tidy'      => true,
+        'xmlwriter' => true,
+        'xsl'       => true
+    ];
+
+    /**
+     * @var array
+     */
+    protected static $uncloneableClasses = [
+        'Closure',
+        'COMPersistHelper',
+        'IteratorIterator',
+        'RecursiveIteratorIterator',
+        'SplFileObject',
+        'PDORow',
+        'ZipArchive'
+    ];
 
     /**
      * @var string
@@ -57,6 +58,7 @@ class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framewor
      */
     public $parameters;
 
+
     /**
      * @param string $className
      * @param string $methodname
@@ -69,7 +71,7 @@ class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framewor
         $this->methodName = $methodName;
         $this->parameters = $parameters;
 
-        if (!$cloneObjects) {
+        if ( ! $cloneObjects) {
             return;
         }
 
@@ -80,6 +82,7 @@ class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framewor
         }
     }
 
+
     /**
      * @return string
      */
@@ -87,22 +90,14 @@ class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framewor
     {
         $exporter = new Exporter;
 
-        return sprintf(
-            '%s::%s(%s)',
-            $this->className,
-            $this->methodName,
-            implode(
-                ', ',
-                array_map(
-                    array($exporter, 'shortenedExport'),
-                    $this->parameters
-                )
-            )
-        );
+        return sprintf('%s::%s(%s)', $this->className, $this->methodName,
+            implode(', ', array_map([ $exporter, 'shortenedExport' ], $this->parameters)));
     }
+
 
     /**
      * @param  object $original
+     *
      * @return object
      */
     protected function cloneObject($original)
@@ -112,8 +107,7 @@ class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framewor
 
         // Check the blacklist before asking PHP reflection to work around
         // https://bugs.php.net/bug.php?id=53967
-        if ($object->isInternal() &&
-            isset(self::$uncloneableExtensions[$object->getExtensionName()])) {
+        if ($object->isInternal() && isset( self::$uncloneableExtensions[$object->getExtensionName()] )) {
             $cloneable = false;
         }
 

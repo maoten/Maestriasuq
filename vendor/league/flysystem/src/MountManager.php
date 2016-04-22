@@ -12,55 +12,58 @@ use LogicException;
  *
  * Proxies methods to Filesystem (@see __call):
  *
- * @method AdapterInterface getAdapter($prefix)
- * @method Config getConfig($prefix)
- * @method bool has($path)
- * @method bool write($path, $contents, array $config = [])
- * @method bool writeStream($path, $resource, array $config = [])
- * @method bool put($path, $contents, $config = [])
- * @method bool putStream($path, $contents, $config = [])
- * @method string readAndDelete($path)
- * @method bool update($path, $contents, $config = [])
- * @method bool updateStream($path, $resource, $config = [])
- * @method string|false read($path)
- * @method resource|false readStream($path)
- * @method bool rename($path, $newpath)
- * @method bool delete($path)
- * @method bool deleteDir($dirname)
- * @method bool createDir($dirname, $config = [])
- * @method array listFiles($directory = '', $recursive = false)
- * @method array listPaths($directory = '', $recursive = false)
- * @method array getWithMetadata($path, array $metadata)
- * @method string|false getMimetype($path)
- * @method string|false getTimestamp($path)
- * @method string|false getVisibility($path)
- * @method int|false getSize($path);
- * @method bool setVisibility($path, $visibility)
- * @method array|false getMetadata($path)
- * @method Handler get($path, Handler $handler = null)
+ * @method AdapterInterface getAdapter( $prefix )
+ * @method Config getConfig( $prefix )
+ * @method bool has( $path )
+ * @method bool write( $path, $contents, array $config = [ ] )
+ * @method bool writeStream( $path, $resource, array $config = [ ] )
+ * @method bool put( $path, $contents, $config = [ ] )
+ * @method bool putStream( $path, $contents, $config = [ ] )
+ * @method string readAndDelete( $path )
+ * @method bool update( $path, $contents, $config = [ ] )
+ * @method bool updateStream( $path, $resource, $config = [ ] )
+ * @method string|false read( $path )
+ * @method resource|false readStream( $path )
+ * @method bool rename( $path, $newpath )
+ * @method bool delete( $path )
+ * @method bool deleteDir( $dirname )
+ * @method bool createDir( $dirname, $config = [ ] )
+ * @method array listFiles( $directory = '', $recursive = false )
+ * @method array listPaths( $directory = '', $recursive = false )
+ * @method array getWithMetadata( $path, array $metadata )
+ * @method string|false getMimetype( $path )
+ * @method string|false getTimestamp( $path )
+ * @method string|false getVisibility( $path )
+ * @method int|false getSize( $path );
+ * @method bool setVisibility( $path, $visibility )
+ * @method array|false getMetadata( $path )
+ * @method Handler get( $path, Handler $handler = null )
  * @method Filesystem flushCache()
- * @method assertPresent($path)
- * @method assertAbsent($path)
- * @method Filesystem addPlugin(PluginInterface $plugin)
+ * @method assertPresent( $path )
+ * @method assertAbsent( $path )
+ * @method Filesystem addPlugin( PluginInterface $plugin )
  */
 class MountManager
 {
+
     use PluggableTrait;
 
     /**
      * @var array
      */
-    protected $filesystems = [];
+    protected $filesystems = [ ];
+
 
     /**
      * Constructor.
      *
      * @param array $filesystems
      */
-    public function __construct(array $filesystems = [])
+    public function __construct(array $filesystems = [ ])
     {
         $this->mountFilesystems($filesystems);
     }
+
 
     /**
      * Mount filesystems.
@@ -77,6 +80,7 @@ class MountManager
 
         return $this;
     }
+
 
     /**
      * Mount filesystems.
@@ -97,6 +101,7 @@ class MountManager
         return $this;
     }
 
+
     /**
      * Get the filesystem with the corresponding prefix.
      *
@@ -108,12 +113,13 @@ class MountManager
      */
     public function getFilesystem($prefix)
     {
-        if ( ! isset($this->filesystems[$prefix])) {
+        if ( ! isset( $this->filesystems[$prefix] )) {
             throw new LogicException('No filesystem mounted with prefix ' . $prefix);
         }
 
         return $this->filesystems[$prefix];
     }
+
 
     /**
      * Retrieve the prefix from an arguments array.
@@ -124,7 +130,7 @@ class MountManager
      */
     public function filterPrefix(array $arguments)
     {
-        if (empty($arguments)) {
+        if (empty( $arguments )) {
             throw new LogicException('At least one argument needed');
         }
 
@@ -138,11 +144,12 @@ class MountManager
             throw new InvalidArgumentException('No prefix detected in path: ' . $path);
         }
 
-        list($prefix, $path) = explode('://', $path, 2);
+        list( $prefix, $path ) = explode('://', $path, 2);
         array_unshift($arguments, $path);
 
-        return [$prefix, $arguments];
+        return [ $prefix, $arguments ];
     }
+
 
     /**
      * @param string $directory
@@ -152,10 +159,10 @@ class MountManager
      */
     public function listContents($directory = '', $recursive = false)
     {
-        list($prefix, $arguments) = $this->filterPrefix([$directory]);
+        list( $prefix, $arguments ) = $this->filterPrefix([ $directory ]);
         $filesystem = $this->getFilesystem($prefix);
-        $directory = array_shift($arguments);
-        $result = $filesystem->listContents($directory, $recursive);
+        $directory  = array_shift($arguments);
+        $result     = $filesystem->listContents($directory, $recursive);
 
         foreach ($result as &$file) {
             $file['filesystem'] = $prefix;
@@ -163,6 +170,7 @@ class MountManager
 
         return $result;
     }
+
 
     /**
      * Call forwarder.
@@ -174,10 +182,11 @@ class MountManager
      */
     public function __call($method, $arguments)
     {
-        list($prefix, $arguments) = $this->filterPrefix($arguments);
+        list( $prefix, $arguments ) = $this->filterPrefix($arguments);
 
         return $this->invokePluginOnFilesystem($method, $arguments, $prefix);
     }
+
 
     /**
      * @param $from
@@ -187,19 +196,19 @@ class MountManager
      */
     public function copy($from, $to)
     {
-        list($prefixFrom, $arguments) = $this->filterPrefix([$from]);
+        list( $prefixFrom, $arguments ) = $this->filterPrefix([ $from ]);
 
         $fsFrom = $this->getFilesystem($prefixFrom);
-        $buffer = call_user_func_array([$fsFrom, 'readStream'], $arguments);
+        $buffer = call_user_func_array([ $fsFrom, 'readStream' ], $arguments);
 
         if ($buffer === false) {
             return false;
         }
 
-        list($prefixTo, $arguments) = $this->filterPrefix([$to]);
+        list( $prefixTo, $arguments ) = $this->filterPrefix([ $to ]);
 
-        $fsTo = $this->getFilesystem($prefixTo);
-        $result =  call_user_func_array([$fsTo, 'writeStream'], array_merge($arguments, [$buffer]));
+        $fsTo   = $this->getFilesystem($prefixTo);
+        $result = call_user_func_array([ $fsTo, 'writeStream' ], array_merge($arguments, [ $buffer ]));
 
         if (is_resource($buffer)) {
             fclose($buffer);
@@ -208,6 +217,7 @@ class MountManager
         return $result;
     }
 
+
     /**
      * List with plugin adapter.
      *
@@ -215,14 +225,15 @@ class MountManager
      * @param string $directory
      * @param bool   $recursive
      */
-    public function listWith(array $keys = [], $directory = '', $recursive = false)
+    public function listWith(array $keys = [ ], $directory = '', $recursive = false)
     {
-        list($prefix, $arguments) = $this->filterPrefix([$directory]);
+        list( $prefix, $arguments ) = $this->filterPrefix([ $directory ]);
         $directory = $arguments[0];
-        $arguments = [$keys, $directory, $recursive];
+        $arguments = [ $keys, $directory, $recursive ];
 
         return $this->invokePluginOnFilesystem('listWith', $arguments, $prefix);
     }
+
 
     /**
      * Move a file.
@@ -243,6 +254,7 @@ class MountManager
         return false;
     }
 
+
     /**
      * Invoke a plugin on a filesystem mounted on a given prefix.
      *
@@ -262,7 +274,7 @@ class MountManager
             // Let it pass, it's ok, don't panic.
         }
 
-        $callback = [$filesystem, $method];
+        $callback = [ $filesystem, $method ];
 
         return call_user_func_array($callback, $arguments);
     }

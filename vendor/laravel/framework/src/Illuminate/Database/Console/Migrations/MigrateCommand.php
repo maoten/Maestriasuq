@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 class MigrateCommand extends BaseCommand
 {
+
     use ConfirmableTrait;
 
     /**
@@ -31,10 +32,12 @@ class MigrateCommand extends BaseCommand
      */
     protected $migrator;
 
+
     /**
      * Create a new migration command instance.
      *
-     * @param  \Illuminate\Database\Migrations\Migrator  $migrator
+     * @param  \Illuminate\Database\Migrations\Migrator $migrator
+     *
      * @return void
      */
     public function __construct(Migrator $migrator)
@@ -44,6 +47,7 @@ class MigrateCommand extends BaseCommand
         $this->migrator = $migrator;
     }
 
+
     /**
      * Execute the console command.
      *
@@ -51,7 +55,7 @@ class MigrateCommand extends BaseCommand
      */
     public function fire()
     {
-        if (! $this->confirmToProceed()) {
+        if ( ! $this->confirmToProceed()) {
             return;
         }
 
@@ -65,15 +69,15 @@ class MigrateCommand extends BaseCommand
         // Next, we will check to see if a path option has been defined. If it has
         // we will use the path relative to the root of this installation folder
         // so that migrations may be run for any path within the applications.
-        if (! is_null($path = $this->input->getOption('path'))) {
-            $path = $this->laravel->basePath().'/'.$path;
+        if ( ! is_null($path = $this->input->getOption('path'))) {
+            $path = $this->laravel->basePath() . '/' . $path;
         } else {
             $path = $this->getMigrationPath();
         }
 
         $this->migrator->run($path, [
             'pretend' => $pretend,
-            'step' => $this->input->getOption('step'),
+            'step'    => $this->input->getOption('step'),
         ]);
 
         // Once the migrator has run we will grab the note output and send it out to
@@ -87,9 +91,10 @@ class MigrateCommand extends BaseCommand
         // seed task to re-populate the database, which is convenient when adding
         // a migration and a seed at the same time, as it is only this command.
         if ($this->input->getOption('seed')) {
-            $this->call('db:seed', ['--force' => true]);
+            $this->call('db:seed', [ '--force' => true ]);
         }
     }
+
 
     /**
      * Prepare the migration database for running.
@@ -100,12 +105,13 @@ class MigrateCommand extends BaseCommand
     {
         $this->migrator->setConnection($this->input->getOption('database'));
 
-        if (! $this->migrator->repositoryExists()) {
-            $options = ['--database' => $this->input->getOption('database')];
+        if ( ! $this->migrator->repositoryExists()) {
+            $options = [ '--database' => $this->input->getOption('database') ];
 
             $this->call('migrate:install', $options);
         }
     }
+
 
     /**
      * Get the console command options.
@@ -115,17 +121,22 @@ class MigrateCommand extends BaseCommand
     protected function getOptions()
     {
         return [
-            ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'],
+            [ 'database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.' ],
 
-            ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production.'],
+            [ 'force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production.' ],
 
-            ['path', null, InputOption::VALUE_OPTIONAL, 'The path of migrations files to be executed.'],
+            [ 'path', null, InputOption::VALUE_OPTIONAL, 'The path of migrations files to be executed.' ],
 
-            ['pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'],
+            [ 'pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.' ],
 
-            ['seed', null, InputOption::VALUE_NONE, 'Indicates if the seed task should be re-run.'],
+            [ 'seed', null, InputOption::VALUE_NONE, 'Indicates if the seed task should be re-run.' ],
 
-            ['step', null, InputOption::VALUE_NONE, 'Force the migrations to be run so they can be rolled back individually.'],
+            [
+                'step',
+                null,
+                InputOption::VALUE_NONE,
+                'Force the migrations to be run so they can be rolled back individually.'
+            ],
         ];
     }
 }

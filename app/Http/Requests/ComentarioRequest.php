@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
-
 class ComentarioRequest extends Request
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -16,6 +15,7 @@ class ComentarioRequest extends Request
         return true;
     }
 
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,7 +24,7 @@ class ComentarioRequest extends Request
     public function rules()
     {
         return [
-            'comentario'=>'min:5|max:250|required'
+            'comentario' => 'min:5|max:250|required'
         ];
     }
 }

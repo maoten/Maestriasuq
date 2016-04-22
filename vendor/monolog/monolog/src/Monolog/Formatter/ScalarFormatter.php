@@ -19,6 +19,7 @@ namespace Monolog\Formatter;
  */
 class ScalarFormatter extends NormalizerFormatter
 {
+
     /**
      * {@inheritdoc}
      */
@@ -31,8 +32,10 @@ class ScalarFormatter extends NormalizerFormatter
         return $record;
     }
 
+
     /**
      * @param  mixed $value
+     *
      * @return mixed
      */
     protected function normalizeValue($value)

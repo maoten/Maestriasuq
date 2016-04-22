@@ -15,15 +15,17 @@
  */
 abstract class PHPUnit_Extensions_TicketListener implements PHPUnit_Framework_TestListener
 {
+
     /**
      * @var array
      */
-    protected $ticketCounts = array();
+    protected $ticketCounts = [ ];
 
     /**
      * @var bool
      */
     protected $ran = false;
+
 
     /**
      * An error occurred.
@@ -36,6 +38,7 @@ abstract class PHPUnit_Extensions_TicketListener implements PHPUnit_Framework_Te
     {
     }
 
+
     /**
      * A failure occurred.
      *
@@ -47,6 +50,7 @@ abstract class PHPUnit_Extensions_TicketListener implements PHPUnit_Framework_Te
     {
     }
 
+
     /**
      * Incomplete test.
      *
@@ -57,6 +61,7 @@ abstract class PHPUnit_Extensions_TicketListener implements PHPUnit_Framework_Te
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
     }
+
 
     /**
      * Risky test.
@@ -71,6 +76,7 @@ abstract class PHPUnit_Extensions_TicketListener implements PHPUnit_Framework_Te
     {
     }
 
+
     /**
      * Skipped test.
      *
@@ -84,6 +90,7 @@ abstract class PHPUnit_Extensions_TicketListener implements PHPUnit_Framework_Te
     {
     }
 
+
     /**
      * A test suite started.
      *
@@ -94,6 +101,7 @@ abstract class PHPUnit_Extensions_TicketListener implements PHPUnit_Framework_Te
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
     }
+
 
     /**
      * A test suite ended.
@@ -106,6 +114,7 @@ abstract class PHPUnit_Extensions_TicketListener implements PHPUnit_Framework_Te
     {
     }
 
+
     /**
      * A test started.
      *
@@ -113,7 +122,7 @@ abstract class PHPUnit_Extensions_TicketListener implements PHPUnit_Framework_Te
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
-        if (!$test instanceof PHPUnit_Framework_Warning) {
+        if ( ! $test instanceof PHPUnit_Framework_Warning) {
             if ($this->ran) {
                 return;
             }
@@ -129,6 +138,7 @@ abstract class PHPUnit_Extensions_TicketListener implements PHPUnit_Framework_Te
         }
     }
 
+
     /**
      * A test ended.
      *
@@ -137,15 +147,15 @@ abstract class PHPUnit_Extensions_TicketListener implements PHPUnit_Framework_Te
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        if (!$test instanceof PHPUnit_Framework_Warning) {
+        if ( ! $test instanceof PHPUnit_Framework_Warning) {
             if ($test->getStatus() == PHPUnit_Runner_BaseTestRunner::STATUS_PASSED) {
-                $ifStatus   = array('assigned', 'new', 'reopened');
+                $ifStatus   = [ 'assigned', 'new', 'reopened' ];
                 $newStatus  = 'closed';
                 $message    = 'Automatically closed by PHPUnit (test passed).';
                 $resolution = 'fixed';
                 $cumulative = true;
             } elseif ($test->getStatus() == PHPUnit_Runner_BaseTestRunner::STATUS_FAILURE) {
-                $ifStatus   = array('closed');
+                $ifStatus   = [ 'closed' ];
                 $newStatus  = 'reopened';
                 $message    = 'Automatically reopened by PHPUnit (test failed).';
                 $resolution = '';
@@ -160,7 +170,7 @@ abstract class PHPUnit_Extensions_TicketListener implements PHPUnit_Framework_Te
             foreach ($tickets as $ticket) {
                 // Remove this test from the totals (if it passed).
                 if ($test->getStatus() == PHPUnit_Runner_BaseTestRunner::STATUS_PASSED) {
-                    unset($this->ticketCounts[$ticket][$name]);
+                    unset( $this->ticketCounts[$ticket][$name] );
                 }
 
                 // Only close tickets if ALL referenced cases pass
@@ -187,12 +197,14 @@ abstract class PHPUnit_Extensions_TicketListener implements PHPUnit_Framework_Te
         }
     }
 
+
     /**
      * @param mixed $ticketId
      *
      * @return mixed
      */
     abstract protected function getTicketInfo($ticketId = null);
+
 
     /**
      * @param string $ticketId

@@ -15,6 +15,7 @@
  */
 class PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider
 {
+
     /**
      * Translates JSON error to a human readable string.
      *
@@ -42,6 +43,7 @@ class PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider
                 return $prefix . 'Unknown error';
         }
     }
+
 
     /**
      * Translates a given type to a human readable message prefix.

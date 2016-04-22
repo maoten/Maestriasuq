@@ -22,7 +22,9 @@
  */
 class PHP_Token_ClosureTest extends PHPUnit_Framework_TestCase
 {
+
     protected $functions;
+
 
     protected function setUp()
     {
@@ -35,18 +37,20 @@ class PHP_Token_ClosureTest extends PHPUnit_Framework_TestCase
         }
     }
 
+
     /**
      * @covers PHP_Token_FUNCTION::getArguments
      */
     public function testGetArguments()
     {
-        $this->assertEquals(array('$foo' => null, '$bar' => null), $this->functions[0]->getArguments());
-        $this->assertEquals(array('$foo' => 'Foo', '$bar' => null), $this->functions[1]->getArguments());
-        $this->assertEquals(array('$foo' => null, '$bar' => null, '$baz' => null), $this->functions[2]->getArguments());
-        $this->assertEquals(array('$foo' => 'Foo', '$bar' => null, '$baz' => null), $this->functions[3]->getArguments());
-        $this->assertEquals(array(), $this->functions[4]->getArguments());
-        $this->assertEquals(array(), $this->functions[5]->getArguments());
+        $this->assertEquals([ '$foo' => null, '$bar' => null ], $this->functions[0]->getArguments());
+        $this->assertEquals([ '$foo' => 'Foo', '$bar' => null ], $this->functions[1]->getArguments());
+        $this->assertEquals([ '$foo' => null, '$bar' => null, '$baz' => null ], $this->functions[2]->getArguments());
+        $this->assertEquals([ '$foo' => 'Foo', '$bar' => null, '$baz' => null ], $this->functions[3]->getArguments());
+        $this->assertEquals([ ], $this->functions[4]->getArguments());
+        $this->assertEquals([ ], $this->functions[5]->getArguments());
     }
+
 
     /**
      * @covers PHP_Token_FUNCTION::getName
@@ -61,6 +65,7 @@ class PHP_Token_ClosureTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('anonymous function', $this->functions[5]->getName());
     }
 
+
     /**
      * @covers PHP_Token::getLine
      */
@@ -71,6 +76,7 @@ class PHP_Token_ClosureTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(4, $this->functions[2]->getLine());
         $this->assertEquals(5, $this->functions[3]->getLine());
     }
+
 
     /**
      * @covers PHP_TokenWithScope::getEndLine

@@ -4,10 +4,12 @@ namespace Mockery;
 
 class VerificationExpectation extends Expectation
 {
+
     public function clearCountValidators()
     {
-        $this->_countValidators = array();
+        $this->_countValidators = [ ];
     }
+
 
     public function __clone()
     {

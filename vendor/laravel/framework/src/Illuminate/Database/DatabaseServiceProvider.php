@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 
 class DatabaseServiceProvider extends ServiceProvider
 {
+
     /**
      * Bootstrap the application events.
      *
@@ -23,6 +24,7 @@ class DatabaseServiceProvider extends ServiceProvider
 
         Model::setEventDispatcher($this->app['events']);
     }
+
 
     /**
      * Register the service provider.
@@ -56,6 +58,7 @@ class DatabaseServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the Eloquent factory instance in the container.
      *
@@ -73,6 +76,7 @@ class DatabaseServiceProvider extends ServiceProvider
             return EloquentFactory::construct($faker, database_path('factories'));
         });
     }
+
 
     /**
      * Register the queueable entity resolver implementation.

@@ -15,10 +15,12 @@
  */
 class PHPUnit_Framework_Constraint_JsonMatches extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var string
      */
     protected $value;
+
 
     /**
      * Creates a new constraint.
@@ -30,6 +32,7 @@ class PHPUnit_Framework_Constraint_JsonMatches extends PHPUnit_Framework_Constra
         parent::__construct();
         $this->value = $value;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -56,6 +59,7 @@ class PHPUnit_Framework_Constraint_JsonMatches extends PHPUnit_Framework_Constra
         return $decodedOther == $decodedValue;
     }
 
+
     /**
      * Returns a string representation of the object.
      *
@@ -63,9 +67,6 @@ class PHPUnit_Framework_Constraint_JsonMatches extends PHPUnit_Framework_Constra
      */
     public function toString()
     {
-        return sprintf(
-            'matches JSON string "%s"',
-            $this->value
-        );
+        return sprintf('matches JSON string "%s"', $this->value);
     }
 }

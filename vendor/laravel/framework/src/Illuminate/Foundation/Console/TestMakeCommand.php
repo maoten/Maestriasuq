@@ -6,6 +6,7 @@ use Illuminate\Console\GeneratorCommand;
 
 class TestMakeCommand extends GeneratorCommand
 {
+
     /**
      * The console command name.
      *
@@ -27,6 +28,7 @@ class TestMakeCommand extends GeneratorCommand
      */
     protected $type = 'Test';
 
+
     /**
      * Get the stub file for the generator.
      *
@@ -34,26 +36,30 @@ class TestMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/stubs/test.stub';
+        return __DIR__ . '/stubs/test.stub';
     }
+
 
     /**
      * Get the destination class path.
      *
-     * @param  string  $name
+     * @param  string $name
+     *
      * @return string
      */
     protected function getPath($name)
     {
         $name = str_replace($this->laravel->getNamespace(), '', $name);
 
-        return $this->laravel['path.base'].'/tests/'.str_replace('\\', '/', $name).'.php';
+        return $this->laravel['path.base'] . '/tests/' . str_replace('\\', '/', $name) . '.php';
     }
+
 
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param  string $rootNamespace
+     *
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)

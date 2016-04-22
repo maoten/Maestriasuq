@@ -8,7 +8,9 @@ use Mockery\Generator\StringManipulation\Pass\InterfacePass;
 
 class InterfacePassTest extends \PHPUnit_Framework_TestCase
 {
+
     const CODE = "class Mock implements MockInterface";
+
 
     /**
      * @test
@@ -17,13 +19,14 @@ class InterfacePassTest extends \PHPUnit_Framework_TestCase
     {
         $pass = new InterfacePass;
 
-        $config = m::mock("Mockery\Generator\MockConfiguration", array(
-            "getTargetInterfaces" => array(),
-        ));
+        $config = m::mock("Mockery\Generator\MockConfiguration", [
+            "getTargetInterfaces" => [ ],
+        ]);
 
         $code = $pass->apply(static::CODE, $config);
         $this->assertEquals(static::CODE, $code);
     }
+
 
     /**
      * @test
@@ -32,12 +35,12 @@ class InterfacePassTest extends \PHPUnit_Framework_TestCase
     {
         $pass = new InterfacePass;
 
-        $config = m::mock("Mockery\Generator\MockConfiguration", array(
-            "getTargetInterfaces" => array(
-                m::mock(array("getName" => "Dave\Dave")),
-                m::mock(array("getName" => "Paddy\Paddy")),
-            ),
-        ));
+        $config = m::mock("Mockery\Generator\MockConfiguration", [
+            "getTargetInterfaces" => [
+                m::mock([ "getName" => "Dave\Dave" ]),
+                m::mock([ "getName" => "Paddy\Paddy" ]),
+            ],
+        ]);
 
         $code = $pass->apply(static::CODE, $config);
 

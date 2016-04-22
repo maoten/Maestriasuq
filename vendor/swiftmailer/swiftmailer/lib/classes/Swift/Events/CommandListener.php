@@ -15,6 +15,7 @@
  */
 interface Swift_Events_CommandListener extends Swift_Events_EventListener
 {
+
     /**
      * Invoked immediately following a command being sent.
      *

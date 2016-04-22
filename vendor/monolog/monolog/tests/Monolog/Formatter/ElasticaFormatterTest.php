@@ -15,12 +15,14 @@ use Monolog\Logger;
 
 class ElasticaFormatterTest extends \PHPUnit_Framework_TestCase
 {
+
     public function setUp()
     {
-        if (!class_exists("Elastica\Document")) {
+        if ( ! class_exists("Elastica\Document")) {
             $this->markTestSkipped("ruflin/elastica not installed");
         }
     }
+
 
     /**
      * @covers Monolog\Formatter\ElasticaFormatter::__construct
@@ -30,28 +32,28 @@ class ElasticaFormatterTest extends \PHPUnit_Framework_TestCase
     public function testFormat()
     {
         // test log message
-        $msg = array(
-            'level' => Logger::ERROR,
+        $msg = [
+            'level'      => Logger::ERROR,
             'level_name' => 'ERROR',
-            'channel' => 'meh',
-            'context' => array('foo' => 7, 'bar', 'class' => new \stdClass),
-            'datetime' => new \DateTime("@0"),
-            'extra' => array(),
-            'message' => 'log',
-        );
+            'channel'    => 'meh',
+            'context'    => [ 'foo' => 7, 'bar', 'class' => new \stdClass ],
+            'datetime'   => new \DateTime("@0"),
+            'extra'      => [ ],
+            'message'    => 'log',
+        ];
 
         // expected values
-        $expected = $msg;
+        $expected             = $msg;
         $expected['datetime'] = '1970-01-01T00:00:00+0000';
-        $expected['context'] = array(
+        $expected['context']  = [
             'class' => '[object] (stdClass: {})',
-            'foo' => 7,
-            0 => 'bar',
-        );
+            'foo'   => 7,
+            0       => 'bar',
+        ];
 
         // format log message
         $formatter = new ElasticaFormatter('my_index', 'doc_type');
-        $doc = $formatter->format($msg);
+        $doc       = $formatter->format($msg);
         $this->assertInstanceOf('Elastica\Document', $doc);
 
         // Document parameters
@@ -65,6 +67,7 @@ class ElasticaFormatterTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($expected[$key], $data[$key]);
         }
     }
+
 
     /**
      * @covers Monolog\Formatter\ElasticaFormatter::getIndex

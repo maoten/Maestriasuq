@@ -6,12 +6,14 @@ use Illuminate\Support\ServiceProvider;
 
 class RedisServiceProvider extends ServiceProvider
 {
+
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
     protected $defer = true;
+
 
     /**
      * Register the service provider.
@@ -25,6 +27,7 @@ class RedisServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Get the services provided by the provider.
      *
@@ -32,6 +35,6 @@ class RedisServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['redis'];
+        return [ 'redis' ];
     }
 }

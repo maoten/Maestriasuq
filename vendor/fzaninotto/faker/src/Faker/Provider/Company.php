@@ -4,11 +4,13 @@ namespace Faker\Provider;
 
 class Company extends \Faker\Provider\Base
 {
-    protected static $formats = array(
-        '{{lastName}} {{companySuffix}}',
-    );
 
-    protected static $companySuffix = array('Ltd');
+    protected static $formats = [
+        '{{lastName}} {{companySuffix}}',
+    ];
+
+    protected static $companySuffix = [ 'Ltd' ];
+
 
     /**
      * @example 'Acme Ltd'
@@ -19,6 +21,7 @@ class Company extends \Faker\Provider\Base
 
         return $this->generator->parse($format);
     }
+
 
     /**
      * @example 'Ltd'

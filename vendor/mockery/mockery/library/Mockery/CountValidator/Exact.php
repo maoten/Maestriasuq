@@ -29,23 +29,14 @@ class Exact extends CountValidatorAbstract
      * Validate the call count against this validator
      *
      * @param int $n
+     *
      * @return bool
      */
     public function validate($n)
     {
         if ($this->_limit !== $n) {
-            $exception = new Mockery\Exception\InvalidCountException(
-                'Method ' . (string) $this->_expectation
-                . ' from ' . $this->_expectation->getMock()->mockery_getName()
-                . ' should be called' . PHP_EOL
-                . ' exactly ' . $this->_limit . ' times but called ' . $n
-                . ' times.'
-            );
-            $exception->setMock($this->_expectation->getMock())
-                ->setMethodName((string) $this->_expectation)
-                ->setExpectedCountComparative('=')
-                ->setExpectedCount($this->_limit)
-                ->setActualCount($n);
+            $exception = new Mockery\Exception\InvalidCountException('Method ' . (string) $this->_expectation . ' from ' . $this->_expectation->getMock()->mockery_getName() . ' should be called' . PHP_EOL . ' exactly ' . $this->_limit . ' times but called ' . $n . ' times.');
+            $exception->setMock($this->_expectation->getMock())->setMethodName((string) $this->_expectation)->setExpectedCountComparative('=')->setExpectedCount($this->_limit)->setActualCount($n);
             throw $exception;
         }
     }

@@ -21,7 +21,9 @@ use Symfony\Component\Console\Input\InputAwareInterface;
  */
 abstract class InputAwareHelper extends Helper implements InputAwareInterface
 {
+
     protected $input;
+
 
     /**
      * {@inheritdoc}

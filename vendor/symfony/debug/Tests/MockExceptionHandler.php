@@ -15,7 +15,9 @@ use Symfony\Component\Debug\ExceptionHandler;
 
 class MockExceptionHandler extends Exceptionhandler
 {
+
     public $e;
+
 
     public function handle(\Exception $e)
     {

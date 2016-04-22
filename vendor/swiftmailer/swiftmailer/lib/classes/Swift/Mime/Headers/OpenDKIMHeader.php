@@ -15,6 +15,7 @@
  */
 class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
 {
+
     /**
      * The value of this Header.
      *
@@ -29,6 +30,7 @@ class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
      */
     private $_fieldName;
 
+
     /**
      * Creates a new SimpleHeader with $name.
      *
@@ -40,6 +42,7 @@ class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
     {
         $this->_fieldName = $name;
     }
+
 
     /**
      * Get the type of Header that this instance represents.
@@ -54,6 +57,7 @@ class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
         return self::TYPE_TEXT;
     }
 
+
     /**
      * Set the model for the field body.
      *
@@ -65,6 +69,7 @@ class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
     {
         $this->setValue($model);
     }
+
 
     /**
      * Get the model for the field body.
@@ -78,6 +83,7 @@ class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
         return $this->getValue();
     }
 
+
     /**
      * Get the (unencoded) value of this header.
      *
@@ -87,6 +93,7 @@ class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
     {
         return $this->_value;
     }
+
 
     /**
      * Set the (unencoded) value of this header.
@@ -98,6 +105,7 @@ class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
         $this->_value = $value;
     }
 
+
     /**
      * Get the value of this header prepared for rendering.
      *
@@ -108,6 +116,7 @@ class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
         return $this->_value;
     }
 
+
     /**
      * Get this Header rendered as a RFC 2822 compliant string.
      *
@@ -115,8 +124,9 @@ class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
      */
     public function toString()
     {
-        return $this->_fieldName.': '.$this->_value;
+        return $this->_fieldName . ': ' . $this->_value;
     }
+
 
     /**
      * Set the Header FieldName.
@@ -127,6 +137,7 @@ class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
     {
         return $this->_fieldName;
     }
+
 
     /**
      * Ignored.

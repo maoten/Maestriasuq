@@ -20,6 +20,7 @@ class IsInteger extends IsTypeOf
         parent::__construct('integer');
     }
 
+
     /**
      * Is the value an integer?
      *

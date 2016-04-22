@@ -11,6 +11,7 @@
  */
 class FactoryMethod
 {
+
     /**
      * @var FactoryClass
      */
@@ -41,14 +42,16 @@ class FactoryMethod
      */
     private $parameters;
 
+
     public function __construct(FactoryClass $class, ReflectionMethod $reflector)
     {
-        $this->class = $class;
+        $this->class     = $class;
         $this->reflector = $reflector;
         $this->extractCommentWithoutLeadingShashesAndStars();
         $this->extractFactoryNamesFromComment();
         $this->extractParameters();
     }
+
 
     public function extractCommentWithoutLeadingShashesAndStars()
     {
@@ -59,6 +62,7 @@ class FactoryMethod
         $this->trimLeadingBlankLinesFromComment();
         $this->trimTrailingBlankLinesFromComment();
     }
+
 
     public function trimLeadingBlankLinesFromComment()
     {
@@ -71,6 +75,7 @@ class FactoryMethod
         }
     }
 
+
     public function trimTrailingBlankLinesFromComment()
     {
         while (count($this->comment) > 0) {
@@ -82,46 +87,49 @@ class FactoryMethod
         }
     }
 
+
     public function extractFactoryNamesFromComment()
     {
-        $this->calls = array();
+        $this->calls = [ ];
         for ($i = 0; $i < count($this->comment); $i++) {
             if ($this->extractFactoryNamesFromLine($this->comment[$i])) {
-                unset($this->comment[$i]);
+                unset( $this->comment[$i] );
             }
         }
         $this->trimTrailingBlankLinesFromComment();
     }
 
+
     public function extractFactoryNamesFromLine($line)
     {
         if (preg_match('/^\s*@factory(\s+(.+))?$/', $line, $match)) {
-            $this->createCalls(
-                $this->extractFactoryNamesFromAnnotation(
-                    isset($match[2]) ? trim($match[2]) : null
-                )
-            );
+            $this->createCalls($this->extractFactoryNamesFromAnnotation(isset( $match[2] ) ? trim($match[2]) : null));
+
             return true;
         }
+
         return false;
     }
+
 
     public function extractFactoryNamesFromAnnotation($value)
     {
         $primaryName = $this->reflector->getName();
-        if (empty($value)) {
-            return array($primaryName);
+        if (empty( $value )) {
+            return [ $primaryName ];
         }
         preg_match_all('/(\.{3}|-|[a-zA-Z_][a-zA-Z_0-9]*)/', $value, $match);
         $names = $match[0];
         if (in_array('...', $names)) {
             $this->isVarArgs = true;
         }
-        if (!in_array('-', $names) && !in_array($primaryName, $names)) {
+        if ( ! in_array('-', $names) && ! in_array($primaryName, $names)) {
             array_unshift($names, $primaryName);
         }
+
         return $names;
     }
+
 
     public function createCalls(array $names)
     {
@@ -133,38 +141,43 @@ class FactoryMethod
         }
     }
 
+
     public function extractParameters()
     {
-        $this->parameters = array();
-        if (!$this->isVarArgs) {
+        $this->parameters = [ ];
+        if ( ! $this->isVarArgs) {
             foreach ($this->reflector->getParameters() as $parameter) {
                 $this->parameters[] = new FactoryParameter($this, $parameter);
             }
         }
     }
 
+
     public function getParameterDeclarations()
     {
-        if ($this->isVarArgs || !$this->hasParameters()) {
+        if ($this->isVarArgs || ! $this->hasParameters()) {
             return '';
         }
-        $params = array();
+        $params = [ ];
         foreach ($this->parameters as /** @var $parameter FactoryParameter */
                  $parameter) {
             $params[] = $parameter->getDeclaration();
         }
+
         return implode(', ', $params);
     }
+
 
     public function getParameterInvocations()
     {
         if ($this->isVarArgs) {
             return '';
         }
-        $params = array();
+        $params = [ ];
         foreach ($this->parameters as $parameter) {
             $params[] = $parameter->getInvocation();
         }
+
         return implode(', ', $params);
     }
 
@@ -174,50 +187,60 @@ class FactoryMethod
         return $this->class;
     }
 
+
     public function getClassName()
     {
         return $this->class->getName();
     }
+
 
     public function getName()
     {
         return $this->reflector->name;
     }
 
+
     public function isFactory()
     {
         return count($this->calls) > 0;
     }
+
 
     public function getCalls()
     {
         return $this->calls;
     }
 
+
     public function acceptsVariableArguments()
     {
         return $this->isVarArgs;
     }
 
+
     public function hasParameters()
     {
-        return !empty($this->parameters);
+        return ! empty( $this->parameters );
     }
+
 
     public function getParameters()
     {
         return $this->parameters;
     }
 
+
     public function getFullName()
     {
         return $this->getClassName() . '::' . $this->getName();
     }
 
+
     public function getCommentText()
     {
         return implode(PHP_EOL, $this->comment);
     }
+
 
     public function getComment($indent = '')
     {
@@ -226,6 +249,7 @@ class FactoryMethod
             $comment .= PHP_EOL . rtrim($indent . ' * ' . $line);
         }
         $comment .= PHP_EOL . $indent . ' */';
+
         return $comment;
     }
 }

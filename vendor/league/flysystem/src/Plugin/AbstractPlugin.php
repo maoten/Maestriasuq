@@ -7,10 +7,12 @@ use League\Flysystem\PluginInterface;
 
 abstract class AbstractPlugin implements PluginInterface
 {
+
     /**
      * @var FilesystemInterface
      */
     protected $filesystem;
+
 
     /**
      * Set the Filesystem object.

@@ -4,6 +4,7 @@ namespace League\Flysystem\Plugin;
 
 class ListPaths extends AbstractPlugin
 {
+
     /**
      * Get the method name.
      *
@@ -13,6 +14,7 @@ class ListPaths extends AbstractPlugin
     {
         return 'listPaths';
     }
+
 
     /**
      * List all paths.
@@ -24,7 +26,7 @@ class ListPaths extends AbstractPlugin
      */
     public function handle($directory = '', $recursive = false)
     {
-        $result = [];
+        $result   = [ ];
         $contents = $this->filesystem->listContents($directory, $recursive);
 
         foreach ($contents as $object) {

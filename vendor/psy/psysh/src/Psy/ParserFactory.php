@@ -20,10 +20,12 @@ use PhpParser\ParserFactory as OriginalParserFactory;
  */
 class ParserFactory
 {
-    const ONLY_PHP5   = 'ONLY_PHP5';
-    const ONLY_PHP7   = 'ONLY_PHP7';
+
+    const ONLY_PHP5 = 'ONLY_PHP5';
+    const ONLY_PHP7 = 'ONLY_PHP7';
     const PREFER_PHP5 = 'PREFER_PHP5';
     const PREFER_PHP7 = 'PREFER_PHP7';
+
 
     /**
      * Possible kinds of parsers for the factory, from PHP parser library.
@@ -32,8 +34,9 @@ class ParserFactory
      */
     public static function getPossibleKinds()
     {
-        return array('ONLY_PHP5', 'ONLY_PHP7', 'PREFER_PHP5', 'PREFER_PHP7');
+        return [ 'ONLY_PHP5', 'ONLY_PHP7', 'PREFER_PHP5', 'PREFER_PHP7' ];
     }
+
 
     /**
      * Is this parser factory supports kinds?
@@ -47,6 +50,7 @@ class ParserFactory
         return class_exists('PhpParser\ParserFactory');
     }
 
+
     /**
      * Default kind (if supported, based on current interpreter's version).
      *
@@ -58,6 +62,7 @@ class ParserFactory
             return version_compare(PHP_VERSION, '7.0', '>=') ? static::ONLY_PHP7 : static::ONLY_PHP5;
         }
     }
+
 
     /**
      * New parser instance with given kind.
@@ -73,7 +78,7 @@ class ParserFactory
 
             $kind = $kind ?: $this->getDefaultKind();
 
-            if (!in_array($kind, static::getPossibleKinds())) {
+            if ( ! in_array($kind, static::getPossibleKinds())) {
                 throw new \InvalidArgumentException('Unknown parser kind');
             }
 

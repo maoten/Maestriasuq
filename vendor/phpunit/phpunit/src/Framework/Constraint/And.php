@@ -15,15 +15,17 @@
  */
 class PHPUnit_Framework_Constraint_And extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var PHPUnit_Framework_Constraint[]
      */
-    protected $constraints = array();
+    protected $constraints = [ ];
 
     /**
      * @var PHPUnit_Framework_Constraint
      */
     protected $lastConstraint = null;
+
 
     /**
      * @param PHPUnit_Framework_Constraint[] $constraints
@@ -32,19 +34,17 @@ class PHPUnit_Framework_Constraint_And extends PHPUnit_Framework_Constraint
      */
     public function setConstraints(array $constraints)
     {
-        $this->constraints = array();
+        $this->constraints = [ ];
 
         foreach ($constraints as $constraint) {
-            if (!($constraint instanceof PHPUnit_Framework_Constraint)) {
-                throw new PHPUnit_Framework_Exception(
-                    'All parameters to ' . __CLASS__ .
-                    ' must be a constraint object.'
-                );
+            if ( ! ( $constraint instanceof PHPUnit_Framework_Constraint )) {
+                throw new PHPUnit_Framework_Exception('All parameters to ' . __CLASS__ . ' must be a constraint object.');
             }
 
             $this->constraints[] = $constraint;
         }
     }
+
 
     /**
      * Evaluates the constraint for parameter $other
@@ -70,7 +70,7 @@ class PHPUnit_Framework_Constraint_And extends PHPUnit_Framework_Constraint
         $constraint = null;
 
         foreach ($this->constraints as $constraint) {
-            if (!$constraint->evaluate($other, $description, true)) {
+            if ( ! $constraint->evaluate($other, $description, true)) {
                 $success = false;
                 break;
             }
@@ -80,10 +80,11 @@ class PHPUnit_Framework_Constraint_And extends PHPUnit_Framework_Constraint
             return $success;
         }
 
-        if (!$success) {
+        if ( ! $success) {
             $this->fail($other, $description);
         }
     }
+
 
     /**
      * Returns a string representation of the constraint.
@@ -104,6 +105,7 @@ class PHPUnit_Framework_Constraint_And extends PHPUnit_Framework_Constraint
 
         return $text;
     }
+
 
     /**
      * Counts the number of constraint elements.

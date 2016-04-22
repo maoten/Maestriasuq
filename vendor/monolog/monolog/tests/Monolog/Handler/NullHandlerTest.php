@@ -19,11 +19,13 @@ use Monolog\Logger;
  */
 class NullHandlerTest extends TestCase
 {
+
     public function testHandle()
     {
         $handler = new NullHandler();
         $this->assertTrue($handler->handle($this->getRecord()));
     }
+
 
     public function testHandleLowerLevelRecord()
     {

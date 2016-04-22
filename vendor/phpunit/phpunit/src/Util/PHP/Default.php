@@ -17,6 +17,7 @@ use SebastianBergmann\Environment\Runtime;
  */
 class PHPUnit_Util_PHP_Default extends PHPUnit_Util_PHP
 {
+
     /**
      * Runs a single job (PHP code) using a separate PHP process.
      *
@@ -27,7 +28,7 @@ class PHPUnit_Util_PHP_Default extends PHPUnit_Util_PHP
      *
      * @throws PHPUnit_Framework_Exception
      */
-    public function runJob($job, array $settings = array())
+    public function runJob($job, array $settings = [ ])
     {
         $runtime = new Runtime;
         $runtime = $runtime->getBinary() . $this->settingsToParameters($settings);
@@ -36,20 +37,14 @@ class PHPUnit_Util_PHP_Default extends PHPUnit_Util_PHP
             $runtime .= ' -qrr ' . escapeshellarg(__DIR__ . '/eval-stdin.php');
         }
 
-        $process = proc_open(
-            $runtime,
-            array(
-            0 => array('pipe', 'r'),
-            1 => array('pipe', 'w'),
-            2 => array('pipe', 'w')
-            ),
-            $pipes
-        );
+        $process = proc_open($runtime, [
+                0 => [ 'pipe', 'r' ],
+                1 => [ 'pipe', 'w' ],
+                2 => [ 'pipe', 'w' ]
+            ], $pipes);
 
-        if (!is_resource($process)) {
-            throw new PHPUnit_Framework_Exception(
-                'Unable to spawn worker process'
-            );
+        if ( ! is_resource($process)) {
+            throw new PHPUnit_Framework_Exception('Unable to spawn worker process');
         }
 
         $this->process($pipes[0], $job);
@@ -64,8 +59,9 @@ class PHPUnit_Util_PHP_Default extends PHPUnit_Util_PHP
         proc_close($process);
         $this->cleanup();
 
-        return array('stdout' => $stdout, 'stderr' => $stderr);
+        return [ 'stdout' => $stdout, 'stderr' => $stderr ];
     }
+
 
     /**
      * @param resource $pipe
@@ -79,6 +75,7 @@ class PHPUnit_Util_PHP_Default extends PHPUnit_Util_PHP
     {
         fwrite($pipe, $job);
     }
+
 
     /**
      * @since Method available since Release 3.5.12

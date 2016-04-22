@@ -21,12 +21,14 @@ use PhpParser\NodeVisitorAbstract;
  */
 abstract class AbstractNodeVisitor extends NodeVisitorAbstract
 {
+
     /**
      * The current file being parsed.
      *
      * @var string
      */
     protected $filename = '';
+
 
     /**
      * Set the full path to the current file being parsed.
@@ -42,6 +44,7 @@ abstract class AbstractNodeVisitor extends NodeVisitorAbstract
         return $this;
     }
 
+
     /**
      * Get the full path to the current file being parsed.
      *
@@ -51,6 +54,7 @@ abstract class AbstractNodeVisitor extends NodeVisitorAbstract
     {
         return $this->filename;
     }
+
 
     /**
      * Get the directory of the current file being parsed.

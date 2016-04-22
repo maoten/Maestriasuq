@@ -15,6 +15,7 @@
  */
 interface Swift_ReplacementFilterFactory
 {
+
     /**
      * Create a filter to replace $search with $replace.
      *

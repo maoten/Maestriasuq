@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Htmlable;
 
 class HtmlString implements Htmlable
 {
+
     /**
      * The HTML string.
      *
@@ -13,16 +14,19 @@ class HtmlString implements Htmlable
      */
     protected $html;
 
+
     /**
      * Create a new HTML string instance.
      *
-     * @param  string  $html
+     * @param  string $html
+     *
      * @return void
      */
     public function __construct($html)
     {
         $this->html = $html;
     }
+
 
     /**
      * Get the the HTML string.
@@ -33,6 +37,7 @@ class HtmlString implements Htmlable
     {
         return $this->html;
     }
+
 
     /**
      * Get the the HTML string.

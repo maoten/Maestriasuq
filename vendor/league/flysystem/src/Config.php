@@ -4,25 +4,28 @@ namespace League\Flysystem;
 
 class Config
 {
+
     /**
      * @var array
      */
-    protected $settings = [];
+    protected $settings = [ ];
 
     /**
      * @var Config
      */
     protected $fallback;
 
+
     /**
      * Constructor.
      *
      * @param array $settings
      */
-    public function __construct(array $settings = [])
+    public function __construct(array $settings = [ ])
     {
         $this->settings = $settings;
     }
+
 
     /**
      * Get a setting.
@@ -41,6 +44,7 @@ class Config
         return $this->settings[$key];
     }
 
+
     /**
      * Check if an item exists by key.
      *
@@ -52,6 +56,7 @@ class Config
     {
         return array_key_exists($key, $this->settings);
     }
+
 
     /**
      * Try to retrieve a default setting from a config fallback.
@@ -70,6 +75,7 @@ class Config
         return $this->fallback->get($key, $default);
     }
 
+
     /**
      * Set a setting.
      *
@@ -84,6 +90,7 @@ class Config
 
         return $this;
     }
+
 
     /**
      * Set the fallback.

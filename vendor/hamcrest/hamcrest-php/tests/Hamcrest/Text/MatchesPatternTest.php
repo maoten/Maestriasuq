@@ -9,6 +9,7 @@ class MatchesPatternTest extends \Hamcrest\AbstractMatcherTest
         return matchesPattern('/o+b/');
     }
 
+
     public function testEvaluatesToTrueIfArgumentmatchesPattern()
     {
         assertThat('foobar', matchesPattern('/o+b/'));
@@ -17,11 +18,13 @@ class MatchesPatternTest extends \Hamcrest\AbstractMatcherTest
         assertThat('foobar', matchesPattern('/^foobar$/'));
     }
 
+
     public function testEvaluatesToFalseIfArgumentDoesntMatchRegex()
     {
         assertThat('foobar', not(matchesPattern('/^foob$/')));
         assertThat('foobar', not(matchesPattern('/oobe/')));
     }
+
 
     public function testHasAReadableDescription()
     {

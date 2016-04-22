@@ -22,8 +22,11 @@
  */
 class PHP_Token_ClassTest extends PHPUnit_Framework_TestCase
 {
+
     protected $class;
+
     protected $function;
+
 
     protected function setUp()
     {
@@ -41,6 +44,7 @@ class PHP_Token_ClassTest extends PHPUnit_Framework_TestCase
         }
     }
 
+
     /**
      * @covers PHP_Token_CLASS::getKeywords
      */
@@ -48,6 +52,7 @@ class PHP_Token_ClassTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals('abstract', $this->class->getKeywords());
     }
+
 
     /**
      * @covers PHP_Token_FUNCTION::getKeywords
@@ -57,6 +62,7 @@ class PHP_Token_ClassTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('abstract,static', $this->function->getKeywords());
     }
 
+
     /**
      * @covers PHP_Token_FUNCTION::getVisibility
      */
@@ -64,6 +70,7 @@ class PHP_Token_ClassTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals('public', $this->function->getVisibility());
     }
+
 
     public function testIssue19()
     {
@@ -76,11 +83,13 @@ class PHP_Token_ClassTest extends PHPUnit_Framework_TestCase
         }
     }
 
+
     public function testIssue30()
     {
         $ts = new PHP_Token_Stream(TEST_FILES_PATH . 'issue30.php');
         $this->assertCount(1, $ts->getClasses());
     }
+
 
     /**
      * @requires PHP 7
@@ -91,8 +100,9 @@ class PHP_Token_ClassTest extends PHPUnit_Framework_TestCase
 
         $classes = $ts->getClasses();
 
-        $this->assertEquals(array('class_with_method_that_declares_anonymous_class'), array_keys($classes));
+        $this->assertEquals([ 'class_with_method_that_declares_anonymous_class' ], array_keys($classes));
     }
+
 
     /**
      * @requires PHP 7
@@ -104,8 +114,8 @@ class PHP_Token_ClassTest extends PHPUnit_Framework_TestCase
 
         $classes = $ts->getClasses();
 
-        $this->assertEquals(array('Test'), array_keys($classes));
-        $this->assertEquals(array('methodOne', 'methodTwo'), array_keys($classes['Test']['methods']));
+        $this->assertEquals([ 'Test' ], array_keys($classes));
+        $this->assertEquals([ 'methodOne', 'methodTwo' ], array_keys($classes['Test']['methods']));
 
         $this->assertEmpty($ts->getFunctions());
     }

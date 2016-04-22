@@ -4,6 +4,7 @@ namespace League\Flysystem;
 
 class Directory extends Handler
 {
+
     /**
      * Delete the directory.
      *
@@ -13,6 +14,7 @@ class Directory extends Handler
     {
         return $this->filesystem->deleteDir($this->path);
     }
+
 
     /**
      * List the directory contents.

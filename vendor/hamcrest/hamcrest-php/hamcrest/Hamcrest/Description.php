@@ -1,9 +1,9 @@
 <?php
 namespace Hamcrest;
 
-/*
- Copyright (c) 2009 hamcrest.org
- */
+    /*
+     Copyright (c) 2009 hamcrest.org
+     */
 
 /**
  * A description of a Matcher. A Matcher will describe itself to a description
@@ -23,6 +23,7 @@ interface Description
      */
     public function appendText($text);
 
+
     /**
      * Appends the description of a {@link Hamcrest\SelfDescribing} value to
      * this description.
@@ -33,6 +34,7 @@ interface Description
      */
     public function appendDescriptionOf(SelfDescribing $value);
 
+
     /**
      * Appends an arbitary value to the description.
      *
@@ -42,17 +44,19 @@ interface Description
      */
     public function appendValue($value);
 
+
     /**
      * Appends a list of values to the description.
      *
-     * @param string $start
-     * @param string $separator
-     * @param string $end
+     * @param string                             $start
+     * @param string                             $separator
+     * @param string                             $end
      * @param array|\IteratorAggregate|\Iterator $values
      *
      * @return \Hamcrest\Description
      */
     public function appendValueList($start, $separator, $end, $values);
+
 
     /**
      * Appends a list of {@link Hamcrest\SelfDescribing} objects to the

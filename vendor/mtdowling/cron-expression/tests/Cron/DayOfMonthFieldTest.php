@@ -11,6 +11,7 @@ use DateTime;
  */
 class DayOfMonthFieldTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @covers Cron\DayOfMonthField::validate
      */
@@ -24,6 +25,7 @@ class DayOfMonthFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($f->validate('1.'));
     }
 
+
     /**
      * @covers Cron\DayOfMonthField::isSatisfiedBy
      */
@@ -32,6 +34,7 @@ class DayOfMonthFieldTest extends \PHPUnit_Framework_TestCase
         $f = new DayOfMonthField();
         $this->assertTrue($f->isSatisfiedBy(new DateTime(), '?'));
     }
+
 
     /**
      * @covers Cron\DayOfMonthField::increment

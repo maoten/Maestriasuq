@@ -10,6 +10,7 @@ use DateTime;
  */
 class YearFieldTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @covers Cron\YearField::validate
      */
@@ -20,6 +21,7 @@ class YearFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($f->validate('*'));
         $this->assertTrue($f->validate('*/10,2012,1-12'));
     }
+
 
     /**
      * @covers Cron\YearField::increment

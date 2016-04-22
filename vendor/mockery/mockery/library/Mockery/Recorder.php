@@ -48,20 +48,23 @@ class Recorder
      */
     protected $_strict = false;
 
+
     /**
      * Construct accepting the mock object on which expectations are to be
      * recorded. The second parameter is the subject object, passed into
      * a \Mockery::mock() call in the same way as a partial mock requires.
      *
      * @param \Mockery\MockInterface $mock
-     * @param object $subject
+     * @param object                 $subject
+     *
      * @return void
      */
     public function __construct(\Mockery\MockInterface $mock, $subject)
     {
-        $this->_mock = $mock;
+        $this->_mock    = $mock;
         $this->_subject = $subject;
     }
+
 
     /**
      * Sets the recorded into strict mode where method calls are more strictly
@@ -75,29 +78,32 @@ class Recorder
         $this->_strict = true;
     }
 
+
     /**
      * Intercept all calls on the subject, and use the call details to create
      * a new expectation. The actual return value is then returned after being
      * recorded.
      *
      * @param string $method
-     * @param array $args
+     * @param array  $args
+     *
      * @return mixed
      */
     public function __call($method, array $args)
     {
-        $return = call_user_func_array(array($this->_subject, $method), $args);
+        $return      = call_user_func_array([ $this->_subject, $method ], $args);
         $expectation = $this->_mock->shouldReceive($method)->andReturn($return);
         if ($this->_strict) {
-            $exactArgs = array();
+            $exactArgs = [ ];
             foreach ($args as $arg) {
                 $exactArgs[] = \Mockery::mustBe($arg);
             }
             $expectation->once()->ordered();
-            call_user_func_array(array($expectation, 'with'), $exactArgs);
+            call_user_func_array([ $expectation, 'with' ], $exactArgs);
         } else {
-            call_user_func_array(array($expectation, 'with'), $args);
+            call_user_func_array([ $expectation, 'with' ], $args);
         }
+
         return $return;
     }
 }

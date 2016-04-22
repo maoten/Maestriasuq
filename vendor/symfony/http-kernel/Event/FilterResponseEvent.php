@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class FilterResponseEvent extends KernelEvent
 {
+
     /**
      * The current response object.
      *
@@ -33,12 +34,14 @@ class FilterResponseEvent extends KernelEvent
      */
     private $response;
 
+
     public function __construct(HttpKernelInterface $kernel, Request $request, $requestType, Response $response)
     {
         parent::__construct($kernel, $request, $requestType);
 
         $this->setResponse($response);
     }
+
 
     /**
      * Returns the current response object.
@@ -49,6 +52,7 @@ class FilterResponseEvent extends KernelEvent
     {
         return $this->response;
     }
+
 
     /**
      * Sets a new response object.

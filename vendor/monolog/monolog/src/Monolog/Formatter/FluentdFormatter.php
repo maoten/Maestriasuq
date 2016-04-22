@@ -34,24 +34,28 @@ namespace Monolog\Formatter;
  */
 class FluentdFormatter implements FormatterInterface
 {
+
     /**
      * @var bool $levelTag should message level be a part of the fluentd tag
      */
     protected $levelTag = false;
 
+
     public function __construct($levelTag = false)
     {
-        if (!function_exists('json_encode')) {
+        if ( ! function_exists('json_encode')) {
             throw new \RuntimeException('PHP\'s json extension is required to use Monolog\'s FluentdUnixFormatter');
         }
 
         $this->levelTag = (bool) $levelTag;
     }
 
+
     public function isUsingLevelsInTag()
     {
         return $this->levelTag;
     }
+
 
     public function format(array $record)
     {
@@ -60,18 +64,19 @@ class FluentdFormatter implements FormatterInterface
             $tag .= '.' . strtolower($record['level_name']);
         }
 
-        $message = array(
+        $message = [
             'message' => $record['message'],
-            'extra' => $record['extra'],
-        );
+            'extra'   => $record['extra'],
+        ];
 
-        if (!$this->levelTag) {
-            $message['level'] = $record['level'];
+        if ( ! $this->levelTag) {
+            $message['level']      = $record['level'];
             $message['level_name'] = $record['level_name'];
         }
 
-        return json_encode(array($tag, $record['datetime']->getTimestamp(), $message));
+        return json_encode([ $tag, $record['datetime']->getTimestamp(), $message ]);
     }
+
 
     public function formatBatch(array $records)
     {

@@ -23,8 +23,10 @@ use phpDocumentor\Reflection\DocBlock\Tag;
  */
 class LinkTag extends Tag
 {
+
     /** @var string */
     protected $link = '';
+
 
     /**
      * {@inheritdoc}
@@ -38,6 +40,7 @@ class LinkTag extends Tag
         return $this->content;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -48,34 +51,38 @@ class LinkTag extends Tag
 
         $this->link = $parts[0];
 
-        $this->setDescription(isset($parts[1]) ? $parts[1] : $parts[0]);
+        $this->setDescription(isset( $parts[1] ) ? $parts[1] : $parts[0]);
 
         $this->content = $content;
+
         return $this;
     }
 
+
     /**
-    * Gets the link
-    *
-    * @return string
-    */
+     * Gets the link
+     *
+     * @return string
+     */
     public function getLink()
     {
         return $this->link;
     }
 
+
     /**
-    * Sets the link
-    *
-    * @param string $link The link
-    *
-    * @return $this
-    */
+     * Sets the link
+     *
+     * @param string $link The link
+     *
+     * @return $this
+     */
     public function setLink($link)
     {
         $this->link = $link;
 
         $this->content = null;
+
         return $this;
     }
 }

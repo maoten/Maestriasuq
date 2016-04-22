@@ -18,14 +18,23 @@ namespace Symfony\Component\Debug\Exception;
  */
 class FatalErrorException extends \ErrorException
 {
-    public function __construct($message, $code, $severity, $filename, $lineno, $traceOffset = null, $traceArgs = true, array $trace = null)
-    {
+
+    public function __construct(
+        $message,
+        $code,
+        $severity,
+        $filename,
+        $lineno,
+        $traceOffset = null,
+        $traceArgs = true,
+        array $trace = null
+    ) {
         parent::__construct($message, $code, $severity, $filename, $lineno);
 
         if (null !== $trace) {
-            if (!$traceArgs) {
+            if ( ! $traceArgs) {
                 foreach ($trace as &$frame) {
-                    unset($frame['args'], $frame['this'], $frame);
+                    unset( $frame['args'], $frame['this'], $frame );
                 }
             }
 
@@ -38,9 +47,9 @@ class FatalErrorException extends \ErrorException
                 }
 
                 foreach ($trace as &$frame) {
-                    if (!isset($frame['type'])) {
+                    if ( ! isset( $frame['type'] )) {
                         // XDebug pre 2.1.1 doesn't currently set the call type key http://bugs.xdebug.org/view.php?id=695
-                        if (isset($frame['class'])) {
+                        if (isset( $frame['class'] )) {
                             $frame['type'] = '::';
                         }
                     } elseif ('dynamic' === $frame['type']) {
@@ -50,15 +59,15 @@ class FatalErrorException extends \ErrorException
                     }
 
                     // XDebug also has a different name for the parameters array
-                    if (!$traceArgs) {
-                        unset($frame['params'], $frame['args']);
-                    } elseif (isset($frame['params']) && !isset($frame['args'])) {
+                    if ( ! $traceArgs) {
+                        unset( $frame['params'], $frame['args'] );
+                    } elseif (isset( $frame['params'] ) && ! isset( $frame['args'] )) {
                         $frame['args'] = $frame['params'];
-                        unset($frame['params']);
+                        unset( $frame['params'] );
                     }
                 }
 
-                unset($frame);
+                unset( $frame );
                 $trace = array_reverse($trace);
             } elseif (function_exists('symfony_debug_backtrace')) {
                 $trace = symfony_debug_backtrace();
@@ -66,12 +75,13 @@ class FatalErrorException extends \ErrorException
                     array_splice($trace, 0, $traceOffset);
                 }
             } else {
-                $trace = array();
+                $trace = [ ];
             }
 
             $this->setTrace($trace);
         }
     }
+
 
     protected function setTrace($trace)
     {

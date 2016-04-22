@@ -29,6 +29,7 @@ use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 
 class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testStatusCode()
     {
         $flattened = FlattenException::create(new \RuntimeException(), 403);
@@ -52,7 +53,7 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
         $flattened = FlattenException::create(new ConflictHttpException());
         $this->assertEquals('409', $flattened->getStatusCode());
 
-        $flattened = FlattenException::create(new MethodNotAllowedHttpException(array('POST')));
+        $flattened = FlattenException::create(new MethodNotAllowedHttpException([ 'POST' ]));
         $this->assertEquals('405', $flattened->getStatusCode());
 
         $flattened = FlattenException::create(new AccessDeniedHttpException());
@@ -80,56 +81,63 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('415', $flattened->getStatusCode());
     }
 
+
     public function testHeadersForHttpException()
     {
-        $flattened = FlattenException::create(new MethodNotAllowedHttpException(array('POST')));
-        $this->assertEquals(array('Allow' => 'POST'), $flattened->getHeaders());
+        $flattened = FlattenException::create(new MethodNotAllowedHttpException([ 'POST' ]));
+        $this->assertEquals([ 'Allow' => 'POST' ], $flattened->getHeaders());
 
         $flattened = FlattenException::create(new UnauthorizedHttpException('Basic realm="My Realm"'));
-        $this->assertEquals(array('WWW-Authenticate' => 'Basic realm="My Realm"'), $flattened->getHeaders());
+        $this->assertEquals([ 'WWW-Authenticate' => 'Basic realm="My Realm"' ], $flattened->getHeaders());
 
         $flattened = FlattenException::create(new ServiceUnavailableHttpException('Fri, 31 Dec 1999 23:59:59 GMT'));
-        $this->assertEquals(array('Retry-After' => 'Fri, 31 Dec 1999 23:59:59 GMT'), $flattened->getHeaders());
+        $this->assertEquals([ 'Retry-After' => 'Fri, 31 Dec 1999 23:59:59 GMT' ], $flattened->getHeaders());
 
         $flattened = FlattenException::create(new ServiceUnavailableHttpException(120));
-        $this->assertEquals(array('Retry-After' => 120), $flattened->getHeaders());
+        $this->assertEquals([ 'Retry-After' => 120 ], $flattened->getHeaders());
 
         $flattened = FlattenException::create(new TooManyRequestsHttpException('Fri, 31 Dec 1999 23:59:59 GMT'));
-        $this->assertEquals(array('Retry-After' => 'Fri, 31 Dec 1999 23:59:59 GMT'), $flattened->getHeaders());
+        $this->assertEquals([ 'Retry-After' => 'Fri, 31 Dec 1999 23:59:59 GMT' ], $flattened->getHeaders());
 
         $flattened = FlattenException::create(new TooManyRequestsHttpException(120));
-        $this->assertEquals(array('Retry-After' => 120), $flattened->getHeaders());
+        $this->assertEquals([ 'Retry-After' => 120 ], $flattened->getHeaders());
     }
+
 
     /**
      * @dataProvider flattenDataProvider
      */
     public function testFlattenHttpException(\Exception $exception, $statusCode)
     {
-        $flattened = FlattenException::create($exception);
+        $flattened  = FlattenException::create($exception);
         $flattened2 = FlattenException::create($exception);
 
         $flattened->setPrevious($flattened2);
 
-        $this->assertEquals($exception->getMessage(), $flattened->getMessage(), 'The message is copied from the original exception.');
-        $this->assertEquals($exception->getCode(), $flattened->getCode(), 'The code is copied from the original exception.');
-        $this->assertInstanceOf($flattened->getClass(), $exception, 'The class is set to the class of the original exception');
+        $this->assertEquals($exception->getMessage(), $flattened->getMessage(),
+            'The message is copied from the original exception.');
+        $this->assertEquals($exception->getCode(), $flattened->getCode(),
+            'The code is copied from the original exception.');
+        $this->assertInstanceOf($flattened->getClass(), $exception,
+            'The class is set to the class of the original exception');
     }
+
 
     /**
      * @dataProvider flattenDataProvider
      */
     public function testPrevious(\Exception $exception, $statusCode)
     {
-        $flattened = FlattenException::create($exception);
+        $flattened  = FlattenException::create($exception);
         $flattened2 = FlattenException::create($exception);
 
         $flattened->setPrevious($flattened2);
 
         $this->assertSame($flattened2, $flattened->getPrevious());
 
-        $this->assertSame(array($flattened2), $flattened->getAllPrevious());
+        $this->assertSame([ $flattened2 ], $flattened->getAllPrevious());
     }
+
 
     /**
      * @requires PHP 7.0
@@ -140,10 +148,13 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
 
         $flattened = FlattenException::create($exception)->getPrevious();
 
-        $this->assertEquals($flattened->getMessage(), 'Parse error: Oh noes!', 'The message is copied from the original exception.');
+        $this->assertEquals($flattened->getMessage(), 'Parse error: Oh noes!',
+            'The message is copied from the original exception.');
         $this->assertEquals($flattened->getCode(), 42, 'The code is copied from the original exception.');
-        $this->assertEquals($flattened->getClass(), 'Symfony\Component\Debug\Exception\FatalThrowableError', 'The class is set to the class of the original exception');
+        $this->assertEquals($flattened->getClass(), 'Symfony\Component\Debug\Exception\FatalThrowableError',
+            'The class is set to the class of the original exception');
     }
+
 
     /**
      * @dataProvider flattenDataProvider
@@ -154,6 +165,7 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($exception->getLine(), $flattened->getLine());
     }
 
+
     /**
      * @dataProvider flattenDataProvider
      */
@@ -163,46 +175,58 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($exception->getFile(), $flattened->getFile());
     }
 
+
     /**
      * @dataProvider flattenDataProvider
      */
     public function testToArray(\Exception $exception, $statusCode)
     {
         $flattened = FlattenException::create($exception);
-        $flattened->setTrace(array(), 'foo.php', 123);
+        $flattened->setTrace([ ], 'foo.php', 123);
 
-        $this->assertEquals(array(
-            array(
+        $this->assertEquals([
+            [
                 'message' => 'test',
-                'class' => 'Exception',
-                'trace' => array(array(
-                    'namespace' => '', 'short_class' => '', 'class' => '', 'type' => '', 'function' => '', 'file' => 'foo.php', 'line' => 123,
-                    'args' => array(),
-                )),
-            ),
-        ), $flattened->toArray());
+                'class'   => 'Exception',
+                'trace'   => [
+                    [
+                        'namespace'   => '',
+                        'short_class' => '',
+                        'class'       => '',
+                        'type'        => '',
+                        'function'    => '',
+                        'file'        => 'foo.php',
+                        'line'        => 123,
+                        'args'        => [ ],
+                    ]
+                ],
+            ],
+        ], $flattened->toArray());
     }
+
 
     public function flattenDataProvider()
     {
-        return array(
-            array(new \Exception('test', 123), 500),
-        );
+        return [
+            [ new \Exception('test', 123), 500 ],
+        ];
     }
+
 
     public function testRecursionInArguments()
     {
-        $a = array('foo', array(2, &$a));
+        $a         = [ 'foo', [ 2, &$a ] ];
         $exception = $this->createException($a);
 
         $flattened = FlattenException::create($exception);
-        $trace = $flattened->getTrace();
+        $trace     = $flattened->getTrace();
         $this->assertContains('*DEEP NESTED ARRAY*', serialize($trace));
     }
 
+
     public function testTooBigArray()
     {
-        $a = array();
+        $a = [ ];
         for ($i = 0; $i < 20; ++$i) {
             for ($j = 0; $j < 50; ++$j) {
                 for ($k = 0; $k < 10; ++$k) {
@@ -210,61 +234,71 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
                 }
             }
         }
-        $a[20] = 'value';
-        $a[21] = 'value1';
+        $a[20]     = 'value';
+        $a[21]     = 'value1';
         $exception = $this->createException($a);
 
-        $flattened = FlattenException::create($exception);
-        $trace = $flattened->getTrace();
+        $flattened      = FlattenException::create($exception);
+        $trace          = $flattened->getTrace();
         $serializeTrace = serialize($trace);
 
         $this->assertContains('*SKIPPED over 10000 entries*', $serializeTrace);
         $this->assertNotContains('*value1*', $serializeTrace);
     }
 
+
     private function createException($foo)
     {
         return new \Exception();
     }
 
+
     public function testSetTraceIncompleteClass()
     {
         $flattened = FlattenException::create(new \Exception('test', 123));
-        $flattened->setTrace(
-            array(
-                array(
-                    'file' => __FILE__,
-                    'line' => 123,
-                    'function' => 'test',
-                    'args' => array(
-                        unserialize('O:14:"BogusTestClass":0:{}'),
-                    ),
-                ),
-            ),
-            'foo.php', 123
-        );
+        $flattened->setTrace([
+            [
+                'file'     => __FILE__,
+                'line'     => 123,
+                'function' => 'test',
+                'args'     => [
+                    unserialize('O:14:"BogusTestClass":0:{}'),
+                ],
+            ],
+        ], 'foo.php', 123);
 
-        $this->assertEquals(array(
-            array(
+        $this->assertEquals([
+            [
                 'message' => 'test',
-                'class' => 'Exception',
-                'trace' => array(
-                    array(
-                        'namespace' => '', 'short_class' => '', 'class' => '', 'type' => '', 'function' => '',
-                        'file' => 'foo.php', 'line' => 123,
-                        'args' => array(),
-                    ),
-                    array(
-                        'namespace' => '', 'short_class' => '', 'class' => '', 'type' => '', 'function' => 'test',
-                        'file' => __FILE__, 'line' => 123,
-                        'args' => array(
-                            array(
-                                'incomplete-object', 'BogusTestClass',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        ), $flattened->toArray());
+                'class'   => 'Exception',
+                'trace'   => [
+                    [
+                        'namespace'   => '',
+                        'short_class' => '',
+                        'class'       => '',
+                        'type'        => '',
+                        'function'    => '',
+                        'file'        => 'foo.php',
+                        'line'        => 123,
+                        'args'        => [ ],
+                    ],
+                    [
+                        'namespace'   => '',
+                        'short_class' => '',
+                        'class'       => '',
+                        'type'        => '',
+                        'function'    => 'test',
+                        'file'        => __FILE__,
+                        'line'        => 123,
+                        'args'        => [
+                            [
+                                'incomplete-object',
+                                'BogusTestClass',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ], $flattened->toArray());
     }
 }

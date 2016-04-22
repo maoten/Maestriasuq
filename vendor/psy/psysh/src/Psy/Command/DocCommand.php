@@ -22,20 +22,16 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DocCommand extends ReflectingCommand
 {
+
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $this
-            ->setName('doc')
-            ->setAliases(array('rtfm', 'man'))
-            ->setDefinition(array(
-                new InputArgument('value', InputArgument::REQUIRED, 'Function, class, instance, constant, method or property to document.'),
-            ))
-            ->setDescription('Read the documentation for an object, class, constant, method or property.')
-            ->setHelp(
-                <<<HELP
+        $this->setName('doc')->setAliases([ 'rtfm', 'man' ])->setDefinition([
+                new InputArgument('value', InputArgument::REQUIRED,
+                    'Function, class, instance, constant, method or property to document.'),
+            ])->setDescription('Read the documentation for an object, class, constant, method or property.')->setHelp(<<<HELP
 Read the documentation for an object, class, constant, method or property.
 
 It's awesome for well-documented code, not quite as awesome for poorly documented code.
@@ -50,19 +46,20 @@ HELP
             );
     }
 
+
     /**
      * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        list($value, $reflector) = $this->getTargetAndReflector($input->getArgument('value'));
+        list( $value, $reflector ) = $this->getTargetAndReflector($input->getArgument('value'));
 
         $doc = $this->getManualDoc($reflector) ?: DocblockFormatter::format($reflector);
         $db  = $this->getApplication()->getManualDb();
 
         $output->page(function ($output) use ($reflector, $doc, $db) {
             $output->writeln(SignatureFormatter::format($reflector));
-            if (empty($doc) && !$db) {
+            if (empty( $doc ) && ! $db) {
                 $output->writeln('');
                 $output->writeln('<warning>PHP manual not found</warning>');
                 $output->writeln('    To document core PHP functionality, download the PHP reference manual:');
@@ -73,6 +70,7 @@ HELP
             }
         });
     }
+
 
     private function getManualDoc($reflector)
     {
@@ -90,9 +88,7 @@ HELP
         }
 
         if ($db = $this->getApplication()->getManualDb()) {
-            return $db
-                ->query(sprintf('SELECT doc FROM php_manual WHERE id = %s', $db->quote($id)))
-                ->fetchColumn(0);
+            return $db->query(sprintf('SELECT doc FROM php_manual WHERE id = %s', $db->quote($id)))->fetchColumn(0);
         }
     }
 }

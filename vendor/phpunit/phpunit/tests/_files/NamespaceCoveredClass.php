@@ -3,14 +3,17 @@ namespace Foo;
 
 class CoveredParentClass
 {
+
     private function privateMethod()
     {
     }
+
 
     protected function protectedMethod()
     {
         $this->privateMethod();
     }
+
 
     public function publicMethod()
     {
@@ -20,15 +23,18 @@ class CoveredParentClass
 
 class CoveredClass extends CoveredParentClass
 {
+
     private function privateMethod()
     {
     }
+
 
     protected function protectedMethod()
     {
         parent::protectedMethod();
         $this->privateMethod();
     }
+
 
     public function publicMethod()
     {

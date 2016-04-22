@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string notificacion
+ */
 class Notificacion extends Model
 {
 
@@ -20,82 +23,139 @@ class Notificacion extends Model
      * @var array
      */
     protected $fillable = [
-    'notificacion', 'user_id','created_at'
+        'notificacion',
+        'user_id',
+        'created_at'
     ];
-    
-    public function usuario(){
-      return $this->hasOne('App\User','foreign_key');
-    }
-    
-    public function notificarComentario($propuesta){
-      // se le notifica al estudiante que la propuesta tiene un nuevo comentario
 
-      $estudiante= User::find($propuesta->user_id);
 
-      $not= new Notificacion();
-      $not->user_id=$estudiante->id;
-      $not->notificacion="Hola ".$estudiante->nombre." te queremos informar que la propuesta ".$propuesta->titulo." tiene un nuevo comentario. Para ver los jurados de tu propuesta y los comentatios que realicen, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
-      $not->save();
-      return true;
+    public function usuario()
+    {
+        return $this->hasOne('App\User', 'foreign_key');
     }
 
-    public function notificarAsignacionPropuesta($propuesta,$jurados){
-      // se le notifica a los jurados que se les asigno una propuesta
-      for ($i=0; $i < count($jurados) ; $i++) { 
-      $jurad= User::find($jurados[$i]);
 
-      $not= new Notificacion();
-      $not->user_id=$jurad->id;
-      $not->notificacion="Hola ".$jurad->nombre." te queremos informar que se te fue asignada la propuesta ".$propuesta->titulo.". Para ver la propuesta y realizar comentarios, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
-      $not->save();
-      return true;
+    /**
+     * Notifica al estudiante que un jurado comento su propuesta
+     *
+     * @param $propuesta
+     *
+     * @return bool
+     */
+    public function notificarComentario($propuesta)
+    {
+        // se le notifica al estudiante que la propuesta tiene un nuevo comentario
+
+        $estudiante = User::find($propuesta->user_id);
+
+        $notification          = new Notificacion();
+        $notification->user_id = $estudiante->id;
+        $notification->notificacion = "Hola " . $estudiante->nombre . " te queremos informar que la propuesta " . $propuesta->titulo . " tiene un nuevo comentario. Para ver los jurados de tu propuesta y los comentatios que realicen, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
+        $notification->save();
+
+        return true;
     }
-  }
-
-  public function notificarAsignacionJurados($propuesta){
-
-      // se le notifica al estudiante que la propuesta ya cuenta con jurados
-
-   $estudiante= User::find($propuesta->user_id);
-
-   $not= new Notificacion();
-   $not->user_id=$estudiante->id;
-   $not->notificacion="Hola ".$estudiante->nombre." te queremos informar que ya fueron asignados los jurados que se encargarán de evaluar tu propuesta ".$propuesta->titulo.". Para ver los jurados de tu propuesta y los comentatios que realicen, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
-   $not->save();
-   return true;
 
 
- }
+    /**
+     * Notifica a los jurados que una propuesta les fue asignada
+     *
+     * @param $propuesta
+     * @param $jurados
+     *
+     * @return bool
+     */
+    public function notificarAsignacionPropuesta($propuesta, $jurados)
+    {
+        // se le notifica a los jurados que se les asigno una propuesta
+        for ($i = 0; $i < count($jurados); $i++) {
+            $jurado = User::find($jurados[$i]);
 
- public function notificarRegistroPropuesta($propuesta){
+            $notificacion          = new Notificacion();
+            $notificacion->user_id = $jurado->id;
+            $notificacion->notificacion = "Hola " . $jurado->nombre . " te queremos informar que se te fue asignada la propuesta " . $propuesta->titulo . ". Para ver la propuesta y realizar comentarios, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
+            $notificacion->save();
 
-      // se le notifica al director de grado que la propuesta ya fue enviada
+            return true;
+        }
 
-   $director= User::find($propuesta->dir_id);
+        return false;
+    }
 
-   $not1= new Notificacion();
-   $not1->user_id=$director->id;
-   $not1->notificacion="Hola ".$director->nombre." te queremos informar que la propuesta ".$propuesta->titulo." en la cual apareces como director de grado ya fue enviada al coordinador del énfasis correspondiente. Puedes encontrar las propuestas en las cuales eres director de grado en la opción 'Propuestas' del menú principal.";
-   $not1->save();
 
-     // se le notifica al coordinador de enfasis que una propuesta de sus enfasis fue enviada
-   $coordinador= Coordinador::where('enf_id',$propuesta->enf_id)->first();
-   $consejo=User::find($coordinador->user_id);
-   $enfasis=Enfasis::find($propuesta->enf_id);
+    /**
+     * Notifica al estudiante que se asignaron los jurados que evaluaran su propuesta.
+     *
+     * @param $propuesta
+     *
+     * @return bool
+     */
+    public function notificarAsignacionJurados($propuesta)
+    {
 
-   $not2= new Notificacion();
-   $not2->user_id=$consejo->id;
-   $not2->notificacion="Hola ".$consejo->nombre." te queremos informar que la propuesta ".$propuesta->titulo." perteneciente al énfasis del cual eres coordinador ya se encuentra disponible para su revisión. Puedes encontrar las propuestas del énfasis en ".$enfasis->nombre ." en la opción 'Propuestas' del menú principal.";
-   $not2->save();
-   return true;
+        // se le notifica al estudiante que la propuesta ya cuenta con jurados
 
- }
+        $estudiante = User::find($propuesta->user_id);
 
- public function notificarRegistro($usuario){
-   $not= new Notificacion();
-   $not->user_id=$usuario->id;
-   $not->notificacion="Hola ".$usuario->nombre." te damos la bienvenida al Sistema de gestión de la Maestría en Ingeniería de la Universidad del Quindío. Si necesitas ayuda para empezar puedes dirigirte a la opción 'ayuda' en el menu despegable que aparecerá al hacer click en tu nombre en la barra superior.";
-   $not->save();
-   return true;
- }
+        $notificacion          = new Notificacion();
+        $notificacion->user_id = $estudiante->id;
+        $notificacion->notificacion = "Hola " . $estudiante->nombre . " te queremos informar que ya fueron asignados los jurados que se encargarán de evaluar tu propuesta " . $propuesta->titulo . ". Para ver los jurados de tu propuesta y los comentatios que realicen, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
+        $notificacion->save();
+
+        return true;
+
+    }
+
+
+    /**
+     * Notifica al director de grado de la propuesta y al director
+     * del énfasis que la propuesta fue enviada.
+     *
+     * @param $propuesta
+     *
+     * @return bool
+     */
+    public function notificarRegistroPropuesta($propuesta)
+    {
+
+        // se le notifica al director de grado que la propuesta ya fue enviada
+
+        $director = User::find($propuesta->dir_id);
+
+        $notificacion1          = new Notificacion();
+        $notificacion1->user_id = $director->id;
+        $notificacion1->notificacion = "Hola " . $director->nombre . " te queremos informar que la propuesta " . $propuesta->titulo . " en la cual apareces como director de grado ya fue enviada al coordinador del énfasis correspondiente. Puedes encontrar las propuestas en las cuales eres director de grado en la opción 'Propuestas' del menú principal.";
+        $notificacion1->save();
+
+        // se le notifica al coordinador de enfasis que una propuesta de sus enfasis fue enviada
+        $coordinador = Coordinador::where('enf_id', $propuesta->enf_id)->first();
+        $consejo     = User::find($coordinador->user_id);
+        $enfasis     = Enfasis::find($propuesta->enf_id);
+
+        $notificacion2          = new Notificacion();
+        $notificacion2->user_id = $consejo->id;
+        $notificacion2->notificacion = "Hola " . $consejo->nombre . " te queremos informar que la propuesta " . $propuesta->titulo . " perteneciente al énfasis del cual eres coordinador ya se encuentra disponible para su revisión. Puedes encontrar las propuestas del énfasis en " . $enfasis->nombre . " en la opción 'Propuestas' del menú principal.";
+        $notificacion2->save();
+
+        return true;
+
+    }
+
+
+    /**
+     * Notifica el registro en el sistema de gestión al usuario (Notificación de bienvenida).
+     *
+     * @param $usuario
+     *
+     * @return bool
+     */
+    public function notificarRegistro($usuario)
+    {
+        $notificacion = new Notificacion();
+        $notificacion->user_id = $usuario->id;
+        $notificacion->notificacion = "Hola " . $usuario->nombre . " te damos la bienvenida al Sistema de gestión de la Maestría en Ingeniería de la Universidad del Quindío. Si necesitas ayuda para empezar puedes dirigirte a la opción 'ayuda' en el menu despegable que aparecerá al hacer click en tu nombre en la barra superior.";
+        $notificacion->save();
+
+        return true;
+    }
 }

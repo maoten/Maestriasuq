@@ -27,12 +27,14 @@ class HasValue extends MatcherAbstract
      * Check if the actual value matches the expected.
      *
      * @param mixed $actual
+     *
      * @return bool
      */
     public function match(&$actual)
     {
         return in_array($this->_expected, $actual);
     }
+
 
     /**
      * Return a string representation of this Matcher
@@ -42,6 +44,7 @@ class HasValue extends MatcherAbstract
     public function __toString()
     {
         $return = '<HasValue[' . (string) $this->_expected . ']>';
+
         return $return;
     }
 }

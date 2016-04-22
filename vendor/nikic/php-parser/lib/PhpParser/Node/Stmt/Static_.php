@@ -6,8 +6,10 @@ use PhpParser\Node\Stmt;
 
 class Static_ extends Stmt
 {
+
     /** @var StaticVar[] Variable definitions */
     public $vars;
+
 
     /**
      * Constructs a static variables list node.
@@ -15,12 +17,15 @@ class Static_ extends Stmt
      * @param StaticVar[] $vars       Variable definitions
      * @param array       $attributes Additional attributes
      */
-    public function __construct(array $vars, array $attributes = array()) {
+    public function __construct(array $vars, array $attributes = [ ])
+    {
         parent::__construct($attributes);
         $this->vars = $vars;
     }
 
-    public function getSubNodeNames() {
-        return array('vars');
+
+    public function getSubNodeNames()
+    {
+        return [ 'vars' ];
     }
 }

@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeSessionHandle
  */
 class PhpBridgeSessionStorage extends NativeSessionStorage
 {
+
     /**
      * Constructor.
      *
@@ -32,6 +33,7 @@ class PhpBridgeSessionStorage extends NativeSessionStorage
         $this->setMetadataBag($metaBag);
         $this->setSaveHandler($handler);
     }
+
 
     /**
      * {@inheritdoc}
@@ -46,6 +48,7 @@ class PhpBridgeSessionStorage extends NativeSessionStorage
 
         return true;
     }
+
 
     /**
      * {@inheritdoc}

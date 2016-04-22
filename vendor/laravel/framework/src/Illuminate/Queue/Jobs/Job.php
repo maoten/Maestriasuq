@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 
 abstract class Job
 {
+
     /**
      * The job handler instance.
      *
@@ -42,12 +43,14 @@ abstract class Job
      */
     protected $released = false;
 
+
     /**
      * Fire the job.
      *
      * @return void
      */
     abstract public function fire();
+
 
     /**
      * Delete the job from the queue.
@@ -59,6 +62,7 @@ abstract class Job
         $this->deleted = true;
     }
 
+
     /**
      * Determine if the job has been deleted.
      *
@@ -69,16 +73,19 @@ abstract class Job
         return $this->deleted;
     }
 
+
     /**
      * Release the job back into the queue.
      *
-     * @param  int   $delay
+     * @param  int $delay
+     *
      * @return void
      */
     public function release($delay = 0)
     {
         $this->released = true;
     }
+
 
     /**
      * Determine if the job was released back into the queue.
@@ -90,6 +97,7 @@ abstract class Job
         return $this->released;
     }
 
+
     /**
      * Determine if the job has been deleted or released.
      *
@@ -100,12 +108,14 @@ abstract class Job
         return $this->isDeleted() || $this->isReleased();
     }
 
+
     /**
      * Get the number of times the job has been attempted.
      *
      * @return int
      */
     abstract public function attempts();
+
 
     /**
      * Get the raw body string for the job.
@@ -114,38 +124,44 @@ abstract class Job
      */
     abstract public function getRawBody();
 
+
     /**
      * Resolve and fire the job handler method.
      *
-     * @param  array  $payload
+     * @param  array $payload
+     *
      * @return void
      */
     protected function resolveAndFire(array $payload)
     {
-        list($class, $method) = $this->parseJob($payload['job']);
+        list( $class, $method ) = $this->parseJob($payload['job']);
 
         $this->instance = $this->resolve($class);
 
         $this->instance->{$method}($this, $this->resolveQueueableEntities($payload['data']));
     }
 
+
     /**
      * Parse the job declaration into class and method.
      *
-     * @param  string  $job
+     * @param  string $job
+     *
      * @return array
      */
     protected function parseJob($job)
     {
         $segments = explode('@', $job);
 
-        return count($segments) > 1 ? $segments : [$segments[0], 'fire'];
+        return count($segments) > 1 ? $segments : [ $segments[0], 'fire' ];
     }
+
 
     /**
      * Resolve the given job handler.
      *
-     * @param  string  $class
+     * @param  string $class
+     *
      * @return mixed
      */
     protected function resolve($class)
@@ -153,10 +169,12 @@ abstract class Job
         return $this->container->make($class);
     }
 
+
     /**
      * Resolve all of the queueable entities in the given payload.
      *
-     * @param  mixed  $data
+     * @param  mixed $data
+     *
      * @return mixed
      */
     protected function resolveQueueableEntities($data)
@@ -178,22 +196,25 @@ abstract class Job
         return $data;
     }
 
+
     /**
      * Resolve a single queueable entity from the resolver.
      *
-     * @param  mixed  $value
+     * @param  mixed $value
+     *
      * @return \Illuminate\Contracts\Queue\QueueableEntity
      */
     protected function resolveQueueableEntity($value)
     {
         if (is_string($value) && Str::startsWith($value, '::entity::')) {
-            list($marker, $type, $id) = explode('|', $value, 3);
+            list( $marker, $type, $id ) = explode('|', $value, 3);
 
             return $this->getEntityResolver()->resolve($type, $id);
         }
 
         return $value;
     }
+
 
     /**
      * Call the failed method on the job instance.
@@ -204,7 +225,7 @@ abstract class Job
     {
         $payload = json_decode($this->getRawBody(), true);
 
-        list($class, $method) = $this->parseJob($payload['job']);
+        list( $class, $method ) = $this->parseJob($payload['job']);
 
         $this->instance = $this->resolve($class);
 
@@ -212,6 +233,7 @@ abstract class Job
             $this->instance->failed($this->resolveQueueableEntities($payload['data']));
         }
     }
+
 
     /**
      * Get an entity resolver instance.
@@ -223,10 +245,12 @@ abstract class Job
         return $this->container->make('Illuminate\Contracts\Queue\EntityResolver');
     }
 
+
     /**
      * Calculate the number of seconds with the given delay.
      *
-     * @param  \DateTime|int  $delay
+     * @param  \DateTime|int $delay
+     *
      * @return int
      */
     protected function getSeconds($delay)
@@ -238,6 +262,7 @@ abstract class Job
         return (int) $delay;
     }
 
+
     /**
      * Get the current system time.
      *
@@ -248,6 +273,7 @@ abstract class Job
         return time();
     }
 
+
     /**
      * Get the name of the queued job class.
      *
@@ -257,6 +283,7 @@ abstract class Job
     {
         return json_decode($this->getRawBody(), true)['job'];
     }
+
 
     /**
      * Get the name of the queue the job belongs to.

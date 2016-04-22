@@ -18,6 +18,7 @@ namespace Symfony\Component\Translation\Loader;
  */
 class PhpFileLoader extends FileLoader
 {
+
     /**
      * {@inheritdoc}
      */

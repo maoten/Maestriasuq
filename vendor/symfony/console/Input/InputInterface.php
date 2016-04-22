@@ -18,12 +18,14 @@ namespace Symfony\Component\Console\Input;
  */
 interface InputInterface
 {
+
     /**
      * Returns the first argument from the raw parameters (not parsed).
      *
      * @return string The value of the first argument or null otherwise
      */
     public function getFirstArgument();
+
 
     /**
      * Returns true if the raw parameters (not parsed) contain a value.
@@ -37,6 +39,7 @@ interface InputInterface
      * @return bool true if the value is contained in the raw parameters
      */
     public function hasParameterOption($values, $onlyParams = false);
+
 
     /**
      * Returns the value of a raw option (not parsed).
@@ -52,12 +55,14 @@ interface InputInterface
      */
     public function getParameterOption($values, $default = false, $onlyParams = false);
 
+
     /**
      * Binds the current Input instance with the given arguments and options.
      *
      * @param InputDefinition $definition A InputDefinition instance
      */
     public function bind(InputDefinition $definition);
+
 
     /**
      * Validates if arguments given are correct.
@@ -68,12 +73,14 @@ interface InputInterface
      */
     public function validate();
 
+
     /**
      * Returns all the given arguments merged with the default values.
      *
      * @return array
      */
     public function getArguments();
+
 
     /**
      * Gets argument by name.
@@ -83,6 +90,7 @@ interface InputInterface
      * @return mixed
      */
     public function getArgument($name);
+
 
     /**
      * Sets an argument value by name.
@@ -94,6 +102,7 @@ interface InputInterface
      */
     public function setArgument($name, $value);
 
+
     /**
      * Returns true if an InputArgument object exists by name or position.
      *
@@ -103,12 +112,14 @@ interface InputInterface
      */
     public function hasArgument($name);
 
+
     /**
      * Returns all the given options merged with the default values.
      *
      * @return array
      */
     public function getOptions();
+
 
     /**
      * Gets an option by name.
@@ -118,6 +129,7 @@ interface InputInterface
      * @return mixed
      */
     public function getOption($name);
+
 
     /**
      * Sets an option value by name.
@@ -129,6 +141,7 @@ interface InputInterface
      */
     public function setOption($name, $value);
 
+
     /**
      * Returns true if an InputOption object exists by name.
      *
@@ -138,12 +151,14 @@ interface InputInterface
      */
     public function hasOption($name);
 
+
     /**
      * Is this input means interactive?
      *
      * @return bool
      */
     public function isInteractive();
+
 
     /**
      * Sets the input interactivity.

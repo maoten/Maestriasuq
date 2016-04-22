@@ -21,7 +21,9 @@ use Prophecy\Prophecy\MethodProphecy;
  */
 class ReturnPromise implements PromiseInterface
 {
-    private $returnValues = array();
+
+    private $returnValues = [ ];
+
 
     /**
      * Initializes promise.
@@ -32,6 +34,7 @@ class ReturnPromise implements PromiseInterface
     {
         $this->returnValues = $returnValues;
     }
+
 
     /**
      * Returns saved values one by one until last one, then continuously returns last value.
@@ -46,7 +49,7 @@ class ReturnPromise implements PromiseInterface
     {
         $value = array_shift($this->returnValues);
 
-        if (!count($this->returnValues)) {
+        if ( ! count($this->returnValues)) {
             $this->returnValues[] = $value;
         }
 

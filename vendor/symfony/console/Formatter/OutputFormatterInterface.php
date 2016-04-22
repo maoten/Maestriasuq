@@ -18,12 +18,14 @@ namespace Symfony\Component\Console\Formatter;
  */
 interface OutputFormatterInterface
 {
+
     /**
      * Sets the decorated flag.
      *
      * @param bool $decorated Whether to decorate the messages or not
      */
     public function setDecorated($decorated);
+
 
     /**
      * Gets the decorated flag.
@@ -32,6 +34,7 @@ interface OutputFormatterInterface
      */
     public function isDecorated();
 
+
     /**
      * Sets a new style.
      *
@@ -39,6 +42,7 @@ interface OutputFormatterInterface
      * @param OutputFormatterStyleInterface $style The style instance
      */
     public function setStyle($name, OutputFormatterStyleInterface $style);
+
 
     /**
      * Checks if output formatter has style with specified name.
@@ -49,6 +53,7 @@ interface OutputFormatterInterface
      */
     public function hasStyle($name);
 
+
     /**
      * Gets style options from style with specified name.
      *
@@ -57,6 +62,7 @@ interface OutputFormatterInterface
      * @return OutputFormatterStyleInterface
      */
     public function getStyle($name);
+
 
     /**
      * Formats a message according to the given styles.

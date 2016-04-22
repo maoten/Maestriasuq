@@ -22,13 +22,15 @@ function error_log()
 
 class ErrorLogHandlerTest extends TestCase
 {
+
     protected function setUp()
     {
-        $GLOBALS['error_log'] = array();
+        $GLOBALS['error_log'] = [ ];
     }
 
+
     /**
-     * @covers Monolog\Handler\ErrorLogHandler::__construct
+     * @covers                   Monolog\Handler\ErrorLogHandler::__construct
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage The given message type "42" is not supported
      */
@@ -37,12 +39,13 @@ class ErrorLogHandlerTest extends TestCase
         new ErrorLogHandler(42);
     }
 
+
     /**
      * @covers Monolog\Handler\ErrorLogHandler::write
      */
     public function testShouldLogMessagesUsingErrorLogFuncion()
     {
-        $type = ErrorLogHandler::OPERATING_SYSTEM;
+        $type    = ErrorLogHandler::OPERATING_SYSTEM;
         $handler = new ErrorLogHandler($type);
         $handler->setFormatter(new LineFormatter('%channel%.%level_name%: %message% %context% %extra%', null, true));
         $handler->handle($this->getRecord(Logger::ERROR, "Foo\nBar\r\n\r\nBaz"));

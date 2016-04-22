@@ -15,6 +15,7 @@
  */
 class Swift_KeyCache_NullKeyCache implements Swift_KeyCache
 {
+
     /**
      * Set a string into the cache under $itemKey for the namespace $nsKey.
      *
@@ -29,6 +30,7 @@ class Swift_KeyCache_NullKeyCache implements Swift_KeyCache
     {
     }
 
+
     /**
      * Set a ByteStream into the cache under $itemKey for the namespace $nsKey.
      *
@@ -42,6 +44,7 @@ class Swift_KeyCache_NullKeyCache implements Swift_KeyCache
     public function importFromByteStream($nsKey, $itemKey, Swift_OutputByteStream $os, $mode)
     {
     }
+
 
     /**
      * Provides a ByteStream which when written to, writes data to $itemKey.
@@ -58,6 +61,7 @@ class Swift_KeyCache_NullKeyCache implements Swift_KeyCache
     {
     }
 
+
     /**
      * Get data back out of the cache as a string.
      *
@@ -70,16 +74,18 @@ class Swift_KeyCache_NullKeyCache implements Swift_KeyCache
     {
     }
 
+
     /**
      * Get data back out of the cache as a ByteStream.
      *
      * @param string                $nsKey
      * @param string                $itemKey
-     * @param Swift_InputByteStream $is      to write the data to
+     * @param Swift_InputByteStream $is to write the data to
      */
     public function exportToByteStream($nsKey, $itemKey, Swift_InputByteStream $is)
     {
     }
+
 
     /**
      * Check if the given $itemKey exists in the namespace $nsKey.
@@ -94,6 +100,7 @@ class Swift_KeyCache_NullKeyCache implements Swift_KeyCache
         return false;
     }
 
+
     /**
      * Clear data for $itemKey in the namespace $nsKey if it exists.
      *
@@ -103,6 +110,7 @@ class Swift_KeyCache_NullKeyCache implements Swift_KeyCache
     public function clearKey($nsKey, $itemKey)
     {
     }
+
 
     /**
      * Clear all data in the namespace $nsKey if it exists.

@@ -24,12 +24,14 @@ use Psy\ContextAware;
  */
 abstract class AbstractContextAwareMatcher extends AbstractMatcher implements ContextAware
 {
+
     /**
      * Context instance (for ContextAware interface).
      *
      * @var Context
      */
     protected $context;
+
 
     /**
      * ContextAware interface.
@@ -40,6 +42,7 @@ abstract class AbstractContextAwareMatcher extends AbstractMatcher implements Co
     {
         $this->context = $context;
     }
+
 
     /**
      * Get a Context variable by name.
@@ -52,6 +55,7 @@ abstract class AbstractContextAwareMatcher extends AbstractMatcher implements Co
     {
         return $this->context->get($var);
     }
+
 
     /**
      * Get all variables in the current Context.

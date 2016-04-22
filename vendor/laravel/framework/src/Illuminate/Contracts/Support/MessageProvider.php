@@ -4,6 +4,7 @@ namespace Illuminate\Contracts\Support;
 
 interface MessageProvider
 {
+
     /**
      * Get the messages for the instance.
      *

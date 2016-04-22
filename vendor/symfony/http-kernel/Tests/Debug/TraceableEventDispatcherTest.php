@@ -20,65 +20,69 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 class TraceableEventDispatcherTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testStopwatchSections()
     {
         $dispatcher = new TraceableEventDispatcher(new EventDispatcher(), $stopwatch = new Stopwatch());
-        $kernel = $this->getHttpKernel($dispatcher, function () { return new Response(); });
-        $request = Request::create('/');
-        $response = $kernel->handle($request);
+        $kernel     = $this->getHttpKernel($dispatcher, function () {
+            return new Response();
+        });
+        $request    = Request::create('/');
+        $response   = $kernel->handle($request);
         $kernel->terminate($request, $response);
 
         $events = $stopwatch->getSectionEvents($response->headers->get('X-Debug-Token'));
-        $this->assertEquals(array(
+        $this->assertEquals([
             '__section__',
             'kernel.request',
             'kernel.controller',
             'controller',
             'kernel.response',
             'kernel.terminate',
-        ), array_keys($events));
+        ], array_keys($events));
     }
+
 
     public function testStopwatchCheckControllerOnRequestEvent()
     {
-        $stopwatch = $this->getMockBuilder('Symfony\Component\Stopwatch\Stopwatch')
-            ->setMethods(array('isStarted'))
-            ->getMock();
-        $stopwatch->expects($this->once())
-            ->method('isStarted')
-            ->will($this->returnValue(false));
+        $stopwatch = $this->getMockBuilder('Symfony\Component\Stopwatch\Stopwatch')->setMethods([ 'isStarted' ])->getMock();
+        $stopwatch->expects($this->once())->method('isStarted')->will($this->returnValue(false));
 
         $dispatcher = new TraceableEventDispatcher(new EventDispatcher(), $stopwatch);
 
-        $kernel = $this->getHttpKernel($dispatcher, function () { return new Response(); });
+        $kernel  = $this->getHttpKernel($dispatcher, function () {
+            return new Response();
+        });
         $request = Request::create('/');
         $kernel->handle($request);
     }
+
 
     public function testStopwatchStopControllerOnRequestEvent()
     {
-        $stopwatch = $this->getMockBuilder('Symfony\Component\Stopwatch\Stopwatch')
-            ->setMethods(array('isStarted', 'stop', 'stopSection'))
-            ->getMock();
-        $stopwatch->expects($this->once())
-            ->method('isStarted')
-            ->will($this->returnValue(true));
-        $stopwatch->expects($this->once())
-            ->method('stop');
-        $stopwatch->expects($this->once())
-            ->method('stopSection');
+        $stopwatch = $this->getMockBuilder('Symfony\Component\Stopwatch\Stopwatch')->setMethods([
+                'isStarted',
+                'stop',
+                'stopSection'
+            ])->getMock();
+        $stopwatch->expects($this->once())->method('isStarted')->will($this->returnValue(true));
+        $stopwatch->expects($this->once())->method('stop');
+        $stopwatch->expects($this->once())->method('stopSection');
 
         $dispatcher = new TraceableEventDispatcher(new EventDispatcher(), $stopwatch);
 
-        $kernel = $this->getHttpKernel($dispatcher, function () { return new Response(); });
+        $kernel  = $this->getHttpKernel($dispatcher, function () {
+            return new Response();
+        });
         $request = Request::create('/');
         $kernel->handle($request);
     }
 
+
     public function testAddListenerNested()
     {
-        $called1 = false;
-        $called2 = false;
+        $called1    = false;
+        $called2    = false;
         $dispatcher = new TraceableEventDispatcher(new EventDispatcher(), new Stopwatch());
         $dispatcher->addListener('my-event', function () use ($dispatcher, &$called1, &$called2) {
             $called1 = true;
@@ -93,24 +97,27 @@ class TraceableEventDispatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($called2);
     }
 
+
     public function testListenerCanRemoveItselfWhenExecuted()
     {
         $eventDispatcher = new TraceableEventDispatcher(new EventDispatcher(), new Stopwatch());
-        $listener1 = function () use ($eventDispatcher, &$listener1) {
+        $listener1       = function () use ($eventDispatcher, &$listener1) {
             $eventDispatcher->removeListener('foo', $listener1);
         };
         $eventDispatcher->addListener('foo', $listener1);
-        $eventDispatcher->addListener('foo', function () {});
+        $eventDispatcher->addListener('foo', function () {
+        });
         $eventDispatcher->dispatch('foo');
 
         $this->assertCount(1, $eventDispatcher->getListeners('foo'), 'expected listener1 to be removed');
     }
 
+
     protected function getHttpKernel($dispatcher, $controller)
     {
         $resolver = $this->getMock('Symfony\Component\HttpKernel\Controller\ControllerResolverInterface');
         $resolver->expects($this->once())->method('getController')->will($this->returnValue($controller));
-        $resolver->expects($this->once())->method('getArguments')->will($this->returnValue(array()));
+        $resolver->expects($this->once())->method('getArguments')->will($this->returnValue([ ]));
 
         return new HttpKernel($dispatcher, $resolver);
     }

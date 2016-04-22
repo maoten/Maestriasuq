@@ -39,17 +39,23 @@ use Psy\Exception\ParseErrorException;
  */
 class CodeCleaner
 {
+
     private $parser;
+
     private $printer;
+
     private $traverser;
+
     private $namespace;
+
 
     /**
      * CodeCleaner constructor.
      *
      * @param Parser        $parser    A PhpParser Parser instance. One will be created if not explicitly supplied.
      * @param Printer       $printer   A PhpParser Printer instance. One will be created if not explicitly supplied.
-     * @param NodeTraverser $traverser A PhpParser NodeTraverser instance. One will be created if not explicitly supplied.
+     * @param NodeTraverser $traverser A PhpParser NodeTraverser instance. One will be created if not explicitly
+     *                                 supplied.
      */
     public function __construct(Parser $parser = null, Printer $printer = null, NodeTraverser $traverser = null)
     {
@@ -59,13 +65,14 @@ class CodeCleaner
         }
 
         $this->parser    = $parser;
-        $this->printer   = $printer   ?: new Printer();
+        $this->printer   = $printer ?: new Printer();
         $this->traverser = $traverser ?: new NodeTraverser();
 
         foreach ($this->getDefaultPasses() as $pass) {
             $this->traverser->addVisitor($pass);
         }
     }
+
 
     /**
      * Get default CodeCleaner passes.
@@ -74,7 +81,7 @@ class CodeCleaner
      */
     private function getDefaultPasses()
     {
-        return array(
+        return [
             new AbstractClassPass(),
             new AssignThisVariablePass(),
             new FunctionReturnInWriteContextPass(),
@@ -92,8 +99,9 @@ class CodeCleaner
             new ValidConstantPass(),
             new MagicConstantsPass(),
             new ExitPass(),
-        );
+        ];
     }
+
 
     /**
      * Clean the given array of code.
@@ -118,6 +126,7 @@ class CodeCleaner
         return $this->printer->prettyPrint($stmts);
     }
 
+
     /**
      * Set the current local namespace.
      *
@@ -130,6 +139,7 @@ class CodeCleaner
         $this->namespace = $namespace;
     }
 
+
     /**
      * Get the current local namespace.
      *
@@ -139,6 +149,7 @@ class CodeCleaner
     {
         return $this->namespace;
     }
+
 
     /**
      * Lex and parse a block of code.
@@ -159,7 +170,7 @@ class CodeCleaner
                 return false;
             }
 
-            if (!$this->parseErrorIsEOF($e)) {
+            if ( ! $this->parseErrorIsEOF($e)) {
                 throw ParseErrorException::fromParseError($e);
             }
 
@@ -176,12 +187,14 @@ class CodeCleaner
         }
     }
 
+
     private function parseErrorIsEOF(\PhpParser\Error $e)
     {
         $msg = $e->getRawMessage();
 
-        return ($msg === 'Unexpected token EOF') || (strpos($msg, 'Syntax error, unexpected EOF') !== false);
+        return ( $msg === 'Unexpected token EOF' ) || ( strpos($msg, 'Syntax error, unexpected EOF') !== false );
     }
+
 
     /**
      * A special test for unclosed single-quoted strings.

@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response as BaseResponse;
 
 class Response extends BaseResponse
 {
+
     use ResponseTrait;
 
     /**
@@ -27,10 +28,12 @@ class Response extends BaseResponse
      */
     public $exception;
 
+
     /**
      * Set the content on the response.
      *
-     * @param  mixed  $content
+     * @param  mixed $content
+     *
      * @return $this
      */
     public function setContent($content)
@@ -56,10 +59,12 @@ class Response extends BaseResponse
         return parent::setContent($content);
     }
 
+
     /**
      * Morph the given content into JSON.
      *
-     * @param  mixed   $content
+     * @param  mixed $content
+     *
      * @return string
      */
     protected function morphToJson($content)
@@ -71,19 +76,19 @@ class Response extends BaseResponse
         return json_encode($content);
     }
 
+
     /**
      * Determine if the given content should be turned into JSON.
      *
-     * @param  mixed  $content
+     * @param  mixed $content
+     *
      * @return bool
      */
     protected function shouldBeJson($content)
     {
-        return $content instanceof Jsonable ||
-               $content instanceof ArrayObject ||
-               $content instanceof JsonSerializable ||
-               is_array($content);
+        return $content instanceof Jsonable || $content instanceof ArrayObject || $content instanceof JsonSerializable || is_array($content);
     }
+
 
     /**
      * Get the original response content.
@@ -95,10 +100,12 @@ class Response extends BaseResponse
         return $this->original;
     }
 
+
     /**
      * Set the exception to attach to the response.
      *
-     * @param  \Exception  $e
+     * @param  \Exception $e
+     *
      * @return $this
      */
     public function withException(Exception $e)

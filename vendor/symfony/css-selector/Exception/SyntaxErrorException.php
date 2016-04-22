@@ -23,6 +23,7 @@ use Symfony\Component\CssSelector\Parser\Token;
  */
 class SyntaxErrorException extends ParseException
 {
+
     /**
      * @param string $expectedValue
      * @param Token  $foundToken
@@ -33,6 +34,7 @@ class SyntaxErrorException extends ParseException
     {
         return new self(sprintf('Expected %s, but %s found.', $expectedValue, $foundToken));
     }
+
 
     /**
      * @param string $pseudoElement
@@ -45,6 +47,7 @@ class SyntaxErrorException extends ParseException
         return new self(sprintf('Unexpected pseudo-element "::%s" found %s.', $pseudoElement, $unexpectedLocation));
     }
 
+
     /**
      * @param int $position
      *
@@ -55,6 +58,7 @@ class SyntaxErrorException extends ParseException
         return new self(sprintf('Unclosed/invalid string at %s.', $position));
     }
 
+
     /**
      * @return SyntaxErrorException
      */
@@ -62,6 +66,7 @@ class SyntaxErrorException extends ParseException
     {
         return new self('Got nested ::not().');
     }
+
 
     /**
      * @return SyntaxErrorException

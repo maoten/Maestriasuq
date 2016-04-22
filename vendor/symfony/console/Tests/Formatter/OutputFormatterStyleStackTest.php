@@ -16,6 +16,7 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 class OutputFormatterStyleStackTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testPush()
     {
         $stack = new OutputFormatterStyleStack();
@@ -29,6 +30,7 @@ class OutputFormatterStyleStackTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($s3, $stack->getCurrent());
     }
 
+
     public function testPop()
     {
         $stack = new OutputFormatterStyleStack();
@@ -39,6 +41,7 @@ class OutputFormatterStyleStackTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($s1, $stack->pop());
     }
 
+
     public function testPopEmpty()
     {
         $stack = new OutputFormatterStyleStack();
@@ -46,6 +49,7 @@ class OutputFormatterStyleStackTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($style, $stack->pop());
     }
+
 
     public function testPopNotLast()
     {
@@ -57,6 +61,7 @@ class OutputFormatterStyleStackTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($s2, $stack->pop($s2));
         $this->assertEquals($s1, $stack->pop());
     }
+
 
     /**
      * @expectedException \InvalidArgumentException

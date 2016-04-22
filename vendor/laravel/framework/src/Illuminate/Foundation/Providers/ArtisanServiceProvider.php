@@ -41,6 +41,7 @@ use Illuminate\Database\Console\Seeds\SeederMakeCommand;
 
 class ArtisanServiceProvider extends ServiceProvider
 {
+
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -55,19 +56,19 @@ class ArtisanServiceProvider extends ServiceProvider
      */
     protected $commands = [
         'ClearCompiled' => 'command.clear-compiled',
-        'ClearResets' => 'command.auth.resets.clear',
-        'ConfigCache' => 'command.config.cache',
-        'ConfigClear' => 'command.config.clear',
-        'Down' => 'command.down',
-        'Environment' => 'command.environment',
-        'KeyGenerate' => 'command.key.generate',
-        'Optimize' => 'command.optimize',
-        'RouteCache' => 'command.route.cache',
-        'RouteClear' => 'command.route.clear',
-        'RouteList' => 'command.route.list',
-        'Tinker' => 'command.tinker',
-        'Up' => 'command.up',
-        'ViewClear' => 'command.view.clear',
+        'ClearResets'   => 'command.auth.resets.clear',
+        'ConfigCache'   => 'command.config.cache',
+        'ConfigClear'   => 'command.config.clear',
+        'Down'          => 'command.down',
+        'Environment'   => 'command.environment',
+        'KeyGenerate'   => 'command.key.generate',
+        'Optimize'      => 'command.optimize',
+        'RouteCache'    => 'command.route.cache',
+        'RouteClear'    => 'command.route.clear',
+        'RouteList'     => 'command.route.list',
+        'Tinker'        => 'command.tinker',
+        'Up'            => 'command.up',
+        'ViewClear'     => 'command.view.clear',
     ];
 
     /**
@@ -76,28 +77,29 @@ class ArtisanServiceProvider extends ServiceProvider
      * @var array
      */
     protected $devCommands = [
-        'AppName' => 'command.app.name',
-        'AuthMake' => 'command.auth.make',
-        'CacheTable' => 'command.cache.table',
-        'ConsoleMake' => 'command.console.make',
-        'ControllerMake' => 'command.controller.make',
-        'EventGenerate' => 'command.event.generate',
-        'EventMake' => 'command.event.make',
-        'JobMake' => 'command.job.make',
-        'ListenerMake' => 'command.listener.make',
-        'MiddlewareMake' => 'command.middleware.make',
-        'ModelMake' => 'command.model.make',
-        'PolicyMake' => 'command.policy.make',
-        'ProviderMake' => 'command.provider.make',
+        'AppName'          => 'command.app.name',
+        'AuthMake'         => 'command.auth.make',
+        'CacheTable'       => 'command.cache.table',
+        'ConsoleMake'      => 'command.console.make',
+        'ControllerMake'   => 'command.controller.make',
+        'EventGenerate'    => 'command.event.generate',
+        'EventMake'        => 'command.event.make',
+        'JobMake'          => 'command.job.make',
+        'ListenerMake'     => 'command.listener.make',
+        'MiddlewareMake'   => 'command.middleware.make',
+        'ModelMake'        => 'command.model.make',
+        'PolicyMake'       => 'command.policy.make',
+        'ProviderMake'     => 'command.provider.make',
         'QueueFailedTable' => 'command.queue.failed-table',
-        'QueueTable' => 'command.queue.table',
-        'RequestMake' => 'command.request.make',
-        'SeederMake' => 'command.seeder.make',
-        'SessionTable' => 'command.session.table',
-        'Serve' => 'command.serve',
-        'TestMake' => 'command.test.make',
-        'VendorPublish' => 'command.vendor.publish',
+        'QueueTable'       => 'command.queue.table',
+        'RequestMake'      => 'command.request.make',
+        'SeederMake'       => 'command.seeder.make',
+        'SessionTable'     => 'command.session.table',
+        'Serve'            => 'command.serve',
+        'TestMake'         => 'command.test.make',
+        'VendorPublish'    => 'command.vendor.publish',
     ];
+
 
     /**
      * Register the service provider.
@@ -109,14 +111,16 @@ class ArtisanServiceProvider extends ServiceProvider
         $this->registerCommands($this->commands);
 
         //if (! $this->app->environment('production')) {
-            $this->registerCommands($this->devCommands);
+        $this->registerCommands($this->devCommands);
         //}
     }
+
 
     /**
      * Register the given commands.
      *
-     * @param  array  $commands
+     * @param  array $commands
+     *
      * @return void
      */
     protected function registerCommands(array $commands)
@@ -124,11 +128,12 @@ class ArtisanServiceProvider extends ServiceProvider
         foreach (array_keys($commands) as $command) {
             $method = "register{$command}Command";
 
-            call_user_func_array([$this, $method], []);
+            call_user_func_array([ $this, $method ], [ ]);
         }
 
         $this->commands(array_values($commands));
     }
+
 
     /**
      * Register the command.
@@ -142,6 +147,7 @@ class ArtisanServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the command.
      *
@@ -153,6 +159,7 @@ class ArtisanServiceProvider extends ServiceProvider
             return new MakeAuthCommand;
         });
     }
+
 
     /**
      * Register the command.
@@ -166,6 +173,7 @@ class ArtisanServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the command.
      *
@@ -177,6 +185,7 @@ class ArtisanServiceProvider extends ServiceProvider
             return new ClearCompiledCommand;
         });
     }
+
 
     /**
      * Register the command.
@@ -190,6 +199,7 @@ class ArtisanServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the command.
      *
@@ -201,6 +211,7 @@ class ArtisanServiceProvider extends ServiceProvider
             return new ConfigCacheCommand($app['files']);
         });
     }
+
 
     /**
      * Register the command.
@@ -214,6 +225,7 @@ class ArtisanServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the command.
      *
@@ -225,6 +237,7 @@ class ArtisanServiceProvider extends ServiceProvider
             return new ConsoleMakeCommand($app['files']);
         });
     }
+
 
     /**
      * Register the command.
@@ -238,6 +251,7 @@ class ArtisanServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the command.
      *
@@ -249,6 +263,7 @@ class ArtisanServiceProvider extends ServiceProvider
             return new EventGenerateCommand;
         });
     }
+
 
     /**
      * Register the command.
@@ -262,6 +277,7 @@ class ArtisanServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the command.
      *
@@ -273,6 +289,7 @@ class ArtisanServiceProvider extends ServiceProvider
             return new DownCommand;
         });
     }
+
 
     /**
      * Register the command.
@@ -286,6 +303,7 @@ class ArtisanServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the command.
      *
@@ -297,6 +315,7 @@ class ArtisanServiceProvider extends ServiceProvider
             return new JobMakeCommand($app['files']);
         });
     }
+
 
     /**
      * Register the command.
@@ -310,6 +329,7 @@ class ArtisanServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the command.
      *
@@ -321,6 +341,7 @@ class ArtisanServiceProvider extends ServiceProvider
             return new ListenerMakeCommand($app['files']);
         });
     }
+
 
     /**
      * Register the command.
@@ -334,6 +355,7 @@ class ArtisanServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the command.
      *
@@ -345,6 +367,7 @@ class ArtisanServiceProvider extends ServiceProvider
             return new ModelMakeCommand($app['files']);
         });
     }
+
 
     /**
      * Register the command.
@@ -358,6 +381,7 @@ class ArtisanServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the command.
      *
@@ -369,6 +393,7 @@ class ArtisanServiceProvider extends ServiceProvider
             return new ProviderMakeCommand($app['files']);
         });
     }
+
 
     /**
      * Register the command.
@@ -382,6 +407,7 @@ class ArtisanServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the command.
      *
@@ -393,6 +419,7 @@ class ArtisanServiceProvider extends ServiceProvider
             return new TableCommand($app['files'], $app['composer']);
         });
     }
+
 
     /**
      * Register the command.
@@ -406,6 +433,7 @@ class ArtisanServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the command.
      *
@@ -417,6 +445,7 @@ class ArtisanServiceProvider extends ServiceProvider
             return new SeederMakeCommand($app['files'], $app['composer']);
         });
     }
+
 
     /**
      * Register the command.
@@ -430,6 +459,7 @@ class ArtisanServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the command.
      *
@@ -441,6 +471,7 @@ class ArtisanServiceProvider extends ServiceProvider
             return new RouteCacheCommand($app['files']);
         });
     }
+
 
     /**
      * Register the command.
@@ -454,6 +485,7 @@ class ArtisanServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the command.
      *
@@ -465,6 +497,7 @@ class ArtisanServiceProvider extends ServiceProvider
             return new RouteListCommand($app['router']);
         });
     }
+
 
     /**
      * Register the command.
@@ -478,6 +511,7 @@ class ArtisanServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the command.
      *
@@ -489,6 +523,7 @@ class ArtisanServiceProvider extends ServiceProvider
             return new TestMakeCommand($app['files']);
         });
     }
+
 
     /**
      * Register the command.
@@ -502,6 +537,7 @@ class ArtisanServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the command.
      *
@@ -513,6 +549,7 @@ class ArtisanServiceProvider extends ServiceProvider
             return new UpCommand;
         });
     }
+
 
     /**
      * Register the command.
@@ -526,6 +563,7 @@ class ArtisanServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the command.
      *
@@ -538,6 +576,7 @@ class ArtisanServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the command.
      *
@@ -549,6 +588,7 @@ class ArtisanServiceProvider extends ServiceProvider
             return new PolicyMakeCommand($app['files']);
         });
     }
+
 
     /**
      * Get the services provided by the provider.

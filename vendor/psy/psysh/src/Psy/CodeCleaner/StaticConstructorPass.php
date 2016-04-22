@@ -29,18 +29,23 @@ use Psy\Exception\FatalErrorException;
  */
 class StaticConstructorPass extends CodeCleanerPass
 {
+
     private $isPHP533;
+
     private $namespace;
+
 
     public function __construct()
     {
         $this->isPHP533 = version_compare(PHP_VERSION, '5.3.3', '>=');
     }
 
+
     public function beforeTraverse(array $nodes)
     {
-        $this->namespace = array();
+        $this->namespace = [ ];
     }
+
 
     /**
      * Validate that the old-style constructor function is not static.
@@ -52,10 +57,10 @@ class StaticConstructorPass extends CodeCleanerPass
     public function enterNode(Node $node)
     {
         if ($node instanceof NamespaceStmt) {
-            $this->namespace = isset($node->name) ? $node->name->parts : array();
+            $this->namespace = isset( $node->name ) ? $node->name->parts : [ ];
         } elseif ($node instanceof ClassStmt) {
             // Bail early if this is PHP 5.3.3 and we have a namespaced class
-            if (!empty($this->namespace) && $this->isPHP533) {
+            if ( ! empty( $this->namespace ) && $this->isPHP533) {
                 return;
             }
 
@@ -76,11 +81,8 @@ class StaticConstructorPass extends CodeCleanerPass
             }
 
             if ($constructor && $constructor->isStatic()) {
-                throw new FatalErrorException(sprintf(
-                    'Constructor %s::%s() cannot be static',
-                    implode('\\', array_merge($this->namespace, (array) $node->name)),
-                    $constructor->name
-                ));
+                throw new FatalErrorException(sprintf('Constructor %s::%s() cannot be static',
+                    implode('\\', array_merge($this->namespace, (array) $node->name)), $constructor->name));
             }
         }
     }

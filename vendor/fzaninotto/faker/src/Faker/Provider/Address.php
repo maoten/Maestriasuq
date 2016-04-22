@@ -4,24 +4,33 @@ namespace Faker\Provider;
 
 class Address extends \Faker\Provider\Base
 {
-    protected static $citySuffix = array('Ville');
-    protected static $streetSuffix = array('Street');
-    protected static $cityFormats = array(
-        '{{firstName}}{{citySuffix}}',
-    );
-    protected static $streetNameFormats = array(
-        '{{lastName}} {{streetSuffix}}'
-    );
-    protected static $streetAddressFormats = array(
-        '{{buildingNumber}} {{streetName}}'
-    );
-    protected static $addressFormats = array(
-        '{{streetAddress}} {{postcode}} {{city}}',
-    );
 
-    protected static $buildingNumber = array('##');
-    protected static $postcode = array('#####');
-    protected static $country = array();
+    protected static $citySuffix = [ 'Ville' ];
+
+    protected static $streetSuffix = [ 'Street' ];
+
+    protected static $cityFormats = [
+        '{{firstName}}{{citySuffix}}',
+    ];
+
+    protected static $streetNameFormats = [
+        '{{lastName}} {{streetSuffix}}'
+    ];
+
+    protected static $streetAddressFormats = [
+        '{{buildingNumber}} {{streetName}}'
+    ];
+
+    protected static $addressFormats = [
+        '{{streetAddress}} {{postcode}} {{city}}',
+    ];
+
+    protected static $buildingNumber = [ '##' ];
+
+    protected static $postcode = [ '#####' ];
+
+    protected static $country = [ ];
+
 
     /**
      * @example 'town'
@@ -31,6 +40,7 @@ class Address extends \Faker\Provider\Base
         return static::randomElement(static::$citySuffix);
     }
 
+
     /**
      * @example 'Avenue'
      */
@@ -39,6 +49,7 @@ class Address extends \Faker\Provider\Base
         return static::randomElement(static::$streetSuffix);
     }
 
+
     /**
      * @example '791'
      */
@@ -46,6 +57,7 @@ class Address extends \Faker\Provider\Base
     {
         return static::numerify(static::randomElement(static::$buildingNumber));
     }
+
 
     /**
      * @example 'Sashabury'
@@ -57,6 +69,7 @@ class Address extends \Faker\Provider\Base
         return $this->generator->parse($format);
     }
 
+
     /**
      * @example 'Crist Parks'
      */
@@ -66,6 +79,7 @@ class Address extends \Faker\Provider\Base
 
         return $this->generator->parse($format);
     }
+
 
     /**
      * @example '791 Crist Parks'
@@ -77,6 +91,7 @@ class Address extends \Faker\Provider\Base
         return $this->generator->parse($format);
     }
 
+
     /**
      * @example 86039-9874
      */
@@ -84,6 +99,7 @@ class Address extends \Faker\Provider\Base
     {
         return static::toUpper(static::bothify(static::randomElement(static::$postcode)));
     }
+
 
     /**
      * @example '791 Crist Parks, Sashabury, IL 86039-9874'
@@ -95,6 +111,7 @@ class Address extends \Faker\Provider\Base
         return $this->generator->parse($format);
     }
 
+
     /**
      * @example 'Japan'
      */
@@ -102,6 +119,7 @@ class Address extends \Faker\Provider\Base
     {
         return static::randomElement(static::$country);
     }
+
 
     /**
      * @example 77.147489
@@ -111,6 +129,7 @@ class Address extends \Faker\Provider\Base
     {
         return static::randomFloat(6, 0, 180) - 90;
     }
+
 
     /**
      * @example 86.211205

@@ -22,6 +22,7 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class KernelEvent extends Event
 {
+
     /**
      * The kernel in which this event was thrown.
      *
@@ -44,12 +45,14 @@ class KernelEvent extends Event
      */
     private $requestType;
 
+
     public function __construct(HttpKernelInterface $kernel, Request $request, $requestType)
     {
-        $this->kernel = $kernel;
-        $this->request = $request;
+        $this->kernel      = $kernel;
+        $this->request     = $request;
         $this->requestType = $requestType;
     }
+
 
     /**
      * Returns the kernel in which this event was thrown.
@@ -61,6 +64,7 @@ class KernelEvent extends Event
         return $this->kernel;
     }
 
+
     /**
      * Returns the request the kernel is currently processing.
      *
@@ -70,6 +74,7 @@ class KernelEvent extends Event
     {
         return $this->request;
     }
+
 
     /**
      * Returns the request type the kernel is currently processing.
@@ -81,6 +86,7 @@ class KernelEvent extends Event
     {
         return $this->requestType;
     }
+
 
     /**
      * Checks if this is a master request.

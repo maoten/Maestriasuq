@@ -4,6 +4,7 @@ namespace PhpParser;
 
 interface Serializer
 {
+
     /**
      * Serializes statements into some string format.
      *

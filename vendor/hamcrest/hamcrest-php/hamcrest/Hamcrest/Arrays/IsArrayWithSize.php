@@ -18,19 +18,15 @@ class IsArrayWithSize extends FeatureMatcher
 
     public function __construct(Matcher $sizeMatcher)
     {
-        parent::__construct(
-            self::TYPE_ARRAY,
-            null,
-            $sizeMatcher,
-            'an array with size',
-            'array size'
-        );
+        parent::__construct(self::TYPE_ARRAY, null, $sizeMatcher, 'an array with size', 'array size');
     }
+
 
     protected function featureValueOf($array)
     {
         return count($array);
     }
+
 
     /**
      * Does array size satisfy a given matcher?
@@ -45,6 +41,7 @@ class IsArrayWithSize extends FeatureMatcher
         return new self(Util::wrapValueWithIsEqual($size));
     }
 
+
     /**
      * Matches an empty array.
      *
@@ -52,11 +49,9 @@ class IsArrayWithSize extends FeatureMatcher
      */
     public static function emptyArray()
     {
-        return DescribedAs::describedAs(
-            'an empty array',
-            self::arrayWithSize(0)
-        );
+        return DescribedAs::describedAs('an empty array', self::arrayWithSize(0));
     }
+
 
     /**
      * Matches an empty array.
@@ -65,9 +60,6 @@ class IsArrayWithSize extends FeatureMatcher
      */
     public static function nonEmptyArray()
     {
-        return DescribedAs::describedAs(
-            'a non-empty array',
-            self::arrayWithSize(IsNot::not(0))
-        );
+        return DescribedAs::describedAs('a non-empty array', self::arrayWithSize(IsNot::not(0)));
     }
 }

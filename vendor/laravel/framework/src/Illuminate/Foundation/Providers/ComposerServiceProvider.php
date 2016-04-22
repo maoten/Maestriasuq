@@ -7,12 +7,14 @@ use Illuminate\Support\ServiceProvider;
 
 class ComposerServiceProvider extends ServiceProvider
 {
+
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
     protected $defer = true;
+
 
     /**
      * Register the service provider.
@@ -26,6 +28,7 @@ class ComposerServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Get the services provided by the provider.
      *
@@ -33,6 +36,6 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['composer'];
+        return [ 'composer' ];
     }
 }

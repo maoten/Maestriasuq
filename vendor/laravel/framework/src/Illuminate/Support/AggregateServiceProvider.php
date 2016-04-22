@@ -4,19 +4,21 @@ namespace Illuminate\Support;
 
 class AggregateServiceProvider extends ServiceProvider
 {
+
     /**
      * The provider class names.
      *
      * @var array
      */
-    protected $providers = [];
+    protected $providers = [ ];
 
     /**
      * An array of the service provider instances.
      *
      * @var array
      */
-    protected $instances = [];
+    protected $instances = [ ];
+
 
     /**
      * Register the service provider.
@@ -25,12 +27,13 @@ class AggregateServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->instances = [];
+        $this->instances = [ ];
 
         foreach ($this->providers as $provider) {
             $this->instances[] = $this->app->register($provider);
         }
     }
+
 
     /**
      * Get the services provided by the provider.
@@ -39,7 +42,7 @@ class AggregateServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        $provides = [];
+        $provides = [ ];
 
         foreach ($this->providers as $provider) {
             $instance = $this->app->resolveProviderClass($provider);

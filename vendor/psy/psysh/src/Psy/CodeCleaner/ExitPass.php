@@ -21,6 +21,7 @@ use PhpParser\Node\Stmt\Throw_;
 
 class ExitPass extends CodeCleanerPass
 {
+
     /**
      * Converts exit calls to BreakExceptions.
      *
@@ -29,7 +30,7 @@ class ExitPass extends CodeCleanerPass
     public function leaveNode(Node $node)
     {
         if ($node instanceof Exit_) {
-            $args = array(new Arg(new String_('Goodbye.')));
+            $args = [ new Arg(new String_('Goodbye.')) ];
 
             return new Throw_(new New_(new Name('Psy\Exception\BreakException'), $args));
         }

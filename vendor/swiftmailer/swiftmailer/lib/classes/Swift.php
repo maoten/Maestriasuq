@@ -16,11 +16,14 @@
  */
 abstract class Swift
 {
+
     /** Swift Mailer Version number generated during dist release process */
     const VERSION = '@SWIFT_VERSION_NUMBER@';
 
     public static $initialized = false;
-    public static $inits = array();
+
+    public static $inits = [ ];
+
 
     /**
      * Registers an initializer callable that will be called the first time
@@ -35,6 +38,7 @@ abstract class Swift
         self::$inits[] = $callable;
     }
 
+
     /**
      * Internal autoloader for spl_autoload_register().
      *
@@ -47,21 +51,22 @@ abstract class Swift
             return;
         }
 
-        $path = dirname(__FILE__).'/'.str_replace('_', '/', $class).'.php';
+        $path = dirname(__FILE__) . '/' . str_replace('_', '/', $class) . '.php';
 
-        if (!file_exists($path)) {
+        if ( ! file_exists($path)) {
             return;
         }
 
         require $path;
 
-        if (self::$inits && !self::$initialized) {
+        if (self::$inits && ! self::$initialized) {
             self::$initialized = true;
             foreach (self::$inits as $init) {
                 call_user_func($init);
             }
         }
     }
+
 
     /**
      * Configure autoloading using Swift Mailer.
@@ -75,6 +80,6 @@ abstract class Swift
         if (null !== $callable) {
             self::$inits[] = $callable;
         }
-        spl_autoload_register(array('Swift', 'autoload'));
+        spl_autoload_register([ 'Swift', 'autoload' ]);
     }
 }

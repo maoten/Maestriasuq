@@ -10,6 +10,7 @@ class FlashNotifier
      */
     private $session;
 
+
     /**
      * Create a new flash notifier instance.
      *
@@ -19,6 +20,7 @@ class FlashNotifier
     {
         $this->session = $session;
     }
+
 
     /**
      * Flash an information message.
@@ -32,10 +34,12 @@ class FlashNotifier
         return $this;
     }
 
+
     /**
      * Flash a success message.
      *
      * @param  string $message
+     *
      * @return $this
      */
     public function success($message)
@@ -45,10 +49,12 @@ class FlashNotifier
         return $this;
     }
 
+
     /**
      * Flash an error message.
      *
      * @param  string $message
+     *
      * @return $this
      */
     public function error($message)
@@ -58,10 +64,12 @@ class FlashNotifier
         return $this;
     }
 
+
     /**
      * Flash a warning message.
      *
      * @param  string $message
+     *
      * @return $this
      */
     public function warning($message)
@@ -71,11 +79,13 @@ class FlashNotifier
         return $this;
     }
 
+
     /**
      * Flash an overlay modal.
      *
      * @param  string $message
      * @param  string $title
+     *
      * @return $this
      */
     public function overlay($message, $title = 'Notice')
@@ -88,11 +98,13 @@ class FlashNotifier
         return $this;
     }
 
+
     /**
      * Flash a general message.
      *
      * @param  string $message
      * @param  string $level
+     *
      * @return $this
      */
     public function message($message, $level = 'info')
@@ -102,6 +114,7 @@ class FlashNotifier
 
         return $this;
     }
+
 
     /**
      * Add an "important" flash to the session.

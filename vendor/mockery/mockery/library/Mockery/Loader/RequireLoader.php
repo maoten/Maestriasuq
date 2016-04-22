@@ -7,12 +7,15 @@ use Mockery\Loader\Loader;
 
 class RequireLoader implements Loader
 {
+
     protected $path;
+
 
     public function __construct($path)
     {
         $this->path = $path;
     }
+
 
     public function load(MockDefinition $definition)
     {

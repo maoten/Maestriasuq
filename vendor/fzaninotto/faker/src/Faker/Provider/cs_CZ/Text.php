@@ -4,6 +4,7 @@ namespace Faker\Provider\cs_CZ;
 
 class Text extends \Faker\Provider\Text
 {
+
     public function realText($maxNbChars = 200, $indexSize = 2)
     {
         $text = parent::realText($maxNbChars, $indexSize);
@@ -11,6 +12,7 @@ class Text extends \Faker\Provider\Text
 
         return str_replace('“', '', $text);
     }
+
 
     /**
      * License: PD old 70

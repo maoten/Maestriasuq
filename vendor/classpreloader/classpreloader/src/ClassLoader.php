@@ -21,12 +21,14 @@ namespace ClassPreloader;
  */
 class ClassLoader
 {
+
     /**
      * The list of loaded classes.
      *
      * @var \ClassPreloader\ClassList
      */
     public $classList;
+
 
     /**
      * Create a new class loader instance.
@@ -37,6 +39,7 @@ class ClassLoader
     {
         $this->classList = new ClassList();
     }
+
 
     /**
      * Destroy the class loader.
@@ -49,6 +52,7 @@ class ClassLoader
     {
         $this->unregister();
     }
+
 
     /**
      * Wrap a block of code in the autoloader and get a list of loaded classes.
@@ -71,6 +75,7 @@ class ClassLoader
         return $config;
     }
 
+
     /**
      * Registers this instance as an autoloader.
      *
@@ -78,8 +83,9 @@ class ClassLoader
      */
     public function register()
     {
-        spl_autoload_register([$this, 'loadClass'], true, true);
+        spl_autoload_register([ $this, 'loadClass' ], true, true);
     }
+
 
     /**
      * Unregisters this instance as an autoloader.
@@ -88,8 +94,9 @@ class ClassLoader
      */
     public function unregister()
     {
-        spl_autoload_unregister([$this, 'loadClass']);
+        spl_autoload_unregister([ $this, 'loadClass' ]);
     }
+
 
     /**
      * Loads the given class, interface or trait.
@@ -117,6 +124,7 @@ class ClassLoader
         return true;
     }
 
+
     /**
      * Get an array of loaded file names in order of loading.
      *
@@ -124,18 +132,18 @@ class ClassLoader
      */
     public function getFilenames()
     {
-        $files = [];
+        $files = [ ];
         foreach ($this->classList->getClasses() as $class) {
             // Push interfaces before classes if not already loaded
             try {
                 $r = new \ReflectionClass($class);
                 foreach ($r->getInterfaces() as $inf) {
                     $name = $inf->getFileName();
-                    if ($name && !in_array($name, $files)) {
+                    if ($name && ! in_array($name, $files)) {
                         $files[] = $name;
                     }
                 }
-                if (!in_array($r->getFileName(), $files)) {
+                if ( ! in_array($r->getFileName(), $files)) {
                     $files[] = $r->getFileName();
                 }
             } catch (\ReflectionException $e) {

@@ -25,7 +25,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ControllerResolver implements ControllerResolverInterface
 {
+
     private $logger;
+
 
     /**
      * Constructor.
@@ -37,6 +39,7 @@ class ControllerResolver implements ControllerResolverInterface
         $this->logger = $logger;
     }
 
+
     /**
      * {@inheritdoc}
      *
@@ -45,7 +48,7 @@ class ControllerResolver implements ControllerResolverInterface
      */
     public function getController(Request $request)
     {
-        if (!$controller = $request->attributes->get('_controller')) {
+        if ( ! $controller = $request->attributes->get('_controller')) {
             if (null !== $this->logger) {
                 $this->logger->warning('Unable to look for the controller as the "_controller" parameter is missing.');
             }
@@ -62,7 +65,8 @@ class ControllerResolver implements ControllerResolverInterface
                 return $controller;
             }
 
-            throw new \InvalidArgumentException(sprintf('Controller "%s" for URI "%s" is not callable.', get_class($controller), $request->getPathInfo()));
+            throw new \InvalidArgumentException(sprintf('Controller "%s" for URI "%s" is not callable.',
+                get_class($controller), $request->getPathInfo()));
         }
 
         if (false === strpos($controller, ':')) {
@@ -75,12 +79,14 @@ class ControllerResolver implements ControllerResolverInterface
 
         $callable = $this->createController($controller);
 
-        if (!is_callable($callable)) {
-            throw new \InvalidArgumentException(sprintf('The controller for URI "%s" is not callable. %s', $request->getPathInfo(), $this->getControllerError($callable)));
+        if ( ! is_callable($callable)) {
+            throw new \InvalidArgumentException(sprintf('The controller for URI "%s" is not callable. %s',
+                $request->getPathInfo(), $this->getControllerError($callable)));
         }
 
         return $callable;
     }
+
 
     /**
      * {@inheritdoc}
@@ -89,7 +95,7 @@ class ControllerResolver implements ControllerResolverInterface
     {
         if (is_array($controller)) {
             $r = new \ReflectionMethod($controller[0], $controller[1]);
-        } elseif (is_object($controller) && !$controller instanceof \Closure) {
+        } elseif (is_object($controller) && ! $controller instanceof \Closure) {
             $r = new \ReflectionObject($controller);
             $r = $r->getMethod('__invoke');
         } else {
@@ -99,10 +105,11 @@ class ControllerResolver implements ControllerResolverInterface
         return $this->doGetArguments($request, $controller, $r->getParameters());
     }
 
+
     protected function doGetArguments(Request $request, $controller, array $parameters)
     {
         $attributes = $request->attributes->all();
-        $arguments = array();
+        $arguments  = [ ];
         foreach ($parameters as $param) {
             if (array_key_exists($param->name, $attributes)) {
                 $arguments[] = $attributes[$param->name];
@@ -119,12 +126,14 @@ class ControllerResolver implements ControllerResolverInterface
                     $repr = $controller;
                 }
 
-                throw new \RuntimeException(sprintf('Controller "%s" requires that you provide a value for the "$%s" argument (because there is no default value or because there is a non optional argument after this one).', $repr, $param->name));
+                throw new \RuntimeException(sprintf('Controller "%s" requires that you provide a value for the "$%s" argument (because there is no default value or because there is a non optional argument after this one).',
+                    $repr, $param->name));
             }
         }
 
         return $arguments;
     }
+
 
     /**
      * Returns a callable for the given controller.
@@ -141,14 +150,15 @@ class ControllerResolver implements ControllerResolverInterface
             throw new \InvalidArgumentException(sprintf('Unable to find controller "%s".', $controller));
         }
 
-        list($class, $method) = explode('::', $controller, 2);
+        list( $class, $method ) = explode('::', $controller, 2);
 
-        if (!class_exists($class)) {
+        if ( ! class_exists($class)) {
             throw new \InvalidArgumentException(sprintf('Class "%s" does not exist.', $class));
         }
 
-        return array($this->instantiateController($class), $method);
+        return [ $this->instantiateController($class), $method ];
     }
+
 
     /**
      * Returns an instantiated controller.
@@ -162,6 +172,7 @@ class ControllerResolver implements ControllerResolverInterface
         return new $class();
     }
 
+
     private function getControllerError($callable)
     {
         if (is_string($callable)) {
@@ -169,26 +180,27 @@ class ControllerResolver implements ControllerResolverInterface
                 $callable = explode('::', $callable);
             }
 
-            if (class_exists($callable) && !method_exists($callable, '__invoke')) {
+            if (class_exists($callable) && ! method_exists($callable, '__invoke')) {
                 return sprintf('Class "%s" does not have a method "__invoke".', $callable);
             }
 
-            if (!function_exists($callable)) {
+            if ( ! function_exists($callable)) {
                 return sprintf('Function "%s" does not exist.', $callable);
             }
         }
 
-        if (!is_array($callable)) {
-            return sprintf('Invalid type for controller given, expected string or array, got "%s".', gettype($callable));
+        if ( ! is_array($callable)) {
+            return sprintf('Invalid type for controller given, expected string or array, got "%s".',
+                gettype($callable));
         }
 
         if (2 !== count($callable)) {
             return sprintf('Invalid format for controller, expected array(controller, method) or controller::method.');
         }
 
-        list($controller, $method) = $callable;
+        list( $controller, $method ) = $callable;
 
-        if (is_string($controller) && !class_exists($controller)) {
+        if (is_string($controller) && ! class_exists($controller)) {
             return sprintf('Class "%s" does not exist.', $controller);
         }
 
@@ -200,7 +212,7 @@ class ControllerResolver implements ControllerResolverInterface
 
         $collection = get_class_methods($controller);
 
-        $alternatives = array();
+        $alternatives = [ ];
 
         foreach ($collection as $item) {
             $lev = levenshtein($method, $item);

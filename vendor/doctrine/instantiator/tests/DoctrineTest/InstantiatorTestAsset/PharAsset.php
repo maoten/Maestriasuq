@@ -29,6 +29,7 @@ use Phar;
  */
 class PharAsset extends Phar
 {
+
     /**
      * Constructor - should not be called
      *

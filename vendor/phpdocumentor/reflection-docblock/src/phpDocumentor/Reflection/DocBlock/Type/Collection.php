@@ -24,6 +24,7 @@ use phpDocumentor\Reflection\DocBlock\Context;
  */
 class Collection extends \ArrayObject
 {
+
     /** @var string Definition of the OR operator for types */
     const OPERATOR_OR = '|';
 
@@ -34,11 +35,29 @@ class Collection extends \ArrayObject
     const OPERATOR_NAMESPACE = '\\';
 
     /** @var string[] List of recognized keywords */
-    protected static $keywords = array(
-        'string', 'int', 'integer', 'bool', 'boolean', 'float', 'double',
-        'object', 'mixed', 'array', 'resource', 'void', 'null', 'scalar',
-        'callback', 'callable', 'false', 'true', 'self', '$this', 'static'
-    );
+    protected static $keywords = [
+        'string',
+        'int',
+        'integer',
+        'bool',
+        'boolean',
+        'float',
+        'double',
+        'object',
+        'mixed',
+        'array',
+        'resource',
+        'void',
+        'null',
+        'scalar',
+        'callback',
+        'callable',
+        'false',
+        'true',
+        'self',
+        '$this',
+        'static'
+    ];
 
     /**
      * Current invoking location.
@@ -50,16 +69,17 @@ class Collection extends \ArrayObject
      */
     protected $context = null;
 
+
     /**
      * Registers the namespace and aliases; uses that to add and expand the
      * given types.
      *
      * @param string[] $types    Array containing a list of types to add to this
-     *     container.
+     *                           container.
      * @param Context  $location The current invoking location.
      */
     public function __construct(
-        array $types = array(),
+        array $types = [ ],
         Context $context = null
     ) {
         $this->context = null === $context ? new Context() : $context;
@@ -68,6 +88,7 @@ class Collection extends \ArrayObject
             $this->add($type);
         }
     }
+
 
     /**
      * Returns the current invoking location.
@@ -79,6 +100,7 @@ class Collection extends \ArrayObject
         return $this->context;
     }
 
+
     /**
      * Adds a new type to the collection and expands it if it contains a
      * relative namespace.
@@ -87,7 +109,7 @@ class Collection extends \ArrayObject
      * will try to expand that into a FQCN.
      *
      * @param string $type A 'Type' as defined in the phpDocumentor
-     *     documentation.
+     *                     documentation.
      *
      * @throws \InvalidArgumentException if a non-string argument is passed.
      *
@@ -98,11 +120,9 @@ class Collection extends \ArrayObject
      */
     public function add($type)
     {
-        if (!is_string($type)) {
-            throw new \InvalidArgumentException(
-                'A type should be represented by a string, received: '
-                .var_export($type, true)
-            );
+        if ( ! is_string($type)) {
+            throw new \InvalidArgumentException('A type should be represented by a string, received: ' . var_export($type,
+                    true));
         }
 
         // separate the type by the OR operator
@@ -114,10 +134,11 @@ class Collection extends \ArrayObject
             }
         }
     }
-    
+
+
     /**
      * Returns a string representation of the collection.
-     * 
+     *
      * @return string The resolved types across the collection, separated with
      *     {@link self::OPERATOR_OR}.
      */
@@ -125,6 +146,7 @@ class Collection extends \ArrayObject
     {
         return implode(self::OPERATOR_OR, $this->getArrayCopy());
     }
+
 
     /**
      * Analyzes the given type and returns the FQCN variant.
@@ -147,7 +169,7 @@ class Collection extends \ArrayObject
     protected function expand($type)
     {
         $type = trim($type);
-        if (!$type) {
+        if ( ! $type) {
             return '';
         }
 
@@ -155,32 +177,34 @@ class Collection extends \ArrayObject
             return $this->expand(substr($type, 0, -2)) . self::OPERATOR_ARRAY;
         }
 
-        if ($this->isRelativeType($type) && !$this->isTypeAKeyword($type)) {
+        if ($this->isRelativeType($type) && ! $this->isTypeAKeyword($type)) {
             $type_parts = explode(self::OPERATOR_NAMESPACE, $type, 2);
 
             $namespace_aliases = $this->context->getNamespaceAliases();
             // if the first segment is not an alias; prepend namespace name and
             // return
-            if (!isset($namespace_aliases[$type_parts[0]])) {
+            if ( ! isset( $namespace_aliases[$type_parts[0]] )) {
                 $namespace = $this->context->getNamespace();
                 if ('' !== $namespace) {
                     $namespace .= self::OPERATOR_NAMESPACE;
                 }
+
                 return self::OPERATOR_NAMESPACE . $namespace . $type;
             }
 
             $type_parts[0] = $namespace_aliases[$type_parts[0]];
-            $type = implode(self::OPERATOR_NAMESPACE, $type_parts);
+            $type          = implode(self::OPERATOR_NAMESPACE, $type_parts);
         }
 
         return $type;
     }
 
+
     /**
      * Detects whether the given type represents an array.
      *
      * @param string $type A relative or absolute type as defined in the
-     *     phpDocumentor documentation.
+     *                     phpDocumentor documentation.
      *
      * @return bool
      */
@@ -189,11 +213,12 @@ class Collection extends \ArrayObject
         return substr($type, -2) === self::OPERATOR_ARRAY;
     }
 
+
     /**
      * Detects whether the given type represents a PHPDoc keyword.
      *
      * @param string $type A relative or absolute type as defined in the
-     *     phpDocumentor documentation.
+     *                     phpDocumentor documentation.
      *
      * @return bool
      */
@@ -202,6 +227,7 @@ class Collection extends \ArrayObject
         return in_array(strtolower($type), static::$keywords, true);
     }
 
+
     /**
      * Detects whether the given type represents a relative or absolute path.
      *
@@ -209,13 +235,12 @@ class Collection extends \ArrayObject
      * not preceeded by a namespace separator.
      *
      * @param string $type A relative or absolute type as defined in the
-     *     phpDocumentor documentation.
+     *                     phpDocumentor documentation.
      *
      * @return bool
      */
     protected function isRelativeType($type)
     {
-        return ($type[0] !== self::OPERATOR_NAMESPACE)
-            || $this->isTypeAKeyword($type);
+        return ( $type[0] !== self::OPERATOR_NAMESPACE ) || $this->isTypeAKeyword($type);
     }
 }

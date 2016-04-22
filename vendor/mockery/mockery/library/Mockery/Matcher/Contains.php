@@ -27,6 +27,7 @@ class Contains extends MatcherAbstract
      * Check if the actual value matches the expected.
      *
      * @param mixed $actual
+     *
      * @return bool
      */
     public function match(&$actual)
@@ -44,8 +45,10 @@ class Contains extends MatcherAbstract
                 return false;
             }
         }
+
         return true;
     }
+
 
     /**
      * Return a string representation of this Matcher
@@ -54,12 +57,13 @@ class Contains extends MatcherAbstract
      */
     public function __toString()
     {
-        $return = '<Contains[';
-        $elements = array();
+        $return   = '<Contains[';
+        $elements = [ ];
         foreach ($this->_expected as $v) {
             $elements[] = (string) $v;
         }
         $return .= implode(', ', $elements) . ']>';
+
         return $return;
     }
 }

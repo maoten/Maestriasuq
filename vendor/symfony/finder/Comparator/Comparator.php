@@ -18,8 +18,11 @@ namespace Symfony\Component\Finder\Comparator;
  */
 class Comparator
 {
+
     private $target;
+
     private $operator = '==';
+
 
     /**
      * Gets the target value.
@@ -31,6 +34,7 @@ class Comparator
         return $this->target;
     }
 
+
     /**
      * Sets the target value.
      *
@@ -40,6 +44,7 @@ class Comparator
     {
         $this->target = $target;
     }
+
 
     /**
      * Gets the comparison operator.
@@ -51,6 +56,7 @@ class Comparator
         return $this->operator;
     }
 
+
     /**
      * Sets the comparison operator.
      *
@@ -60,16 +66,17 @@ class Comparator
      */
     public function setOperator($operator)
     {
-        if (!$operator) {
+        if ( ! $operator) {
             $operator = '==';
         }
 
-        if (!in_array($operator, array('>', '<', '>=', '<=', '==', '!='))) {
+        if ( ! in_array($operator, [ '>', '<', '>=', '<=', '==', '!=' ])) {
             throw new \InvalidArgumentException(sprintf('Invalid operator "%s".', $operator));
         }
 
         $this->operator = $operator;
     }
+
 
     /**
      * Tests against the target.

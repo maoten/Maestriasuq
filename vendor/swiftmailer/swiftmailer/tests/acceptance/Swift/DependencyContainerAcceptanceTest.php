@@ -6,6 +6,7 @@ require_once 'swift_required.php';
 
 class Swift_DependencyContainerAcceptanceTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testNoLookupsFail()
     {
         $di = Swift_DependencyContainer::getInstance();

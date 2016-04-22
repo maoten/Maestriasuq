@@ -35,11 +35,8 @@ $tests   = "$root/tests";
 /**
  * Check that --dev composer installation was done
  */
-if (!file_exists($root . '/vendor/autoload.php')) {
-    throw new Exception(
-        'Please run "php composer.phar install --dev" in root directory '
-        . 'to setup unit test dependencies before running the tests'
-    );
+if ( ! file_exists($root . '/vendor/autoload.php')) {
+    throw new Exception('Please run "php composer.phar install --dev" in root directory ' . 'to setup unit test dependencies before running the tests');
 }
 
 /*
@@ -48,16 +45,17 @@ if (!file_exists($root . '/vendor/autoload.php')) {
  * loading other copies of the code and tests that would supercede
  * this copy.
  */
-$path = array(
+$path = [
     $library, // required for `testCallingRegisterRegistersSelfAsSplAutoloaderFunction`
     get_include_path(),
-);
+];
 set_include_path(implode(PATH_SEPARATOR, $path));
 
 require_once "$root/vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php";
 
-if (defined('TESTS_GENERATE_REPORT') && TESTS_GENERATE_REPORT === true &&
-    version_compare(PHPUnit_Runner_Version::id(), '3.1.6', '>=')) {
+if (defined('TESTS_GENERATE_REPORT') && TESTS_GENERATE_REPORT === true && version_compare(PHPUnit_Runner_Version::id(),
+        '3.1.6', '>=')
+) {
 
     /*
      * Add Mutateme library/ directory to the PHPUnit code coverage
@@ -70,16 +68,16 @@ if (defined('TESTS_GENERATE_REPORT') && TESTS_GENERATE_REPORT === true &&
     /*
      * Omit from code coverage reports the contents of the tests directory
      */
-    foreach (array('.php', '.phtml', '.csv', '.inc') as $suffix) {
+    foreach ([ '.php', '.phtml', '.csv', '.inc' ] as $suffix) {
         PHPUnit_Util_Filter::addDirectoryToFilter($tests, $suffix);
     }
     PHPUnit_Util_Filter::addDirectoryToFilter(PEAR_INSTALL_DIR);
     PHPUnit_Util_Filter::addDirectoryToFilter(PHP_LIBDIR);
 }
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 /*
  * Unset global variables that are no longer needed.
  */
-unset($root, $library, $tests, $path);
+unset( $root, $library, $tests, $path );

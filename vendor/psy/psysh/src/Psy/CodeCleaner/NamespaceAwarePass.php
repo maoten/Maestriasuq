@@ -21,8 +21,11 @@ use PhpParser\Node\Stmt\Namespace_ as NamespaceStmt;
  */
 abstract class NamespaceAwarePass extends CodeCleanerPass
 {
+
     protected $namespace;
+
     protected $currentScope;
+
 
     /**
      * TODO: should this be final? Extending classes should be sure to either
@@ -32,9 +35,10 @@ abstract class NamespaceAwarePass extends CodeCleanerPass
      */
     public function beforeTraverse(array $nodes)
     {
-        $this->namespace    = array();
-        $this->currentScope = array();
+        $this->namespace    = [ ];
+        $this->currentScope = [ ];
     }
+
 
     /**
      * TODO: should this be final? Extending classes should be sure to either use
@@ -45,9 +49,10 @@ abstract class NamespaceAwarePass extends CodeCleanerPass
     public function enterNode(Node $node)
     {
         if ($node instanceof NamespaceStmt) {
-            $this->namespace = isset($node->name) ? $node->name->parts : array();
+            $this->namespace = isset( $node->name ) ? $node->name->parts : [ ];
         }
     }
+
 
     /**
      * Get a fully-qualified name (class, function, interface, etc).
@@ -62,8 +67,8 @@ abstract class NamespaceAwarePass extends CodeCleanerPass
             return implode('\\', $name->parts);
         } elseif ($name instanceof Name) {
             $name = $name->parts;
-        } elseif (!is_array($name)) {
-            $name = array($name);
+        } elseif ( ! is_array($name)) {
+            $name = [ $name ];
         }
 
         return implode('\\', array_merge($this->namespace, $name));

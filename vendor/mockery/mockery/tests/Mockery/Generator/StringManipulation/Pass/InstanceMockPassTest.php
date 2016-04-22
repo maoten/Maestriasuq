@@ -8,6 +8,7 @@ use Mockery\Generator\StringManipulation\Pass\InstanceMockPass;
 
 class InstanceMockPassTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @test
      */
@@ -16,8 +17,8 @@ class InstanceMockPassTest extends \PHPUnit_Framework_TestCase
         $builder = new MockConfigurationBuilder;
         $builder->setInstanceMock(true);
         $config = $builder->getMockConfiguration();
-        $pass = new InstanceMockPass;
-        $code = $pass->apply('class Dave { }', $config);
+        $pass   = new InstanceMockPass;
+        $code   = $pass->apply('class Dave { }', $config);
         $this->assertContains('public function __construct', $code);
         $this->assertContains('protected $_mockery_ignoreVerification', $code);
     }

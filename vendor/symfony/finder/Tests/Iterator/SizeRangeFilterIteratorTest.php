@@ -16,6 +16,7 @@ use Symfony\Component\Finder\Comparator\NumberComparator;
 
 class SizeRangeFilterIteratorTest extends RealIteratorTestCase
 {
+
     /**
      * @dataProvider getAcceptData
      */
@@ -28,39 +29,47 @@ class SizeRangeFilterIteratorTest extends RealIteratorTestCase
         $this->assertIterator($expected, $iterator);
     }
 
+
     public function getAcceptData()
     {
-        $lessThan1KGreaterThan05K = array(
+        $lessThan1KGreaterThan05K = [
             '.foo',
             '.git',
             'foo',
             'test.php',
             'toto',
             'toto/.git',
-        );
+        ];
 
-        return array(
-            array(array(new NumberComparator('< 1K'), new NumberComparator('> 0.5K')), $this->toAbsolute($lessThan1KGreaterThan05K)),
-        );
+        return [
+            [
+                [ new NumberComparator('< 1K'), new NumberComparator('> 0.5K') ],
+                $this->toAbsolute($lessThan1KGreaterThan05K)
+            ],
+        ];
     }
 }
 
 class InnerSizeIterator extends \ArrayIterator
 {
+
     public function current()
     {
         return new \SplFileInfo(parent::current());
     }
+
 
     public function getFilename()
     {
         return parent::current();
     }
 
+
     public function isFile()
     {
         return $this->current()->isFile();
     }
+
 
     public function getSize()
     {

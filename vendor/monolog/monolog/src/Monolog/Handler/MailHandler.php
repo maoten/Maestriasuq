@@ -18,12 +18,13 @@ namespace Monolog\Handler;
  */
 abstract class MailHandler extends AbstractProcessingHandler
 {
+
     /**
      * {@inheritdoc}
      */
     public function handleBatch(array $records)
     {
-        $messages = array();
+        $messages = [ ];
 
         foreach ($records as $record) {
             if ($record['level'] < $this->level) {
@@ -32,10 +33,11 @@ abstract class MailHandler extends AbstractProcessingHandler
             $messages[] = $this->processRecord($record);
         }
 
-        if (!empty($messages)) {
+        if ( ! empty( $messages )) {
             $this->send((string) $this->getFormatter()->formatBatch($messages), $messages);
         }
     }
+
 
     /**
      * Send a mail with the given content
@@ -45,11 +47,12 @@ abstract class MailHandler extends AbstractProcessingHandler
      */
     abstract protected function send($content, array $records);
 
+
     /**
      * {@inheritdoc}
      */
     protected function write(array $record)
     {
-        $this->send((string) $record['formatted'], array($record));
+        $this->send((string) $record['formatted'], [ $record ]);
     }
 }

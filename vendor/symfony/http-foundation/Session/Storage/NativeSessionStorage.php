@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\Session\Storage\Proxy\SessionHandlerProxy;
  */
 class NativeSessionStorage implements SessionStorageInterface
 {
+
     /**
      * Array of SessionBagInterface.
      *
@@ -49,6 +50,7 @@ class NativeSessionStorage implements SessionStorageInterface
      * @var MetadataBag
      */
     protected $metadataBag;
+
 
     /**
      * Constructor.
@@ -95,7 +97,7 @@ class NativeSessionStorage implements SessionStorageInterface
      * @param AbstractProxy|NativeSessionHandler|\SessionHandlerInterface|null $handler
      * @param MetadataBag                                                      $metaBag MetadataBag.
      */
-    public function __construct(array $options = array(), $handler = null, MetadataBag $metaBag = null)
+    public function __construct(array $options = [ ], $handler = null, MetadataBag $metaBag = null)
     {
         session_cache_limiter(''); // disable by default because it's managed by HeaderBag (if used)
         ini_set('session.use_cookies', 1);
@@ -107,6 +109,7 @@ class NativeSessionStorage implements SessionStorageInterface
         $this->setSaveHandler($handler);
     }
 
+
     /**
      * Gets the save handler instance.
      *
@@ -116,6 +119,7 @@ class NativeSessionStorage implements SessionStorageInterface
     {
         return $this->saveHandler;
     }
+
 
     /**
      * {@inheritdoc}
@@ -131,11 +135,12 @@ class NativeSessionStorage implements SessionStorageInterface
         }
 
         if (ini_get('session.use_cookies') && headers_sent($file, $line)) {
-            throw new \RuntimeException(sprintf('Failed to start the session because headers have already been sent by "%s" at line %d.', $file, $line));
+            throw new \RuntimeException(sprintf('Failed to start the session because headers have already been sent by "%s" at line %d.',
+                $file, $line));
         }
 
         // ok to try and start the session
-        if (!session_start()) {
+        if ( ! session_start()) {
             throw new \RuntimeException('Failed to start the session');
         }
 
@@ -143,6 +148,7 @@ class NativeSessionStorage implements SessionStorageInterface
 
         return true;
     }
+
 
     /**
      * {@inheritdoc}
@@ -152,6 +158,7 @@ class NativeSessionStorage implements SessionStorageInterface
         return $this->saveHandler->getId();
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -159,6 +166,7 @@ class NativeSessionStorage implements SessionStorageInterface
     {
         $this->saveHandler->setId($id);
     }
+
 
     /**
      * {@inheritdoc}
@@ -168,6 +176,7 @@ class NativeSessionStorage implements SessionStorageInterface
         return $this->saveHandler->getName();
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -175,6 +184,7 @@ class NativeSessionStorage implements SessionStorageInterface
     {
         $this->saveHandler->setName($name);
     }
+
 
     /**
      * {@inheritdoc}
@@ -203,6 +213,7 @@ class NativeSessionStorage implements SessionStorageInterface
         return $isRegenerated;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -210,9 +221,10 @@ class NativeSessionStorage implements SessionStorageInterface
     {
         session_write_close();
 
-        $this->closed = true;
+        $this->closed  = true;
         $this->started = false;
     }
+
 
     /**
      * {@inheritdoc}
@@ -225,11 +237,12 @@ class NativeSessionStorage implements SessionStorageInterface
         }
 
         // clear out the session
-        $_SESSION = array();
+        $_SESSION = [ ];
 
         // reconnect the bags to the session
         $this->loadSession();
     }
+
 
     /**
      * {@inheritdoc}
@@ -239,23 +252,25 @@ class NativeSessionStorage implements SessionStorageInterface
         $this->bags[$bag->getName()] = $bag;
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function getBag($name)
     {
-        if (!isset($this->bags[$name])) {
+        if ( ! isset( $this->bags[$name] )) {
             throw new \InvalidArgumentException(sprintf('The SessionBagInterface %s is not registered.', $name));
         }
 
-        if ($this->saveHandler->isActive() && !$this->started) {
+        if ($this->saveHandler->isActive() && ! $this->started) {
             $this->loadSession();
-        } elseif (!$this->started) {
+        } elseif ( ! $this->started) {
             $this->start();
         }
 
         return $this->bags[$name];
     }
+
 
     /**
      * Sets the MetadataBag.
@@ -271,6 +286,7 @@ class NativeSessionStorage implements SessionStorageInterface
         $this->metadataBag = $metaBag;
     }
 
+
     /**
      * Gets the MetadataBag.
      *
@@ -281,6 +297,7 @@ class NativeSessionStorage implements SessionStorageInterface
         return $this->metadataBag;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -288,6 +305,7 @@ class NativeSessionStorage implements SessionStorageInterface
     {
         return $this->started;
     }
+
 
     /**
      * Sets session.* ini variables.
@@ -301,24 +319,42 @@ class NativeSessionStorage implements SessionStorageInterface
      */
     public function setOptions(array $options)
     {
-        $validOptions = array_flip(array(
-            'cache_limiter', 'cookie_domain', 'cookie_httponly',
-            'cookie_lifetime', 'cookie_path', 'cookie_secure',
-            'entropy_file', 'entropy_length', 'gc_divisor',
-            'gc_maxlifetime', 'gc_probability', 'hash_bits_per_character',
-            'hash_function', 'name', 'referer_check',
-            'serialize_handler', 'use_cookies',
-            'use_only_cookies', 'use_trans_sid', 'upload_progress.enabled',
-            'upload_progress.cleanup', 'upload_progress.prefix', 'upload_progress.name',
-            'upload_progress.freq', 'upload_progress.min-freq', 'url_rewriter.tags',
-        ));
+        $validOptions = array_flip([
+            'cache_limiter',
+            'cookie_domain',
+            'cookie_httponly',
+            'cookie_lifetime',
+            'cookie_path',
+            'cookie_secure',
+            'entropy_file',
+            'entropy_length',
+            'gc_divisor',
+            'gc_maxlifetime',
+            'gc_probability',
+            'hash_bits_per_character',
+            'hash_function',
+            'name',
+            'referer_check',
+            'serialize_handler',
+            'use_cookies',
+            'use_only_cookies',
+            'use_trans_sid',
+            'upload_progress.enabled',
+            'upload_progress.cleanup',
+            'upload_progress.prefix',
+            'upload_progress.name',
+            'upload_progress.freq',
+            'upload_progress.min-freq',
+            'url_rewriter.tags',
+        ]);
 
         foreach ($options as $key => $value) {
-            if (isset($validOptions[$key])) {
-                ini_set('session.'.$key, $value);
+            if (isset( $validOptions[$key] )) {
+                ini_set('session.' . $key, $value);
             }
         }
     }
+
 
     /**
      * Registers session save handler as a PHP session handler.
@@ -344,17 +380,14 @@ class NativeSessionStorage implements SessionStorageInterface
      */
     public function setSaveHandler($saveHandler = null)
     {
-        if (!$saveHandler instanceof AbstractProxy &&
-            !$saveHandler instanceof NativeSessionHandler &&
-            !$saveHandler instanceof \SessionHandlerInterface &&
-            null !== $saveHandler) {
+        if ( ! $saveHandler instanceof AbstractProxy && ! $saveHandler instanceof NativeSessionHandler && ! $saveHandler instanceof \SessionHandlerInterface && null !== $saveHandler) {
             throw new \InvalidArgumentException('Must be instance of AbstractProxy or NativeSessionHandler; implement \SessionHandlerInterface; or be null.');
         }
 
         // Wrap $saveHandler in proxy and prevent double wrapping of proxy
-        if (!$saveHandler instanceof AbstractProxy && $saveHandler instanceof \SessionHandlerInterface) {
+        if ( ! $saveHandler instanceof AbstractProxy && $saveHandler instanceof \SessionHandlerInterface) {
             $saveHandler = new SessionHandlerProxy($saveHandler);
-        } elseif (!$saveHandler instanceof AbstractProxy) {
+        } elseif ( ! $saveHandler instanceof AbstractProxy) {
             $saveHandler = new SessionHandlerProxy(new \SessionHandler());
         }
         $this->saveHandler = $saveHandler;
@@ -363,6 +396,7 @@ class NativeSessionStorage implements SessionStorageInterface
             session_set_save_handler($this->saveHandler, false);
         }
     }
+
 
     /**
      * Load the session with attributes.
@@ -380,15 +414,15 @@ class NativeSessionStorage implements SessionStorageInterface
             $session = &$_SESSION;
         }
 
-        $bags = array_merge($this->bags, array($this->metadataBag));
+        $bags = array_merge($this->bags, [ $this->metadataBag ]);
 
         foreach ($bags as $bag) {
-            $key = $bag->getStorageKey();
-            $session[$key] = isset($session[$key]) ? $session[$key] : array();
+            $key           = $bag->getStorageKey();
+            $session[$key] = isset( $session[$key] ) ? $session[$key] : [ ];
             $bag->initialize($session[$key]);
         }
 
         $this->started = true;
-        $this->closed = false;
+        $this->closed  = false;
     }
 }

@@ -18,12 +18,19 @@ namespace Prophecy\Doubler\Generator\Node;
  */
 class ArgumentNode
 {
+
     private $name;
+
     private $typeHint;
+
     private $default;
-    private $optional    = false;
+
+    private $optional = false;
+
     private $byReference = false;
-    private $isVariadic  = false;
+
+    private $isVariadic = false;
+
 
     /**
      * @param string $name
@@ -33,30 +40,36 @@ class ArgumentNode
         $this->name = $name;
     }
 
+
     public function getName()
     {
         return $this->name;
     }
+
 
     public function getTypeHint()
     {
         return $this->typeHint;
     }
 
+
     public function setTypeHint($typeHint = null)
     {
         $this->typeHint = $typeHint;
     }
 
+
     public function hasDefault()
     {
-        return $this->isOptional() && !$this->isVariadic();
+        return $this->isOptional() && ! $this->isVariadic();
     }
+
 
     public function getDefault()
     {
         return $this->default;
     }
+
 
     public function setDefault($default = null)
     {
@@ -64,25 +77,30 @@ class ArgumentNode
         $this->default  = $default;
     }
 
+
     public function isOptional()
     {
         return $this->optional;
     }
+
 
     public function setAsPassedByReference($byReference = true)
     {
         $this->byReference = $byReference;
     }
 
+
     public function isPassedByReference()
     {
         return $this->byReference;
     }
 
+
     public function setAsVariadic($isVariadic = true)
     {
         $this->isVariadic = $isVariadic;
     }
+
 
     public function isVariadic()
     {

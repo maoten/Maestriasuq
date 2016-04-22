@@ -15,12 +15,14 @@
  */
 class Swift_Mime_Headers_PathHeader extends Swift_Mime_Headers_AbstractHeader
 {
+
     /**
      * The address in this Header (if specified).
      *
      * @var string
      */
     private $_address;
+
 
     /**
      * Creates a new PathHeader with the given $name.
@@ -33,6 +35,7 @@ class Swift_Mime_Headers_PathHeader extends Swift_Mime_Headers_AbstractHeader
         $this->setFieldName($name);
         parent::__construct($grammar);
     }
+
 
     /**
      * Get the type of Header that this instance represents.
@@ -47,6 +50,7 @@ class Swift_Mime_Headers_PathHeader extends Swift_Mime_Headers_AbstractHeader
         return self::TYPE_PATH;
     }
 
+
     /**
      * Set the model for the field body.
      * This method takes a string for an address.
@@ -60,6 +64,7 @@ class Swift_Mime_Headers_PathHeader extends Swift_Mime_Headers_AbstractHeader
         $this->setAddress($model);
     }
 
+
     /**
      * Get the model for the field body.
      * This method returns a string email address.
@@ -70,6 +75,7 @@ class Swift_Mime_Headers_PathHeader extends Swift_Mime_Headers_AbstractHeader
     {
         return $this->getAddress();
     }
+
 
     /**
      * Set the Address which should appear in this Header.
@@ -91,6 +97,7 @@ class Swift_Mime_Headers_PathHeader extends Swift_Mime_Headers_AbstractHeader
         $this->setCachedValue(null);
     }
 
+
     /**
      * Get the address which is used in this Header (if any).
      *
@@ -102,6 +109,7 @@ class Swift_Mime_Headers_PathHeader extends Swift_Mime_Headers_AbstractHeader
     {
         return $this->_address;
     }
+
 
     /**
      * Get the string value of the body in this Header.
@@ -115,14 +123,15 @@ class Swift_Mime_Headers_PathHeader extends Swift_Mime_Headers_AbstractHeader
      */
     public function getFieldBody()
     {
-        if (!$this->getCachedValue()) {
-            if (isset($this->_address)) {
-                $this->setCachedValue('<'.$this->_address.'>');
+        if ( ! $this->getCachedValue()) {
+            if (isset( $this->_address )) {
+                $this->setCachedValue('<' . $this->_address . '>');
             }
         }
 
         return $this->getCachedValue();
     }
+
 
     /**
      * Throws an Exception if the address passed does not comply with RFC 2822.
@@ -133,11 +142,8 @@ class Swift_Mime_Headers_PathHeader extends Swift_Mime_Headers_AbstractHeader
      */
     private function _assertValidAddress($address)
     {
-        if (!preg_match('/^'.$this->getGrammar()->getDefinition('addr-spec').'$/D',
-            $address)) {
-            throw new Swift_RfcComplianceException(
-                'Address set in PathHeader does not comply with addr-spec of RFC 2822.'
-                );
+        if ( ! preg_match('/^' . $this->getGrammar()->getDefinition('addr-spec') . '$/D', $address)) {
+            throw new Swift_RfcComplianceException('Address set in PathHeader does not comply with addr-spec of RFC 2822.');
         }
     }
 }

@@ -15,6 +15,7 @@ class CompanyTest extends \PHPUnit_Framework_TestCase
         $this->faker = $faker;
     }
 
+
     public function testCnpjFormatIsValid()
     {
         $cnpj = $this->faker->cnpj(false);

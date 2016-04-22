@@ -6,8 +6,10 @@ use PhpParser\Node\Scalar;
 
 class EncapsedStringPart extends Scalar
 {
+
     /** @var string String value */
     public $value;
+
 
     /**
      * Constructs a node representing a string part of an encapsed string.
@@ -15,12 +17,15 @@ class EncapsedStringPart extends Scalar
      * @param string $value      String value
      * @param array  $attributes Additional attributes
      */
-    public function __construct($value, array $attributes = array()) {
+    public function __construct($value, array $attributes = [ ])
+    {
         parent::__construct($attributes);
         $this->value = $value;
     }
 
-    public function getSubNodeNames() {
-        return array('value');
+
+    public function getSubNodeNames()
+    {
+        return [ 'value' ];
     }
 }

@@ -20,6 +20,7 @@ namespace Symfony\Component\EventDispatcher;
  */
 class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
 {
+
     /**
      * Event subject.
      *
@@ -34,17 +35,19 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      */
     protected $arguments;
 
+
     /**
      * Encapsulate an event with $subject and $args.
      *
      * @param mixed $subject   The subject of the event, usually an object.
      * @param array $arguments Arguments to store in the event.
      */
-    public function __construct($subject = null, array $arguments = array())
+    public function __construct($subject = null, array $arguments = [ ])
     {
-        $this->subject = $subject;
+        $this->subject   = $subject;
         $this->arguments = $arguments;
     }
+
 
     /**
      * Getter for subject property.
@@ -55,6 +58,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
     {
         return $this->subject;
     }
+
 
     /**
      * Get argument by key.
@@ -74,6 +78,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
         throw new \InvalidArgumentException(sprintf('Argument "%s" not found.', $key));
     }
 
+
     /**
      * Add argument to event.
      *
@@ -89,6 +94,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
         return $this;
     }
 
+
     /**
      * Getter for all arguments.
      *
@@ -99,6 +105,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
         return $this->arguments;
     }
 
+
     /**
      * Set args property.
      *
@@ -106,12 +113,13 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @return GenericEvent
      */
-    public function setArguments(array $args = array())
+    public function setArguments(array $args = [ ])
     {
         $this->arguments = $args;
 
         return $this;
     }
+
 
     /**
      * Has argument.
@@ -124,6 +132,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
     {
         return array_key_exists($key, $this->arguments);
     }
+
 
     /**
      * ArrayAccess for argument getter.
@@ -139,6 +148,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
         return $this->getArgument($key);
     }
 
+
     /**
      * ArrayAccess for argument setter.
      *
@@ -150,6 +160,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
         $this->setArgument($key, $value);
     }
 
+
     /**
      * ArrayAccess for unset argument.
      *
@@ -158,9 +169,10 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
     public function offsetUnset($key)
     {
         if ($this->hasArgument($key)) {
-            unset($this->arguments[$key]);
+            unset( $this->arguments[$key] );
         }
     }
+
 
     /**
      * ArrayAccess has argument.
@@ -173,6 +185,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
     {
         return $this->hasArgument($key);
     }
+
 
     /**
      * IteratorAggregate for iterating over the object like an array.

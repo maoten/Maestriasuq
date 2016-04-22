@@ -18,6 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class GlobalVariableEnumerator extends Enumerator
 {
+
     /**
      * {@inheritdoc}
      */
@@ -29,20 +30,21 @@ class GlobalVariableEnumerator extends Enumerator
         }
 
         // only list globals if we are specifically asked
-        if (!$input->getOption('globals')) {
+        if ( ! $input->getOption('globals')) {
             return;
         }
 
         $globals = $this->prepareGlobals($this->getGlobals());
 
-        if (empty($globals)) {
+        if (empty( $globals )) {
             return;
         }
 
-        return array(
+        return [
             'Global Variables' => $globals,
-        );
+        ];
     }
+
 
     /**
      * Get defined global variables.
@@ -56,13 +58,14 @@ class GlobalVariableEnumerator extends Enumerator
         $names = array_keys($GLOBALS);
         natcasesort($names);
 
-        $ret = array();
+        $ret = [ ];
         foreach ($names as $name) {
             $ret[$name] = $GLOBALS[$name];
         }
 
         return $ret;
     }
+
 
     /**
      * Prepare formatted global variable array.
@@ -74,16 +77,16 @@ class GlobalVariableEnumerator extends Enumerator
     protected function prepareGlobals($globals)
     {
         // My kingdom for a generator.
-        $ret = array();
+        $ret = [ ];
 
         foreach ($globals as $name => $value) {
             if ($this->showItem($name)) {
-                $fname = '$' . $name;
-                $ret[$fname] = array(
+                $fname       = '$' . $name;
+                $ret[$fname] = [
                     'name'  => $fname,
                     'style' => self::IS_GLOBAL,
                     'value' => $this->presentRef($value),
-                );
+                ];
             }
         }
 

@@ -4,6 +4,7 @@ namespace Faker\Provider\ru_RU;
 
 class Text extends \Faker\Provider\Text
 {
+
     /**
      * From ru.wikisource.org
      *

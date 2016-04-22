@@ -15,15 +15,17 @@ use Monolog\TestCase;
 
 class UidProcessorTest extends TestCase
 {
+
     /**
      * @covers Monolog\Processor\UidProcessor::__invoke
      */
     public function testProcessor()
     {
         $processor = new UidProcessor();
-        $record = $processor($this->getRecord());
+        $record    = $processor($this->getRecord());
         $this->assertArrayHasKey('uid', $record['extra']);
     }
+
 
     public function testGetUid()
     {

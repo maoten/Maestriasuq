@@ -16,6 +16,7 @@ use Monolog\TestCase;
 
 class FluentdFormatterTest extends TestCase
 {
+
     /**
      * @covers Monolog\Formatter\FluentdFormatter::__construct
      * @covers Monolog\Formatter\FluentdFormatter::isUsingLevelsInTag
@@ -30,33 +31,30 @@ class FluentdFormatterTest extends TestCase
         $this->assertEquals(true, $formatter->isUsingLevelsInTag());
     }
 
+
     /**
      * @covers Monolog\Formatter\FluentdFormatter::format
      */
     public function testFormat()
     {
-        $record = $this->getRecord(Logger::WARNING);
+        $record             = $this->getRecord(Logger::WARNING);
         $record['datetime'] = new \DateTime("@0");
 
         $formatter = new FluentdFormatter();
-        $this->assertEquals(
-            '["test",0,{"message":"test","extra":[],"level":300,"level_name":"WARNING"}]',
-            $formatter->format($record)
-        );
+        $this->assertEquals('["test",0,{"message":"test","extra":[],"level":300,"level_name":"WARNING"}]',
+            $formatter->format($record));
     }
+
 
     /**
      * @covers Monolog\Formatter\FluentdFormatter::format
      */
     public function testFormatWithTag()
     {
-        $record = $this->getRecord(Logger::ERROR);
+        $record             = $this->getRecord(Logger::ERROR);
         $record['datetime'] = new \DateTime("@0");
 
         $formatter = new FluentdFormatter(true);
-        $this->assertEquals(
-            '["test.error",0,{"message":"test","extra":[]}]',
-            $formatter->format($record)
-        );
+        $this->assertEquals('["test.error",0,{"message":"test","extra":[]}]', $formatter->format($record));
     }
 }

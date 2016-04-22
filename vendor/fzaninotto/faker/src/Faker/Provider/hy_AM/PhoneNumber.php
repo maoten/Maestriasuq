@@ -4,7 +4,8 @@ namespace Faker\Provider\hy_AM;
 
 class PhoneNumber extends \Faker\Provider\PhoneNumber
 {
-    protected static $formats = array(
+
+    protected static $formats = [
         '093 ######',
         '093 ##-##-##',
         '(093) ######',
@@ -33,5 +34,5 @@ class PhoneNumber extends \Faker\Provider\PhoneNumber
         '055 ##-##-##',
         '(055) ######',
         '(055) ##-##-##',
-    );
+    ];
 }

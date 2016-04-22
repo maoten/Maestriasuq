@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 class JobMakeCommand extends GeneratorCommand
 {
+
     /**
      * The console command name.
      *
@@ -28,6 +29,7 @@ class JobMakeCommand extends GeneratorCommand
      */
     protected $type = 'Job';
 
+
     /**
      * Get the stub file for the generator.
      *
@@ -36,22 +38,25 @@ class JobMakeCommand extends GeneratorCommand
     protected function getStub()
     {
         if ($this->option('sync')) {
-            return __DIR__.'/stubs/job.stub';
+            return __DIR__ . '/stubs/job.stub';
         } else {
-            return __DIR__.'/stubs/job-queued.stub';
+            return __DIR__ . '/stubs/job-queued.stub';
         }
     }
+
 
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param  string $rootNamespace
+     *
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\Jobs';
+        return $rootNamespace . '\Jobs';
     }
+
 
     /**
      * Get the console command options.
@@ -61,7 +66,7 @@ class JobMakeCommand extends GeneratorCommand
     protected function getOptions()
     {
         return [
-            ['sync', null, InputOption::VALUE_NONE, 'Indicates that job should be synchronous.'],
+            [ 'sync', null, InputOption::VALUE_NONE, 'Indicates that job should be synchronous.' ],
         ];
     }
 }

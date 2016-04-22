@@ -17,6 +17,7 @@ namespace Symfony\Component\Translation\Loader;
  */
 class PoFileLoader extends FileLoader
 {
+
     /**
      * Parses portable object (PO) format.
      *
@@ -64,13 +65,13 @@ class PoFileLoader extends FileLoader
     {
         $stream = fopen($resource, 'r');
 
-        $defaults = array(
-            'ids' => array(),
+        $defaults = [
+            'ids'        => [ ],
             'translated' => null,
-        );
+        ];
 
-        $messages = array();
-        $item = $defaults;
+        $messages = [ ];
+        $item     = $defaults;
 
         while ($line = fgets($stream)) {
             $line = trim($line);
@@ -83,12 +84,12 @@ class PoFileLoader extends FileLoader
                 // We start a new msg so save previous
                 // TODO: this fails when comments or contexts are added
                 $this->addMessage($messages, $item);
-                $item = $defaults;
+                $item                    = $defaults;
                 $item['ids']['singular'] = substr($line, 7, -1);
             } elseif (substr($line, 0, 8) === 'msgstr "') {
                 $item['translated'] = substr($line, 8, -1);
             } elseif ($line[0] === '"') {
-                $continues = isset($item['translated']) ? 'translated' : 'ids';
+                $continues = isset( $item['translated'] ) ? 'translated' : 'ids';
 
                 if (is_array($item[$continues])) {
                     end($item[$continues]);
@@ -99,7 +100,7 @@ class PoFileLoader extends FileLoader
             } elseif (substr($line, 0, 14) === 'msgid_plural "') {
                 $item['ids']['plural'] = substr($line, 14, -1);
             } elseif (substr($line, 0, 7) === 'msgstr[') {
-                $size = strpos($line, ']');
+                $size                                          = strpos($line, ']');
                 $item['translated'][(int) substr($line, 7, 1)] = substr($line, $size + 3, -1);
             }
         }
@@ -109,6 +110,7 @@ class PoFileLoader extends FileLoader
 
         return $messages;
     }
+
 
     /**
      * Save a translation item to the messages.
@@ -123,7 +125,7 @@ class PoFileLoader extends FileLoader
     {
         if (is_array($item['translated'])) {
             $messages[stripcslashes($item['ids']['singular'])] = stripcslashes($item['translated'][0]);
-            if (isset($item['ids']['plural'])) {
+            if (isset( $item['ids']['plural'] )) {
                 $plurals = $item['translated'];
                 // PO are by definition indexed so sort by index.
                 ksort($plurals);
@@ -136,7 +138,7 @@ class PoFileLoader extends FileLoader
                 ksort($plurals);
                 $messages[stripcslashes($item['ids']['plural'])] = stripcslashes(implode('|', $plurals));
             }
-        } elseif (!empty($item['ids']['singular'])) {
+        } elseif ( ! empty( $item['ids']['singular'] )) {
             $messages[stripcslashes($item['ids']['singular'])] = stripcslashes($item['translated']);
         }
     }

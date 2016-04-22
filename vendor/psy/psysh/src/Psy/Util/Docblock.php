@@ -23,6 +23,7 @@ namespace Psy\Util;
  */
 class Docblock
 {
+
     /**
      * Tags in the docblock that have a whitespace-delimited number of parameters
      * (such as `@param type var desc` and `@return type desc`) and the names of
@@ -30,11 +31,11 @@ class Docblock
      *
      * @var array
      */
-    public static $vectors = array(
-        'throws' => array('type', 'desc'),
-        'param'  => array('type', 'var', 'desc'),
-        'return' => array('type', 'desc'),
-    );
+    public static $vectors = [
+        'throws' => [ 'type', 'desc' ],
+        'param'  => [ 'type', 'var', 'desc' ],
+        'return' => [ 'type', 'desc' ],
+    ];
 
     protected $reflector;
 
@@ -66,6 +67,7 @@ class Docblock
      */
     public $comment;
 
+
     /**
      * Docblock constructor.
      *
@@ -77,6 +79,7 @@ class Docblock
         $this->setComment($reflector->getDocComment());
     }
 
+
     /**
      * Set and parse the docblock comment.
      *
@@ -85,11 +88,12 @@ class Docblock
     protected function setComment($comment)
     {
         $this->desc    = '';
-        $this->tags    = array();
+        $this->tags    = [ ];
         $this->comment = $comment;
 
         $this->parseComment($comment);
     }
+
 
     /**
      * Find the length of the docblock prefix.
@@ -122,6 +126,7 @@ class Docblock
         return $count;
     }
 
+
     /**
      * Parse the comment into the component parts and set the state of the object.
      *
@@ -137,20 +142,20 @@ class Docblock
 
         // Trim asterisks and whitespace from the beginning and whitespace from the end of lines
         $prefixLength = self::prefixLength($comment);
-        $comment = array_map(function ($line) use ($prefixLength) {
+        $comment      = array_map(function ($line) use ($prefixLength) {
             return rtrim(substr($line, $prefixLength));
         }, $comment);
 
         // Group the lines together by @tags
-        $blocks = array();
-        $b = -1;
+        $blocks = [ ];
+        $b      = -1;
         foreach ($comment as $line) {
             if (self::isTagged($line)) {
                 $b++;
-                $blocks[] = array();
+                $blocks[] = [ ];
             } elseif ($b === -1) {
-                $b = 0;
-                $blocks[] = array();
+                $b        = 0;
+                $blocks[] = [ ];
             }
             $blocks[$b][] = $line;
         }
@@ -159,7 +164,7 @@ class Docblock
         foreach ($blocks as $block => $body) {
             $body = trim(implode("\n", $body));
 
-            if ($block === 0 && !self::isTagged($body)) {
+            if ($block === 0 && ! self::isTagged($body)) {
                 // This is the description block
                 $this->desc = $body;
             } else {
@@ -167,13 +172,13 @@ class Docblock
                 $tag  = substr(self::strTag($body), 1);
                 $body = ltrim(substr($body, strlen($tag) + 2));
 
-                if (isset(self::$vectors[$tag])) {
+                if (isset( self::$vectors[$tag] )) {
                     // The tagged block is a vector
                     $count = count(self::$vectors[$tag]);
                     if ($body) {
                         $parts = preg_split('/\s+/', $body, $count);
                     } else {
-                        $parts = array();
+                        $parts = [ ];
                     }
 
                     // Default the trailing values
@@ -189,6 +194,7 @@ class Docblock
         }
     }
 
+
     /**
      * Whether or not a docblock contains a given @tag.
      *
@@ -200,6 +206,7 @@ class Docblock
     {
         return is_array($this->tags) && array_key_exists($tag, $this->tags);
     }
+
 
     /**
      * The value of a tag.
@@ -213,6 +220,7 @@ class Docblock
         return $this->hasTag($tag) ? $this->tags[$tag] : null;
     }
 
+
     /**
      * Whether or not a string begins with a @tag.
      *
@@ -222,8 +230,9 @@ class Docblock
      */
     public static function isTagged($str)
     {
-        return isset($str[1]) && $str[0] === '@' && ctype_alpha($str[1]);
+        return isset( $str[1] ) && $str[0] === '@' && ctype_alpha($str[1]);
     }
+
 
     /**
      * The tag at the beginning of a string.

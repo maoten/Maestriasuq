@@ -1,7 +1,7 @@
 <?php
 /**
  * phpDocumentor Deprecated Tag Test
- * 
+ *
  * PHP version 5.3
  *
  * @author    Vasil Rangelov <boen.robot@gmail.com>
@@ -22,6 +22,7 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  */
 class DeprecatedTagTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * Test that the \phpDocumentor\Reflection\DocBlock\Tag\LinkTag can create
      * a link for the @deprecated doc block.
@@ -32,7 +33,7 @@ class DeprecatedTagTest extends \PHPUnit_Framework_TestCase
      * @param string $exDescription
      * @param string $exVersion
      *
-     * @covers \phpDocumentor\Reflection\DocBlock\Tag\DeprecatedTag
+     * @covers       \phpDocumentor\Reflection\DocBlock\Tag\DeprecatedTag
      * @dataProvider provideDataForConstuctor
      *
      * @return void
@@ -52,6 +53,7 @@ class DeprecatedTagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($exVersion, $tag->getVersion());
     }
 
+
     /**
      * Data provider for testConstructorParesInputsIntoCorrectFields
      *
@@ -60,56 +62,56 @@ class DeprecatedTagTest extends \PHPUnit_Framework_TestCase
     public function provideDataForConstuctor()
     {
         // $type, $content, $exContent, $exDescription, $exVersion
-        return array(
-            array(
+        return [
+            [
                 'deprecated',
                 '1.0 First release.',
                 '1.0 First release.',
                 'First release.',
                 '1.0'
-            ),
-            array(
+            ],
+            [
                 'deprecated',
                 "1.0\nFirst release.",
                 "1.0\nFirst release.",
                 'First release.',
                 '1.0'
-            ),
-            array(
+            ],
+            [
                 'deprecated',
                 "1.0\nFirst\nrelease.",
                 "1.0\nFirst\nrelease.",
                 "First\nrelease.",
                 '1.0'
-            ),
-            array(
+            ],
+            [
                 'deprecated',
                 'Unfinished release',
                 'Unfinished release',
                 'Unfinished release',
                 ''
-            ),
-            array(
+            ],
+            [
                 'deprecated',
                 '1.0',
                 '1.0',
                 '',
                 '1.0'
-            ),
-            array(
+            ],
+            [
                 'deprecated',
                 'GIT: $Id$',
                 'GIT: $Id$',
                 '',
                 'GIT: $Id$'
-            ),
-            array(
+            ],
+            [
                 'deprecated',
                 'GIT: $Id$ Dev build',
                 'GIT: $Id$ Dev build',
                 'Dev build',
                 'GIT: $Id$'
-            )
-        );
+            ]
+        ];
     }
 }

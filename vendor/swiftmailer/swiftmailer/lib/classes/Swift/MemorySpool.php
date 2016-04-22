@@ -15,7 +15,9 @@
  */
 class Swift_MemorySpool implements Swift_Spool
 {
-    protected $messages = array();
+
+    protected $messages = [ ];
+
 
     /**
      * Tests if this Transport mechanism has started.
@@ -27,6 +29,7 @@ class Swift_MemorySpool implements Swift_Spool
         return true;
     }
 
+
     /**
      * Starts this Transport mechanism.
      */
@@ -34,12 +37,14 @@ class Swift_MemorySpool implements Swift_Spool
     {
     }
 
+
     /**
      * Stops this Transport mechanism.
      */
     public function stop()
     {
     }
+
 
     /**
      * Stores a message in the queue.
@@ -56,6 +61,7 @@ class Swift_MemorySpool implements Swift_Spool
         return true;
     }
 
+
     /**
      * Sends messages using the given transport instance.
      *
@@ -66,11 +72,11 @@ class Swift_MemorySpool implements Swift_Spool
      */
     public function flushQueue(Swift_Transport $transport, &$failedRecipients = null)
     {
-        if (!$this->messages) {
+        if ( ! $this->messages) {
             return 0;
         }
 
-        if (!$transport->isStarted()) {
+        if ( ! $transport->isStarted()) {
             $transport->start();
         }
 

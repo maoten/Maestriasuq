@@ -21,6 +21,7 @@ use PhpParser\NodeTraverser as BaseTraverser;
  */
 class NodeTraverser extends BaseTraverser
 {
+
     /**
      * Transverse the file.
      *

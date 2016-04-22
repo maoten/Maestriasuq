@@ -1,7 +1,7 @@
 <?php
 /**
  * phpDocumentor Version Tag Test
- * 
+ *
  * PHP version 5.3
  *
  * @author    Vasil Rangelov <boen.robot@gmail.com>
@@ -22,6 +22,7 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  */
 class VersionTagTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * Test that the \phpDocumentor\Reflection\DocBlock\Tag\LinkTag can create
      * a link for the @version doc block.
@@ -32,7 +33,7 @@ class VersionTagTest extends \PHPUnit_Framework_TestCase
      * @param string $exDescription
      * @param string $exVersion
      *
-     * @covers \phpDocumentor\Reflection\DocBlock\Tag\VersionTag
+     * @covers       \phpDocumentor\Reflection\DocBlock\Tag\VersionTag
      * @dataProvider provideDataForConstuctor
      *
      * @return void
@@ -52,6 +53,7 @@ class VersionTagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($exVersion, $tag->getVersion());
     }
 
+
     /**
      * Data provider for testConstructorParesInputsIntoCorrectFields
      *
@@ -60,56 +62,56 @@ class VersionTagTest extends \PHPUnit_Framework_TestCase
     public function provideDataForConstuctor()
     {
         // $type, $content, $exContent, $exDescription, $exVersion
-        return array(
-            array(
+        return [
+            [
                 'version',
                 '1.0 First release.',
                 '1.0 First release.',
                 'First release.',
                 '1.0'
-            ),
-            array(
+            ],
+            [
                 'version',
                 "1.0\nFirst release.",
                 "1.0\nFirst release.",
                 'First release.',
                 '1.0'
-            ),
-            array(
+            ],
+            [
                 'version',
                 "1.0\nFirst\nrelease.",
                 "1.0\nFirst\nrelease.",
                 "First\nrelease.",
                 '1.0'
-            ),
-            array(
+            ],
+            [
                 'version',
                 'Unfinished release',
                 'Unfinished release',
                 'Unfinished release',
                 ''
-            ),
-            array(
+            ],
+            [
                 'version',
                 '1.0',
                 '1.0',
                 '',
                 '1.0'
-            ),
-            array(
+            ],
+            [
                 'version',
                 'GIT: $Id$',
                 'GIT: $Id$',
                 '',
                 'GIT: $Id$'
-            ),
-            array(
+            ],
+            [
                 'version',
                 'GIT: $Id$ Dev build',
                 'GIT: $Id$ Dev build',
                 'Dev build',
                 'GIT: $Id$'
-            )
-        );
+            ]
+        ];
     }
 }

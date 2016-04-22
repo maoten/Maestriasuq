@@ -31,8 +31,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class FragmentListener implements EventSubscriberInterface
 {
+
     private $signer;
+
     private $fragmentPath;
+
 
     /**
      * Constructor.
@@ -42,9 +45,10 @@ class FragmentListener implements EventSubscriberInterface
      */
     public function __construct(UriSigner $signer, $fragmentPath = '/_fragment')
     {
-        $this->signer = $signer;
+        $this->signer       = $signer;
         $this->fragmentPath = $fragmentPath;
     }
+
 
     /**
      * Fixes request attributes when the path is '/_fragment'.
@@ -67,30 +71,33 @@ class FragmentListener implements EventSubscriberInterface
 
         parse_str($request->query->get('_path', ''), $attributes);
         $request->attributes->add($attributes);
-        $request->attributes->set('_route_params', array_replace($request->attributes->get('_route_params', array()), $attributes));
+        $request->attributes->set('_route_params',
+            array_replace($request->attributes->get('_route_params', [ ]), $attributes));
         $request->query->remove('_path');
     }
+
 
     protected function validateRequest(Request $request)
     {
         // is the Request safe?
-        if (!$request->isMethodSafe()) {
+        if ( ! $request->isMethodSafe()) {
             throw new AccessDeniedHttpException();
         }
 
         // is the Request signed?
         // we cannot use $request->getUri() here as we want to work with the original URI (no query string reordering)
-        if ($this->signer->check($request->getSchemeAndHttpHost().$request->getBaseUrl().$request->getPathInfo().(null !== ($qs = $request->server->get('QUERY_STRING')) ? '?'.$qs : ''))) {
+        if ($this->signer->check($request->getSchemeAndHttpHost() . $request->getBaseUrl() . $request->getPathInfo() . ( null !== ( $qs = $request->server->get('QUERY_STRING') ) ? '?' . $qs : '' ))) {
             return;
         }
 
         throw new AccessDeniedHttpException();
     }
 
+
     public static function getSubscribedEvents()
     {
-        return array(
-            KernelEvents::REQUEST => array(array('onKernelRequest', 48)),
-        );
+        return [
+            KernelEvents::REQUEST => [ [ 'onKernelRequest', 48 ] ],
+        ];
     }
 }

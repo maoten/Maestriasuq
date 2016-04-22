@@ -15,6 +15,7 @@
  */
 class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
 {
+
     /** Signal to place pointer at start of file */
     const POSITION_START = 0;
 
@@ -43,7 +44,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
      *
      * @var array
      */
-    private $_keys = array();
+    private $_keys = [ ];
 
     /**
      * Will be true if magic_quotes_runtime is turned on.
@@ -52,22 +53,24 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
      */
     private $_quotes = false;
 
+
     /**
      * Create a new DiskKeyCache with the given $stream for cloning to make
      * InputByteStreams, and the given $path to save to.
      *
      * @param Swift_KeyCache_KeyCacheInputStream $stream
-     * @param string                             $path   to save to
+     * @param string                             $path to save to
      */
     public function __construct(Swift_KeyCache_KeyCacheInputStream $stream, $path)
     {
         $this->_stream = $stream;
-        $this->_path = $path;
+        $this->_path   = $path;
 
         if (function_exists('get_magic_quotes_runtime') && @get_magic_quotes_runtime() == 1) {
             $this->_quotes = true;
         }
     }
+
 
     /**
      * Set a string into the cache under $itemKey for the namespace $nsKey.
@@ -92,15 +95,13 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
                 $fp = $this->_getHandle($nsKey, $itemKey, self::POSITION_END);
                 break;
             default:
-                throw new Swift_SwiftException(
-                    'Invalid mode ['.$mode.'] used to set nsKey='.
-                    $nsKey.', itemKey='.$itemKey
-                    );
+                throw new Swift_SwiftException('Invalid mode [' . $mode . '] used to set nsKey=' . $nsKey . ', itemKey=' . $itemKey);
                 break;
         }
         fwrite($fp, $string);
         $this->_freeHandle($nsKey, $itemKey);
     }
+
 
     /**
      * Set a ByteStream into the cache under $itemKey for the namespace $nsKey.
@@ -125,10 +126,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
                 $fp = $this->_getHandle($nsKey, $itemKey, self::POSITION_END);
                 break;
             default:
-                throw new Swift_SwiftException(
-                    'Invalid mode ['.$mode.'] used to set nsKey='.
-                    $nsKey.', itemKey='.$itemKey
-                    );
+                throw new Swift_SwiftException('Invalid mode [' . $mode . '] used to set nsKey=' . $nsKey . ', itemKey=' . $itemKey);
                 break;
         }
         while (false !== $bytes = $os->read(8192)) {
@@ -136,6 +134,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
         }
         $this->_freeHandle($nsKey, $itemKey);
     }
+
 
     /**
      * Provides a ByteStream which when written to, writes data to $itemKey.
@@ -154,12 +153,13 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
         $is->setKeyCache($this);
         $is->setNsKey($nsKey);
         $is->setItemKey($itemKey);
-        if (isset($writeThrough)) {
+        if (isset( $writeThrough )) {
             $is->setWriteThroughStream($writeThrough);
         }
 
         return $is;
     }
+
 
     /**
      * Get data back out of the cache as a string.
@@ -180,7 +180,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
                 ini_set('magic_quotes_runtime', 0);
             }
             $str = '';
-            while (!feof($fp) && false !== $bytes = fread($fp, 8192)) {
+            while ( ! feof($fp) && false !== $bytes = fread($fp, 8192)) {
                 $str .= $bytes;
             }
             if ($this->_quotes) {
@@ -192,12 +192,13 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
         }
     }
 
+
     /**
      * Get data back out of the cache as a ByteStream.
      *
      * @param string                $nsKey
      * @param string                $itemKey
-     * @param Swift_InputByteStream $is      to write the data to
+     * @param Swift_InputByteStream $is to write the data to
      */
     public function exportToByteStream($nsKey, $itemKey, Swift_InputByteStream $is)
     {
@@ -206,7 +207,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
             if ($this->_quotes) {
                 ini_set('magic_quotes_runtime', 0);
             }
-            while (!feof($fp) && false !== $bytes = fread($fp, 8192)) {
+            while ( ! feof($fp) && false !== $bytes = fread($fp, 8192)) {
                 $is->write($bytes);
             }
             if ($this->_quotes) {
@@ -215,6 +216,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
             $this->_freeHandle($nsKey, $itemKey);
         }
     }
+
 
     /**
      * Check if the given $itemKey exists in the namespace $nsKey.
@@ -226,8 +228,9 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
      */
     public function hasKey($nsKey, $itemKey)
     {
-        return is_file($this->_path.'/'.$nsKey.'/'.$itemKey);
+        return is_file($this->_path . '/' . $nsKey . '/' . $itemKey);
     }
+
 
     /**
      * Clear data for $itemKey in the namespace $nsKey if it exists.
@@ -239,9 +242,10 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
     {
         if ($this->hasKey($nsKey, $itemKey)) {
             $this->_freeHandle($nsKey, $itemKey);
-            unlink($this->_path.'/'.$nsKey.'/'.$itemKey);
+            unlink($this->_path . '/' . $nsKey . '/' . $itemKey);
         }
     }
+
 
     /**
      * Clear all data in the namespace $nsKey if it exists.
@@ -254,12 +258,13 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
             foreach ($this->_keys[$nsKey] as $itemKey => $null) {
                 $this->clearKey($nsKey, $itemKey);
             }
-            if (is_dir($this->_path.'/'.$nsKey)) {
-                rmdir($this->_path.'/'.$nsKey);
+            if (is_dir($this->_path . '/' . $nsKey)) {
+                rmdir($this->_path . '/' . $nsKey);
             }
-            unset($this->_keys[$nsKey]);
+            unset( $this->_keys[$nsKey] );
         }
     }
+
 
     /**
      * Initialize the namespace of $nsKey if needed.
@@ -268,14 +273,15 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
      */
     private function _prepareCache($nsKey)
     {
-        $cacheDir = $this->_path.'/'.$nsKey;
-        if (!is_dir($cacheDir)) {
-            if (!mkdir($cacheDir)) {
-                throw new Swift_IoException('Failed to create cache directory '.$cacheDir);
+        $cacheDir = $this->_path . '/' . $nsKey;
+        if ( ! is_dir($cacheDir)) {
+            if ( ! mkdir($cacheDir)) {
+                throw new Swift_IoException('Failed to create cache directory ' . $cacheDir);
             }
-            $this->_keys[$nsKey] = array();
+            $this->_keys[$nsKey] = [ ];
         }
     }
+
 
     /**
      * Get a file handle on the cache item.
@@ -288,12 +294,9 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
      */
     private function _getHandle($nsKey, $itemKey, $position)
     {
-        if (!isset($this->_keys[$nsKey][$itemKey])) {
-            $openMode = $this->hasKey($nsKey, $itemKey)
-                ? 'r+b'
-                : 'w+b'
-                ;
-            $fp = fopen($this->_path.'/'.$nsKey.'/'.$itemKey, $openMode);
+        if ( ! isset( $this->_keys[$nsKey][$itemKey] )) {
+            $openMode                      = $this->hasKey($nsKey, $itemKey) ? 'r+b' : 'w+b';
+            $fp                            = fopen($this->_path . '/' . $nsKey . '/' . $itemKey, $openMode);
             $this->_keys[$nsKey][$itemKey] = $fp;
         }
         if (self::POSITION_START == $position) {
@@ -305,12 +308,14 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
         return $this->_keys[$nsKey][$itemKey];
     }
 
+
     private function _freeHandle($nsKey, $itemKey)
     {
         $fp = $this->_getHandle($nsKey, $itemKey, self::POSITION_CURRENT);
         fclose($fp);
         $this->_keys[$nsKey][$itemKey] = null;
     }
+
 
     /**
      * Destructor.

@@ -18,10 +18,12 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class EventTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @var \Symfony\Component\EventDispatcher\Event
      */
     protected $event;
+
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -32,6 +34,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $this->event = new Event();
     }
 
+
     /**
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
@@ -41,10 +44,12 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $this->event = null;
     }
 
+
     public function testIsPropagationStopped()
     {
         $this->assertFalse($this->event->isPropagationStopped());
     }
+
 
     public function testStopPropagationAndIsPropagationStopped()
     {

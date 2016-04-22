@@ -20,9 +20,13 @@ use Prophecy\Util\StringUtil;
  */
 class IdenticalValueToken implements TokenInterface
 {
+
     private $value;
+
     private $string;
+
     private $util;
+
 
     /**
      * Initializes token.
@@ -36,6 +40,7 @@ class IdenticalValueToken implements TokenInterface
         $this->util  = $util ?: new StringUtil();
     }
 
+
     /**
      * Scores 11 if argument matches preset value.
      *
@@ -48,6 +53,7 @@ class IdenticalValueToken implements TokenInterface
         return $argument === $this->value ? 11 : false;
     }
 
+
     /**
      * Returns false.
      *
@@ -57,6 +63,7 @@ class IdenticalValueToken implements TokenInterface
     {
         return false;
     }
+
 
     /**
      * Returns string representation for token.

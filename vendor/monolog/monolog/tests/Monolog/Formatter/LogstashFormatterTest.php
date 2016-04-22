@@ -15,6 +15,7 @@ use Monolog\Logger;
 
 class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
 {
+
     public function tearDown()
     {
         \PHPUnit_Framework_Error_Warning::$enabled = true;
@@ -22,21 +23,22 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
         return parent::tearDown();
     }
 
+
     /**
      * @covers Monolog\Formatter\LogstashFormatter::format
      */
     public function testDefaultFormatter()
     {
         $formatter = new LogstashFormatter('test', 'hostname');
-        $record = array(
-            'level' => Logger::ERROR,
+        $record    = [
+            'level'      => Logger::ERROR,
             'level_name' => 'ERROR',
-            'channel' => 'meh',
-            'context' => array(),
-            'datetime' => new \DateTime("@0"),
-            'extra' => array(),
-            'message' => 'log',
-        );
+            'channel'    => 'meh',
+            'context'    => [ ],
+            'datetime'   => new \DateTime("@0"),
+            'extra'      => [ ],
+            'message'    => 'log',
+        ];
 
         $message = json_decode($formatter->format($record), true);
 
@@ -55,21 +57,22 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('mysystem', $message['@type']);
     }
 
+
     /**
      * @covers Monolog\Formatter\LogstashFormatter::format
      */
     public function testFormatWithFileAndLine()
     {
         $formatter = new LogstashFormatter('test');
-        $record = array(
-            'level' => Logger::ERROR,
+        $record    = [
+            'level'      => Logger::ERROR,
             'level_name' => 'ERROR',
-            'channel' => 'meh',
-            'context' => array('from' => 'logger'),
-            'datetime' => new \DateTime("@0"),
-            'extra' => array('file' => 'test', 'line' => 14),
-            'message' => 'log',
-        );
+            'channel'    => 'meh',
+            'context'    => [ 'from' => 'logger' ],
+            'datetime'   => new \DateTime("@0"),
+            'extra'      => [ 'file' => 'test', 'line' => 14 ],
+            'message'    => 'log',
+        ];
 
         $message = json_decode($formatter->format($record), true);
 
@@ -77,21 +80,22 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(14, $message['@fields']['line']);
     }
 
+
     /**
      * @covers Monolog\Formatter\LogstashFormatter::format
      */
     public function testFormatWithContext()
     {
         $formatter = new LogstashFormatter('test');
-        $record = array(
-            'level' => Logger::ERROR,
+        $record    = [
+            'level'      => Logger::ERROR,
             'level_name' => 'ERROR',
-            'channel' => 'meh',
-            'context' => array('from' => 'logger'),
-            'datetime' => new \DateTime("@0"),
-            'extra' => array('key' => 'pair'),
-            'message' => 'log',
-        );
+            'channel'    => 'meh',
+            'context'    => [ 'from' => 'logger' ],
+            'datetime'   => new \DateTime("@0"),
+            'extra'      => [ 'key' => 'pair' ],
+            'message'    => 'log',
+        ];
 
         $message = json_decode($formatter->format($record), true);
 
@@ -102,7 +106,7 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
 
         // Test with extraPrefix
         $formatter = new LogstashFormatter('test', null, null, 'CTX');
-        $message = json_decode($formatter->format($record), true);
+        $message   = json_decode($formatter->format($record), true);
 
         $message_array = $message['@fields'];
 
@@ -110,21 +114,22 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('logger', $message_array['CTXfrom']);
     }
 
+
     /**
      * @covers Monolog\Formatter\LogstashFormatter::format
      */
     public function testFormatWithExtra()
     {
         $formatter = new LogstashFormatter('test');
-        $record = array(
-            'level' => Logger::ERROR,
+        $record    = [
+            'level'      => Logger::ERROR,
             'level_name' => 'ERROR',
-            'channel' => 'meh',
-            'context' => array('from' => 'logger'),
-            'datetime' => new \DateTime("@0"),
-            'extra' => array('key' => 'pair'),
-            'message' => 'log',
-        );
+            'channel'    => 'meh',
+            'context'    => [ 'from' => 'logger' ],
+            'datetime'   => new \DateTime("@0"),
+            'extra'      => [ 'key' => 'pair' ],
+            'message'    => 'log',
+        ];
 
         $message = json_decode($formatter->format($record), true);
 
@@ -135,7 +140,7 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
 
         // Test with extraPrefix
         $formatter = new LogstashFormatter('test', null, 'EXT');
-        $message = json_decode($formatter->format($record), true);
+        $message   = json_decode($formatter->format($record), true);
 
         $message_array = $message['@fields'];
 
@@ -143,18 +148,19 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('pair', $message_array['EXTkey']);
     }
 
+
     public function testFormatWithApplicationName()
     {
         $formatter = new LogstashFormatter('app', 'test');
-        $record = array(
-            'level' => Logger::ERROR,
+        $record    = [
+            'level'      => Logger::ERROR,
             'level_name' => 'ERROR',
-            'channel' => 'meh',
-            'context' => array('from' => 'logger'),
-            'datetime' => new \DateTime("@0"),
-            'extra' => array('key' => 'pair'),
-            'message' => 'log',
-        );
+            'channel'    => 'meh',
+            'context'    => [ 'from' => 'logger' ],
+            'datetime'   => new \DateTime("@0"),
+            'extra'      => [ 'key' => 'pair' ],
+            'message'    => 'log',
+        ];
 
         $message = json_decode($formatter->format($record), true);
 
@@ -162,21 +168,22 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('app', $message['@type']);
     }
 
+
     /**
      * @covers Monolog\Formatter\LogstashFormatter::format
      */
     public function testDefaultFormatterV1()
     {
         $formatter = new LogstashFormatter('test', 'hostname', null, 'ctxt_', LogstashFormatter::V1);
-        $record = array(
-            'level' => Logger::ERROR,
+        $record    = [
+            'level'      => Logger::ERROR,
             'level_name' => 'ERROR',
-            'channel' => 'meh',
-            'context' => array(),
-            'datetime' => new \DateTime("@0"),
-            'extra' => array(),
-            'message' => 'log',
-        );
+            'channel'    => 'meh',
+            'context'    => [ ],
+            'datetime'   => new \DateTime("@0"),
+            'extra'      => [ ],
+            'message'    => 'log',
+        ];
 
         $message = json_decode($formatter->format($record), true);
 
@@ -195,21 +202,22 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('mysystem', $message['type']);
     }
 
+
     /**
      * @covers Monolog\Formatter\LogstashFormatter::format
      */
     public function testFormatWithFileAndLineV1()
     {
         $formatter = new LogstashFormatter('test', null, null, 'ctxt_', LogstashFormatter::V1);
-        $record = array(
-            'level' => Logger::ERROR,
+        $record    = [
+            'level'      => Logger::ERROR,
             'level_name' => 'ERROR',
-            'channel' => 'meh',
-            'context' => array('from' => 'logger'),
-            'datetime' => new \DateTime("@0"),
-            'extra' => array('file' => 'test', 'line' => 14),
-            'message' => 'log',
-        );
+            'channel'    => 'meh',
+            'context'    => [ 'from' => 'logger' ],
+            'datetime'   => new \DateTime("@0"),
+            'extra'      => [ 'file' => 'test', 'line' => 14 ],
+            'message'    => 'log',
+        ];
 
         $message = json_decode($formatter->format($record), true);
 
@@ -217,21 +225,22 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(14, $message['line']);
     }
 
+
     /**
      * @covers Monolog\Formatter\LogstashFormatter::format
      */
     public function testFormatWithContextV1()
     {
         $formatter = new LogstashFormatter('test', null, null, 'ctxt_', LogstashFormatter::V1);
-        $record = array(
-            'level' => Logger::ERROR,
+        $record    = [
+            'level'      => Logger::ERROR,
             'level_name' => 'ERROR',
-            'channel' => 'meh',
-            'context' => array('from' => 'logger'),
-            'datetime' => new \DateTime("@0"),
-            'extra' => array('key' => 'pair'),
-            'message' => 'log',
-        );
+            'channel'    => 'meh',
+            'context'    => [ 'from' => 'logger' ],
+            'datetime'   => new \DateTime("@0"),
+            'extra'      => [ 'key' => 'pair' ],
+            'message'    => 'log',
+        ];
 
         $message = json_decode($formatter->format($record), true);
 
@@ -240,11 +249,12 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
 
         // Test with extraPrefix
         $formatter = new LogstashFormatter('test', null, null, 'CTX', LogstashFormatter::V1);
-        $message = json_decode($formatter->format($record), true);
+        $message   = json_decode($formatter->format($record), true);
 
         $this->assertArrayHasKey('CTXfrom', $message);
         $this->assertEquals('logger', $message['CTXfrom']);
     }
+
 
     /**
      * @covers Monolog\Formatter\LogstashFormatter::format
@@ -252,15 +262,15 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
     public function testFormatWithExtraV1()
     {
         $formatter = new LogstashFormatter('test', null, null, 'ctxt_', LogstashFormatter::V1);
-        $record = array(
-            'level' => Logger::ERROR,
+        $record    = [
+            'level'      => Logger::ERROR,
             'level_name' => 'ERROR',
-            'channel' => 'meh',
-            'context' => array('from' => 'logger'),
-            'datetime' => new \DateTime("@0"),
-            'extra' => array('key' => 'pair'),
-            'message' => 'log',
-        );
+            'channel'    => 'meh',
+            'context'    => [ 'from' => 'logger' ],
+            'datetime'   => new \DateTime("@0"),
+            'extra'      => [ 'key' => 'pair' ],
+            'message'    => 'log',
+        ];
 
         $message = json_decode($formatter->format($record), true);
 
@@ -269,30 +279,32 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
 
         // Test with extraPrefix
         $formatter = new LogstashFormatter('test', null, 'EXT', 'ctxt_', LogstashFormatter::V1);
-        $message = json_decode($formatter->format($record), true);
+        $message   = json_decode($formatter->format($record), true);
 
         $this->assertArrayHasKey('EXTkey', $message);
         $this->assertEquals('pair', $message['EXTkey']);
     }
 
+
     public function testFormatWithApplicationNameV1()
     {
         $formatter = new LogstashFormatter('app', 'test', null, 'ctxt_', LogstashFormatter::V1);
-        $record = array(
-            'level' => Logger::ERROR,
+        $record    = [
+            'level'      => Logger::ERROR,
             'level_name' => 'ERROR',
-            'channel' => 'meh',
-            'context' => array('from' => 'logger'),
-            'datetime' => new \DateTime("@0"),
-            'extra' => array('key' => 'pair'),
-            'message' => 'log',
-        );
+            'channel'    => 'meh',
+            'context'    => [ 'from' => 'logger' ],
+            'datetime'   => new \DateTime("@0"),
+            'extra'      => [ 'key' => 'pair' ],
+            'message'    => 'log',
+        ];
 
         $message = json_decode($formatter->format($record), true);
 
         $this->assertArrayHasKey('type', $message);
         $this->assertEquals('app', $message['type']);
     }
+
 
     public function testFormatWithLatin9Data()
     {
@@ -301,17 +313,17 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
             \PHPUnit_Framework_Error_Warning::$enabled = false;
         }
         $formatter = new LogstashFormatter('test', 'hostname');
-        $record = array(
-            'level' => Logger::ERROR,
+        $record    = [
+            'level'      => Logger::ERROR,
             'level_name' => 'ERROR',
-            'channel' => '¯\_(ツ)_/¯',
-            'context' => array(),
-            'datetime' => new \DateTime("@0"),
-            'extra' => array(
+            'channel'    => '¯\_(ツ)_/¯',
+            'context'    => [ ],
+            'datetime'   => new \DateTime("@0"),
+            'extra'      => [
                 'user_agent' => "\xD6WN; FBCR/OrangeEspa\xF1a; Vers\xE3o/4.0; F\xE4rist",
-            ),
-            'message' => 'log',
-        );
+            ],
+            'message'    => 'log',
+        ];
 
         $message = json_decode($formatter->format($record), true);
 

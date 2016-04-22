@@ -19,11 +19,12 @@ use Monolog\Logger;
 /**
  * Amazon DynamoDB handler (http://aws.amazon.com/dynamodb/)
  *
- * @link https://github.com/aws/aws-sdk-php/
+ * @link   https://github.com/aws/aws-sdk-php/
  * @author Andrew Lawson <adlawson@gmail.com>
  */
 class DynamoDbHandler extends AbstractProcessingHandler
 {
+
     const DATE_FORMAT = 'Y-m-d\TH:i:s.uO';
 
     /**
@@ -36,6 +37,7 @@ class DynamoDbHandler extends AbstractProcessingHandler
      */
     protected $table;
 
+
     /**
      * @param DynamoDbClient $client
      * @param string         $table
@@ -44,40 +46,44 @@ class DynamoDbHandler extends AbstractProcessingHandler
      */
     public function __construct(DynamoDbClient $client, $table, $level = Logger::DEBUG, $bubble = true)
     {
-        if (!defined('Aws\Common\Aws::VERSION') || version_compare('3.0', Aws::VERSION, '<=')) {
+        if ( ! defined('Aws\Common\Aws::VERSION') || version_compare('3.0', Aws::VERSION, '<=')) {
             throw new \RuntimeException('The DynamoDbHandler is only known to work with the AWS SDK 2.x releases');
         }
 
         $this->client = $client;
-        $this->table = $table;
+        $this->table  = $table;
 
         parent::__construct($level, $bubble);
     }
+
 
     /**
      * {@inheritdoc}
      */
     protected function write(array $record)
     {
-        $filtered = $this->filterEmptyFields($record['formatted']);
+        $filtered  = $this->filterEmptyFields($record['formatted']);
         $formatted = $this->client->formatAttributes($filtered);
 
-        $this->client->putItem(array(
+        $this->client->putItem([
             'TableName' => $this->table,
-            'Item' => $formatted,
-        ));
+            'Item'      => $formatted,
+        ]);
     }
+
 
     /**
      * @param  array $record
+     *
      * @return array
      */
     protected function filterEmptyFields(array $record)
     {
         return array_filter($record, function ($value) {
-            return !empty($value) || false === $value || 0 === $value;
+            return ! empty( $value ) || false === $value || 0 === $value;
         });
     }
+
 
     /**
      * {@inheritdoc}

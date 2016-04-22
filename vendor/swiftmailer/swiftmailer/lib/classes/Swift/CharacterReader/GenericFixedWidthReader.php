@@ -16,12 +16,14 @@
  */
 class Swift_CharacterReader_GenericFixedWidthReader implements Swift_CharacterReader
 {
+
     /**
      * The number of bytes in a single character.
      *
      * @var int
      */
     private $_width;
+
 
     /**
      * Creates a new GenericFixedWidthReader using $width bytes per character.
@@ -32,6 +34,7 @@ class Swift_CharacterReader_GenericFixedWidthReader implements Swift_CharacterRe
     {
         $this->_width = $width;
     }
+
 
     /**
      * Returns the complete character map.
@@ -47,12 +50,13 @@ class Swift_CharacterReader_GenericFixedWidthReader implements Swift_CharacterRe
     {
         $strlen = strlen($string);
         // % and / are CPU intensive, so, maybe find a better way
-        $ignored = $strlen % $this->_width;
+        $ignored      = $strlen % $this->_width;
         $ignoredChars = substr($string, -$ignored);
-        $currentMap = $this->_width;
+        $currentMap   = $this->_width;
 
-        return ($strlen - $ignored) / $this->_width;
+        return ( $strlen - $ignored ) / $this->_width;
     }
+
 
     /**
      * Returns the mapType.
@@ -63,6 +67,7 @@ class Swift_CharacterReader_GenericFixedWidthReader implements Swift_CharacterRe
     {
         return self::MAP_TYPE_FIXED_LEN;
     }
+
 
     /**
      * Returns an integer which specifies how many more bytes to read.
@@ -82,8 +87,9 @@ class Swift_CharacterReader_GenericFixedWidthReader implements Swift_CharacterRe
     {
         $needed = $this->_width - $size;
 
-        return ($needed > -1) ? $needed : -1;
+        return ( $needed > -1 ) ? $needed : -1;
     }
+
 
     /**
      * Returns the number of bytes which should be read to start each character.

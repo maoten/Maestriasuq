@@ -20,6 +20,7 @@ use Symfony\Component\Config\Resource\SelfCheckingResourceInterface;
  */
 class EnvParametersResource implements SelfCheckingResourceInterface, \Serializable
 {
+
     /**
      * @var string
      */
@@ -30,6 +31,7 @@ class EnvParametersResource implements SelfCheckingResourceInterface, \Serializa
      */
     private $variables;
 
+
     /**
      * Constructor.
      *
@@ -37,9 +39,10 @@ class EnvParametersResource implements SelfCheckingResourceInterface, \Serializa
      */
     public function __construct($prefix)
     {
-        $this->prefix = $prefix;
+        $this->prefix    = $prefix;
         $this->variables = $this->findVariables();
     }
+
 
     /**
      * {@inheritdoc}
@@ -49,13 +52,16 @@ class EnvParametersResource implements SelfCheckingResourceInterface, \Serializa
         return serialize($this->getResource());
     }
 
+
     /**
-     * @return array An array with two keys: 'prefix' for the prefix used and 'variables' containing all the variables watched by this resource
+     * @return array An array with two keys: 'prefix' for the prefix used and 'variables' containing all the variables
+     *               watched by this resource
      */
     public function getResource()
     {
-        return array('prefix' => $this->prefix, 'variables' => $this->variables);
+        return [ 'prefix' => $this->prefix, 'variables' => $this->variables ];
     }
+
 
     /**
      * {@inheritdoc}
@@ -65,22 +71,25 @@ class EnvParametersResource implements SelfCheckingResourceInterface, \Serializa
         return $this->findVariables() === $this->variables;
     }
 
+
     public function serialize()
     {
-        return serialize(array('prefix' => $this->prefix, 'variables' => $this->variables));
+        return serialize([ 'prefix' => $this->prefix, 'variables' => $this->variables ]);
     }
+
 
     public function unserialize($serialized)
     {
         $unserialized = unserialize($serialized);
 
-        $this->prefix = $unserialized['prefix'];
+        $this->prefix    = $unserialized['prefix'];
         $this->variables = $unserialized['variables'];
     }
 
+
     private function findVariables()
     {
-        $variables = array();
+        $variables = [ ];
 
         foreach ($_SERVER as $key => $value) {
             if (0 === strpos($key, $this->prefix)) {

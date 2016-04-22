@@ -16,6 +16,7 @@ namespace Symfony\Component\HttpFoundation\File\MimeType;
  */
 interface ExtensionGuesserInterface
 {
+
     /**
      * Makes a best guess for a file extension, given a mime type.
      *

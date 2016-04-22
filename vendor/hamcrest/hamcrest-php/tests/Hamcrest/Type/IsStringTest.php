@@ -9,23 +9,27 @@ class IsStringTest extends \Hamcrest\AbstractMatcherTest
         return \Hamcrest\Type\IsString::stringValue();
     }
 
+
     public function testEvaluatesToTrueIfArgumentMatchesType()
     {
         assertThat('', stringValue());
         assertThat("foo", stringValue());
     }
 
+
     public function testEvaluatesToFalseIfArgumentDoesntMatchType()
     {
         assertThat(false, not(stringValue()));
         assertThat(5, not(stringValue()));
-        assertThat(array(1, 2, 3), not(stringValue()));
+        assertThat([ 1, 2, 3 ], not(stringValue()));
     }
+
 
     public function testHasAReadableDescription()
     {
         $this->assertDescription('a string', stringValue());
     }
+
 
     public function testDecribesActualTypeInMismatchMessage()
     {

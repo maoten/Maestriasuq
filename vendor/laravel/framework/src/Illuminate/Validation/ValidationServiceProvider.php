@@ -6,12 +6,14 @@ use Illuminate\Support\ServiceProvider;
 
 class ValidationServiceProvider extends ServiceProvider
 {
+
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
     protected $defer = true;
+
 
     /**
      * Register the service provider.
@@ -24,6 +26,7 @@ class ValidationServiceProvider extends ServiceProvider
 
         $this->registerValidationFactory();
     }
+
 
     /**
      * Register the validation factory.
@@ -38,13 +41,14 @@ class ValidationServiceProvider extends ServiceProvider
             // The validation presence verifier is responsible for determining the existence
             // of values in a given data collection, typically a relational database or
             // other persistent data stores. And it is used to check for uniqueness.
-            if (isset($app['validation.presence'])) {
+            if (isset( $app['validation.presence'] )) {
                 $validator->setPresenceVerifier($app['validation.presence']);
             }
 
             return $validator;
         });
     }
+
 
     /**
      * Register the database presence verifier.
@@ -58,6 +62,7 @@ class ValidationServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Get the services provided by the provider.
      *
@@ -66,7 +71,8 @@ class ValidationServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            'validator', 'validation.presence',
+            'validator',
+            'validation.presence',
         ];
     }
 }

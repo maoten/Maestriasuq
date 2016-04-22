@@ -29,10 +29,12 @@ class RecorderTest extends MockeryTestCase
         $this->container = new \Mockery\Container(\Mockery::getDefaultGenerator(), \Mockery::getDefaultLoader());
     }
 
+
     public function teardown()
     {
         $this->container->mockery_close();
     }
+
 
     public function testRecorderWithSimpleObject()
     {
@@ -46,6 +48,7 @@ class RecorderTest extends MockeryTestCase
         $mock->mockery_verify();
     }
 
+
     public function testArgumentsArePassedAsMethodExpectations()
     {
         $mock = $this->container->mock(new MockeryTestSubject);
@@ -58,6 +61,7 @@ class RecorderTest extends MockeryTestCase
         $mock->mockery_verify();
     }
 
+
     public function testArgumentsLooselyMatchedByDefault()
     {
         $mock = $this->container->mock(new MockeryTestSubject);
@@ -69,6 +73,7 @@ class RecorderTest extends MockeryTestCase
         $this->assertEquals(4, $mock->bar('2'));
         $mock->mockery_verify();
     }
+
 
     public function testMultipleMethodExpectations()
     {
@@ -84,6 +89,7 @@ class RecorderTest extends MockeryTestCase
         $mock->mockery_verify();
     }
 
+
     public function testRecordingDoesNotSpecifyExactOrderByDefault()
     {
         $mock = $this->container->mock(new MockeryTestSubject);
@@ -97,6 +103,7 @@ class RecorderTest extends MockeryTestCase
         $this->assertEquals(1, $mock->foo());
         $mock->mockery_verify();
     }
+
 
     /**
      * @expectedException \Mockery\Exception
@@ -116,6 +123,7 @@ class RecorderTest extends MockeryTestCase
         $mock->mockery_verify();
     }
 
+
     /**
      * @expectedException \Mockery\Exception
      */
@@ -131,6 +139,7 @@ class RecorderTest extends MockeryTestCase
         $mock->bar('2');
     }
 
+
     /**
      * @expectedException \Mockery\Exception
      */
@@ -145,6 +154,7 @@ class RecorderTest extends MockeryTestCase
         $mock->bar(4);
     }
 
+
     public function testCallCountUnconstrainedByDefault()
     {
         $mock = $this->container->mock(new MockeryTestSubject);
@@ -157,6 +167,7 @@ class RecorderTest extends MockeryTestCase
         $this->assertEquals(4, $mock->bar(2));
         $mock->mockery_verify();
     }
+
 
     /**
      * @expectedException \Mockery\CountValidator\Exception
@@ -178,10 +189,13 @@ class RecorderTest extends MockeryTestCase
 
 class MockeryTestSubject
 {
+
     public function foo()
     {
         return 1;
     }
+
+
     public function bar($i)
     {
         return $i * 2;
@@ -190,15 +204,22 @@ class MockeryTestSubject
 
 class MockeryTestSubjectUser
 {
+
     public $subject = null;
+
+
     public function __construct($subject)
     {
         $this->subject = $subject;
     }
+
+
     public function doFoo()
     {
         return $this->subject->foo();
     }
+
+
     public function doBar()
     {
         return $this->subject->bar(2);

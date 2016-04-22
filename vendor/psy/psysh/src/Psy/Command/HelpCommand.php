@@ -23,22 +23,20 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class HelpCommand extends Command
 {
+
     private $command;
+
 
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $this
-            ->setName('help')
-            ->setAliases(array('?'))
-            ->setDefinition(array(
+        $this->setName('help')->setAliases([ '?' ])->setDefinition([
                 new InputArgument('command_name', InputArgument::OPTIONAL, 'The command name', null),
-            ))
-            ->setDescription('Show a list of commands. Type `help [foo]` for information about [foo].')
-            ->setHelp('My. How meta.');
+            ])->setDescription('Show a list of commands. Type `help [foo]` for information about [foo].')->setHelp('My. How meta.');
     }
+
 
     /**
      * Helper for setting a subcommand to retrieve help for.
@@ -49,6 +47,7 @@ class HelpCommand extends Command
     {
         $this->command = $command;
     }
+
 
     /**
      * {@inheritdoc}
@@ -79,11 +78,11 @@ class HelpCommand extends Command
                     $aliases = '';
                 }
 
-                $table->addRow(array(
+                $table->addRow([
                     sprintf('<info>%s</info>', $name),
                     $command->getDescription(),
                     $aliases,
-                ));
+                ]);
             }
 
             $output->startPaging();

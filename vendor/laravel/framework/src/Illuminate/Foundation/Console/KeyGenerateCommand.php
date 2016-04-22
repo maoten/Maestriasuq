@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 class KeyGenerateCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -22,6 +23,7 @@ class KeyGenerateCommand extends Command
      */
     protected $description = 'Set the application key';
 
+
     /**
      * Execute the console command.
      *
@@ -32,15 +34,16 @@ class KeyGenerateCommand extends Command
         $key = $this->getRandomKey($this->laravel['config']['app.cipher']);
 
         if ($this->option('show')) {
-            return $this->line('<comment>'.$key.'</comment>');
+            return $this->line('<comment>' . $key . '</comment>');
         }
 
         $path = base_path('.env');
 
         if (file_exists($path)) {
-            $content = str_replace('APP_KEY='.$this->laravel['config']['app.key'], 'APP_KEY='.$key, file_get_contents($path));
+            $content = str_replace('APP_KEY=' . $this->laravel['config']['app.key'], 'APP_KEY=' . $key,
+                file_get_contents($path));
 
-            if (! Str::contains($content, 'APP_KEY')) {
+            if ( ! Str::contains($content, 'APP_KEY')) {
                 $content = sprintf("%s\nAPP_KEY=%s\n", $content, $key);
             }
 
@@ -52,10 +55,12 @@ class KeyGenerateCommand extends Command
         $this->info("Application key [$key] set successfully.");
     }
 
+
     /**
      * Generate a random key for the application.
      *
-     * @param  string  $cipher
+     * @param  string $cipher
+     *
      * @return string
      */
     protected function getRandomKey($cipher)
@@ -67,6 +72,7 @@ class KeyGenerateCommand extends Command
         return Str::random(32);
     }
 
+
     /**
      * Get the console command options.
      *
@@ -75,7 +81,7 @@ class KeyGenerateCommand extends Command
     protected function getOptions()
     {
         return [
-            ['show', null, InputOption::VALUE_NONE, 'Simply display the key instead of modifying files.'],
+            [ 'show', null, InputOption::VALUE_NONE, 'Simply display the key instead of modifying files.' ],
         ];
     }
 }

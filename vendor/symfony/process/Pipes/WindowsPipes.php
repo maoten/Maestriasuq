@@ -17,8 +17,8 @@ use Symfony\Component\Process\Exception\RuntimeException;
 /**
  * WindowsPipes implementation uses temporary files as handles.
  *
- * @see https://bugs.php.net/bug.php?id=51800
- * @see https://bugs.php.net/bug.php?id=65650
+ * @see    https://bugs.php.net/bug.php?id=51800
+ * @see    https://bugs.php.net/bug.php?id=65650
  *
  * @author Romain Neutron <imprec@gmail.com>
  *
@@ -26,31 +26,36 @@ use Symfony\Component\Process\Exception\RuntimeException;
  */
 class WindowsPipes extends AbstractPipes
 {
+
     /** @var array */
-    private $files = array();
+    private $files = [ ];
+
     /** @var array */
-    private $fileHandles = array();
+    private $fileHandles = [ ];
+
     /** @var array */
-    private $readBytes = array(
+    private $readBytes = [
         Process::STDOUT => 0,
         Process::STDERR => 0,
-    );
+    ];
+
     /** @var bool */
     private $disableOutput;
+
 
     public function __construct($disableOutput, $input)
     {
         $this->disableOutput = (bool) $disableOutput;
 
-        if (!$this->disableOutput) {
+        if ( ! $this->disableOutput) {
             // Fix for PHP bug #51800: reading from STDOUT pipe hangs forever on Windows if the output is too big.
             // Workaround for this problem is to use temporary files instead of pipes on Windows platform.
             //
             // @see https://bugs.php.net/bug.php?id=51800
-            $this->files = array(
+            $this->files = [
                 Process::STDOUT => tempnam(sys_get_temp_dir(), 'out_sf_proc'),
                 Process::STDERR => tempnam(sys_get_temp_dir(), 'err_sf_proc'),
-            );
+            ];
             foreach ($this->files as $offset => $file) {
                 if (false === $file || false === $this->fileHandles[$offset] = fopen($file, 'rb')) {
                     throw new RuntimeException('A temporary file could not be opened to write the process output to, verify that your TEMP environment variable is writable');
@@ -65,11 +70,13 @@ class WindowsPipes extends AbstractPipes
         }
     }
 
+
     public function __destruct()
     {
         $this->close();
         $this->removeFiles();
     }
+
 
     /**
      * {@inheritdoc}
@@ -79,22 +86,23 @@ class WindowsPipes extends AbstractPipes
         if ($this->disableOutput) {
             $nullstream = fopen('NUL', 'c');
 
-            return array(
-                array('pipe', 'r'),
+            return [
+                [ 'pipe', 'r' ],
                 $nullstream,
                 $nullstream,
-            );
+            ];
         }
 
         // We're not using pipe on Windows platform as it hangs (https://bugs.php.net/bug.php?id=51800)
         // We're not using file handles as it can produce corrupted output https://bugs.php.net/bug.php?id=65650
         // So we redirect output within the commandline and pass the nul device to the process
-        return array(
-            array('pipe', 'r'),
-            array('file', 'NUL', 'w'),
-            array('file', 'NUL', 'w'),
-        );
+        return [
+            [ 'pipe', 'r' ],
+            [ 'file', 'NUL', 'w' ],
+            [ 'file', 'NUL', 'w' ],
+        ];
     }
+
 
     /**
      * {@inheritdoc}
@@ -104,6 +112,7 @@ class WindowsPipes extends AbstractPipes
         return $this->files;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -111,15 +120,15 @@ class WindowsPipes extends AbstractPipes
     {
         $this->write($blocking, $close);
 
-        $read = array();
-        $fh = $this->fileHandles;
+        $read = [ ];
+        $fh   = $this->fileHandles;
         foreach ($fh as $type => $fileHandle) {
             if (0 !== fseek($fileHandle, $this->readBytes[$type])) {
                 continue;
             }
-            $data = '';
+            $data     = '';
             $dataread = null;
-            while (!feof($fileHandle)) {
+            while ( ! feof($fileHandle)) {
                 if (false !== $dataread = fread($fileHandle, self::CHUNK_SIZE)) {
                     $data .= $dataread;
                 }
@@ -129,14 +138,15 @@ class WindowsPipes extends AbstractPipes
                 $read[$type] = $data;
             }
 
-            if (false === $dataread || (true === $close && feof($fileHandle) && '' === $data)) {
+            if (false === $dataread || ( true === $close && feof($fileHandle) && '' === $data )) {
                 fclose($this->fileHandles[$type]);
-                unset($this->fileHandles[$type]);
+                unset( $this->fileHandles[$type] );
             }
         }
 
         return $read;
     }
+
 
     /**
      * {@inheritdoc}
@@ -145,6 +155,7 @@ class WindowsPipes extends AbstractPipes
     {
         return (bool) $this->pipes && (bool) $this->fileHandles;
     }
+
 
     /**
      * {@inheritdoc}
@@ -155,14 +166,15 @@ class WindowsPipes extends AbstractPipes
         foreach ($this->fileHandles as $handle) {
             fclose($handle);
         }
-        $this->fileHandles = array();
+        $this->fileHandles = [ ];
     }
+
 
     /**
      * Creates a new WindowsPipes instance.
      *
      * @param Process $process The process
-     * @param $input
+     * @param         $input
      *
      * @return WindowsPipes
      */
@@ -170,6 +182,7 @@ class WindowsPipes extends AbstractPipes
     {
         return new static($process->isOutputDisabled(), $input);
     }
+
 
     /**
      * Removes temporary files.
@@ -181,8 +194,9 @@ class WindowsPipes extends AbstractPipes
                 @unlink($filename);
             }
         }
-        $this->files = array();
+        $this->files = [ ];
     }
+
 
     /**
      * Writes input to stdin.
@@ -192,22 +206,22 @@ class WindowsPipes extends AbstractPipes
      */
     private function write($blocking, $close)
     {
-        if (empty($this->pipes)) {
+        if (empty( $this->pipes )) {
             return;
         }
 
         $this->unblock();
 
-        $r = null !== $this->input ? array('input' => $this->input) : null;
-        $w = isset($this->pipes[0]) ? array($this->pipes[0]) : null;
+        $r = null !== $this->input ? [ 'input' => $this->input ] : null;
+        $w = isset( $this->pipes[0] ) ? [ $this->pipes[0] ] : null;
         $e = null;
 
         // let's have a look if something changed in streams
         if (false === $n = @stream_select($r, $w, $e, 0, $blocking ? Process::TIMEOUT_PRECISION * 1E6 : 0)) {
             // if a system call has been interrupted, forget about it, let's try again
             // otherwise, an error occurred, let's reset pipes
-            if (!$this->hasSystemCallBeenInterrupted()) {
-                $this->pipes = array();
+            if ( ! $this->hasSystemCallBeenInterrupted()) {
+                $this->pipes = [ ];
             }
 
             return;
@@ -226,7 +240,7 @@ class WindowsPipes extends AbstractPipes
 
             $this->inputBuffer .= $data;
 
-            if (false === $data || (true === $close && feof($r['input']) && '' === $data)) {
+            if (false === $data || ( true === $close && feof($r['input']) && '' === $data )) {
                 // no more data to read on input resource
                 // use an empty buffer in the next reads
                 $this->input = null;
@@ -245,9 +259,9 @@ class WindowsPipes extends AbstractPipes
         }
 
         // no input to read on resource, buffer is empty and stdin still open
-        if ('' === $this->inputBuffer && null === $this->input && isset($this->pipes[0])) {
+        if ('' === $this->inputBuffer && null === $this->input && isset( $this->pipes[0] )) {
             fclose($this->pipes[0]);
-            unset($this->pipes[0]);
+            unset( $this->pipes[0] );
         }
     }
 }

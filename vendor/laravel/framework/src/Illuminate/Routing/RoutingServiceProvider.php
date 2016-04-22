@@ -8,6 +8,7 @@ use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
 
 class RoutingServiceProvider extends ServiceProvider
 {
+
     /**
      * Register the service provider.
      *
@@ -28,6 +29,7 @@ class RoutingServiceProvider extends ServiceProvider
         $this->registerResponseFactory();
     }
 
+
     /**
      * Register the router instance.
      *
@@ -39,6 +41,7 @@ class RoutingServiceProvider extends ServiceProvider
             return new Router($app['events'], $app);
         });
     }
+
 
     /**
      * Register the URL generator service.
@@ -55,11 +58,7 @@ class RoutingServiceProvider extends ServiceProvider
             // and all the registered routes will be available to the generator.
             $app->instance('routes', $routes);
 
-            $url = new UrlGenerator(
-                $routes, $app->rebinding(
-                    'request', $this->requestRebinder()
-                )
-            );
+            $url = new UrlGenerator($routes, $app->rebinding('request', $this->requestRebinder()));
 
             $url->setSessionResolver(function () {
                 return $this->app['session'];
@@ -76,6 +75,7 @@ class RoutingServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Get the URL generator request rebinder.
      *
@@ -87,6 +87,7 @@ class RoutingServiceProvider extends ServiceProvider
             $app['url']->setRequest($request);
         };
     }
+
 
     /**
      * Register the Redirector service.
@@ -101,13 +102,14 @@ class RoutingServiceProvider extends ServiceProvider
             // If the session is set on the application instance, we'll inject it into
             // the redirector instance. This allows the redirect responses to allow
             // for the quite convenient "with" methods that flash to the session.
-            if (isset($app['session.store'])) {
+            if (isset( $app['session.store'] )) {
                 $redirector->setSession($app['session.store']);
             }
 
             return $redirector;
         });
     }
+
 
     /**
      * Register a binding for the PSR-7 request implementation.
@@ -121,6 +123,7 @@ class RoutingServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register a binding for the PSR-7 response implementation.
      *
@@ -132,6 +135,7 @@ class RoutingServiceProvider extends ServiceProvider
             return new PsrResponse();
         });
     }
+
 
     /**
      * Register the response factory implementation.

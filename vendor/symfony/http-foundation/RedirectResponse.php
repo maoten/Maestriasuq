@@ -18,7 +18,9 @@ namespace Symfony\Component\HttpFoundation;
  */
 class RedirectResponse extends Response
 {
+
     protected $targetUrl;
+
 
     /**
      * Creates a redirect response so that it conforms to the rules defined for a redirect status code.
@@ -32,24 +34,27 @@ class RedirectResponse extends Response
      *
      * @see http://tools.ietf.org/html/rfc2616#section-10.3
      */
-    public function __construct($url, $status = 302, $headers = array())
+    public function __construct($url, $status = 302, $headers = [ ])
     {
         parent::__construct('', $status, $headers);
 
         $this->setTargetUrl($url);
 
-        if (!$this->isRedirect()) {
-            throw new \InvalidArgumentException(sprintf('The HTTP status code is not a redirect ("%s" given).', $status));
+        if ( ! $this->isRedirect()) {
+            throw new \InvalidArgumentException(sprintf('The HTTP status code is not a redirect ("%s" given).',
+                $status));
         }
     }
+
 
     /**
      * {@inheritdoc}
      */
-    public static function create($url = '', $status = 302, $headers = array())
+    public static function create($url = '', $status = 302, $headers = [ ])
     {
         return new static($url, $status, $headers);
     }
+
 
     /**
      * Returns the target URL.
@@ -60,6 +65,7 @@ class RedirectResponse extends Response
     {
         return $this->targetUrl;
     }
+
 
     /**
      * Sets the redirect target of this response.
@@ -72,14 +78,13 @@ class RedirectResponse extends Response
      */
     public function setTargetUrl($url)
     {
-        if (empty($url)) {
+        if (empty( $url )) {
             throw new \InvalidArgumentException('Cannot redirect to an empty URL.');
         }
 
         $this->targetUrl = $url;
 
-        $this->setContent(
-            sprintf('<!DOCTYPE html>
+        $this->setContent(sprintf('<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8" />

@@ -6,6 +6,7 @@ use Mockery\Generator\DefinedTargetClass;
 
 class DefinedTargetClassTest extends \PHPUnit_Framework_TestCase
 {
+
     /** @test */
     public function it_knows_if_one_of_its_ancestors_is_internal()
     {
@@ -22,4 +23,5 @@ class DefinedTargetClassTest extends \PHPUnit_Framework_TestCase
 
 class MockeryTest_ClassThatExtendsArrayObject extends \ArrayObject
 {
+
 }

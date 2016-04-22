@@ -16,23 +16,24 @@ class IsSame extends BaseMatcher
 
     private $_object;
 
+
     public function __construct($object)
     {
         $this->_object = $object;
     }
 
+
     public function matches($object)
     {
-        return ($object === $this->_object) && ($this->_object === $object);
+        return ( $object === $this->_object ) && ( $this->_object === $object );
     }
+
 
     public function describeTo(Description $description)
     {
-        $description->appendText('sameInstance(')
-                                ->appendValue($this->_object)
-                                ->appendText(')')
-                                ;
+        $description->appendText('sameInstance(')->appendValue($this->_object)->appendText(')');
     }
+
 
     /**
      * Creates a new instance of IsSame.

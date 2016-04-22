@@ -18,6 +18,7 @@ use XdgBaseDir\Xdg;
  */
 class ConfigPaths
 {
+
     /**
      * Get potential config directory paths.
      *
@@ -35,6 +36,7 @@ class ConfigPaths
         return self::getDirNames($xdg->getConfigDirs());
     }
 
+
     /**
      * Get potential home config directory paths.
      *
@@ -49,8 +51,9 @@ class ConfigPaths
     {
         $xdg = new Xdg();
 
-        return self::getDirNames(array($xdg->getHomeConfigDir()));
+        return self::getDirNames([ $xdg->getHomeConfigDir() ]);
     }
+
 
     /**
      * Get the current home config directory.
@@ -76,6 +79,7 @@ class ConfigPaths
         return $configDirs[0];
     }
 
+
     /**
      * Find real config files in config directories.
      *
@@ -86,10 +90,11 @@ class ConfigPaths
      */
     public static function getConfigFiles(array $names, $configDir = null)
     {
-        $dirs = ($configDir === null) ? self::getConfigDirs() : array($configDir);
+        $dirs = ( $configDir === null ) ? self::getConfigDirs() : [ $configDir ];
 
         return self::getRealFiles($dirs, $names);
     }
+
 
     /**
      * Get potential data directory paths.
@@ -110,6 +115,7 @@ class ConfigPaths
         return self::getDirNames($xdg->getDataDirs());
     }
 
+
     /**
      * Find real data files in config directories.
      *
@@ -120,10 +126,11 @@ class ConfigPaths
      */
     public static function getDataFiles(array $names, $dataDir = null)
     {
-        $dirs = ($dataDir === null) ? self::getDataDirs() : array($dataDir);
+        $dirs = ( $dataDir === null ) ? self::getDataDirs() : [ $dataDir ];
 
         return self::getRealFiles($dirs, $names);
     }
+
 
     /**
      * Get a runtime directory.
@@ -138,6 +145,7 @@ class ConfigPaths
 
         return $xdg->getRuntimeDir(false) . '/psysh';
     }
+
 
     private static function getDirNames(array $baseDirs)
     {
@@ -158,7 +166,7 @@ class ConfigPaths
             }
 
             $dir = strtr(getenv('HOMEDRIVE') . '/' . getenv('HOMEPATH'), '\\', '/') . '/.psysh';
-            if (!in_array($dir, $dirs)) {
+            if ( ! in_array($dir, $dirs)) {
                 $dirs[] = $dir;
             }
         }
@@ -166,9 +174,10 @@ class ConfigPaths
         return $dirs;
     }
 
+
     private static function getRealFiles(array $dirNames, array $fileNames)
     {
-        $files = array();
+        $files = [ ];
         foreach ($dirNames as $dir) {
             foreach ($fileNames as $name) {
                 $file = $dir . '/' . $name;

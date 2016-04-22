@@ -19,23 +19,27 @@
  */
 class PHP_Token_Stream_CachingFactory
 {
+
     /**
      * @var array
      */
-    protected static $cache = array();
+    protected static $cache = [ ];
+
 
     /**
      * @param  string $filename
+     *
      * @return PHP_Token_Stream
      */
     public static function get($filename)
     {
-        if (!isset(self::$cache[$filename])) {
+        if ( ! isset( self::$cache[$filename] )) {
             self::$cache[$filename] = new PHP_Token_Stream($filename);
         }
 
         return self::$cache[$filename];
     }
+
 
     /**
      * @param string $filename
@@ -43,9 +47,9 @@ class PHP_Token_Stream_CachingFactory
     public static function clear($filename = null)
     {
         if (is_string($filename)) {
-            unset(self::$cache[$filename]);
+            unset( self::$cache[$filename] );
         } else {
-            self::$cache = array();
+            self::$cache = [ ];
         }
     }
 }

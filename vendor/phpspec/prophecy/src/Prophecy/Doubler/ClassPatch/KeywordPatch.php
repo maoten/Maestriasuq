@@ -20,6 +20,7 @@ use Prophecy\Doubler\Generator\Node\ClassNode;
  */
 class KeywordPatch implements ClassPatchInterface
 {
+
     /**
      * Support any class
      *
@@ -32,6 +33,7 @@ class KeywordPatch implements ClassPatchInterface
         return true;
     }
 
+
     /**
      * Remove methods that clash with php keywords
      *
@@ -39,30 +41,34 @@ class KeywordPatch implements ClassPatchInterface
      */
     public function apply(ClassNode $node)
     {
-        $methodNames = array_keys($node->getMethods());
+        $methodNames     = array_keys($node->getMethods());
         $methodsToRemove = array_intersect($methodNames, $this->getKeywords());
         foreach ($methodsToRemove as $methodName) {
             $node->removeMethod($methodName);
         }
     }
 
+
     /**
      * Returns patch priority, which determines when patch will be applied.
      *
      * @return int Priority number (higher - earlier)
      */
-    public function getPriority() {
+    public function getPriority()
+    {
         return 49;
     }
+
 
     /**
      * Returns array of php keywords.
      *
      * @return array
      */
-    private function getKeywords() {
+    private function getKeywords()
+    {
 
-        return array(
+        return [
             '__halt_compiler',
             'abstract',
             'and',
@@ -130,6 +136,6 @@ class KeywordPatch implements ClassPatchInterface
             'while',
             'xor',
             'yield',
-        );
+        ];
     }
 }

@@ -22,10 +22,12 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  */
 class AddRequestFormatsListener implements EventSubscriberInterface
 {
+
     /**
      * @var array
      */
     protected $formats;
+
 
     /**
      * @param array $formats
@@ -34,6 +36,7 @@ class AddRequestFormatsListener implements EventSubscriberInterface
     {
         $this->formats = $formats;
     }
+
 
     /**
      * Adds request formats.
@@ -47,11 +50,12 @@ class AddRequestFormatsListener implements EventSubscriberInterface
         }
     }
 
+
     /**
      * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
-        return array(KernelEvents::REQUEST => 'onKernelRequest');
+        return [ KernelEvents::REQUEST => 'onKernelRequest' ];
     }
 }

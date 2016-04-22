@@ -21,18 +21,25 @@ use Symfony\Component\VarDumper\Cloner\DumperInterface;
  */
 abstract class AbstractDumper implements DataDumperInterface, DumperInterface
 {
+
     public static $defaultOutput = 'php://output';
 
     protected $line = '';
+
     protected $lineDumper;
+
     protected $outputStream;
+
     protected $decimalPoint; // This is locale dependent
+
     protected $indentPad = '  ';
 
     private $charset;
 
+
     /**
-     * @param callable|resource|string|null $output  A line dumper callable, an opened stream or an output path, defaults to static::$defaultOutput.
+     * @param callable|resource|string|null $output  A line dumper callable, an opened stream or an output path,
+     *                                               defaults to static::$defaultOutput.
      * @param string                        $charset The default character encoding to use for non-UTF8 strings.
      */
     public function __construct($output = null, $charset = null)
@@ -41,10 +48,11 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
         $this->decimalPoint = (string) 0.5;
         $this->decimalPoint = $this->decimalPoint[1];
         $this->setOutput($output ?: static::$defaultOutput);
-        if (!$output && is_string(static::$defaultOutput)) {
+        if ( ! $output && is_string(static::$defaultOutput)) {
             static::$defaultOutput = $this->outputStream;
         }
     }
+
 
     /**
      * Sets the output destination of the dumps.
@@ -59,17 +67,18 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
 
         if (is_callable($output)) {
             $this->outputStream = null;
-            $this->lineDumper = $output;
+            $this->lineDumper   = $output;
         } else {
             if (is_string($output)) {
                 $output = fopen($output, 'wb');
             }
             $this->outputStream = $output;
-            $this->lineDumper = array($this, 'echoLine');
+            $this->lineDumper   = [ $this, 'echoLine' ];
         }
 
         return $prev;
     }
+
 
     /**
      * Sets the default character encoding to use for non-UTF8 strings.
@@ -90,6 +99,7 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
         return $prev;
     }
 
+
     /**
      * Sets the indentation pad string.
      *
@@ -99,11 +109,12 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
      */
     public function setIndentPad($pad)
     {
-        $prev = $this->indentPad;
+        $prev            = $this->indentPad;
         $this->indentPad = $pad;
 
         return $prev;
     }
+
 
     /**
      * Dumps a Data object.
@@ -131,6 +142,7 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
         }
     }
 
+
     /**
      * Dumps the current line.
      *
@@ -142,6 +154,7 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
         $this->line = '';
     }
 
+
     /**
      * Generic line dumper callback.
      *
@@ -151,9 +164,10 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
     protected function echoLine($line, $depth, $indentPad)
     {
         if (-1 !== $depth) {
-            fwrite($this->outputStream, str_repeat($indentPad, $depth).$line."\n");
+            fwrite($this->outputStream, str_repeat($indentPad, $depth) . $line . "\n");
         }
     }
+
 
     /**
      * Converts a non-UTF-8 string to UTF-8.

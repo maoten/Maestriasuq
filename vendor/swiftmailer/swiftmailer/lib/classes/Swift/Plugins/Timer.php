@@ -15,6 +15,7 @@
  */
 interface Swift_Plugins_Timer
 {
+
     /**
      * Get the current UNIX timestamp.
      *

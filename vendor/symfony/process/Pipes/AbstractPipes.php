@@ -18,16 +18,19 @@ namespace Symfony\Component\Process\Pipes;
  */
 abstract class AbstractPipes implements PipesInterface
 {
+
     /** @var array */
-    public $pipes = array();
+    public $pipes = [ ];
 
     /** @var string */
     protected $inputBuffer = '';
+
     /** @var resource|null */
     protected $input;
 
     /** @var bool */
     private $blocked = true;
+
 
     /**
      * {@inheritdoc}
@@ -37,8 +40,9 @@ abstract class AbstractPipes implements PipesInterface
         foreach ($this->pipes as $pipe) {
             fclose($pipe);
         }
-        $this->pipes = array();
+        $this->pipes = [ ];
     }
+
 
     /**
      * Returns true if a system call has been interrupted.
@@ -50,15 +54,16 @@ abstract class AbstractPipes implements PipesInterface
         $lastError = error_get_last();
 
         // stream_select returns false when the `select` system call is interrupted by an incoming signal
-        return isset($lastError['message']) && false !== stripos($lastError['message'], 'interrupted system call');
+        return isset( $lastError['message'] ) && false !== stripos($lastError['message'], 'interrupted system call');
     }
+
 
     /**
      * Unblocks streams.
      */
     protected function unblock()
     {
-        if (!$this->blocked) {
+        if ( ! $this->blocked) {
             return;
         }
 

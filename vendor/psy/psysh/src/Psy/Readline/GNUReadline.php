@@ -20,9 +20,13 @@ namespace Psy\Readline;
  */
 class GNUReadline implements Readline
 {
+
     protected $historyFile;
+
     protected $historySize;
+
     protected $eraseDups;
+
 
     /**
      * GNU Readline is supported iff `readline_list_history` is defined. PHP
@@ -36,6 +40,7 @@ class GNUReadline implements Readline
         return function_exists('readline_list_history');
     }
 
+
     /**
      * GNU Readline constructor.
      */
@@ -43,8 +48,9 @@ class GNUReadline implements Readline
     {
         $this->historyFile = $historyFile;
         $this->historySize = $historySize;
-        $this->eraseDups = $eraseDups;
+        $this->eraseDups   = $eraseDups;
     }
+
 
     /**
      * {@inheritdoc}
@@ -58,6 +64,7 @@ class GNUReadline implements Readline
         return $res;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -70,6 +77,7 @@ class GNUReadline implements Readline
         return $res;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -77,6 +85,7 @@ class GNUReadline implements Readline
     {
         return readline_list_history();
     }
+
 
     /**
      * {@inheritdoc}
@@ -90,13 +99,14 @@ class GNUReadline implements Readline
         //     https://github.com/php/php-src/blob/423a057023ef3c00d2ffc16a6b43ba01d0f71796/NEWS#L19-L21
         //
         // TODO: add a PHP version check after next point release
-        if (!ini_get('open_basedir')) {
+        if ( ! ini_get('open_basedir')) {
             readline_read_history();
         }
         readline_clear_history();
 
         return readline_read_history($this->historyFile);
     }
+
 
     /**
      * {@inheritdoc}
@@ -106,6 +116,7 @@ class GNUReadline implements Readline
         return readline($prompt);
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -113,6 +124,7 @@ class GNUReadline implements Readline
     {
         readline_redisplay();
     }
+
 
     /**
      * {@inheritdoc}
@@ -122,12 +134,12 @@ class GNUReadline implements Readline
         // We have to write history first, since it is used
         // by Libedit to list history
         $res = readline_write_history($this->historyFile);
-        if (!$res || !$this->eraseDups && !$this->historySize > 0) {
+        if ( ! $res || ! $this->eraseDups && ! $this->historySize > 0) {
             return $res;
         }
 
         $hist = $this->listHistory();
-        if (!$hist) {
+        if ( ! $hist) {
             return true;
         }
 

@@ -2,11 +2,13 @@
 
 class Swift_Mime_Headers_PathHeaderTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testTypeIsPathHeader()
     {
         $header = $this->_getHeader('Return-Path');
         $this->assertEquals(Swift_Mime_Header::TYPE_PATH, $header->getFieldType());
     }
+
 
     public function testSingleAddressCanBeSetAndFetched()
     {
@@ -14,6 +16,7 @@ class Swift_Mime_Headers_PathHeaderTest extends \PHPUnit_Framework_TestCase
         $header->setAddress('chris@swiftmailer.org');
         $this->assertEquals('chris@swiftmailer.org', $header->getAddress());
     }
+
 
     public function testAddressMustComplyWithRfc2822()
     {
@@ -24,6 +27,7 @@ class Swift_Mime_Headers_PathHeaderTest extends \PHPUnit_Framework_TestCase
         } catch (Exception $e) {
         }
     }
+
 
     public function testValueIsAngleAddrWithValidAddress()
     {
@@ -40,12 +44,14 @@ class Swift_Mime_Headers_PathHeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('<chris@swiftmailer.org>', $header->getFieldBody());
     }
 
+
     public function testValueIsEmptyAngleBracketsIfEmptyAddressSet()
     {
         $header = $this->_getHeader('Return-Path');
         $header->setAddress('');
         $this->assertEquals('<>', $header->getFieldBody());
     }
+
 
     public function testSetBodyModel()
     {
@@ -54,6 +60,7 @@ class Swift_Mime_Headers_PathHeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo@bar.tld', $header->getAddress());
     }
 
+
     public function testGetBodyModel()
     {
         $header = $this->_getHeader('Return-Path');
@@ -61,14 +68,14 @@ class Swift_Mime_Headers_PathHeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo@bar.tld', $header->getFieldBodyModel());
     }
 
+
     public function testToString()
     {
         $header = $this->_getHeader('Return-Path');
         $header->setAddress('chris@swiftmailer.org');
-        $this->assertEquals('Return-Path: <chris@swiftmailer.org>'."\r\n",
-            $header->toString()
-            );
+        $this->assertEquals('Return-Path: <chris@swiftmailer.org>' . "\r\n", $header->toString());
     }
+
 
     private function _getHeader($name)
     {

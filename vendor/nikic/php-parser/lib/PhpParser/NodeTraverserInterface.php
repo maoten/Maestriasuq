@@ -4,6 +4,7 @@ namespace PhpParser;
 
 interface NodeTraverserInterface
 {
+
     /**
      * If NodeVisitor::enterNode() returns DONT_TRAVERSE_CHILDREN, child nodes
      * of the current node will not be traversed for any visitors.
@@ -22,6 +23,7 @@ interface NodeTraverserInterface
      */
     const REMOVE_NODE = false;
 
+
     /**
      * Adds a visitor.
      *
@@ -29,12 +31,14 @@ interface NodeTraverserInterface
      */
     function addVisitor(NodeVisitor $visitor);
 
+
     /**
      * Removes an added visitor.
      *
      * @param NodeVisitor $visitor
      */
     function removeVisitor(NodeVisitor $visitor);
+
 
     /**
      * Traverses an array of nodes using the registered visitors.

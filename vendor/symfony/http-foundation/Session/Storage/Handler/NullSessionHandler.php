@@ -20,6 +20,7 @@ namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
  */
 class NullSessionHandler implements \SessionHandlerInterface
 {
+
     /**
      * {@inheritdoc}
      */
@@ -27,6 +28,7 @@ class NullSessionHandler implements \SessionHandlerInterface
     {
         return true;
     }
+
 
     /**
      * {@inheritdoc}
@@ -36,6 +38,7 @@ class NullSessionHandler implements \SessionHandlerInterface
         return true;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -43,6 +46,7 @@ class NullSessionHandler implements \SessionHandlerInterface
     {
         return '';
     }
+
 
     /**
      * {@inheritdoc}
@@ -52,6 +56,7 @@ class NullSessionHandler implements \SessionHandlerInterface
         return true;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -59,6 +64,7 @@ class NullSessionHandler implements \SessionHandlerInterface
     {
         return true;
     }
+
 
     /**
      * {@inheritdoc}

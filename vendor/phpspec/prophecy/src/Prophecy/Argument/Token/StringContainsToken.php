@@ -18,7 +18,9 @@ namespace Prophecy\Argument\Token;
  */
 class StringContainsToken implements TokenInterface
 {
+
     private $value;
+
 
     /**
      * Initializes token.
@@ -30,10 +32,12 @@ class StringContainsToken implements TokenInterface
         $this->value = $value;
     }
 
+
     public function scoreArgument($argument)
     {
         return strpos($argument, $this->value) !== false ? 6 : false;
     }
+
 
     /**
      * Returns preset value against which token checks arguments.
@@ -45,6 +49,7 @@ class StringContainsToken implements TokenInterface
         return $this->value;
     }
 
+
     /**
      * Returns false.
      *
@@ -54,6 +59,7 @@ class StringContainsToken implements TokenInterface
     {
         return false;
     }
+
 
     /**
      * Returns string representation for token.

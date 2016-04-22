@@ -4,6 +4,7 @@ namespace Faker\Provider;
 
 class Biased extends \Faker\Provider\Base
 {
+
     /**
      * Returns a biased integer between $min and $max (both inclusive).
      * The distribution depends on $function.
@@ -14,20 +15,22 @@ class Biased extends \Faker\Provider\Base
      * between $min and $max. Otherwise two new doubles are created until the pair
      * is accepted.
      *
-     * @param integer $min Minimum value of the generated integers.
-     * @param integer $max Maximum value of the generated integers.
+     * @param integer  $min      Minimum value of the generated integers.
+     * @param integer  $max      Maximum value of the generated integers.
      * @param callable $function A function mapping x ∈ [0, 1] onto a double ∈ [0, 1]
+     *
      * @return integer An integer between $min and $max.
      */
     public function biasedNumberBetween($min = 0, $max = 100, $function = 'sqrt')
     {
         do {
             $x = mt_rand() / mt_getrandmax();
-            $y = mt_rand() / (mt_getrandmax() + 1);
+            $y = mt_rand() / ( mt_getrandmax() + 1 );
         } while (call_user_func($function, $x) < $y);
-        
-        return floor($x * ($max - $min + 1) + $min);
+
+        return floor($x * ( $max - $min + 1 ) + $min);
     }
+
 
     /**
      * 'unbiased' creates an unbiased distribution by giving
@@ -40,6 +43,7 @@ class Biased extends \Faker\Provider\Base
         return 1;
     }
 
+
     /**
      * 'linearLow' favors lower numbers. The probability decreases
      * in a linear fashion.
@@ -50,6 +54,7 @@ class Biased extends \Faker\Provider\Base
     {
         return 1 - $x;
     }
+
 
     /**
      * 'linearHigh' favors higher numbers. The probability increases

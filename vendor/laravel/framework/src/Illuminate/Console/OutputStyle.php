@@ -8,6 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class OutputStyle extends SymfonyStyle
 {
+
     /**
      * The output instance.
      *
@@ -15,11 +16,13 @@ class OutputStyle extends SymfonyStyle
      */
     private $output;
 
+
     /**
      * Create a new Console OutputStyle instance.
      *
-     * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
+     * @param  \Symfony\Component\Console\Input\InputInterface   $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
+     *
      * @return void
      */
     public function __construct(InputInterface $input, OutputInterface $output)
@@ -28,6 +31,7 @@ class OutputStyle extends SymfonyStyle
 
         parent::__construct($input, $output);
     }
+
 
     /**
      * Returns whether verbosity is quiet (-q).
@@ -39,6 +43,7 @@ class OutputStyle extends SymfonyStyle
         return $this->output->isQuiet();
     }
 
+
     /**
      * Returns whether verbosity is verbose (-v).
      *
@@ -49,6 +54,7 @@ class OutputStyle extends SymfonyStyle
         return $this->output->isVerbose();
     }
 
+
     /**
      * Returns whether verbosity is very verbose (-vv).
      *
@@ -58,6 +64,7 @@ class OutputStyle extends SymfonyStyle
     {
         return $this->output->isVeryVerbose();
     }
+
 
     /**
      * Returns whether verbosity is debug (-vvv).

@@ -16,6 +16,7 @@ use Psy\Exception\Exception;
 
 class ErrorExceptionTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testInstance()
     {
         $e = new ErrorException();
@@ -25,6 +26,7 @@ class ErrorExceptionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($e instanceof ErrorException);
     }
 
+
     public function testMessage()
     {
         $e = new ErrorException('foo');
@@ -32,6 +34,7 @@ class ErrorExceptionTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('foo', $e->getMessage());
         $this->assertEquals('foo', $e->getRawMessage());
     }
+
 
     /**
      * @dataProvider getLevels
@@ -41,6 +44,7 @@ class ErrorExceptionTest extends \PHPUnit_Framework_TestCase
         $e = new ErrorException('foo', 0, $level);
         $this->assertContains('PHP ' . $type, $e->getMessage());
     }
+
 
     /**
      * @dataProvider getLevels
@@ -57,24 +61,26 @@ class ErrorExceptionTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+
     public function getLevels()
     {
-        return array(
-            array(E_WARNING,         'warning'),
-            array(E_CORE_WARNING,    'warning'),
-            array(E_COMPILE_WARNING, 'warning'),
-            array(E_USER_WARNING,    'warning'),
-            array(E_STRICT,          'Strict error'),
-            array(0,                 'error'),
-        );
+        return [
+            [ E_WARNING, 'warning' ],
+            [ E_CORE_WARNING, 'warning' ],
+            [ E_COMPILE_WARNING, 'warning' ],
+            [ E_USER_WARNING, 'warning' ],
+            [ E_STRICT, 'Strict error' ],
+            [ 0, 'error' ],
+        ];
     }
+
 
     /**
      * @dataProvider getUserLevels
      */
     public function testThrowExceptionAsErrorHandler($level, $type)
     {
-        set_error_handler(array('Psy\Exception\ErrorException', 'throwException'));
+        set_error_handler([ 'Psy\Exception\ErrorException', 'throwException' ]);
         try {
             trigger_error('{whot}', $level);
         } catch (ErrorException $e) {
@@ -84,15 +90,17 @@ class ErrorExceptionTest extends \PHPUnit_Framework_TestCase
         restore_error_handler();
     }
 
+
     public function getUserLevels()
     {
-        return array(
-            array(E_USER_ERROR,      'error'),
-            array(E_USER_WARNING,    'warning'),
-            array(E_USER_NOTICE,     'error'),
-            array(E_USER_DEPRECATED, 'error'),
-        );
+        return [
+            [ E_USER_ERROR, 'error' ],
+            [ E_USER_WARNING, 'warning' ],
+            [ E_USER_NOTICE, 'error' ],
+            [ E_USER_DEPRECATED, 'error' ],
+        ];
     }
+
 
     public function testIgnoreExecutionLoopFilename()
     {

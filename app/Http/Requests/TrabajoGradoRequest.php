@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
-
 class TrabajoGradoRequest extends Request
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -16,6 +15,7 @@ class TrabajoGradoRequest extends Request
         return true;
     }
 
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,8 +24,8 @@ class TrabajoGradoRequest extends Request
     public function rules()
     {
         return [
-            'nombre'=>'min:4|max:120|required',
-            'cedula'=>'min:4|max:120|required'
+            'nombre' => 'min:4|max:120|required',
+            'cedula' => 'min:4|max:120|required'
         ];
     }
 }

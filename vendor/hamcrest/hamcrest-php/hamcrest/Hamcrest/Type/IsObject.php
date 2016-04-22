@@ -20,6 +20,7 @@ class IsObject extends IsTypeOf
         parent::__construct('object');
     }
 
+
     /**
      * Is the value an object?
      *

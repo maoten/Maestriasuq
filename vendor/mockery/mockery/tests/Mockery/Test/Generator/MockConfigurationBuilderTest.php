@@ -7,6 +7,7 @@ use Mockery\Generator\MockConfigurationBuilder;
 
 class MockConfigurationBuilderTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @test
      */
@@ -18,6 +19,7 @@ class MockConfigurationBuilderTest extends \PHPUnit_Framework_TestCase
         // need a builtin for this
         $this->markTestSkipped("Need a builtin class with a method that is a reserved word");
     }
+
 
     /**
      * @test
@@ -34,9 +36,12 @@ class MockConfigurationBuilderTest extends \PHPUnit_Framework_TestCase
 
 class ClassWithMagicCall
 {
+
     public function foo()
     {
     }
+
+
     public function __call($method, $args)
     {
     }

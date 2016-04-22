@@ -19,7 +19,9 @@ use JakubOnderka\PhpConsoleHighlighter\Highlighter;
  */
 class ConsoleColorFactory
 {
+
     private $colorMode;
+
 
     /**
      * @param string $colorMode
@@ -28,6 +30,7 @@ class ConsoleColorFactory
     {
         $this->colorMode = $colorMode;
     }
+
 
     /**
      * Get a `ConsoleColor` instance configured according to the given color
@@ -46,13 +49,15 @@ class ConsoleColorFactory
         }
     }
 
+
     private function getDefaultConsoleColor()
     {
         $color = new ConsoleColor();
-        $color->addTheme(Highlighter::LINE_NUMBER, array('blue'));
+        $color->addTheme(Highlighter::LINE_NUMBER, [ 'blue' ]);
 
         return $color;
     }
+
 
     private function getForcedConsoleColor()
     {
@@ -62,17 +67,18 @@ class ConsoleColorFactory
         return $color;
     }
 
+
     private function getDisabledConsoleColor()
     {
         $color = new ConsoleColor();
 
-        $color->addTheme(Highlighter::TOKEN_STRING, array('none'));
-        $color->addTheme(Highlighter::TOKEN_COMMENT, array('none'));
-        $color->addTheme(Highlighter::TOKEN_KEYWORD, array('none'));
-        $color->addTheme(Highlighter::TOKEN_DEFAULT, array('none'));
-        $color->addTheme(Highlighter::TOKEN_HTML, array('none'));
-        $color->addTheme(Highlighter::ACTUAL_LINE_MARK, array('none'));
-        $color->addTheme(Highlighter::LINE_NUMBER, array('none'));
+        $color->addTheme(Highlighter::TOKEN_STRING, [ 'none' ]);
+        $color->addTheme(Highlighter::TOKEN_COMMENT, [ 'none' ]);
+        $color->addTheme(Highlighter::TOKEN_KEYWORD, [ 'none' ]);
+        $color->addTheme(Highlighter::TOKEN_DEFAULT, [ 'none' ]);
+        $color->addTheme(Highlighter::TOKEN_HTML, [ 'none' ]);
+        $color->addTheme(Highlighter::ACTUAL_LINE_MARK, [ 'none' ]);
+        $color->addTheme(Highlighter::LINE_NUMBER, [ 'none' ]);
 
         return $color;
     }

@@ -16,6 +16,7 @@ namespace SebastianBergmann\RecursionContext;
  */
 final class Context
 {
+
     /**
      * @var array[]
      */
@@ -26,19 +27,22 @@ final class Context
      */
     private $objects;
 
+
     /**
      * Initialises the context
      */
     public function __construct()
     {
-        $this->arrays  = array();
+        $this->arrays  = [ ];
         $this->objects = new \SplObjectStorage;
     }
+
 
     /**
      * Adds a value to the context.
      *
-     * @param  array|object             $value The value to add.
+     * @param  array|object $value The value to add.
+     *
      * @return int|string               The ID of the stored value, either as
      *                                        a string or integer.
      * @throws InvalidArgumentException Thrown if $value is not an array or
@@ -48,21 +52,21 @@ final class Context
     {
         if (is_array($value)) {
             return $this->addArray($value);
+        } else {
+            if (is_object($value)) {
+                return $this->addObject($value);
+            }
         }
 
-        else if (is_object($value)) {
-            return $this->addObject($value);
-        }
-
-        throw new InvalidArgumentException(
-            'Only arrays and objects are supported'
-        );
+        throw new InvalidArgumentException('Only arrays and objects are supported');
     }
+
 
     /**
      * Checks if the given value exists within the context.
      *
-     * @param  array|object             $value The value to check.
+     * @param  array|object $value The value to check.
+     *
      * @return int|string|false         The string or integer ID of the stored
      *                                        value if it has already been seen, or
      *                                        false if the value is not stored.
@@ -73,19 +77,19 @@ final class Context
     {
         if (is_array($value)) {
             return $this->containsArray($value);
+        } else {
+            if (is_object($value)) {
+                return $this->containsObject($value);
+            }
         }
 
-        else if (is_object($value)) {
-            return $this->containsObject($value);
-        }
-
-        throw new InvalidArgumentException(
-            'Only arrays and objects are supported'
-        );
+        throw new InvalidArgumentException('Only arrays and objects are supported');
     }
 
+
     /**
-     * @param  array    $array
+     * @param  array $array
+     *
      * @return bool|int
      */
     private function addArray(array &$array)
@@ -101,21 +105,25 @@ final class Context
         return count($this->arrays) - 1;
     }
 
+
     /**
      * @param  object $object
+     *
      * @return string
      */
     private function addObject($object)
     {
-        if (!$this->objects->contains($object)) {
+        if ( ! $this->objects->contains($object)) {
             $this->objects->attach($object);
         }
 
         return spl_object_hash($object);
     }
 
+
     /**
-     * @param  array     $array
+     * @param  array $array
+     *
      * @return int|false
      */
     private function containsArray(array &$array)
@@ -126,20 +134,22 @@ final class Context
         foreach ($keys as $key) {
             $this->arrays[$key][$hash] = $hash;
 
-            if (isset($array[$hash]) && $array[$hash] === $hash) {
-                unset($this->arrays[$key][$hash]);
+            if (isset( $array[$hash] ) && $array[$hash] === $hash) {
+                unset( $this->arrays[$key][$hash] );
 
                 return $key;
             }
 
-            unset($this->arrays[$key][$hash]);
+            unset( $this->arrays[$key][$hash] );
         }
 
         return false;
     }
 
+
     /**
-     * @param  object       $value
+     * @param  object $value
+     *
      * @return string|false
      */
     private function containsObject($value)

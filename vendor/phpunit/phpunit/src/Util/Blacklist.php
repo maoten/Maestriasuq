@@ -15,10 +15,11 @@
  */
 class PHPUnit_Util_Blacklist
 {
+
     /**
      * @var array
      */
-    public static $blacklistedClassNames = array(
+    public static $blacklistedClassNames = [
         'File_Iterator'                              => 1,
         'PHP_CodeCoverage'                           => 1,
         'PHP_Invoker'                                => 1,
@@ -41,12 +42,13 @@ class PHPUnit_Util_Blacklist
         'Doctrine\Instantiator\Instantiator'         => 1,
         'phpDocumentor\Reflection\DocBlock'          => 1,
         'Prophecy\Prophet'                           => 1
-    );
+    ];
 
     /**
      * @var array
      */
     private static $directories;
+
 
     /**
      * @return array
@@ -59,6 +61,7 @@ class PHPUnit_Util_Blacklist
 
         return self::$directories;
     }
+
 
     /**
      * @param string $file
@@ -82,13 +85,14 @@ class PHPUnit_Util_Blacklist
         return false;
     }
 
+
     private function initialize()
     {
         if (self::$directories === null) {
-            self::$directories = array();
+            self::$directories = [ ];
 
             foreach (self::$blacklistedClassNames as $className => $parent) {
-                if (!class_exists($className)) {
+                if ( ! class_exists($className)) {
                     continue;
                 }
 

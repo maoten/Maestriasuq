@@ -17,12 +17,14 @@ abstract class ShortcutCombination extends BaseMatcher
      */
     private $_matchers;
 
+
     public function __construct(array $matchers)
     {
         Util::checkAllAreMatchers($matchers);
 
         $this->_matchers = $matchers;
     }
+
 
     protected function matchesWithShortcut($item, $shortcut)
     {
@@ -33,8 +35,9 @@ abstract class ShortcutCombination extends BaseMatcher
             }
         }
 
-        return !$shortcut;
+        return ! $shortcut;
     }
+
 
     public function describeToWithOperator(Description $description, $operator)
     {

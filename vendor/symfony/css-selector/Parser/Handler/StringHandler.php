@@ -31,6 +31,7 @@ use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns;
  */
 class StringHandler implements HandlerInterface
 {
+
     /**
      * @var TokenizerPatterns
      */
@@ -40,6 +41,7 @@ class StringHandler implements HandlerInterface
      * @var TokenizerEscaping
      */
     private $escaping;
+
 
     /**
      * @param TokenizerPatterns $patterns
@@ -51,6 +53,7 @@ class StringHandler implements HandlerInterface
         $this->escaping = $escaping;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -58,15 +61,16 @@ class StringHandler implements HandlerInterface
     {
         $quote = $reader->getSubstring(1);
 
-        if (!in_array($quote, array("'", '"'))) {
+        if ( ! in_array($quote, [ "'", '"' ])) {
             return false;
         }
 
         $reader->moveForward(1);
         $match = $reader->findPattern($this->patterns->getQuotedStringPattern($quote));
 
-        if (!$match) {
-            throw new InternalErrorException(sprintf('Should have found at least an empty match at %s.', $reader->getPosition()));
+        if ( ! $match) {
+            throw new InternalErrorException(sprintf('Should have found at least an empty match at %s.',
+                $reader->getPosition()));
         }
 
         // check unclosed strings

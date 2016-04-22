@@ -17,20 +17,24 @@ class IsNot extends BaseMatcher
 
     private $_matcher;
 
+
     public function __construct(Matcher $matcher)
     {
         $this->_matcher = $matcher;
     }
 
+
     public function matches($arg)
     {
-        return !$this->_matcher->matches($arg);
+        return ! $this->_matcher->matches($arg);
     }
+
 
     public function describeTo(Description $description)
     {
         $description->appendText('not ')->appendDescriptionOf($this->_matcher);
     }
+
 
     /**
      * Matches if value does not match $value.

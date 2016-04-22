@@ -16,6 +16,7 @@ use Psy\Exception\Exception;
 
 class BreakExceptionTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testInstance()
     {
         $e = new BreakException();
@@ -23,6 +24,7 @@ class BreakExceptionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($e instanceof Exception);
         $this->assertTrue($e instanceof BreakException);
     }
+
 
     public function testMessage()
     {

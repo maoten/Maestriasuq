@@ -14,6 +14,7 @@ namespace SebastianBergmann\Diff;
  */
 class Diff
 {
+
     /**
      * @var string
      */
@@ -29,17 +30,19 @@ class Diff
      */
     private $chunks;
 
+
     /**
      * @param string  $from
      * @param string  $to
      * @param Chunk[] $chunks
      */
-    public function __construct($from, $to, array $chunks = array())
+    public function __construct($from, $to, array $chunks = [ ])
     {
         $this->from   = $from;
         $this->to     = $to;
         $this->chunks = $chunks;
     }
+
 
     /**
      * @return string
@@ -49,6 +52,7 @@ class Diff
         return $this->from;
     }
 
+
     /**
      * @return string
      */
@@ -57,6 +61,7 @@ class Diff
         return $this->to;
     }
 
+
     /**
      * @return Chunk[]
      */
@@ -64,6 +69,7 @@ class Diff
     {
         return $this->chunks;
     }
+
 
     /**
      * @param Chunk[] $chunks

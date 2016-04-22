@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 interface FragmentRendererInterface
 {
+
     /**
      * Renders a URI and returns the Response content.
      *
@@ -31,7 +32,8 @@ interface FragmentRendererInterface
      *
      * @return Response A Response instance
      */
-    public function render($uri, Request $request, array $options = array());
+    public function render($uri, Request $request, array $options = [ ]);
+
 
     /**
      * Gets the name of the strategy.

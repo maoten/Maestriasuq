@@ -6,10 +6,12 @@ use PhpSpec\ObjectBehavior;
 
 class RevealerSpec extends ObjectBehavior
 {
+
     function it_is_revealer()
     {
         $this->shouldBeAnInstanceOf('Prophecy\Prophecy\RevealerInterface');
     }
+
 
     /**
      * @param \Prophecy\Prophecy\ProphecyInterface $prophecy
@@ -22,6 +24,7 @@ class RevealerSpec extends ObjectBehavior
         $this->reveal($prophecy)->shouldReturn($object);
     }
 
+
     /**
      * @param \Prophecy\Prophecy\ProphecyInterface $prophecy1
      * @param \Prophecy\Prophecy\ProphecyInterface $prophecy2
@@ -29,20 +32,23 @@ class RevealerSpec extends ObjectBehavior
      * @param \stdClass                            $object2
      */
     function it_reveals_instances_of_ProphecyInterface_inside_array(
-        $prophecy1, $prophecy2, $object1, $object2
-    )
-    {
+        $prophecy1,
+        $prophecy2,
+        $object1,
+        $object2
+    ) {
         $prophecy1->reveal()->willReturn($object1);
         $prophecy2->reveal()->willReturn($object2);
 
-        $this->reveal(array(
-            array('item' => $prophecy2),
+        $this->reveal([
+            [ 'item' => $prophecy2 ],
             $prophecy1
-        ))->shouldReturn(array(
-            array('item' => $object2),
+        ])->shouldReturn([
+            [ 'item' => $object2 ],
             $object1
-        ));
+        ]);
     }
+
 
     function it_does_not_touch_non_prophecy_interface()
     {

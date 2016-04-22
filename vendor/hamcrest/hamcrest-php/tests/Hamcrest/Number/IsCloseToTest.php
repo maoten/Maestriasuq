@@ -11,6 +11,7 @@ class IsCloseToTest extends \Hamcrest\AbstractMatcherTest
         return \Hamcrest\Number\IsCloseTo::closeTo($irrelevant, $irrelevant);
     }
 
+
     public function testEvaluatesToTrueIfArgumentIsEqualToADoubleValueWithinSomeError()
     {
         $p = closeTo(1.0, 0.5);

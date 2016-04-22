@@ -15,6 +15,7 @@
  */
 class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterableInputStream implements Swift_FileStream
 {
+
     /** The internal pointer offset */
     private $_offset = 0;
 
@@ -36,6 +37,7 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
     /** If stream is seekable true/false, or null if not known */
     private $_seekable = null;
 
+
     /**
      * Create a new FileByteStream for $path.
      *
@@ -44,7 +46,7 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
      */
     public function __construct($path, $writable = false)
     {
-        if (empty($path)) {
+        if (empty( $path )) {
             throw new Swift_IoException('The path cannot be empty');
         }
         $this->_path = $path;
@@ -55,6 +57,7 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
         }
     }
 
+
     /**
      * Get the complete path to the file.
      *
@@ -64,6 +67,7 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
     {
         return $this->_path;
     }
+
 
     /**
      * Reads $length bytes from the stream into a string and moves the pointer
@@ -82,7 +86,7 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
     public function read($length)
     {
         $fp = $this->_getReadHandle();
-        if (!feof($fp)) {
+        if ( ! feof($fp)) {
             if ($this->_quotes) {
                 ini_set('magic_quotes_runtime', 0);
             }
@@ -108,6 +112,7 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
         return false;
     }
 
+
     /**
      * Move the internal read pointer to $byteOffset in the stream.
      *
@@ -117,11 +122,12 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
      */
     public function setReadPointer($byteOffset)
     {
-        if (isset($this->_reader)) {
+        if (isset( $this->_reader )) {
             $this->_seekReadStreamToPosition($byteOffset);
         }
         $this->_offset = $byteOffset;
     }
+
 
     /** Just write the bytes to the file */
     protected function _commit($bytes)
@@ -130,19 +136,19 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
         $this->_resetReadHandle();
     }
 
+
     /** Not used */
     protected function _flush()
     {
     }
 
+
     /** Get the resource for reading */
     private function _getReadHandle()
     {
-        if (!isset($this->_reader)) {
-            if (!$this->_reader = fopen($this->_path, 'rb')) {
-                throw new Swift_IoException(
-                    'Unable to open file for reading ['.$this->_path.']'
-                );
+        if ( ! isset( $this->_reader )) {
+            if ( ! $this->_reader = fopen($this->_path, 'rb')) {
+                throw new Swift_IoException('Unable to open file for reading [' . $this->_path . ']');
             }
             if ($this->_offset != 0) {
                 $this->_getReadStreamSeekableStatus();
@@ -153,35 +159,37 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
         return $this->_reader;
     }
 
+
     /** Get the resource for writing */
     private function _getWriteHandle()
     {
-        if (!isset($this->_writer)) {
-            if (!$this->_writer = fopen($this->_path, $this->_mode)) {
-                throw new Swift_IoException(
-                    'Unable to open file for writing ['.$this->_path.']'
-                );
+        if ( ! isset( $this->_writer )) {
+            if ( ! $this->_writer = fopen($this->_path, $this->_mode)) {
+                throw new Swift_IoException('Unable to open file for writing [' . $this->_path . ']');
             }
         }
 
         return $this->_writer;
     }
 
+
     /** Force a reload of the resource for reading */
     private function _resetReadHandle()
     {
-        if (isset($this->_reader)) {
+        if (isset( $this->_reader )) {
             fclose($this->_reader);
             $this->_reader = null;
         }
     }
 
+
     /** Check if ReadOnly Stream is seekable */
     private function _getReadStreamSeekableStatus()
     {
-        $metas = stream_get_meta_data($this->_reader);
+        $metas           = stream_get_meta_data($this->_reader);
         $this->_seekable = $metas['seekable'];
     }
+
 
     /** Streams in a readOnly stream ensuring copy if needed */
     private function _seekReadStreamToPosition($offset)
@@ -202,12 +210,13 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
         fseek($this->_reader, $offset, SEEK_SET);
     }
 
+
     /** Copy a readOnly Stream to ensure seekability */
     private function _copyReadStream()
     {
         if ($tmpFile = fopen('php://temp/maxmemory:4096', 'w+b')) {
             /* We have opened a php:// Stream Should work without problem */
-        } elseif (function_exists('sys_get_temp_dir') && is_writable(sys_get_temp_dir()) && ($tmpFile = tmpfile())) {
+        } elseif (function_exists('sys_get_temp_dir') && is_writable(sys_get_temp_dir()) && ( $tmpFile = tmpfile() )) {
             /* We have opened a tmpfile */
         } else {
             throw new Swift_IoException('Unable to copy the file to make it seekable, sys_temp_dir is not writable, php://memory not available');
@@ -215,11 +224,11 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
         $currentPos = ftell($this->_reader);
         fclose($this->_reader);
         $source = fopen($this->_path, 'rb');
-        if (!$source) {
-            throw new Swift_IoException('Unable to open file for copying ['.$this->_path.']');
+        if ( ! $source) {
+            throw new Swift_IoException('Unable to open file for copying [' . $this->_path . ']');
         }
         fseek($tmpFile, 0, SEEK_SET);
-        while (!feof($source)) {
+        while ( ! feof($source)) {
             fwrite($tmpFile, fread($source, 4096));
         }
         fseek($tmpFile, $currentPos, SEEK_SET);

@@ -16,6 +16,7 @@ class IsArrayContainingInAnyOrder extends TypeSafeDiagnosingMatcher
 
     private $_elementMatchers;
 
+
     public function __construct(array $elementMatchers)
     {
         parent::__construct(self::TYPE_ARRAY);
@@ -25,12 +26,13 @@ class IsArrayContainingInAnyOrder extends TypeSafeDiagnosingMatcher
         $this->_elementMatchers = $elementMatchers;
     }
 
+
     protected function matchesSafelyWithDiagnosticDescription($array, Description $mismatchDescription)
     {
         $matching = new MatchingOnce($this->_elementMatchers, $mismatchDescription);
 
         foreach ($array as $element) {
-            if (!$matching->matches($element)) {
+            if ( ! $matching->matches($element)) {
                 return false;
             }
         }
@@ -38,12 +40,12 @@ class IsArrayContainingInAnyOrder extends TypeSafeDiagnosingMatcher
         return $matching->isFinished($array);
     }
 
+
     public function describeTo(Description $description)
     {
-        $description->appendList('[', ', ', ']', $this->_elementMatchers)
-                                ->appendText(' in any order')
-                                ;
+        $description->appendList('[', ', ', ']', $this->_elementMatchers)->appendText(' in any order');
     }
+
 
     /**
      * An array with elements that match the given matchers.

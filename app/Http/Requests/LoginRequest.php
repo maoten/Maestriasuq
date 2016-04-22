@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
-
 class LoginRequest extends Request
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -16,6 +15,7 @@ class LoginRequest extends Request
         return true;
     }
 
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,8 +24,8 @@ class LoginRequest extends Request
     public function rules()
     {
         return [
-            'email'=>'min:60|max:50|required|unique:users',
-            'password'=>'min:5|max:30|required'
+            'email'    => 'min:60|max:50|required|unique:users',
+            'password' => 'min:5|max:30|required'
         ];
     }
 }

@@ -1,55 +1,55 @@
 <div class="main clearfix">
-  <nav id="menu" class="opciones">         
-    <ul>
-      <li>
-        <a href="{{ route('admin.estudiantes.index')}}">
+    <nav id="menu" class="opciones">
+        <ul>
+            <li>
+                <a href="{{ route('admin.estudiantes.index')}}">
           <span class="icon">
             <i class="fa fa-users"></i>
           </span>
-          <span>Estudiantes</span>
-        </a>
-      </li>
-      <li>
-        <a href="{{ route('admin.directores.index') }}">
+                    <span>Estudiantes</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.directores.index') }}">
           <span class="icon"> 
             <i class="fa fa-users"></i>
           </span>
-          <span>Directores</span>
-        </a>
-      </li>
-      <li>
-        <a href="{{ route('admin.consejo.index') }}">
+                    <span>Directores</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.consejo.index') }}">
           <span class="icon">
             <i class="fa fa-users"></i>
           </span>
-          <span>Consejo curricular</span>
-        </a>
-      </li>
-      <li>
-        <a href="{{ route('admin.jurados.index') }}">
+                    <span>Consejo curricular</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.jurados.index') }}">
           <span class="icon">
             <i class="fa fa-users"></i>
           </span>
-          <span>Jurados</span>
-        </a>
-      </li>
-      <li>
-        <a href="{{ route('admin.propuestas.index') }}">
+                    <span>Jurados</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.propuestas.index') }}">
           <span class="icon">
             <i class="fa fa-file-text-o"></i>
           </span>
-          <span>Propuestas</span>
-        </a>
-      </li>
-      <li>
-        <a href="">
+                    <span>Propuestas</span>
+                </a>
+            </li>
+            <li>
+                <a href="">
           <span class="icon">
             <i class="fa fa-file-text"></i>
           </span>
-          <span>Trabajos grado</span>
-        </a>
-      </li>
+                    <span>Trabajos grado</span>
+                </a>
+            </li>
 
-    </ul>
-  </nav>
+        </ul>
+    </nav>
 </div>

@@ -16,6 +16,7 @@
  */
 class PHPUnit_Framework_Constraint_TraversableContains extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var bool
      */
@@ -31,6 +32,7 @@ class PHPUnit_Framework_Constraint_TraversableContains extends PHPUnit_Framework
      */
     protected $value;
 
+
     /**
      * @param mixed $value
      * @param bool  $checkForObjectIdentity
@@ -42,11 +44,11 @@ class PHPUnit_Framework_Constraint_TraversableContains extends PHPUnit_Framework
     {
         parent::__construct();
 
-        if (!is_bool($checkForObjectIdentity)) {
+        if ( ! is_bool($checkForObjectIdentity)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'boolean');
         }
 
-        if (!is_bool($checkForNonObjectIdentity)) {
+        if ( ! is_bool($checkForNonObjectIdentity)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(3, 'boolean');
         }
 
@@ -54,6 +56,7 @@ class PHPUnit_Framework_Constraint_TraversableContains extends PHPUnit_Framework
         $this->checkForNonObjectIdentity = $checkForNonObjectIdentity;
         $this->value                     = $value;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -71,19 +74,13 @@ class PHPUnit_Framework_Constraint_TraversableContains extends PHPUnit_Framework
 
         if (is_object($this->value)) {
             foreach ($other as $element) {
-                if (($this->checkForObjectIdentity &&
-                     $element === $this->value) ||
-                    (!$this->checkForObjectIdentity &&
-                     $element == $this->value)) {
+                if (( $this->checkForObjectIdentity && $element === $this->value ) || ( ! $this->checkForObjectIdentity && $element == $this->value )) {
                     return true;
                 }
             }
         } else {
             foreach ($other as $element) {
-                if (($this->checkForNonObjectIdentity &&
-                     $element === $this->value) ||
-                    (!$this->checkForNonObjectIdentity &&
-                     $element == $this->value)) {
+                if (( $this->checkForNonObjectIdentity && $element === $this->value ) || ( ! $this->checkForNonObjectIdentity && $element == $this->value )) {
                     return true;
                 }
             }
@@ -91,6 +88,7 @@ class PHPUnit_Framework_Constraint_TraversableContains extends PHPUnit_Framework
 
         return false;
     }
+
 
     /**
      * Returns a string representation of the constraint.
@@ -106,6 +104,7 @@ class PHPUnit_Framework_Constraint_TraversableContains extends PHPUnit_Framework
         }
     }
 
+
     /**
      * Returns the description of the failure
      *
@@ -118,10 +117,6 @@ class PHPUnit_Framework_Constraint_TraversableContains extends PHPUnit_Framework
      */
     protected function failureDescription($other)
     {
-        return sprintf(
-            '%s %s',
-            is_array($other) ? 'an array' : 'a traversable',
-            $this->toString()
-        );
+        return sprintf('%s %s', is_array($other) ? 'an array' : 'a traversable', $this->toString());
     }
 }

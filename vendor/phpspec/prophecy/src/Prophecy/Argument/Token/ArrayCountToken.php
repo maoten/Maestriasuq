@@ -19,7 +19,9 @@ namespace Prophecy\Argument\Token;
 
 class ArrayCountToken implements TokenInterface
 {
+
     private $count;
+
 
     /**
      * @param integer $value
@@ -28,6 +30,7 @@ class ArrayCountToken implements TokenInterface
     {
         $this->count = $value;
     }
+
 
     /**
      * Scores 6 when argument has preset number of elements.
@@ -41,6 +44,7 @@ class ArrayCountToken implements TokenInterface
         return $this->isCountable($argument) && $this->hasProperCount($argument) ? 6 : false;
     }
 
+
     /**
      * Returns false.
      *
@@ -50,6 +54,7 @@ class ArrayCountToken implements TokenInterface
     {
         return false;
     }
+
 
     /**
      * Returns string representation for token.
@@ -61,16 +66,19 @@ class ArrayCountToken implements TokenInterface
         return sprintf('count(%s)', $this->count);
     }
 
+
     /**
      * Returns true if object is either array or instance of \Countable
      *
      * @param $argument
+     *
      * @return bool
      */
     private function isCountable($argument)
     {
-        return (is_array($argument) || $argument instanceof \Countable);
+        return ( is_array($argument) || $argument instanceof \Countable );
     }
+
 
     /**
      * Returns true if $argument has expected number of elements

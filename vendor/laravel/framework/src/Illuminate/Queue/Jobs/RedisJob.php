@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\Job as JobContract;
 
 class RedisJob extends Job implements JobContract
 {
+
     /**
      * The Redis queue instance.
      *
@@ -23,22 +24,25 @@ class RedisJob extends Job implements JobContract
      */
     protected $job;
 
+
     /**
      * Create a new job instance.
      *
-     * @param  \Illuminate\Container\Container  $container
-     * @param  \Illuminate\Queue\RedisQueue  $redis
-     * @param  string  $job
-     * @param  string  $queue
+     * @param  \Illuminate\Container\Container $container
+     * @param  \Illuminate\Queue\RedisQueue    $redis
+     * @param  string                          $job
+     * @param  string                          $queue
+     *
      * @return void
      */
     public function __construct(Container $container, RedisQueue $redis, $job, $queue)
     {
-        $this->job = $job;
-        $this->redis = $redis;
-        $this->queue = $queue;
+        $this->job       = $job;
+        $this->redis     = $redis;
+        $this->queue     = $queue;
         $this->container = $container;
     }
+
 
     /**
      * Fire the job.
@@ -50,6 +54,7 @@ class RedisJob extends Job implements JobContract
         $this->resolveAndFire(json_decode($this->getRawBody(), true));
     }
 
+
     /**
      * Get the raw body string for the job.
      *
@@ -59,6 +64,7 @@ class RedisJob extends Job implements JobContract
     {
         return $this->job;
     }
+
 
     /**
      * Delete the job from the queue.
@@ -72,10 +78,12 @@ class RedisJob extends Job implements JobContract
         $this->redis->deleteReserved($this->queue, $this->job);
     }
 
+
     /**
      * Release the job back into the queue.
      *
-     * @param  int   $delay
+     * @param  int $delay
+     *
      * @return void
      */
     public function release($delay = 0)
@@ -87,6 +95,7 @@ class RedisJob extends Job implements JobContract
         $this->redis->release($this->queue, $this->job, $delay, $this->attempts() + 1);
     }
 
+
     /**
      * Get the number of times the job has been attempted.
      *
@@ -96,6 +105,7 @@ class RedisJob extends Job implements JobContract
     {
         return Arr::get(json_decode($this->job, true), 'attempts');
     }
+
 
     /**
      * Get the job identifier.
@@ -107,6 +117,7 @@ class RedisJob extends Job implements JobContract
         return Arr::get(json_decode($this->job, true), 'id');
     }
 
+
     /**
      * Get the IoC container instance.
      *
@@ -117,6 +128,7 @@ class RedisJob extends Job implements JobContract
         return $this->container;
     }
 
+
     /**
      * Get the underlying queue driver instance.
      *
@@ -126,6 +138,7 @@ class RedisJob extends Job implements JobContract
     {
         return $this->redis;
     }
+
 
     /**
      * Get the underlying Redis job.

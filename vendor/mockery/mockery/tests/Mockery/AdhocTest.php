@@ -32,10 +32,12 @@ class Mockery_AdhocTest extends MockeryTestCase
         $this->container = new \Mockery\Container(\Mockery::getDefaultGenerator(), \Mockery::getDefaultLoader());
     }
 
+
     public function teardown()
     {
         $this->container->mockery_close();
     }
+
 
     public function testSimplestMockCreation()
     {
@@ -43,11 +45,13 @@ class Mockery_AdhocTest extends MockeryTestCase
         $this->assertTrue($m instanceof MockeryTest_NameOfExistingClass);
     }
 
+
     public function testMockeryInterfaceForClass()
     {
         $m = $this->container->mock('SplFileInfo');
         $this->assertTrue($m instanceof \Mockery\MockInterface);
     }
+
 
     public function testMockeryInterfaceForNonExistingClass()
     {
@@ -55,17 +59,20 @@ class Mockery_AdhocTest extends MockeryTestCase
         $this->assertTrue($m instanceof \Mockery\MockInterface);
     }
 
+
     public function testMockeryInterfaceForInterface()
     {
         $m = $this->container->mock('MockeryTest_NameOfInterface');
         $this->assertTrue($m instanceof \Mockery\MockInterface);
     }
 
+
     public function testMockeryInterfaceForAbstract()
     {
         $m = $this->container->mock('MockeryTest_NameOfAbstract');
         $this->assertTrue($m instanceof \Mockery\MockInterface);
     }
+
 
     public function testInvalidCountExceptionThrowsRuntimeExceptionOnIllegalComparativeSymbol()
     {
@@ -77,14 +84,17 @@ class Mockery_AdhocTest extends MockeryTestCase
 
 class MockeryTest_NameOfExistingClass
 {
+
 }
 
 interface MockeryTest_NameOfInterface
 {
+
     public function foo();
 }
 
 abstract class MockeryTest_NameOfAbstract
 {
+
     abstract public function foo();
 }

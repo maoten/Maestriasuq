@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\Job as JobContract;
 
 class BeanstalkdJob extends Job implements JobContract
 {
+
     /**
      * The Pheanstalk instance.
      *
@@ -23,25 +24,29 @@ class BeanstalkdJob extends Job implements JobContract
      */
     protected $job;
 
+
     /**
      * Create a new job instance.
      *
-     * @param  \Illuminate\Container\Container  $container
-     * @param  \Pheanstalk\Pheanstalk  $pheanstalk
-     * @param  \Pheanstalk\Job  $job
-     * @param  string  $queue
+     * @param  \Illuminate\Container\Container $container
+     * @param  \Pheanstalk\Pheanstalk          $pheanstalk
+     * @param  \Pheanstalk\Job                 $job
+     * @param  string                          $queue
+     *
      * @return void
      */
-    public function __construct(Container $container,
-                                Pheanstalk $pheanstalk,
-                                PheanstalkJob $job,
-                                $queue)
-    {
-        $this->job = $job;
-        $this->queue = $queue;
-        $this->container = $container;
+    public function __construct(
+        Container $container,
+        Pheanstalk $pheanstalk,
+        PheanstalkJob $job,
+        $queue
+    ) {
+        $this->job        = $job;
+        $this->queue      = $queue;
+        $this->container  = $container;
         $this->pheanstalk = $pheanstalk;
     }
+
 
     /**
      * Fire the job.
@@ -53,6 +58,7 @@ class BeanstalkdJob extends Job implements JobContract
         $this->resolveAndFire(json_decode($this->getRawBody(), true));
     }
 
+
     /**
      * Get the raw body string for the job.
      *
@@ -62,6 +68,7 @@ class BeanstalkdJob extends Job implements JobContract
     {
         return $this->job->getData();
     }
+
 
     /**
      * Delete the job from the queue.
@@ -75,10 +82,12 @@ class BeanstalkdJob extends Job implements JobContract
         $this->pheanstalk->delete($this->job);
     }
 
+
     /**
      * Release the job back into the queue.
      *
-     * @param  int   $delay
+     * @param  int $delay
+     *
      * @return void
      */
     public function release($delay = 0)
@@ -90,6 +99,7 @@ class BeanstalkdJob extends Job implements JobContract
         $this->pheanstalk->release($this->job, $priority, $delay);
     }
 
+
     /**
      * Bury the job in the queue.
      *
@@ -99,6 +109,7 @@ class BeanstalkdJob extends Job implements JobContract
     {
         $this->pheanstalk->bury($this->job);
     }
+
 
     /**
      * Get the number of times the job has been attempted.
@@ -112,6 +123,7 @@ class BeanstalkdJob extends Job implements JobContract
         return (int) $stats->reserves;
     }
 
+
     /**
      * Get the job identifier.
      *
@@ -121,6 +133,7 @@ class BeanstalkdJob extends Job implements JobContract
     {
         return $this->job->getId();
     }
+
 
     /**
      * Get the IoC container instance.
@@ -132,6 +145,7 @@ class BeanstalkdJob extends Job implements JobContract
         return $this->container;
     }
 
+
     /**
      * Get the underlying Pheanstalk instance.
      *
@@ -141,6 +155,7 @@ class BeanstalkdJob extends Job implements JobContract
     {
         return $this->pheanstalk;
     }
+
 
     /**
      * Get the underlying Pheanstalk job.

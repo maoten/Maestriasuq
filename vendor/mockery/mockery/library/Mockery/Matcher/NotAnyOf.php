@@ -22,11 +22,13 @@ namespace Mockery\Matcher;
 
 class NotAnyOf extends MatcherAbstract
 {
+
     /**
      * Check if the actual value does not match the expected (in this
      * case it's specifically NOT expected).
      *
      * @param mixed $actual
+     *
      * @return bool
      */
     public function match(&$actual)
@@ -36,8 +38,10 @@ class NotAnyOf extends MatcherAbstract
                 return false;
             }
         }
+
         return true;
     }
+
 
     /**
      * Return a string representation of this Matcher

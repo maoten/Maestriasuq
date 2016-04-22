@@ -8,6 +8,7 @@ use Illuminate\Filesystem\Filesystem;
 
 class CacheTableCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -34,20 +35,23 @@ class CacheTableCommand extends Command
      */
     protected $composer;
 
+
     /**
      * Create a new session table command instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
-     * @param  \Illuminate\Support\Composer  $composer
+     * @param  \Illuminate\Filesystem\Filesystem $files
+     * @param  \Illuminate\Support\Composer      $composer
+     *
      * @return void
      */
     public function __construct(Filesystem $files, Composer $composer)
     {
         parent::__construct();
 
-        $this->files = $files;
+        $this->files    = $files;
         $this->composer = $composer;
     }
+
 
     /**
      * Execute the console command.
@@ -58,12 +62,13 @@ class CacheTableCommand extends Command
     {
         $fullPath = $this->createBaseMigration();
 
-        $this->files->put($fullPath, $this->files->get(__DIR__.'/stubs/cache.stub'));
+        $this->files->put($fullPath, $this->files->get(__DIR__ . '/stubs/cache.stub'));
 
         $this->info('Migration created successfully!');
 
         $this->composer->dumpAutoloads();
     }
+
 
     /**
      * Create a base migration file for the table.
@@ -74,7 +79,7 @@ class CacheTableCommand extends Command
     {
         $name = 'create_cache_table';
 
-        $path = $this->laravel->databasePath().'/migrations';
+        $path = $this->laravel->databasePath() . '/migrations';
 
         return $this->laravel['migration.creator']->create($name, $path);
     }

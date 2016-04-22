@@ -7,6 +7,7 @@ namespace Illuminate\Support\Facades;
  */
 class Gate extends Facade
 {
+
     /**
      * Get the registered name of the component.
      *

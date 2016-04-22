@@ -23,6 +23,7 @@ namespace Symfony\Component\CssSelector\Node;
  */
 class NegationNode extends AbstractNode
 {
+
     /**
      * @var NodeInterface
      */
@@ -33,15 +34,17 @@ class NegationNode extends AbstractNode
      */
     private $subSelector;
 
+
     /**
      * @param NodeInterface $selector
      * @param NodeInterface $subSelector
      */
     public function __construct(NodeInterface $selector, NodeInterface $subSelector)
     {
-        $this->selector = $selector;
+        $this->selector    = $selector;
         $this->subSelector = $subSelector;
     }
+
 
     /**
      * @return NodeInterface
@@ -51,6 +54,7 @@ class NegationNode extends AbstractNode
         return $this->selector;
     }
 
+
     /**
      * @return NodeInterface
      */
@@ -59,6 +63,7 @@ class NegationNode extends AbstractNode
         return $this->subSelector;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -66,6 +71,7 @@ class NegationNode extends AbstractNode
     {
         return $this->selector->getSpecificity()->plus($this->subSelector->getSpecificity());
     }
+
 
     /**
      * {@inheritdoc}

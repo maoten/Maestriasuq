@@ -10,6 +10,7 @@ namespace Dotenv;
  */
 class Dotenv
 {
+
     /**
      * The file path.
      *
@@ -24,11 +25,13 @@ class Dotenv
      */
     protected $loader;
 
+
     public function __construct($path, $file = '.env')
     {
         $this->filePath = $this->getFilePath($path, $file);
-        $this->loader = new Loader($this->filePath, $immutable = true);
+        $this->loader   = new Loader($this->filePath, $immutable = true);
     }
+
 
     /**
      * Load `.env` file in given directory.
@@ -42,6 +45,7 @@ class Dotenv
         return $this->loader->load();
     }
 
+
     /**
      * Load `.env` file in given directory.
      *
@@ -54,6 +58,7 @@ class Dotenv
         return $this->loader->load();
     }
 
+
     /**
      * Returns the full path to the file.
      *
@@ -64,14 +69,15 @@ class Dotenv
      */
     protected function getFilePath($path, $file)
     {
-        if (!is_string($file)) {
+        if ( ! is_string($file)) {
             $file = '.env';
         }
 
-        $filePath = rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$file;
+        $filePath = rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $file;
 
         return $filePath;
     }
+
 
     /**
      * Required ensures that the specified variables exist, and returns a new Validator object.

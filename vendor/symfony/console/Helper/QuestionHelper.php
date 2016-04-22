@@ -27,9 +27,13 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
  */
 class QuestionHelper extends Helper
 {
+
     private $inputStream;
+
     private static $shell;
+
     private static $stty;
+
 
     /**
      * Asks a question to the user.
@@ -48,11 +52,11 @@ class QuestionHelper extends Helper
             $output = $output->getErrorOutput();
         }
 
-        if (!$input->isInteractive()) {
+        if ( ! $input->isInteractive()) {
             return $question->getDefault();
         }
 
-        if (!$question->getValidator()) {
+        if ( ! $question->getValidator()) {
             return $this->doAsk($output, $question);
         }
 
@@ -62,6 +66,7 @@ class QuestionHelper extends Helper
 
         return $this->validateAttempts($interviewer, $output, $question);
     }
+
 
     /**
      * Sets the input stream to read from when interacting with the user.
@@ -74,12 +79,13 @@ class QuestionHelper extends Helper
      */
     public function setInputStream($stream)
     {
-        if (!is_resource($stream)) {
+        if ( ! is_resource($stream)) {
             throw new InvalidArgumentException('Input stream must be a valid resource.');
         }
 
         $this->inputStream = $stream;
     }
+
 
     /**
      * Returns the helper's input stream.
@@ -91,6 +97,7 @@ class QuestionHelper extends Helper
         return $this->inputStream;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -98,6 +105,7 @@ class QuestionHelper extends Helper
     {
         return 'question';
     }
+
 
     /**
      * Asks the question to the user.
@@ -114,16 +122,16 @@ class QuestionHelper extends Helper
     {
         $this->writePrompt($output, $question);
 
-        $inputStream = $this->inputStream ?: STDIN;
+        $inputStream  = $this->inputStream ?: STDIN;
         $autocomplete = $question->getAutocompleterValues();
 
-        if (null === $autocomplete || !$this->hasSttyAvailable()) {
+        if (null === $autocomplete || ! $this->hasSttyAvailable()) {
             $ret = false;
             if ($question->isHidden()) {
                 try {
                     $ret = trim($this->getHiddenResponse($output, $inputStream));
                 } catch (\RuntimeException $e) {
-                    if (!$question->isHiddenFallback()) {
+                    if ( ! $question->isHiddenFallback()) {
                         throw $e;
                     }
                 }
@@ -149,6 +157,7 @@ class QuestionHelper extends Helper
         return $ret;
     }
 
+
     /**
      * Outputs the question prompt.
      *
@@ -160,12 +169,12 @@ class QuestionHelper extends Helper
         $message = $question->getQuestion();
 
         if ($question instanceof ChoiceQuestion) {
-            $maxWidth = max(array_map(array($this, 'strlen'), array_keys($question->getChoices())));
+            $maxWidth = max(array_map([ $this, 'strlen' ], array_keys($question->getChoices())));
 
             $messages = (array) $question->getQuestion();
             foreach ($question->getChoices() as $key => $value) {
-                $width = $maxWidth - $this->strlen($key);
-                $messages[] = '  [<info>'.$key.str_repeat(' ', $width).'</info>] '.$value;
+                $width      = $maxWidth - $this->strlen($key);
+                $messages[] = '  [<info>' . $key . str_repeat(' ', $width) . '</info>] ' . $value;
             }
 
             $output->writeln($messages);
@@ -175,6 +184,7 @@ class QuestionHelper extends Helper
 
         $output->write($message);
     }
+
 
     /**
      * Outputs an error message.
@@ -187,11 +197,12 @@ class QuestionHelper extends Helper
         if (null !== $this->getHelperSet() && $this->getHelperSet()->has('formatter')) {
             $message = $this->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error');
         } else {
-            $message = '<error>'.$error->getMessage().'</error>';
+            $message = '<error>' . $error->getMessage() . '</error>';
         }
 
         $output->writeln($message);
     }
+
 
     /**
      * Autocompletes a question.
@@ -204,11 +215,11 @@ class QuestionHelper extends Helper
     private function autocomplete(OutputInterface $output, Question $question, $inputStream)
     {
         $autocomplete = $question->getAutocompleterValues();
-        $ret = '';
+        $ret          = '';
 
-        $i = 0;
-        $ofs = -1;
-        $matches = $autocomplete;
+        $i          = 0;
+        $ofs        = -1;
+        $matches    = $autocomplete;
         $numMatches = count($matches);
 
         $sttyMode = shell_exec('stty -g');
@@ -220,7 +231,7 @@ class QuestionHelper extends Helper
         $output->getFormatter()->setStyle('hl', new OutputFormatterStyle('black', 'white'));
 
         // Read a keypress
-        while (!feof($inputStream)) {
+        while ( ! feof($inputStream)) {
             $c = fread($inputStream, 1);
 
             // Backspace Character
@@ -232,8 +243,8 @@ class QuestionHelper extends Helper
                 }
 
                 if ($i === 0) {
-                    $ofs = -1;
-                    $matches = $autocomplete;
+                    $ofs        = -1;
+                    $matches    = $autocomplete;
                     $numMatches = count($matches);
                 } else {
                     $numMatches = 0;
@@ -246,7 +257,7 @@ class QuestionHelper extends Helper
                 $c .= fread($inputStream, 2);
 
                 // A = Up Arrow. B = Down Arrow
-                if (isset($c[2]) && ('A' === $c[2] || 'B' === $c[2])) {
+                if (isset( $c[2] ) && ( 'A' === $c[2] || 'B' === $c[2] )) {
                     if ('A' === $c[2] && -1 === $ofs) {
                         $ofs = 0;
                     }
@@ -255,8 +266,8 @@ class QuestionHelper extends Helper
                         continue;
                     }
 
-                    $ofs += ('A' === $c[2]) ? -1 : 1;
-                    $ofs = ($numMatches + $ofs) % $numMatches;
+                    $ofs += ( 'A' === $c[2] ) ? -1 : 1;
+                    $ofs = ( $numMatches + $ofs ) % $numMatches;
                 }
             } elseif (ord($c) < 32) {
                 if ("\t" === $c || "\n" === $c) {
@@ -282,7 +293,7 @@ class QuestionHelper extends Helper
                 ++$i;
 
                 $numMatches = 0;
-                $ofs = 0;
+                $ofs        = 0;
 
                 foreach ($autocomplete as $value) {
                     // If typed characters match the beginning chunk of value (e.g. [AcmeDe]moBundle)
@@ -299,7 +310,7 @@ class QuestionHelper extends Helper
                 // Save cursor position
                 $output->write("\0337");
                 // Write highlighted text
-                $output->write('<hl>'.substr($matches[$ofs], $i).'</hl>');
+                $output->write('<hl>' . substr($matches[$ofs], $i) . '</hl>');
                 // Restore cursor position
                 $output->write("\0338");
             }
@@ -310,6 +321,7 @@ class QuestionHelper extends Helper
 
         return $ret;
     }
+
 
     /**
      * Gets a hidden response from user.
@@ -323,11 +335,11 @@ class QuestionHelper extends Helper
     private function getHiddenResponse(OutputInterface $output, $inputStream)
     {
         if ('\\' === DIRECTORY_SEPARATOR) {
-            $exe = __DIR__.'/../Resources/bin/hiddeninput.exe';
+            $exe = __DIR__ . '/../Resources/bin/hiddeninput.exe';
 
             // handle code running from a phar
             if ('phar:' === substr(__FILE__, 0, 5)) {
-                $tmpExe = sys_get_temp_dir().'/hiddeninput.exe';
+                $tmpExe = sys_get_temp_dir() . '/hiddeninput.exe';
                 copy($exe, $tmpExe);
                 $exe = $tmpExe;
             }
@@ -335,7 +347,7 @@ class QuestionHelper extends Helper
             $value = rtrim(shell_exec($exe));
             $output->writeln('');
 
-            if (isset($tmpExe)) {
+            if (isset( $tmpExe )) {
                 unlink($tmpExe);
             }
 
@@ -362,7 +374,7 @@ class QuestionHelper extends Helper
         if (false !== $shell = $this->getShell()) {
             $readCmd = $shell === 'csh' ? 'set mypassword = $<' : 'read -r mypassword';
             $command = sprintf("/usr/bin/env %s -c 'stty -echo; %s; stty echo; echo \$mypassword'", $shell, $readCmd);
-            $value = rtrim(shell_exec($command));
+            $value   = rtrim(shell_exec($command));
             $output->writeln('');
 
             return $value;
@@ -370,6 +382,7 @@ class QuestionHelper extends Helper
 
         throw new RuntimeException('Unable to hide the response.');
     }
+
 
     /**
      * Validates an attempt.
@@ -384,7 +397,7 @@ class QuestionHelper extends Helper
      */
     private function validateAttempts(callable $interviewer, OutputInterface $output, Question $question)
     {
-        $error = null;
+        $error    = null;
         $attempts = $question->getMaxAttempts();
         while (null === $attempts || $attempts--) {
             if (null !== $error) {
@@ -399,6 +412,7 @@ class QuestionHelper extends Helper
 
         throw $error;
     }
+
 
     /**
      * Returns a valid unix shell.
@@ -416,7 +430,7 @@ class QuestionHelper extends Helper
         if (file_exists('/usr/bin/env')) {
             // handle other OSs with bash/zsh/ksh/csh if available to hide the answer
             $test = "/usr/bin/env %s -c 'echo OK' 2> /dev/null";
-            foreach (array('bash', 'zsh', 'ksh', 'csh') as $sh) {
+            foreach ([ 'bash', 'zsh', 'ksh', 'csh' ] as $sh) {
                 if ('OK' === rtrim(shell_exec(sprintf($test, $sh)))) {
                     self::$shell = $sh;
                     break;
@@ -426,6 +440,7 @@ class QuestionHelper extends Helper
 
         return self::$shell;
     }
+
 
     /**
      * Returns whether Stty is available or not.

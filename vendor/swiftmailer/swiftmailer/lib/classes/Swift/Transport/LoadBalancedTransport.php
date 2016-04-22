@@ -15,19 +15,21 @@
  */
 class Swift_Transport_LoadBalancedTransport implements Swift_Transport
 {
+
     /**
      * Transports which are deemed useless.
      *
      * @var Swift_Transport[]
      */
-    private $_deadTransports = array();
+    private $_deadTransports = [ ];
 
     /**
      * The Transports which are used in rotation.
      *
      * @var Swift_Transport[]
      */
-    protected $_transports = array();
+    protected $_transports = [ ];
+
 
     /**
      * Creates a new LoadBalancedTransport.
@@ -36,6 +38,7 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
     {
     }
 
+
     /**
      * Set $transports to delegate to.
      *
@@ -43,9 +46,10 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
      */
     public function setTransports(array $transports)
     {
-        $this->_transports = $transports;
-        $this->_deadTransports = array();
+        $this->_transports     = $transports;
+        $this->_deadTransports = [ ];
     }
+
 
     /**
      * Get $transports to delegate to.
@@ -57,6 +61,7 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
         return array_merge($this->_transports, $this->_deadTransports);
     }
 
+
     /**
      * Test if this Transport mechanism has started.
      *
@@ -67,6 +72,7 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
         return count($this->_transports) > 0;
     }
 
+
     /**
      * Start this Transport mechanism.
      */
@@ -74,6 +80,7 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
     {
         $this->_transports = array_merge($this->_transports, $this->_deadTransports);
     }
+
 
     /**
      * Stop this Transport mechanism.
@@ -84,6 +91,7 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
             $transport->stop();
         }
     }
+
 
     /**
      * Send the given Message.
@@ -99,12 +107,11 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
     public function send(Swift_Mime_Message $message, &$failedRecipients = null)
     {
         $maxTransports = count($this->_transports);
-        $sent = 0;
+        $sent          = 0;
 
-        for ($i = 0; $i < $maxTransports
-            && $transport = $this->_getNextTransport(); ++$i) {
+        for ($i = 0; $i < $maxTransports && $transport = $this->_getNextTransport(); ++$i) {
             try {
-                if (!$transport->isStarted()) {
+                if ( ! $transport->isStarted()) {
                     $transport->start();
                 }
                 if ($sent = $transport->send($message, $failedRecipients)) {
@@ -116,13 +123,12 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
         }
 
         if (count($this->_transports) == 0) {
-            throw new Swift_TransportException(
-                'All Transports in LoadBalancedTransport failed, or no Transports available'
-                );
+            throw new Swift_TransportException('All Transports in LoadBalancedTransport failed, or no Transports available');
         }
 
         return $sent;
     }
+
 
     /**
      * Register a plugin.
@@ -135,6 +141,7 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
             $transport->registerPlugin($plugin);
         }
     }
+
 
     /**
      * Rotates the transport list around and returns the first instance.
@@ -149,6 +156,7 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
 
         return $next;
     }
+
 
     /**
      * Tag the currently used (top of stack) transport as dead/useless.

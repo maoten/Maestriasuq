@@ -7,6 +7,7 @@ namespace Cron;
  */
 interface FieldInterface
 {
+
     /**
      * Check if the respective value of a DateTime field satisfies a CRON exp
      *
@@ -16,6 +17,7 @@ interface FieldInterface
      * @return bool Returns TRUE if satisfied, FALSE otherwise
      */
     public function isSatisfiedBy(\DateTime $date, $value);
+
 
     /**
      * When a CRON expression is not satisfied, this method is used to increment
@@ -27,6 +29,7 @@ interface FieldInterface
      * @return FieldInterface
      */
     public function increment(\DateTime $date, $invert = false);
+
 
     /**
      * Validates a CRON expression for a given field

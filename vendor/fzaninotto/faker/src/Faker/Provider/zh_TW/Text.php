@@ -4,15 +4,19 @@ namespace Faker\Provider\zh_TW;
 
 class Text extends \Faker\Provider\Text
 {
+
     protected static $separator = '';
+
     protected static $separatorLen = 0;
 
     /**
      * All punctuation in $baseText: 、 。 「 」 『 』 ！ ？ ー ， ： ；
      */
-    protected static $notEndPunct = array('、', '「', '『', 'ー', '，', '：', '；');
-    protected static $endPunct = array('。', '」', '』', '！', '？');
-    protected static $notBeginPunct = array('、', '。', '」', '』', '！', '？', 'ー', '，', '：', '；');
+    protected static $notEndPunct = [ '、', '「', '『', 'ー', '，', '：', '；' ];
+
+    protected static $endPunct = [ '。', '」', '』', '！', '？' ];
+
+    protected static $notBeginPunct = [ '、', '。', '」', '』', '！', '？', 'ー', '，', '：', '；' ];
 
     /**
      * Title: 三國演義 Romance of the Three Kingdoms
@@ -84,41 +88,47 @@ class Text extends \Faker\Provider\Text
 三人飛馬引軍而出。張角正殺敗董卓，乘勢趕來，忽遇三人衝殺，角軍大亂，敗走五十餘里。三人救了董卓回寨。卓問三人現居何職。玄德曰：「白身。」卓甚輕之，不為禮。玄德出，張飛大怒曰：「我等親赴血戰，救了這廝，他卻如此無禮；若不殺之，難消我氣！」便要提刀入帳來殺董卓。正是：人情勢利古猶今，誰識英雄是白身？安得快人如翼德，盡誅世上負心人！畢竟董卓性命如何，且看下文分解。
 EOT;
 
+
     protected static function explode($text)
     {
-        $chars = array();
+        $chars = [ ];
         foreach (preg_split('//u', preg_replace('/\s+/', '', $text)) as $char) {
             if ($char !== '') {
                 $chars[] = $char;
             }
         }
+
         return $chars;
     }
+
 
     protected static function strlen($text)
     {
         return function_exists('mb_strlen') ? mb_strlen($text, 'UTF-8') : count(static::explode($text));
     }
 
+
     protected static function validStart($word)
     {
-        return !in_array($word, static::$notBeginPunct);
+        return ! in_array($word, static::$notBeginPunct);
     }
+
 
     protected static function appendEnd($text)
     {
         // extract the last char of $text
         if (function_exists('mb_substr')) {
-            $last = mb_substr($text, mb_strlen($text)-1, 'UTF-8');
+            $last = mb_substr($text, mb_strlen($text) - 1, 'UTF-8');
         } else {
             $chars = static::split($text);
-            $last = end($chars);
+            $last  = end($chars);
         }
         // if the last char is a not-valid-end punctuation, remove it
         if (in_array($last, static::$notEndPunct)) {
             $text = preg_replace('/.$/u', '', $text);
         }
+
         // if the last char is not a valid punctuation, append a default one.
-        return in_array($last, static::$endPunct) ? $text : $text.'。';
+        return in_array($last, static::$endPunct) ? $text : $text . '。';
     }
 }

@@ -16,21 +16,24 @@ use Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator;
 
 class ExcludeDirectoryFilterIteratorTest extends RealIteratorTestCase
 {
+
     /**
      * @dataProvider getAcceptData
      */
     public function testAccept($directories, $expected)
     {
-        $inner = new \RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->toAbsolute(), \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
+        $inner = new \RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->toAbsolute(),
+            \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
 
         $iterator = new ExcludeDirectoryFilterIterator($inner, $directories);
 
         $this->assertIterator($expected, $iterator);
     }
 
+
     public function getAcceptData()
     {
-        $foo = array(
+        $foo = [
             '.bar',
             '.foo',
             '.foo/.bar',
@@ -41,9 +44,9 @@ class ExcludeDirectoryFilterIteratorTest extends RealIteratorTestCase
             'toto',
             'toto/.git',
             'foo bar',
-        );
+        ];
 
-        $fo = array(
+        $fo = [
             '.bar',
             '.foo',
             '.foo/.bar',
@@ -56,11 +59,11 @@ class ExcludeDirectoryFilterIteratorTest extends RealIteratorTestCase
             'toto',
             'toto/.git',
             'foo bar',
-        );
+        ];
 
-        return array(
-            array(array('foo'), $this->toAbsolute($foo)),
-            array(array('fo'), $this->toAbsolute($fo)),
-        );
+        return [
+            [ [ 'foo' ], $this->toAbsolute($foo) ],
+            [ [ 'fo' ], $this->toAbsolute($fo) ],
+        ];
     }
 }

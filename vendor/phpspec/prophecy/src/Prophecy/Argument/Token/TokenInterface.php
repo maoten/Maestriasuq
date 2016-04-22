@@ -18,6 +18,7 @@ namespace Prophecy\Argument\Token;
  */
 interface TokenInterface
 {
+
     /**
      * Calculates token match score for provided argument.
      *
@@ -27,12 +28,14 @@ interface TokenInterface
      */
     public function scoreArgument($argument);
 
+
     /**
      * Returns true if this token prevents check of other tokens (is last one).
      *
      * @return bool|int
      */
     public function isLast();
+
 
     /**
      * Returns string representation for token.

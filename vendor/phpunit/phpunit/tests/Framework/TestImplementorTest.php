@@ -13,6 +13,7 @@
  */
 class Framework_TestImplementorTest extends PHPUnit_Framework_TestCase
 {
+
     /**
      * @covers PHPUnit_Framework_TestCase
      */

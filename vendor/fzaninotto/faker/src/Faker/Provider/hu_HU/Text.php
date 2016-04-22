@@ -4,6 +4,7 @@ namespace Faker\Provider\hu_HU;
 
 class Text extends \Faker\Provider\Text
 {
+
     /**
      *
      * Author: Rejtő Jenő

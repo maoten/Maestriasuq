@@ -22,7 +22,9 @@
  */
 class PHP_Token_FunctionTest extends PHPUnit_Framework_TestCase
 {
+
     protected $functions;
+
 
     protected function setUp()
     {
@@ -35,29 +37,25 @@ class PHP_Token_FunctionTest extends PHPUnit_Framework_TestCase
         }
     }
 
+
     /**
      * @covers PHP_Token_FUNCTION::getArguments
      */
     public function testGetArguments()
     {
-        $this->assertEquals(array(), $this->functions[0]->getArguments());
+        $this->assertEquals([ ], $this->functions[0]->getArguments());
 
-        $this->assertEquals(
-          array('$baz' => 'Baz'), $this->functions[1]->getArguments()
-        );
+        $this->assertEquals([ '$baz' => 'Baz' ], $this->functions[1]->getArguments());
 
-        $this->assertEquals(
-          array('$foobar' => 'Foobar'), $this->functions[2]->getArguments()
-        );
+        $this->assertEquals([ '$foobar' => 'Foobar' ], $this->functions[2]->getArguments());
 
-        $this->assertEquals(
-          array('$barfoo' => 'Barfoo'), $this->functions[3]->getArguments()
-        );
+        $this->assertEquals([ '$barfoo' => 'Barfoo' ], $this->functions[3]->getArguments());
 
-        $this->assertEquals(array(), $this->functions[4]->getArguments());
+        $this->assertEquals([ ], $this->functions[4]->getArguments());
 
-        $this->assertEquals(array('$x' => null, '$y' => null), $this->functions[5]->getArguments());
+        $this->assertEquals([ '$x' => null, '$y' => null ], $this->functions[5]->getArguments());
     }
+
 
     /**
      * @covers PHP_Token_FUNCTION::getName
@@ -71,6 +69,7 @@ class PHP_Token_FunctionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('baz', $this->functions[4]->getName());
     }
 
+
     /**
      * @covers PHP_Token::getLine
      */
@@ -82,6 +81,7 @@ class PHP_Token_FunctionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(21, $this->functions[3]->getLine());
         $this->assertEquals(29, $this->functions[4]->getLine());
     }
+
 
     /**
      * @covers PHP_TokenWithScope::getEndLine
@@ -95,6 +95,7 @@ class PHP_Token_FunctionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(31, $this->functions[4]->getEndLine());
     }
 
+
     /**
      * @covers PHP_Token_FUNCTION::getDocblock
      */
@@ -102,19 +103,14 @@ class PHP_Token_FunctionTest extends PHPUnit_Framework_TestCase
     {
         $this->assertNull($this->functions[0]->getDocblock());
 
-        $this->assertEquals(
-          "/**\n     * @param Baz \$baz\n     */",
-          $this->functions[1]->getDocblock()
-        );
+        $this->assertEquals("/**\n     * @param Baz \$baz\n     */", $this->functions[1]->getDocblock());
 
-        $this->assertEquals(
-          "/**\n     * @param Foobar \$foobar\n     */",
-          $this->functions[2]->getDocblock()
-        );
+        $this->assertEquals("/**\n     * @param Foobar \$foobar\n     */", $this->functions[2]->getDocblock());
 
         $this->assertNull($this->functions[3]->getDocblock());
         $this->assertNull($this->functions[4]->getDocblock());
     }
+
 
     public function testSignature()
     {
@@ -123,24 +119,12 @@ class PHP_Token_FunctionTest extends PHPUnit_Framework_TestCase
         $c  = $ts->getClasses();
         $i  = $ts->getInterfaces();
 
-        $this->assertEquals(
-          'foo($a, array $b, array $c = array())',
-          $f['foo']['signature']
-        );
+        $this->assertEquals('foo($a, array $b, array $c = array())', $f['foo']['signature']);
 
-        $this->assertEquals(
-          'm($a, array $b, array $c = array())',
-          $c['c']['methods']['m']['signature']
-        );
+        $this->assertEquals('m($a, array $b, array $c = array())', $c['c']['methods']['m']['signature']);
 
-        $this->assertEquals(
-          'm($a, array $b, array $c = array())',
-          $c['a']['methods']['m']['signature']
-        );
+        $this->assertEquals('m($a, array $b, array $c = array())', $c['a']['methods']['m']['signature']);
 
-        $this->assertEquals(
-          'm($a, array $b, array $c = array())',
-          $i['i']['methods']['m']['signature']
-        );
+        $this->assertEquals('m($a, array $b, array $c = array())', $i['i']['methods']['m']['signature']);
     }
 }

@@ -19,36 +19,36 @@ use Symfony\Component\VarDumper\Dumper\HtmlDumper;
  */
 class HtmlDumperTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testGet()
     {
-        require __DIR__.'/Fixtures/dumb-var.php';
+        require __DIR__ . '/Fixtures/dumb-var.php';
 
         $dumper = new HtmlDumper('php://output');
         $dumper->setDumpHeader('<foo></foo>');
         $dumper->setDumpBoundaries('<bar>', '</bar>');
         $cloner = new VarCloner();
-        $cloner->addCasters(array(
+        $cloner->addCasters([
             ':stream' => function ($res, $a) {
-                unset($a['uri'], $a['wrapper_data']);
+                unset( $a['uri'], $a['wrapper_data'] );
 
                 return $a;
             },
-        ));
+        ]);
         $data = $cloner->cloneVar($var);
 
         ob_start();
         $dumper->dump($data);
-        $out = ob_get_clean();
-        $out = preg_replace('/[ \t]+$/m', '', $out);
+        $out         = ob_get_clean();
+        $out         = preg_replace('/[ \t]+$/m', '', $out);
         $var['file'] = htmlspecialchars($var['file'], ENT_QUOTES, 'UTF-8');
-        $intMax = PHP_INT_MAX;
+        $intMax      = PHP_INT_MAX;
         preg_match('/sf-dump-\d+/', $out, $dumpId);
         $dumpId = $dumpId[0];
-        $res = (int) $var['res'];
+        $res    = (int) $var['res'];
 
         $r = defined('HHVM_VERSION') ? '' : '<a class=sf-dump-ref>#%d</a>';
-        $this->assertStringMatchesFormat(
-            <<<EOTXT
+        $this->assertStringMatchesFormat(<<<EOTXT
 <foo></foo><bar><span class=sf-dump-note>array:24</span> [<samp>
   "<span class=sf-dump-key>number</span>" => <span class=sf-dump-num>1</span>
   <span class=sf-dump-key>0</span> => <a class=sf-dump-ref href=#{$dumpId}-ref01 title="2 occurrences">&amp;1</a> <span class=sf-dump-const>null</span>
@@ -106,9 +106,9 @@ class HtmlDumperTest extends \PHPUnit_Framework_TestCase
 EOTXT
             ,
 
-            $out
-        );
+            $out);
     }
+
 
     public function testCharset()
     {
@@ -120,20 +120,18 @@ EOTXT
         $cloner = new VarCloner();
 
         $data = $cloner->cloneVar($var);
-        $out = fopen('php://memory', 'r+b');
+        $out  = fopen('php://memory', 'r+b');
         $dumper->dump($data, $out);
         rewind($out);
         $out = stream_get_contents($out);
 
-        $this->assertStringMatchesFormat(
-            <<<EOTXT
+        $this->assertStringMatchesFormat(<<<EOTXT
 <foo></foo><bar>b"<span class=sf-dump-str title="7 binary or non-UTF-8 characters">&#1057;&#1083;&#1086;&#1074;&#1072;&#1088;&#1100;</span>"
 </bar>
 
 EOTXT
             ,
 
-            $out
-        );
+            $out);
     }
 }

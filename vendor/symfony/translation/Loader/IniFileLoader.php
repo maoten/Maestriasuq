@@ -18,6 +18,7 @@ namespace Symfony\Component\Translation\Loader;
  */
 class IniFileLoader extends FileLoader
 {
+
     /**
      * {@inheritdoc}
      */

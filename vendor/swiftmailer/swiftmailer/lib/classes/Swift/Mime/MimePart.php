@@ -15,6 +15,7 @@
  */
 class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
 {
+
     /** The format parameter last specified by the user */
     protected $_userFormat;
 
@@ -27,6 +28,7 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
     /** The nesting level of this MimePart */
     private $_nestingLevel = self::LEVEL_ALTERNATIVE;
 
+
     /**
      * Create a new MimePart with $headers, $encoder and $cache.
      *
@@ -36,14 +38,20 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
      * @param Swift_Mime_Grammar        $grammar
      * @param string                    $charset
      */
-    public function __construct(Swift_Mime_HeaderSet $headers, Swift_Mime_ContentEncoder $encoder, Swift_KeyCache $cache, Swift_Mime_Grammar $grammar, $charset = null)
-    {
+    public function __construct(
+        Swift_Mime_HeaderSet $headers,
+        Swift_Mime_ContentEncoder $encoder,
+        Swift_KeyCache $cache,
+        Swift_Mime_Grammar $grammar,
+        $charset = null
+    ) {
         parent::__construct($headers, $encoder, $cache, $grammar);
         $this->setContentType('text/plain');
-        if (!is_null($charset)) {
+        if ( ! is_null($charset)) {
             $this->setCharset($charset);
         }
     }
+
 
     /**
      * Set the body of this entity, either as a string, or as an instance of
@@ -57,7 +65,7 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
      */
     public function setBody($body, $contentType = null, $charset = null)
     {
-        if (isset($charset)) {
+        if (isset( $charset )) {
             $this->setCharset($charset);
         }
         $body = $this->_convertString($body);
@@ -66,6 +74,7 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
 
         return $this;
     }
+
 
     /**
      * Get the character set of this entity.
@@ -76,6 +85,7 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
     {
         return $this->_getHeaderParameter('Content-Type', 'charset');
     }
+
 
     /**
      * Set the character set of this entity.
@@ -96,6 +106,7 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
         return $this;
     }
 
+
     /**
      * Get the format of this entity (i.e. flowed or fixed).
      *
@@ -105,6 +116,7 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
     {
         return $this->_getHeaderParameter('Content-Type', 'format');
     }
+
 
     /**
      * Set the format of this entity (flowed or fixed).
@@ -121,6 +133,7 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
         return $this;
     }
 
+
     /**
      * Test if delsp is being used for this entity.
      *
@@ -128,10 +141,9 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
      */
     public function getDelSp()
     {
-        return ($this->_getHeaderParameter('Content-Type', 'delsp') == 'yes')
-            ? true
-            : false;
+        return ( $this->_getHeaderParameter('Content-Type', 'delsp') == 'yes' ) ? true : false;
     }
+
 
     /**
      * Turn delsp on or off for this entity.
@@ -148,6 +160,7 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
         return $this;
     }
 
+
     /**
      * Get the nesting level of this entity.
      *
@@ -160,6 +173,7 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
         return $this->_nestingLevel;
     }
 
+
     /**
      * Receive notification that the charset has changed on this document, or a
      * parent document.
@@ -170,6 +184,7 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
     {
         $this->setCharset($charset);
     }
+
 
     /** Fix the content-type and encoding of this entity */
     protected function _fixHeaders()
@@ -186,17 +201,19 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
         }
     }
 
+
     /** Set the nesting level of this entity */
     protected function _setNestingLevel($level)
     {
         $this->_nestingLevel = $level;
     }
 
+
     /** Encode charset when charset is not utf-8 */
     protected function _convertString($string)
     {
         $charset = strtolower($this->getCharset());
-        if (!in_array($charset, array('utf-8', 'iso-8859-1', ''))) {
+        if ( ! in_array($charset, [ 'utf-8', 'iso-8859-1', '' ])) {
             // mb_convert_encoding must be the first one to check, since iconv cannot convert some words.
             if (function_exists('mb_convert_encoding')) {
                 $string = mb_convert_encoding($string, $charset, 'utf-8');

@@ -4,6 +4,7 @@ namespace Illuminate\Bus;
 
 trait Queueable
 {
+
     /**
      * The name of the connection the job should be sent to.
      *
@@ -25,10 +26,12 @@ trait Queueable
      */
     public $delay;
 
+
     /**
      * Set the desired connection for the job.
      *
-     * @param  string|null  $connection
+     * @param  string|null $connection
+     *
      * @return $this
      */
     public function onConnection($connection)
@@ -38,10 +41,12 @@ trait Queueable
         return $this;
     }
 
+
     /**
      * Set the desired queue for the job.
      *
-     * @param  string|null  $queue
+     * @param  string|null $queue
+     *
      * @return $this
      */
     public function onQueue($queue)
@@ -51,10 +56,12 @@ trait Queueable
         return $this;
     }
 
+
     /**
      * Set the desired delay for the job.
      *
-     * @param  int|null  $delay
+     * @param  int|null $delay
+     *
      * @return $this
      */
     public function delay($delay)

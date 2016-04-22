@@ -15,6 +15,7 @@
  */
 class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit_Framework_SelfDescribing
 {
+
     /**
      * @var string
      */
@@ -23,7 +24,7 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
     /**
      * @var array
      */
-    private $settings = array(
+    private $settings = [
         'allow_url_fopen=1',
         'auto_append_file=',
         'auto_prepend_file=',
@@ -45,7 +46,8 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
         'safe_mode=0',
         'track_errors=1',
         'xdebug.default_enable=0'
-    );
+    ];
+
 
     /**
      * Constructs a test case with the given filename.
@@ -56,21 +58,17 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
      */
     public function __construct($filename)
     {
-        if (!is_string($filename)) {
+        if ( ! is_string($filename)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        if (!is_file($filename)) {
-            throw new PHPUnit_Framework_Exception(
-                sprintf(
-                    'File "%s" does not exist.',
-                    $filename
-                )
-            );
+        if ( ! is_file($filename)) {
+            throw new PHPUnit_Framework_Exception(sprintf('File "%s" does not exist.', $filename));
         }
 
         $this->filename = $filename;
     }
+
 
     /**
      * Counts the number of test cases executed by run(TestResult result).
@@ -81,6 +79,7 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
     {
         return 1;
     }
+
 
     /**
      * Runs a test and collects its result in a TestResult instance.
@@ -105,14 +104,14 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
 
         $result->startTest($this);
 
-        if (isset($sections['INI'])) {
+        if (isset( $sections['INI'] )) {
             $settings = array_merge($settings, $this->parseIniSection($sections['INI']));
         }
 
-        if (isset($sections['SKIPIF'])) {
+        if (isset( $sections['SKIPIF'] )) {
             $jobResult = $php->runJob($sections['SKIPIF'], $settings);
 
-            if (!strncasecmp('skip', ltrim($jobResult['stdout']), 4)) {
+            if ( ! strncasecmp('skip', ltrim($jobResult['stdout']), 4)) {
                 if (preg_match('/^\s*skip\s*(.+)\s*/i', $jobResult['stdout'], $message)) {
                     $message = substr($message[1], 2);
                 } else {
@@ -125,12 +124,12 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
             }
         }
 
-        if (!$skip) {
+        if ( ! $skip) {
             PHP_Timer::start();
             $jobResult = $php->runJob($code, $settings);
             $time      = PHP_Timer::stop();
 
-            if (isset($sections['EXPECT'])) {
+            if (isset( $sections['EXPECT'] )) {
                 $assertion = 'assertEquals';
                 $expected  = $sections['EXPECT'];
             } else {
@@ -157,6 +156,7 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
         return $result;
     }
 
+
     /**
      * Returns the name of the test case.
      *
@@ -166,6 +166,7 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
     {
         return $this->toString();
     }
+
 
     /**
      * Returns a string representation of the test case.
@@ -177,6 +178,7 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
         return $this->filename;
     }
 
+
     /**
      * @return array
      *
@@ -184,7 +186,7 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
      */
     private function parse()
     {
-        $sections = array();
+        $sections = [ ];
         $section  = '';
 
         foreach (file($this->filename) as $line) {
@@ -192,20 +194,20 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
                 $section            = $result[1];
                 $sections[$section] = '';
                 continue;
-            } elseif (empty($section)) {
+            } elseif (empty( $section )) {
                 throw new PHPUnit_Framework_Exception('Invalid PHPT file');
             }
 
             $sections[$section] .= $line;
         }
 
-        if (!isset($sections['FILE']) ||
-            (!isset($sections['EXPECT']) && !isset($sections['EXPECTF']))) {
+        if ( ! isset( $sections['FILE'] ) || ( ! isset( $sections['EXPECT'] ) && ! isset( $sections['EXPECTF'] ) )) {
             throw new PHPUnit_Framework_Exception('Invalid PHPT file');
         }
 
         return $sections;
     }
+
 
     /**
      * @param string $code
@@ -214,18 +216,15 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
      */
     private function render($code)
     {
-        return str_replace(
-            array(
+        return str_replace([
             '__DIR__',
             '__FILE__'
-            ),
-            array(
-            "'" . dirname($this->filename) . "'",
-            "'" . $this->filename . "'"
-            ),
-            $code
-        );
+        ], [
+                "'" . dirname($this->filename) . "'",
+                "'" . $this->filename . "'"
+            ], $code);
     }
+
 
     /**
      * Parse --INI-- section key value pairs and return as array.

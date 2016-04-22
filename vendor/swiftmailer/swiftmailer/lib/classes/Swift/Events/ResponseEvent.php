@@ -15,6 +15,7 @@
  */
 class Swift_Events_ResponseEvent extends Swift_Events_EventObject
 {
+
     /**
      * The overall result.
      *
@@ -29,6 +30,7 @@ class Swift_Events_ResponseEvent extends Swift_Events_EventObject
      */
     private $_response;
 
+
     /**
      * Create a new ResponseEvent for $source and $response.
      *
@@ -40,8 +42,9 @@ class Swift_Events_ResponseEvent extends Swift_Events_EventObject
     {
         parent::__construct($source);
         $this->_response = $response;
-        $this->_valid = $valid;
+        $this->_valid    = $valid;
     }
+
 
     /**
      * Get the response which was received from the server.
@@ -52,6 +55,7 @@ class Swift_Events_ResponseEvent extends Swift_Events_EventObject
     {
         return $this->_response;
     }
+
 
     /**
      * Get the success status of this Event.

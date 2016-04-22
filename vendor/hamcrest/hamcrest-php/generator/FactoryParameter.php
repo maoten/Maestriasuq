@@ -6,6 +6,7 @@
 
 class FactoryParameter
 {
+
     /**
      * @var FactoryMethod
      */
@@ -16,11 +17,13 @@ class FactoryParameter
      */
     private $reflector;
 
+
     public function __construct(FactoryMethod $method, ReflectionParameter $reflector)
     {
-        $this->method = $method;
+        $this->method    = $method;
         $this->reflector = $reflector;
     }
+
 
     public function getDeclaration()
     {
@@ -54,13 +57,16 @@ class FactoryParameter
             }
             $code .= ' = ' . $default;
         }
+
         return $code;
     }
+
 
     public function getInvocation()
     {
         return '$' . $this->reflector->name;
     }
+
 
     public function getMethod()
     {

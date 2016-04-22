@@ -7,18 +7,20 @@ use Prophecy\Argument\Token\TokenInterface;
 
 class ArgumentsWildcardSpec extends ObjectBehavior
 {
+
     /**
      * @param \stdClass $object
      */
     function it_wraps_non_token_arguments_into_ExactValueToken($object)
     {
-        $this->beConstructedWith(array(42, 'zet', $object));
+        $this->beConstructedWith([ 42, 'zet', $object ]);
 
         $class = get_class($object->getWrappedObject());
         $hash  = spl_object_hash($object->getWrappedObject());
 
         $this->__toString()->shouldReturn("exact(42), exact(\"zet\"), exact($class:$hash Object (\n    'objectProphecy' => Prophecy\Prophecy\ObjectProphecy Object (*Prophecy*)\n))");
     }
+
 
     /**
      * @param \Prophecy\Argument\Token\TokenInterface $token1
@@ -31,26 +33,29 @@ class ArgumentsWildcardSpec extends ObjectBehavior
         $token2->__toString()->willReturn('token_2');
         $token3->__toString()->willReturn('token_3');
 
-        $this->beConstructedWith(array($token1, $token2, $token3));
+        $this->beConstructedWith([ $token1, $token2, $token3 ]);
         $this->__toString()->shouldReturn('token_1, token_2, token_3');
     }
+
 
     /**
      * @param \Prophecy\Argument\Token\TokenInterface $token
      */
     function it_exposes_list_of_tokens($token)
     {
-        $this->beConstructedWith(array($token));
+        $this->beConstructedWith([ $token ]);
 
-        $this->getTokens()->shouldReturn(array($token));
+        $this->getTokens()->shouldReturn([ $token ]);
     }
+
 
     function it_returns_score_of_1_if_there_are_no_tokens_and_arguments()
     {
-        $this->beConstructedWith(array());
+        $this->beConstructedWith([ ]);
 
-        $this->scoreArguments(array())->shouldReturn(1);
+        $this->scoreArguments([ ])->shouldReturn(1);
     }
+
 
     /**
      * @param \Prophecy\Argument\Token\TokenInterface $token1
@@ -66,9 +71,10 @@ class ArgumentsWildcardSpec extends ObjectBehavior
         $token3->scoreArgument($obj = new \stdClass())->willReturn(10);
         $token3->isLast()->willReturn(false);
 
-        $this->beConstructedWith(array($token1, $token2, $token3));
-        $this->scoreArguments(array('one', 2, $obj))->shouldReturn(18);
+        $this->beConstructedWith([ $token1, $token2, $token3 ]);
+        $this->scoreArguments([ 'one', 2, $obj ])->shouldReturn(18);
     }
+
 
     /**
      * @param \Prophecy\Argument\Token\TokenInterface $token1
@@ -84,9 +90,10 @@ class ArgumentsWildcardSpec extends ObjectBehavior
         $token3->scoreArgument(null)->willReturn(false);
         $token3->isLast()->willReturn(false);
 
-        $this->beConstructedWith(array($token1, $token2, $token3));
-        $this->scoreArguments(array('one', 2))->shouldReturn(false);
+        $this->beConstructedWith([ $token1, $token2, $token3 ]);
+        $this->scoreArguments([ 'one', 2 ])->shouldReturn(false);
     }
+
 
     /**
      * @param \Prophecy\Argument\Token\TokenInterface $token1
@@ -102,9 +109,10 @@ class ArgumentsWildcardSpec extends ObjectBehavior
         $token3->scoreArgument($obj = new \stdClass())->willReturn(10);
         $token3->isLast()->willReturn(false);
 
-        $this->beConstructedWith(array($token1, $token2, $token3));
-        $this->scoreArguments(array('one', 2, $obj, 4))->shouldReturn(false);
+        $this->beConstructedWith([ $token1, $token2, $token3 ]);
+        $this->scoreArguments([ 'one', 2, $obj, 4 ])->shouldReturn(false);
     }
+
 
     /**
      * @param \Prophecy\Argument\Token\TokenInterface $token1
@@ -120,9 +128,10 @@ class ArgumentsWildcardSpec extends ObjectBehavior
         $token3->scoreArgument($obj = new \stdClass())->willReturn(10);
         $token3->isLast()->willReturn(false);
 
-        $this->beConstructedWith(array($token1, $token2, $token3));
-        $this->scoreArguments(array('one', 2, $obj))->shouldReturn(false);
+        $this->beConstructedWith([ $token1, $token2, $token3 ]);
+        $this->scoreArguments([ 'one', 2, $obj ])->shouldReturn(false);
     }
+
 
     /**
      * @param \Prophecy\Argument\Token\TokenInterface $token1
@@ -140,7 +149,7 @@ class ArgumentsWildcardSpec extends ObjectBehavior
         $token3->scoreArgument($obj = new \stdClass())->willReturn(10);
         $token3->isLast()->willReturn(false);
 
-        $this->beConstructedWith(array($token1, $token2, $token3));
-        $this->scoreArguments(array('one', 2, $obj))->shouldReturn(10);
+        $this->beConstructedWith([ $token1, $token2, $token3 ]);
+        $this->scoreArguments([ 'one', 2, $obj ])->shouldReturn(10);
     }
 }

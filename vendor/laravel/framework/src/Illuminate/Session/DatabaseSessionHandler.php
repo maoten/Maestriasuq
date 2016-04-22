@@ -9,6 +9,7 @@ use Illuminate\Contracts\Container\Container;
 
 class DatabaseSessionHandler implements SessionHandlerInterface, ExistenceAwareInterface
 {
+
     /**
      * The database connection instance.
      *
@@ -37,20 +38,23 @@ class DatabaseSessionHandler implements SessionHandlerInterface, ExistenceAwareI
      */
     protected $exists;
 
+
     /**
      * Create a new database session handler instance.
      *
-     * @param  \Illuminate\Database\ConnectionInterface  $connection
-     * @param  string  $table
-     * @param  \Illuminate\Contracts\Container\Container|null  $container
+     * @param  \Illuminate\Database\ConnectionInterface       $connection
+     * @param  string                                         $table
+     * @param  \Illuminate\Contracts\Container\Container|null $container
+     *
      * @return void
      */
     public function __construct(ConnectionInterface $connection, $table, Container $container = null)
     {
-        $this->table = $table;
-        $this->container = $container;
+        $this->table      = $table;
+        $this->container  = $container;
         $this->connection = $connection;
     }
+
 
     /**
      * {@inheritdoc}
@@ -60,6 +64,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface, ExistenceAwareI
         return true;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -68,6 +73,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface, ExistenceAwareI
         return true;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -75,12 +81,13 @@ class DatabaseSessionHandler implements SessionHandlerInterface, ExistenceAwareI
     {
         $session = (object) $this->getQuery()->find($sessionId);
 
-        if (isset($session->payload)) {
+        if (isset( $session->payload )) {
             $this->exists = true;
 
             return base64_decode($session->payload);
         }
     }
+
 
     /**
      * {@inheritdoc}
@@ -89,7 +96,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface, ExistenceAwareI
     {
         $payload = $this->getDefaultPayload($data);
 
-        if (! $this->exists) {
+        if ( ! $this->exists) {
             $this->read($sessionId);
         }
 
@@ -104,17 +111,19 @@ class DatabaseSessionHandler implements SessionHandlerInterface, ExistenceAwareI
         $this->exists = true;
     }
 
+
     /**
      * Get the default paylaod for the session.
      *
-     * @param  string  $data
+     * @param  string $data
+     *
      * @return array
      */
     protected function getDefaultPayload($data)
     {
-        $payload = ['payload' => base64_encode($data), 'last_activity' => time()];
+        $payload = [ 'payload' => base64_encode($data), 'last_activity' => time() ];
 
-        if (! $container = $this->container) {
+        if ( ! $container = $this->container) {
             return $payload;
         }
 
@@ -125,13 +134,12 @@ class DatabaseSessionHandler implements SessionHandlerInterface, ExistenceAwareI
         if ($container->bound('request')) {
             $payload['ip_address'] = $container->make('request')->ip();
 
-            $payload['user_agent'] = substr(
-                (string) $container->make('request')->header('User-Agent'), 0, 500
-            );
+            $payload['user_agent'] = substr((string) $container->make('request')->header('User-Agent'), 0, 500);
         }
 
         return $payload;
     }
+
 
     /**
      * {@inheritdoc}
@@ -141,6 +149,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface, ExistenceAwareI
         $this->getQuery()->where('id', $sessionId)->delete();
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -148,6 +157,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface, ExistenceAwareI
     {
         $this->getQuery()->where('last_activity', '<=', time() - $lifetime)->delete();
     }
+
 
     /**
      * Get a fresh query builder instance for the table.
@@ -159,10 +169,12 @@ class DatabaseSessionHandler implements SessionHandlerInterface, ExistenceAwareI
         return $this->connection->table($this->table);
     }
 
+
     /**
      * Set the existence state for the session.
      *
-     * @param  bool  $value
+     * @param  bool $value
+     *
      * @return $this
      */
     public function setExists($value)

@@ -28,12 +28,14 @@ class Not extends MatcherAbstract
      * case it's specifically NOT expected).
      *
      * @param mixed $actual
+     *
      * @return bool
      */
     public function match(&$actual)
     {
         return $actual !== $this->_expected;
     }
+
 
     /**
      * Return a string representation of this Matcher

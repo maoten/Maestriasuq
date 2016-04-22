@@ -23,4 +23,5 @@ use phpDocumentor\Reflection\DocBlock\Tag\VersionTag;
  */
 class SinceTag extends VersionTag
 {
+
 }

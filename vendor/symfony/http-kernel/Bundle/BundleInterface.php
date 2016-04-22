@@ -22,15 +22,18 @@ use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
  */
 interface BundleInterface extends ContainerAwareInterface
 {
+
     /**
      * Boots the Bundle.
      */
     public function boot();
 
+
     /**
      * Shutdowns the Bundle.
      */
     public function shutdown();
+
 
     /**
      * Builds the bundle.
@@ -41,12 +44,14 @@ interface BundleInterface extends ContainerAwareInterface
      */
     public function build(ContainerBuilder $container);
 
+
     /**
      * Returns the container extension that should be implicitly loaded.
      *
      * @return ExtensionInterface|null The default extension or null if there is none
      */
     public function getContainerExtension();
+
 
     /**
      * Returns the bundle name that this bundle overrides.
@@ -59,6 +64,7 @@ interface BundleInterface extends ContainerAwareInterface
      */
     public function getParent();
 
+
     /**
      * Returns the bundle name (the class short name).
      *
@@ -66,12 +72,14 @@ interface BundleInterface extends ContainerAwareInterface
      */
     public function getName();
 
+
     /**
      * Gets the Bundle namespace.
      *
      * @return string The Bundle namespace
      */
     public function getNamespace();
+
 
     /**
      * Gets the Bundle directory path.

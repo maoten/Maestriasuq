@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class ConsoleMakeCommand extends GeneratorCommand
 {
+
     /**
      * The console command name.
      *
@@ -29,11 +30,13 @@ class ConsoleMakeCommand extends GeneratorCommand
      */
     protected $type = 'Console command';
 
+
     /**
      * Replace the class name for the given stub.
      *
-     * @param  string  $stub
-     * @param  string  $name
+     * @param  string $stub
+     * @param  string $name
+     *
      * @return string
      */
     protected function replaceClass($stub, $name)
@@ -43,6 +46,7 @@ class ConsoleMakeCommand extends GeneratorCommand
         return str_replace('dummy:command', $this->option('command'), $stub);
     }
 
+
     /**
      * Get the stub file for the generator.
      *
@@ -50,19 +54,22 @@ class ConsoleMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/stubs/console.stub';
+        return __DIR__ . '/stubs/console.stub';
     }
+
 
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param  string $rootNamespace
+     *
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\Console\Commands';
+        return $rootNamespace . '\Console\Commands';
     }
+
 
     /**
      * Get the console command arguments.
@@ -72,9 +79,10 @@ class ConsoleMakeCommand extends GeneratorCommand
     protected function getArguments()
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the command.'],
+            [ 'name', InputArgument::REQUIRED, 'The name of the command.' ],
         ];
     }
+
 
     /**
      * Get the console command options.
@@ -84,7 +92,13 @@ class ConsoleMakeCommand extends GeneratorCommand
     protected function getOptions()
     {
         return [
-            ['command', null, InputOption::VALUE_OPTIONAL, 'The terminal command that should be assigned.', 'command:name'],
+            [
+                'command',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'The terminal command that should be assigned.',
+                'command:name'
+            ],
         ];
     }
 }

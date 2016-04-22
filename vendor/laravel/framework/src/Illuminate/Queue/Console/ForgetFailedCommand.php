@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class ForgetFailedCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -20,6 +21,7 @@ class ForgetFailedCommand extends Command
      * @var string
      */
     protected $description = 'Delete a failed queue job';
+
 
     /**
      * Execute the console command.
@@ -35,6 +37,7 @@ class ForgetFailedCommand extends Command
         }
     }
 
+
     /**
      * Get the console command arguments.
      *
@@ -43,7 +46,7 @@ class ForgetFailedCommand extends Command
     protected function getArguments()
     {
         return [
-            ['id', InputArgument::REQUIRED, 'The ID of the failed job'],
+            [ 'id', InputArgument::REQUIRED, 'The ID of the failed job' ],
         ];
     }
 }

@@ -15,6 +15,7 @@
  */
 interface Swift_Signers_HeaderSigner extends Swift_Signer, Swift_InputByteStream
 {
+
     /**
      * Exclude an header from the signed headers.
      *
@@ -24,6 +25,7 @@ interface Swift_Signers_HeaderSigner extends Swift_Signer, Swift_InputByteStream
      */
     public function ignoreHeader($header_name);
 
+
     /**
      * Prepare the Signer to get a new Body.
      *
@@ -31,12 +33,14 @@ interface Swift_Signers_HeaderSigner extends Swift_Signer, Swift_InputByteStream
      */
     public function startBody();
 
+
     /**
      * Give the signal that the body has finished streaming.
      *
      * @return Swift_Signers_HeaderSigner
      */
     public function endBody();
+
 
     /**
      * Give the headers already given.
@@ -47,6 +51,7 @@ interface Swift_Signers_HeaderSigner extends Swift_Signer, Swift_InputByteStream
      */
     public function setHeaders(Swift_Mime_HeaderSet $headers);
 
+
     /**
      * Add the header(s) to the headerSet.
      *
@@ -55,6 +60,7 @@ interface Swift_Signers_HeaderSigner extends Swift_Signer, Swift_InputByteStream
      * @return Swift_Signers_HeaderSigner
      */
     public function addSignature(Swift_Mime_HeaderSet $headers);
+
 
     /**
      * Return the list of header a signer might tamper.

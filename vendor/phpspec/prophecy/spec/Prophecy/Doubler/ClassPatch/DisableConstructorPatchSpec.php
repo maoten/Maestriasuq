@@ -7,15 +7,18 @@ use Prophecy\Argument;
 
 class DisableConstructorPatchSpec extends ObjectBehavior
 {
+
     function it_is_a_patch()
     {
         $this->shouldBeAnInstanceOf('Prophecy\Doubler\ClassPatch\ClassPatchInterface');
     }
 
+
     function its_priority_is_100()
     {
         $this->getPriority()->shouldReturn(100);
     }
+
 
     /**
      * @param \Prophecy\Doubler\Generator\Node\ClassNode $node
@@ -24,6 +27,7 @@ class DisableConstructorPatchSpec extends ObjectBehavior
     {
         $this->supports($node)->shouldReturn(true);
     }
+
 
     /**
      * @param \Prophecy\Doubler\Generator\Node\ClassNode    $class
@@ -35,7 +39,7 @@ class DisableConstructorPatchSpec extends ObjectBehavior
     {
         $class->hasMethod('__construct')->willReturn(true);
         $class->getMethod('__construct')->willReturn($method);
-        $method->getArguments()->willReturn(array($arg1, $arg2));
+        $method->getArguments()->willReturn([ $arg1, $arg2 ]);
 
         $arg1->setDefault(null)->shouldBeCalled();
         $arg2->setDefault(null)->shouldBeCalled();
@@ -45,14 +49,14 @@ class DisableConstructorPatchSpec extends ObjectBehavior
         $this->apply($class);
     }
 
+
     /**
      * @param \Prophecy\Doubler\Generator\Node\ClassNode $class
      */
     function it_creates_new_constructor_if_object_has_none($class)
     {
         $class->hasMethod('__construct')->willReturn(false);
-        $class->addMethod(Argument::type('Prophecy\Doubler\Generator\Node\MethodNode'))
-            ->shouldBeCalled();
+        $class->addMethod(Argument::type('Prophecy\Doubler\Generator\Node\MethodNode'))->shouldBeCalled();
 
         $this->apply($class);
     }

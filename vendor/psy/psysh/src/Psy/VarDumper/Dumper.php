@@ -20,7 +20,9 @@ use Symfony\Component\VarDumper\Dumper\CliDumper;
  */
 class Dumper extends CliDumper
 {
+
     private $formatter;
+
 
     public function __construct(OutputFormatter $formatter)
     {
@@ -28,6 +30,7 @@ class Dumper extends CliDumper
         parent::__construct();
         $this->setColors(false);
     }
+
 
     /**
      * {@inheritdoc}
@@ -40,6 +43,7 @@ class Dumper extends CliDumper
         parent::enterHash($cursor, $type, $class, $hasChild);
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -50,14 +54,15 @@ class Dumper extends CliDumper
         }
     }
 
-    protected function style($style, $value, $attr = array())
+
+    protected function style($style, $value, $attr = [ ])
     {
         if ('ref' === $style) {
             $value = strtr($value, '@', '#');
         }
         $style = $this->styles[$style];
         $value = "<{$style}>" . $this->formatter->escape($value) . "</{$style}>";
-        $cchr = $this->styles['cchr'];
+        $cchr  = $this->styles['cchr'];
         $value = preg_replace_callback(self::$controlCharsRx, function ($c) use ($cchr) {
             switch ($c[0]) {
                 case "\t":
@@ -88,6 +93,7 @@ class Dumper extends CliDumper
 
         return $value;
     }
+
 
     /**
      * {@inheritdoc}

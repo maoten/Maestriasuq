@@ -18,6 +18,7 @@ namespace Prophecy\Argument\Token;
  */
 class AnyValueToken implements TokenInterface
 {
+
     /**
      * Always scores 3 for any argument.
      *
@@ -30,6 +31,7 @@ class AnyValueToken implements TokenInterface
         return 3;
     }
 
+
     /**
      * Returns false.
      *
@@ -39,6 +41,7 @@ class AnyValueToken implements TokenInterface
     {
         return false;
     }
+
 
     /**
      * Returns string representation for token.

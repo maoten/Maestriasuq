@@ -7,6 +7,7 @@ use SuperClosure\Exception\ClosureUnserializationException;
  */
 interface SerializerInterface
 {
+
     /**
      * Takes a Closure object, decorates it with a SerializableClosure object,
      * then performs the serialization.
@@ -16,6 +17,7 @@ interface SerializerInterface
      * @return string Serialized closure.
      */
     public function serialize(\Closure $closure);
+
 
     /**
      * Takes a serialized closure, performs the unserialization, and then
@@ -27,6 +29,7 @@ interface SerializerInterface
      * @return \Closure Unserialized closure.
      */
     public function unserialize($serialized);
+
 
     /**
      * Retrieves data about a closure including its code, context, and binding.

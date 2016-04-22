@@ -15,6 +15,7 @@
  */
 class PHPUnit_Framework_SkippedTestCase extends PHPUnit_Framework_TestCase
 {
+
     /**
      * @var string
      */
@@ -45,6 +46,7 @@ class PHPUnit_Framework_SkippedTestCase extends PHPUnit_Framework_TestCase
      */
     protected $useOutputBuffering = false;
 
+
     /**
      * @param string $message
      */
@@ -54,6 +56,7 @@ class PHPUnit_Framework_SkippedTestCase extends PHPUnit_Framework_TestCase
         parent::__construct($className . '::' . $methodName);
     }
 
+
     /**
      * @throws PHPUnit_Framework_Exception
      */
@@ -62,6 +65,7 @@ class PHPUnit_Framework_SkippedTestCase extends PHPUnit_Framework_TestCase
         $this->markTestSkipped($this->message);
     }
 
+
     /**
      * @return string
      */
@@ -69,6 +73,7 @@ class PHPUnit_Framework_SkippedTestCase extends PHPUnit_Framework_TestCase
     {
         return $this->message;
     }
+
 
     /**
      * Returns a string representation of the test case.

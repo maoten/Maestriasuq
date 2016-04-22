@@ -19,6 +19,7 @@ namespace Monolog\Handler;
  */
 class WhatFailureGroupHandler extends GroupHandler
 {
+
     /**
      * {@inheritdoc}
      */
@@ -40,6 +41,7 @@ class WhatFailureGroupHandler extends GroupHandler
 
         return false === $this->bubble;
     }
+
 
     /**
      * {@inheritdoc}

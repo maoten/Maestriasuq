@@ -24,6 +24,7 @@ use Symfony\Component\Routing\RouteCollection;
  */
 class PhpFileLoader extends FileLoader
 {
+
     /**
      * Loads a PHP file.
      *
@@ -43,13 +44,16 @@ class PhpFileLoader extends FileLoader
         return $collection;
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function supports($resource, $type = null)
     {
-        return is_string($resource) && 'php' === pathinfo($resource, PATHINFO_EXTENSION) && (!$type || 'php' === $type);
+        return is_string($resource) && 'php' === pathinfo($resource,
+            PATHINFO_EXTENSION) && ( ! $type || 'php' === $type );
     }
+
 
     /**
      * Safe include. Used for scope isolation.

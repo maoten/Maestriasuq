@@ -24,6 +24,7 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class TraceableEventDispatcher extends BaseTraceableEventDispatcher
 {
+
     /**
      * {@inheritdoc}
      */
@@ -54,6 +55,7 @@ class TraceableEventDispatcher extends BaseTraceableEventDispatcher
                 break;
         }
     }
+
 
     /**
      * {@inheritdoc}

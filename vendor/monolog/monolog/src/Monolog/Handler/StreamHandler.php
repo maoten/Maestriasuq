@@ -22,12 +22,19 @@ use Monolog\Logger;
  */
 class StreamHandler extends AbstractProcessingHandler
 {
+
     protected $stream;
+
     protected $url;
+
     private $errorMessage;
+
     protected $filePermission;
+
     protected $useLocking;
+
     private $dirCreated;
+
 
     /**
      * @param resource|string $stream
@@ -39,8 +46,13 @@ class StreamHandler extends AbstractProcessingHandler
      * @throws \Exception                If a missing directory is not buildable
      * @throws \InvalidArgumentException If stream is not a resource or string
      */
-    public function __construct($stream, $level = Logger::DEBUG, $bubble = true, $filePermission = null, $useLocking = false)
-    {
+    public function __construct(
+        $stream,
+        $level = Logger::DEBUG,
+        $bubble = true,
+        $filePermission = null,
+        $useLocking = false
+    ) {
         parent::__construct($level, $bubble);
         if (is_resource($stream)) {
             $this->stream = $stream;
@@ -51,8 +63,9 @@ class StreamHandler extends AbstractProcessingHandler
         }
 
         $this->filePermission = $filePermission;
-        $this->useLocking = $useLocking;
+        $this->useLocking     = $useLocking;
     }
+
 
     /**
      * {@inheritdoc}
@@ -65,26 +78,28 @@ class StreamHandler extends AbstractProcessingHandler
         $this->stream = null;
     }
 
+
     /**
      * {@inheritdoc}
      */
     protected function write(array $record)
     {
-        if (!is_resource($this->stream)) {
-            if (!$this->url) {
+        if ( ! is_resource($this->stream)) {
+            if ( ! $this->url) {
                 throw new \LogicException('Missing stream url, the stream can not be opened. This may be caused by a premature call to close().');
             }
             $this->createDir();
             $this->errorMessage = null;
-            set_error_handler(array($this, 'customErrorHandler'));
+            set_error_handler([ $this, 'customErrorHandler' ]);
             $this->stream = fopen($this->url, 'a');
             if ($this->filePermission !== null) {
                 @chmod($this->url, $this->filePermission);
             }
             restore_error_handler();
-            if (!is_resource($this->stream)) {
+            if ( ! is_resource($this->stream)) {
                 $this->stream = null;
-                throw new \UnexpectedValueException(sprintf('The stream or file "%s" could not be opened: '.$this->errorMessage, $this->url));
+                throw new \UnexpectedValueException(sprintf('The stream or file "%s" could not be opened: ' . $this->errorMessage,
+                    $this->url));
             }
         }
 
@@ -100,10 +115,12 @@ class StreamHandler extends AbstractProcessingHandler
         }
     }
 
+
     private function customErrorHandler($code, $msg)
     {
         $this->errorMessage = preg_replace('{^(fopen|mkdir)\(.*?\): }', '', $msg);
     }
+
 
     /**
      * @param string $stream
@@ -124,6 +141,7 @@ class StreamHandler extends AbstractProcessingHandler
         return;
     }
 
+
     private function createDir()
     {
         // Do not try to create dir if it has already been tried.
@@ -132,13 +150,14 @@ class StreamHandler extends AbstractProcessingHandler
         }
 
         $dir = $this->getDirFromStream($this->url);
-        if (null !== $dir && !is_dir($dir)) {
+        if (null !== $dir && ! is_dir($dir)) {
             $this->errorMessage = null;
-            set_error_handler(array($this, 'customErrorHandler'));
+            set_error_handler([ $this, 'customErrorHandler' ]);
             $status = mkdir($dir, 0777, true);
             restore_error_handler();
             if (false === $status) {
-                throw new \UnexpectedValueException(sprintf('There is no existing directory at "%s" and its not buildable: '.$this->errorMessage, $dir));
+                throw new \UnexpectedValueException(sprintf('There is no existing directory at "%s" and its not buildable: ' . $this->errorMessage,
+                    $dir));
             }
         }
         $this->dirCreated = true;

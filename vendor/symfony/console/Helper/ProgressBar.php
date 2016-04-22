@@ -23,31 +23,49 @@ use Symfony\Component\Console\Exception\LogicException;
  */
 class ProgressBar
 {
+
     // options
     private $barWidth = 28;
+
     private $barChar;
+
     private $emptyBarChar = '-';
+
     private $progressChar = '>';
+
     private $format;
+
     private $internalFormat;
+
     private $redrawFreq = 1;
 
     /**
      * @var OutputInterface
      */
     private $output;
+
     private $step = 0;
+
     private $max;
+
     private $startTime;
+
     private $stepWidth;
+
     private $percent = 0.0;
+
     private $lastMessagesLength = 0;
+
     private $formatLineCount;
+
     private $messages;
+
     private $overwrite = true;
 
     private static $formatters;
+
     private static $formats;
+
 
     /**
      * Constructor.
@@ -64,7 +82,7 @@ class ProgressBar
         $this->output = $output;
         $this->setMaxSteps($max);
 
-        if (!$this->output->isDecorated()) {
+        if ( ! $this->output->isDecorated()) {
             // disable overwrite when output does not support ANSI codes.
             $this->overwrite = false;
 
@@ -74,6 +92,7 @@ class ProgressBar
 
         $this->startTime = time();
     }
+
 
     /**
      * Sets a placeholder formatter for a given name.
@@ -85,12 +104,13 @@ class ProgressBar
      */
     public static function setPlaceholderFormatterDefinition($name, callable $callable)
     {
-        if (!self::$formatters) {
+        if ( ! self::$formatters) {
             self::$formatters = self::initPlaceholderFormatters();
         }
 
         self::$formatters[$name] = $callable;
     }
+
 
     /**
      * Gets the placeholder formatter for a given name.
@@ -101,12 +121,13 @@ class ProgressBar
      */
     public static function getPlaceholderFormatterDefinition($name)
     {
-        if (!self::$formatters) {
+        if ( ! self::$formatters) {
             self::$formatters = self::initPlaceholderFormatters();
         }
 
-        return isset(self::$formatters[$name]) ? self::$formatters[$name] : null;
+        return isset( self::$formatters[$name] ) ? self::$formatters[$name] : null;
     }
+
 
     /**
      * Sets a format for a given name.
@@ -118,12 +139,13 @@ class ProgressBar
      */
     public static function setFormatDefinition($name, $format)
     {
-        if (!self::$formats) {
+        if ( ! self::$formats) {
             self::$formats = self::initFormats();
         }
 
         self::$formats[$name] = $format;
     }
+
 
     /**
      * Gets the format for a given name.
@@ -134,22 +156,25 @@ class ProgressBar
      */
     public static function getFormatDefinition($name)
     {
-        if (!self::$formats) {
+        if ( ! self::$formats) {
             self::$formats = self::initFormats();
         }
 
-        return isset(self::$formats[$name]) ? self::$formats[$name] : null;
+        return isset( self::$formats[$name] ) ? self::$formats[$name] : null;
     }
+
 
     public function setMessage($message, $name = 'message')
     {
         $this->messages[$name] = $message;
     }
 
+
     public function getMessage($name = 'message')
     {
         return $this->messages[$name];
     }
+
 
     /**
      * Gets the progress bar start time.
@@ -161,6 +186,7 @@ class ProgressBar
         return $this->startTime;
     }
 
+
     /**
      * Gets the progress bar maximal steps.
      *
@@ -170,6 +196,7 @@ class ProgressBar
     {
         return $this->max;
     }
+
 
     /**
      * Gets the current step position.
@@ -181,6 +208,7 @@ class ProgressBar
         return $this->step;
     }
 
+
     /**
      * Gets the progress bar step width.
      *
@@ -190,6 +218,7 @@ class ProgressBar
     {
         return $this->stepWidth;
     }
+
 
     /**
      * Gets the current progress bar percent.
@@ -201,6 +230,7 @@ class ProgressBar
         return $this->percent;
     }
 
+
     /**
      * Sets the progress bar width.
      *
@@ -210,6 +240,7 @@ class ProgressBar
     {
         $this->barWidth = (int) $size;
     }
+
 
     /**
      * Gets the progress bar width.
@@ -221,6 +252,7 @@ class ProgressBar
         return $this->barWidth;
     }
 
+
     /**
      * Sets the bar character.
      *
@@ -230,6 +262,7 @@ class ProgressBar
     {
         $this->barChar = $char;
     }
+
 
     /**
      * Gets the bar character.
@@ -245,6 +278,7 @@ class ProgressBar
         return $this->barChar;
     }
 
+
     /**
      * Sets the empty bar character.
      *
@@ -254,6 +288,7 @@ class ProgressBar
     {
         $this->emptyBarChar = $char;
     }
+
 
     /**
      * Gets the empty bar character.
@@ -265,6 +300,7 @@ class ProgressBar
         return $this->emptyBarChar;
     }
 
+
     /**
      * Sets the progress bar character.
      *
@@ -274,6 +310,7 @@ class ProgressBar
     {
         $this->progressChar = $char;
     }
+
 
     /**
      * Gets the progress bar character.
@@ -285,6 +322,7 @@ class ProgressBar
         return $this->progressChar;
     }
 
+
     /**
      * Sets the progress bar format.
      *
@@ -292,9 +330,10 @@ class ProgressBar
      */
     public function setFormat($format)
     {
-        $this->format = null;
+        $this->format         = null;
         $this->internalFormat = $format;
     }
+
 
     /**
      * Sets the redraw frequency.
@@ -306,6 +345,7 @@ class ProgressBar
         $this->redrawFreq = max((int) $freq, 1);
     }
 
+
     /**
      * Starts the progress output.
      *
@@ -314,8 +354,8 @@ class ProgressBar
     public function start($max = null)
     {
         $this->startTime = time();
-        $this->step = 0;
-        $this->percent = 0.0;
+        $this->step      = 0;
+        $this->percent   = 0.0;
 
         if (null !== $max) {
             $this->setMaxSteps($max);
@@ -323,6 +363,7 @@ class ProgressBar
 
         $this->display();
     }
+
 
     /**
      * Advances the progress output X steps.
@@ -336,6 +377,7 @@ class ProgressBar
         $this->setProgress($this->step + $step);
     }
 
+
     /**
      * Sets whether to overwrite the progressbar, false for new line.
      *
@@ -345,6 +387,7 @@ class ProgressBar
     {
         $this->overwrite = (bool) $overwrite;
     }
+
 
     /**
      * Sets the current progress.
@@ -364,31 +407,33 @@ class ProgressBar
             $this->max = $step;
         }
 
-        $prevPeriod = (int) ($this->step / $this->redrawFreq);
-        $currPeriod = (int) ($step / $this->redrawFreq);
-        $this->step = $step;
+        $prevPeriod    = (int) ( $this->step / $this->redrawFreq );
+        $currPeriod    = (int) ( $step / $this->redrawFreq );
+        $this->step    = $step;
         $this->percent = $this->max ? (float) $this->step / $this->max : 0;
         if ($prevPeriod !== $currPeriod || $this->max === $step) {
             $this->display();
         }
     }
 
+
     /**
      * Finishes the progress output.
      */
     public function finish()
     {
-        if (!$this->max) {
+        if ( ! $this->max) {
             $this->max = $this->step;
         }
 
-        if ($this->step === $this->max && !$this->overwrite) {
+        if ($this->step === $this->max && ! $this->overwrite) {
             // prevent double 100% output
             return;
         }
 
         $this->setProgress($this->max);
     }
+
 
     /**
      * Outputs the current progress string.
@@ -406,19 +451,20 @@ class ProgressBar
         $this->overwrite(preg_replace_callback("{%([a-z\-_]+)(?:\:([^%]+))?%}i", function ($matches) {
             if ($formatter = $this::getPlaceholderFormatterDefinition($matches[1])) {
                 $text = call_user_func($formatter, $this, $this->output);
-            } elseif (isset($this->messages[$matches[1]])) {
+            } elseif (isset( $this->messages[$matches[1]] )) {
                 $text = $this->messages[$matches[1]];
             } else {
                 return $matches[0];
             }
 
-            if (isset($matches[2])) {
-                $text = sprintf('%'.$matches[2], $text);
+            if (isset( $matches[2] )) {
+                $text = sprintf('%' . $matches[2], $text);
             }
 
             return $text;
         }, $this->format));
     }
+
 
     /**
      * Removes the progress bar from the current line.
@@ -429,7 +475,7 @@ class ProgressBar
      */
     public function clear()
     {
-        if (!$this->overwrite) {
+        if ( ! $this->overwrite) {
             return;
         }
 
@@ -440,6 +486,7 @@ class ProgressBar
         $this->overwrite(str_repeat("\n", $this->formatLineCount));
     }
 
+
     /**
      * Sets the progress bar format.
      *
@@ -448,8 +495,8 @@ class ProgressBar
     private function setRealFormat($format)
     {
         // try to use the _nomax variant if available
-        if (!$this->max && null !== self::getFormatDefinition($format.'_nomax')) {
-            $this->format = self::getFormatDefinition($format.'_nomax');
+        if ( ! $this->max && null !== self::getFormatDefinition($format . '_nomax')) {
+            $this->format = self::getFormatDefinition($format . '_nomax');
         } elseif (null !== self::getFormatDefinition($format)) {
             $this->format = self::getFormatDefinition($format);
         } else {
@@ -459,6 +506,7 @@ class ProgressBar
         $this->formatLineCount = substr_count($this->format, "\n");
     }
 
+
     /**
      * Sets the progress bar maximal steps.
      *
@@ -466,9 +514,10 @@ class ProgressBar
      */
     private function setMaxSteps($max)
     {
-        $this->max = max(0, (int) $max);
+        $this->max       = max(0, (int) $max);
         $this->stepWidth = $this->max ? Helper::strlen($this->max) : 4;
     }
+
 
     /**
      * Overwrites a previous message to the output.
@@ -510,6 +559,7 @@ class ProgressBar
         }
     }
 
+
     private function determineBestFormat()
     {
         switch ($this->output->getVerbosity()) {
@@ -525,77 +575,80 @@ class ProgressBar
         }
     }
 
+
     private static function initPlaceholderFormatters()
     {
-        return array(
-            'bar' => function (ProgressBar $bar, OutputInterface $output) {
+        return [
+            'bar'       => function (ProgressBar $bar, OutputInterface $output) {
                 $completeBars = floor($bar->getMaxSteps() > 0 ? $bar->getProgressPercent() * $bar->getBarWidth() : $bar->getProgress() % $bar->getBarWidth());
-                $display = str_repeat($bar->getBarCharacter(), $completeBars);
+                $display      = str_repeat($bar->getBarCharacter(), $completeBars);
                 if ($completeBars < $bar->getBarWidth()) {
-                    $emptyBars = $bar->getBarWidth() - $completeBars - Helper::strlenWithoutDecoration($output->getFormatter(), $bar->getProgressCharacter());
-                    $display .= $bar->getProgressCharacter().str_repeat($bar->getEmptyBarCharacter(), $emptyBars);
+                    $emptyBars = $bar->getBarWidth() - $completeBars - Helper::strlenWithoutDecoration($output->getFormatter(),
+                            $bar->getProgressCharacter());
+                    $display .= $bar->getProgressCharacter() . str_repeat($bar->getEmptyBarCharacter(), $emptyBars);
                 }
 
                 return $display;
             },
-            'elapsed' => function (ProgressBar $bar) {
+            'elapsed'   => function (ProgressBar $bar) {
                 return Helper::formatTime(time() - $bar->getStartTime());
             },
             'remaining' => function (ProgressBar $bar) {
-                if (!$bar->getMaxSteps()) {
+                if ( ! $bar->getMaxSteps()) {
                     throw new LogicException('Unable to display the remaining time if the maximum number of steps is not set.');
                 }
 
-                if (!$bar->getProgress()) {
+                if ( ! $bar->getProgress()) {
                     $remaining = 0;
                 } else {
-                    $remaining = round((time() - $bar->getStartTime()) / $bar->getProgress() * ($bar->getMaxSteps() - $bar->getProgress()));
+                    $remaining = round(( time() - $bar->getStartTime() ) / $bar->getProgress() * ( $bar->getMaxSteps() - $bar->getProgress() ));
                 }
 
                 return Helper::formatTime($remaining);
             },
             'estimated' => function (ProgressBar $bar) {
-                if (!$bar->getMaxSteps()) {
+                if ( ! $bar->getMaxSteps()) {
                     throw new LogicException('Unable to display the estimated time if the maximum number of steps is not set.');
                 }
 
-                if (!$bar->getProgress()) {
+                if ( ! $bar->getProgress()) {
                     $estimated = 0;
                 } else {
-                    $estimated = round((time() - $bar->getStartTime()) / $bar->getProgress() * $bar->getMaxSteps());
+                    $estimated = round(( time() - $bar->getStartTime() ) / $bar->getProgress() * $bar->getMaxSteps());
                 }
 
                 return Helper::formatTime($estimated);
             },
-            'memory' => function (ProgressBar $bar) {
+            'memory'    => function (ProgressBar $bar) {
                 return Helper::formatMemory(memory_get_usage(true));
             },
-            'current' => function (ProgressBar $bar) {
+            'current'   => function (ProgressBar $bar) {
                 return str_pad($bar->getProgress(), $bar->getStepWidth(), ' ', STR_PAD_LEFT);
             },
-            'max' => function (ProgressBar $bar) {
+            'max'       => function (ProgressBar $bar) {
                 return $bar->getMaxSteps();
             },
-            'percent' => function (ProgressBar $bar) {
+            'percent'   => function (ProgressBar $bar) {
                 return floor($bar->getProgressPercent() * 100);
             },
-        );
+        ];
     }
+
 
     private static function initFormats()
     {
-        return array(
-            'normal' => ' %current%/%max% [%bar%] %percent:3s%%',
+        return [
+            'normal'       => ' %current%/%max% [%bar%] %percent:3s%%',
             'normal_nomax' => ' %current% [%bar%]',
 
-            'verbose' => ' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%',
+            'verbose'       => ' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%',
             'verbose_nomax' => ' %current% [%bar%] %elapsed:6s%',
 
-            'very_verbose' => ' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s%',
+            'very_verbose'       => ' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s%',
             'very_verbose_nomax' => ' %current% [%bar%] %elapsed:6s%',
 
-            'debug' => ' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s%',
+            'debug'       => ' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s%',
             'debug_nomax' => ' %current% [%bar%] %elapsed:6s% %memory:6s%',
-        );
+        ];
     }
 }

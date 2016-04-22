@@ -18,6 +18,7 @@ namespace Symfony\Component\Translation;
  */
 interface TranslatorInterface
 {
+
     /**
      * Translates the given message.
      *
@@ -30,7 +31,8 @@ interface TranslatorInterface
      *
      * @return string The translated string
      */
-    public function trans($id, array $parameters = array(), $domain = null, $locale = null);
+    public function trans($id, array $parameters = [ ], $domain = null, $locale = null);
+
 
     /**
      * Translates the given choice message by choosing a translation according to a number.
@@ -45,7 +47,8 @@ interface TranslatorInterface
      *
      * @return string The translated string
      */
-    public function transChoice($id, $number, array $parameters = array(), $domain = null, $locale = null);
+    public function transChoice($id, $number, array $parameters = [ ], $domain = null, $locale = null);
+
 
     /**
      * Sets the current locale.
@@ -55,6 +58,7 @@ interface TranslatorInterface
      * @throws \InvalidArgumentException If the locale contains invalid characters
      */
     public function setLocale($locale);
+
 
     /**
      * Returns the current locale.

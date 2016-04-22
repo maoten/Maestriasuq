@@ -13,10 +13,12 @@
  */
 class PHPUnit_Framework_Constraint_Count extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var int
      */
     protected $expectedCount = 0;
+
 
     /**
      * @param int $expected
@@ -26,6 +28,7 @@ class PHPUnit_Framework_Constraint_Count extends PHPUnit_Framework_Constraint
         parent::__construct();
         $this->expectedCount = $expected;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -39,6 +42,7 @@ class PHPUnit_Framework_Constraint_Count extends PHPUnit_Framework_Constraint
     {
         return $this->expectedCount === $this->getCountOf($other);
     }
+
 
     /**
      * @param mixed $other
@@ -72,6 +76,7 @@ class PHPUnit_Framework_Constraint_Count extends PHPUnit_Framework_Constraint
         }
     }
 
+
     /**
      * Returns the description of the failure
      *
@@ -84,21 +89,15 @@ class PHPUnit_Framework_Constraint_Count extends PHPUnit_Framework_Constraint
      */
     protected function failureDescription($other)
     {
-        return sprintf(
-            'actual size %d matches expected size %d',
-            $this->getCountOf($other),
-            $this->expectedCount
-        );
+        return sprintf('actual size %d matches expected size %d', $this->getCountOf($other), $this->expectedCount);
     }
+
 
     /**
      * @return string
      */
     public function toString()
     {
-        return sprintf(
-            'count matches %d',
-            $this->expectedCount
-        );
+        return sprintf('count matches %d', $this->expectedCount);
     }
 }

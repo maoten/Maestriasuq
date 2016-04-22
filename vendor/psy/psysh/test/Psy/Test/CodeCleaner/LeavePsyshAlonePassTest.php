@@ -15,16 +15,19 @@ use Psy\CodeCleaner\LeavePsyshAlonePass;
 
 class LeavePsyshAlonePassTest extends CodeCleanerTestCase
 {
+
     public function setUp()
     {
         $this->setPass(new LeavePsyshAlonePass());
     }
+
 
     public function testPassesInlineHtmlThroughJustFine()
     {
         $inline = $this->parse('not php at all!', '');
         $this->traverse($inline);
     }
+
 
     /**
      * @dataProvider validStatements
@@ -35,17 +38,19 @@ class LeavePsyshAlonePassTest extends CodeCleanerTestCase
         $this->traverse($stmts);
     }
 
+
     public function validStatements()
     {
-        return array(
-            array('array_merge()'),
-            array('__psysh__()'),
-            array('$this'),
-            array('$psysh'),
-            array('$__psysh'),
-            array('$banana'),
-        );
+        return [
+            [ 'array_merge()' ],
+            [ '__psysh__()' ],
+            [ '$this' ],
+            [ '$psysh' ],
+            [ '$__psysh' ],
+            [ '$banana' ],
+        ];
     }
+
 
     /**
      * @dataProvider invalidStatements
@@ -57,13 +62,14 @@ class LeavePsyshAlonePassTest extends CodeCleanerTestCase
         $this->traverse($stmts);
     }
 
+
     public function invalidStatements()
     {
-        return array(
-            array('$__psysh__'),
-            array('var_dump($__psysh__)'),
-            array('$__psysh__ = "your mom"'),
-            array('$__psysh__->fakeFunctionCall()'),
-        );
+        return [
+            [ '$__psysh__' ],
+            [ 'var_dump($__psysh__)' ],
+            [ '$__psysh__ = "your mom"' ],
+            [ '$__psysh__->fakeFunctionCall()' ],
+        ];
     }
 }

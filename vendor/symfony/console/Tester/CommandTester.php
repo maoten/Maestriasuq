@@ -24,10 +24,15 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CommandTester
 {
+
     private $command;
+
     private $input;
+
     private $output;
+
     private $statusCode;
+
 
     /**
      * Constructor.
@@ -38,6 +43,7 @@ class CommandTester
     {
         $this->command = $command;
     }
+
 
     /**
      * Executes the command.
@@ -53,32 +59,30 @@ class CommandTester
      *
      * @return int The command exit code
      */
-    public function execute(array $input, array $options = array())
+    public function execute(array $input, array $options = [ ])
     {
         // set the command name automatically if the application requires
         // this argument and no command name was passed
-        if (!isset($input['command'])
-            && (null !== $application = $this->command->getApplication())
-            && $application->getDefinition()->hasArgument('command')
-        ) {
-            $input = array_merge(array('command' => $this->command->getName()), $input);
+        if ( ! isset( $input['command'] ) && ( null !== $application = $this->command->getApplication() ) && $application->getDefinition()->hasArgument('command')) {
+            $input = array_merge([ 'command' => $this->command->getName() ], $input);
         }
 
         $this->input = new ArrayInput($input);
-        if (isset($options['interactive'])) {
+        if (isset( $options['interactive'] )) {
             $this->input->setInteractive($options['interactive']);
         }
 
         $this->output = new StreamOutput(fopen('php://memory', 'w', false));
-        if (isset($options['decorated'])) {
+        if (isset( $options['decorated'] )) {
             $this->output->setDecorated($options['decorated']);
         }
-        if (isset($options['verbosity'])) {
+        if (isset( $options['verbosity'] )) {
             $this->output->setVerbosity($options['verbosity']);
         }
 
         return $this->statusCode = $this->command->run($this->input, $this->output);
     }
+
 
     /**
      * Gets the display returned by the last execution of the command.
@@ -100,6 +104,7 @@ class CommandTester
         return $display;
     }
 
+
     /**
      * Gets the input instance used by the last execution of the command.
      *
@@ -110,6 +115,7 @@ class CommandTester
         return $this->input;
     }
 
+
     /**
      * Gets the output instance used by the last execution of the command.
      *
@@ -119,6 +125,7 @@ class CommandTester
     {
         return $this->output;
     }
+
 
     /**
      * Gets the status code returned by the last execution of the application.

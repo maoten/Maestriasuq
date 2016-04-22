@@ -15,28 +15,24 @@
  */
 class PHP_CodeCoverage_Report_Factory
 {
+
     /**
-     * @param  PHP_CodeCoverage                       $coverage
+     * @param  PHP_CodeCoverage $coverage
+     *
      * @return PHP_CodeCoverage_Report_Node_Directory
      */
     public function create(PHP_CodeCoverage $coverage)
     {
         $files      = $coverage->getData();
         $commonPath = $this->reducePaths($files);
-        $root       = new PHP_CodeCoverage_Report_Node_Directory(
-            $commonPath,
-            null
-        );
+        $root       = new PHP_CodeCoverage_Report_Node_Directory($commonPath, null);
 
-        $this->addItems(
-            $root,
-            $this->buildDirectoryStructure($files),
-            $coverage->getTests(),
-            $coverage->getCacheTokens()
-        );
+        $this->addItems($root, $this->buildDirectoryStructure($files), $coverage->getTests(),
+            $coverage->getCacheTokens());
 
         return $root;
     }
+
 
     /**
      * @param PHP_CodeCoverage_Report_Node_Directory $root
@@ -59,6 +55,7 @@ class PHP_CodeCoverage_Report_Factory
             }
         }
     }
+
 
     /**
      * Builds an array representation of the directory structure.
@@ -101,11 +98,12 @@ class PHP_CodeCoverage_Report_Factory
      * </code>
      *
      * @param  array $files
+     *
      * @return array
      */
     private function buildDirectoryStructure($files)
     {
-        $result = array();
+        $result = [ ];
 
         foreach ($files as $path => $file) {
             $path    = explode('/', $path);
@@ -113,7 +111,7 @@ class PHP_CodeCoverage_Report_Factory
             $max     = count($path);
 
             for ($i = 0; $i < $max; $i++) {
-                if ($i == ($max - 1)) {
+                if ($i == ( $max - 1 )) {
                     $type = '/f';
                 } else {
                     $type = '';
@@ -127,6 +125,7 @@ class PHP_CodeCoverage_Report_Factory
 
         return $result;
     }
+
 
     /**
      * Reduces the paths by cutting the longest common start path.
@@ -165,12 +164,13 @@ class PHP_CodeCoverage_Report_Factory
      * )
      * </code>
      *
-     * @param  array  $files
+     * @param  array $files
+     *
      * @return string
      */
     private function reducePaths(&$files)
     {
-        if (empty($files)) {
+        if (empty( $files )) {
             return '.';
         }
 
@@ -181,7 +181,7 @@ class PHP_CodeCoverage_Report_Factory
             $commonPath                 = dirname($paths[0]) . '/';
             $files[basename($paths[0])] = $files[$paths[0]];
 
-            unset($files[$paths[0]]);
+            unset( $files[$paths[0]] );
 
             return $commonPath;
         }
@@ -196,7 +196,7 @@ class PHP_CodeCoverage_Report_Factory
             }
             $paths[$i] = explode(DIRECTORY_SEPARATOR, $paths[$i]);
 
-            if (empty($paths[$i][0])) {
+            if (empty( $paths[$i][0] )) {
                 $paths[$i][0] = DIRECTORY_SEPARATOR;
             }
         }
@@ -204,17 +204,15 @@ class PHP_CodeCoverage_Report_Factory
         $done = false;
         $max  = count($paths);
 
-        while (!$done) {
+        while ( ! $done) {
             for ($i = 0; $i < $max - 1; $i++) {
-                if (!isset($paths[$i][0]) ||
-                    !isset($paths[$i+1][0]) ||
-                    $paths[$i][0] != $paths[$i+1][0]) {
+                if ( ! isset( $paths[$i][0] ) || ! isset( $paths[$i + 1][0] ) || $paths[$i][0] != $paths[$i + 1][0]) {
                     $done = true;
                     break;
                 }
             }
 
-            if (!$done) {
+            if ( ! $done) {
                 $commonPath .= $paths[0][0];
 
                 if ($paths[0][0] != DIRECTORY_SEPARATOR) {
@@ -232,7 +230,7 @@ class PHP_CodeCoverage_Report_Factory
 
         for ($i = 0; $i < $max; $i++) {
             $files[implode('/', $paths[$i])] = $files[$original[$i]];
-            unset($files[$original[$i]]);
+            unset( $files[$original[$i]] );
         }
 
         ksort($files);

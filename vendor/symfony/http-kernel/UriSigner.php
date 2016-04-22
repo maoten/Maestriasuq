@@ -18,7 +18,9 @@ namespace Symfony\Component\HttpKernel;
  */
 class UriSigner
 {
+
     private $secret;
+
 
     /**
      * Constructor.
@@ -29,6 +31,7 @@ class UriSigner
     {
         $this->secret = $secret;
     }
+
 
     /**
      * Signs a URI.
@@ -43,16 +46,17 @@ class UriSigner
     public function sign($uri)
     {
         $url = parse_url($uri);
-        if (isset($url['query'])) {
+        if (isset( $url['query'] )) {
             parse_str($url['query'], $params);
         } else {
-            $params = array();
+            $params = [ ];
         }
 
         $uri = $this->buildUrl($url, $params);
 
-        return $uri.(false === strpos($uri, '?') ? '?' : '&').'_hash='.$this->computeHash($uri);
+        return $uri . ( false === strpos($uri, '?') ? '?' : '&' ) . '_hash=' . $this->computeHash($uri);
     }
+
 
     /**
      * Checks that a URI contains the correct hash.
@@ -68,42 +72,44 @@ class UriSigner
     public function check($uri)
     {
         $url = parse_url($uri);
-        if (isset($url['query'])) {
+        if (isset( $url['query'] )) {
             parse_str($url['query'], $params);
         } else {
-            $params = array();
+            $params = [ ];
         }
 
-        if (empty($params['_hash'])) {
+        if (empty( $params['_hash'] )) {
             return false;
         }
 
         $hash = urlencode($params['_hash']);
-        unset($params['_hash']);
+        unset( $params['_hash'] );
 
         return $this->computeHash($this->buildUrl($url, $params)) === $hash;
     }
+
 
     private function computeHash($uri)
     {
         return urlencode(base64_encode(hash_hmac('sha256', $uri, $this->secret, true)));
     }
 
-    private function buildUrl(array $url, array $params = array())
+
+    private function buildUrl(array $url, array $params = [ ])
     {
         ksort($params, SORT_STRING);
         $url['query'] = http_build_query($params, '', '&');
 
-        $scheme = isset($url['scheme']) ? $url['scheme'].'://' : '';
-        $host = isset($url['host']) ? $url['host'] : '';
-        $port = isset($url['port']) ? ':'.$url['port'] : '';
-        $user = isset($url['user']) ? $url['user'] : '';
-        $pass = isset($url['pass']) ? ':'.$url['pass']  : '';
-        $pass = ($user || $pass) ? "$pass@" : '';
-        $path = isset($url['path']) ? $url['path'] : '';
-        $query = isset($url['query']) && $url['query'] ? '?'.$url['query'] : '';
-        $fragment = isset($url['fragment']) ? '#'.$url['fragment'] : '';
+        $scheme   = isset( $url['scheme'] ) ? $url['scheme'] . '://' : '';
+        $host     = isset( $url['host'] ) ? $url['host'] : '';
+        $port     = isset( $url['port'] ) ? ':' . $url['port'] : '';
+        $user     = isset( $url['user'] ) ? $url['user'] : '';
+        $pass     = isset( $url['pass'] ) ? ':' . $url['pass'] : '';
+        $pass     = ( $user || $pass ) ? "$pass@" : '';
+        $path     = isset( $url['path'] ) ? $url['path'] : '';
+        $query    = isset( $url['query'] ) && $url['query'] ? '?' . $url['query'] : '';
+        $fragment = isset( $url['fragment'] ) ? '#' . $url['fragment'] : '';
 
-        return $scheme.$user.$pass.$host.$port.$path.$query.$fragment;
+        return $scheme . $user . $pass . $host . $port . $path . $query . $fragment;
     }
 }

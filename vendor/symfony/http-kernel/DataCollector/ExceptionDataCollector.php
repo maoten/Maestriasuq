@@ -22,17 +22,19 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ExceptionDataCollector extends DataCollector
 {
+
     /**
      * {@inheritdoc}
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         if (null !== $exception) {
-            $this->data = array(
+            $this->data = [
                 'exception' => FlattenException::create($exception),
-            );
+            ];
         }
     }
+
 
     /**
      * Checks if the exception is not null.
@@ -41,8 +43,9 @@ class ExceptionDataCollector extends DataCollector
      */
     public function hasException()
     {
-        return isset($this->data['exception']);
+        return isset( $this->data['exception'] );
     }
+
 
     /**
      * Gets the exception.
@@ -54,6 +57,7 @@ class ExceptionDataCollector extends DataCollector
         return $this->data['exception'];
     }
 
+
     /**
      * Gets the exception message.
      *
@@ -63,6 +67,7 @@ class ExceptionDataCollector extends DataCollector
     {
         return $this->data['exception']->getMessage();
     }
+
 
     /**
      * Gets the exception code.
@@ -74,6 +79,7 @@ class ExceptionDataCollector extends DataCollector
         return $this->data['exception']->getCode();
     }
 
+
     /**
      * Gets the status code.
      *
@@ -84,6 +90,7 @@ class ExceptionDataCollector extends DataCollector
         return $this->data['exception']->getStatusCode();
     }
 
+
     /**
      * Gets the exception trace.
      *
@@ -93,6 +100,7 @@ class ExceptionDataCollector extends DataCollector
     {
         return $this->data['exception']->getTrace();
     }
+
 
     /**
      * {@inheritdoc}

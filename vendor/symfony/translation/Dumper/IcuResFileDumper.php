@@ -20,21 +20,23 @@ use Symfony\Component\Translation\MessageCatalogue;
  */
 class IcuResFileDumper extends FileDumper
 {
+
     /**
      * {@inheritdoc}
      */
     protected $relativePathTemplate = '%domain%/%locale%.%extension%';
 
+
     /**
      * {@inheritdoc}
      */
-    public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = array())
+    public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = [ ])
     {
         $data = $indexes = $resources = '';
 
         foreach ($messages->all($domain) as $source => $target) {
             $indexes .= pack('v', strlen($data) + 28);
-            $data    .= $source."\0";
+            $data .= $source . "\0";
         }
 
         $data .= $this->writePadding($data);
@@ -44,24 +46,17 @@ class IcuResFileDumper extends FileDumper
         foreach ($messages->all($domain) as $source => $target) {
             $resources .= pack('V', $this->getPosition($data));
 
-            $data .= pack('V', strlen($target))
-                .mb_convert_encoding($target."\0", 'UTF-16LE', 'UTF-8')
-                .$this->writePadding($data)
-                  ;
+            $data .= pack('V', strlen($target)) . mb_convert_encoding($target . "\0", 'UTF-16LE',
+                    'UTF-8') . $this->writePadding($data);
         }
 
         $resOffset = $this->getPosition($data);
 
-        $data .= pack('v', count($messages))
-            .$indexes
-            .$this->writePadding($data)
-            .$resources
-              ;
+        $data .= pack('v', count($messages)) . $indexes . $this->writePadding($data) . $resources;
 
         $bundleTop = $this->getPosition($data);
 
-        $root = pack('V7',
-            $resOffset + (2 << 28), // Resource Offset + Resource Type
+        $root = pack('V7', $resOffset + ( 2 << 28 ), // Resource Offset + Resource Type
             6,                      // Index length
             $keyTop,                // Index keys top
             $bundleTop,             // Index resources top
@@ -70,8 +65,7 @@ class IcuResFileDumper extends FileDumper
             0                       // Index attributes
         );
 
-        $header = pack('vC2v4C12@32',
-            32,                     // Header size
+        $header = pack('vC2v4C12@32', 32,                     // Header size
             0xDA, 0x27,             // Magic number 1 and 2
             20, 0, 0, 2,            // Rest of the header, ..., Size of a char
             0x52, 0x65, 0x73, 0x42, // Data format identifier
@@ -79,8 +73,9 @@ class IcuResFileDumper extends FileDumper
             1, 4, 0, 0              // Unicode version
         );
 
-        return $header.$root.$data;
+        return $header . $root . $data;
     }
+
 
     private function writePadding($data)
     {
@@ -91,10 +86,12 @@ class IcuResFileDumper extends FileDumper
         }
     }
 
+
     private function getPosition($data)
     {
-        return (strlen($data) + 28) / 4;
+        return ( strlen($data) + 28 ) / 4;
     }
+
 
     /**
      * {@inheritdoc}

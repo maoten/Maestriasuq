@@ -4,10 +4,12 @@ namespace League\Flysystem\Util;
 
 class StreamHasher
 {
+
     /**
      * @var string
      */
     private $algo;
+
 
     /**
      * StreamHasher constructor.
@@ -18,6 +20,7 @@ class StreamHasher
     {
         $this->algo = $algo;
     }
+
 
     /**
      * @param $resource

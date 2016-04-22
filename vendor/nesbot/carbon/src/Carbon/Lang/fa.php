@@ -14,16 +14,16 @@
  * for possible formats.
  */
 
-return array(
-    'year'      => ':count سال',
-    'month'     => ':count ماه',
-    'week'      => ':count هفته',
-    'day'       => ':count روز',
-    'hour'      => ':count ساعت',
-    'minute'    => ':count دقیقه',
-    'second'    => ':count ثانیه',
-    'ago'       => ':time پیش',
-    'from_now'  => ':time بعد',
-    'after'     => ':time پیش از',
-    'before'    => ':time پس از',
-);
+return [
+    'year'     => ':count سال',
+    'month'    => ':count ماه',
+    'week'     => ':count هفته',
+    'day'      => ':count روز',
+    'hour'     => ':count ساعت',
+    'minute'   => ':count دقیقه',
+    'second'   => ':count ثانیه',
+    'ago'      => ':time پیش',
+    'from_now' => ':time بعد',
+    'after'    => ':time پیش از',
+    'before'   => ':time پس از',
+];

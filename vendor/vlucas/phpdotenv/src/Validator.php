@@ -12,6 +12,7 @@ use Dotenv\Exception\ValidationException;
  */
 class Validator
 {
+
     /**
      * The variables to validate.
      *
@@ -26,6 +27,7 @@ class Validator
      */
     protected $loader;
 
+
     /**
      * Create a new validator instance.
      *
@@ -37,15 +39,13 @@ class Validator
     public function __construct(array $variables, Loader $loader)
     {
         $this->variables = $variables;
-        $this->loader = $loader;
+        $this->loader    = $loader;
 
-        $this->assertCallback(
-            function ($value) {
-                return $value !== null;
-            },
-            'is missing'
-        );
+        $this->assertCallback(function ($value) {
+            return $value !== null;
+        }, 'is missing');
     }
+
 
     /**
      * Assert that each variable is not empty.
@@ -54,13 +54,11 @@ class Validator
      */
     public function notEmpty()
     {
-        return $this->assertCallback(
-            function ($value) {
-                return strlen(trim($value)) > 0;
-            },
-            'is empty'
-        );
+        return $this->assertCallback(function ($value) {
+            return strlen(trim($value)) > 0;
+        }, 'is empty');
     }
+
 
     /**
      * Assert that each specified variable is an integer.
@@ -69,13 +67,11 @@ class Validator
      */
     public function isInteger()
     {
-        return $this->assertCallback(
-            function ($value) {
-                return ctype_digit($value);
-            },
-            'is not an integer'
-        );
+        return $this->assertCallback(function ($value) {
+            return ctype_digit($value);
+        }, 'is not an integer');
     }
+
 
     /**
      * Assert that each variable is amongst the given choices.
@@ -86,13 +82,11 @@ class Validator
      */
     public function allowedValues(array $choices)
     {
-        return $this->assertCallback(
-            function ($value) use ($choices) {
-                return in_array($value, $choices);
-            },
-            'is not an allowed value'
-        );
+        return $this->assertCallback(function ($value) use ($choices) {
+            return in_array($value, $choices);
+        }, 'is not an allowed value');
     }
+
 
     /**
      * Assert that the callback returns true for each variable.
@@ -106,23 +100,21 @@ class Validator
      */
     protected function assertCallback($callback, $message = 'failed callback assertion')
     {
-        if (!is_callable($callback)) {
+        if ( ! is_callable($callback)) {
             throw new InvalidCallbackException('The provided callback must be callable.');
         }
 
-        $variablesFailingAssertion = array();
+        $variablesFailingAssertion = [ ];
         foreach ($this->variables as $variableName) {
             $variableValue = $this->loader->getEnvironmentVariable($variableName);
             if (call_user_func($callback, $variableValue) === false) {
-                $variablesFailingAssertion[] = $variableName." $message";
+                $variablesFailingAssertion[] = $variableName . " $message";
             }
         }
 
         if (count($variablesFailingAssertion) > 0) {
-            throw new ValidationException(sprintf(
-                'One or more environment variables failed assertions: %s.',
-                implode(', ', $variablesFailingAssertion)
-            ));
+            throw new ValidationException(sprintf('One or more environment variables failed assertions: %s.',
+                implode(', ', $variablesFailingAssertion)));
         }
 
         return $this;

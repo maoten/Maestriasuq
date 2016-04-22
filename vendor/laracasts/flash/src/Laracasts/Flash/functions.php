@@ -6,6 +6,7 @@ if ( ! function_exists('flash')) {
      * Arrange for a flash message.
      *
      * @param  string|null $message
+     *
      * @return \Laracasts\Flash\FlashNotifier
      */
     function flash($message = null)

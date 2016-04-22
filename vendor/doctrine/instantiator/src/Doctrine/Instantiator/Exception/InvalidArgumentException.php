@@ -29,6 +29,7 @@ use ReflectionClass;
  */
 class InvalidArgumentException extends BaseInvalidArgumentException implements ExceptionInterface
 {
+
     /**
      * @param string $className
      *
@@ -47,6 +48,7 @@ class InvalidArgumentException extends BaseInvalidArgumentException implements E
         return new self(sprintf('The provided class "%s" does not exist', $className));
     }
 
+
     /**
      * @param ReflectionClass $reflectionClass
      *
@@ -54,9 +56,7 @@ class InvalidArgumentException extends BaseInvalidArgumentException implements E
      */
     public static function fromAbstractClass(ReflectionClass $reflectionClass)
     {
-        return new self(sprintf(
-            'The provided class "%s" is abstract, and can not be instantiated',
-            $reflectionClass->getName()
-        ));
+        return new self(sprintf('The provided class "%s" is abstract, and can not be instantiated',
+            $reflectionClass->getName()));
     }
 }

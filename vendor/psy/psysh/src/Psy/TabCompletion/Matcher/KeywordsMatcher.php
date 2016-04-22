@@ -20,14 +20,33 @@ namespace Psy\TabCompletion\Matcher;
  */
 class KeywordsMatcher extends AbstractMatcher
 {
-    protected $keywords = array(
-        'array', 'clone', 'declare', 'die', 'echo', 'empty', 'eval', 'exit', 'include',
-        'include_once', 'isset', 'list', 'print',  'require', 'require_once', 'unset',
-    );
 
-    protected $mandatoryStartKeywords = array(
-        'die', 'echo', 'print', 'unset',
-    );
+    protected $keywords = [
+        'array',
+        'clone',
+        'declare',
+        'die',
+        'echo',
+        'empty',
+        'eval',
+        'exit',
+        'include',
+        'include_once',
+        'isset',
+        'list',
+        'print',
+        'require',
+        'require_once',
+        'unset',
+    ];
+
+    protected $mandatoryStartKeywords = [
+        'die',
+        'echo',
+        'print',
+        'unset',
+    ];
+
 
     /**
      * Get all (completable) PHP keywords.
@@ -38,6 +57,7 @@ class KeywordsMatcher extends AbstractMatcher
     {
         return $this->keywords;
     }
+
 
     /**
      * Check whether $keyword is a (completable) PHP keyword.
@@ -51,10 +71,11 @@ class KeywordsMatcher extends AbstractMatcher
         return in_array($keyword, $this->keywords);
     }
 
+
     /**
      * {@inheritdoc}
      */
-    public function getMatches(array $tokens, array $info = array())
+    public function getMatches(array $tokens, array $info = [ ])
     {
         $input = $this->getInput($tokens);
 
@@ -63,19 +84,20 @@ class KeywordsMatcher extends AbstractMatcher
         });
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function hasMatched(array $tokens)
     {
-        $token = array_pop($tokens);
+        $token     = array_pop($tokens);
         $prevToken = array_pop($tokens);
 
         switch (true) {
-            case self::hasToken(array(self::T_OPEN_TAG, self::T_VARIABLE), $token):
+            case self::hasToken([ self::T_OPEN_TAG, self::T_VARIABLE ], $token):
 //            case is_string($token) && $token === '$':
-            case self::hasToken(array(self::T_OPEN_TAG, self::T_VARIABLE), $prevToken) &&
-                self::tokenIs($token, self::T_STRING):
+            case self::hasToken([ self::T_OPEN_TAG, self::T_VARIABLE ], $prevToken) && self::tokenIs($token,
+                    self::T_STRING):
             case self::isOperator($token):
                 return true;
         }

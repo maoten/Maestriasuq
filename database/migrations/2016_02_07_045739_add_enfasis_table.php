@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddEnfasisTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -24,6 +25,7 @@ class AddEnfasisTable extends Migration
         DB::statement("INSERT INTO `enfasis` (`nombre`) VALUES ('Telecomunicaciones')");
 
     }
+
 
     /**
      * Reverse the migrations.

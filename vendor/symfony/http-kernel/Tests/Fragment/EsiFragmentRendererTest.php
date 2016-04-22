@@ -19,11 +19,13 @@ use Symfony\Component\HttpKernel\UriSigner;
 
 class EsiFragmentRendererTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testRenderFallbackToInlineStrategyIfEsiNotSupported()
     {
         $strategy = new EsiFragmentRenderer(new Esi(), $this->getInlineStrategy(true));
         $strategy->render('/', Request::create('/'));
     }
+
 
     public function testRender()
     {
@@ -34,27 +36,29 @@ class EsiFragmentRendererTest extends \PHPUnit_Framework_TestCase
         $request->headers->set('Surrogate-Capability', 'ESI/1.0');
 
         $this->assertEquals('<esi:include src="/" />', $strategy->render('/', $request)->getContent());
-        $this->assertEquals("<esi:comment text=\"This is a comment\" />\n<esi:include src=\"/\" />", $strategy->render('/', $request, array('comment' => 'This is a comment'))->getContent());
-        $this->assertEquals('<esi:include src="/" alt="foo" />', $strategy->render('/', $request, array('alt' => 'foo'))->getContent());
+        $this->assertEquals("<esi:comment text=\"This is a comment\" />\n<esi:include src=\"/\" />",
+            $strategy->render('/', $request, [ 'comment' => 'This is a comment' ])->getContent());
+        $this->assertEquals('<esi:include src="/" alt="foo" />',
+            $strategy->render('/', $request, [ 'alt' => 'foo' ])->getContent());
     }
+
 
     public function testRenderControllerReference()
     {
-        $signer = new UriSigner('foo');
+        $signer   = new UriSigner('foo');
         $strategy = new EsiFragmentRenderer(new Esi(), $this->getInlineStrategy(), $signer);
 
         $request = Request::create('/');
         $request->setLocale('fr');
         $request->headers->set('Surrogate-Capability', 'ESI/1.0');
 
-        $reference = new ControllerReference('main_controller', array(), array());
-        $altReference = new ControllerReference('alt_controller', array(), array());
+        $reference    = new ControllerReference('main_controller', [ ], [ ]);
+        $altReference = new ControllerReference('alt_controller', [ ], [ ]);
 
-        $this->assertEquals(
-            '<esi:include src="/_fragment?_path=_format%3Dhtml%26_locale%3Dfr%26_controller%3Dmain_controller&_hash=Jz1P8NErmhKTeI6onI1EdAXTB85359MY3RIk5mSJ60w%3D" alt="/_fragment?_path=_format%3Dhtml%26_locale%3Dfr%26_controller%3Dalt_controller&_hash=iPJEdRoUpGrM1ztqByiorpfMPtiW%2FOWwdH1DBUXHhEc%3D" />',
-            $strategy->render($reference, $request, array('alt' => $altReference))->getContent()
-        );
+        $this->assertEquals('<esi:include src="/_fragment?_path=_format%3Dhtml%26_locale%3Dfr%26_controller%3Dmain_controller&_hash=Jz1P8NErmhKTeI6onI1EdAXTB85359MY3RIk5mSJ60w%3D" alt="/_fragment?_path=_format%3Dhtml%26_locale%3Dfr%26_controller%3Dalt_controller&_hash=iPJEdRoUpGrM1ztqByiorpfMPtiW%2FOWwdH1DBUXHhEc%3D" />',
+            $strategy->render($reference, $request, [ 'alt' => $altReference ])->getContent());
     }
+
 
     /**
      * @expectedException \LogicException
@@ -70,6 +74,7 @@ class EsiFragmentRendererTest extends \PHPUnit_Framework_TestCase
         $strategy->render(new ControllerReference('main_controller'), $request);
     }
 
+
     /**
      * @expectedException \LogicException
      */
@@ -81,8 +86,9 @@ class EsiFragmentRendererTest extends \PHPUnit_Framework_TestCase
         $request->setLocale('fr');
         $request->headers->set('Surrogate-Capability', 'ESI/1.0');
 
-        $strategy->render('/', $request, array('alt' => new ControllerReference('alt_controller')));
+        $strategy->render('/', $request, [ 'alt' => new ControllerReference('alt_controller') ]);
     }
+
 
     private function getInlineStrategy($called = false)
     {

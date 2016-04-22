@@ -22,6 +22,7 @@ class IsDouble extends IsTypeOf
         parent::__construct('double');
     }
 
+
     /**
      * Is the value a float/double?
      *

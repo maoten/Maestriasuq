@@ -20,17 +20,24 @@ use Prophecy\Exception\InvalidArgumentException;
  */
 class MethodNode
 {
+
     private $name;
+
     private $code;
+
     private $visibility = 'public';
+
     private $static = false;
+
     private $returnsReference = false;
+
     private $returnType;
 
     /**
      * @var ArgumentNode[]
      */
-    private $arguments = array();
+    private $arguments = [ ];
+
 
     /**
      * @param string $name
@@ -42,10 +49,12 @@ class MethodNode
         $this->code = $code;
     }
 
+
     public function getVisibility()
     {
         return $this->visibility;
     }
+
 
     /**
      * @param string $visibility
@@ -54,44 +63,49 @@ class MethodNode
     {
         $visibility = strtolower($visibility);
 
-        if (!in_array($visibility, array('public', 'private', 'protected'))) {
-            throw new InvalidArgumentException(sprintf(
-                '`%s` method visibility is not supported.', $visibility
-            ));
+        if ( ! in_array($visibility, [ 'public', 'private', 'protected' ])) {
+            throw new InvalidArgumentException(sprintf('`%s` method visibility is not supported.', $visibility));
         }
 
         $this->visibility = $visibility;
     }
+
 
     public function isStatic()
     {
         return $this->static;
     }
 
+
     public function setStatic($static = true)
     {
         $this->static = (bool) $static;
     }
+
 
     public function returnsReference()
     {
         return $this->returnsReference;
     }
 
+
     public function setReturnsReference()
     {
         $this->returnsReference = true;
     }
+
 
     public function getName()
     {
         return $this->name;
     }
 
+
     public function addArgument(ArgumentNode $argument)
     {
         $this->arguments[] = $argument;
     }
+
 
     /**
      * @return ArgumentNode[]
@@ -101,10 +115,12 @@ class MethodNode
         return $this->arguments;
     }
 
+
     public function hasReturnType()
     {
         return null !== $this->returnType;
     }
+
 
     /**
      * @param string $type
@@ -143,10 +159,12 @@ class MethodNode
         }
     }
 
+
     public function getReturnType()
     {
         return $this->returnType;
     }
+
 
     /**
      * @param string $code
@@ -156,31 +174,30 @@ class MethodNode
         $this->code = $code;
     }
 
+
     public function getCode()
     {
-        if ($this->returnsReference)
-        {
+        if ($this->returnsReference) {
             return "throw new \Prophecy\Exception\Doubler\ReturnByReferenceException('Returning by reference not supported', get_class(\$this), '{$this->name}');";
         }
 
         return (string) $this->code;
     }
 
+
     public function useParentCode()
     {
-        $this->code = sprintf(
-            'return parent::%s(%s);', $this->getName(), implode(', ',
-                array_map(array($this, 'generateArgument'), $this->arguments)
-            )
-        );
+        $this->code = sprintf('return parent::%s(%s);', $this->getName(),
+            implode(', ', array_map([ $this, 'generateArgument' ], $this->arguments)));
     }
+
 
     private function generateArgument(ArgumentNode $arg)
     {
-        $argument = '$'.$arg->getName();
+        $argument = '$' . $arg->getName();
 
         if ($arg->isVariadic()) {
-            $argument = '...'.$argument;
+            $argument = '...' . $argument;
         }
 
         return $argument;

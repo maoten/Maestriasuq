@@ -19,12 +19,14 @@ namespace Symfony\Component\HttpFoundation\Session\Attribute;
  */
 class NamespacedAttributeBag extends AttributeBag
 {
+
     /**
      * Namespace character.
      *
      * @var string
      */
     private $namespaceCharacter;
+
 
     /**
      * Constructor.
@@ -38,6 +40,7 @@ class NamespacedAttributeBag extends AttributeBag
         parent::__construct($storageKey);
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -45,7 +48,7 @@ class NamespacedAttributeBag extends AttributeBag
     {
         // reference mismatch: if fixed, re-introduced in array_key_exists; keep as it is
         $attributes = $this->resolveAttributePath($name);
-        $name = $this->resolveKey($name);
+        $name       = $this->resolveKey($name);
 
         if (null === $attributes) {
             return false;
@@ -54,6 +57,7 @@ class NamespacedAttributeBag extends AttributeBag
         return array_key_exists($name, $attributes);
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -61,7 +65,7 @@ class NamespacedAttributeBag extends AttributeBag
     {
         // reference mismatch: if fixed, re-introduced in array_key_exists; keep as it is
         $attributes = $this->resolveAttributePath($name);
-        $name = $this->resolveKey($name);
+        $name       = $this->resolveKey($name);
 
         if (null === $attributes) {
             return $default;
@@ -70,31 +74,34 @@ class NamespacedAttributeBag extends AttributeBag
         return array_key_exists($name, $attributes) ? $attributes[$name] : $default;
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function set($name, $value)
     {
-        $attributes = &$this->resolveAttributePath($name, true);
-        $name = $this->resolveKey($name);
+        $attributes        = &$this->resolveAttributePath($name, true);
+        $name              = $this->resolveKey($name);
         $attributes[$name] = $value;
     }
+
 
     /**
      * {@inheritdoc}
      */
     public function remove($name)
     {
-        $retval = null;
+        $retval     = null;
         $attributes = &$this->resolveAttributePath($name);
-        $name = $this->resolveKey($name);
+        $name       = $this->resolveKey($name);
         if (null !== $attributes && array_key_exists($name, $attributes)) {
             $retval = $attributes[$name];
-            unset($attributes[$name]);
+            unset( $attributes[$name] );
         }
 
         return $retval;
     }
+
 
     /**
      * Resolves a path in attributes property and returns it as a reference.
@@ -109,29 +116,29 @@ class NamespacedAttributeBag extends AttributeBag
     protected function &resolveAttributePath($name, $writeContext = false)
     {
         $array = &$this->attributes;
-        $name = (strpos($name, $this->namespaceCharacter) === 0) ? substr($name, 1) : $name;
+        $name  = ( strpos($name, $this->namespaceCharacter) === 0 ) ? substr($name, 1) : $name;
 
         // Check if there is anything to do, else return
-        if (!$name) {
+        if ( ! $name) {
             return $array;
         }
 
         $parts = explode($this->namespaceCharacter, $name);
         if (count($parts) < 2) {
-            if (!$writeContext) {
+            if ( ! $writeContext) {
                 return $array;
             }
 
-            $array[$parts[0]] = array();
+            $array[$parts[0]] = [ ];
 
             return $array;
         }
 
-        unset($parts[count($parts) - 1]);
+        unset( $parts[count($parts) - 1] );
 
         foreach ($parts as $part) {
-            if (null !== $array && !array_key_exists($part, $array)) {
-                $array[$part] = $writeContext ? array() : null;
+            if (null !== $array && ! array_key_exists($part, $array)) {
+                $array[$part] = $writeContext ? [ ] : null;
             }
 
             $array = &$array[$part];
@@ -139,6 +146,7 @@ class NamespacedAttributeBag extends AttributeBag
 
         return $array;
     }
+
 
     /**
      * Resolves the key from the name.

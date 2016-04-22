@@ -15,6 +15,7 @@
  */
 class Swift_Plugins_AntiFloodPlugin implements Swift_Events_SendListener, Swift_Plugins_Sleeper
 {
+
     /**
      * The number of emails to send before restarting Transport.
      *
@@ -43,12 +44,13 @@ class Swift_Plugins_AntiFloodPlugin implements Swift_Events_SendListener, Swift_
      */
     private $_sleeper;
 
+
     /**
      * Create a new AntiFloodPlugin with $threshold and $sleep time.
      *
      * @param int                   $threshold
-     * @param int                   $sleep     time
-     * @param Swift_Plugins_Sleeper $sleeper   (not needed really)
+     * @param int                   $sleep   time
+     * @param Swift_Plugins_Sleeper $sleeper (not needed really)
      */
     public function __construct($threshold = 99, $sleep = 0, Swift_Plugins_Sleeper $sleeper = null)
     {
@@ -56,6 +58,7 @@ class Swift_Plugins_AntiFloodPlugin implements Swift_Events_SendListener, Swift_
         $this->setSleepTime($sleep);
         $this->_sleeper = $sleeper;
     }
+
 
     /**
      * Set the number of emails to send before restarting.
@@ -67,6 +70,7 @@ class Swift_Plugins_AntiFloodPlugin implements Swift_Events_SendListener, Swift_
         $this->_threshold = $threshold;
     }
 
+
     /**
      * Get the number of emails to send before restarting.
      *
@@ -76,6 +80,7 @@ class Swift_Plugins_AntiFloodPlugin implements Swift_Events_SendListener, Swift_
     {
         return $this->_threshold;
     }
+
 
     /**
      * Set the number of seconds to sleep for during a restart.
@@ -87,6 +92,7 @@ class Swift_Plugins_AntiFloodPlugin implements Swift_Events_SendListener, Swift_
         $this->_sleep = $sleep;
     }
 
+
     /**
      * Get the number of seconds to sleep for during a restart.
      *
@@ -97,6 +103,7 @@ class Swift_Plugins_AntiFloodPlugin implements Swift_Events_SendListener, Swift_
         return $this->_sleep;
     }
 
+
     /**
      * Invoked immediately before the Message is sent.
      *
@@ -105,6 +112,7 @@ class Swift_Plugins_AntiFloodPlugin implements Swift_Events_SendListener, Swift_
     public function beforeSendPerformed(Swift_Events_SendEvent $evt)
     {
     }
+
 
     /**
      * Invoked immediately after the Message is sent.
@@ -125,6 +133,7 @@ class Swift_Plugins_AntiFloodPlugin implements Swift_Events_SendListener, Swift_
         }
     }
 
+
     /**
      * Sleep for $seconds.
      *
@@ -132,7 +141,7 @@ class Swift_Plugins_AntiFloodPlugin implements Swift_Events_SendListener, Swift_
      */
     public function sleep($seconds)
     {
-        if (isset($this->_sleeper)) {
+        if (isset( $this->_sleeper )) {
             $this->_sleeper->sleep($seconds);
         } else {
             sleep($seconds);

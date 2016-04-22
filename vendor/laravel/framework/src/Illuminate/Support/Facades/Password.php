@@ -7,6 +7,7 @@ namespace Illuminate\Support\Facades;
  */
 class Password extends Facade
 {
+
     /**
      * Constant representing a successfully sent reminder.
      *
@@ -41,6 +42,7 @@ class Password extends Facade
      * @var string
      */
     const INVALID_TOKEN = 'passwords.token';
+
 
     /**
      * Get the registered name of the component.

@@ -12,6 +12,7 @@ namespace Faker\Calculator;
  */
 class Luhn
 {
+
     /**
      * @return int
      */
@@ -19,7 +20,7 @@ class Luhn
     {
         $number = (string) $number;
         $length = strlen($number);
-        $sum = 0;
+        $sum    = 0;
         for ($i = $length - 1; $i >= 0; $i -= 2) {
             $sum += $number{$i};
         }
@@ -29,6 +30,7 @@ class Luhn
 
         return $sum % 10;
     }
+
 
     /**
      * @return string
@@ -40,8 +42,9 @@ class Luhn
             return 0;
         }
 
-        return (string) (10 - $checkDigit);
+        return (string) ( 10 - $checkDigit );
     }
+
 
     /**
      * Checks whether a number (partial number + check digit) is Luhn compliant

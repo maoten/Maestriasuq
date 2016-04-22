@@ -7,10 +7,11 @@ namespace Faker\Provider\is_IS;
  */
 class Company extends \Faker\Provider\Company
 {
+
     /**
      * @var array Danish company name formats.
      */
-    protected static $formats = array(
+    protected static $formats = [
         '{{lastName}} {{companySuffix}}',
         '{{lastName}} {{companySuffix}}',
         '{{lastName}} {{companySuffix}}',
@@ -27,12 +28,12 @@ class Company extends \Faker\Provider\Company
         '{{middleName}} og {{middleName}} {{companySuffix}}',
         '{{middleName}} & {{lastName}}',
         '{{middleName}} og {{lastName}}',
-    );
+    ];
 
     /**
      * @var array Company suffixes.
      */
-    protected static $companySuffix = array('ehf.', 'hf.', 'sf.');
+    protected static $companySuffix = [ 'ehf.', 'hf.', 'sf.' ];
 
     /**
      * @link http://www.rsk.is/atvinnurekstur/virdisaukaskattur/
@@ -40,6 +41,7 @@ class Company extends \Faker\Provider\Company
      * @var string VSK number format.
      */
     protected static $vskFormat = '%####';
+
 
     /**
      * Generates a VSK number (5 digits).

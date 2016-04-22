@@ -4,8 +4,11 @@ namespace PhpParser;
 
 class Comment
 {
+
     protected $text;
+
     protected $line;
+
 
     /**
      * Constructs a comment node.
@@ -13,55 +16,67 @@ class Comment
      * @param string $text Comment text (including comment delimiters like /*)
      * @param int    $line Line number the comment started on
      */
-    public function __construct($text, $line = -1) {
+    public function __construct($text, $line = -1)
+    {
         $this->text = $text;
         $this->line = $line;
     }
+
 
     /**
      * Gets the comment text.
      *
      * @return string The comment text (including comment delimiters like /*)
      */
-    public function getText() {
+    public function getText()
+    {
         return $this->text;
     }
+
 
     /**
      * Sets the comment text.
      *
      * @param string $text The comment text (including comment delimiters like /*)
      */
-    public function setText($text) {
+    public function setText($text)
+    {
         $this->text = $text;
     }
+
 
     /**
      * Gets the line number the comment started on.
      *
      * @return int Line number
      */
-    public function getLine() {
+    public function getLine()
+    {
         return $this->line;
     }
+
 
     /**
      * Sets the line number the comment started on.
      *
      * @param int $line Line number
      */
-    public function setLine($line) {
+    public function setLine($line)
+    {
         $this->line = $line;
     }
+
 
     /**
      * Gets the comment text.
      *
      * @return string The comment text (including comment delimiters like /*)
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->text;
     }
+
 
     /**
      * Gets the reformatted comment text.
@@ -73,7 +88,8 @@ class Comment
      *
      * @return mixed|string
      */
-    public function getReformattedText() {
+    public function getReformattedText()
+    {
         $text = trim($this->text);
         if (false === strpos($text, "\n")) {
             // Single line comments don't need further processing

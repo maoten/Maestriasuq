@@ -15,11 +15,13 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class InputArgumentTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testConstructor()
     {
         $argument = new InputArgument('foo');
         $this->assertEquals('foo', $argument->getName(), '__construct() takes a name as its first argument');
     }
+
 
     public function testModes()
     {
@@ -36,6 +38,7 @@ class InputArgumentTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($argument->isRequired(), '__construct() can take "InputArgument::REQUIRED" as its mode');
     }
 
+
     /**
      * @dataProvider provideInvalidModes
      */
@@ -46,13 +49,15 @@ class InputArgumentTest extends \PHPUnit_Framework_TestCase
         new InputArgument('foo', $mode);
     }
 
+
     public function provideInvalidModes()
     {
-        return array(
-            array('ANOTHER_ONE'),
-            array(-1),
-        );
+        return [
+            [ 'ANOTHER_ONE' ],
+            [ -1 ],
+        ];
     }
+
 
     public function testIsArray()
     {
@@ -64,17 +69,21 @@ class InputArgumentTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($argument->isArray(), '->isArray() returns false if the argument can not be an array');
     }
 
+
     public function testGetDescription()
     {
         $argument = new InputArgument('foo', null, 'Some description');
-        $this->assertEquals('Some description', $argument->getDescription(), '->getDescription() return the message description');
+        $this->assertEquals('Some description', $argument->getDescription(),
+            '->getDescription() return the message description');
     }
+
 
     public function testGetDefault()
     {
         $argument = new InputArgument('foo', InputArgument::OPTIONAL, '', 'default');
         $this->assertEquals('default', $argument->getDefault(), '->getDefault() return the default value');
     }
+
 
     public function testSetDefault()
     {
@@ -85,9 +94,10 @@ class InputArgumentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('another', $argument->getDefault(), '->setDefault() changes the default value');
 
         $argument = new InputArgument('foo', InputArgument::OPTIONAL | InputArgument::IS_ARRAY);
-        $argument->setDefault(array(1, 2));
-        $this->assertEquals(array(1, 2), $argument->getDefault(), '->setDefault() changes the default value');
+        $argument->setDefault([ 1, 2 ]);
+        $this->assertEquals([ 1, 2 ], $argument->getDefault(), '->setDefault() changes the default value');
     }
+
 
     /**
      * @expectedException        \LogicException
@@ -98,6 +108,7 @@ class InputArgumentTest extends \PHPUnit_Framework_TestCase
         $argument = new InputArgument('foo', InputArgument::REQUIRED);
         $argument->setDefault('default');
     }
+
 
     /**
      * @expectedException        \LogicException

@@ -9,6 +9,7 @@ class IsEqualIgnoringCaseTest extends \Hamcrest\AbstractMatcherTest
         return \Hamcrest\Text\IsEqualIgnoringCase::equalToIgnoringCase('irrelevant');
     }
 
+
     public function testIgnoresCaseOfCharsInString()
     {
         assertThat('HELLO', equalToIgnoringCase('heLLo'));
@@ -18,6 +19,7 @@ class IsEqualIgnoringCaseTest extends \Hamcrest\AbstractMatcherTest
         assertThat('bye', not(equalToIgnoringCase('heLLo')));
     }
 
+
     public function testFailsIfAdditionalWhitespaceIsPresent()
     {
         assertThat('heLLo ', not(equalToIgnoringCase('heLLo')));
@@ -25,16 +27,15 @@ class IsEqualIgnoringCaseTest extends \Hamcrest\AbstractMatcherTest
         assertThat('hello', not(equalToIgnoringCase(' heLLo')));
     }
 
+
     public function testFailsIfMatchingAgainstNull()
     {
         assertThat(null, not(equalToIgnoringCase('heLLo')));
     }
 
+
     public function testDescribesItselfAsCaseInsensitive()
     {
-        $this->assertDescription(
-            'equalToIgnoringCase("heLLo")',
-            equalToIgnoringCase('heLLo')
-        );
+        $this->assertDescription('equalToIgnoringCase("heLLo")', equalToIgnoringCase('heLLo'));
     }
 }

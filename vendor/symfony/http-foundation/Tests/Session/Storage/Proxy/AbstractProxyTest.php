@@ -17,29 +17,36 @@ use Symfony\Component\HttpFoundation\Session\Storage\Proxy\AbstractProxy;
 // https://github.com/sebastianbergmann/phpunit-mock-objects/issues/73
 class ConcreteProxy extends AbstractProxy
 {
+
 }
 
 class ConcreteSessionHandlerInterfaceProxy extends AbstractProxy implements \SessionHandlerInterface
 {
+
     public function open($savePath, $sessionName)
     {
     }
+
 
     public function close()
     {
     }
 
+
     public function read($id)
     {
     }
+
 
     public function write($id, $data)
     {
     }
 
+
     public function destroy($id)
     {
     }
+
 
     public function gc($maxlifetime)
     {
@@ -53,25 +60,30 @@ class ConcreteSessionHandlerInterfaceProxy extends AbstractProxy implements \Ses
  */
 class AbstractProxyTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @var AbstractProxy
      */
     protected $proxy;
+
 
     protected function setUp()
     {
         $this->proxy = new ConcreteProxy();
     }
 
+
     protected function tearDown()
     {
         $this->proxy = null;
     }
 
+
     public function testGetSaveHandlerName()
     {
         $this->assertNull($this->proxy->getSaveHandlerName());
     }
+
 
     public function testIsSessionHandlerInterface()
     {
@@ -80,10 +92,12 @@ class AbstractProxyTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($sh->isSessionHandlerInterface());
     }
 
+
     public function testIsWrapper()
     {
         $this->assertFalse($this->proxy->isWrapper());
     }
+
 
     /**
      * @runInSeparateProcess
@@ -95,6 +109,7 @@ class AbstractProxyTest extends \PHPUnit_Framework_TestCase
         session_start();
         $this->assertTrue($this->proxy->isActive());
     }
+
 
     /**
      * @runInSeparateProcess
@@ -108,6 +123,7 @@ class AbstractProxyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(session_name(), $this->proxy->getName());
     }
 
+
     /**
      * @runInSeparateProcess
      * @preserveGlobalState disabled
@@ -118,6 +134,7 @@ class AbstractProxyTest extends \PHPUnit_Framework_TestCase
         session_start();
         $this->proxy->setName('foo');
     }
+
 
     /**
      * @runInSeparateProcess
@@ -130,6 +147,7 @@ class AbstractProxyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $this->proxy->getId());
         $this->assertEquals(session_id(), $this->proxy->getId());
     }
+
 
     /**
      * @runInSeparateProcess

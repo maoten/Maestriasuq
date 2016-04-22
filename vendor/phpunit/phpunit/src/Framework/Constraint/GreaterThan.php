@@ -16,10 +16,12 @@
  */
 class PHPUnit_Framework_Constraint_GreaterThan extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var numeric
      */
     protected $value;
+
 
     /**
      * @param numeric $value
@@ -29,6 +31,7 @@ class PHPUnit_Framework_Constraint_GreaterThan extends PHPUnit_Framework_Constra
         parent::__construct();
         $this->value = $value;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -42,6 +45,7 @@ class PHPUnit_Framework_Constraint_GreaterThan extends PHPUnit_Framework_Constra
     {
         return $this->value < $other;
     }
+
 
     /**
      * Returns a string representation of the constraint.

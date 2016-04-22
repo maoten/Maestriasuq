@@ -27,20 +27,23 @@ class Ducktype extends MatcherAbstract
      * Check if the actual value matches the expected.
      *
      * @param mixed $actual
+     *
      * @return bool
      */
     public function match(&$actual)
     {
-        if (!is_object($actual)) {
+        if ( ! is_object($actual)) {
             return false;
         }
         foreach ($this->_expected as $method) {
-            if (!method_exists($actual, $method)) {
+            if ( ! method_exists($actual, $method)) {
                 return false;
             }
         }
+
         return true;
     }
+
 
     /**
      * Return a string representation of this Matcher

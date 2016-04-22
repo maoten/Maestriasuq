@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddImagesTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -16,10 +17,11 @@ class AddImagesTable extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');      
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

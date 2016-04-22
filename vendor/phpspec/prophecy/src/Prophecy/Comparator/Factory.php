@@ -20,10 +20,12 @@ use SebastianBergmann\Comparator\Factory as BaseFactory;
  */
 final class Factory extends BaseFactory
 {
+
     /**
      * @var Factory
      */
     private static $instance;
+
 
     public function __construct()
     {
@@ -32,6 +34,7 @@ final class Factory extends BaseFactory
         $this->register(new ClosureComparator());
         $this->register(new ProphecyComparator());
     }
+
 
     /**
      * @return Factory

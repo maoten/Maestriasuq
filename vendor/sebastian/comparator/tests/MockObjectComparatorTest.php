@@ -16,7 +16,9 @@ namespace SebastianBergmann\Comparator;
  */
 class MockObjectComparatorTest extends \PHPUnit_Framework_TestCase
 {
+
     private $comparator;
+
 
     protected function setUp()
     {
@@ -24,93 +26,98 @@ class MockObjectComparatorTest extends \PHPUnit_Framework_TestCase
         $this->comparator->setFactory(new Factory);
     }
 
+
     public function acceptsSucceedsProvider()
     {
         $testmock = $this->getMock('SebastianBergmann\\Comparator\\TestClass');
-        $stdmock = $this->getMock('stdClass');
+        $stdmock  = $this->getMock('stdClass');
 
-        return array(
-          array($testmock, $testmock),
-          array($stdmock, $stdmock),
-          array($stdmock, $testmock)
-        );
+        return [
+            [ $testmock, $testmock ],
+            [ $stdmock, $stdmock ],
+            [ $stdmock, $testmock ]
+        ];
     }
+
 
     public function acceptsFailsProvider()
     {
         $stdmock = $this->getMock('stdClass');
 
-        return array(
-          array($stdmock, null),
-          array(null, $stdmock),
-          array(null, null)
-        );
+        return [
+            [ $stdmock, null ],
+            [ null, $stdmock ],
+            [ null, null ]
+        ];
     }
+
 
     public function assertEqualsSucceedsProvider()
     {
         // cyclic dependencies
-        $book1 = $this->getMock('SebastianBergmann\\Comparator\\Book', null);
-        $book1->author = $this->getMock('SebastianBergmann\\Comparator\\Author', null, array('Terry Pratchett'));
+        $book1                  = $this->getMock('SebastianBergmann\\Comparator\\Book', null);
+        $book1->author          = $this->getMock('SebastianBergmann\\Comparator\\Author', null, [ 'Terry Pratchett' ]);
         $book1->author->books[] = $book1;
-        $book2 = $this->getMock('SebastianBergmann\\Comparator\\Book', null);
-        $book2->author = $this->getMock('SebastianBergmann\\Comparator\\Author', null, array('Terry Pratchett'));
+        $book2                  = $this->getMock('SebastianBergmann\\Comparator\\Book', null);
+        $book2->author          = $this->getMock('SebastianBergmann\\Comparator\\Author', null, [ 'Terry Pratchett' ]);
         $book2->author->books[] = $book2;
 
-        $object1 = $this->getMock('SebastianBergmann\\Comparator\\SampleClass', null, array(4, 8, 15));
-        $object2 = $this->getMock('SebastianBergmann\\Comparator\\SampleClass', null, array(4, 8, 15));
+        $object1 = $this->getMock('SebastianBergmann\\Comparator\\SampleClass', null, [ 4, 8, 15 ]);
+        $object2 = $this->getMock('SebastianBergmann\\Comparator\\SampleClass', null, [ 4, 8, 15 ]);
 
-        return array(
-          array($object1, $object1),
-          array($object1, $object2),
-          array($book1, $book1),
-          array($book1, $book2),
-          array(
-            $this->getMock('SebastianBergmann\\Comparator\\Struct', null, array(2.3)),
-            $this->getMock('SebastianBergmann\\Comparator\\Struct', null, array(2.5)),
-            0.5
-          )
-        );
+        return [
+            [ $object1, $object1 ],
+            [ $object1, $object2 ],
+            [ $book1, $book1 ],
+            [ $book1, $book2 ],
+            [
+                $this->getMock('SebastianBergmann\\Comparator\\Struct', null, [ 2.3 ]),
+                $this->getMock('SebastianBergmann\\Comparator\\Struct', null, [ 2.5 ]),
+                0.5
+            ]
+        ];
     }
+
 
     public function assertEqualsFailsProvider()
     {
-        $typeMessage = 'is not instance of expected class';
+        $typeMessage  = 'is not instance of expected class';
         $equalMessage = 'Failed asserting that two objects are equal.';
 
         // cyclic dependencies
-        $book1 = $this->getMock('SebastianBergmann\\Comparator\\Book', null);
-        $book1->author = $this->getMock('SebastianBergmann\\Comparator\\Author', null, array('Terry Pratchett'));
+        $book1                  = $this->getMock('SebastianBergmann\\Comparator\\Book', null);
+        $book1->author          = $this->getMock('SebastianBergmann\\Comparator\\Author', null, [ 'Terry Pratchett' ]);
         $book1->author->books[] = $book1;
-        $book2 = $this->getMock('SebastianBergmann\\Comparator\\Book', null);
-        $book2->author = $this->getMock('SebastianBergmann\\Comparator\\Author', null, array('Terry Pratch'));
+        $book2                  = $this->getMock('SebastianBergmann\\Comparator\\Book', null);
+        $book2->author          = $this->getMock('SebastianBergmann\\Comparator\\Author', null, [ 'Terry Pratch' ]);
         $book2->author->books[] = $book2;
 
-        $book3 = $this->getMock('SebastianBergmann\\Comparator\\Book', null);
+        $book3         = $this->getMock('SebastianBergmann\\Comparator\\Book', null);
         $book3->author = 'Terry Pratchett';
-        $book4 = $this->getMock('stdClass');
+        $book4         = $this->getMock('stdClass');
         $book4->author = 'Terry Pratchett';
 
-        $object1 = $this->getMock('SebastianBergmann\\Comparator\\SampleClass', null, array(4, 8, 15));
-        $object2 = $this->getMock('SebastianBergmann\\Comparator\\SampleClass', null, array(16, 23, 42));
+        $object1 = $this->getMock('SebastianBergmann\\Comparator\\SampleClass', null, [ 4, 8, 15 ]);
+        $object2 = $this->getMock('SebastianBergmann\\Comparator\\SampleClass', null, [ 16, 23, 42 ]);
 
-        return array(
-          array(
-            $this->getMock('SebastianBergmann\\Comparator\\SampleClass', null, array(4, 8, 15)),
-            $this->getMock('SebastianBergmann\\Comparator\\SampleClass', null, array(16, 23, 42)),
-            $equalMessage
-          ),
-          array($object1, $object2, $equalMessage),
-          array($book1, $book2, $equalMessage),
-          array($book3, $book4, $typeMessage),
-          array(
-            $this->getMock('SebastianBergmann\\Comparator\\Struct', null, array(2.3)),
-            $this->getMock('SebastianBergmann\\Comparator\\Struct', null, array(4.2)),
-            $equalMessage,
-            0.5
-          )
-        );
+        return [
+            [
+                $this->getMock('SebastianBergmann\\Comparator\\SampleClass', null, [ 4, 8, 15 ]),
+                $this->getMock('SebastianBergmann\\Comparator\\SampleClass', null, [ 16, 23, 42 ]),
+                $equalMessage
+            ],
+            [ $object1, $object2, $equalMessage ],
+            [ $book1, $book2, $equalMessage ],
+            [ $book3, $book4, $typeMessage ],
+            [
+                $this->getMock('SebastianBergmann\\Comparator\\Struct', null, [ 2.3 ]),
+                $this->getMock('SebastianBergmann\\Comparator\\Struct', null, [ 4.2 ]),
+                $equalMessage,
+                0.5
+            ]
+        ];
     }
+
 
     /**
      * @covers       ::accepts
@@ -118,10 +125,9 @@ class MockObjectComparatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testAcceptsSucceeds($expected, $actual)
     {
-        $this->assertTrue(
-          $this->comparator->accepts($expected, $actual)
-        );
+        $this->assertTrue($this->comparator->accepts($expected, $actual));
     }
+
 
     /**
      * @covers       ::accepts
@@ -129,10 +135,9 @@ class MockObjectComparatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testAcceptsFails($expected, $actual)
     {
-        $this->assertFalse(
-          $this->comparator->accepts($expected, $actual)
-        );
+        $this->assertFalse($this->comparator->accepts($expected, $actual));
     }
+
 
     /**
      * @covers       ::assertEquals
@@ -144,13 +149,12 @@ class MockObjectComparatorTest extends \PHPUnit_Framework_TestCase
 
         try {
             $this->comparator->assertEquals($expected, $actual, $delta);
-        }
-
-        catch (ComparisonFailure $exception) {
+        } catch (ComparisonFailure $exception) {
         }
 
         $this->assertNull($exception, 'Unexpected ComparisonFailure');
     }
+
 
     /**
      * @covers       ::assertEquals
@@ -158,9 +162,7 @@ class MockObjectComparatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertEqualsFails($expected, $actual, $message, $delta = 0.0)
     {
-        $this->setExpectedException(
-          'SebastianBergmann\\Comparator\\ComparisonFailure', $message
-        );
+        $this->setExpectedException('SebastianBergmann\\Comparator\\ComparisonFailure', $message);
         $this->comparator->assertEquals($expected, $actual, $delta);
     }
 }

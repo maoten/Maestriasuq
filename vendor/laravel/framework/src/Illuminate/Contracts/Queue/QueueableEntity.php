@@ -4,6 +4,7 @@ namespace Illuminate\Contracts\Queue;
 
 interface QueueableEntity
 {
+
     /**
      * Get the queueable identity for the entity.
      *

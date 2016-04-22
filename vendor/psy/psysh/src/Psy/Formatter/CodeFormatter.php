@@ -21,6 +21,7 @@ use Psy\Exception\RuntimeException;
  */
 class CodeFormatter implements Formatter
 {
+
     /**
      * Format the code represented by $reflector.
      *
@@ -34,7 +35,7 @@ class CodeFormatter implements Formatter
         $colorMode = $colorMode ?: Configuration::COLOR_MODE_AUTO;
 
         if ($fileName = $reflector->getFileName()) {
-            if (!is_file($fileName)) {
+            if ( ! is_file($fileName)) {
                 throw new RuntimeException('Source code unavailable.');
             }
 
@@ -42,8 +43,8 @@ class CodeFormatter implements Formatter
             $start = $reflector->getStartLine();
             $end   = $reflector->getEndLine() - $start;
 
-            $factory = new ConsoleColorFactory($colorMode);
-            $colors = $factory->getConsoleColor();
+            $factory     = new ConsoleColorFactory($colorMode);
+            $colors      = $factory->getConsoleColor();
             $highlighter = new Highlighter($colors);
 
             return $highlighter->getCodeSnippet($file, $start, 0, $end);

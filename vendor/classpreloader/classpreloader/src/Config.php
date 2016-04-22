@@ -17,26 +17,28 @@ namespace ClassPreloader;
  */
 class Config
 {
+
     /**
      * The array of file names.
      *
      * @var array
      */
-    protected $filenames = [];
+    protected $filenames = [ ];
 
     /**
      * The array of exclusive filters.
      *
      * @var array
      */
-    protected $exclusiveFilters = [];
+    protected $exclusiveFilters = [ ];
 
     /**
      * The array of inclusive filters.
      *
      * @var array
      */
-    protected $inclusiveFilters = [];
+    protected $inclusiveFilters = [ ];
+
 
     /**
      * Add the filename owned by the config.
@@ -52,6 +54,7 @@ class Config
         return $this;
     }
 
+
     /**
      * Get an array of file names that satisfy any added filters.
      *
@@ -59,10 +62,10 @@ class Config
      */
     public function getFilenames()
     {
-        $filenames = [];
+        $filenames = [ ];
         foreach ($this->filenames as $f) {
             foreach ($this->inclusiveFilters as $filter) {
-                if (!preg_match($filter, $f)) {
+                if ( ! preg_match($filter, $f)) {
                     continue 2;
                 }
             }
@@ -76,6 +79,7 @@ class Config
 
         return $filenames;
     }
+
 
     /**
      * Add a filter used to filter out file names matching the pattern.
@@ -92,6 +96,7 @@ class Config
 
         return $this;
     }
+
 
     /**
      * Add a filter used to grab only file names matching the pattern.

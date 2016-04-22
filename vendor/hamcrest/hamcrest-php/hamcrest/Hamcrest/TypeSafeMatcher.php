@@ -36,20 +36,23 @@ abstract class TypeSafeMatcher extends BaseMatcher
      */
     private $_expectedSubtype;
 
+
     public function __construct($expectedType, $expectedSubtype = null)
     {
-        $this->_expectedType = $expectedType;
+        $this->_expectedType    = $expectedType;
         $this->_expectedSubtype = $expectedSubtype;
     }
+
 
     final public function matches($item)
     {
         return $this->_isSafeType($item) && $this->matchesSafely($item);
     }
 
+
     final public function describeMismatch($item, Description $mismatchDescription)
     {
-        if (!$this->_isSafeType($item)) {
+        if ( ! $this->_isSafeType($item)) {
             parent::describeMismatch($item, $mismatchDescription);
         } else {
             $this->describeMismatchSafely($item, $mismatchDescription);
@@ -63,10 +66,12 @@ abstract class TypeSafeMatcher extends BaseMatcher
      */
     abstract protected function matchesSafely($item);
 
+
     /**
      * The item will already have been checked for the specific type and subtype.
      */
     abstract protected function describeMismatchSafely($item, Description $mismatchDescription);
+
 
     // -- Private Methods
 
@@ -87,14 +92,10 @@ abstract class TypeSafeMatcher extends BaseMatcher
                 return is_array($value);
 
             case self::TYPE_OBJECT:
-                return is_object($value)
-                        && ($this->_expectedSubtype === null
-                                || $value instanceof $this->_expectedSubtype);
+                return is_object($value) && ( $this->_expectedSubtype === null || $value instanceof $this->_expectedSubtype );
 
             case self::TYPE_RESOURCE:
-                return is_resource($value)
-                        && ($this->_expectedSubtype === null
-                                || get_resource_type($value) == $this->_expectedSubtype);
+                return is_resource($value) && ( $this->_expectedSubtype === null || get_resource_type($value) == $this->_expectedSubtype );
 
             case self::TYPE_BOOLEAN:
                 return true;

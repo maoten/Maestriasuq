@@ -7,12 +7,14 @@ use Illuminate\Support\ServiceProvider;
 
 class MailServiceProvider extends ServiceProvider
 {
+
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
     protected $defer = true;
+
 
     /**
      * Register the service provider.
@@ -27,9 +29,7 @@ class MailServiceProvider extends ServiceProvider
             // Once we have create the mailer instance, we will set a container instance
             // on the mailer. This allows us to resolve mailer classes via containers
             // for maximum testability on said classes instead of passing Closures.
-            $mailer = new Mailer(
-                $app['view'], $app['swift.mailer'], $app['events']
-            );
+            $mailer = new Mailer($app['view'], $app['swift.mailer'], $app['events']);
 
             $this->setMailerDependencies($mailer, $app);
 
@@ -38,13 +38,13 @@ class MailServiceProvider extends ServiceProvider
             // on each one, which makes the developer's life a lot more convenient.
             $from = $app['config']['mail.from'];
 
-            if (is_array($from) && isset($from['address'])) {
+            if (is_array($from) && isset( $from['address'] )) {
                 $mailer->alwaysFrom($from['address'], $from['name']);
             }
 
             $to = $app['config']['mail.to'];
 
-            if (is_array($to) && isset($to['address'])) {
+            if (is_array($to) && isset( $to['address'] )) {
                 $mailer->alwaysTo($to['address'], $to['name']);
             }
 
@@ -52,11 +52,13 @@ class MailServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Set a few dependencies on the mailer instance.
      *
-     * @param  \Illuminate\Mail\Mailer  $mailer
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param  \Illuminate\Mail\Mailer            $mailer
+     * @param  \Illuminate\Foundation\Application $app
+     *
      * @return void
      */
     protected function setMailerDependencies($mailer, $app)
@@ -67,6 +69,7 @@ class MailServiceProvider extends ServiceProvider
             $mailer->setQueue($app['queue.connection']);
         }
     }
+
 
     /**
      * Register the Swift Mailer instance.
@@ -85,6 +88,7 @@ class MailServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the Swift Transport instance.
      *
@@ -97,6 +101,7 @@ class MailServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Get the services provided by the provider.
      *
@@ -104,6 +109,6 @@ class MailServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['mailer', 'swift.mailer', 'swift.transport'];
+        return [ 'mailer', 'swift.mailer', 'swift.transport' ];
     }
 }

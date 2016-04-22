@@ -27,8 +27,11 @@ namespace Symfony\Component\EventDispatcher;
  */
 class EventDispatcher implements EventDispatcherInterface
 {
-    private $listeners = array();
-    private $sorted = array();
+
+    private $listeners = [ ];
+
+    private $sorted = [ ];
+
 
     /**
      * {@inheritdoc}
@@ -46,17 +49,18 @@ class EventDispatcher implements EventDispatcherInterface
         return $event;
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function getListeners($eventName = null)
     {
         if (null !== $eventName) {
-            if (!isset($this->listeners[$eventName])) {
-                return array();
+            if ( ! isset( $this->listeners[$eventName] )) {
+                return [ ];
             }
 
-            if (!isset($this->sorted[$eventName])) {
+            if ( ! isset( $this->sorted[$eventName] )) {
                 $this->sortListeners($eventName);
             }
 
@@ -64,7 +68,7 @@ class EventDispatcher implements EventDispatcherInterface
         }
 
         foreach ($this->listeners as $eventName => $eventListeners) {
-            if (!isset($this->sorted[$eventName])) {
+            if ( ! isset( $this->sorted[$eventName] )) {
                 $this->sortListeners($eventName);
             }
         }
@@ -72,21 +76,23 @@ class EventDispatcher implements EventDispatcherInterface
         return array_filter($this->sorted);
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function getListenerPriority($eventName, $listener)
     {
-        if (!isset($this->listeners[$eventName])) {
+        if ( ! isset( $this->listeners[$eventName] )) {
             return;
         }
 
         foreach ($this->listeners[$eventName] as $priority => $listeners) {
-            if (false !== ($key = array_search($listener, $listeners, true))) {
+            if (false !== ( $key = array_search($listener, $listeners, true) )) {
                 return $priority;
             }
         }
     }
+
 
     /**
      * {@inheritdoc}
@@ -96,30 +102,33 @@ class EventDispatcher implements EventDispatcherInterface
         return (bool) count($this->getListeners($eventName));
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function addListener($eventName, $listener, $priority = 0)
     {
         $this->listeners[$eventName][$priority][] = $listener;
-        unset($this->sorted[$eventName]);
+        unset( $this->sorted[$eventName] );
     }
+
 
     /**
      * {@inheritdoc}
      */
     public function removeListener($eventName, $listener)
     {
-        if (!isset($this->listeners[$eventName])) {
+        if ( ! isset( $this->listeners[$eventName] )) {
             return;
         }
 
         foreach ($this->listeners[$eventName] as $priority => $listeners) {
-            if (false !== ($key = array_search($listener, $listeners, true))) {
-                unset($this->listeners[$eventName][$priority][$key], $this->sorted[$eventName]);
+            if (false !== ( $key = array_search($listener, $listeners, true) )) {
+                unset( $this->listeners[$eventName][$priority][$key], $this->sorted[$eventName] );
             }
         }
     }
+
 
     /**
      * {@inheritdoc}
@@ -128,16 +137,18 @@ class EventDispatcher implements EventDispatcherInterface
     {
         foreach ($subscriber->getSubscribedEvents() as $eventName => $params) {
             if (is_string($params)) {
-                $this->addListener($eventName, array($subscriber, $params));
+                $this->addListener($eventName, [ $subscriber, $params ]);
             } elseif (is_string($params[0])) {
-                $this->addListener($eventName, array($subscriber, $params[0]), isset($params[1]) ? $params[1] : 0);
+                $this->addListener($eventName, [ $subscriber, $params[0] ], isset( $params[1] ) ? $params[1] : 0);
             } else {
                 foreach ($params as $listener) {
-                    $this->addListener($eventName, array($subscriber, $listener[0]), isset($listener[1]) ? $listener[1] : 0);
+                    $this->addListener($eventName, [ $subscriber, $listener[0] ],
+                        isset( $listener[1] ) ? $listener[1] : 0);
                 }
             }
         }
     }
+
 
     /**
      * {@inheritdoc}
@@ -147,13 +158,14 @@ class EventDispatcher implements EventDispatcherInterface
         foreach ($subscriber->getSubscribedEvents() as $eventName => $params) {
             if (is_array($params) && is_array($params[0])) {
                 foreach ($params as $listener) {
-                    $this->removeListener($eventName, array($subscriber, $listener[0]));
+                    $this->removeListener($eventName, [ $subscriber, $listener[0] ]);
                 }
             } else {
-                $this->removeListener($eventName, array($subscriber, is_string($params) ? $params : $params[0]));
+                $this->removeListener($eventName, [ $subscriber, is_string($params) ? $params : $params[0] ]);
             }
         }
     }
+
 
     /**
      * Triggers the listeners of an event.
@@ -174,6 +186,7 @@ class EventDispatcher implements EventDispatcherInterface
             }
         }
     }
+
 
     /**
      * Sorts the internal list of listeners for the given event by priority.

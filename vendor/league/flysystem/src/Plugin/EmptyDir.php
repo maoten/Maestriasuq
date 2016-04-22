@@ -4,6 +4,7 @@ namespace League\Flysystem\Plugin;
 
 class EmptyDir extends AbstractPlugin
 {
+
     /**
      * Get the method name.
      *
@@ -13,6 +14,7 @@ class EmptyDir extends AbstractPlugin
     {
         return 'emptyDir';
     }
+
 
     /**
      * Empty a directory's contents.

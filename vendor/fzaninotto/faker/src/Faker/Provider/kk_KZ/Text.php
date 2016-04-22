@@ -4,6 +4,7 @@ namespace Faker\Provider\kk_KZ;
 
 class Text extends \Faker\Provider\Text
 {
+
     /**
      * From kk.wikipedia.org
      *

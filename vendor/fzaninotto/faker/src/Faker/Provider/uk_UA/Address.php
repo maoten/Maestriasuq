@@ -4,14 +4,23 @@ namespace Faker\Provider\uk_UA;
 
 class Address extends \Faker\Provider\Address
 {
-    protected static $cityPrefix = array('місто');
-    protected static $regionSuffix = array('область');
-    protected static $streetPrefix = array(
-        'вул.', 'пров.', 'пл.', 'просп.'
-    );
-    protected static $buildingNumber = array('##');
-    protected static $postcode = array('#####');
-    protected static $country = array(
+
+    protected static $cityPrefix = [ 'місто' ];
+
+    protected static $regionSuffix = [ 'область' ];
+
+    protected static $streetPrefix = [
+        'вул.',
+        'пров.',
+        'пл.',
+        'просп.'
+    ];
+
+    protected static $buildingNumber = [ '##' ];
+
+    protected static $postcode = [ '#####' ];
+
+    protected static $country = [
         'Афганістан',
         'Албанія',
         'Алжир',
@@ -202,9 +211,9 @@ class Address extends \Faker\Provider\Address
         'Ємен',
         'Замбія',
         'Зімбабве',
-    );
+    ];
 
-    protected static $region = array(
+    protected static $region = [
         'Вінницька',
         'Волинська',
         'Дніпропетровська',
@@ -229,9 +238,9 @@ class Address extends \Faker\Provider\Address
         'Черкаська',
         'Чернівецька',
         'Чернігівська'
-    );
+    ];
 
-    protected static $city = array(
+    protected static $city = [
         'Вінниця',
         'Луцьк',
         'Дніпропетровськ',
@@ -256,9 +265,9 @@ class Address extends \Faker\Provider\Address
         'Черкаси',
         'Чернівці',
         'Чернігів'
-    );
+    ];
 
-    protected static $street = array(
+    protected static $street = [
         'Тараса Шевченка',
         'Лесі Українки',
         'Леніна',
@@ -270,15 +279,16 @@ class Address extends \Faker\Provider\Address
         'Генерала Жадова',
         'Пацаєва',
         'Волкова',
-    );
+    ];
 
-    protected static $addressFormats = array(
+    protected static $addressFormats = [
         "{{postcode}}, {{cityAndRegion}}, {{streetPrefix}} {{streetName}}, {{buildingNumber}}",
-    );
+    ];
 
-    protected static $streetAddressFormats = array(
+    protected static $streetAddressFormats = [
         "{{streetPrefix}} {{streetName}}, {{buildingNumber}}"
-    );
+    ];
+
 
     public static function citySuffix()
     {
@@ -286,41 +296,49 @@ class Address extends \Faker\Provider\Address
         return '';
     }
 
+
     public static function streetSuffix()
     {
         // We don't use street suffix
         return '';
     }
 
+
     public function streetName()
     {
         return static::randomElement(static::$street);
     }
+
 
     public static function postcode()
     {
         return static::toUpper(static::bothify(static::randomElement(static::$postcode)));
     }
 
+
     public static function regionSuffix()
     {
         return static::randomElement(static::$regionSuffix);
     }
+
 
     public static function region()
     {
         return static::randomElement(static::$region);
     }
 
+
     public static function cityPrefix()
     {
         return static::randomElement(static::$cityPrefix);
     }
 
+
     public function city()
     {
         return static::randomElement(static::$city);
     }
+
 
     /**
      * Get city and region together
@@ -331,12 +349,13 @@ class Address extends \Faker\Provider\Address
     public function cityAndRegion()
     {
         $regionAndCityNumber = rand(0, count(static::$region) - 1);
-        $region = static::$region[$regionAndCityNumber];
-        $city = static::$city[$regionAndCityNumber];
-        $format = "$region {{regionSuffix}}, {{cityPrefix}} $city";
+        $region              = static::$region[$regionAndCityNumber];
+        $city                = static::$city[$regionAndCityNumber];
+        $format              = "$region {{regionSuffix}}, {{cityPrefix}} $city";
 
         return $this->generator->parse($format);
     }
+
 
     public static function streetPrefix()
     {

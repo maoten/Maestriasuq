@@ -15,8 +15,10 @@
  */
 class Swift_Transport_NullTransport implements Swift_Transport
 {
+
     /** The event dispatcher from the plugin API */
     private $_eventDispatcher;
+
 
     /**
      * Constructor.
@@ -25,6 +27,7 @@ class Swift_Transport_NullTransport implements Swift_Transport
     {
         $this->_eventDispatcher = $eventDispatcher;
     }
+
 
     /**
      * Tests if this Transport mechanism has started.
@@ -36,6 +39,7 @@ class Swift_Transport_NullTransport implements Swift_Transport
         return true;
     }
 
+
     /**
      * Starts this Transport mechanism.
      */
@@ -43,12 +47,14 @@ class Swift_Transport_NullTransport implements Swift_Transport
     {
     }
 
+
     /**
      * Stops this Transport mechanism.
      */
     public function stop()
     {
     }
+
 
     /**
      * Sends the given message.
@@ -72,14 +78,11 @@ class Swift_Transport_NullTransport implements Swift_Transport
             $this->_eventDispatcher->dispatchEvent($evt, 'sendPerformed');
         }
 
-        $count = (
-            count((array) $message->getTo())
-            + count((array) $message->getCc())
-            + count((array) $message->getBcc())
-            );
+        $count = ( count((array) $message->getTo()) + count((array) $message->getCc()) + count((array) $message->getBcc()) );
 
         return $count;
     }
+
 
     /**
      * Register a plugin.

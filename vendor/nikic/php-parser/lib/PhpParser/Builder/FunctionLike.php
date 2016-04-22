@@ -8,19 +8,24 @@ use PhpParser\Node\Stmt;
 
 abstract class FunctionLike extends Declaration
 {
+
     protected $returnByRef = false;
-    protected $params = array();
+
+    protected $params = [ ];
+
 
     /**
      * Make the function return by reference.
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function makeReturnByRef() {
+    public function makeReturnByRef()
+    {
         $this->returnByRef = true;
 
         return $this;
     }
+
 
     /**
      * Adds a parameter.
@@ -29,10 +34,11 @@ abstract class FunctionLike extends Declaration
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function addParam($param) {
+    public function addParam($param)
+    {
         $param = $this->normalizeNode($param);
 
-        if (!$param instanceof Node\Param) {
+        if ( ! $param instanceof Node\Param) {
             throw new \LogicException(sprintf('Expected parameter node, got "%s"', $param->getType()));
         }
 
@@ -41,6 +47,7 @@ abstract class FunctionLike extends Declaration
         return $this;
     }
 
+
     /**
      * Adds multiple parameters.
      *
@@ -48,7 +55,8 @@ abstract class FunctionLike extends Declaration
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function addParams(array $params) {
+    public function addParams(array $params)
+    {
         foreach ($params as $param) {
             $this->addParam($param);
         }

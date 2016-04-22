@@ -23,6 +23,7 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class NamedMockTest extends MockeryTestCase
 {
+
     /** @test */
     public function itCreatesANamedMock()
     {
@@ -30,21 +31,24 @@ class NamedMockTest extends MockeryTestCase
         $this->assertEquals("Mockery\Dave123", get_class($mock));
     }
 
+
     /** @test */
     public function itCreatesPassesFurtherArgumentsJustLikeMock()
     {
-        $mock = Mockery::namedMock("Mockery\Dave456", "DateTime", array(
+        $mock = Mockery::namedMock("Mockery\Dave456", "DateTime", [
             "getDave" => "dave"
-        ));
+        ]);
 
         $this->assertInstanceOf("DateTime", $mock);
         $this->assertEquals("dave", $mock->getDave());
     }
 
+
     /**
      * @test
      * @expectedException Mockery\Exception
-     * @expectedExceptionMessage The mock named 'Mockery\Dave7' has been already defined with a different mock configuration
+     * @expectedExceptionMessage The mock named 'Mockery\Dave7' has been already defined with a different mock
+     *                           configuration
      */
     public function itShouldThrowIfAttemptingToRedefineNamedMock()
     {

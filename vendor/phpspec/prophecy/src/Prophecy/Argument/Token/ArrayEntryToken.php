@@ -20,10 +20,13 @@ use Prophecy\Exception\InvalidArgumentException;
  */
 class ArrayEntryToken implements TokenInterface
 {
+
     /** @var \Prophecy\Argument\Token\TokenInterface */
     private $key;
+
     /** @var \Prophecy\Argument\Token\TokenInterface */
     private $value;
+
 
     /**
      * @param mixed $key   exact value or token
@@ -31,9 +34,10 @@ class ArrayEntryToken implements TokenInterface
      */
     public function __construct($key, $value)
     {
-        $this->key = $this->wrapIntoExactValueToken($key);
+        $this->key   = $this->wrapIntoExactValueToken($key);
         $this->value = $this->wrapIntoExactValueToken($value);
     }
+
 
     /**
      * Scores half of combined scores from key and value tokens for same entry. Capped at 8.
@@ -54,18 +58,19 @@ class ArrayEntryToken implements TokenInterface
             $argument = $this->convertArrayAccessToEntry($argument);
         }
 
-        if (!is_array($argument) || empty($argument)) {
+        if ( ! is_array($argument) || empty( $argument )) {
             return false;
         }
 
-        $keyScores = array_map(array($this->key,'scoreArgument'), array_keys($argument));
-        $valueScores = array_map(array($this->value,'scoreArgument'), $argument);
-        $scoreEntry = function ($value, $key) {
-            return $value && $key ? min(8, ($key + $value) / 2) : false;
+        $keyScores   = array_map([ $this->key, 'scoreArgument' ], array_keys($argument));
+        $valueScores = array_map([ $this->value, 'scoreArgument' ], $argument);
+        $scoreEntry  = function ($value, $key) {
+            return $value && $key ? min(8, ( $key + $value ) / 2) : false;
         };
 
         return max(array_map($scoreEntry, $valueScores, $keyScores));
     }
+
 
     /**
      * Returns false.
@@ -77,6 +82,7 @@ class ArrayEntryToken implements TokenInterface
         return false;
     }
 
+
     /**
      * Returns string representation for token.
      *
@@ -86,6 +92,7 @@ class ArrayEntryToken implements TokenInterface
     {
         return sprintf('[..., %s => %s, ...]', $this->key, $this->value);
     }
+
 
     /**
      * Returns key
@@ -97,6 +104,7 @@ class ArrayEntryToken implements TokenInterface
         return $this->key;
     }
 
+
     /**
      * Returns value
      *
@@ -107,16 +115,19 @@ class ArrayEntryToken implements TokenInterface
         return $this->value;
     }
 
+
     /**
      * Wraps non token $value into ExactValueToken
      *
      * @param $value
+     *
      * @return TokenInterface
      */
     private function wrapIntoExactValueToken($value)
     {
         return $value instanceof TokenInterface ? $value : new ExactValueToken($value);
     }
+
 
     /**
      * Converts instance of \ArrayAccess to key => value array entry
@@ -128,16 +139,13 @@ class ArrayEntryToken implements TokenInterface
      */
     private function convertArrayAccessToEntry(\ArrayAccess $object)
     {
-        if (!$this->key instanceof ExactValueToken) {
-            throw new InvalidArgumentException(sprintf(
-                'You can only use exact value tokens to match key of ArrayAccess object'.PHP_EOL.
-                'But you used `%s`.',
-                $this->key
-            ));
+        if ( ! $this->key instanceof ExactValueToken) {
+            throw new InvalidArgumentException(sprintf('You can only use exact value tokens to match key of ArrayAccess object' . PHP_EOL . 'But you used `%s`.',
+                $this->key));
         }
 
         $key = $this->key->getValue();
 
-        return $object->offsetExists($key) ? array($key => $object[$key]) : array();
+        return $object->offsetExists($key) ? [ $key => $object[$key] ] : [ ];
     }
 }

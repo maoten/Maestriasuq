@@ -21,22 +21,23 @@ use Symfony\Component\Debug\Exception\UndefinedMethodException;
  */
 class UndefinedMethodFatalErrorHandler implements FatalErrorHandlerInterface
 {
+
     /**
      * {@inheritdoc}
      */
     public function handleError(array $error, FatalErrorException $exception)
     {
         preg_match('/^Call to undefined method (.*)::(.*)\(\)$/', $error['message'], $matches);
-        if (!$matches) {
+        if ( ! $matches) {
             return;
         }
 
-        $className = $matches[1];
+        $className  = $matches[1];
         $methodName = $matches[2];
 
         $message = sprintf('Attempted to call an undefined method named "%s" of class "%s".', $methodName, $className);
 
-        $candidates = array();
+        $candidates = [ ];
         foreach (get_class_methods($className) as $definedMethodName) {
             $lev = levenshtein($methodName, $definedMethodName);
             if ($lev <= strlen($methodName) / 3 || false !== strpos($definedMethodName, $methodName)) {
@@ -46,13 +47,13 @@ class UndefinedMethodFatalErrorHandler implements FatalErrorHandlerInterface
 
         if ($candidates) {
             sort($candidates);
-            $last = array_pop($candidates).'"?';
+            $last = array_pop($candidates) . '"?';
             if ($candidates) {
-                $candidates = 'e.g. "'.implode('", "', $candidates).'" or "'.$last;
+                $candidates = 'e.g. "' . implode('", "', $candidates) . '" or "' . $last;
             } else {
-                $candidates = '"'.$last;
+                $candidates = '"' . $last;
             }
-            $message .= "\nDid you mean to call ".$candidates;
+            $message .= "\nDid you mean to call " . $candidates;
         }
 
         return new UndefinedMethodException($message, $exception);

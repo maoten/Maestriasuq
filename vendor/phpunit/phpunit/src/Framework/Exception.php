@@ -26,15 +26,17 @@
  * connections). Unserializing user-space objects from the child process into
  * the parent would break the intended encapsulation of process isolation.
  *
- * @see http://fabien.potencier.org/article/9/php-serialization-stack-traces-and-exceptions
+ * @see   http://fabien.potencier.org/article/9/php-serialization-stack-traces-and-exceptions
  * @since Class available since Release 3.4.0
  */
 class PHPUnit_Framework_Exception extends RuntimeException implements PHPUnit_Exception
 {
+
     /**
      * @var array
      */
     protected $serializableTrace;
+
 
     public function __construct($message = '', $code = 0, Exception $previous = null)
     {
@@ -42,9 +44,10 @@ class PHPUnit_Framework_Exception extends RuntimeException implements PHPUnit_Ex
 
         $this->serializableTrace = $this->getTrace();
         foreach ($this->serializableTrace as $i => $call) {
-            unset($this->serializableTrace[$i]['args']);
+            unset( $this->serializableTrace[$i]['args'] );
         }
     }
+
 
     /**
      * Returns the serializable trace (without 'args').
@@ -55,6 +58,7 @@ class PHPUnit_Framework_Exception extends RuntimeException implements PHPUnit_Ex
     {
         return $this->serializableTrace;
     }
+
 
     /**
      * @return string
@@ -69,6 +73,7 @@ class PHPUnit_Framework_Exception extends RuntimeException implements PHPUnit_Ex
 
         return $string;
     }
+
 
     public function __sleep()
     {

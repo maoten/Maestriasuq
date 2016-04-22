@@ -15,6 +15,7 @@ namespace SebastianBergmann\Diff\LCS;
  */
 class MemoryEfficientImplementation implements LongestCommonSubsequence
 {
+
     /**
      * Calculates the longest common subsequence of two arrays.
      *
@@ -29,12 +30,12 @@ class MemoryEfficientImplementation implements LongestCommonSubsequence
         $cTo   = count($to);
 
         if ($cFrom == 0) {
-            return array();
+            return [ ];
         } elseif ($cFrom == 1) {
             if (in_array($from[0], $to)) {
-                return array($from[0]);
+                return [ $from[0] ];
             } else {
-                return array();
+                return [ ];
             }
         } else {
             $i         = intval($cFrom / 2);
@@ -57,12 +58,10 @@ class MemoryEfficientImplementation implements LongestCommonSubsequence
             $toStart = array_slice($to, 0, $jMax);
             $toEnd   = array_slice($to, $jMax);
 
-            return array_merge(
-                $this->calculate($fromStart, $toStart),
-                $this->calculate($fromEnd, $toEnd)
-            );
+            return array_merge($this->calculate($fromStart, $toStart), $this->calculate($fromEnd, $toEnd));
         }
     }
+
 
     /**
      * @param array $from

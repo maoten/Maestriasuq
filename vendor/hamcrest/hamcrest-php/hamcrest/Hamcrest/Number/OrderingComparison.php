@@ -12,46 +12,46 @@ class OrderingComparison extends TypeSafeMatcher
 {
 
     private $_value;
+
     private $_minCompare;
+
     private $_maxCompare;
+
 
     public function __construct($value, $minCompare, $maxCompare)
     {
         parent::__construct(self::TYPE_NUMERIC);
 
-        $this->_value = $value;
+        $this->_value      = $value;
         $this->_minCompare = $minCompare;
         $this->_maxCompare = $maxCompare;
     }
+
 
     protected function matchesSafely($other)
     {
         $compare = $this->_compare($this->_value, $other);
 
-        return ($this->_minCompare <= $compare) && ($compare <= $this->_maxCompare);
+        return ( $this->_minCompare <= $compare ) && ( $compare <= $this->_maxCompare );
     }
+
 
     protected function describeMismatchSafely($item, Description $mismatchDescription)
     {
-        $mismatchDescription
-            ->appendValue($item)->appendText(' was ')
-            ->appendText($this->_comparison($this->_compare($this->_value, $item)))
-            ->appendText(' ')->appendValue($this->_value)
-            ;
+        $mismatchDescription->appendValue($item)->appendText(' was ')->appendText($this->_comparison($this->_compare($this->_value,
+                $item)))->appendText(' ')->appendValue($this->_value);
     }
+
 
     public function describeTo(Description $description)
     {
-        $description->appendText('a value ')
-            ->appendText($this->_comparison($this->_minCompare))
-            ;
+        $description->appendText('a value ')->appendText($this->_comparison($this->_minCompare));
         if ($this->_minCompare != $this->_maxCompare) {
-            $description->appendText(' or ')
-                ->appendText($this->_comparison($this->_maxCompare))
-                ;
+            $description->appendText(' or ')->appendText($this->_comparison($this->_maxCompare));
         }
         $description->appendText(' ')->appendValue($this->_value);
     }
+
 
     /**
      * The value is not > $value, nor < $value.
@@ -63,6 +63,7 @@ class OrderingComparison extends TypeSafeMatcher
         return new self($value, 0, 0);
     }
 
+
     /**
      * The value is > $value.
      *
@@ -72,6 +73,7 @@ class OrderingComparison extends TypeSafeMatcher
     {
         return new self($value, -1, -1);
     }
+
 
     /**
      * The value is >= $value.
@@ -83,6 +85,7 @@ class OrderingComparison extends TypeSafeMatcher
         return new self($value, -1, 0);
     }
 
+
     /**
      * The value is < $value.
      *
@@ -93,6 +96,7 @@ class OrderingComparison extends TypeSafeMatcher
         return new self($value, 1, 1);
     }
 
+
     /**
      * The value is <= $value.
      *
@@ -102,6 +106,7 @@ class OrderingComparison extends TypeSafeMatcher
     {
         return new self($value, 0, 1);
     }
+
 
     // -- Private Methods
 
@@ -118,6 +123,7 @@ class OrderingComparison extends TypeSafeMatcher
             return 1;
         }
     }
+
 
     private function _comparison($compare)
     {

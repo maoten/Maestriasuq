@@ -1,9 +1,11 @@
 <?php
+
 /**
  * Represents foo.
  */
 class Foo
 {
+
 }
 
 /**
@@ -11,7 +13,8 @@ class Foo
  */
 function &foo($bar)
 {
-    $baz = function () {};
+    $baz = function () {
+    };
     $a   = true ? true : false;
     $b   = "{$a}";
     $c   = "${b}";

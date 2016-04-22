@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use App\Image;
-
-use Validator;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Validator;
 
 class AuthController extends Controller
 {
+
     /*
     |--------------------------------------------------------------------------
     | Registration & Login Controller
@@ -32,6 +31,7 @@ class AuthController extends Controller
      */
     protected $redirectTo = '/';
 
+
     /**
      * Create a new authentication controller instance.
      *
@@ -39,44 +39,47 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'logout']);
+        $this->middleware('guest', [ 'except' => 'logout' ]);
     }
+
 
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
+     *
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'nombre' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'nombre'   => 'required|max:255',
+            'email'    => 'required|email|max:255|unique:users',
             'password' => 'required|min:5',
-            ]);
+        ]);
     }
+
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
+     *
      * @return User
      */
     protected function create(array $data)
     {
 
-
         return User::create([
-            'cc' => $data['cc'],
-            'nombre' => $data['nombre'],
-            'email' => $data['email'],
-            'telefono' => $data['telefono'],
-            'profesion' => $data['profesion'],
+            'cc'          => $data['cc'],
+            'nombre'      => $data['nombre'],
+            'email'       => $data['email'],
+            'telefono'    => $data['telefono'],
+            'profesion'   => $data['profesion'],
             'universidad' => $data['universidad'],
-            'rol' => $data['rol'],
-            'password' => bcrypt($data['password']),
-            ]);
+            'rol'         => $data['rol'],
+            'password'    => bcrypt($data['password']),
+        ]);
 
 
     }

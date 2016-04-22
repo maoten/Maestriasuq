@@ -16,20 +16,22 @@ use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 
 // Load the global dump() function
-require_once __DIR__.'/Resources/functions/dump.php';
+require_once __DIR__ . '/Resources/functions/dump.php';
 
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  */
 class VarDumper
 {
+
     private static $handler;
+
 
     public static function dump($var)
     {
         if (null === self::$handler) {
-            $cloner = new VarCloner();
-            $dumper = 'cli' === PHP_SAPI ? new CliDumper() : new HtmlDumper();
+            $cloner        = new VarCloner();
+            $dumper        = 'cli' === PHP_SAPI ? new CliDumper() : new HtmlDumper();
             self::$handler = function ($var) use ($cloner, $dumper) {
                 $dumper->dump($cloner->cloneVar($var));
             };
@@ -38,9 +40,10 @@ class VarDumper
         return call_user_func(self::$handler, $var);
     }
 
+
     public static function setHandler(callable $callable = null)
     {
-        $prevHandler = self::$handler;
+        $prevHandler   = self::$handler;
         self::$handler = $callable;
 
         return $prevHandler;

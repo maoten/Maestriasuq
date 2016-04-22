@@ -8,10 +8,12 @@ namespace Cron;
  */
 class FieldFactory
 {
+
     /**
      * @var array Cache of instantiated fields
      */
-    private $fields = array();
+    private $fields = [ ];
+
 
     /**
      * Get an instance of a field object for a cron expression position
@@ -23,7 +25,7 @@ class FieldFactory
      */
     public function getField($position)
     {
-        if (!isset($this->fields[$position])) {
+        if ( ! isset( $this->fields[$position] )) {
             switch ($position) {
                 case 0:
                     $this->fields[$position] = new MinutesField();
@@ -44,9 +46,7 @@ class FieldFactory
                     $this->fields[$position] = new YearField();
                     break;
                 default:
-                    throw new \InvalidArgumentException(
-                        $position . ' is not a valid position'
-                    );
+                    throw new \InvalidArgumentException($position . ' is not a valid position');
             }
         }
 

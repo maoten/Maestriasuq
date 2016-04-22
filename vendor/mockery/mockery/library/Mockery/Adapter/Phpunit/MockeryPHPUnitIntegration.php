@@ -7,6 +7,7 @@ namespace Mockery\Adapter\Phpunit;
  */
 trait MockeryPHPUnitIntegration
 {
+
     /**
      * Performs assertions shared by all tests of a test case. This method is
      * called before execution of a test ends and before the tearDown method.
@@ -16,7 +17,7 @@ trait MockeryPHPUnitIntegration
         parent::assertPostConditions();
 
         // Add Mockery expectations to assertion count.
-        if (($container = \Mockery::getContainer()) !== null) {
+        if (( $container = \Mockery::getContainer() ) !== null) {
             $this->addToAssertionCount($container->mockery_getExpectationCount());
         }
 

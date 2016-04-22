@@ -6,6 +6,7 @@
 
 class FactoryCall
 {
+
     /**
      * Hamcrest standard is two spaces for each level of indentation.
      *
@@ -23,16 +24,19 @@ class FactoryCall
      */
     private $name;
 
+
     public function __construct(FactoryMethod $method, $name)
     {
         $this->method = $method;
-        $this->name = $name;
+        $this->name   = $name;
     }
+
 
     public function getMethod()
     {
         return $this->method;
     }
+
 
     public function getName()
     {

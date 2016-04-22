@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 class RollbackCommand extends Command
 {
+
     use ConfirmableTrait;
 
     /**
@@ -32,10 +33,12 @@ class RollbackCommand extends Command
      */
     protected $migrator;
 
+
     /**
      * Create a new migration rollback command instance.
      *
-     * @param  \Illuminate\Database\Migrations\Migrator  $migrator
+     * @param  \Illuminate\Database\Migrations\Migrator $migrator
+     *
      * @return void
      */
     public function __construct(Migrator $migrator)
@@ -45,6 +48,7 @@ class RollbackCommand extends Command
         $this->migrator = $migrator;
     }
 
+
     /**
      * Execute the console command.
      *
@@ -52,7 +56,7 @@ class RollbackCommand extends Command
      */
     public function fire()
     {
-        if (! $this->confirmToProceed()) {
+        if ( ! $this->confirmToProceed()) {
             return;
         }
 
@@ -70,6 +74,7 @@ class RollbackCommand extends Command
         }
     }
 
+
     /**
      * Get the console command options.
      *
@@ -78,11 +83,11 @@ class RollbackCommand extends Command
     protected function getOptions()
     {
         return [
-            ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'],
+            [ 'database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.' ],
 
-            ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production.'],
+            [ 'force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production.' ],
 
-            ['pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'],
+            [ 'pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.' ],
         ];
     }
 }

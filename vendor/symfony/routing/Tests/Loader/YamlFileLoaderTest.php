@@ -17,6 +17,7 @@ use Symfony\Component\Config\Resource\FileResource;
 
 class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testSupports()
     {
         $loader = new YamlFileLoader($this->getMock('Symfony\Component\Config\FileLocator'));
@@ -30,14 +31,17 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($loader->supports('foo.yml', 'foo'), '->supports() checks the resource type if specified');
     }
 
+
     public function testLoadDoesNothingIfEmpty()
     {
-        $loader = new YamlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+        $loader     = new YamlFileLoader(new FileLocator([ __DIR__ . '/../Fixtures' ]));
         $collection = $loader->load('empty.yml');
 
-        $this->assertEquals(array(), $collection->all());
-        $this->assertEquals(array(new FileResource(realpath(__DIR__.'/../Fixtures/empty.yml'))), $collection->getResources());
+        $this->assertEquals([ ], $collection->all());
+        $this->assertEquals([ new FileResource(realpath(__DIR__ . '/../Fixtures/empty.yml')) ],
+            $collection->getResources());
     }
+
 
     /**
      * @expectedException \InvalidArgumentException
@@ -45,38 +49,41 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadThrowsExceptionWithInvalidFile($filePath)
     {
-        $loader = new YamlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+        $loader = new YamlFileLoader(new FileLocator([ __DIR__ . '/../Fixtures' ]));
         $loader->load($filePath);
     }
 
+
     public function getPathsToInvalidFiles()
     {
-        return array(
-            array('nonvalid.yml'),
-            array('nonvalid2.yml'),
-            array('incomplete.yml'),
-            array('nonvalidkeys.yml'),
-            array('nonesense_resource_plus_path.yml'),
-            array('nonesense_type_without_resource.yml'),
-            array('bad_format.yml'),
-        );
+        return [
+            [ 'nonvalid.yml' ],
+            [ 'nonvalid2.yml' ],
+            [ 'incomplete.yml' ],
+            [ 'nonvalidkeys.yml' ],
+            [ 'nonesense_resource_plus_path.yml' ],
+            [ 'nonesense_type_without_resource.yml' ],
+            [ 'bad_format.yml' ],
+        ];
     }
+
 
     public function testLoadSpecialRouteName()
     {
-        $loader = new YamlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+        $loader          = new YamlFileLoader(new FileLocator([ __DIR__ . '/../Fixtures' ]));
         $routeCollection = $loader->load('special_route_name.yml');
-        $route = $routeCollection->get('#$péß^a|');
+        $route           = $routeCollection->get('#$péß^a|');
 
         $this->assertInstanceOf('Symfony\Component\Routing\Route', $route);
         $this->assertSame('/true', $route->getPath());
     }
 
+
     public function testLoadWithRoute()
     {
-        $loader = new YamlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+        $loader          = new YamlFileLoader(new FileLocator([ __DIR__ . '/../Fixtures' ]));
         $routeCollection = $loader->load('validpattern.yml');
-        $route = $routeCollection->get('blog_show');
+        $route           = $routeCollection->get('blog_show');
 
         $this->assertInstanceOf('Symfony\Component\Routing\Route', $route);
         $this->assertSame('/blog/{slug}', $route->getPath());
@@ -84,16 +91,17 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('MyBundle:Blog:show', $route->getDefault('_controller'));
         $this->assertSame('\w+', $route->getRequirement('locale'));
         $this->assertSame('RouteCompiler', $route->getOption('compiler_class'));
-        $this->assertEquals(array('GET', 'POST', 'PUT', 'OPTIONS'), $route->getMethods());
-        $this->assertEquals(array('https'), $route->getSchemes());
+        $this->assertEquals([ 'GET', 'POST', 'PUT', 'OPTIONS' ], $route->getMethods());
+        $this->assertEquals([ 'https' ], $route->getSchemes());
         $this->assertEquals('context.getMethod() == "GET"', $route->getCondition());
     }
 
+
     public function testLoadWithResource()
     {
-        $loader = new YamlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+        $loader          = new YamlFileLoader(new FileLocator([ __DIR__ . '/../Fixtures' ]));
         $routeCollection = $loader->load('validresource.yml');
-        $routes = $routeCollection->all();
+        $routes          = $routeCollection->all();
 
         $this->assertCount(2, $routes, 'Two routes are loaded');
         $this->assertContainsOnly('Symfony\Component\Routing\Route', $routes);

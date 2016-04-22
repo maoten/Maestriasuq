@@ -6,10 +6,12 @@ use Exception as BaseException;
 
 class FileExistsException extends Exception
 {
+
     /**
      * @var string
      */
     protected $path;
+
 
     /**
      * Constructor.
@@ -24,6 +26,7 @@ class FileExistsException extends Exception
 
         parent::__construct('File already exists at path: ' . $this->getPath(), $code, $previous);
     }
+
 
     /**
      * Get the path which was not found.

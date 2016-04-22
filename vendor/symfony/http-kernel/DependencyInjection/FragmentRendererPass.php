@@ -21,8 +21,11 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
  */
 class FragmentRendererPass implements CompilerPassInterface
 {
+
     private $handlerService;
+
     private $rendererTag;
+
 
     /**
      * @param string $handlerService Service name of the fragment handler in the container
@@ -31,34 +34,38 @@ class FragmentRendererPass implements CompilerPassInterface
     public function __construct($handlerService = 'fragment.handler', $rendererTag = 'kernel.fragment_renderer')
     {
         $this->handlerService = $handlerService;
-        $this->rendererTag = $rendererTag;
+        $this->rendererTag    = $rendererTag;
     }
+
 
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition($this->handlerService)) {
+        if ( ! $container->hasDefinition($this->handlerService)) {
             return;
         }
 
         $definition = $container->getDefinition($this->handlerService);
         foreach ($container->findTaggedServiceIds($this->rendererTag) as $id => $tags) {
             $def = $container->getDefinition($id);
-            if (!$def->isPublic()) {
-                throw new \InvalidArgumentException(sprintf('The service "%s" must be public as fragment renderer are lazy-loaded.', $id));
+            if ( ! $def->isPublic()) {
+                throw new \InvalidArgumentException(sprintf('The service "%s" must be public as fragment renderer are lazy-loaded.',
+                    $id));
             }
 
             if ($def->isAbstract()) {
-                throw new \InvalidArgumentException(sprintf('The service "%s" must not be abstract as fragment renderer are lazy-loaded.', $id));
+                throw new \InvalidArgumentException(sprintf('The service "%s" must not be abstract as fragment renderer are lazy-loaded.',
+                    $id));
             }
 
-            $refClass = new \ReflectionClass($container->getParameterBag()->resolveValue($def->getClass()));
+            $refClass  = new \ReflectionClass($container->getParameterBag()->resolveValue($def->getClass()));
             $interface = 'Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface';
-            if (!$refClass->implementsInterface($interface)) {
-                throw new \InvalidArgumentException(sprintf('Service "%s" must implement interface "%s".', $id, $interface));
+            if ( ! $refClass->implementsInterface($interface)) {
+                throw new \InvalidArgumentException(sprintf('Service "%s" must implement interface "%s".', $id,
+                    $interface));
             }
 
             foreach ($tags as $tag) {
-                $definition->addMethodCall('addRendererService', array($tag['alias'], $id));
+                $definition->addMethodCall('addRendererService', [ $tag['alias'], $id ]);
             }
         }
     }

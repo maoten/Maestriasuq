@@ -6,6 +6,7 @@ use Faker\Provider\DateTime as DateTimeProvider;
 
 class DateTimeTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testUnixTime()
     {
         $timestamp = DateTimeProvider::unixTime();
@@ -13,6 +14,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($timestamp >= 0);
         $this->assertTrue($timestamp <= time());
     }
+
 
     public function testDateTime()
     {
@@ -22,6 +24,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $this->assertLessThanOrEqual(new \DateTime(), $date);
     }
 
+
     public function testDateTimeAD()
     {
         $date = DateTimeProvider::dateTimeAD();
@@ -29,6 +32,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $this->assertGreaterThanOrEqual(new \DateTime('0000-01-01 00:00:00'), $date);
         $this->assertLessThanOrEqual(new \DateTime(), $date);
     }
+
 
     public function testIso8601()
     {
@@ -38,6 +42,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $this->assertLessThanOrEqual(new \DateTime(), new \DateTime($date));
     }
 
+
     public function testDate()
     {
         $date = DateTimeProvider::date();
@@ -46,11 +51,13 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $this->assertLessThanOrEqual(new \DateTime(), new \DateTime($date));
     }
 
+
     public function testTime()
     {
         $date = DateTimeProvider::time();
         $this->assertRegExp('/^\d{2}:\d{2}:\d{2}$/', $date);
     }
+
 
     /**
      *
@@ -64,38 +71,40 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $this->assertLessThanOrEqual(new \DateTime($end), $date);
     }
 
+
     public function providerDateTimeBetween()
     {
-        return array(
-            array('-1 year', false),
-            array('-1 year', null),
-            array('-1 day', '-1 hour'),
-            array('-1 day', 'now'),
-        );
+        return [
+            [ '-1 year', false ],
+            [ '-1 year', null ],
+            [ '-1 day', '-1 hour' ],
+            [ '-1 day', 'now' ],
+        ];
     }
+
 
     public function testFixedSeedWithMaximumTimestamp()
     {
         $max = '2018-03-01 12:00:00';
 
         mt_srand(1);
-        $unixTime = DateTimeProvider::unixTime($max);
-        $datetimeAD = DateTimeProvider::dateTimeAD($max);
-        $dateTime1 = DateTimeProvider::dateTime($max);
-        $dateTimeBetween = DateTimeProvider::dateTimeBetween('2014-03-01 06:00:00', $max);
-        $date = DateTimeProvider::date('Y-m-d', $max);
-        $time = DateTimeProvider::time('H:i:s', $max);
-        $iso8601 = DateTimeProvider::iso8601($max);
+        $unixTime            = DateTimeProvider::unixTime($max);
+        $datetimeAD          = DateTimeProvider::dateTimeAD($max);
+        $dateTime1           = DateTimeProvider::dateTime($max);
+        $dateTimeBetween     = DateTimeProvider::dateTimeBetween('2014-03-01 06:00:00', $max);
+        $date                = DateTimeProvider::date('Y-m-d', $max);
+        $time                = DateTimeProvider::time('H:i:s', $max);
+        $iso8601             = DateTimeProvider::iso8601($max);
         $dateTimeThisCentury = DateTimeProvider::dateTimeThisCentury($max);
-        $dateTimeThisDecade = DateTimeProvider::dateTimeThisDecade($max);
-        $dateTimeThisMonth = DateTimeProvider::dateTimeThisMonth($max);
-        $amPm = DateTimeProvider::amPm($max);
-        $dayOfMonth = DateTimeProvider::dayOfMonth($max);
-        $dayOfWeek = DateTimeProvider::dayOfWeek($max);
-        $month = DateTimeProvider::month($max);
-        $monthName = DateTimeProvider::monthName($max);
-        $year = DateTimeProvider::year($max);
-        $dateTimeThisYear = DateTimeProvider::dateTimeThisYear($max);
+        $dateTimeThisDecade  = DateTimeProvider::dateTimeThisDecade($max);
+        $dateTimeThisMonth   = DateTimeProvider::dateTimeThisMonth($max);
+        $amPm                = DateTimeProvider::amPm($max);
+        $dayOfMonth          = DateTimeProvider::dayOfMonth($max);
+        $dayOfWeek           = DateTimeProvider::dayOfWeek($max);
+        $month               = DateTimeProvider::month($max);
+        $monthName           = DateTimeProvider::monthName($max);
+        $year                = DateTimeProvider::year($max);
+        $dateTimeThisYear    = DateTimeProvider::dateTimeThisYear($max);
         mt_srand();
 
         //regenerate Random Date with same seed and same maximum end timestamp

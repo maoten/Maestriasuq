@@ -19,6 +19,7 @@ namespace Symfony\Component\Routing;
  */
 class RouteCompiler implements RouteCompilerInterface
 {
+
     const REGEX_DELIMITER = '#';
 
     /**
@@ -27,6 +28,7 @@ class RouteCompiler implements RouteCompilerInterface
      * can be left out together with the optional placeholder from matching and generating URLs.
      */
     const SEPARATORS = '/,;.:-_~+*=@|';
+
 
     /**
      * {@inheritdoc}
@@ -37,19 +39,19 @@ class RouteCompiler implements RouteCompilerInterface
      */
     public static function compile(Route $route)
     {
-        $hostVariables = array();
-        $variables = array();
-        $hostRegex = null;
-        $hostTokens = array();
+        $hostVariables = [ ];
+        $variables     = [ ];
+        $hostRegex     = null;
+        $hostTokens    = [ ];
 
         if ('' !== $host = $route->getHost()) {
             $result = self::compilePattern($route, $host, true);
 
             $hostVariables = $result['variables'];
-            $variables = $hostVariables;
+            $variables     = $hostVariables;
 
             $hostTokens = $result['tokens'];
-            $hostRegex = $result['regex'];
+            $hostRegex  = $result['regex'];
         }
 
         $path = $route->getPath();
@@ -59,29 +61,22 @@ class RouteCompiler implements RouteCompilerInterface
         $staticPrefix = $result['staticPrefix'];
 
         $pathVariables = $result['variables'];
-        $variables = array_merge($variables, $pathVariables);
+        $variables     = array_merge($variables, $pathVariables);
 
         $tokens = $result['tokens'];
-        $regex = $result['regex'];
+        $regex  = $result['regex'];
 
-        return new CompiledRoute(
-            $staticPrefix,
-            $regex,
-            $tokens,
-            $pathVariables,
-            $hostRegex,
-            $hostTokens,
-            $hostVariables,
-            array_unique($variables)
-        );
+        return new CompiledRoute($staticPrefix, $regex, $tokens, $pathVariables, $hostRegex, $hostTokens,
+            $hostVariables, array_unique($variables));
     }
+
 
     private static function compilePattern(Route $route, $pattern, $isHost)
     {
-        $tokens = array();
-        $variables = array();
-        $matches = array();
-        $pos = 0;
+        $tokens           = [ ];
+        $variables        = [ ];
+        $matches          = [ ];
+        $pos              = 0;
         $defaultSeparator = $isHost ? '.' : '/';
 
         // Match all variables enclosed in "{}" and iterate over them. But we only want to match the innermost variable
@@ -91,21 +86,23 @@ class RouteCompiler implements RouteCompilerInterface
             $varName = substr($match[0][0], 1, -1);
             // get all static text preceding the current variable
             $precedingText = substr($pattern, $pos, $match[0][1] - $pos);
-            $pos = $match[0][1] + strlen($match[0][0]);
+            $pos           = $match[0][1] + strlen($match[0][0]);
             $precedingChar = strlen($precedingText) > 0 ? substr($precedingText, -1) : '';
-            $isSeparator = '' !== $precedingChar && false !== strpos(static::SEPARATORS, $precedingChar);
+            $isSeparator   = '' !== $precedingChar && false !== strpos(static::SEPARATORS, $precedingChar);
 
             if (is_numeric($varName)) {
-                throw new \DomainException(sprintf('Variable name "%s" cannot be numeric in route pattern "%s". Please use a different name.', $varName, $pattern));
+                throw new \DomainException(sprintf('Variable name "%s" cannot be numeric in route pattern "%s". Please use a different name.',
+                    $varName, $pattern));
             }
             if (in_array($varName, $variables)) {
-                throw new \LogicException(sprintf('Route pattern "%s" cannot reference variable name "%s" more than once.', $pattern, $varName));
+                throw new \LogicException(sprintf('Route pattern "%s" cannot reference variable name "%s" more than once.',
+                    $pattern, $varName));
             }
 
             if ($isSeparator && strlen($precedingText) > 1) {
-                $tokens[] = array('text', substr($precedingText, 0, -1));
-            } elseif (!$isSeparator && strlen($precedingText) > 0) {
-                $tokens[] = array('text', $precedingText);
+                $tokens[] = [ 'text', substr($precedingText, 0, -1) ];
+            } elseif ( ! $isSeparator && strlen($precedingText) > 0) {
+                $tokens[] = [ 'text', $precedingText ];
             }
 
             $regexp = $route->getRequirement($varName);
@@ -119,12 +116,12 @@ class RouteCompiler implements RouteCompilerInterface
                 // Also even if {_format} was not optional the requirement prevents that {page} matches something that was originally
                 // part of {_format} when generating the URL, e.g. _format = 'mobile.html'.
                 $nextSeparator = self::findNextSeparator($followingPattern);
-                $regexp = sprintf(
-                    '[^%s%s]+',
-                    preg_quote($defaultSeparator, self::REGEX_DELIMITER),
-                    $defaultSeparator !== $nextSeparator && '' !== $nextSeparator ? preg_quote($nextSeparator, self::REGEX_DELIMITER) : ''
-                );
-                if (('' !== $nextSeparator && !preg_match('#^\{\w+\}#', $followingPattern)) || '' === $followingPattern) {
+                $regexp        = sprintf('[^%s%s]+', preg_quote($defaultSeparator, self::REGEX_DELIMITER),
+                    $defaultSeparator !== $nextSeparator && '' !== $nextSeparator ? preg_quote($nextSeparator,
+                        self::REGEX_DELIMITER) : '');
+                if (( '' !== $nextSeparator && ! preg_match('#^\{\w+\}#',
+                            $followingPattern) ) || '' === $followingPattern
+                ) {
                     // When we have a separator, which is disallowed for the variable, we can optimize the regex with a possessive
                     // quantifier. This prevents useless backtracking of PCRE and improves performance by 20% for matching those patterns.
                     // Given the above example, there is no point in backtracking into {page} (that forbids the dot) when a dot must follow
@@ -134,17 +131,17 @@ class RouteCompiler implements RouteCompilerInterface
                 }
             }
 
-            $tokens[] = array('variable', $isSeparator ? $precedingChar : '', $regexp, $varName);
+            $tokens[]    = [ 'variable', $isSeparator ? $precedingChar : '', $regexp, $varName ];
             $variables[] = $varName;
         }
 
         if ($pos < strlen($pattern)) {
-            $tokens[] = array('text', substr($pattern, $pos));
+            $tokens[] = [ 'text', substr($pattern, $pos) ];
         }
 
         // find the first optional token
         $firstOptional = PHP_INT_MAX;
-        if (!$isHost) {
+        if ( ! $isHost) {
             for ($i = count($tokens) - 1; $i >= 0; --$i) {
                 $token = $tokens[$i];
                 if ('variable' === $token[0] && $route->hasDefault($token[3])) {
@@ -161,13 +158,14 @@ class RouteCompiler implements RouteCompilerInterface
             $regexp .= self::computeRegexp($tokens, $i, $firstOptional);
         }
 
-        return array(
+        return [
             'staticPrefix' => 'text' === $tokens[0][0] ? $tokens[0][1] : '',
-            'regex' => self::REGEX_DELIMITER.'^'.$regexp.'$'.self::REGEX_DELIMITER.'s'.($isHost ? 'i' : ''),
-            'tokens' => array_reverse($tokens),
-            'variables' => $variables,
-        );
+            'regex'        => self::REGEX_DELIMITER . '^' . $regexp . '$' . self::REGEX_DELIMITER . 's' . ( $isHost ? 'i' : '' ),
+            'tokens'       => array_reverse($tokens),
+            'variables'    => $variables,
+        ];
     }
+
 
     /**
      * Returns the next static character in the Route pattern that will serve as a separator.
@@ -185,8 +183,9 @@ class RouteCompiler implements RouteCompilerInterface
         // first remove all placeholders from the pattern so we can find the next real static character
         $pattern = preg_replace('#\{\w+\}#', '', $pattern);
 
-        return isset($pattern[0]) && false !== strpos(static::SEPARATORS, $pattern[0]) ? $pattern[0] : '';
+        return isset( $pattern[0] ) && false !== strpos(static::SEPARATORS, $pattern[0]) ? $pattern[0] : '';
     }
+
 
     /**
      * Computes the regexp used to match a specific token. It can be static text or a subpattern.
@@ -214,11 +213,11 @@ class RouteCompiler implements RouteCompilerInterface
                     // Enclose each optional token in a subpattern to make it optional.
                     // "?:" means it is non-capturing, i.e. the portion of the subject string that
                     // matched the optional subpattern is not passed back.
-                    $regexp = "(?:$regexp";
+                    $regexp   = "(?:$regexp";
                     $nbTokens = count($tokens);
                     if ($nbTokens - 1 == $index) {
                         // Close the optional subpatterns
-                        $regexp .= str_repeat(')?', $nbTokens - $firstOptional - (0 === $firstOptional ? 1 : 0));
+                        $regexp .= str_repeat(')?', $nbTokens - $firstOptional - ( 0 === $firstOptional ? 1 : 0 ));
                     }
                 }
 

@@ -21,15 +21,17 @@ namespace Symfony\Component\HttpFoundation;
  */
 class AcceptHeader
 {
+
     /**
      * @var AcceptHeaderItem[]
      */
-    private $items = array();
+    private $items = [ ];
 
     /**
      * @var bool
      */
     private $sorted = true;
+
 
     /**
      * Constructor.
@@ -42,6 +44,7 @@ class AcceptHeader
             $this->add($item);
         }
     }
+
 
     /**
      * Builds an AcceptHeader instance from a string.
@@ -59,8 +62,10 @@ class AcceptHeader
             $item->setIndex($index++);
 
             return $item;
-        }, preg_split('/\s*(?:,*("[^"]+"),*|,*(\'[^\']+\'),*|,+)\s*/', $headerValue, 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE)));
+        }, preg_split('/\s*(?:,*("[^"]+"),*|,*(\'[^\']+\'),*|,+)\s*/', $headerValue, 0,
+            PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE)));
     }
+
 
     /**
      * Returns header value's string representation.
@@ -72,6 +77,7 @@ class AcceptHeader
         return implode(',', $this->items);
     }
 
+
     /**
      * Tests if header has given value.
      *
@@ -81,8 +87,9 @@ class AcceptHeader
      */
     public function has($value)
     {
-        return isset($this->items[$value]);
+        return isset( $this->items[$value] );
     }
+
 
     /**
      * Returns given value's item, if exists.
@@ -93,8 +100,9 @@ class AcceptHeader
      */
     public function get($value)
     {
-        return isset($this->items[$value]) ? $this->items[$value] : null;
+        return isset( $this->items[$value] ) ? $this->items[$value] : null;
     }
+
 
     /**
      * Adds an item.
@@ -106,10 +114,11 @@ class AcceptHeader
     public function add(AcceptHeaderItem $item)
     {
         $this->items[$item->getValue()] = $item;
-        $this->sorted = false;
+        $this->sorted                   = false;
 
         return $this;
     }
+
 
     /**
      * Returns all items.
@@ -122,6 +131,7 @@ class AcceptHeader
 
         return $this->items;
     }
+
 
     /**
      * Filters items on their value using given regex.
@@ -137,6 +147,7 @@ class AcceptHeader
         }));
     }
 
+
     /**
      * Returns first item.
      *
@@ -146,15 +157,16 @@ class AcceptHeader
     {
         $this->sort();
 
-        return !empty($this->items) ? reset($this->items) : null;
+        return ! empty( $this->items ) ? reset($this->items) : null;
     }
+
 
     /**
      * Sorts items by descending quality.
      */
     private function sort()
     {
-        if (!$this->sorted) {
+        if ( ! $this->sorted) {
             uasort($this->items, function ($a, $b) {
                 $qA = $a->getQuality();
                 $qB = $b->getQuality();

@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 class ScheduleRunCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -27,10 +28,12 @@ class ScheduleRunCommand extends Command
      */
     protected $schedule;
 
+
     /**
      * Create a new command instance.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
+     *
      * @return void
      */
     public function __construct(Schedule $schedule)
@@ -39,6 +42,7 @@ class ScheduleRunCommand extends Command
 
         parent::__construct();
     }
+
 
     /**
      * Execute the console command.
@@ -52,11 +56,11 @@ class ScheduleRunCommand extends Command
         $eventsRan = 0;
 
         foreach ($events as $event) {
-            if (! $event->filtersPass($this->laravel)) {
+            if ( ! $event->filtersPass($this->laravel)) {
                 continue;
             }
 
-            $this->line('<info>Running scheduled command:</info> '.$event->getSummaryForDisplay());
+            $this->line('<info>Running scheduled command:</info> ' . $event->getSummaryForDisplay());
 
             $event->run($this->laravel);
 

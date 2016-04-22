@@ -18,6 +18,7 @@ use Symfony\Component\Finder\Finder;
  */
 class Compiler
 {
+
     /**
      * Compiles psysh into a single phar file.
      *
@@ -36,24 +37,13 @@ class Compiler
 
         $phar->startBuffering();
 
-        $finder = Finder::create()
-            ->files()
-            ->ignoreVCS(true)
-            ->name('*.php')
-            ->notName('Compiler.php')
-            ->notName('Autoloader.php')
-            ->in(__DIR__ . '/..');
+        $finder = Finder::create()->files()->ignoreVCS(true)->name('*.php')->notName('Compiler.php')->notName('Autoloader.php')->in(__DIR__ . '/..');
 
         foreach ($finder as $file) {
             $this->addFile($phar, $file);
         }
 
-        $finder = Finder::create()
-            ->files()
-            ->ignoreVCS(true)
-            ->name('*.php')
-            ->exclude('Tests')
-            ->in(__DIR__ . '/../../build-vendor');
+        $finder = Finder::create()->files()->ignoreVCS(true)->name('*.php')->exclude('Tests')->in(__DIR__ . '/../../build-vendor');
 
         foreach ($finder as $file) {
             $this->addFile($phar, $file);
@@ -64,8 +54,9 @@ class Compiler
 
         $phar->stopBuffering();
 
-        unset($phar);
+        unset( $phar );
     }
+
 
     /**
      * Add a file to the psysh Phar.
@@ -88,6 +79,7 @@ class Compiler
         $phar->addFromString($path, $content);
     }
 
+
     /**
      * Removes whitespace from a PHP source string while preserving line numbers.
      *
@@ -97,7 +89,7 @@ class Compiler
      */
     private function stripWhitespace($source)
     {
-        if (!function_exists('token_get_all')) {
+        if ( ! function_exists('token_get_all')) {
             return $source;
         }
 
@@ -105,7 +97,7 @@ class Compiler
         foreach (token_get_all($source) as $token) {
             if (is_string($token)) {
                 $output .= $token;
-            } elseif (in_array($token[0], array(T_COMMENT, T_DOC_COMMENT))) {
+            } elseif (in_array($token[0], [ T_COMMENT, T_DOC_COMMENT ])) {
                 $output .= str_repeat("\n", substr_count($token[1], "\n"));
             } elseif (T_WHITESPACE === $token[0]) {
                 // reduce wide spaces
@@ -123,6 +115,7 @@ class Compiler
         return $output;
     }
 
+
     private static function getStubLicense()
     {
         $license = file_get_contents(__DIR__ . '/../../LICENSE');
@@ -132,10 +125,12 @@ class Compiler
         return $license;
     }
 
+
     const STUB_AUTOLOAD = <<<'EOS'
     Phar::mapPhar('psysh.phar');
     require 'phar://psysh.phar/build-vendor/autoload.php';
 EOS;
+
 
     /**
      * Get a Phar stub for psysh.

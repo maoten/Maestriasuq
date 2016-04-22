@@ -15,6 +15,7 @@
  */
 class PHPUnit_Framework_Constraint_IsJson extends PHPUnit_Framework_Constraint
 {
+
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
      * constraint is met, false otherwise.
@@ -33,6 +34,7 @@ class PHPUnit_Framework_Constraint_IsJson extends PHPUnit_Framework_Constraint
         return true;
     }
 
+
     /**
      * Returns the description of the failure
      *
@@ -46,16 +48,11 @@ class PHPUnit_Framework_Constraint_IsJson extends PHPUnit_Framework_Constraint
     protected function failureDescription($other)
     {
         json_decode($other);
-        $error = PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider::determineJsonError(
-            json_last_error()
-        );
+        $error = PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider::determineJsonError(json_last_error());
 
-        return sprintf(
-            '%s is valid JSON (%s)',
-            $this->exporter->shortenedExport($other),
-            $error
-        );
+        return sprintf('%s is valid JSON (%s)', $this->exporter->shortenedExport($other), $error);
     }
+
 
     /**
      * Returns a string representation of the constraint.

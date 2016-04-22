@@ -4,18 +4,21 @@ namespace Illuminate\Database\Eloquent;
 
 class SoftDeletingScope implements Scope
 {
+
     /**
      * All of the extensions to be added to the builder.
      *
      * @var array
      */
-    protected $extensions = ['ForceDelete', 'Restore', 'WithTrashed', 'OnlyTrashed'];
+    protected $extensions = [ 'ForceDelete', 'Restore', 'WithTrashed', 'OnlyTrashed' ];
+
 
     /**
      * Apply the scope to a given Eloquent query builder.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $builder
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \Illuminate\Database\Eloquent\Builder $builder
+     * @param  \Illuminate\Database\Eloquent\Model   $model
+     *
      * @return void
      */
     public function apply(Builder $builder, Model $model)
@@ -23,10 +26,12 @@ class SoftDeletingScope implements Scope
         $builder->whereNull($model->getQualifiedDeletedAtColumn());
     }
 
+
     /**
      * Extend the query builder with the needed functions.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @param  \Illuminate\Database\Eloquent\Builder $builder
+     *
      * @return void
      */
     public function extend(Builder $builder)
@@ -44,10 +49,12 @@ class SoftDeletingScope implements Scope
         });
     }
 
+
     /**
      * Get the "deleted at" column for the builder.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @param  \Illuminate\Database\Eloquent\Builder $builder
+     *
      * @return string
      */
     protected function getDeletedAtColumn(Builder $builder)
@@ -59,10 +66,12 @@ class SoftDeletingScope implements Scope
         }
     }
 
+
     /**
      * Add the force delete extension to the builder.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @param  \Illuminate\Database\Eloquent\Builder $builder
+     *
      * @return void
      */
     protected function addForceDelete(Builder $builder)
@@ -72,10 +81,12 @@ class SoftDeletingScope implements Scope
         });
     }
 
+
     /**
      * Add the restore extension to the builder.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @param  \Illuminate\Database\Eloquent\Builder $builder
+     *
      * @return void
      */
     protected function addRestore(Builder $builder)
@@ -83,14 +94,16 @@ class SoftDeletingScope implements Scope
         $builder->macro('restore', function (Builder $builder) {
             $builder->withTrashed();
 
-            return $builder->update([$builder->getModel()->getDeletedAtColumn() => null]);
+            return $builder->update([ $builder->getModel()->getDeletedAtColumn() => null ]);
         });
     }
+
 
     /**
      * Add the with-trashed extension to the builder.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @param  \Illuminate\Database\Eloquent\Builder $builder
+     *
      * @return void
      */
     protected function addWithTrashed(Builder $builder)
@@ -100,10 +113,12 @@ class SoftDeletingScope implements Scope
         });
     }
 
+
     /**
      * Add the only-trashed extension to the builder.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @param  \Illuminate\Database\Eloquent\Builder $builder
+     *
      * @return void
      */
     protected function addOnlyTrashed(Builder $builder)
@@ -111,9 +126,7 @@ class SoftDeletingScope implements Scope
         $builder->macro('onlyTrashed', function (Builder $builder) {
             $model = $builder->getModel();
 
-            $builder->withoutGlobalScope($this)->whereNotNull(
-                $model->getQualifiedDeletedAtColumn()
-            );
+            $builder->withoutGlobalScope($this)->whereNotNull($model->getQualifiedDeletedAtColumn());
 
             return $builder;
         });

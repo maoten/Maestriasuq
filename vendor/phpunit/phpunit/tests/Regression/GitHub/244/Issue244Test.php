@@ -1,6 +1,8 @@
 <?php
+
 class Issue244Test extends PHPUnit_Framework_TestCase
 {
+
     /**
      * @expectedException Issue244Exception
      * @expectedExceptionCode 123StringCode
@@ -9,6 +11,7 @@ class Issue244Test extends PHPUnit_Framework_TestCase
     {
         throw new Issue244Exception;
     }
+
 
     /**
      * @expectedException Issue244Exception
@@ -19,6 +22,7 @@ class Issue244Test extends PHPUnit_Framework_TestCase
         throw new Issue244Exception;
     }
 
+
     /**
      * @expectedException Issue244Exception
      * @expectedExceptionCode 123
@@ -27,6 +31,7 @@ class Issue244Test extends PHPUnit_Framework_TestCase
     {
         throw new Issue244Exception;
     }
+
 
     /**
      * @expectedException Issue244ExceptionIntCode
@@ -40,6 +45,7 @@ class Issue244Test extends PHPUnit_Framework_TestCase
 
 class Issue244Exception extends Exception
 {
+
     public function __construct()
     {
         $this->code = '123StringCode';
@@ -48,6 +54,7 @@ class Issue244Exception extends Exception
 
 class Issue244ExceptionIntCode extends Exception
 {
+
     public function __construct()
     {
         $this->code = 123;

@@ -18,6 +18,7 @@ namespace Symfony\Component\HttpFoundation;
  */
 class Response
 {
+
     const HTTP_CONTINUE = 100;
     const HTTP_SWITCHING_PROTOCOLS = 101;
     const HTTP_PROCESSING = 102;            // RFC2518
@@ -114,14 +115,15 @@ class Response
      * Status codes translation table.
      *
      * The list of codes is complete according to the
-     * {@link http://www.iana.org/assignments/http-status-codes/ Hypertext Transfer Protocol (HTTP) Status Code Registry}
+     * {@link http://www.iana.org/assignments/http-status-codes/ Hypertext Transfer Protocol (HTTP) Status Code
+     * Registry}
      * (last updated 2015-05-19).
      *
      * Unless otherwise noted, the status code is defined in RFC2616.
      *
      * @var array
      */
-    public static $statusTexts = array(
+    public static $statusTexts = [
         100 => 'Continue',
         101 => 'Switching Protocols',
         102 => 'Processing',            // RFC2518
@@ -182,7 +184,8 @@ class Response
         508 => 'Loop Detected',                                               // RFC5842
         510 => 'Not Extended',                                                // RFC2774
         511 => 'Network Authentication Required',                             // RFC6585
-    );
+    ];
+
 
     /**
      * Constructor.
@@ -193,13 +196,14 @@ class Response
      *
      * @throws \InvalidArgumentException When the HTTP status code is not valid
      */
-    public function __construct($content = '', $status = 200, $headers = array())
+    public function __construct($content = '', $status = 200, $headers = [ ])
     {
         $this->headers = new ResponseHeaderBag($headers);
         $this->setContent($content);
         $this->setStatusCode($status);
         $this->setProtocolVersion('1.0');
     }
+
 
     /**
      * Factory method for chainability.
@@ -215,10 +219,11 @@ class Response
      *
      * @return Response
      */
-    public static function create($content = '', $status = 200, $headers = array())
+    public static function create($content = '', $status = 200, $headers = [ ])
     {
         return new static($content, $status, $headers);
     }
+
 
     /**
      * Returns the Response as an HTTP string.
@@ -233,11 +238,10 @@ class Response
      */
     public function __toString()
     {
-        return
-            sprintf('HTTP/%s %s %s', $this->version, $this->statusCode, $this->statusText)."\r\n".
-            $this->headers."\r\n".
-            $this->getContent();
+        return sprintf('HTTP/%s %s %s', $this->version, $this->statusCode,
+            $this->statusText) . "\r\n" . $this->headers . "\r\n" . $this->getContent();
     }
+
 
     /**
      * Clones the current Response instance.
@@ -246,6 +250,7 @@ class Response
     {
         $this->headers = clone $this->headers;
     }
+
 
     /**
      * Prepares the Response before it is sent to the client.
@@ -268,7 +273,7 @@ class Response
             $headers->remove('Content-Length');
         } else {
             // Content-type based on the Request
-            if (!$headers->has('Content-Type')) {
+            if ( ! $headers->has('Content-Type')) {
                 $format = $request->getRequestFormat();
                 if (null !== $format && $mimeType = $request->getMimeType($format)) {
                     $headers->set('Content-Type', $mimeType);
@@ -277,11 +282,13 @@ class Response
 
             // Fix Content-Type
             $charset = $this->charset ?: 'UTF-8';
-            if (!$headers->has('Content-Type')) {
-                $headers->set('Content-Type', 'text/html; charset='.$charset);
-            } elseif (0 === stripos($headers->get('Content-Type'), 'text/') && false === stripos($headers->get('Content-Type'), 'charset')) {
+            if ( ! $headers->has('Content-Type')) {
+                $headers->set('Content-Type', 'text/html; charset=' . $charset);
+            } elseif (0 === stripos($headers->get('Content-Type'),
+                    'text/') && false === stripos($headers->get('Content-Type'), 'charset')
+            ) {
                 // add the charset
-                $headers->set('Content-Type', $headers->get('Content-Type').'; charset='.$charset);
+                $headers->set('Content-Type', $headers->get('Content-Type') . '; charset=' . $charset);
             }
 
             // Fix Content-Length
@@ -315,6 +322,7 @@ class Response
         return $this;
     }
 
+
     /**
      * Sends HTTP headers.
      *
@@ -327,14 +335,14 @@ class Response
             return $this;
         }
 
-        if (!$this->headers->has('Date')) {
+        if ( ! $this->headers->has('Date')) {
             $this->setDate(\DateTime::createFromFormat('U', time()));
         }
 
         // headers
         foreach ($this->headers->allPreserveCase() as $name => $values) {
             foreach ($values as $value) {
-                header($name.': '.$value, false, $this->statusCode);
+                header($name . ': ' . $value, false, $this->statusCode);
             }
         }
 
@@ -343,11 +351,13 @@ class Response
 
         // cookies
         foreach ($this->headers->getCookies() as $cookie) {
-            setcookie($cookie->getName(), $cookie->getValue(), $cookie->getExpiresTime(), $cookie->getPath(), $cookie->getDomain(), $cookie->isSecure(), $cookie->isHttpOnly());
+            setcookie($cookie->getName(), $cookie->getValue(), $cookie->getExpiresTime(), $cookie->getPath(),
+                $cookie->getDomain(), $cookie->isSecure(), $cookie->isHttpOnly());
         }
 
         return $this;
     }
+
 
     /**
      * Sends content for the current web response.
@@ -360,6 +370,7 @@ class Response
 
         return $this;
     }
+
 
     /**
      * Sends HTTP headers and content.
@@ -380,6 +391,7 @@ class Response
         return $this;
     }
 
+
     /**
      * Sets the response content.
      *
@@ -393,14 +405,20 @@ class Response
      */
     public function setContent($content)
     {
-        if (null !== $content && !is_string($content) && !is_numeric($content) && !is_callable(array($content, '__toString'))) {
-            throw new \UnexpectedValueException(sprintf('The Response content must be a string or object implementing __toString(), "%s" given.', gettype($content)));
+        if (null !== $content && ! is_string($content) && ! is_numeric($content) && ! is_callable([
+                $content,
+                '__toString'
+            ])
+        ) {
+            throw new \UnexpectedValueException(sprintf('The Response content must be a string or object implementing __toString(), "%s" given.',
+                gettype($content)));
         }
 
         $this->content = (string) $content;
 
         return $this;
     }
+
 
     /**
      * Gets the current response content.
@@ -411,6 +429,7 @@ class Response
     {
         return $this->content;
     }
+
 
     /**
      * Sets the HTTP protocol version (1.0 or 1.1).
@@ -426,6 +445,7 @@ class Response
         return $this;
     }
 
+
     /**
      * Gets the HTTP protocol version.
      *
@@ -435,6 +455,7 @@ class Response
     {
         return $this->version;
     }
+
 
     /**
      * Sets the response status code.
@@ -457,7 +478,7 @@ class Response
         }
 
         if (null === $text) {
-            $this->statusText = isset(self::$statusTexts[$code]) ? self::$statusTexts[$code] : 'unknown status';
+            $this->statusText = isset( self::$statusTexts[$code] ) ? self::$statusTexts[$code] : 'unknown status';
 
             return $this;
         }
@@ -473,6 +494,7 @@ class Response
         return $this;
     }
 
+
     /**
      * Retrieves the status code for the current web response.
      *
@@ -482,6 +504,7 @@ class Response
     {
         return $this->statusCode;
     }
+
 
     /**
      * Sets the response charset.
@@ -497,6 +520,7 @@ class Response
         return $this;
     }
 
+
     /**
      * Retrieves the response charset.
      *
@@ -506,6 +530,7 @@ class Response
     {
         return $this->charset;
     }
+
 
     /**
      * Returns true if the response is worth caching under any circumstance.
@@ -520,7 +545,7 @@ class Response
      */
     public function isCacheable()
     {
-        if (!in_array($this->statusCode, array(200, 203, 300, 301, 302, 404, 410))) {
+        if ( ! in_array($this->statusCode, [ 200, 203, 300, 301, 302, 404, 410 ])) {
             return false;
         }
 
@@ -530,6 +555,7 @@ class Response
 
         return $this->isValidateable() || $this->isFresh();
     }
+
 
     /**
      * Returns true if the response is "fresh".
@@ -545,6 +571,7 @@ class Response
         return $this->getTtl() > 0;
     }
 
+
     /**
      * Returns true if the response includes headers that can be used to validate
      * the response with the origin server using a conditional GET request.
@@ -555,6 +582,7 @@ class Response
     {
         return $this->headers->has('Last-Modified') || $this->headers->has('ETag');
     }
+
 
     /**
      * Marks the response as "private".
@@ -571,6 +599,7 @@ class Response
         return $this;
     }
 
+
     /**
      * Marks the response as "public".
      *
@@ -585,6 +614,7 @@ class Response
 
         return $this;
     }
+
 
     /**
      * Returns true if the response must be revalidated by caches.
@@ -601,6 +631,7 @@ class Response
         return $this->headers->hasCacheControlDirective('must-revalidate') || $this->headers->hasCacheControlDirective('proxy-revalidate');
     }
 
+
     /**
      * Returns the Date header as a DateTime instance.
      *
@@ -610,12 +641,13 @@ class Response
      */
     public function getDate()
     {
-        if (!$this->headers->has('Date')) {
+        if ( ! $this->headers->has('Date')) {
             $this->setDate(\DateTime::createFromFormat('U', time()));
         }
 
         return $this->headers->getDate('Date');
     }
+
 
     /**
      * Sets the Date header.
@@ -627,10 +659,11 @@ class Response
     public function setDate(\DateTime $date)
     {
         $date->setTimezone(new \DateTimeZone('UTC'));
-        $this->headers->set('Date', $date->format('D, d M Y H:i:s').' GMT');
+        $this->headers->set('Date', $date->format('D, d M Y H:i:s') . ' GMT');
 
         return $this;
     }
+
 
     /**
      * Returns the age of the response.
@@ -646,6 +679,7 @@ class Response
         return max(time() - $this->getDate()->format('U'), 0);
     }
 
+
     /**
      * Marks the response stale by setting the Age header to be equal to the maximum age of the response.
      *
@@ -659,6 +693,7 @@ class Response
 
         return $this;
     }
+
 
     /**
      * Returns the value of the Expires header as a DateTime instance.
@@ -674,6 +709,7 @@ class Response
             return \DateTime::createFromFormat(DATE_RFC2822, 'Sat, 01 Jan 00 00:00:00 +0000');
         }
     }
+
 
     /**
      * Sets the Expires HTTP header with a DateTime instance.
@@ -691,11 +727,12 @@ class Response
         } else {
             $date = clone $date;
             $date->setTimezone(new \DateTimeZone('UTC'));
-            $this->headers->set('Expires', $date->format('D, d M Y H:i:s').' GMT');
+            $this->headers->set('Expires', $date->format('D, d M Y H:i:s') . ' GMT');
         }
 
         return $this;
     }
+
 
     /**
      * Returns the number of seconds after the time specified in the response's Date
@@ -721,6 +758,7 @@ class Response
         }
     }
 
+
     /**
      * Sets the number of seconds after which the response should no longer be considered fresh.
      *
@@ -736,6 +774,7 @@ class Response
 
         return $this;
     }
+
 
     /**
      * Sets the number of seconds after which the response should no longer be considered fresh by shared caches.
@@ -754,6 +793,7 @@ class Response
         return $this;
     }
 
+
     /**
      * Returns the response's time-to-live in seconds.
      *
@@ -771,6 +811,7 @@ class Response
         }
     }
 
+
     /**
      * Sets the response's time-to-live for shared caches.
      *
@@ -786,6 +827,7 @@ class Response
 
         return $this;
     }
+
 
     /**
      * Sets the response's time-to-live for private/client caches.
@@ -803,6 +845,7 @@ class Response
         return $this;
     }
 
+
     /**
      * Returns the Last-Modified HTTP header as a DateTime instance.
      *
@@ -814,6 +857,7 @@ class Response
     {
         return $this->headers->getDate('Last-Modified');
     }
+
 
     /**
      * Sets the Last-Modified HTTP header with a DateTime instance.
@@ -831,11 +875,12 @@ class Response
         } else {
             $date = clone $date;
             $date->setTimezone(new \DateTimeZone('UTC'));
-            $this->headers->set('Last-Modified', $date->format('D, d M Y H:i:s').' GMT');
+            $this->headers->set('Last-Modified', $date->format('D, d M Y H:i:s') . ' GMT');
         }
 
         return $this;
     }
+
 
     /**
      * Returns the literal value of the ETag HTTP header.
@@ -846,6 +891,7 @@ class Response
     {
         return $this->headers->get('ETag');
     }
+
 
     /**
      * Sets the ETag value.
@@ -861,14 +907,15 @@ class Response
             $this->headers->remove('Etag');
         } else {
             if (0 !== strpos($etag, '"')) {
-                $etag = '"'.$etag.'"';
+                $etag = '"' . $etag . '"';
             }
 
-            $this->headers->set('ETag', (true === $weak ? 'W/' : '').$etag);
+            $this->headers->set('ETag', ( true === $weak ? 'W/' : '' ) . $etag);
         }
 
         return $this;
     }
+
 
     /**
      * Sets the response's cache headers (validation and/or expiration).
@@ -883,27 +930,30 @@ class Response
      */
     public function setCache(array $options)
     {
-        if ($diff = array_diff(array_keys($options), array('etag', 'last_modified', 'max_age', 's_maxage', 'private', 'public'))) {
-            throw new \InvalidArgumentException(sprintf('Response does not support the following options: "%s".', implode('", "', array_values($diff))));
+        if ($diff = array_diff(array_keys($options),
+            [ 'etag', 'last_modified', 'max_age', 's_maxage', 'private', 'public' ])
+        ) {
+            throw new \InvalidArgumentException(sprintf('Response does not support the following options: "%s".',
+                implode('", "', array_values($diff))));
         }
 
-        if (isset($options['etag'])) {
+        if (isset( $options['etag'] )) {
             $this->setEtag($options['etag']);
         }
 
-        if (isset($options['last_modified'])) {
+        if (isset( $options['last_modified'] )) {
             $this->setLastModified($options['last_modified']);
         }
 
-        if (isset($options['max_age'])) {
+        if (isset( $options['max_age'] )) {
             $this->setMaxAge($options['max_age']);
         }
 
-        if (isset($options['s_maxage'])) {
+        if (isset( $options['s_maxage'] )) {
             $this->setSharedMaxAge($options['s_maxage']);
         }
 
-        if (isset($options['public'])) {
+        if (isset( $options['public'] )) {
             if ($options['public']) {
                 $this->setPublic();
             } else {
@@ -911,7 +961,7 @@ class Response
             }
         }
 
-        if (isset($options['private'])) {
+        if (isset( $options['private'] )) {
             if ($options['private']) {
                 $this->setPrivate();
             } else {
@@ -921,6 +971,7 @@ class Response
 
         return $this;
     }
+
 
     /**
      * Modifies the response so that it conforms to the rules defined for a 304 status code.
@@ -938,12 +989,21 @@ class Response
         $this->setContent(null);
 
         // remove headers that MUST NOT be included with 304 Not Modified responses
-        foreach (array('Allow', 'Content-Encoding', 'Content-Language', 'Content-Length', 'Content-MD5', 'Content-Type', 'Last-Modified') as $header) {
+        foreach ([
+                     'Allow',
+                     'Content-Encoding',
+                     'Content-Language',
+                     'Content-Length',
+                     'Content-MD5',
+                     'Content-Type',
+                     'Last-Modified'
+                 ] as $header) {
             $this->headers->remove($header);
         }
 
         return $this;
     }
+
 
     /**
      * Returns true if the response includes a Vary header.
@@ -955,6 +1015,7 @@ class Response
         return null !== $this->headers->get('Vary');
     }
 
+
     /**
      * Returns an array of header names given in the Vary header.
      *
@@ -962,17 +1023,18 @@ class Response
      */
     public function getVary()
     {
-        if (!$vary = $this->headers->get('Vary', null, false)) {
-            return array();
+        if ( ! $vary = $this->headers->get('Vary', null, false)) {
+            return [ ];
         }
 
-        $ret = array();
+        $ret = [ ];
         foreach ($vary as $item) {
             $ret = array_merge($ret, preg_split('/[\s,]+/', $item));
         }
 
         return $ret;
     }
+
 
     /**
      * Sets the Vary header.
@@ -989,6 +1051,7 @@ class Response
         return $this;
     }
 
+
     /**
      * Determines if the Response validators (ETag, Last-Modified) match
      * a conditional value specified in the Request.
@@ -1002,12 +1065,12 @@ class Response
      */
     public function isNotModified(Request $request)
     {
-        if (!$request->isMethodSafe()) {
+        if ( ! $request->isMethodSafe()) {
             return false;
         }
 
-        $notModified = false;
-        $lastModified = $this->headers->get('Last-Modified');
+        $notModified   = false;
+        $lastModified  = $this->headers->get('Last-Modified');
         $modifiedSince = $request->headers->get('If-Modified-Since');
 
         if ($etags = $request->getETags()) {
@@ -1015,7 +1078,7 @@ class Response
         }
 
         if ($modifiedSince && $lastModified) {
-            $notModified = strtotime($modifiedSince) >= strtotime($lastModified) && (!$etags || $notModified);
+            $notModified = strtotime($modifiedSince) >= strtotime($lastModified) && ( ! $etags || $notModified );
         }
 
         if ($notModified) {
@@ -1024,6 +1087,7 @@ class Response
 
         return $notModified;
     }
+
 
     /**
      * Is response invalid?
@@ -1037,6 +1101,7 @@ class Response
         return $this->statusCode < 100 || $this->statusCode >= 600;
     }
 
+
     /**
      * Is response informative?
      *
@@ -1046,6 +1111,7 @@ class Response
     {
         return $this->statusCode >= 100 && $this->statusCode < 200;
     }
+
 
     /**
      * Is response successful?
@@ -1057,6 +1123,7 @@ class Response
         return $this->statusCode >= 200 && $this->statusCode < 300;
     }
 
+
     /**
      * Is the response a redirect?
      *
@@ -1066,6 +1133,7 @@ class Response
     {
         return $this->statusCode >= 300 && $this->statusCode < 400;
     }
+
 
     /**
      * Is there a client error?
@@ -1077,6 +1145,7 @@ class Response
         return $this->statusCode >= 400 && $this->statusCode < 500;
     }
 
+
     /**
      * Was there a server side error?
      *
@@ -1086,6 +1155,7 @@ class Response
     {
         return $this->statusCode >= 500 && $this->statusCode < 600;
     }
+
 
     /**
      * Is the response OK?
@@ -1097,6 +1167,7 @@ class Response
         return 200 === $this->statusCode;
     }
 
+
     /**
      * Is the response forbidden?
      *
@@ -1106,6 +1177,7 @@ class Response
     {
         return 403 === $this->statusCode;
     }
+
 
     /**
      * Is the response a not found error?
@@ -1117,6 +1189,7 @@ class Response
         return 404 === $this->statusCode;
     }
 
+
     /**
      * Is the response a redirect of some form?
      *
@@ -1126,8 +1199,10 @@ class Response
      */
     public function isRedirect($location = null)
     {
-        return in_array($this->statusCode, array(201, 301, 302, 303, 307, 308)) && (null === $location ?: $location == $this->headers->get('Location'));
+        return in_array($this->statusCode,
+            [ 201, 301, 302, 303, 307, 308 ]) && ( null === $location ?: $location == $this->headers->get('Location') );
     }
+
 
     /**
      * Is the response empty?
@@ -1136,8 +1211,9 @@ class Response
      */
     public function isEmpty()
     {
-        return in_array($this->statusCode, array(204, 304));
+        return in_array($this->statusCode, [ 204, 304 ]);
     }
+
 
     /**
      * Cleans or flushes output buffers up to target level.
@@ -1150,11 +1226,11 @@ class Response
     public static function closeOutputBuffers($targetLevel, $flush)
     {
         $status = ob_get_status(true);
-        $level = count($status);
+        $level  = count($status);
         // PHP_OUTPUT_HANDLER_* are not defined on HHVM 3.3
-        $flags = defined('PHP_OUTPUT_HANDLER_REMOVABLE') ? PHP_OUTPUT_HANDLER_REMOVABLE | ($flush ? PHP_OUTPUT_HANDLER_FLUSHABLE : PHP_OUTPUT_HANDLER_CLEANABLE) : -1;
+        $flags = defined('PHP_OUTPUT_HANDLER_REMOVABLE') ? PHP_OUTPUT_HANDLER_REMOVABLE | ( $flush ? PHP_OUTPUT_HANDLER_FLUSHABLE : PHP_OUTPUT_HANDLER_CLEANABLE ) : -1;
 
-        while ($level-- > $targetLevel && ($s = $status[$level]) && (!isset($s['del']) ? !isset($s['flags']) || $flags === ($s['flags'] & $flags) : $s['del'])) {
+        while ($level-- > $targetLevel && ( $s = $status[$level] ) && ( ! isset( $s['del'] ) ? ! isset( $s['flags'] ) || $flags === ( $s['flags'] & $flags ) : $s['del'] )) {
             if ($flush) {
                 ob_end_flush();
             } else {
@@ -1163,6 +1239,7 @@ class Response
         }
     }
 
+
     /**
      * Checks if we need to remove Cache-Control for SSL encrypted downloads when using IE < 9.
      *
@@ -1170,7 +1247,9 @@ class Response
      */
     protected function ensureIEOverSSLCompatibility(Request $request)
     {
-        if (false !== stripos($this->headers->get('Content-Disposition'), 'attachment') && preg_match('/MSIE (.*?);/i', $request->server->get('HTTP_USER_AGENT'), $match) == 1 && true === $request->isSecure()) {
+        if (false !== stripos($this->headers->get('Content-Disposition'), 'attachment') && preg_match('/MSIE (.*?);/i',
+                $request->server->get('HTTP_USER_AGENT'), $match) == 1 && true === $request->isSecure()
+        ) {
             if ((int) preg_replace('/(MSIE )(.*?);/', '$2', $match[0]) < 9) {
                 $this->headers->remove('Cache-Control');
             }

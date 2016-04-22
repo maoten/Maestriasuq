@@ -6,14 +6,16 @@ use PhpSpec\ObjectBehavior;
 
 class NameGeneratorSpec extends ObjectBehavior
 {
+
     /**
      * @param \ReflectionClass $class
      */
     function its_name_generates_name_based_on_simple_class_reflection($class)
     {
         $class->getName()->willReturn('stdClass');
-        $this->name($class, array())->shouldStartWith('Double\stdClass\\');
+        $this->name($class, [ ])->shouldStartWith('Double\stdClass\\');
     }
+
 
     /**
      * @param \ReflectionClass $class
@@ -21,8 +23,9 @@ class NameGeneratorSpec extends ObjectBehavior
     function its_name_generates_name_based_on_namespaced_class_reflection($class)
     {
         $class->getName()->willReturn('Some\Custom\Class');
-        $this->name($class, array())->shouldStartWith('Double\Some\Custom\Class\P');
+        $this->name($class, [ ])->shouldStartWith('Double\Some\Custom\Class\P');
     }
+
 
     /**
      * @param \ReflectionClass $interface1
@@ -33,15 +36,15 @@ class NameGeneratorSpec extends ObjectBehavior
         $interface1->getShortName()->willReturn('HandlerInterface');
         $interface2->getShortName()->willReturn('LoaderInterface');
 
-        $this->name(null, array($interface1, $interface2))->shouldStartWith(
-            'Double\HandlerInterface\LoaderInterface\P'
-        );
+        $this->name(null, [ $interface1, $interface2 ])->shouldStartWith('Double\HandlerInterface\LoaderInterface\P');
     }
+
 
     function it_generates_proper_name_for_no_class_and_interfaces_list()
     {
-        $this->name(null, array())->shouldStartWith('Double\stdClass\P');
+        $this->name(null, [ ])->shouldStartWith('Double\stdClass\P');
     }
+
 
     /**
      * @param \ReflectionClass $class
@@ -49,24 +52,24 @@ class NameGeneratorSpec extends ObjectBehavior
      * @param \ReflectionClass $interface2
      */
     function its_name_generates_name_based_only_on_class_if_its_available(
-        $class, $interface1, $interface2
-    )
-    {
+        $class,
+        $interface1,
+        $interface2
+    ) {
         $class->getName()->willReturn('Some\Custom\Class');
         $interface1->getShortName()->willReturn('HandlerInterface');
         $interface2->getShortName()->willReturn('LoaderInterface');
 
-        $this->name($class, array($interface1, $interface2))->shouldStartWith(
-            'Double\Some\Custom\Class\P'
-        );
+        $this->name($class, [ $interface1, $interface2 ])->shouldStartWith('Double\Some\Custom\Class\P');
     }
+
 
     public function getMatchers()
     {
-        return array(
+        return [
             'startWith' => function ($subject, $string) {
                 return 0 === strpos($subject, $string);
             },
-        );
+        ];
     }
 }

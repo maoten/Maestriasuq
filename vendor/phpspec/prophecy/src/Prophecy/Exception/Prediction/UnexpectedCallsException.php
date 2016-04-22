@@ -16,7 +16,9 @@ use Prophecy\Exception\Prophecy\MethodProphecyException;
 
 class UnexpectedCallsException extends MethodProphecyException implements PredictionException
 {
-    private $calls = array();
+
+    private $calls = [ ];
+
 
     public function __construct($message, MethodProphecy $methodProphecy, array $calls)
     {
@@ -24,6 +26,7 @@ class UnexpectedCallsException extends MethodProphecyException implements Predic
 
         $this->calls = $calls;
     }
+
 
     public function getCalls()
     {

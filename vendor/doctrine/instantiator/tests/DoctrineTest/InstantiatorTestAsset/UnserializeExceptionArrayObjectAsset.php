@@ -29,6 +29,7 @@ use BadMethodCallException;
  */
 class UnserializeExceptionArrayObjectAsset extends ArrayObject
 {
+
     /**
      * {@inheritDoc}
      */

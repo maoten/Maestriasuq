@@ -15,10 +15,12 @@ use Symfony\Component\Console\Descriptor\MarkdownDescriptor;
 
 class MarkdownDescriptorTest extends AbstractDescriptorTest
 {
+
     protected function getDescriptor()
     {
         return new MarkdownDescriptor();
     }
+
 
     protected function getFormat()
     {

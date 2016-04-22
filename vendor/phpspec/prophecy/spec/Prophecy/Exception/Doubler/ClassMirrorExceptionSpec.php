@@ -6,6 +6,7 @@ use PhpSpec\ObjectBehavior;
 
 class ClassMirrorExceptionSpec extends ObjectBehavior
 {
+
     /**
      * @param \ReflectionClass $class
      */
@@ -14,11 +15,13 @@ class ClassMirrorExceptionSpec extends ObjectBehavior
         $this->beConstructedWith('', $class);
     }
 
+
     function it_is_a_prophecy_exception()
     {
         $this->shouldBeAnInstanceOf('Prophecy\Exception\Exception');
         $this->shouldBeAnInstanceOf('Prophecy\Exception\Doubler\DoublerException');
     }
+
 
     function it_contains_a_reflected_class_link($class)
     {

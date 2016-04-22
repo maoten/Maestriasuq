@@ -20,6 +20,7 @@ use Elastica\Document;
  */
 class ElasticaFormatter extends NormalizerFormatter
 {
+
     /**
      * @var string Elastic search index name
      */
@@ -30,6 +31,7 @@ class ElasticaFormatter extends NormalizerFormatter
      */
     protected $type;
 
+
     /**
      * @param string $index Elastic Search index name
      * @param string $type  Elastic Search document type
@@ -38,8 +40,9 @@ class ElasticaFormatter extends NormalizerFormatter
     {
         parent::__construct(\DateTime::ISO8601);
         $this->index = $index;
-        $this->type = $type;
+        $this->type  = $type;
     }
+
 
     /**
      * {@inheritdoc}
@@ -51,6 +54,7 @@ class ElasticaFormatter extends NormalizerFormatter
         return $this->getDocument($record);
     }
 
+
     /**
      * Getter index
      * @return string
@@ -59,6 +63,7 @@ class ElasticaFormatter extends NormalizerFormatter
     {
         return $this->index;
     }
+
 
     /**
      * Getter type
@@ -69,10 +74,12 @@ class ElasticaFormatter extends NormalizerFormatter
         return $this->type;
     }
 
+
     /**
      * Convert a log message into an Elastica Document
      *
-     * @param  array    $record Log message
+     * @param  array $record Log message
+     *
      * @return Document
      */
     protected function getDocument($record)

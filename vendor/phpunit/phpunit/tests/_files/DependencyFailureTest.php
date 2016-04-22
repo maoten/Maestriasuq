@@ -1,10 +1,13 @@
 <?php
+
 class DependencyFailureTest extends PHPUnit_Framework_TestCase
 {
+
     public function testOne()
     {
         $this->fail();
     }
+
 
     /**
      * @depends testOne
@@ -12,6 +15,7 @@ class DependencyFailureTest extends PHPUnit_Framework_TestCase
     public function testTwo()
     {
     }
+
 
     /**
      * @depends testTwo

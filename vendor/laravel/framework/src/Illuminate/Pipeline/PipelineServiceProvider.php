@@ -6,12 +6,14 @@ use Illuminate\Support\ServiceProvider;
 
 class PipelineServiceProvider extends ServiceProvider
 {
+
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
     protected $defer = true;
+
 
     /**
      * Register the service provider.
@@ -20,10 +22,9 @@ class PipelineServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(
-            'Illuminate\Contracts\Pipeline\Hub', 'Illuminate\Pipeline\Hub'
-        );
+        $this->app->singleton('Illuminate\Contracts\Pipeline\Hub', 'Illuminate\Pipeline\Hub');
     }
+
 
     /**
      * Get the services provided by the provider.

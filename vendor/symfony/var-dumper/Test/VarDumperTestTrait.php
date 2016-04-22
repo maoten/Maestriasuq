@@ -19,19 +19,22 @@ use Symfony\Component\VarDumper\Dumper\CliDumper;
  */
 trait VarDumperTestTrait
 {
+
     public function assertDumpEquals($dump, $data, $message = '')
     {
         $this->assertSame(rtrim($dump), $this->getDump($data), $message);
     }
+
 
     public function assertDumpMatchesFormat($dump, $data, $message = '')
     {
         $this->assertStringMatchesFormat(rtrim($dump), $this->getDump($data), $message);
     }
 
+
     protected function getDump($data)
     {
-        $h = fopen('php://memory', 'r+b');
+        $h      = fopen('php://memory', 'r+b');
         $cloner = new VarCloner();
         $cloner->setMaxItems(-1);
         $dumper = new CliDumper($h);

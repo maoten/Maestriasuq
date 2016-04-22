@@ -32,6 +32,7 @@ use PharException;
  */
 class PharExceptionAsset extends PharException
 {
+
     /**
      * Constructor - should not be called
      *

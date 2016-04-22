@@ -6,6 +6,7 @@
 
 class FactoryClass
 {
+
     /**
      * @var string
      */
@@ -21,16 +22,18 @@ class FactoryClass
      */
     private $methods;
 
+
     public function __construct($file, ReflectionClass $class)
     {
-        $this->file = $file;
+        $this->file      = $file;
         $this->reflector = $class;
         $this->extractFactoryMethods();
     }
 
+
     public function extractFactoryMethods()
     {
-        $this->methods = array();
+        $this->methods = [ ];
         foreach ($this->getPublicStaticMethods() as $method) {
             if ($method->isFactory()) {
 //                echo $this->getName() . '::' . $method->getName() . ' : ' . count($method->getCalls()) . PHP_EOL;
@@ -39,31 +42,37 @@ class FactoryClass
         }
     }
 
+
     public function getPublicStaticMethods()
     {
-        $methods = array();
+        $methods = [ ];
         foreach ($this->reflector->getMethods(ReflectionMethod::IS_STATIC) as $method) {
             if ($method->isPublic() && $method->getDeclaringClass() == $this->reflector) {
                 $methods[] = new FactoryMethod($this, $method);
             }
         }
+
         return $methods;
     }
+
 
     public function getFile()
     {
         return $this->file;
     }
 
+
     public function getName()
     {
         return $this->reflector->name;
     }
 
+
     public function isFactory()
     {
-        return !empty($this->methods);
+        return ! empty( $this->methods );
     }
+
 
     public function getMethods()
     {

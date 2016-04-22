@@ -16,28 +16,24 @@ use Symfony\Component\Translation\Writer\TranslationWriter;
 
 class TranslationWriterTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testWriteTranslations()
     {
         $dumper = $this->getMock('Symfony\Component\Translation\Dumper\DumperInterface');
-        $dumper
-            ->expects($this->once())
-            ->method('dump');
+        $dumper->expects($this->once())->method('dump');
 
         $writer = new TranslationWriter();
         $writer->addDumper('test', $dumper);
-        $writer->writeTranslations(new MessageCatalogue(array()), 'test');
+        $writer->writeTranslations(new MessageCatalogue([ ]), 'test');
     }
+
 
     public function testDisableBackup()
     {
         $dumper = $this->getMock('Symfony\Component\Translation\Dumper\DumperInterface');
-        $dumper
-            ->expects($this->never())
-            ->method('setBackup');
+        $dumper->expects($this->never())->method('setBackup');
         $phpDumper = $this->getMock('Symfony\Component\Translation\Dumper\PhpFileDumper');
-        $phpDumper
-            ->expects($this->once())
-            ->method('setBackup');
+        $phpDumper->expects($this->once())->method('setBackup');
 
         $writer = new TranslationWriter();
         $writer->addDumper('test', $dumper);

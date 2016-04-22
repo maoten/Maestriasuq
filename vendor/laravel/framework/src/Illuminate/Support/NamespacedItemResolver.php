@@ -4,17 +4,20 @@ namespace Illuminate\Support;
 
 class NamespacedItemResolver
 {
+
     /**
      * A cache of the parsed items.
      *
      * @var array
      */
-    protected $parsed = [];
+    protected $parsed = [ ];
+
 
     /**
      * Parse a key into namespace, group, and item.
      *
-     * @param  string  $key
+     * @param  string $key
+     *
      * @return array
      */
     public function parseKey($key)
@@ -22,7 +25,7 @@ class NamespacedItemResolver
         // If we've already parsed the given key, we'll return the cached version we
         // already have, as this will save us some processing. We cache off every
         // key we parse so we can quickly return it on all subsequent requests.
-        if (isset($this->parsed[$key])) {
+        if (isset( $this->parsed[$key] )) {
             return $this->parsed[$key];
         }
 
@@ -43,10 +46,12 @@ class NamespacedItemResolver
         return $this->parsed[$key] = $parsed;
     }
 
+
     /**
      * Parse an array of basic segments.
      *
-     * @param  array  $segments
+     * @param  array $segments
+     *
      * @return array
      */
     protected function parseBasicSegments(array $segments)
@@ -57,7 +62,7 @@ class NamespacedItemResolver
         $group = $segments[0];
 
         if (count($segments) == 1) {
-            return [null, $group, null];
+            return [ null, $group, null ];
         }
 
         // If there is more than one segment in this group, it means we are pulling
@@ -66,19 +71,21 @@ class NamespacedItemResolver
         else {
             $item = implode('.', array_slice($segments, 1));
 
-            return [null, $group, $item];
+            return [ null, $group, $item ];
         }
     }
+
 
     /**
      * Parse an array of namespaced segments.
      *
-     * @param  string  $key
+     * @param  string $key
+     *
      * @return array
      */
     protected function parseNamespacedSegments($key)
     {
-        list($namespace, $item) = explode('::', $key);
+        list( $namespace, $item ) = explode('::', $key);
 
         // First we'll just explode the first segment to get the namespace and group
         // since the item should be in the remaining segments. Once we have these
@@ -87,14 +94,16 @@ class NamespacedItemResolver
 
         $groupAndItem = array_slice($this->parseBasicSegments($itemSegments), 1);
 
-        return array_merge([$namespace], $groupAndItem);
+        return array_merge([ $namespace ], $groupAndItem);
     }
+
 
     /**
      * Set the parsed value of a key.
      *
-     * @param  string  $key
-     * @param  array   $parsed
+     * @param  string $key
+     * @param  array  $parsed
+     *
      * @return void
      */
     public function setParsedKey($key, $parsed)

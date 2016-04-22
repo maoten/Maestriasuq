@@ -10,6 +10,7 @@ use DateTime;
  */
 class MonthFieldTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @covers Cron\MonthField::validate
      */
@@ -21,6 +22,7 @@ class MonthFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($f->validate('*/10,2,1-12'));
         $this->assertFalse($f->validate('1.fix-regexp'));
     }
+
 
     /**
      * @covers Cron\MonthField::increment
@@ -36,6 +38,7 @@ class MonthFieldTest extends \PHPUnit_Framework_TestCase
         $f->increment($d, true);
         $this->assertEquals('2011-02-28 23:59:00', $d->format('Y-m-d H:i:s'));
     }
+
 
     /**
      * @covers Cron\MonthField::increment
@@ -66,6 +69,7 @@ class MonthFieldTest extends \PHPUnit_Framework_TestCase
         $f->increment($d);
         $this->assertEquals('2012-01-01 00:00:00', $d->format('Y-m-d H:i:s'));
     }
+
 
     /**
      * @covers Cron\MonthField::increment

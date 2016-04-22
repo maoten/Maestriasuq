@@ -20,12 +20,14 @@ use Symfony\Component\Translation\MessageCatalogue;
  */
 class ChainExtractor implements ExtractorInterface
 {
+
     /**
      * The extractors.
      *
      * @var ExtractorInterface[]
      */
-    private $extractors = array();
+    private $extractors = [ ];
+
 
     /**
      * Adds a loader to the translation extractor.
@@ -38,6 +40,7 @@ class ChainExtractor implements ExtractorInterface
         $this->extractors[$format] = $extractor;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -47,6 +50,7 @@ class ChainExtractor implements ExtractorInterface
             $extractor->setPrefix($prefix);
         }
     }
+
 
     /**
      * {@inheritdoc}

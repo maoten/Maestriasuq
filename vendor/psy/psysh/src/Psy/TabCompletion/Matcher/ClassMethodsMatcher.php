@@ -21,10 +21,11 @@ namespace Psy\TabCompletion\Matcher;
  */
 class ClassMethodsMatcher extends AbstractMatcher
 {
+
     /**
      * {@inheritdoc}
      */
-    public function getMatches(array $tokens, array $info = array())
+    public function getMatches(array $tokens, array $info = [ ])
     {
         $input = $this->getInput($tokens);
 
@@ -37,27 +38,25 @@ class ClassMethodsMatcher extends AbstractMatcher
         $class = $this->getNamespaceAndClass($tokens);
 
         $reflection = new \ReflectionClass($class);
-        $methods = $reflection->getMethods(\ReflectionMethod::IS_STATIC);
-        $methods = array_map(function (\ReflectionMethod $method) {
+        $methods    = $reflection->getMethods(\ReflectionMethod::IS_STATIC);
+        $methods    = array_map(function (\ReflectionMethod $method) {
             return $method->getName();
         }, $methods);
 
-        return array_map(
-            function ($name) use ($class) {
-                return $class . '::' . $name;
-            },
-            array_filter($methods, function ($method) use ($input) {
+        return array_map(function ($name) use ($class) {
+            return $class . '::' . $name;
+        }, array_filter($methods, function ($method) use ($input) {
                 return AbstractMatcher::startsWith($input, $method);
-            })
-        );
+            }));
     }
+
 
     /**
      * {@inheritdoc}
      */
     public function hasMatched(array $tokens)
     {
-        $token = array_pop($tokens);
+        $token     = array_pop($tokens);
         $prevToken = array_pop($tokens);
 
         switch (true) {

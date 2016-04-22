@@ -18,6 +18,7 @@ namespace Symfony\Component\VarDumper\Cloner;
  */
 class Stub
 {
+
     const TYPE_REF = 'ref';
     const TYPE_STRING = 'string';
     const TYPE_ARRAY = 'array';
@@ -31,10 +32,16 @@ class Stub
     const ARRAY_INDEXED = 'indexed';
 
     public $type = self::TYPE_REF;
+
     public $class = '';
+
     public $value;
+
     public $cut = 0;
+
     public $handle = 0;
+
     public $refCount = 0;
+
     public $position = 0;
 }

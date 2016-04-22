@@ -20,7 +20,9 @@ use Symfony\Component\DependencyInjection\Extension\Extension as BaseExtension;
  */
 abstract class Extension extends BaseExtension
 {
-    private $classes = array();
+
+    private $classes = [ ];
+
 
     /**
      * Gets the classes to cache.
@@ -31,6 +33,7 @@ abstract class Extension extends BaseExtension
     {
         return $this->classes;
     }
+
 
     /**
      * Adds classes to the class cache.

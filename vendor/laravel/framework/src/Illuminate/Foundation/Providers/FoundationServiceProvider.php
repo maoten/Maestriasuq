@@ -11,6 +11,7 @@ use Illuminate\Contracts\Validation\ValidatesWhenResolved;
 
 class FoundationServiceProvider extends ServiceProvider
 {
+
     /**
      * Register the service provider.
      *
@@ -21,17 +22,20 @@ class FoundationServiceProvider extends ServiceProvider
         //
     }
 
+
     /**
      * Initialize the form request with data from the given request.
      *
-     * @param  \Illuminate\Foundation\Http\FormRequest  $form
-     * @param  \Symfony\Component\HttpFoundation\Request  $current
+     * @param  \Illuminate\Foundation\Http\FormRequest   $form
+     * @param  \Symfony\Component\HttpFoundation\Request $current
+     *
      * @return void
      */
     public function boot()
     {
         $this->configureFormRequests();
     }
+
 
     /**
      * Configure the form request related services.
@@ -53,11 +57,13 @@ class FoundationServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Initialize the form request with data from the given request.
      *
-     * @param  \Illuminate\Foundation\Http\FormRequest  $form
-     * @param  \Symfony\Component\HttpFoundation\Request  $current
+     * @param  \Illuminate\Foundation\Http\FormRequest   $form
+     * @param  \Symfony\Component\HttpFoundation\Request $current
+     *
      * @return void
      */
     protected function initializeRequest(FormRequest $form, Request $current)
@@ -66,10 +72,8 @@ class FoundationServiceProvider extends ServiceProvider
 
         $files = is_array($files) ? array_filter($files) : $files;
 
-        $form->initialize(
-            $current->query->all(), $current->request->all(), $current->attributes->all(),
-            $current->cookies->all(), $files, $current->server->all(), $current->getContent()
-        );
+        $form->initialize($current->query->all(), $current->request->all(), $current->attributes->all(),
+            $current->cookies->all(), $files, $current->server->all(), $current->getContent());
 
         if ($session = $current->getSession()) {
             $form->setSession($session);

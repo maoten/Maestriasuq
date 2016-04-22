@@ -11,10 +11,12 @@ use PhpParser\NodeVisitorAbstract as NodeVisitor;
  */
 final class ThisDetectorVisitor extends NodeVisitor
 {
+
     /**
      * @var bool
      */
     public $detected = false;
+
 
     public function leaveNode(AstNode $node)
     {

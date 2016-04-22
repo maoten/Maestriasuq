@@ -17,6 +17,7 @@ use SebastianBergmann\Diff\Differ;
  */
 class ComparisonFailure extends \RuntimeException
 {
+
     /**
      * Expected value of the retrieval which does not match $actual.
      * @var mixed
@@ -53,6 +54,7 @@ class ComparisonFailure extends \RuntimeException
      */
     protected $message;
 
+
     /**
      * Initialises with the expected value and the actual value.
      *
@@ -64,14 +66,21 @@ class ComparisonFailure extends \RuntimeException
      * @param string $message          A string which is prefixed on all returned lines
      *                                 in the difference output.
      */
-    public function __construct($expected, $actual, $expectedAsString, $actualAsString, $identical = false, $message = '')
-    {
+    public function __construct(
+        $expected,
+        $actual,
+        $expectedAsString,
+        $actualAsString,
+        $identical = false,
+        $message = ''
+    ) {
         $this->expected         = $expected;
         $this->actual           = $actual;
         $this->expectedAsString = $expectedAsString;
         $this->actualAsString   = $actualAsString;
         $this->message          = $message;
     }
+
 
     /**
      * @return mixed
@@ -81,6 +90,7 @@ class ComparisonFailure extends \RuntimeException
         return $this->actual;
     }
 
+
     /**
      * @return mixed
      */
@@ -88,6 +98,7 @@ class ComparisonFailure extends \RuntimeException
     {
         return $this->expected;
     }
+
 
     /**
      * @return string
@@ -97,6 +108,7 @@ class ComparisonFailure extends \RuntimeException
         return $this->actualAsString;
     }
 
+
     /**
      * @return string
      */
@@ -105,12 +117,13 @@ class ComparisonFailure extends \RuntimeException
         return $this->expectedAsString;
     }
 
+
     /**
      * @return string
      */
     public function getDiff()
     {
-        if (!$this->actualAsString && !$this->expectedAsString) {
+        if ( ! $this->actualAsString && ! $this->expectedAsString) {
             return '';
         }
 
@@ -118,6 +131,7 @@ class ComparisonFailure extends \RuntimeException
 
         return $differ->diff($this->expectedAsString, $this->actualAsString);
     }
+
 
     /**
      * @return string

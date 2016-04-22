@@ -15,6 +15,7 @@ use Psy\CodeCleaner;
 
 class CodeCleanerTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @dataProvider semicolonCodeProvider
      */
@@ -24,18 +25,20 @@ class CodeCleanerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $cc->clean($lines, $requireSemicolons));
     }
 
+
     public function semicolonCodeProvider()
     {
-        return array(
-            array(array('true'),  false, 'return true;'),
-            array(array('true;'), false, 'return true;'),
-            array(array('true;'), true,  'return true;'),
-            array(array('true'),  true,  false),
+        return [
+            [ [ 'true' ], false, 'return true;' ],
+            [ [ 'true;' ], false, 'return true;' ],
+            [ [ 'true;' ], true, 'return true;' ],
+            [ [ 'true' ], true, false ],
 
-            array(array('echo "foo";', 'true'), false, "echo 'foo';\nreturn true;"),
-            array(array('echo "foo";', 'true'), true,  false),
-        );
+            [ [ 'echo "foo";', 'true' ], false, "echo 'foo';\nreturn true;" ],
+            [ [ 'echo "foo";', 'true' ], true, false ],
+        ];
     }
+
 
     /**
      * @dataProvider unclosedStatementsProvider
@@ -52,21 +55,23 @@ class CodeCleanerTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+
     public function unclosedStatementsProvider()
     {
-        return array(
-            array(array('echo "'),   true),
-            array(array('echo \''),  true),
-            array(array('if (1) {'), true),
+        return [
+            [ [ 'echo "' ], true ],
+            [ [ 'echo \'' ], true ],
+            [ [ 'if (1) {' ], true ],
 
-            array(array('echo ""'),   false),
-            array(array("echo ''"),   false),
-            array(array('if (1) {}'), false),
+            [ [ 'echo ""' ], false ],
+            [ [ "echo ''" ], false ],
+            [ [ 'if (1) {}' ], false ],
 
-            array(array("\$content = <<<EOS\n"),   true),
-            array(array("\$content = <<<'EOS'\n"), true),
-        );
+            [ [ "\$content = <<<EOS\n" ], true ],
+            [ [ "\$content = <<<'EOS'\n" ], true ],
+        ];
     }
+
 
     /**
      * @dataProvider invalidStatementsProvider
@@ -75,21 +80,22 @@ class CodeCleanerTest extends \PHPUnit_Framework_TestCase
     public function testInvalidStatementsThrowParseErrors($code)
     {
         $cc = new CodeCleaner();
-        $cc->clean(array($code));
+        $cc->clean([ $code ]);
     }
+
 
     public function invalidStatementsProvider()
     {
-        return array(
-            array('function "what'),
-            array("function 'what"),
-            array('echo }'),
-            array('echo {'),
-            array('if (1) }'),
-            array('echo """'),
-            array("echo '''"),
-            array('$foo "bar'),
-            array('$foo \'bar'),
-        );
+        return [
+            [ 'function "what' ],
+            [ "function 'what" ],
+            [ 'echo }' ],
+            [ 'echo {' ],
+            [ 'if (1) }' ],
+            [ 'echo """' ],
+            [ "echo '''" ],
+            [ '$foo "bar' ],
+            [ '$foo \'bar' ],
+        ];
     }
 }

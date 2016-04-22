@@ -6,16 +6,19 @@ use Mockery\Generator\StringManipulation\Pass\Pass;
 
 class StringManipulationGenerator implements Generator
 {
-    protected $passes = array();
+
+    protected $passes = [ ];
+
 
     public function __construct(array $passes)
     {
         $this->passes = $passes;
     }
 
+
     public function generate(MockConfiguration $config)
     {
-        $code = file_get_contents(__DIR__ . '/../Mock.php');
+        $code      = file_get_contents(__DIR__ . '/../Mock.php');
         $className = $config->getName() ?: $config->generateName();
 
         $namedConfig = $config->rename($className);
@@ -26,6 +29,7 @@ class StringManipulationGenerator implements Generator
 
         return new MockDefinition($namedConfig, $code);
     }
+
 
     public function addPass(Pass $pass)
     {

@@ -24,6 +24,7 @@ use Symfony\Component\Console\Formatter\OutputFormatterInterface;
  */
 class NullOutput implements OutputInterface
 {
+
     /**
      * {@inheritdoc}
      */
@@ -31,6 +32,7 @@ class NullOutput implements OutputInterface
     {
         // do nothing
     }
+
 
     /**
      * {@inheritdoc}
@@ -41,6 +43,7 @@ class NullOutput implements OutputInterface
         return new OutputFormatter();
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -48,6 +51,7 @@ class NullOutput implements OutputInterface
     {
         // do nothing
     }
+
 
     /**
      * {@inheritdoc}
@@ -57,6 +61,7 @@ class NullOutput implements OutputInterface
         return false;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -64,6 +69,7 @@ class NullOutput implements OutputInterface
     {
         // do nothing
     }
+
 
     /**
      * {@inheritdoc}
@@ -73,25 +79,30 @@ class NullOutput implements OutputInterface
         return self::VERBOSITY_QUIET;
     }
 
+
     public function isQuiet()
     {
         return true;
     }
+
 
     public function isVerbose()
     {
         return false;
     }
 
+
     public function isVeryVerbose()
     {
         return false;
     }
 
+
     public function isDebug()
     {
         return false;
     }
+
 
     /**
      * {@inheritdoc}
@@ -100,6 +111,7 @@ class NullOutput implements OutputInterface
     {
         // do nothing
     }
+
 
     /**
      * {@inheritdoc}

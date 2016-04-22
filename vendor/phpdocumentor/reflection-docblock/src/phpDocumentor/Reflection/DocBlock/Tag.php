@@ -23,6 +23,7 @@ use phpDocumentor\Reflection\DocBlock;
  */
 class Tag implements \Reflector
 {
+
     /**
      * PCRE regular expression matching a tag name.
      */
@@ -51,52 +52,34 @@ class Tag implements \Reflector
 
     /** @var DocBlock The DocBlock which this tag belongs to. */
     protected $docblock = null;
-    
+
     /**
      * @var array An array with a tag as a key, and an FQCN to a class that
      *     handles it as an array value. The class is expected to inherit this
      *     class.
      */
-    private static $tagHandlerMappings = array(
-        'author'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\AuthorTag',
-        'covers'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\CoversTag',
-        'deprecated'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\DeprecatedTag',
-        'example'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\ExampleTag',
-        'link'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\LinkTag',
-        'method'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\MethodTag',
-        'param'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\ParamTag',
-        'property-read'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\PropertyReadTag',
-        'property'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\PropertyTag',
-        'property-write'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\PropertyWriteTag',
-        'return'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\ReturnTag',
-        'see'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\SeeTag',
-        'since'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\SinceTag',
-        'source'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\SourceTag',
-        'throw'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\ThrowsTag',
-        'throws'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\ThrowsTag',
-        'uses'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\UsesTag',
-        'var'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\VarTag',
-        'version'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\VersionTag'
-    );
+    private static $tagHandlerMappings = [
+        'author'         => '\phpDocumentor\Reflection\DocBlock\Tag\AuthorTag',
+        'covers'         => '\phpDocumentor\Reflection\DocBlock\Tag\CoversTag',
+        'deprecated'     => '\phpDocumentor\Reflection\DocBlock\Tag\DeprecatedTag',
+        'example'        => '\phpDocumentor\Reflection\DocBlock\Tag\ExampleTag',
+        'link'           => '\phpDocumentor\Reflection\DocBlock\Tag\LinkTag',
+        'method'         => '\phpDocumentor\Reflection\DocBlock\Tag\MethodTag',
+        'param'          => '\phpDocumentor\Reflection\DocBlock\Tag\ParamTag',
+        'property-read'  => '\phpDocumentor\Reflection\DocBlock\Tag\PropertyReadTag',
+        'property'       => '\phpDocumentor\Reflection\DocBlock\Tag\PropertyTag',
+        'property-write' => '\phpDocumentor\Reflection\DocBlock\Tag\PropertyWriteTag',
+        'return'         => '\phpDocumentor\Reflection\DocBlock\Tag\ReturnTag',
+        'see'            => '\phpDocumentor\Reflection\DocBlock\Tag\SeeTag',
+        'since'          => '\phpDocumentor\Reflection\DocBlock\Tag\SinceTag',
+        'source'         => '\phpDocumentor\Reflection\DocBlock\Tag\SourceTag',
+        'throw'          => '\phpDocumentor\Reflection\DocBlock\Tag\ThrowsTag',
+        'throws'         => '\phpDocumentor\Reflection\DocBlock\Tag\ThrowsTag',
+        'uses'           => '\phpDocumentor\Reflection\DocBlock\Tag\UsesTag',
+        'var'            => '\phpDocumentor\Reflection\DocBlock\Tag\VarTag',
+        'version'        => '\phpDocumentor\Reflection\DocBlock\Tag\VersionTag'
+    ];
+
 
     /**
      * Factory method responsible for instantiating the correct sub type.
@@ -114,72 +97,60 @@ class Tag implements \Reflector
         DocBlock $docblock = null,
         Location $location = null
     ) {
-        if (!preg_match(
-            '/^@(' . self::REGEX_TAGNAME . ')(?:\s*([^\s].*)|$)?/us',
-            $tag_line,
-            $matches
-        )) {
-            throw new \InvalidArgumentException(
-                'Invalid tag_line detected: ' . $tag_line
-            );
+        if ( ! preg_match('/^@(' . self::REGEX_TAGNAME . ')(?:\s*([^\s].*)|$)?/us', $tag_line, $matches)) {
+            throw new \InvalidArgumentException('Invalid tag_line detected: ' . $tag_line);
         }
 
         $handler = __CLASS__;
-        if (isset(self::$tagHandlerMappings[$matches[1]])) {
+        if (isset( self::$tagHandlerMappings[$matches[1]] )) {
             $handler = self::$tagHandlerMappings[$matches[1]];
-        } elseif (isset($docblock)) {
-            $tagName = (string)new Type\Collection(
-                array($matches[1]),
-                $docblock->getContext()
-            );
+        } elseif (isset( $docblock )) {
+            $tagName = (string) new Type\Collection([ $matches[1] ], $docblock->getContext());
 
-            if (isset(self::$tagHandlerMappings[$tagName])) {
+            if (isset( self::$tagHandlerMappings[$tagName] )) {
                 $handler = self::$tagHandlerMappings[$tagName];
             }
         }
 
-        return new $handler(
-            $matches[1],
-            isset($matches[2]) ? $matches[2] : '',
-            $docblock,
-            $location
-        );
+        return new $handler($matches[1], isset( $matches[2] ) ? $matches[2] : '', $docblock, $location);
     }
+
 
     /**
      * Registers a handler for tags.
-     * 
+     *
      * Registers a handler for tags. The class specified is autoloaded if it's
      * not available. It must inherit from this class.
-     * 
+     *
      * @param string      $tag     Name of tag to regiser a handler for. When
-     *     registering a namespaced tag, the full name, along with a prefixing
-     *     slash MUST be provided.
+     *                             registering a namespaced tag, the full name, along with a prefixing
+     *                             slash MUST be provided.
      * @param string|null $handler FQCN of handler. Specifing NULL removes the
-     *     handler for the specified tag, if any.
-     * 
+     *                             handler for the specified tag, if any.
+     *
      * @return bool TRUE on success, FALSE on failure.
      */
     final public static function registerTagHandler($tag, $handler)
     {
-        $tag = trim((string)$tag);
+        $tag = trim((string) $tag);
 
         if (null === $handler) {
-            unset(self::$tagHandlerMappings[$tag]);
+            unset( self::$tagHandlerMappings[$tag] );
+
             return true;
         }
 
-        if ('' !== $tag
-            && class_exists($handler, true)
-            && is_subclass_of($handler, __CLASS__)
-            && !strpos($tag, '\\') //Accept no slash, and 1st slash at offset 0.
+        if ('' !== $tag && class_exists($handler, true) && is_subclass_of($handler, __CLASS__) && ! strpos($tag,
+                '\\') //Accept no slash, and 1st slash at offset 0.
         ) {
             self::$tagHandlerMappings[$tag] = $handler;
+
             return true;
         }
 
         return false;
     }
+
 
     /**
      * Parses a tag and populates the member variables.
@@ -195,12 +166,9 @@ class Tag implements \Reflector
         DocBlock $docblock = null,
         Location $location = null
     ) {
-        $this
-            ->setName($name)
-            ->setContent($content)
-            ->setDocBlock($docblock)
-            ->setLocation($location);
+        $this->setName($name)->setContent($content)->setDocBlock($docblock)->setLocation($location);
     }
+
 
     /**
      * Gets the name of this tag.
@@ -212,26 +180,26 @@ class Tag implements \Reflector
         return $this->tag;
     }
 
+
     /**
      * Sets the name of this tag.
-     * 
+     *
      * @param string $name The new name of this tag.
-     * 
+     *
      * @return $this
      * @throws \InvalidArgumentException When an invalid tag name is provided.
      */
     public function setName($name)
     {
-        if (!preg_match('/^' . self::REGEX_TAGNAME . '$/u', $name)) {
-            throw new \InvalidArgumentException(
-                'Invalid tag name supplied: ' . $name
-            );
+        if ( ! preg_match('/^' . self::REGEX_TAGNAME . '$/u', $name)) {
+            throw new \InvalidArgumentException('Invalid tag name supplied: ' . $name);
         }
 
         $this->tag = $name;
 
         return $this;
     }
+
 
     /**
      * Gets the content of this tag.
@@ -247,11 +215,12 @@ class Tag implements \Reflector
         return $this->content;
     }
 
+
     /**
      * Sets the content of this tag.
-     * 
+     *
      * @param string $content The new content of this tag.
-     * 
+     *
      * @return $this
      */
     public function setContent($content)
@@ -261,6 +230,7 @@ class Tag implements \Reflector
 
         return $this;
     }
+
 
     /**
      * Gets the description component of this tag.
@@ -272,40 +242,44 @@ class Tag implements \Reflector
         return $this->description;
     }
 
+
     /**
      * Sets the description component of this tag.
-     * 
+     *
      * @param string $description The new description component of this tag.
-     * 
+     *
      * @return $this
      */
     public function setDescription($description)
     {
-        $this->content = null;
+        $this->content           = null;
         $this->parsedDescription = null;
-        $this->description = trim($description);
+        $this->description       = trim($description);
 
         return $this;
     }
 
+
     /**
      * Gets the parsed text of this description.
-     * 
+     *
      * @return array An array of strings and tag objects, in the order they
      *     occur within the description.
      */
     public function getParsedDescription()
     {
         if (null === $this->parsedDescription) {
-            $description = new Description($this->description, $this->docblock);
+            $description             = new Description($this->description, $this->docblock);
             $this->parsedDescription = $description->getParsedContents();
         }
+
         return $this->parsedDescription;
     }
 
+
     /**
      * Gets the docblock this tag belongs to.
-     * 
+     *
      * @return DocBlock The docblock this tag belongs to.
      */
     public function getDocBlock()
@@ -313,12 +287,13 @@ class Tag implements \Reflector
         return $this->docblock;
     }
 
+
     /**
      * Sets the docblock this tag belongs to.
-     * 
+     *
      * @param DocBlock $docblock The new docblock this tag belongs to. Setting
-     *     NULL removes any association.
-     * 
+     *                           NULL removes any association.
+     *
      * @return $this
      */
     public function setDocBlock(DocBlock $docblock = null)
@@ -327,6 +302,7 @@ class Tag implements \Reflector
 
         return $this;
     }
+
 
     /**
      * Gets the location of the tag.
@@ -337,12 +313,13 @@ class Tag implements \Reflector
     {
         return $this->location;
     }
-    
+
+
     /**
      * Sets the location of the tag.
-     * 
+     *
      * @param Location $location The new location of the tag.
-     * 
+     *
      * @return $this
      */
     public function setLocation(Location $location = null)
@@ -352,10 +329,11 @@ class Tag implements \Reflector
         return $this;
     }
 
+
     /**
      * Builds a string representation of this object.
      *
-     * @todo determine the exact format as used by PHP Reflection and implement it.
+     * @todo               determine the exact format as used by PHP Reflection and implement it.
      *
      * @return void
      * @codeCoverageIgnore Not yet implemented
@@ -364,6 +342,7 @@ class Tag implements \Reflector
     {
         throw new \Exception('Not yet implemented');
     }
+
 
     /**
      * Returns the tag as a serialized string

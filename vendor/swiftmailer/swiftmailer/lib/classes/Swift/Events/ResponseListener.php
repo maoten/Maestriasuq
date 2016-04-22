@@ -15,6 +15,7 @@
  */
 interface Swift_Events_ResponseListener extends Swift_Events_EventListener
 {
+
     /**
      * Invoked immediately following a response coming back.
      *

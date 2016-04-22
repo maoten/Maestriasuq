@@ -15,6 +15,7 @@
  */
 class PHPUnit_Extensions_RepeatedTest extends PHPUnit_Extensions_TestDecorator
 {
+
     /**
      * @var bool
      */
@@ -24,6 +25,7 @@ class PHPUnit_Extensions_RepeatedTest extends PHPUnit_Extensions_TestDecorator
      * @var int
      */
     protected $timesRepeat = 1;
+
 
     /**
      * @param PHPUnit_Framework_Test $test
@@ -36,18 +38,15 @@ class PHPUnit_Extensions_RepeatedTest extends PHPUnit_Extensions_TestDecorator
     {
         parent::__construct($test);
 
-        if (is_integer($timesRepeat) &&
-            $timesRepeat >= 0) {
+        if (is_integer($timesRepeat) && $timesRepeat >= 0) {
             $this->timesRepeat = $timesRepeat;
         } else {
-            throw PHPUnit_Util_InvalidArgumentHelper::factory(
-                2,
-                'positive integer'
-            );
+            throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'positive integer');
         }
 
         $this->processIsolation = $processIsolation;
     }
+
 
     /**
      * Counts the number of test cases that
@@ -59,6 +58,7 @@ class PHPUnit_Extensions_RepeatedTest extends PHPUnit_Extensions_TestDecorator
     {
         return $this->timesRepeat * count($this->test);
     }
+
 
     /**
      * Runs the decorated test and collects the
@@ -77,7 +77,7 @@ class PHPUnit_Extensions_RepeatedTest extends PHPUnit_Extensions_TestDecorator
         }
 
         //@codingStandardsIgnoreStart
-        for ($i = 0; $i < $this->timesRepeat && !$result->shouldStop(); $i++) {
+        for ($i = 0; $i < $this->timesRepeat && ! $result->shouldStop(); $i++) {
             //@codingStandardsIgnoreEnd
             if ($this->test instanceof PHPUnit_Framework_TestSuite) {
                 $this->test->setRunTestInSeparateProcess($this->processIsolation);

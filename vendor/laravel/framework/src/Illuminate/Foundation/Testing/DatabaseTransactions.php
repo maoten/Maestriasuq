@@ -4,6 +4,7 @@ namespace Illuminate\Foundation\Testing;
 
 trait DatabaseTransactions
 {
+
     /**
      * Handle database transactions on the specified connections.
      *
@@ -24,6 +25,7 @@ trait DatabaseTransactions
         });
     }
 
+
     /**
      * The database connections that should have transactions.
      *
@@ -31,7 +33,6 @@ trait DatabaseTransactions
      */
     protected function connectionsToTransact()
     {
-        return property_exists($this, 'connectionsToTransact')
-                            ? $this->connectionsToTransact : [null];
+        return property_exists($this, 'connectionsToTransact') ? $this->connectionsToTransact : [ null ];
     }
 }

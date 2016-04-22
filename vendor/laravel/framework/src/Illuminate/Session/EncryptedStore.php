@@ -8,6 +8,7 @@ use Illuminate\Contracts\Encryption\Encrypter as EncrypterContract;
 
 class EncryptedStore extends Store
 {
+
     /**
      * The encrypter instance.
      *
@@ -15,13 +16,15 @@ class EncryptedStore extends Store
      */
     protected $encrypter;
 
+
     /**
      * Create a new session instance.
      *
-     * @param  string $name
-     * @param  \SessionHandlerInterface $handler
+     * @param  string                                     $name
+     * @param  \SessionHandlerInterface                   $handler
      * @param  \Illuminate\Contracts\Encryption\Encrypter $encrypter
-     * @param  string|null $id
+     * @param  string|null                                $id
+     *
      * @return void
      */
     public function __construct($name, SessionHandlerInterface $handler, EncrypterContract $encrypter, $id = null)
@@ -31,10 +34,12 @@ class EncryptedStore extends Store
         parent::__construct($name, $handler, $id);
     }
 
+
     /**
      * Prepare the raw string data from the session for unserialization.
      *
-     * @param  string  $data
+     * @param  string $data
+     *
      * @return string
      */
     protected function prepareForUnserialize($data)
@@ -42,20 +47,23 @@ class EncryptedStore extends Store
         try {
             return $this->encrypter->decrypt($data);
         } catch (DecryptException $e) {
-            return json_encode([]);
+            return json_encode([ ]);
         }
     }
+
 
     /**
      * Prepare the serialized session data for storage.
      *
-     * @param  string  $data
+     * @param  string $data
+     *
      * @return string
      */
     protected function prepareForStorage($data)
     {
         return $this->encrypter->encrypt($data);
     }
+
 
     /**
      * Get the encrypter instance.

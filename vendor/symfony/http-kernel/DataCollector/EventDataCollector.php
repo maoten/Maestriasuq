@@ -23,23 +23,27 @@ use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcherInterface;
  */
 class EventDataCollector extends DataCollector implements LateDataCollectorInterface
 {
+
     protected $dispatcher;
+
 
     public function __construct(EventDispatcherInterface $dispatcher = null)
     {
         $this->dispatcher = $dispatcher;
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        $this->data = array(
-            'called_listeners' => array(),
-            'not_called_listeners' => array(),
-        );
+        $this->data = [
+            'called_listeners'     => [ ],
+            'not_called_listeners' => [ ],
+        ];
     }
+
 
     public function lateCollect()
     {
@@ -48,6 +52,7 @@ class EventDataCollector extends DataCollector implements LateDataCollectorInter
             $this->setNotCalledListeners($this->dispatcher->getNotCalledListeners());
         }
     }
+
 
     /**
      * Sets the called listeners.
@@ -61,6 +66,7 @@ class EventDataCollector extends DataCollector implements LateDataCollectorInter
         $this->data['called_listeners'] = $listeners;
     }
 
+
     /**
      * Gets the called listeners.
      *
@@ -72,6 +78,7 @@ class EventDataCollector extends DataCollector implements LateDataCollectorInter
     {
         return $this->data['called_listeners'];
     }
+
 
     /**
      * Sets the not called listeners.
@@ -85,6 +92,7 @@ class EventDataCollector extends DataCollector implements LateDataCollectorInter
         $this->data['not_called_listeners'] = $listeners;
     }
 
+
     /**
      * Gets the not called listeners.
      *
@@ -96,6 +104,7 @@ class EventDataCollector extends DataCollector implements LateDataCollectorInter
     {
         return $this->data['not_called_listeners'];
     }
+
 
     /**
      * {@inheritdoc}

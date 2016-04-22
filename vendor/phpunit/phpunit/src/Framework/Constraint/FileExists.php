@@ -17,6 +17,7 @@
  */
 class PHPUnit_Framework_Constraint_FileExists extends PHPUnit_Framework_Constraint
 {
+
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
      * constraint is met, false otherwise.
@@ -30,6 +31,7 @@ class PHPUnit_Framework_Constraint_FileExists extends PHPUnit_Framework_Constrai
         return file_exists($other);
     }
 
+
     /**
      * Returns the description of the failure
      *
@@ -42,11 +44,9 @@ class PHPUnit_Framework_Constraint_FileExists extends PHPUnit_Framework_Constrai
      */
     protected function failureDescription($other)
     {
-        return sprintf(
-            'file "%s" exists',
-            $other
-        );
+        return sprintf('file "%s" exists', $other);
     }
+
 
     /**
      * Returns a string representation of the constraint.

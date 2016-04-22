@@ -19,6 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 interface OutputPager extends OutputInterface
 {
+
     /**
      * Close the current pager process.
      */

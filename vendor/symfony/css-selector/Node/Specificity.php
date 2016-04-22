@@ -17,7 +17,7 @@ namespace Symfony\Component\CssSelector\Node;
  * This component is a port of the Python cssselect library,
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
- * @see http://www.w3.org/TR/selectors/#specificity
+ * @see    http://www.w3.org/TR/selectors/#specificity
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
  *
@@ -25,6 +25,7 @@ namespace Symfony\Component\CssSelector\Node;
  */
 class Specificity
 {
+
     const A_FACTOR = 100;
     const B_FACTOR = 10;
     const C_FACTOR = 1;
@@ -44,6 +45,7 @@ class Specificity
      */
     private $c;
 
+
     /**
      * Constructor.
      *
@@ -58,6 +60,7 @@ class Specificity
         $this->c = $c;
     }
 
+
     /**
      * @param Specificity $specificity
      *
@@ -68,6 +71,7 @@ class Specificity
         return new self($this->a + $specificity->a, $this->b + $specificity->b, $this->c + $specificity->c);
     }
 
+
     /**
      * Returns global specificity value.
      *
@@ -77,6 +81,7 @@ class Specificity
     {
         return $this->a * self::A_FACTOR + $this->b * self::B_FACTOR + $this->c * self::C_FACTOR;
     }
+
 
     /**
      * Returns -1 if the object specificity is lower than the argument,

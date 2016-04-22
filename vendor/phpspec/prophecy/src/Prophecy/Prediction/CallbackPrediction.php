@@ -24,7 +24,9 @@ use Closure;
  */
 class CallbackPrediction implements PredictionInterface
 {
+
     private $callback;
+
 
     /**
      * Initializes callback prediction.
@@ -35,15 +37,14 @@ class CallbackPrediction implements PredictionInterface
      */
     public function __construct($callback)
     {
-        if (!is_callable($callback)) {
-            throw new InvalidArgumentException(sprintf(
-                'Callable expected as an argument to CallbackPrediction, but got %s.',
-                gettype($callback)
-            ));
+        if ( ! is_callable($callback)) {
+            throw new InvalidArgumentException(sprintf('Callable expected as an argument to CallbackPrediction, but got %s.',
+                gettype($callback)));
         }
 
         $this->callback = $callback;
     }
+
 
     /**
      * Executes preset callback.

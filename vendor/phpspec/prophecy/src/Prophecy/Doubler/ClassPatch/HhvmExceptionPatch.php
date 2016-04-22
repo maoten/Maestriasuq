@@ -20,6 +20,7 @@ use Prophecy\Doubler\Generator\Node\ClassNode;
  */
 class HhvmExceptionPatch implements ClassPatchInterface
 {
+
     /**
      * Supports exceptions on HHVM.
      *
@@ -29,12 +30,13 @@ class HhvmExceptionPatch implements ClassPatchInterface
      */
     public function supports(ClassNode $node)
     {
-        if (!defined('HHVM_VERSION')) {
+        if ( ! defined('HHVM_VERSION')) {
             return false;
         }
 
         return 'Exception' === $node->getParentClass() || is_subclass_of($node->getParentClass(), 'Exception');
     }
+
 
     /**
      * Removes special exception static methods from the doubled methods.
@@ -52,6 +54,7 @@ class HhvmExceptionPatch implements ClassPatchInterface
             $node->getMethod('getTraceOptions')->useParentCode();
         }
     }
+
 
     /**
      * {@inheritdoc}

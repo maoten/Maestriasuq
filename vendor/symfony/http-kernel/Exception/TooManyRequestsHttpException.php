@@ -16,10 +16,11 @@ namespace Symfony\Component\HttpKernel\Exception;
  *
  * @author Ben Ramsey <ben@benramsey.com>
  *
- * @see http://tools.ietf.org/html/rfc6585
+ * @see    http://tools.ietf.org/html/rfc6585
  */
 class TooManyRequestsHttpException extends HttpException
 {
+
     /**
      * Constructor.
      *
@@ -30,9 +31,9 @@ class TooManyRequestsHttpException extends HttpException
      */
     public function __construct($retryAfter = null, $message = null, \Exception $previous = null, $code = 0)
     {
-        $headers = array();
+        $headers = [ ];
         if ($retryAfter) {
-            $headers = array('Retry-After' => $retryAfter);
+            $headers = [ 'Retry-After' => $retryAfter ];
         }
 
         parent::__construct(429, $message, $previous, $headers, $code);

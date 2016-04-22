@@ -15,10 +15,12 @@
  */
 class PHPUnit_Util_TestDox_ResultPrinter_HTML extends PHPUnit_Util_TestDox_ResultPrinter
 {
+
     /**
      * @var bool
      */
     protected $printsHTML = true;
+
 
     /**
      * Handler for 'start run' event.
@@ -28,6 +30,7 @@ class PHPUnit_Util_TestDox_ResultPrinter_HTML extends PHPUnit_Util_TestDox_Resul
         $this->write('<html><body>');
     }
 
+
     /**
      * Handler for 'start class' event.
      *
@@ -35,11 +38,9 @@ class PHPUnit_Util_TestDox_ResultPrinter_HTML extends PHPUnit_Util_TestDox_Resul
      */
     protected function startClass($name)
     {
-        $this->write(
-            '<h2 id="' . $name . '">' . $this->currentTestClassPrettified .
-            '</h2><ul>'
-        );
+        $this->write('<h2 id="' . $name . '">' . $this->currentTestClassPrettified . '</h2><ul>');
     }
+
 
     /**
      * Handler for 'on test' event.
@@ -49,7 +50,7 @@ class PHPUnit_Util_TestDox_ResultPrinter_HTML extends PHPUnit_Util_TestDox_Resul
      */
     protected function onTest($name, $success = true)
     {
-        if (!$success) {
+        if ( ! $success) {
             $strikeOpen  = '<span style="text-decoration:line-through;">';
             $strikeClose = '</span>';
         } else {
@@ -60,6 +61,7 @@ class PHPUnit_Util_TestDox_ResultPrinter_HTML extends PHPUnit_Util_TestDox_Resul
         $this->write('<li>' . $strikeOpen . $name . $strikeClose . '</li>');
     }
 
+
     /**
      * Handler for 'end class' event.
      *
@@ -69,6 +71,7 @@ class PHPUnit_Util_TestDox_ResultPrinter_HTML extends PHPUnit_Util_TestDox_Resul
     {
         $this->write('</ul>');
     }
+
 
     /**
      * Handler for 'end run' event.

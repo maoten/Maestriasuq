@@ -15,6 +15,7 @@
  */
 class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
 {
+
     /**
      * PrivateKey.
      *
@@ -55,7 +56,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
      *
      * @var array
      */
-    protected $_ignoredHeaders = array();
+    protected $_ignoredHeaders = [ ];
 
     /**
      * Signer identity.
@@ -77,7 +78,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
      *
      * @var array
      */
-    private $_signedHeaders = array();
+    private $_signedHeaders = [ ];
 
     /**
      * Stores the signature header.
@@ -107,7 +108,8 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
 
     private $_bodyCanonLine = '';
 
-    private $_bound = array();
+    private $_bound = [ ];
+
 
     /**
      * Constructor.
@@ -118,11 +120,12 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
      */
     public function __construct($privateKey, $domainName, $selector)
     {
-        $this->_privateKey = $privateKey;
-        $this->_domainName = $domainName;
-        $this->_signerIdentity = '@'.$domainName;
-        $this->_selector = $selector;
+        $this->_privateKey     = $privateKey;
+        $this->_domainName     = $domainName;
+        $this->_signerIdentity = '@' . $domainName;
+        $this->_selector       = $selector;
     }
+
 
     /**
      * Instanciate DomainKeySigner.
@@ -138,6 +141,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
         return new static($privateKey, $domainName, $selector);
     }
 
+
     /**
      * Resets internal states.
      *
@@ -145,15 +149,16 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
      */
     public function reset()
     {
-        $this->_hash = null;
-        $this->_hashHandler = null;
-        $this->_bodyCanonIgnoreStart = 2;
+        $this->_hash                  = null;
+        $this->_hashHandler           = null;
+        $this->_bodyCanonIgnoreStart  = 2;
         $this->_bodyCanonEmptyCounter = 0;
-        $this->_bodyCanonLastChar = null;
-        $this->_bodyCanonSpace = false;
+        $this->_bodyCanonLastChar     = null;
+        $this->_bodyCanonSpace        = false;
 
         return $this;
     }
+
 
     /**
      * Writes $bytes to the end of the stream.
@@ -182,6 +187,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
         return $this;
     }
 
+
     /**
      * For any bytes that are currently buffered inside the stream, force them
      * off the buffer.
@@ -195,6 +201,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
         // Nothing to do
         return $this;
     }
+
 
     /**
      * Attach $is to this stream.
@@ -213,6 +220,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
         return $this;
     }
 
+
     /**
      * Remove an already bound stream.
      * If $is is not bound, no errors will be raised.
@@ -228,7 +236,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
         // Don't have to mirror anything
         foreach ($this->_bound as $k => $stream) {
             if ($stream === $is) {
-                unset($this->_bound[$k]);
+                unset( $this->_bound[$k] );
 
                 return;
             }
@@ -236,6 +244,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
 
         return $this;
     }
+
 
     /**
      * Flush the contents of the stream (empty it) and set the internal pointer
@@ -252,6 +261,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
         return $this;
     }
 
+
     /**
      * Set hash_algorithm, must be one of rsa-sha256 | rsa-sha1 defaults to rsa-sha256.
      *
@@ -265,6 +275,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
 
         return $this;
     }
+
 
     /**
      * Set the canonicalization algorithm.
@@ -284,6 +295,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
         return $this;
     }
 
+
     /**
      * Set the signer identity.
      *
@@ -297,6 +309,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
 
         return $this;
     }
+
 
     /**
      * Enable / disable the DebugHeaders.
@@ -312,12 +325,14 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
         return $this;
     }
 
+
     /**
      * Start Body.
      */
     public function startBody()
     {
     }
+
 
     /**
      * End Body.
@@ -327,6 +342,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
         $this->_endOfBody();
     }
 
+
     /**
      * Returns the list of Headers Tampered by this plugin.
      *
@@ -335,11 +351,12 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
     public function getAlteredHeaders()
     {
         if ($this->_debugHeaders) {
-            return array('DomainKey-Signature', 'X-DebugHash');
+            return [ 'DomainKey-Signature', 'X-DebugHash' ];
         } else {
-            return array('DomainKey-Signature');
+            return [ 'DomainKey-Signature' ];
         }
     }
+
 
     /**
      * Adds an ignored Header.
@@ -354,6 +371,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
 
         return $this;
     }
+
 
     /**
      * Set the headers to sign.
@@ -370,7 +388,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
         $listHeaders = $headers->listAll();
         foreach ($listHeaders as $hName) {
             // Check if we need to ignore Header
-            if (!isset($this->_ignoredHeaders[strtolower($hName)])) {
+            if ( ! isset( $this->_ignoredHeaders[strtolower($hName)] )) {
                 if ($headers->has($hName)) {
                     $tmp = $headers->getAll($hName);
                     foreach ($tmp as $header) {
@@ -387,6 +405,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
         return $this;
     }
 
+
     /**
      * Add the signature to the given Headers.
      *
@@ -397,16 +416,25 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
     public function addSignature(Swift_Mime_HeaderSet $headers)
     {
         // Prepare the DomainKey-Signature Header
-        $params = array('a' => $this->_hashAlgorithm, 'b' => chunk_split(base64_encode($this->_getEncryptedHash()), 73, ' '), 'c' => $this->_canon, 'd' => $this->_domainName, 'h' => implode(': ', $this->_signedHeaders), 'q' => 'dns', 's' => $this->_selector);
+        $params = [
+            'a' => $this->_hashAlgorithm,
+            'b' => chunk_split(base64_encode($this->_getEncryptedHash()), 73, ' '),
+            'c' => $this->_canon,
+            'd' => $this->_domainName,
+            'h' => implode(': ', $this->_signedHeaders),
+            'q' => 'dns',
+            's' => $this->_selector
+        ];
         $string = '';
         foreach ($params as $k => $v) {
-            $string .= $k.'='.$v.'; ';
+            $string .= $k . '=' . $v . '; ';
         }
         $string = trim($string);
         $headers->addTextHeader('DomainKey-Signature', $string);
 
         return $this;
     }
+
 
     /* Private helpers */
 
@@ -416,26 +444,28 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
             case 'nofws' :
                 // Prepare Header and cascade
                 $exploded = explode(':', $header, 2);
-                $name = strtolower(trim($exploded[0]));
-                $value = str_replace("\r\n", '', $exploded[1]);
-                $value = preg_replace("/[ \t][ \t]+/", ' ', $value);
-                $header = $name.':'.trim($value)."\r\n";
+                $name     = strtolower(trim($exploded[0]));
+                $value    = str_replace("\r\n", '', $exploded[1]);
+                $value    = preg_replace("/[ \t][ \t]+/", ' ', $value);
+                $header   = $name . ':' . trim($value) . "\r\n";
             case 'simple' :
                 // Nothing to do
         }
         $this->_addToHash($header);
     }
 
+
     protected function _endOfHeaders()
     {
         $this->_bodyCanonEmptyCounter = 1;
     }
 
+
     protected function _canonicalizeBody($string)
     {
-        $len = strlen($string);
+        $len   = strlen($string);
         $canon = '';
-        $nofws = ($this->_canon == 'nofws');
+        $nofws = ( $this->_canon == 'nofws' );
         for ($i = 0; $i < $len; ++$i) {
             if ($this->_bodyCanonIgnoreStart > 0) {
                 --$this->_bodyCanonIgnoreStart;
@@ -480,6 +510,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
         $this->_addToHash($canon);
     }
 
+
     protected function _endOfBody()
     {
         if (strlen($this->_bodyCanonLine) > 0) {
@@ -488,11 +519,13 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
         $this->_hash = hash_final($this->_hashHandler, true);
     }
 
+
     private function _addToHash($string)
     {
         $this->_canonData .= $string;
         hash_update($this->_hashHandler, $string);
     }
+
 
     private function _startHash()
     {
@@ -505,6 +538,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
         $this->_canonLine = '';
     }
 
+
     /**
      * @throws Swift_SwiftException
      *
@@ -513,13 +547,13 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
     private function _getEncryptedHash()
     {
         $signature = '';
-        $pkeyId = openssl_get_privatekey($this->_privateKey);
-        if (!$pkeyId) {
-            throw new Swift_SwiftException('Unable to load DomainKey Private Key ['.openssl_error_string().']');
+        $pkeyId    = openssl_get_privatekey($this->_privateKey);
+        if ( ! $pkeyId) {
+            throw new Swift_SwiftException('Unable to load DomainKey Private Key [' . openssl_error_string() . ']');
         }
         if (openssl_sign($this->_canonData, $signature, $pkeyId, OPENSSL_ALGO_SHA1)) {
             return $signature;
         }
-        throw new Swift_SwiftException('Unable to sign DomainKey Hash  ['.openssl_error_string().']');
+        throw new Swift_SwiftException('Unable to sign DomainKey Hash  [' . openssl_error_string() . ']');
     }
 }

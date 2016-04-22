@@ -15,7 +15,9 @@ use Prophecy\Prophecy\ObjectProphecy;
 
 class ObjectProphecyException extends \RuntimeException implements ProphecyException
 {
+
     private $objectProphecy;
+
 
     public function __construct($message, ObjectProphecy $objectProphecy)
     {
@@ -23,6 +25,7 @@ class ObjectProphecyException extends \RuntimeException implements ProphecyExcep
 
         $this->objectProphecy = $objectProphecy;
     }
+
 
     /**
      * @return ObjectProphecy

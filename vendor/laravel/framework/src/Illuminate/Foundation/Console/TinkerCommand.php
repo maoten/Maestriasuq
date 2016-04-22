@@ -9,13 +9,20 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class TinkerCommand extends Command
 {
+
     /**
      * artisan commands to include in the tinker shell.
      *
      * @var array
      */
     protected $commandWhitelist = [
-        'clear-compiled', 'down', 'env', 'inspire', 'migrate', 'optimize', 'up',
+        'clear-compiled',
+        'down',
+        'env',
+        'inspire',
+        'migrate',
+        'optimize',
+        'up',
     ];
 
     /**
@@ -32,6 +39,7 @@ class TinkerCommand extends Command
      */
     protected $description = 'Interact with your application';
 
+
     /**
      * Execute the console command.
      *
@@ -43,9 +51,7 @@ class TinkerCommand extends Command
 
         $config = new Configuration;
 
-        $config->getPresenter()->addCasters(
-            $this->getCasters()
-        );
+        $config->getPresenter()->addCasters($this->getCasters());
 
         $shell = new Shell($config);
         $shell->addCommands($this->getCommands());
@@ -54,6 +60,7 @@ class TinkerCommand extends Command
         $shell->run();
     }
 
+
     /**
      * Get artisan commands to pass through to PsySH.
      *
@@ -61,7 +68,7 @@ class TinkerCommand extends Command
      */
     protected function getCommands()
     {
-        $commands = [];
+        $commands = [ ];
 
         foreach ($this->getApplication()->all() as $name => $command) {
             if (in_array($name, $this->commandWhitelist)) {
@@ -72,6 +79,7 @@ class TinkerCommand extends Command
         return $commands;
     }
 
+
     /**
      * Get an array of Laravel tailored casters.
      *
@@ -80,11 +88,12 @@ class TinkerCommand extends Command
     protected function getCasters()
     {
         return [
-            'Illuminate\Foundation\Application' => 'Illuminate\Foundation\Console\IlluminateCaster::castApplication',
-            'Illuminate\Support\Collection' => 'Illuminate\Foundation\Console\IlluminateCaster::castCollection',
+            'Illuminate\Foundation\Application'  => 'Illuminate\Foundation\Console\IlluminateCaster::castApplication',
+            'Illuminate\Support\Collection'      => 'Illuminate\Foundation\Console\IlluminateCaster::castCollection',
             'Illuminate\Database\Eloquent\Model' => 'Illuminate\Foundation\Console\IlluminateCaster::castModel',
         ];
     }
+
 
     /**
      * Get the console command arguments.
@@ -94,7 +103,7 @@ class TinkerCommand extends Command
     protected function getArguments()
     {
         return [
-            ['include', InputArgument::IS_ARRAY, 'Include file(s) before starting tinker'],
+            [ 'include', InputArgument::IS_ARRAY, 'Include file(s) before starting tinker' ],
         ];
     }
 }

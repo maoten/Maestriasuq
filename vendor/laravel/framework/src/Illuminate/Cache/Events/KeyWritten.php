@@ -4,6 +4,7 @@ namespace Illuminate\Cache\Events;
 
 class KeyWritten
 {
+
     /**
      * The key that was written.
      *
@@ -32,20 +33,22 @@ class KeyWritten
      */
     public $tags;
 
+
     /**
      * Create a new event instance.
      *
-     * @param  string  $key
+     * @param  string $key
      * @param  mixed  $value
-     * @param  int  $minutes
+     * @param  int    $minutes
      * @param  array  $tags
+     *
      * @return void
      */
-    public function __construct($key, $value, $minutes, $tags = [])
+    public function __construct($key, $value, $minutes, $tags = [ ])
     {
-        $this->key = $key;
-        $this->tags = $tags;
-        $this->value = $value;
+        $this->key     = $key;
+        $this->tags    = $tags;
+        $this->value   = $value;
         $this->minutes = $minutes;
     }
 }

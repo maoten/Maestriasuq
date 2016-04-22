@@ -21,13 +21,14 @@ use Symfony\Component\Debug\Exception\FatalErrorException;
  */
 class UndefinedFunctionFatalErrorHandler implements FatalErrorHandlerInterface
 {
+
     /**
      * {@inheritdoc}
      */
     public function handleError(array $error, FatalErrorException $exception)
     {
-        $messageLen = strlen($error['message']);
-        $notFoundSuffix = '()';
+        $messageLen        = strlen($error['message']);
+        $notFoundSuffix    = '()';
         $notFoundSuffixLen = strlen($notFoundSuffix);
         if ($notFoundSuffixLen > $messageLen) {
             return;
@@ -37,7 +38,7 @@ class UndefinedFunctionFatalErrorHandler implements FatalErrorHandlerInterface
             return;
         }
 
-        $prefix = 'Call to undefined function ';
+        $prefix    = 'Call to undefined function ';
         $prefixLen = strlen($prefix);
         if (0 !== strpos($error['message'], $prefix)) {
             return;
@@ -45,15 +46,16 @@ class UndefinedFunctionFatalErrorHandler implements FatalErrorHandlerInterface
 
         $fullyQualifiedFunctionName = substr($error['message'], $prefixLen, -$notFoundSuffixLen);
         if (false !== $namespaceSeparatorIndex = strrpos($fullyQualifiedFunctionName, '\\')) {
-            $functionName = substr($fullyQualifiedFunctionName, $namespaceSeparatorIndex + 1);
+            $functionName    = substr($fullyQualifiedFunctionName, $namespaceSeparatorIndex + 1);
             $namespacePrefix = substr($fullyQualifiedFunctionName, 0, $namespaceSeparatorIndex);
-            $message = sprintf('Attempted to call function "%s" from namespace "%s".', $functionName, $namespacePrefix);
+            $message         = sprintf('Attempted to call function "%s" from namespace "%s".', $functionName,
+                $namespacePrefix);
         } else {
             $functionName = $fullyQualifiedFunctionName;
-            $message = sprintf('Attempted to call function "%s" from the global namespace.', $functionName);
+            $message      = sprintf('Attempted to call function "%s" from the global namespace.', $functionName);
         }
 
-        $candidates = array();
+        $candidates = [ ];
         foreach (get_defined_functions() as $type => $definedFunctionNames) {
             foreach ($definedFunctionNames as $definedFunctionName) {
                 if (false !== $namespaceSeparatorIndex = strrpos($definedFunctionName, '\\')) {
@@ -63,20 +65,20 @@ class UndefinedFunctionFatalErrorHandler implements FatalErrorHandlerInterface
                 }
 
                 if ($definedFunctionNameBasename === $functionName) {
-                    $candidates[] = '\\'.$definedFunctionName;
+                    $candidates[] = '\\' . $definedFunctionName;
                 }
             }
         }
 
         if ($candidates) {
             sort($candidates);
-            $last = array_pop($candidates).'"?';
+            $last = array_pop($candidates) . '"?';
             if ($candidates) {
-                $candidates = 'e.g. "'.implode('", "', $candidates).'" or "'.$last;
+                $candidates = 'e.g. "' . implode('", "', $candidates) . '" or "' . $last;
             } else {
-                $candidates = '"'.$last;
+                $candidates = '"' . $last;
             }
-            $message .= "\nDid you mean to call ".$candidates;
+            $message .= "\nDid you mean to call " . $candidates;
         }
 
         return new UndefinedFunctionException($message, $exception);

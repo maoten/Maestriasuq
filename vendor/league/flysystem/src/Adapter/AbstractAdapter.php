@@ -6,6 +6,7 @@ use League\Flysystem\AdapterInterface;
 
 abstract class AbstractAdapter implements AdapterInterface
 {
+
     /**
      * @var string path prefix
      */
@@ -16,6 +17,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected $pathSeparator = '/';
 
+
     /**
      * Set the path prefix.
      *
@@ -25,7 +27,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function setPathPrefix($prefix)
     {
-        $is_empty = empty($prefix);
+        $is_empty = empty( $prefix );
 
         if ( ! $is_empty) {
             $prefix = rtrim($prefix, $this->pathSeparator) . $this->pathSeparator;
@@ -33,6 +35,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
         $this->pathPrefix = $is_empty ? null : $prefix;
     }
+
 
     /**
      * Get the path prefix.
@@ -43,6 +46,7 @@ abstract class AbstractAdapter implements AdapterInterface
     {
         return $this->pathPrefix;
     }
+
 
     /**
      * Prefix a path.
@@ -65,6 +69,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
         return $path;
     }
+
 
     /**
      * Remove a path prefix.

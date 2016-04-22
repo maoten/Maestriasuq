@@ -15,6 +15,7 @@
  */
 class PHPUnit_Framework_SyntheticError extends PHPUnit_Framework_AssertionFailedError
 {
+
     /**
      * The synthetic file.
      *
@@ -34,7 +35,8 @@ class PHPUnit_Framework_SyntheticError extends PHPUnit_Framework_AssertionFailed
      *
      * @var array
      */
-    protected $syntheticTrace = array();
+    protected $syntheticTrace = [ ];
+
 
     /**
      * Constructor.
@@ -54,6 +56,7 @@ class PHPUnit_Framework_SyntheticError extends PHPUnit_Framework_AssertionFailed
         $this->syntheticTrace = $trace;
     }
 
+
     /**
      * @return string
      */
@@ -62,6 +65,7 @@ class PHPUnit_Framework_SyntheticError extends PHPUnit_Framework_AssertionFailed
         return $this->syntheticFile;
     }
 
+
     /**
      * @return int
      */
@@ -69,6 +73,7 @@ class PHPUnit_Framework_SyntheticError extends PHPUnit_Framework_AssertionFailed
     {
         return $this->syntheticLine;
     }
+
 
     /**
      * @return array

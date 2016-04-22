@@ -15,8 +15,10 @@
  */
 class Swift_Mailer
 {
+
     /** The Transport used to send messages */
     private $_transport;
+
 
     /**
      * Create a new Mailer using $transport for delivery.
@@ -27,6 +29,7 @@ class Swift_Mailer
     {
         $this->_transport = $transport;
     }
+
 
     /**
      * Create a new Mailer instance.
@@ -40,6 +43,7 @@ class Swift_Mailer
         return new self($transport);
     }
 
+
     /**
      * Create a new class instance of one of the message services.
      *
@@ -51,9 +55,9 @@ class Swift_Mailer
      */
     public function createMessage($service = 'message')
     {
-        return Swift_DependencyContainer::getInstance()
-            ->lookup('message.'.$service);
+        return Swift_DependencyContainer::getInstance()->lookup('message.' . $service);
     }
+
 
     /**
      * Send the given Message like it would be sent in a mail client.
@@ -75,7 +79,7 @@ class Swift_Mailer
     {
         $failedRecipients = (array) $failedRecipients;
 
-        if (!$this->_transport->isStarted()) {
+        if ( ! $this->_transport->isStarted()) {
             $this->_transport->start();
         }
 
@@ -92,6 +96,7 @@ class Swift_Mailer
         return $sent;
     }
 
+
     /**
      * Register a plugin using a known unique key (e.g. myPlugin).
      *
@@ -101,6 +106,7 @@ class Swift_Mailer
     {
         $this->_transport->registerPlugin($plugin);
     }
+
 
     /**
      * The Transport used to send messages.

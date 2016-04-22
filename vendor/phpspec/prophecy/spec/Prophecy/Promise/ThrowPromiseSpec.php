@@ -6,15 +6,18 @@ use PhpSpec\ObjectBehavior;
 
 class ThrowPromiseSpec extends ObjectBehavior
 {
+
     function let()
     {
         $this->beConstructedWith('RuntimeException');
     }
 
+
     function it_is_promise()
     {
         $this->shouldBeAnInstanceOf('Prophecy\Promise\PromiseInterface');
     }
+
 
     /**
      * @param \Prophecy\Prophecy\ObjectProphecy $object
@@ -24,9 +27,9 @@ class ThrowPromiseSpec extends ObjectBehavior
     {
         $this->beConstructedWith('InvalidArgumentException');
 
-        $this->shouldThrow('InvalidArgumentException')
-            ->duringExecute(array(), $object, $method);
+        $this->shouldThrow('InvalidArgumentException')->duringExecute([ ], $object, $method);
     }
+
 
     /**
      * @param \Prophecy\Prophecy\ObjectProphecy $object
@@ -36,9 +39,9 @@ class ThrowPromiseSpec extends ObjectBehavior
     {
         $this->beConstructedWith('spec\Prophecy\Promise\RequiredArgumentException');
 
-        $this->shouldThrow('spec\Prophecy\Promise\RequiredArgumentException')
-            ->duringExecute(array(), $object, $method);
+        $this->shouldThrow('spec\Prophecy\Promise\RequiredArgumentException')->duringExecute([ ], $object, $method);
     }
+
 
     /**
      * @param \Prophecy\Prophecy\ObjectProphecy $object
@@ -48,11 +51,14 @@ class ThrowPromiseSpec extends ObjectBehavior
     {
         $this->beConstructedWith($exc = new \RuntimeException('Some exception'));
 
-        $this->shouldThrow($exc)->duringExecute(array(), $object, $method);
+        $this->shouldThrow($exc)->duringExecute([ ], $object, $method);
     }
 }
 
 class RequiredArgumentException extends \Exception
 {
-    final public function __construct($message, $code) {}
+
+    final public function __construct($message, $code)
+    {
+    }
 }

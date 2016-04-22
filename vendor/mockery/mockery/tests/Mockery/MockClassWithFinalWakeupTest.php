@@ -31,10 +31,12 @@ class MockClassWithFinalWakeupTest extends MockeryTestCase
         $this->container = new \Mockery\Container;
     }
 
+
     protected function tearDown()
     {
         $this->container->mockery_close();
     }
+
 
     /**
      * @test
@@ -54,6 +56,7 @@ class MockClassWithFinalWakeupTest extends MockeryTestCase
         $this->assertEquals('test\Mockery\TestWithFinalWakeup::__wakeup', $mock->__wakeup());
     }
 
+
     public function testCreateMockForClassWithNonFinalWakeup()
     {
         $mock = $this->container->mock('test\Mockery\TestWithNonFinalWakeup');
@@ -72,10 +75,12 @@ class TestWithFinalWakeup
         return 'foo';
     }
 
+
     public function bar()
     {
         return 'bar';
     }
+
 
     final public function __wakeup()
     {
@@ -85,10 +90,12 @@ class TestWithFinalWakeup
 
 class SubclassWithFinalWakeup extends TestWithFinalWakeup
 {
+
 }
 
 class TestWithNonFinalWakeup
 {
+
     public function __wakeup()
     {
         return __METHOD__;

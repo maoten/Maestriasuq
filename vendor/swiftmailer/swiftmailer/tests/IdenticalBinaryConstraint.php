@@ -7,12 +7,15 @@
  */
 class IdenticalBinaryConstraint extends \PHPUnit_Framework_Constraint
 {
+
     protected $value;
+
 
     public function __construct($value)
     {
         $this->value = $value;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns TRUE if the
@@ -30,6 +33,7 @@ class IdenticalBinaryConstraint extends \PHPUnit_Framework_Constraint
         return $aHex === $bHex;
     }
 
+
     /**
      * Returns a string representation of the constraint.
      *
@@ -39,6 +43,7 @@ class IdenticalBinaryConstraint extends \PHPUnit_Framework_Constraint
     {
         return 'indentical binary';
     }
+
 
     /**
      * Get the given string of bytes as a stirng of Hexadecimal sequences.

@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
  */
 class TestSessionListenerTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @var TestSessionListener
      */
@@ -36,11 +37,13 @@ class TestSessionListenerTest extends \PHPUnit_Framework_TestCase
      */
     private $session;
 
+
     protected function setUp()
     {
         $this->listener = $this->getMockForAbstractClass('Symfony\Component\HttpKernel\EventListener\TestSessionListener');
-        $this->session = $this->getSession();
+        $this->session  = $this->getSession();
     }
+
 
     public function testShouldSaveMasterRequestSession()
     {
@@ -50,12 +53,14 @@ class TestSessionListenerTest extends \PHPUnit_Framework_TestCase
         $this->filterResponse(new Request());
     }
 
+
     public function testShouldNotSaveSubRequestSession()
     {
         $this->sessionMustNotBeSaved();
 
         $this->filterResponse(new Request(), HttpKernelInterface::SUB_REQUEST);
     }
+
 
     public function testDoesNotDeleteCookieIfUsingSessionLifetime()
     {
@@ -65,10 +70,11 @@ class TestSessionListenerTest extends \PHPUnit_Framework_TestCase
         session_set_cookie_params(0, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
 
         $response = $this->filterResponse(new Request(), HttpKernelInterface::MASTER_REQUEST);
-        $cookies = $response->headers->getCookies();
+        $cookies  = $response->headers->getCookies();
 
         $this->assertEquals(0, reset($cookies)->getExpiresTime());
     }
+
 
     public function testUnstartedSessionIsNotSave()
     {
@@ -78,12 +84,13 @@ class TestSessionListenerTest extends \PHPUnit_Framework_TestCase
         $this->filterResponse(new Request());
     }
 
+
     private function filterResponse(Request $request, $type = HttpKernelInterface::MASTER_REQUEST)
     {
         $request->setSession($this->session);
         $response = new Response();
-        $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
-        $event = new FilterResponseEvent($kernel, $request, $type, $response);
+        $kernel   = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $event    = new FilterResponseEvent($kernel, $request, $type, $response);
 
         $this->listener->onKernelResponse($event);
 
@@ -92,37 +99,34 @@ class TestSessionListenerTest extends \PHPUnit_Framework_TestCase
         return $response;
     }
 
+
     private function sessionMustNotBeSaved()
     {
-        $this->session->expects($this->never())
-            ->method('save');
+        $this->session->expects($this->never())->method('save');
     }
+
 
     private function sessionMustBeSaved()
     {
-        $this->session->expects($this->once())
-            ->method('save');
+        $this->session->expects($this->once())->method('save');
     }
+
 
     private function sessionHasBeenStarted()
     {
-        $this->session->expects($this->once())
-            ->method('isStarted')
-            ->will($this->returnValue(true));
+        $this->session->expects($this->once())->method('isStarted')->will($this->returnValue(true));
     }
+
 
     private function sessionHasNotBeenStarted()
     {
-        $this->session->expects($this->once())
-            ->method('isStarted')
-            ->will($this->returnValue(false));
+        $this->session->expects($this->once())->method('isStarted')->will($this->returnValue(false));
     }
+
 
     private function getSession()
     {
-        $mock = $this->getMockBuilder('Symfony\Component\HttpFoundation\Session\Session')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mock = $this->getMockBuilder('Symfony\Component\HttpFoundation\Session\Session')->disableOriginalConstructor()->getMock();
 
         // set return value for getName()
         $mock->expects($this->any())->method('getName')->will($this->returnValue('MOCKSESSID'));

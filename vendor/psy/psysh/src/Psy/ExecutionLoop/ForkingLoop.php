@@ -21,7 +21,9 @@ use Psy\Shell;
  */
 class ForkingLoop extends Loop
 {
+
     private $savegame;
+
 
     /**
      * Run the execution loop.
@@ -34,9 +36,9 @@ class ForkingLoop extends Loop
      */
     public function run(Shell $shell)
     {
-        list($up, $down) = stream_socket_pair(STREAM_PF_UNIX, STREAM_SOCK_STREAM, STREAM_IPPROTO_IP);
+        list( $up, $down ) = stream_socket_pair(STREAM_PF_UNIX, STREAM_SOCK_STREAM, STREAM_IPPROTO_IP);
 
-        if (!$up) {
+        if ( ! $up) {
             throw new \RuntimeException('Unable to create socket pair.');
         }
 
@@ -50,7 +52,7 @@ class ForkingLoop extends Loop
             fclose($up);
 
             // Wait for a return value from the loop process.
-            $read   = array($down);
+            $read   = [ $down ];
             $write  = null;
             $except = null;
             if (stream_select($read, $write, $except, null) === false) {
@@ -85,6 +87,7 @@ class ForkingLoop extends Loop
         exit;
     }
 
+
     /**
      * Create a savegame at the start of each loop iteration.
      */
@@ -93,17 +96,19 @@ class ForkingLoop extends Loop
         $this->createSavegame();
     }
 
+
     /**
      * Clean up old savegames at the end of each loop iteration.
      */
     public function afterLoop()
     {
         // if there's an old savegame hanging around, let's kill it.
-        if (isset($this->savegame)) {
+        if (isset( $this->savegame )) {
             posix_kill($this->savegame, SIGKILL);
             pcntl_signal_dispatch();
         }
     }
+
 
     /**
      * Create a savegame fork.
@@ -125,7 +130,7 @@ class ForkingLoop extends Loop
             pcntl_waitpid($pid, $status);
 
             // worker exited cleanly, let's bail
-            if (!pcntl_wexitstatus($status)) {
+            if ( ! pcntl_wexitstatus($status)) {
                 posix_kill(posix_getpid(), SIGKILL);
             }
 
@@ -133,6 +138,7 @@ class ForkingLoop extends Loop
             $this->createSavegame();
         }
     }
+
 
     /**
      * Serialize all serializable return values.
@@ -148,7 +154,7 @@ class ForkingLoop extends Loop
      */
     private function serializeReturn(array $return)
     {
-        $serializable = array();
+        $serializable = [ ];
 
         foreach ($return as $key => $value) {
             // No need to return magic variables

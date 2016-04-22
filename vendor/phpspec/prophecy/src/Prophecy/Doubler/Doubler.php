@@ -26,19 +26,23 @@ use ReflectionClass;
  */
 class Doubler
 {
+
     private $mirror;
+
     private $creator;
+
     private $namer;
 
     /**
      * @var ClassPatchInterface[]
      */
-    private $patches = array();
+    private $patches = [ ];
 
     /**
      * @var \Doctrine\Instantiator\Instantiator
      */
     private $instantiator;
+
 
     /**
      * Initializes doubler.
@@ -47,13 +51,16 @@ class Doubler
      * @param ClassCreator  $creator
      * @param NameGenerator $namer
      */
-    public function __construct(ClassMirror $mirror = null, ClassCreator $creator = null,
-                                NameGenerator $namer = null)
-    {
-        $this->mirror  = $mirror  ?: new ClassMirror;
+    public function __construct(
+        ClassMirror $mirror = null,
+        ClassCreator $creator = null,
+        NameGenerator $namer = null
+    ) {
+        $this->mirror  = $mirror ?: new ClassMirror;
         $this->creator = $creator ?: new ClassCreator;
-        $this->namer   = $namer   ?: new NameGenerator;
+        $this->namer   = $namer ?: new NameGenerator;
     }
+
 
     /**
      * Returns list of registered class patches.
@@ -64,6 +71,7 @@ class Doubler
     {
         return $this->patches;
     }
+
 
     /**
      * Registers new class patch.
@@ -79,6 +87,7 @@ class Doubler
         });
     }
 
+
     /**
      * Creates double from specific class or/and list of interfaces.
      *
@@ -93,12 +102,9 @@ class Doubler
     public function double(ReflectionClass $class = null, array $interfaces, array $args = null)
     {
         foreach ($interfaces as $interface) {
-            if (!$interface instanceof ReflectionClass) {
-                throw new InvalidArgumentException(sprintf(
-                    "[ReflectionClass \$interface1 [, ReflectionClass \$interface2]] array expected as\n".
-                    "a second argument to `Doubler::double(...)`, but got %s.",
-                    is_object($interface) ? get_class($interface).' class' : gettype($interface)
-                ));
+            if ( ! $interface instanceof ReflectionClass) {
+                throw new InvalidArgumentException(sprintf("[ReflectionClass \$interface1 [, ReflectionClass \$interface2]] array expected as\n" . "a second argument to `Doubler::double(...)`, but got %s.",
+                    is_object($interface) ? get_class($interface) . ' class' : gettype($interface)));
             }
         }
 
@@ -108,17 +114,17 @@ class Doubler
         if (null !== $args) {
             return $reflection->newInstanceArgs($args);
         }
-        if ((null === $constructor = $reflection->getConstructor())
-            || ($constructor->isPublic() && !$constructor->isFinal())) {
+        if (( null === $constructor = $reflection->getConstructor() ) || ( $constructor->isPublic() && ! $constructor->isFinal() )) {
             return $reflection->newInstance();
         }
 
-        if (!$this->instantiator) {
+        if ( ! $this->instantiator) {
             $this->instantiator = new Instantiator();
         }
 
         return $this->instantiator->instantiate($classname);
     }
+
 
     /**
      * Creates double class and returns its FQN.

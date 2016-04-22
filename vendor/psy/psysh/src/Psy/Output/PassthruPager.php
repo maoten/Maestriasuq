@@ -19,6 +19,7 @@ use Symfony\Component\Console\Output\StreamOutput;
  */
 class PassthruPager extends StreamOutput implements OutputPager
 {
+
     /**
      * Constructor.
      *
@@ -28,6 +29,7 @@ class PassthruPager extends StreamOutput implements OutputPager
     {
         parent::__construct($output->getStream());
     }
+
 
     /**
      * Close the current pager process.

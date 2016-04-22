@@ -6,12 +6,14 @@ use PhpParser\Node;
 
 interface FunctionLike extends Node
 {
+
     /**
      * Whether to return by reference
      *
      * @return bool
      */
     public function returnsByRef();
+
 
     /**
      * List of parameters
@@ -20,12 +22,14 @@ interface FunctionLike extends Node
      */
     public function getParams();
 
+
     /**
      * Get the declared return type or null
-     * 
+     *
      * @return null|string|Node\Name
      */
     public function getReturnType();
+
 
     /**
      * The function body

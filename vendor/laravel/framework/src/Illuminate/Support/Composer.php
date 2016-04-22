@@ -9,6 +9,7 @@ use Symfony\Component\Process\PhpExecutableFinder;
 
 class Composer
 {
+
     /**
      * The filesystem instance.
      *
@@ -23,33 +24,38 @@ class Composer
      */
     protected $workingPath;
 
+
     /**
      * Create a new Composer manager instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
-     * @param  string|null  $workingPath
+     * @param  \Illuminate\Filesystem\Filesystem $files
+     * @param  string|null                       $workingPath
+     *
      * @return void
      */
     public function __construct(Filesystem $files, $workingPath = null)
     {
-        $this->files = $files;
+        $this->files       = $files;
         $this->workingPath = $workingPath;
     }
+
 
     /**
      * Regenerate the Composer autoloader files.
      *
-     * @param  string  $extra
+     * @param  string $extra
+     *
      * @return void
      */
     public function dumpAutoloads($extra = '')
     {
         $process = $this->getProcess();
 
-        $process->setCommandLine(trim($this->findComposer().' dump-autoload '.$extra));
+        $process->setCommandLine(trim($this->findComposer() . ' dump-autoload ' . $extra));
 
         $process->run();
     }
+
 
     /**
      * Regenerate the optimized Composer autoloader files.
@@ -61,6 +67,7 @@ class Composer
         $this->dumpAutoloads('--optimize');
     }
 
+
     /**
      * Get the composer command for the environment.
      *
@@ -68,7 +75,7 @@ class Composer
      */
     protected function findComposer()
     {
-        if (! $this->files->exists($this->workingPath.'/composer.phar')) {
+        if ( ! $this->files->exists($this->workingPath . '/composer.phar')) {
             return 'composer';
         }
 
@@ -81,6 +88,7 @@ class Composer
         return "{$binary} composer.phar";
     }
 
+
     /**
      * Get a new Symfony process instance.
      *
@@ -91,10 +99,12 @@ class Composer
         return (new Process('', $this->workingPath))->setTimeout(null);
     }
 
+
     /**
      * Set the working path used by the class.
      *
-     * @param  string  $path
+     * @param  string $path
+     *
      * @return $this
      */
     public function setWorkingPath($path)

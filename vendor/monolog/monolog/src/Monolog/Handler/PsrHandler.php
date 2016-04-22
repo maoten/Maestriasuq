@@ -21,12 +21,14 @@ use Psr\Log\LoggerInterface;
  */
 class PsrHandler extends AbstractHandler
 {
+
     /**
      * PSR-3 compliant logger
      *
      * @var LoggerInterface
      */
     protected $logger;
+
 
     /**
      * @param LoggerInterface $logger The underlying PSR-3 compliant logger to which messages will be proxied
@@ -40,12 +42,13 @@ class PsrHandler extends AbstractHandler
         $this->logger = $logger;
     }
 
+
     /**
      * {@inheritDoc}
      */
     public function handle(array $record)
     {
-        if (!$this->isHandling($record)) {
+        if ( ! $this->isHandling($record)) {
             return false;
         }
 

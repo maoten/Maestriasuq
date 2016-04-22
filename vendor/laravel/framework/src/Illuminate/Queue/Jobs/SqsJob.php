@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\Job as JobContract;
 
 class SqsJob extends Job implements JobContract
 {
+
     /**
      * The Amazon SQS client instance.
      *
@@ -22,25 +23,29 @@ class SqsJob extends Job implements JobContract
      */
     protected $job;
 
+
     /**
      * Create a new job instance.
      *
-     * @param  \Illuminate\Container\Container  $container
-     * @param  \Aws\Sqs\SqsClient  $sqs
-     * @param  string  $queue
-     * @param  array   $job
+     * @param  \Illuminate\Container\Container $container
+     * @param  \Aws\Sqs\SqsClient              $sqs
+     * @param  string                          $queue
+     * @param  array                           $job
+     *
      * @return void
      */
-    public function __construct(Container $container,
-                                SqsClient $sqs,
-                                $queue,
-                                array $job)
-    {
-        $this->sqs = $sqs;
-        $this->job = $job;
-        $this->queue = $queue;
+    public function __construct(
+        Container $container,
+        SqsClient $sqs,
+        $queue,
+        array $job
+    ) {
+        $this->sqs       = $sqs;
+        $this->job       = $job;
+        $this->queue     = $queue;
         $this->container = $container;
     }
+
 
     /**
      * Fire the job.
@@ -52,6 +57,7 @@ class SqsJob extends Job implements JobContract
         $this->resolveAndFire(json_decode($this->getRawBody(), true));
     }
 
+
     /**
      * Get the raw body string for the job.
      *
@@ -61,6 +67,7 @@ class SqsJob extends Job implements JobContract
     {
         return $this->job['Body'];
     }
+
 
     /**
      * Delete the job from the queue.
@@ -73,15 +80,18 @@ class SqsJob extends Job implements JobContract
 
         $this->sqs->deleteMessage([
 
-            'QueueUrl' => $this->queue, 'ReceiptHandle' => $this->job['ReceiptHandle'],
+            'QueueUrl'      => $this->queue,
+            'ReceiptHandle' => $this->job['ReceiptHandle'],
 
         ]);
     }
 
+
     /**
      * Release the job back into the queue.
      *
-     * @param  int   $delay
+     * @param  int $delay
+     *
      * @return void
      */
     public function release($delay = 0)
@@ -89,11 +99,12 @@ class SqsJob extends Job implements JobContract
         parent::release($delay);
 
         $this->sqs->changeMessageVisibility([
-            'QueueUrl' => $this->queue,
-            'ReceiptHandle' => $this->job['ReceiptHandle'],
+            'QueueUrl'          => $this->queue,
+            'ReceiptHandle'     => $this->job['ReceiptHandle'],
             'VisibilityTimeout' => $delay,
         ]);
     }
+
 
     /**
      * Get the number of times the job has been attempted.
@@ -105,6 +116,7 @@ class SqsJob extends Job implements JobContract
         return (int) $this->job['Attributes']['ApproximateReceiveCount'];
     }
 
+
     /**
      * Get the job identifier.
      *
@@ -114,6 +126,7 @@ class SqsJob extends Job implements JobContract
     {
         return $this->job['MessageId'];
     }
+
 
     /**
      * Get the IoC container instance.
@@ -125,6 +138,7 @@ class SqsJob extends Job implements JobContract
         return $this->container;
     }
 
+
     /**
      * Get the underlying SQS client instance.
      *
@@ -134,6 +148,7 @@ class SqsJob extends Job implements JobContract
     {
         return $this->sqs;
     }
+
 
     /**
      * Get the underlying raw SQS job.

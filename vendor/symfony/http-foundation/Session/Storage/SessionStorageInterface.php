@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
  */
 interface SessionStorageInterface
 {
+
     /**
      * Starts the session.
      *
@@ -30,12 +31,14 @@ interface SessionStorageInterface
      */
     public function start();
 
+
     /**
      * Checks if the session is started.
      *
      * @return bool True if started, false otherwise.
      */
     public function isStarted();
+
 
     /**
      * Returns the session ID.
@@ -44,12 +47,14 @@ interface SessionStorageInterface
      */
     public function getId();
 
+
     /**
      * Sets the session ID.
      *
      * @param string $id
      */
     public function setId($id);
+
 
     /**
      * Returns the session name.
@@ -58,12 +63,14 @@ interface SessionStorageInterface
      */
     public function getName();
 
+
     /**
      * Sets the session name.
      *
      * @param string $name
      */
     public function setName($name);
+
 
     /**
      * Regenerates id that represents this storage.
@@ -96,6 +103,7 @@ interface SessionStorageInterface
      */
     public function regenerate($destroy = false, $lifetime = null);
 
+
     /**
      * Force the session to be saved and closed.
      *
@@ -109,10 +117,12 @@ interface SessionStorageInterface
      */
     public function save();
 
+
     /**
      * Clear all session data in memory.
      */
     public function clear();
+
 
     /**
      * Gets a SessionBagInterface by name.
@@ -125,12 +135,14 @@ interface SessionStorageInterface
      */
     public function getBag($name);
 
+
     /**
      * Registers a SessionBagInterface for use.
      *
      * @param SessionBagInterface $bag
      */
     public function registerBag(SessionBagInterface $bag);
+
 
     /**
      * @return MetadataBag

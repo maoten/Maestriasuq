@@ -42,7 +42,7 @@ class ExpectationDirector
      *
      * @var array
      */
-    protected $_expectations = array();
+    protected $_expectations = [ ];
 
     /**
      * The expected order of next call
@@ -56,12 +56,13 @@ class ExpectationDirector
      *
      * @var array
      */
-    protected $_defaults = array();
+    protected $_defaults = [ ];
+
 
     /**
      * Constructor
      *
-     * @param string $name
+     * @param string                 $name
      * @param \Mockery\MockInterface $mock
      */
     public function __construct($name, \Mockery\MockInterface $mock)
@@ -69,6 +70,7 @@ class ExpectationDirector
         $this->_name = $name;
         $this->_mock = $mock;
     }
+
 
     /**
      * Add a new expectation to the director
@@ -80,32 +82,27 @@ class ExpectationDirector
         $this->_expectations[] = $expectation;
     }
 
+
     /**
      * Handle a method call being directed by this instance
      *
      * @param array $args
+     *
      * @return mixed
      */
     public function call(array $args)
     {
         $expectation = $this->findExpectation($args);
         if (is_null($expectation)) {
-            $exception = new \Mockery\Exception\NoMatchingExpectationException(
-                'No matching handler found for '
-                . $this->_mock->mockery_getName() . '::'
-                . \Mockery::formatArgs($this->_name, $args)
-                . '. Either the method was unexpected or its arguments matched'
-                . ' no expected argument list for this method'
-                . PHP_EOL . PHP_EOL
-                . \Mockery::formatObjects($args)
-            );
-            $exception->setMock($this->_mock)
-                ->setMethodName($this->_name)
-                ->setActualArguments($args);
+            $exception = new \Mockery\Exception\NoMatchingExpectationException('No matching handler found for ' . $this->_mock->mockery_getName() . '::' . \Mockery::formatArgs($this->_name,
+                    $args) . '. Either the method was unexpected or its arguments matched' . ' no expected argument list for this method' . PHP_EOL . PHP_EOL . \Mockery::formatObjects($args));
+            $exception->setMock($this->_mock)->setMethodName($this->_name)->setActualArguments($args);
             throw $exception;
         }
+
         return $expectation->verifyCall($args);
     }
+
 
     /**
      * Verify all expectations of the director
@@ -115,7 +112,7 @@ class ExpectationDirector
      */
     public function verify()
     {
-        if (!empty($this->_expectations)) {
+        if ( ! empty( $this->_expectations )) {
             foreach ($this->_expectations as $exp) {
                 $exp->verify();
             }
@@ -126,20 +123,23 @@ class ExpectationDirector
         }
     }
 
+
     /**
      * Attempt to locate an expectation matching the provided args
      *
      * @param array $args
+     *
      * @return mixed
      */
     public function findExpectation(array $args)
     {
-        if (!empty($this->_expectations)) {
+        if ( ! empty( $this->_expectations )) {
             return $this->_findExpectationIn($this->_expectations, $args);
         } else {
             return $this->_findExpectationIn($this->_defaults, $args);
         }
     }
+
 
     /**
      * Make the given expectation a default for all others assuming it was
@@ -154,17 +154,17 @@ class ExpectationDirector
             array_pop($this->_expectations);
             array_unshift($this->_defaults, $expectation);
         } else {
-            throw new \Mockery\Exception(
-                'Cannot turn a previously defined expectation into a default'
-            );
+            throw new \Mockery\Exception('Cannot turn a previously defined expectation into a default');
         }
     }
+
 
     /**
      * Search current array of expectations for a match
      *
      * @param array $expectations
      * @param array $args
+     *
      * @return mixed
      */
     protected function _findExpectationIn(array $expectations, array $args)
@@ -181,6 +181,7 @@ class ExpectationDirector
         }
     }
 
+
     /**
      * Return all expectations assigned to this director
      *
@@ -190,6 +191,7 @@ class ExpectationDirector
     {
         return $this->_expectations;
     }
+
 
     /**
      * Return the number of expectations assigned to this director.

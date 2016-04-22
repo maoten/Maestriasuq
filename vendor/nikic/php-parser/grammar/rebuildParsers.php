@@ -5,23 +5,23 @@ $grammarFileToName = [
     __DIR__ . '/php7.y' => 'Php7',
 ];
 
-$tokensFile     = __DIR__ . '/tokens.y';
-$tokensTemplate = __DIR__ . '/tokens.template';
-$skeletonFile   = __DIR__ . '/parser.template';
-$tmpGrammarFile = __DIR__ . '/tmp_parser.phpy';
-$tmpResultFile  = __DIR__ . '/tmp_parser.php';
-$resultDir = __DIR__ . '/../lib/PhpParser/Parser';
+$tokensFile        = __DIR__ . '/tokens.y';
+$tokensTemplate    = __DIR__ . '/tokens.template';
+$skeletonFile      = __DIR__ . '/parser.template';
+$tmpGrammarFile    = __DIR__ . '/tmp_parser.phpy';
+$tmpResultFile     = __DIR__ . '/tmp_parser.php';
+$resultDir         = __DIR__ . '/../lib/PhpParser/Parser';
 $tokensResultsFile = $resultDir . '/Tokens.php';
 
 // check for kmyacc.exe binary in this directory, otherwise fall back to global name
 $kmyacc = __DIR__ . '/kmyacc.exe';
-if (!file_exists($kmyacc)) {
+if ( ! file_exists($kmyacc)) {
     $kmyacc = 'kmyacc';
 }
 
-$options = array_flip($argv);
-$optionDebug = isset($options['--debug']);
-$optionKeepTmpGrammar = isset($options['--keep-tmp-grammar']);
+$options              = array_flip($argv);
+$optionDebug          = isset( $options['--debug'] );
+$optionKeepTmpGrammar = isset( $options['--keep-tmp-grammar'] );
 
 ///////////////////////////////
 /// Utility regex constants ///
@@ -74,7 +74,7 @@ foreach ($grammarFileToName as $grammarFile => $name) {
     assert($output === '');
     rename($tmpResultFile, $tokensResultsFile);
 
-    if (!$optionKeepTmpGrammar) {
+    if ( ! $optionKeepTmpGrammar) {
         unlink($tmpGrammarFile);
     }
 }
@@ -83,118 +83,108 @@ foreach ($grammarFileToName as $grammarFile => $name) {
 /// Preprocessing functions ///
 ///////////////////////////////
 
-function resolveNodes($code) {
-    return preg_replace_callback(
-        '~(?<name>[A-Z][a-zA-Z_\\\\]++)\s*' . PARAMS . '~',
-        function($matches) {
-            // recurse
-            $matches['params'] = resolveNodes($matches['params']);
+function resolveNodes($code)
+{
+    return preg_replace_callback('~(?<name>[A-Z][a-zA-Z_\\\\]++)\s*' . PARAMS . '~', function ($matches) {
+        // recurse
+        $matches['params'] = resolveNodes($matches['params']);
 
-            $params = magicSplit(
-                '(?:' . PARAMS . '|' . ARGS . ')(*SKIP)(*FAIL)|,',
-                $matches['params']
-            );
+        $params = magicSplit('(?:' . PARAMS . '|' . ARGS . ')(*SKIP)(*FAIL)|,', $matches['params']);
 
-            $paramCode = '';
-            foreach ($params as $param) {
-                $paramCode .= $param . ', ';
-            }
+        $paramCode = '';
+        foreach ($params as $param) {
+            $paramCode .= $param . ', ';
+        }
 
-            return 'new ' . $matches['name'] . '(' . $paramCode . 'attributes())';
-        },
-        $code
-    );
+        return 'new ' . $matches['name'] . '(' . $paramCode . 'attributes())';
+    }, $code);
 }
 
-function resolveMacros($code) {
-    return preg_replace_callback(
-        '~\b(?<!::|->)(?!array\()(?<name>[a-z][A-Za-z]++)' . ARGS . '~',
-        function($matches) {
-            // recurse
-            $matches['args'] = resolveMacros($matches['args']);
+function resolveMacros($code)
+{
+    return preg_replace_callback('~\b(?<!::|->)(?!array\()(?<name>[a-z][A-Za-z]++)' . ARGS . '~', function ($matches) {
+        // recurse
+        $matches['args'] = resolveMacros($matches['args']);
 
-            $name = $matches['name'];
-            $args = magicSplit(
-                '(?:' . PARAMS . '|' . ARGS . ')(*SKIP)(*FAIL)|,',
-                $matches['args']
-            );
+        $name = $matches['name'];
+        $args = magicSplit('(?:' . PARAMS . '|' . ARGS . ')(*SKIP)(*FAIL)|,', $matches['args']);
 
-            if ('attributes' == $name) {
-                assertArgs(0, $args, $name);
-                return '$this->startAttributeStack[#1] + $this->endAttributes';
-            }
+        if ('attributes' == $name) {
+            assertArgs(0, $args, $name);
 
-            if ('init' == $name) {
-                return '$$ = array(' . implode(', ', $args) . ')';
-            }
+            return '$this->startAttributeStack[#1] + $this->endAttributes';
+        }
 
-            if ('push' == $name) {
-                assertArgs(2, $args, $name);
+        if ('init' == $name) {
+            return '$$ = array(' . implode(', ', $args) . ')';
+        }
 
-                return $args[0] . '[] = ' . $args[1] . '; $$ = ' . $args[0];
-            }
+        if ('push' == $name) {
+            assertArgs(2, $args, $name);
 
-            if ('pushNormalizing' == $name) {
-                assertArgs(2, $args, $name);
+            return $args[0] . '[] = ' . $args[1] . '; $$ = ' . $args[0];
+        }
 
-                return 'if (is_array(' . $args[1] . ')) { $$ = array_merge(' . $args[0] . ', ' . $args[1] . '); }'
-                     . ' else { ' . $args[0] . '[] = ' . $args[1] . '; $$ = ' . $args[0] . '; }';
-            }
+        if ('pushNormalizing' == $name) {
+            assertArgs(2, $args, $name);
 
-            if ('toArray' == $name) {
-                assertArgs(1, $args, $name);
+            return 'if (is_array(' . $args[1] . ')) { $$ = array_merge(' . $args[0] . ', ' . $args[1] . '); }' . ' else { ' . $args[0] . '[] = ' . $args[1] . '; $$ = ' . $args[0] . '; }';
+        }
 
-                return 'is_array(' . $args[0] . ') ? ' . $args[0] . ' : array(' . $args[0] . ')';
-            }
+        if ('toArray' == $name) {
+            assertArgs(1, $args, $name);
 
-            if ('parseVar' == $name) {
-                assertArgs(1, $args, $name);
+            return 'is_array(' . $args[0] . ') ? ' . $args[0] . ' : array(' . $args[0] . ')';
+        }
 
-                return 'substr(' . $args[0] . ', 1)';
-            }
+        if ('parseVar' == $name) {
+            assertArgs(1, $args, $name);
 
-            if ('parseEncapsed' == $name) {
-                assertArgs(3, $args, $name);
+            return 'substr(' . $args[0] . ', 1)';
+        }
 
-                return 'foreach (' . $args[0] . ' as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) {'
-                     . ' $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, ' . $args[1] . ', ' . $args[2] . '); } }';
-            }
+        if ('parseEncapsed' == $name) {
+            assertArgs(3, $args, $name);
 
-            if ('parseEncapsedDoc' == $name) {
-                assertArgs(2, $args, $name);
+            return 'foreach (' . $args[0] . ' as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) {' . ' $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, ' . $args[1] . ', ' . $args[2] . '); } }';
+        }
 
-                return 'foreach (' . $args[0] . ' as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) {'
-                     . ' $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, null, ' . $args[1] . '); } }'
-                     . ' $s->value = preg_replace(\'~(\r\n|\n|\r)\z~\', \'\', $s->value);'
-                     . ' if (\'\' === $s->value) array_pop(' . $args[0] . ');';
-            }
+        if ('parseEncapsedDoc' == $name) {
+            assertArgs(2, $args, $name);
 
-            return $matches[0];
-        },
-        $code
-    );
+            return 'foreach (' . $args[0] . ' as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) {' . ' $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, null, ' . $args[1] . '); } }' . ' $s->value = preg_replace(\'~(\r\n|\n|\r)\z~\', \'\', $s->value);' . ' if (\'\' === $s->value) array_pop(' . $args[0] . ');';
+        }
+
+        return $matches[0];
+    }, $code);
 }
 
-function assertArgs($num, $args, $name) {
+function assertArgs($num, $args, $name)
+{
     if ($num != count($args)) {
-        die('Wrong argument count for ' . $name . '().');
+        die( 'Wrong argument count for ' . $name . '().' );
     }
 }
 
-function resolveStackAccess($code) {
+function resolveStackAccess($code)
+{
     $code = preg_replace('/\$\d+/', '$this->semStack[$0]', $code);
     $code = preg_replace('/#(\d+)/', '$$1', $code);
+
     return $code;
 }
 
-function removeTrailingWhitespace($code) {
+function removeTrailingWhitespace($code)
+{
     $lines = explode("\n", $code);
     $lines = array_map('rtrim', $lines);
+
     return implode("\n", $lines);
 }
 
-function ensureDirExists($dir) {
-    if (!is_dir($dir)) {
+function ensureDirExists($dir)
+{
+    if ( ! is_dir($dir)) {
         mkdir($dir, 0777, true);
     }
 }
@@ -203,19 +193,21 @@ function ensureDirExists($dir) {
 /// Regex helper functions ///
 //////////////////////////////
 
-function regex($regex) {
+function regex($regex)
+{
     return '~' . LIB . '(?:' . str_replace('~', '\~', $regex) . ')~';
 }
 
-function magicSplit($regex, $string) {
+function magicSplit($regex, $string)
+{
     $pieces = preg_split(regex('(?:(?&string)|(?&comment)|(?&code))(*SKIP)(*FAIL)|' . $regex), $string);
 
     foreach ($pieces as &$piece) {
         $piece = trim($piece);
     }
 
-    if ($pieces === ['']) {
-        return [];
+    if ($pieces === [ '' ]) {
+        return [ ];
     }
 
     return $pieces;

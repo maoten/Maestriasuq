@@ -7,34 +7,40 @@ use Illuminate\Contracts\Support\MessageBag as MessageBagContract;
 
 class ViewErrorBag implements Countable
 {
+
     /**
      * The array of the view error bags.
      *
      * @var array
      */
-    protected $bags = [];
+    protected $bags = [ ];
+
 
     /**
      * Checks if a named MessageBag exists in the bags.
      *
-     * @param  string  $key
+     * @param  string $key
+     *
      * @return bool
      */
     public function hasBag($key = 'default')
     {
-        return isset($this->bags[$key]);
+        return isset( $this->bags[$key] );
     }
+
 
     /**
      * Get a MessageBag instance from the bags.
      *
-     * @param  string  $key
+     * @param  string $key
+     *
      * @return \Illuminate\Contracts\Support\MessageBag
      */
     public function getBag($key)
     {
         return Arr::get($this->bags, $key) ?: new MessageBag;
     }
+
 
     /**
      * Get all the bags.
@@ -46,11 +52,13 @@ class ViewErrorBag implements Countable
         return $this->bags;
     }
 
+
     /**
      * Add a new MessageBag instance to the bags.
      *
-     * @param  string  $key
-     * @param  \Illuminate\Contracts\Support\MessageBag  $bag
+     * @param  string                                   $key
+     * @param  \Illuminate\Contracts\Support\MessageBag $bag
+     *
      * @return $this
      */
     public function put($key, MessageBagContract $bag)
@@ -59,6 +67,7 @@ class ViewErrorBag implements Countable
 
         return $this;
     }
+
 
     /**
      * Get the number of messages in the default bag.
@@ -70,22 +79,26 @@ class ViewErrorBag implements Countable
         return $this->default->count();
     }
 
+
     /**
      * Dynamically call methods on the default bag.
      *
-     * @param  string  $method
+     * @param  string $method
      * @param  array  $parameters
+     *
      * @return mixed
      */
     public function __call($method, $parameters)
     {
-        return call_user_func_array([$this->default, $method], $parameters);
+        return call_user_func_array([ $this->default, $method ], $parameters);
     }
+
 
     /**
      * Dynamically access a view error bag.
      *
-     * @param  string  $key
+     * @param  string $key
+     *
      * @return \Illuminate\Contracts\Support\MessageBag
      */
     public function __get($key)
@@ -93,11 +106,13 @@ class ViewErrorBag implements Countable
         return $this->getBag($key);
     }
 
+
     /**
      * Dynamically set a view error bag.
      *
-     * @param  string  $key
-     * @param  \Illuminate\Contracts\Support\MessageBag  $value
+     * @param  string                                   $key
+     * @param  \Illuminate\Contracts\Support\MessageBag $value
+     *
      * @return void
      */
     public function __set($key, $value)

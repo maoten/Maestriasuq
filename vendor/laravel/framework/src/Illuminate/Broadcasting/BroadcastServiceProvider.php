@@ -6,12 +6,14 @@ use Illuminate\Support\ServiceProvider;
 
 class BroadcastServiceProvider extends ServiceProvider
 {
+
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
     protected $defer = true;
+
 
     /**
      * Register the service provider.
@@ -28,10 +30,9 @@ class BroadcastServiceProvider extends ServiceProvider
             return $app->make('Illuminate\Broadcasting\BroadcastManager')->connection();
         });
 
-        $this->app->alias(
-            'Illuminate\Broadcasting\BroadcastManager', 'Illuminate\Contracts\Broadcasting\Factory'
-        );
+        $this->app->alias('Illuminate\Broadcasting\BroadcastManager', 'Illuminate\Contracts\Broadcasting\Factory');
     }
+
 
     /**
      * Get the services provided by the provider.

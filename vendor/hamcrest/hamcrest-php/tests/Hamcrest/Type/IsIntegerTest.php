@@ -9,12 +9,14 @@ class IsIntegerTest extends \Hamcrest\AbstractMatcherTest
         return \Hamcrest\Type\IsInteger::integerValue();
     }
 
+
     public function testEvaluatesToTrueIfArgumentMatchesType()
     {
         assertThat(5, integerValue());
         assertThat(0, integerValue());
         assertThat(-5, integerValue());
     }
+
 
     public function testEvaluatesToFalseIfArgumentDoesntMatchType()
     {
@@ -23,10 +25,12 @@ class IsIntegerTest extends \Hamcrest\AbstractMatcherTest
         assertThat('foo', not(integerValue()));
     }
 
+
     public function testHasAReadableDescription()
     {
         $this->assertDescription('an integer', integerValue());
     }
+
 
     public function testDecribesActualTypeInMismatchMessage()
     {

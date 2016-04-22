@@ -156,10 +156,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-         /*
-         * Providers personales
-         */
-         Laracasts\Flash\FlashServiceProvider::class,
+        /*
+        * Providers personales
+        */
+        Laracasts\Flash\FlashServiceProvider::class,
 
     ],
 
@@ -207,10 +207,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
 
-      /*  
-      * Aliases personales 
-      */
-      'Flash' => Laracasts\Flash\Flash::class
+        /*  
+        * Aliases personales 
+        */
+        'Flash'     => Laracasts\Flash\Flash::class
     ],
 
 ];

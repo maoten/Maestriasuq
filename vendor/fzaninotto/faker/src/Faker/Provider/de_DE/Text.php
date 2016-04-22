@@ -4,6 +4,7 @@ namespace Faker\Provider\de_DE;
 
 class Text extends \Faker\Provider\Text
 {
+
     /**
      * The Project Gutenberg EBook of Die Leiden des jungen Werther--Buch 1, by
      * Johann Wolfgang von Goethe

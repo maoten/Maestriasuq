@@ -16,7 +16,9 @@ namespace Psy\Exception;
  */
 class BreakException extends \Exception implements Exception
 {
+
     private $rawMessage;
+
 
     /**
      * {@inheritdoc}
@@ -26,6 +28,7 @@ class BreakException extends \Exception implements Exception
         $this->rawMessage = $message;
         parent::__construct(sprintf('Exit:  %s', $message), $code, $previous);
     }
+
 
     /**
      * Return a raw (unformatted) version of the error message.

@@ -23,6 +23,7 @@ use phpDocumentor\Reflection\DocBlock;
  */
 class Description implements \Reflector
 {
+
     /** @var string */
     protected $contents = '';
 
@@ -31,6 +32,7 @@ class Description implements \Reflector
 
     /** @var DocBlock The DocBlock which this description belongs to. */
     protected $docblock = null;
+
 
     /**
      * Populates the fields of a description.
@@ -43,6 +45,7 @@ class Description implements \Reflector
         $this->setContent($content)->setDocBlock($docblock);
     }
 
+
     /**
      * Gets the text of this description.
      *
@@ -52,6 +55,7 @@ class Description implements \Reflector
     {
         return $this->contents;
     }
+
 
     /**
      * Sets the text of this description.
@@ -65,8 +69,10 @@ class Description implements \Reflector
         $this->contents = trim($content);
 
         $this->parsedContents = null;
+
         return $this;
     }
+
 
     /**
      * Returns the parsed text of this description.
@@ -77,8 +83,7 @@ class Description implements \Reflector
     public function getParsedContents()
     {
         if (null === $this->parsedContents) {
-            $this->parsedContents = preg_split(
-                '/\{
+            $this->parsedContents = preg_split('/\{
                     # "{@}" is not a valid inline tag. This ensures that
                     # we do not treat it as one, but treat it literally.
                     (?!@\})
@@ -107,38 +112,29 @@ class Description implements \Reflector
                            # We use "*" since there may not be any nested inline
                            # tags.
                     )
-                \}/Sux',
-                $this->contents,
-                null,
-                PREG_SPLIT_DELIM_CAPTURE
-            );
+                \}/Sux', $this->contents, null, PREG_SPLIT_DELIM_CAPTURE);
 
             $count = count($this->parsedContents);
-            for ($i=1; $i<$count; $i += 2) {
-                $this->parsedContents[$i] = Tag::createInstance(
-                    $this->parsedContents[$i],
-                    $this->docblock
-                );
+            for ($i = 1; $i < $count; $i += 2) {
+                $this->parsedContents[$i] = Tag::createInstance($this->parsedContents[$i], $this->docblock);
             }
 
             //In order to allow "literal" inline tags, the otherwise invalid
             //sequence "{@}" is changed to "@", and "{}" is changed to "}".
             //See unit tests for examples.
-            for ($i=0; $i<$count; $i += 2) {
-                $this->parsedContents[$i] = str_replace(
-                    array('{@}', '{}'),
-                    array('@', '}'),
-                    $this->parsedContents[$i]
-                );
+            for ($i = 0; $i < $count; $i += 2) {
+                $this->parsedContents[$i] = str_replace([ '{@}', '{}' ], [ '@', '}' ], $this->parsedContents[$i]);
             }
         }
+
         return $this->parsedContents;
     }
+
 
     /**
      * Return a formatted variant of the Long Description using MarkDown.
      *
-     * @todo this should become a more intelligent piece of code where the
+     * @todo               this should become a more intelligent piece of code where the
      *     configuration contains a setting what format long descriptions are.
      *
      * @codeCoverageIgnore Will be removed soon, in favor of adapters at
@@ -154,23 +150,21 @@ class Description implements \Reflector
         // it with a pre element. Please note that we explicitly used str_replace
         // and not preg_replace to gain performance
         if (strpos($result, '<code>') !== false) {
-            $result = str_replace(
-                array('<code>', "<code>\r\n", "<code>\n", "<code>\r", '</code>'),
-                array('<pre><code>', '<code>', '<code>', '<code>', '</code></pre>'),
-                $result
-            );
+            $result = str_replace([ '<code>', "<code>\r\n", "<code>\n", "<code>\r", '</code>' ],
+                [ '<pre><code>', '<code>', '<code>', '<code>', '</code></pre>' ], $result);
         }
 
         if (class_exists('Parsedown')) {
             $markdown = \Parsedown::instance();
-            $result = $markdown->parse($result);
+            $result   = $markdown->parse($result);
         } elseif (class_exists('dflydev\markdown\MarkdownExtraParser')) {
             $markdown = new \dflydev\markdown\MarkdownExtraParser();
-            $result = $markdown->transformMarkdown($result);
+            $result   = $markdown->transformMarkdown($result);
         }
 
         return trim($result);
     }
+
 
     /**
      * Gets the docblock this tag belongs to.
@@ -182,11 +176,12 @@ class Description implements \Reflector
         return $this->docblock;
     }
 
+
     /**
      * Sets the docblock this tag belongs to.
      *
      * @param DocBlock $docblock The new docblock this description belongs to.
-     *     Setting NULL removes any association.
+     *                           Setting NULL removes any association.
      *
      * @return $this
      */
@@ -197,10 +192,11 @@ class Description implements \Reflector
         return $this;
     }
 
+
     /**
      * Builds a string representation of this object.
      *
-     * @todo determine the exact format as used by PHP Reflection
+     * @todo               determine the exact format as used by PHP Reflection
      *     and implement it.
      *
      * @return void
@@ -210,6 +206,7 @@ class Description implements \Reflector
     {
         throw new \Exception('Not yet implemented');
     }
+
 
     /**
      * Returns the long description as a string.

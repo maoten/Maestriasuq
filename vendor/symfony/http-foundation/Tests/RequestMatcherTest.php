@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class RequestMatcherTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @dataProvider testMethodFixtures
      */
@@ -31,22 +32,24 @@ class RequestMatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($isMatch, $matcher->matches($request));
     }
 
+
     public function testMethodFixtures()
     {
-        return array(
-            array('get', 'get', true),
-            array('get', array('get', 'post'), true),
-            array('get', 'post', false),
-            array('get', 'GET', true),
-            array('get', array('GET', 'POST'), true),
-            array('get', 'POST', false),
-        );
+        return [
+            [ 'get', 'get', true ],
+            [ 'get', [ 'get', 'post' ], true ],
+            [ 'get', 'post', false ],
+            [ 'get', 'GET', true ],
+            [ 'get', [ 'GET', 'POST' ], true ],
+            [ 'get', 'POST', false ],
+        ];
     }
+
 
     public function testScheme()
     {
-        $httpRequest = $request = $request = Request::create('');
-        $httpsRequest = $request = $request = Request::create('', 'get', array(), array(), array(), array('HTTPS' => 'on'));
+        $httpRequest  = $request = $request = Request::create('');
+        $httpsRequest = $request = $request = Request::create('', 'get', [ ], [ ], [ ], [ 'HTTPS' => 'on' ]);
 
         $matcher = new RequestMatcher();
         $matcher->matchScheme('https');
@@ -62,13 +65,14 @@ class RequestMatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($matcher->matches($httpRequest));
     }
 
+
     /**
      * @dataProvider testHostFixture
      */
     public function testHost($pattern, $isMatch)
     {
         $matcher = new RequestMatcher();
-        $request = Request::create('', 'get', array(), array(), array(), array('HTTP_HOST' => 'foo.example.com'));
+        $request = Request::create('', 'get', [ ], [ ], [ ], [ 'HTTP_HOST' => 'foo.example.com' ]);
 
         $matcher->matchHost($pattern);
         $this->assertSame($isMatch, $matcher->matches($request));
@@ -77,19 +81,21 @@ class RequestMatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($isMatch, $matcher->matches($request));
     }
 
+
     public function testHostFixture()
     {
-        return array(
-            array('.*\.example\.com', true),
-            array('\.example\.com$', true),
-            array('^.*\.example\.com$', true),
-            array('.*\.sensio\.com', false),
-            array('.*\.example\.COM', true),
-            array('\.example\.COM$', true),
-            array('^.*\.example\.COM$', true),
-            array('.*\.sensio\.COM', false),
-        );
+        return [
+            [ '.*\.example\.com', true ],
+            [ '\.example\.com$', true ],
+            [ '^.*\.example\.com$', true ],
+            [ '.*\.sensio\.com', false ],
+            [ '.*\.example\.COM', true ],
+            [ '\.example\.COM$', true ],
+            [ '^.*\.example\.COM$', true ],
+            [ '.*\.sensio\.COM', false ],
+        ];
     }
+
 
     public function testPath()
     {
@@ -110,6 +116,7 @@ class RequestMatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($matcher->matches($request));
     }
 
+
     public function testPathWithLocaleIsNotSupported()
     {
         $matcher = new RequestMatcher();
@@ -120,6 +127,7 @@ class RequestMatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($matcher->matches($request));
     }
 
+
     public function testPathWithEncodedCharacters()
     {
         $matcher = new RequestMatcher();
@@ -127,6 +135,7 @@ class RequestMatcherTest extends \PHPUnit_Framework_TestCase
         $matcher->matchPath('^/admin/fo o*$');
         $this->assertTrue($matcher->matches($request));
     }
+
 
     public function testAttributes()
     {

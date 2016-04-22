@@ -20,8 +20,11 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class VariableEnumerator extends Enumerator
 {
-    private static $specialVars = array('_', '_e');
+
+    private static $specialVars = [ '_', '_e' ];
+
     private $context;
+
 
     /**
      * Variable Enumerator constructor.
@@ -38,6 +41,7 @@ class VariableEnumerator extends Enumerator
         parent::__construct($presenter);
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -49,21 +53,22 @@ class VariableEnumerator extends Enumerator
         }
 
         // only list variables if we are specifically asked
-        if (!$input->getOption('vars')) {
+        if ( ! $input->getOption('vars')) {
             return;
         }
 
         $showAll   = $input->getOption('all');
         $variables = $this->prepareVariables($this->getVariables($showAll));
 
-        if (empty($variables)) {
+        if (empty( $variables )) {
             return;
         }
 
-        return array(
+        return [
             'Variables' => $variables,
-        );
+        ];
     }
+
 
     /**
      * Get scope variables.
@@ -90,9 +95,9 @@ class VariableEnumerator extends Enumerator
             }
         });
 
-        $ret = array();
+        $ret = [ ];
         foreach ($scopeVars as $name => $val) {
-            if (!$showAll && in_array($name, self::$specialVars)) {
+            if ( ! $showAll && in_array($name, self::$specialVars)) {
                 continue;
             }
 
@@ -101,6 +106,7 @@ class VariableEnumerator extends Enumerator
 
         return $ret;
     }
+
 
     /**
      * Prepare formatted variable array.
@@ -112,15 +118,15 @@ class VariableEnumerator extends Enumerator
     protected function prepareVariables(array $variables)
     {
         // My kingdom for a generator.
-        $ret = array();
+        $ret = [ ];
         foreach ($variables as $name => $val) {
             if ($this->showItem($name)) {
-                $fname = '$' . $name;
-                $ret[$fname] = array(
+                $fname       = '$' . $name;
+                $ret[$fname] = [
                     'name'  => $fname,
                     'style' => in_array($name, self::$specialVars) ? self::IS_PRIVATE : self::IS_PUBLIC,
                     'value' => $this->presentRef($val), // TODO: add types to variable signatures
-                );
+                ];
             }
         }
 

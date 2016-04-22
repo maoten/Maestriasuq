@@ -15,11 +15,13 @@
  */
 class Swift_Transport_SpoolTransport implements Swift_Transport
 {
+
     /** The spool instance */
     private $_spool;
 
     /** The event dispatcher from the plugin API */
     private $_eventDispatcher;
+
 
     /**
      * Constructor.
@@ -27,8 +29,9 @@ class Swift_Transport_SpoolTransport implements Swift_Transport
     public function __construct(Swift_Events_EventDispatcher $eventDispatcher, Swift_Spool $spool = null)
     {
         $this->_eventDispatcher = $eventDispatcher;
-        $this->_spool = $spool;
+        $this->_spool           = $spool;
     }
+
 
     /**
      * Sets the spool object.
@@ -44,6 +47,7 @@ class Swift_Transport_SpoolTransport implements Swift_Transport
         return $this;
     }
 
+
     /**
      * Get the spool object.
      *
@@ -53,6 +57,7 @@ class Swift_Transport_SpoolTransport implements Swift_Transport
     {
         return $this->_spool;
     }
+
 
     /**
      * Tests if this Transport mechanism has started.
@@ -64,6 +69,7 @@ class Swift_Transport_SpoolTransport implements Swift_Transport
         return true;
     }
 
+
     /**
      * Starts this Transport mechanism.
      */
@@ -71,12 +77,14 @@ class Swift_Transport_SpoolTransport implements Swift_Transport
     {
     }
 
+
     /**
      * Stops this Transport mechanism.
      */
     public function stop()
     {
     }
+
 
     /**
      * Sends the given message.
@@ -104,6 +112,7 @@ class Swift_Transport_SpoolTransport implements Swift_Transport
 
         return 1;
     }
+
 
     /**
      * Register a plugin.

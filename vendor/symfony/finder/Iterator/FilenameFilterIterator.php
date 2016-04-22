@@ -20,6 +20,7 @@ use Symfony\Component\Finder\Glob;
  */
 class FilenameFilterIterator extends MultiplePcreFilterIterator
 {
+
     /**
      * Filters the iterator values.
      *
@@ -29,6 +30,7 @@ class FilenameFilterIterator extends MultiplePcreFilterIterator
     {
         return $this->isAccepted($this->current()->getFilename());
     }
+
 
     /**
      * Converts glob to regexp.

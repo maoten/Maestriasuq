@@ -20,6 +20,7 @@ use Psy\Exception\RuntimeException;
  */
 class LeavePsyshAlonePass extends CodeCleanerPass
 {
+
     /**
      * Validate that the user input does not reference the `$__psysh__` variable.
      *

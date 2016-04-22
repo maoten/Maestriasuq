@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class RetryCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -21,6 +22,7 @@ class RetryCommand extends Command
      * @var string
      */
     protected $description = 'Retry a failed queue job';
+
 
     /**
      * Execute the console command.
@@ -40,23 +42,24 @@ class RetryCommand extends Command
         }
     }
 
+
     /**
      * Retry the queue job with the given ID.
      *
-     * @param  string  $id
+     * @param  string $id
+     *
      * @return void
      */
     protected function retryJob($id)
     {
         $failed = $this->laravel['queue.failer']->find($id);
 
-        if (! is_null($failed)) {
+        if ( ! is_null($failed)) {
             $failed = (object) $failed;
 
             $failed->payload = $this->resetAttempts($failed->payload);
 
-            $this->laravel['queue']->connection($failed->connection)
-                                ->pushRaw($failed->payload, $failed->queue);
+            $this->laravel['queue']->connection($failed->connection)->pushRaw($failed->payload, $failed->queue);
 
             $this->laravel['queue.failer']->forget($failed->id);
 
@@ -66,22 +69,25 @@ class RetryCommand extends Command
         }
     }
 
+
     /**
      * Reset the payload attempts.
      *
-     * @param  string  $payload
+     * @param  string $payload
+     *
      * @return string
      */
     protected function resetAttempts($payload)
     {
         $payload = json_decode($payload, true);
 
-        if (isset($payload['attempts'])) {
+        if (isset( $payload['attempts'] )) {
             $payload['attempts'] = 1;
         }
 
         return json_encode($payload);
     }
+
 
     /**
      * Get the console command arguments.
@@ -91,7 +97,7 @@ class RetryCommand extends Command
     protected function getArguments()
     {
         return [
-            ['id', InputArgument::IS_ARRAY, 'The ID of the failed job'],
+            [ 'id', InputArgument::IS_ARRAY, 'The ID of the failed job' ],
         ];
     }
 }

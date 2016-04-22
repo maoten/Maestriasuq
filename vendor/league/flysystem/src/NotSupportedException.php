@@ -7,6 +7,7 @@ use SplFileInfo;
 
 class NotSupportedException extends RuntimeException
 {
+
     /**
      * Create a new exception for a link.
      *
@@ -20,6 +21,7 @@ class NotSupportedException extends RuntimeException
 
         return new static($message . $file->getPathname());
     }
+
 
     /**
      * Create a new exception for a link.

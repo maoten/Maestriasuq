@@ -7,6 +7,7 @@ use Illuminate\Database\ConnectionResolverInterface;
 
 class DatabaseFailedJobProvider implements FailedJobProviderInterface
 {
+
     /**
      * The connection resolver implementation.
      *
@@ -28,27 +29,31 @@ class DatabaseFailedJobProvider implements FailedJobProviderInterface
      */
     protected $table;
 
+
     /**
      * Create a new database failed job provider.
      *
-     * @param  \Illuminate\Database\ConnectionResolverInterface  $resolver
-     * @param  string  $database
-     * @param  string  $table
+     * @param  \Illuminate\Database\ConnectionResolverInterface $resolver
+     * @param  string                                           $database
+     * @param  string                                           $table
+     *
      * @return void
      */
     public function __construct(ConnectionResolverInterface $resolver, $database, $table)
     {
-        $this->table = $table;
+        $this->table    = $table;
         $this->resolver = $resolver;
         $this->database = $database;
     }
 
+
     /**
      * Log a failed job into storage.
      *
-     * @param  string  $connection
-     * @param  string  $queue
-     * @param  string  $payload
+     * @param  string $connection
+     * @param  string $queue
+     * @param  string $payload
+     *
      * @return void
      */
     public function log($connection, $queue, $payload)
@@ -57,6 +62,7 @@ class DatabaseFailedJobProvider implements FailedJobProviderInterface
 
         $this->getTable()->insert(compact('connection', 'queue', 'payload', 'failed_at'));
     }
+
 
     /**
      * Get a list of all of the failed jobs.
@@ -68,10 +74,12 @@ class DatabaseFailedJobProvider implements FailedJobProviderInterface
         return $this->getTable()->orderBy('id', 'desc')->get();
     }
 
+
     /**
      * Get a single failed job.
      *
-     * @param  mixed  $id
+     * @param  mixed $id
+     *
      * @return array
      */
     public function find($id)
@@ -79,16 +87,19 @@ class DatabaseFailedJobProvider implements FailedJobProviderInterface
         return $this->getTable()->find($id);
     }
 
+
     /**
      * Delete a single failed job from storage.
      *
-     * @param  mixed  $id
+     * @param  mixed $id
+     *
      * @return bool
      */
     public function forget($id)
     {
         return $this->getTable()->where('id', $id)->delete() > 0;
     }
+
 
     /**
      * Flush all of the failed jobs from storage.
@@ -99,6 +110,7 @@ class DatabaseFailedJobProvider implements FailedJobProviderInterface
     {
         $this->getTable()->delete();
     }
+
 
     /**
      * Get a new query builder instance for the table.

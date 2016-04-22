@@ -8,6 +8,7 @@ use Illuminate\Routing\RouteCollection;
 
 class RouteCacheCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -29,10 +30,12 @@ class RouteCacheCommand extends Command
      */
     protected $files;
 
+
     /**
      * Create a new route command instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param  \Illuminate\Filesystem\Filesystem $files
+     *
      * @return void
      */
     public function __construct(Filesystem $files)
@@ -41,6 +44,7 @@ class RouteCacheCommand extends Command
 
         $this->files = $files;
     }
+
 
     /**
      * Execute the console command.
@@ -61,12 +65,11 @@ class RouteCacheCommand extends Command
             $route->prepareForSerialization();
         }
 
-        $this->files->put(
-            $this->laravel->getCachedRoutesPath(), $this->buildRouteCacheFile($routes)
-        );
+        $this->files->put($this->laravel->getCachedRoutesPath(), $this->buildRouteCacheFile($routes));
 
         $this->info('Routes cached successfully!');
     }
+
 
     /**
      * Boot a fresh copy of the application and get the routes.
@@ -75,22 +78,24 @@ class RouteCacheCommand extends Command
      */
     protected function getFreshApplicationRoutes()
     {
-        $app = require $this->laravel->basePath().'/bootstrap/app.php';
+        $app = require $this->laravel->basePath() . '/bootstrap/app.php';
 
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
         return $app['router']->getRoutes();
     }
 
+
     /**
      * Build the route cache file.
      *
-     * @param  \Illuminate\Routing\RouteCollection  $routes
+     * @param  \Illuminate\Routing\RouteCollection $routes
+     *
      * @return string
      */
     protected function buildRouteCacheFile(RouteCollection $routes)
     {
-        $stub = $this->files->get(__DIR__.'/stubs/routes.stub');
+        $stub = $this->files->get(__DIR__ . '/stubs/routes.stub');
 
         return str_replace('{{routes}}', base64_encode(serialize($routes)), $stub);
     }

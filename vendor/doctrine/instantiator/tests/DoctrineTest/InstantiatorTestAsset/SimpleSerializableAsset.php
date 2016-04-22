@@ -29,6 +29,7 @@ use Serializable;
  */
 class SimpleSerializableAsset implements Serializable
 {
+
     /**
      * Constructor - should not be called
      *
@@ -39,6 +40,7 @@ class SimpleSerializableAsset implements Serializable
         throw new BadMethodCallException('Not supposed to be called!');
     }
 
+
     /**
      * {@inheritDoc}
      */
@@ -46,6 +48,7 @@ class SimpleSerializableAsset implements Serializable
     {
         return '';
     }
+
 
     /**
      * {@inheritDoc}

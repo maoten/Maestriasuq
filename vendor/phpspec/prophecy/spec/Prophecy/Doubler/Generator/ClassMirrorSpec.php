@@ -10,6 +10,7 @@ use ReflectionParameter;
 
 class ClassMirrorSpec extends ObjectBehavior
 {
+
     /**
      * @param ReflectionClass  $class
      * @param ReflectionClass  $parent
@@ -18,17 +19,22 @@ class ClassMirrorSpec extends ObjectBehavior
      * @param ReflectionMethod $method3
      */
     function it_reflects_a_class_by_mirroring_all_its_public_methods(
-        $class, $parent, $method1, $method2, $method3
-    )
-    {
+        $class,
+        $parent,
+        $method1,
+        $method2,
+        $method3
+    ) {
         $class->getName()->willReturn('Custom\ClassName');
         $class->getParentClass()->willReturn($parent);
         $class->isInterface()->willReturn(false);
         $class->isFinal()->willReturn(false);
-        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn(array());
-        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn(array(
-            $method1, $method2, $method3
-        ));
+        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn([ ]);
+        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn([
+            $method1,
+            $method2,
+            $method3
+        ]);
 
         $parent->getName()->willReturn('Custom\ParentClassName');
 
@@ -56,9 +62,9 @@ class ClassMirrorSpec extends ObjectBehavior
         $method2->returnsReference()->willReturn(false);
         $method3->returnsReference()->willReturn(false);
 
-        $method1->getParameters()->willReturn(array());
-        $method2->getParameters()->willReturn(array());
-        $method3->getParameters()->willReturn(array());
+        $method1->getParameters()->willReturn([ ]);
+        $method2->getParameters()->willReturn([ ]);
+        $method3->getParameters()->willReturn([ ]);
 
         if (version_compare(PHP_VERSION, '7.0', '>=')) {
             $method1->hasReturnType()->willReturn(true);
@@ -69,7 +75,7 @@ class ClassMirrorSpec extends ObjectBehavior
             $method3->getReturnType()->willReturn('parent');
         }
 
-        $classNode   = $this->reflect($class, array());
+        $classNode = $this->reflect($class, [ ]);
         $classNode->shouldBeAnInstanceOf('Prophecy\Doubler\Generator\Node\ClassNode');
         $classNode->getParentClass()->shouldReturn('Custom\ClassName');
 
@@ -87,6 +93,7 @@ class ClassMirrorSpec extends ObjectBehavior
         }
     }
 
+
     /**
      * @param ReflectionClass     $class
      * @param ReflectionMethod    $method
@@ -98,10 +105,10 @@ class ClassMirrorSpec extends ObjectBehavior
         $class->getName()->willReturn('Custom\ClassName');
         $class->isInterface()->willReturn(false);
         $class->isFinal()->willReturn(false);
-        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn(array($method));
-        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn(array());
+        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn([ $method ]);
+        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn([ ]);
 
-        $method->getParameters()->willReturn(array($parameter));
+        $method->getParameters()->willReturn([ $parameter ]);
         $method->getName()->willReturn('methodName');
         $method->isFinal()->willReturn(false);
         $method->isProtected()->willReturn(false);
@@ -121,15 +128,16 @@ class ClassMirrorSpec extends ObjectBehavior
             $parameter->isVariadic()->willReturn(false);
         }
 
-        $classNode = $this->reflect($class, array());
+        $classNode = $this->reflect($class, [ ]);
 
         $methodNodes = $classNode->getMethods();
 
         $argumentNodes = $methodNodes['methodName']->getArguments();
-        $argumentNode = $argumentNodes[0];
+        $argumentNode  = $argumentNodes[0];
 
         $argumentNode->getName()->shouldReturn('__dot_dot_dot__');
     }
+
 
     /**
      * @param ReflectionClass  $class
@@ -140,12 +148,12 @@ class ClassMirrorSpec extends ObjectBehavior
         $class->getName()->willReturn('Custom\ClassName');
         $class->isInterface()->willReturn(false);
         $class->isFinal()->willReturn(false);
-        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn(array($method));
-        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn(array());
+        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn([ $method ]);
+        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn([ ]);
 
         $method->isProtected()->willReturn(true);
         $method->isStatic()->willReturn(false);
-        $method->getParameters()->willReturn(array());
+        $method->getParameters()->willReturn([ ]);
         $method->getName()->willReturn('innerDetail');
         $method->returnsReference()->willReturn(false);
 
@@ -153,7 +161,7 @@ class ClassMirrorSpec extends ObjectBehavior
             $method->hasReturnType()->willReturn(false);
         }
 
-        $classNode   = $this->reflect($class, array());
+        $classNode = $this->reflect($class, [ ]);
         $classNode->shouldBeAnInstanceOf('Prophecy\Doubler\Generator\Node\ClassNode');
         $classNode->getParentClass()->shouldReturn('Custom\ClassName');
 
@@ -162,6 +170,7 @@ class ClassMirrorSpec extends ObjectBehavior
 
         $methodNodes['innerDetail']->getVisibility()->shouldReturn('protected');
     }
+
 
     /**
      * @param ReflectionClass  $class
@@ -172,12 +181,12 @@ class ClassMirrorSpec extends ObjectBehavior
         $class->getName()->willReturn('Custom\ClassName');
         $class->isInterface()->willReturn(false);
         $class->isFinal()->willReturn(false);
-        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn(array($method));
-        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn(array());
+        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn([ $method ]);
+        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn([ ]);
 
         $method->isProtected()->willReturn(true);
         $method->isStatic()->willReturn(true);
-        $method->getParameters()->willReturn(array());
+        $method->getParameters()->willReturn([ ]);
         $method->getName()->willReturn('innerDetail');
         $method->returnsReference()->willReturn(false);
 
@@ -185,7 +194,7 @@ class ClassMirrorSpec extends ObjectBehavior
             $method->hasReturnType()->willReturn(false);
         }
 
-        $classNode   = $this->reflect($class, array());
+        $classNode = $this->reflect($class, [ ]);
         $classNode->shouldBeAnInstanceOf('Prophecy\Doubler\Generator\Node\ClassNode');
         $classNode->getParentClass()->shouldReturn('Custom\ClassName');
 
@@ -195,6 +204,7 @@ class ClassMirrorSpec extends ObjectBehavior
         $methodNodes['innerDetail']->getVisibility()->shouldReturn('protected');
         $methodNodes['innerDetail']->isStatic()->shouldReturn(true);
     }
+
 
     /**
      * @param ReflectionClass  $class
@@ -206,15 +216,29 @@ class ClassMirrorSpec extends ObjectBehavior
      * @param ReflectionMethod $callMethod
      * @param ReflectionMethod $invokeMethod
      */
-    function it_reflects_allowed_magic_methods($class, $constructMethod, $destructMethod, $sleepMethod, $wakeupMethod, $toStringMethod, $callMethod, $invokeMethod)
-    {
+    function it_reflects_allowed_magic_methods(
+        $class,
+        $constructMethod,
+        $destructMethod,
+        $sleepMethod,
+        $wakeupMethod,
+        $toStringMethod,
+        $callMethod,
+        $invokeMethod
+    ) {
         $class->getName()->willReturn('Custom\ClassName');
         $class->isInterface()->willReturn(false);
         $class->isFinal()->willReturn(false);
-        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn(array());
-        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn(array(
-            $constructMethod, $destructMethod, $sleepMethod, $wakeupMethod, $toStringMethod, $callMethod, $invokeMethod
-        ));
+        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn([ ]);
+        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn([
+            $constructMethod,
+            $destructMethod,
+            $sleepMethod,
+            $wakeupMethod,
+            $toStringMethod,
+            $callMethod,
+            $invokeMethod
+        ]);
 
         $constructMethod->getName()->willReturn('__construct');
         $destructMethod->getName()->willReturn('__destruct');
@@ -256,13 +280,13 @@ class ClassMirrorSpec extends ObjectBehavior
         $callMethod->returnsReference()->willReturn(false);
         $invokeMethod->returnsReference()->willReturn(false);
 
-        $constructMethod->getParameters()->willReturn(array());
-        $destructMethod->getParameters()->willReturn(array());
-        $sleepMethod->getParameters()->willReturn(array());
-        $wakeupMethod->getParameters()->willReturn(array());
-        $toStringMethod->getParameters()->willReturn(array());
-        $callMethod->getParameters()->willReturn(array());
-        $invokeMethod->getParameters()->willReturn(array());
+        $constructMethod->getParameters()->willReturn([ ]);
+        $destructMethod->getParameters()->willReturn([ ]);
+        $sleepMethod->getParameters()->willReturn([ ]);
+        $wakeupMethod->getParameters()->willReturn([ ]);
+        $toStringMethod->getParameters()->willReturn([ ]);
+        $callMethod->getParameters()->willReturn([ ]);
+        $invokeMethod->getParameters()->willReturn([ ]);
 
         if (version_compare(PHP_VERSION, '7.0', '>=')) {
             $constructMethod->hasReturnType()->willReturn(false);
@@ -274,13 +298,14 @@ class ClassMirrorSpec extends ObjectBehavior
             $invokeMethod->hasReturnType()->willReturn(false);
         }
 
-        $classNode   = $this->reflect($class, array());
+        $classNode = $this->reflect($class, [ ]);
         $classNode->shouldBeAnInstanceOf('Prophecy\Doubler\Generator\Node\ClassNode');
         $classNode->getParentClass()->shouldReturn('Custom\ClassName');
 
         $methodNodes = $classNode->getMethods();
         $methodNodes->shouldHaveCount(7);
     }
+
 
     /**
      * @param ReflectionClass     $class
@@ -292,21 +317,26 @@ class ClassMirrorSpec extends ObjectBehavior
      * @param ReflectionParameter $param4
      */
     function it_properly_reads_methods_arguments_with_types(
-        $class, $method, $param1, $param2, $typeHint, $param3, $param4
-    )
-    {
+        $class,
+        $method,
+        $param1,
+        $param2,
+        $typeHint,
+        $param3,
+        $param4
+    ) {
         $class->getName()->willReturn('Custom\ClassName');
         $class->isInterface()->willReturn(false);
         $class->isFinal()->willReturn(false);
-        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn(array());
-        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn(array($method));
+        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn([ ]);
+        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn([ $method ]);
 
         $method->getName()->willReturn('methodWithArgs');
         $method->isFinal()->willReturn(false);
         $method->isProtected()->willReturn(true);
         $method->isStatic()->willReturn(false);
         $method->returnsReference()->willReturn(false);
-        $method->getParameters()->willReturn(array($param1, $param2, $param3, $param4));
+        $method->getParameters()->willReturn([ $param1, $param2, $param3, $param4 ]);
 
         if (version_compare(PHP_VERSION, '7.0', '>=')) {
             $method->hasReturnType()->willReturn(false);
@@ -318,7 +348,7 @@ class ClassMirrorSpec extends ObjectBehavior
         $param1->isDefaultValueAvailable()->willReturn(true);
         $param1->isPassedByReference()->willReturn(false);
         $param1->allowsNull()->willReturn(false);
-        $param1->getDefaultValue()->willReturn(array());
+        $param1->getDefaultValue()->willReturn([ ]);
 
         $param2->getName()->willReturn('arg2');
         $param2->isArray()->willReturn(false);
@@ -356,14 +386,14 @@ class ClassMirrorSpec extends ObjectBehavior
             $param4->isDefaultValueAvailable()->willReturn(false);
         }
 
-        $classNode   = $this->reflect($class, array());
+        $classNode   = $this->reflect($class, [ ]);
         $methodNodes = $classNode->getMethods();
         $argNodes    = $methodNodes['methodWithArgs']->getArguments();
 
         $argNodes[0]->getName()->shouldReturn('arg_1');
         $argNodes[0]->getTypeHint()->shouldReturn('array');
         $argNodes[0]->isOptional()->shouldReturn(true);
-        $argNodes[0]->getDefault()->shouldReturn(array());
+        $argNodes[0]->getDefault()->shouldReturn([ ]);
 
         $argNodes[1]->getName()->shouldReturn('arg2');
         $argNodes[1]->getTypeHint()->shouldReturn('ArrayAccess');
@@ -388,27 +418,29 @@ class ClassMirrorSpec extends ObjectBehavior
         }
     }
 
+
     /**
      * @param ReflectionClass     $class
      * @param ReflectionMethod    $method
      * @param ReflectionParameter $param1
      */
     function it_marks_required_args_without_types_as_not_optional(
-        $class, $method, $param1
-    )
-    {
+        $class,
+        $method,
+        $param1
+    ) {
         $class->getName()->willReturn('Custom\ClassName');
         $class->isInterface()->willReturn(false);
         $class->isFinal()->willReturn(false);
-        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn(array());
-        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn(array($method));
+        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn([ ]);
+        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn([ $method ]);
 
         $method->getName()->willReturn('methodWithArgs');
         $method->isFinal()->willReturn(false);
         $method->isProtected()->willReturn(false);
         $method->isStatic()->willReturn(false);
         $method->returnsReference()->willReturn(false);
-        $method->getParameters()->willReturn(array($param1));
+        $method->getParameters()->willReturn([ $param1 ]);
 
         if (version_compare(PHP_VERSION, '7.0', '>=')) {
             $method->hasReturnType()->willReturn(false);
@@ -436,12 +468,13 @@ class ClassMirrorSpec extends ObjectBehavior
             $param1->getTypehintText()->willReturn(null);
         }
 
-        $classNode   = $this->reflect($class, array());
+        $classNode   = $this->reflect($class, [ ]);
         $methodNodes = $classNode->getMethods();
         $argNodes    = $methodNodes['methodWithArgs']->getArguments();
 
         $argNodes[0]->isOptional()->shouldReturn(false);
     }
+
 
     /**
      * @param ReflectionClass     $class
@@ -452,21 +485,25 @@ class ClassMirrorSpec extends ObjectBehavior
      * @param ReflectionClass     $typeHint
      */
     function it_marks_passed_by_reference_args_as_passed_by_reference(
-        $class, $method, $param1, $param2, $param3, $typeHint
-    )
-    {
+        $class,
+        $method,
+        $param1,
+        $param2,
+        $param3,
+        $typeHint
+    ) {
         $class->getName()->willReturn('Custom\ClassName');
         $class->isInterface()->willReturn(false);
         $class->isFinal()->willReturn(false);
-        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn(array());
-        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn(array($method));
+        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn([ ]);
+        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn([ $method ]);
 
         $method->getName()->willReturn('methodWithArgs');
         $method->isFinal()->willReturn(false);
         $method->isProtected()->willReturn(false);
         $method->isStatic()->willReturn(false);
         $method->returnsReference()->willReturn(false);
-        $method->getParameters()->willReturn(array($param1, $param2, $param3));
+        $method->getParameters()->willReturn([ $param1, $param2, $param3 ]);
 
         if (version_compare(PHP_VERSION, '7.0', '>=')) {
             $method->hasReturnType()->willReturn(false);
@@ -523,7 +560,7 @@ class ClassMirrorSpec extends ObjectBehavior
         $param3->isPassedByReference()->willReturn(true);
         $param3->allowsNull()->willReturn(true);
 
-        $classNode   = $this->reflect($class, array());
+        $classNode   = $this->reflect($class, [ ]);
         $methodNodes = $classNode->getMethods();
         $argNodes    = $methodNodes['methodWithArgs']->getArguments();
 
@@ -531,6 +568,7 @@ class ClassMirrorSpec extends ObjectBehavior
         $argNodes[1]->isPassedByReference()->shouldReturn(false);
         $argNodes[2]->isPassedByReference()->shouldReturn(true);
     }
+
 
     /**
      * @param ReflectionClass $class
@@ -541,9 +579,9 @@ class ClassMirrorSpec extends ObjectBehavior
         $class->isFinal()->willReturn(true);
         $class->getName()->willReturn('Custom\ClassName');
 
-        $this->shouldThrow('Prophecy\Exception\Doubler\ClassMirrorException')
-             ->duringReflect($class, array());
+        $this->shouldThrow('Prophecy\Exception\Doubler\ClassMirrorException')->duringReflect($class, [ ]);
     }
+
 
     /**
      * @param ReflectionClass  $class
@@ -554,15 +592,16 @@ class ClassMirrorSpec extends ObjectBehavior
         $class->getName()->willReturn('Custom\ClassName');
         $class->isInterface()->willReturn(false);
         $class->isFinal()->willReturn(false);
-        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn(array());
-        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn(array($method));
+        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn([ ]);
+        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn([ $method ]);
 
         $method->isFinal()->willReturn(true);
         $method->getName()->willReturn('finalImplementation');
 
-        $classNode = $this->reflect($class, array());
+        $classNode = $this->reflect($class, [ ]);
         $classNode->getMethods()->shouldHaveCount(0);
     }
+
 
     /**
      * @param ReflectionClass  $class
@@ -573,16 +612,17 @@ class ClassMirrorSpec extends ObjectBehavior
         $class->getName()->willReturn('Custom\ClassName');
         $class->isInterface()->willReturn(false);
         $class->isFinal()->willReturn(false);
-        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn(array());
-        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn(array($method));
+        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn([ ]);
+        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn([ $method ]);
 
         $method->isFinal()->willReturn(true);
         $method->getName()->willReturn('finalImplementation');
 
-        $classNode = $this->reflect($class, array());
+        $classNode = $this->reflect($class, [ ]);
         $classNode->getUnextendableMethods()->shouldHaveCount(1);
         $classNode->isExtendable('finalImplementation')->shouldReturn(false);
     }
+
 
     /**
      * @param ReflectionClass $interface
@@ -592,9 +632,9 @@ class ClassMirrorSpec extends ObjectBehavior
         $interface->isInterface()->willReturn(true);
         $interface->getName()->willReturn('Custom\ClassName');
 
-        $this->shouldThrow('Prophecy\Exception\InvalidArgumentException')
-             ->duringReflect($interface, array());
+        $this->shouldThrow('Prophecy\Exception\InvalidArgumentException')->duringReflect($interface, [ ]);
     }
+
 
     /**
      * @param ReflectionClass  $interface1
@@ -604,17 +644,20 @@ class ClassMirrorSpec extends ObjectBehavior
      * @param ReflectionMethod $method3
      */
     function it_reflects_all_interfaces_methods(
-        $interface1, $interface2, $method1, $method2, $method3
-    )
-    {
+        $interface1,
+        $interface2,
+        $method1,
+        $method2,
+        $method3
+    ) {
         $interface1->getName()->willReturn('MyInterface1');
         $interface2->getName()->willReturn('MyInterface2');
 
         $interface1->isInterface()->willReturn(true);
         $interface2->isInterface()->willReturn(true);
 
-        $interface1->getMethods()->willReturn(array($method1));
-        $interface2->getMethods()->willReturn(array($method2, $method3));
+        $interface1->getMethods()->willReturn([ $method1 ]);
+        $interface2->getMethods()->willReturn([ $method2, $method3 ]);
 
         $method1->getName()->willReturn('getName');
         $method2->getName()->willReturn('isPublic');
@@ -632,9 +675,9 @@ class ClassMirrorSpec extends ObjectBehavior
         $method2->isStatic()->willReturn(false);
         $method3->isStatic()->willReturn(false);
 
-        $method1->getParameters()->willReturn(array());
-        $method2->getParameters()->willReturn(array());
-        $method3->getParameters()->willReturn(array());
+        $method1->getParameters()->willReturn([ ]);
+        $method2->getParameters()->willReturn([ ]);
+        $method3->getParameters()->willReturn([ ]);
 
         if (version_compare(PHP_VERSION, '7.0', '>=')) {
             $method1->hasReturnType()->willReturn(false);
@@ -642,13 +685,15 @@ class ClassMirrorSpec extends ObjectBehavior
             $method3->hasReturnType()->willReturn(false);
         }
 
-        $classNode = $this->reflect(null, array($interface1, $interface2));
+        $classNode = $this->reflect(null, [ $interface1, $interface2 ]);
 
         $classNode->shouldBeAnInstanceOf('Prophecy\Doubler\Generator\Node\ClassNode');
         $classNode->getParentClass()->shouldReturn('stdClass');
-        $classNode->getInterfaces()->shouldReturn(array(
-            'Prophecy\Doubler\Generator\ReflectionInterface', 'MyInterface2', 'MyInterface1',
-        ));
+        $classNode->getInterfaces()->shouldReturn([
+            'Prophecy\Doubler\Generator\ReflectionInterface',
+            'MyInterface2',
+            'MyInterface1',
+        ]);
 
         $methodNodes = $classNode->getMethods();
         $methodNodes->shouldHaveCount(3);
@@ -657,6 +702,7 @@ class ClassMirrorSpec extends ObjectBehavior
         $classNode->hasMethod('isPublic')->shouldReturn(true);
         $classNode->hasMethod('isAbstract')->shouldReturn(true);
     }
+
 
     /**
      * @param ReflectionClass  $class
@@ -669,8 +715,8 @@ class ClassMirrorSpec extends ObjectBehavior
         $class->getName()->willReturn('SomeClass');
         $class->isInterface()->willReturn(false);
         $class->isFinal()->willReturn(false);
-        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn(array());
-        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn(array($method1, $method2, $method3));
+        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn([ ]);
+        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn([ $method1, $method2, $method3 ]);
 
         $method1->getName()->willReturn('_getName');
         $method2->getName()->willReturn('__toString');
@@ -692,9 +738,9 @@ class ClassMirrorSpec extends ObjectBehavior
         $method2->returnsReference()->willReturn(false);
         $method3->returnsReference()->willReturn(false);
 
-        $method1->getParameters()->willReturn(array());
-        $method2->getParameters()->willReturn(array());
-        $method3->getParameters()->willReturn(array());
+        $method1->getParameters()->willReturn([ ]);
+        $method2->getParameters()->willReturn([ ]);
+        $method3->getParameters()->willReturn([ ]);
 
         if (version_compare(PHP_VERSION, '7.0', '>=')) {
             $method1->hasReturnType()->willReturn(false);
@@ -702,12 +748,13 @@ class ClassMirrorSpec extends ObjectBehavior
             $method3->hasReturnType()->willReturn(false);
         }
 
-        $classNode = $this->reflect($class, array());
+        $classNode   = $this->reflect($class, [ ]);
         $methodNodes = $classNode->getMethods();
         $methodNodes->shouldHaveCount(2);
 
         $classNode->hasMethod('isAbstract')->shouldReturn(true);
     }
+
 
     /**
      * @param ReflectionClass  $class
@@ -718,14 +765,15 @@ class ClassMirrorSpec extends ObjectBehavior
         $class->getName()->willReturn('SomeClass');
         $class->isInterface()->willReturn(false);
         $class->isFinal()->willReturn(false);
-        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn(array());
-        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn(array($method));
+        $class->getMethods(ReflectionMethod::IS_ABSTRACT)->willReturn([ ]);
+        $class->getMethods(ReflectionMethod::IS_PUBLIC)->willReturn([ $method ]);
 
         $method->getName()->willReturn('__toString');
         $method->isFinal()->willReturn(true);
 
-        $this->shouldNotThrow()->duringReflect($class, array());
+        $this->shouldNotThrow()->duringReflect($class, [ ]);
     }
+
 
     /**
      * @param ReflectionClass $class
@@ -735,36 +783,38 @@ class ClassMirrorSpec extends ObjectBehavior
         $class->getName()->willReturn('MyClass');
         $class->isInterface()->willReturn(false);
 
-        $this->shouldThrow('InvalidArgumentException')
-             ->duringReflect(null, array($class));
+        $this->shouldThrow('InvalidArgumentException')->duringReflect(null, [ $class ]);
     }
+
 
     function it_throws_an_exception_if_not_reflection_provided_as_interface()
     {
-        $this->shouldThrow('InvalidArgumentException')
-             ->duringReflect(null, array(null));
+        $this->shouldThrow('InvalidArgumentException')->duringReflect(null, [ null ]);
     }
+
 
     function it_doesnt_fail_to_typehint_nonexistent_FQCN()
     {
-        $classNode = $this->reflect(new ReflectionClass('spec\Prophecy\Doubler\Generator\OptionalDepsClass'), array());
-        $method = $classNode->getMethod('iHaveAStrangeTypeHintedArg');
+        $classNode = $this->reflect(new ReflectionClass('spec\Prophecy\Doubler\Generator\OptionalDepsClass'), [ ]);
+        $method    = $classNode->getMethod('iHaveAStrangeTypeHintedArg');
         $arguments = $method->getArguments();
         $arguments[0]->getTypeHint()->shouldBe('I\Simply\Am\Nonexistent');
     }
 
+
     function it_doesnt_fail_to_typehint_nonexistent_RQCN()
     {
-        $classNode = $this->reflect(new ReflectionClass('spec\Prophecy\Doubler\Generator\OptionalDepsClass'), array());
-        $method = $classNode->getMethod('iHaveAnEvenStrangerTypeHintedArg');
+        $classNode = $this->reflect(new ReflectionClass('spec\Prophecy\Doubler\Generator\OptionalDepsClass'), [ ]);
+        $method    = $classNode->getMethod('iHaveAnEvenStrangerTypeHintedArg');
         $arguments = $method->getArguments();
         $arguments[0]->getTypeHint()->shouldBe('I\Simply\Am\Not');
     }
 
+
     function it_doesnt_use_scalar_typehints()
     {
-        $classNode = $this->reflect(new ReflectionClass('ReflectionMethod'), array());
-        $method = $classNode->getMethod('export');
+        $classNode = $this->reflect(new ReflectionClass('ReflectionMethod'), [ ]);
+        $method    = $classNode->getMethod('export');
         $arguments = $method->getArguments();
         $arguments[0]->getTypeHint()->shouldReturn(null);
         $arguments[1]->getTypeHint()->shouldReturn(null);
@@ -774,9 +824,11 @@ class ClassMirrorSpec extends ObjectBehavior
 
 class OptionalDepsClass
 {
+
     public function iHaveAStrangeTypeHintedArg(\I\Simply\Am\Nonexistent $class)
     {
     }
+
 
     public function iHaveAnEvenStrangerTypeHintedArg(Simply\Am\Not $class)
     {

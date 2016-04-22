@@ -20,7 +20,8 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  */
 class PgSqlCaster
 {
-    private static $paramCodes = array(
+
+    private static $paramCodes = [
         'server_encoding',
         'client_encoding',
         'is_superuser',
@@ -31,41 +32,42 @@ class PgSqlCaster
         'integer_datetimes',
         'application_name',
         'standard_conforming_strings',
-    );
+    ];
 
-    private static $transactionStatus = array(
-        PGSQL_TRANSACTION_IDLE => 'PGSQL_TRANSACTION_IDLE',
-        PGSQL_TRANSACTION_ACTIVE => 'PGSQL_TRANSACTION_ACTIVE',
+    private static $transactionStatus = [
+        PGSQL_TRANSACTION_IDLE    => 'PGSQL_TRANSACTION_IDLE',
+        PGSQL_TRANSACTION_ACTIVE  => 'PGSQL_TRANSACTION_ACTIVE',
         PGSQL_TRANSACTION_INTRANS => 'PGSQL_TRANSACTION_INTRANS',
         PGSQL_TRANSACTION_INERROR => 'PGSQL_TRANSACTION_INERROR',
         PGSQL_TRANSACTION_UNKNOWN => 'PGSQL_TRANSACTION_UNKNOWN',
-    );
+    ];
 
-    private static $resultStatus = array(
-        PGSQL_EMPTY_QUERY => 'PGSQL_EMPTY_QUERY',
-        PGSQL_COMMAND_OK => 'PGSQL_COMMAND_OK',
-        PGSQL_TUPLES_OK => 'PGSQL_TUPLES_OK',
-        PGSQL_COPY_OUT => 'PGSQL_COPY_OUT',
-        PGSQL_COPY_IN => 'PGSQL_COPY_IN',
-        PGSQL_BAD_RESPONSE => 'PGSQL_BAD_RESPONSE',
+    private static $resultStatus = [
+        PGSQL_EMPTY_QUERY    => 'PGSQL_EMPTY_QUERY',
+        PGSQL_COMMAND_OK     => 'PGSQL_COMMAND_OK',
+        PGSQL_TUPLES_OK      => 'PGSQL_TUPLES_OK',
+        PGSQL_COPY_OUT       => 'PGSQL_COPY_OUT',
+        PGSQL_COPY_IN        => 'PGSQL_COPY_IN',
+        PGSQL_BAD_RESPONSE   => 'PGSQL_BAD_RESPONSE',
         PGSQL_NONFATAL_ERROR => 'PGSQL_NONFATAL_ERROR',
-        PGSQL_FATAL_ERROR => 'PGSQL_FATAL_ERROR',
-    );
+        PGSQL_FATAL_ERROR    => 'PGSQL_FATAL_ERROR',
+    ];
 
-    private static $diagCodes = array(
-        'severity' => PGSQL_DIAG_SEVERITY,
-        'sqlstate' => PGSQL_DIAG_SQLSTATE,
-        'message' => PGSQL_DIAG_MESSAGE_PRIMARY,
-        'detail' => PGSQL_DIAG_MESSAGE_DETAIL,
-        'hint' => PGSQL_DIAG_MESSAGE_HINT,
+    private static $diagCodes = [
+        'severity'           => PGSQL_DIAG_SEVERITY,
+        'sqlstate'           => PGSQL_DIAG_SQLSTATE,
+        'message'            => PGSQL_DIAG_MESSAGE_PRIMARY,
+        'detail'             => PGSQL_DIAG_MESSAGE_DETAIL,
+        'hint'               => PGSQL_DIAG_MESSAGE_HINT,
         'statement position' => PGSQL_DIAG_STATEMENT_POSITION,
-        'internal position' => PGSQL_DIAG_INTERNAL_POSITION,
-        'internal query' => PGSQL_DIAG_INTERNAL_QUERY,
-        'context' => PGSQL_DIAG_CONTEXT,
-        'file' => PGSQL_DIAG_SOURCE_FILE,
-        'line' => PGSQL_DIAG_SOURCE_LINE,
-        'function' => PGSQL_DIAG_SOURCE_FUNCTION,
-    );
+        'internal position'  => PGSQL_DIAG_INTERNAL_POSITION,
+        'internal query'     => PGSQL_DIAG_INTERNAL_QUERY,
+        'context'            => PGSQL_DIAG_CONTEXT,
+        'file'               => PGSQL_DIAG_SOURCE_FILE,
+        'line'               => PGSQL_DIAG_SOURCE_LINE,
+        'function'           => PGSQL_DIAG_SOURCE_FUNCTION,
+    ];
+
 
     public static function castLargeObject($lo, array $a, Stub $stub, $isNested)
     {
@@ -74,25 +76,27 @@ class PgSqlCaster
         return $a;
     }
 
+
     public static function castLink($link, array $a, Stub $stub, $isNested)
     {
         $a['status'] = pg_connection_status($link);
-        $a['status'] = new ConstStub(PGSQL_CONNECTION_OK === $a['status'] ? 'PGSQL_CONNECTION_OK' : 'PGSQL_CONNECTION_BAD', $a['status']);
-        $a['busy'] = pg_connection_busy($link);
+        $a['status'] = new ConstStub(PGSQL_CONNECTION_OK === $a['status'] ? 'PGSQL_CONNECTION_OK' : 'PGSQL_CONNECTION_BAD',
+            $a['status']);
+        $a['busy']   = pg_connection_busy($link);
 
         $a['transaction'] = pg_transaction_status($link);
-        if (isset(self::$transactionStatus[$a['transaction']])) {
+        if (isset( self::$transactionStatus[$a['transaction']] )) {
             $a['transaction'] = new ConstStub(self::$transactionStatus[$a['transaction']], $a['transaction']);
         }
 
-        $a['pid'] = pg_get_pid($link);
-        $a['last error'] = pg_last_error($link);
+        $a['pid']         = pg_get_pid($link);
+        $a['last error']  = pg_last_error($link);
         $a['last notice'] = pg_last_notice($link);
-        $a['host'] = pg_host($link);
-        $a['port'] = pg_port($link);
-        $a['dbname'] = pg_dbname($link);
-        $a['options'] = pg_options($link);
-        $a['version'] = pg_version($link);
+        $a['host']        = pg_host($link);
+        $a['port']        = pg_port($link);
+        $a['dbname']      = pg_dbname($link);
+        $a['options']     = pg_options($link);
+        $a['version']     = pg_version($link);
 
         foreach (self::$paramCodes as $v) {
             if (false !== $s = pg_parameter_status($link, $v)) {
@@ -101,16 +105,17 @@ class PgSqlCaster
         }
 
         $a['param']['client_encoding'] = pg_client_encoding($link);
-        $a['param'] = new EnumStub($a['param']);
+        $a['param']                    = new EnumStub($a['param']);
 
         return $a;
     }
 
+
     public static function castResult($result, array $a, Stub $stub, $isNested)
     {
         $a['num rows'] = pg_num_rows($result);
-        $a['status'] = pg_result_status($result);
-        if (isset(self::$resultStatus[$a['status']])) {
+        $a['status']   = pg_result_status($result);
+        if (isset( self::$resultStatus[$a['status']] )) {
             $a['status'] = new ConstStub(self::$resultStatus[$a['status']], $a['status']);
         }
         $a['command-completion tag'] = pg_result_status($result, PGSQL_STATUS_STRING);
@@ -122,19 +127,19 @@ class PgSqlCaster
         }
 
         $a['affected rows'] = pg_affected_rows($result);
-        $a['last OID'] = pg_last_oid($result);
+        $a['last OID']      = pg_last_oid($result);
 
         $fields = pg_num_fields($result);
 
         for ($i = 0; $i < $fields; ++$i) {
-            $field = array(
-                'name' => pg_field_name($result, $i),
-                'table' => sprintf('%s (OID: %s)', pg_field_table($result, $i), pg_field_table($result, $i, true)),
-                'type' => sprintf('%s (OID: %s)', pg_field_type($result, $i), pg_field_type_oid($result, $i)),
+            $field = [
+                'name'     => pg_field_name($result, $i),
+                'table'    => sprintf('%s (OID: %s)', pg_field_table($result, $i), pg_field_table($result, $i, true)),
+                'type'     => sprintf('%s (OID: %s)', pg_field_type($result, $i), pg_field_type_oid($result, $i)),
                 'nullable' => (bool) pg_field_is_null($result, $i),
-                'storage' => pg_field_size($result, $i).' bytes',
-                'display' => pg_field_prtlen($result, $i).' chars',
-            );
+                'storage'  => pg_field_size($result, $i) . ' bytes',
+                'display'  => pg_field_prtlen($result, $i) . ' chars',
+            ];
             if (' (OID: )' === $field['table']) {
                 $field['table'] = null;
             }

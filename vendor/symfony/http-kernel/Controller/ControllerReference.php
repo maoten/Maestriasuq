@@ -22,13 +22,17 @@ use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  *
- * @see FragmentRendererInterface
+ * @see    FragmentRendererInterface
  */
 class ControllerReference
 {
+
     public $controller;
-    public $attributes = array();
-    public $query = array();
+
+    public $attributes = [ ];
+
+    public $query = [ ];
+
 
     /**
      * Constructor.
@@ -37,10 +41,10 @@ class ControllerReference
      * @param array  $attributes An array of parameters to add to the Request attributes
      * @param array  $query      An array of parameters to add to the Request query string
      */
-    public function __construct($controller, array $attributes = array(), array $query = array())
+    public function __construct($controller, array $attributes = [ ], array $query = [ ])
     {
         $this->controller = $controller;
         $this->attributes = $attributes;
-        $this->query = $query;
+        $this->query      = $query;
     }
 }

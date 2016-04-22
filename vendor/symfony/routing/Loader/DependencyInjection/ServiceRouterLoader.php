@@ -23,15 +23,18 @@ use Symfony\Component\Routing\Loader\ObjectRouteLoader;
  */
 class ServiceRouterLoader extends ObjectRouteLoader
 {
+
     /**
      * @var ContainerInterface
      */
     private $container;
 
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
+
 
     protected function getServiceObject($id)
     {

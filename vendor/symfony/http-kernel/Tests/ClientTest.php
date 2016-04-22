@@ -20,24 +20,30 @@ use Symfony\Component\HttpKernel\Tests\Fixtures\TestClient;
 
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testDoRequest()
     {
         $client = new Client(new TestHttpKernel());
 
         $client->request('GET', '/');
-        $this->assertEquals('Request: /', $client->getResponse()->getContent(), '->doRequest() uses the request handler to make the request');
+        $this->assertEquals('Request: /', $client->getResponse()->getContent(),
+            '->doRequest() uses the request handler to make the request');
         $this->assertInstanceOf('Symfony\Component\BrowserKit\Request', $client->getInternalRequest());
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\Request', $client->getRequest());
         $this->assertInstanceOf('Symfony\Component\BrowserKit\Response', $client->getInternalResponse());
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $client->getResponse());
 
         $client->request('GET', 'http://www.example.com/');
-        $this->assertEquals('Request: /', $client->getResponse()->getContent(), '->doRequest() uses the request handler to make the request');
-        $this->assertEquals('www.example.com', $client->getRequest()->getHost(), '->doRequest() uses the request handler to make the request');
+        $this->assertEquals('Request: /', $client->getResponse()->getContent(),
+            '->doRequest() uses the request handler to make the request');
+        $this->assertEquals('www.example.com', $client->getRequest()->getHost(),
+            '->doRequest() uses the request handler to make the request');
 
         $client->request('GET', 'http://www.example.com/?parameter=http://google.com');
-        $this->assertEquals('http://www.example.com/?parameter='.urlencode('http://google.com'), $client->getRequest()->getUri(), '->doRequest() uses the request handler to make the request');
+        $this->assertEquals('http://www.example.com/?parameter=' . urlencode('http://google.com'),
+            $client->getRequest()->getUri(), '->doRequest() uses the request handler to make the request');
     }
+
 
     public function testGetScript()
     {
@@ -45,8 +51,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client->insulate();
         $client->request('GET', '/');
 
-        $this->assertEquals('Request: /', $client->getResponse()->getContent(), '->getScript() returns a script that uses the request handler to make the request');
+        $this->assertEquals('Request: /', $client->getResponse()->getContent(),
+            '->getScript() returns a script that uses the request handler to make the request');
     }
+
 
     public function testFilterResponseConvertsCookies()
     {
@@ -56,23 +64,30 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $m = $r->getMethod('filterResponse');
         $m->setAccessible(true);
 
-        $expected = array(
+        $expected = [
             'foo=bar; expires=Sun, 15 Feb 2009 20:00:00 GMT; domain=http://example.com; path=/foo; secure; httponly',
             'foo1=bar1; expires=Sun, 15 Feb 2009 20:00:00 GMT; domain=http://example.com; path=/foo; secure; httponly',
-        );
+        ];
 
         $response = new Response();
-        $response->headers->setCookie(new Cookie('foo', 'bar', \DateTime::createFromFormat('j-M-Y H:i:s T', '15-Feb-2009 20:00:00 GMT')->format('U'), '/foo', 'http://example.com', true, true));
+        $response->headers->setCookie(new Cookie('foo', 'bar',
+            \DateTime::createFromFormat('j-M-Y H:i:s T', '15-Feb-2009 20:00:00 GMT')->format('U'), '/foo',
+            'http://example.com', true, true));
         $domResponse = $m->invoke($client, $response);
         $this->assertEquals($expected[0], $domResponse->getHeader('Set-Cookie'));
 
         $response = new Response();
-        $response->headers->setCookie(new Cookie('foo', 'bar', \DateTime::createFromFormat('j-M-Y H:i:s T', '15-Feb-2009 20:00:00 GMT')->format('U'), '/foo', 'http://example.com', true, true));
-        $response->headers->setCookie(new Cookie('foo1', 'bar1', \DateTime::createFromFormat('j-M-Y H:i:s T', '15-Feb-2009 20:00:00 GMT')->format('U'), '/foo', 'http://example.com', true, true));
+        $response->headers->setCookie(new Cookie('foo', 'bar',
+            \DateTime::createFromFormat('j-M-Y H:i:s T', '15-Feb-2009 20:00:00 GMT')->format('U'), '/foo',
+            'http://example.com', true, true));
+        $response->headers->setCookie(new Cookie('foo1', 'bar1',
+            \DateTime::createFromFormat('j-M-Y H:i:s T', '15-Feb-2009 20:00:00 GMT')->format('U'), '/foo',
+            'http://example.com', true, true));
         $domResponse = $m->invoke($client, $response);
         $this->assertEquals($expected[0], $domResponse->getHeader('Set-Cookie'));
         $this->assertEquals($expected, $domResponse->getHeader('Set-Cookie', false));
     }
+
 
     public function testFilterResponseSupportsStreamedResponses()
     {
@@ -90,23 +105,30 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $domResponse->getContent());
     }
 
+
     public function testUploadedFile()
     {
         $source = tempnam(sys_get_temp_dir(), 'source');
-        $target = sys_get_temp_dir().'/sf.moved.file';
+        $target = sys_get_temp_dir() . '/sf.moved.file';
         @unlink($target);
 
         $kernel = new TestHttpKernel();
         $client = new Client($kernel);
 
-        $files = array(
-            array('tmp_name' => $source, 'name' => 'original', 'type' => 'mime/original', 'size' => 123, 'error' => UPLOAD_ERR_OK),
+        $files = [
+            [
+                'tmp_name' => $source,
+                'name'     => 'original',
+                'type'     => 'mime/original',
+                'size'     => 123,
+                'error'    => UPLOAD_ERR_OK
+            ],
             new UploadedFile($source, 'original', 'mime/original', 123, UPLOAD_ERR_OK, true),
-        );
+        ];
 
         $file = null;
         foreach ($files as $file) {
-            $client->request('POST', '/', array(), array('foo' => $file));
+            $client->request('POST', '/', [ ], [ 'foo' => $file ]);
 
             $files = $client->getRequest()->files->all();
 
@@ -126,20 +148,22 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         unlink($target);
     }
 
+
     public function testUploadedFileWhenNoFileSelected()
     {
         $kernel = new TestHttpKernel();
         $client = new Client($kernel);
 
-        $file = array('tmp_name' => '', 'name' => '', 'type' => '', 'size' => 0, 'error' => UPLOAD_ERR_NO_FILE);
+        $file = [ 'tmp_name' => '', 'name' => '', 'type' => '', 'size' => 0, 'error' => UPLOAD_ERR_NO_FILE ];
 
-        $client->request('POST', '/', array(), array('foo' => $file));
+        $client->request('POST', '/', [ ], [ 'foo' => $file ]);
 
         $files = $client->getRequest()->files->all();
 
         $this->assertCount(1, $files);
         $this->assertNull($files['foo']);
     }
+
 
     public function testUploadedFileWhenSizeExceedsUploadMaxFileSize()
     {
@@ -148,19 +172,18 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $kernel = new TestHttpKernel();
         $client = new Client($kernel);
 
-        $file = $this
-            ->getMockBuilder('Symfony\Component\HttpFoundation\File\UploadedFile')
-            ->setConstructorArgs(array($source, 'original', 'mime/original', 123, UPLOAD_ERR_OK, true))
-            ->setMethods(array('getSize'))
-            ->getMock()
-        ;
+        $file = $this->getMockBuilder('Symfony\Component\HttpFoundation\File\UploadedFile')->setConstructorArgs([
+                $source,
+                'original',
+                'mime/original',
+                123,
+                UPLOAD_ERR_OK,
+                true
+            ])->setMethods([ 'getSize' ])->getMock();
 
-        $file->expects($this->once())
-            ->method('getSize')
-            ->will($this->returnValue(INF))
-        ;
+        $file->expects($this->once())->method('getSize')->will($this->returnValue(INF));
 
-        $client->request('POST', '/', array(), array($file));
+        $client->request('POST', '/', [ ], [ $file ]);
 
         $files = $client->getRequest()->files->all();
 

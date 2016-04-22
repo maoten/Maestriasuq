@@ -4,6 +4,7 @@ namespace Faker\Provider\uk_UA;
 
 class Text extends \Faker\Provider\Text
 {
+
     /**
      * From uk.wikisource.org
      *

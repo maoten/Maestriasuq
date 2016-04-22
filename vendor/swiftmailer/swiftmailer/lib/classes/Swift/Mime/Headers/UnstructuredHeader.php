@@ -15,12 +15,14 @@
  */
 class Swift_Mime_Headers_UnstructuredHeader extends Swift_Mime_Headers_AbstractHeader
 {
+
     /**
      * The value of this Header.
      *
      * @var string
      */
     private $_value;
+
 
     /**
      * Creates a new SimpleHeader with $name.
@@ -36,6 +38,7 @@ class Swift_Mime_Headers_UnstructuredHeader extends Swift_Mime_Headers_AbstractH
         parent::__construct($grammar);
     }
 
+
     /**
      * Get the type of Header that this instance represents.
      *
@@ -49,6 +52,7 @@ class Swift_Mime_Headers_UnstructuredHeader extends Swift_Mime_Headers_AbstractH
         return self::TYPE_TEXT;
     }
 
+
     /**
      * Set the model for the field body.
      *
@@ -60,6 +64,7 @@ class Swift_Mime_Headers_UnstructuredHeader extends Swift_Mime_Headers_AbstractH
     {
         $this->setValue($model);
     }
+
 
     /**
      * Get the model for the field body.
@@ -73,6 +78,7 @@ class Swift_Mime_Headers_UnstructuredHeader extends Swift_Mime_Headers_AbstractH
         return $this->getValue();
     }
 
+
     /**
      * Get the (unencoded) value of this header.
      *
@@ -82,6 +88,7 @@ class Swift_Mime_Headers_UnstructuredHeader extends Swift_Mime_Headers_AbstractH
     {
         return $this->_value;
     }
+
 
     /**
      * Set the (unencoded) value of this header.
@@ -94,6 +101,7 @@ class Swift_Mime_Headers_UnstructuredHeader extends Swift_Mime_Headers_AbstractH
         $this->_value = $value;
     }
 
+
     /**
      * Get the value of this header prepared for rendering.
      *
@@ -101,10 +109,8 @@ class Swift_Mime_Headers_UnstructuredHeader extends Swift_Mime_Headers_AbstractH
      */
     public function getFieldBody()
     {
-        if (!$this->getCachedValue()) {
-            $this->setCachedValue(
-                $this->encodeWords($this, $this->_value)
-                );
+        if ( ! $this->getCachedValue()) {
+            $this->setCachedValue($this->encodeWords($this, $this->_value));
         }
 
         return $this->getCachedValue();

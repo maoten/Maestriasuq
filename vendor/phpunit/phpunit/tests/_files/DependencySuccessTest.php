@@ -1,9 +1,12 @@
 <?php
+
 class DependencySuccessTest extends PHPUnit_Framework_TestCase
 {
+
     public function testOne()
     {
     }
+
 
     /**
      * @depends testOne
@@ -11,6 +14,7 @@ class DependencySuccessTest extends PHPUnit_Framework_TestCase
     public function testTwo()
     {
     }
+
 
     /**
      * @depends DependencySuccessTest::testTwo

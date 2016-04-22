@@ -6,6 +6,7 @@ use PhpSpec\ObjectBehavior;
 
 class NoCallsExceptionSpec extends ObjectBehavior
 {
+
     /**
      * @param \Prophecy\Prophecy\ObjectProphecy $objectProphecy
      * @param \Prophecy\Prophecy\MethodProphecy $methodProphecy
@@ -17,10 +18,12 @@ class NoCallsExceptionSpec extends ObjectBehavior
         $this->beConstructedWith('message', $methodProphecy);
     }
 
+
     function it_is_PredictionException()
     {
         $this->shouldHaveType('Prophecy\Exception\Prediction\PredictionException');
     }
+
 
     function it_extends_MethodProphecyException()
     {

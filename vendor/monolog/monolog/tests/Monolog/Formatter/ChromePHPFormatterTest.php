@@ -15,38 +15,37 @@ use Monolog\Logger;
 
 class ChromePHPFormatterTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @covers Monolog\Formatter\ChromePHPFormatter::format
      */
     public function testDefaultFormat()
     {
         $formatter = new ChromePHPFormatter();
-        $record = array(
-            'level' => Logger::ERROR,
+        $record    = [
+            'level'      => Logger::ERROR,
             'level_name' => 'ERROR',
-            'channel' => 'meh',
-            'context' => array('from' => 'logger'),
-            'datetime' => new \DateTime("@0"),
-            'extra' => array('ip' => '127.0.0.1'),
-            'message' => 'log',
-        );
+            'channel'    => 'meh',
+            'context'    => [ 'from' => 'logger' ],
+            'datetime'   => new \DateTime("@0"),
+            'extra'      => [ 'ip' => '127.0.0.1' ],
+            'message'    => 'log',
+        ];
 
         $message = $formatter->format($record);
 
-        $this->assertEquals(
-            array(
-                'meh',
-                array(
-                    'message' => 'log',
-                    'context' => array('from' => 'logger'),
-                    'extra' => array('ip' => '127.0.0.1'),
-                ),
-                'unknown',
-                'error',
-            ),
-            $message
-        );
+        $this->assertEquals([
+            'meh',
+            [
+                'message' => 'log',
+                'context' => [ 'from' => 'logger' ],
+                'extra'   => [ 'ip' => '127.0.0.1' ],
+            ],
+            'unknown',
+            'error',
+        ], $message);
     }
+
 
     /**
      * @covers Monolog\Formatter\ChromePHPFormatter::format
@@ -54,32 +53,30 @@ class ChromePHPFormatterTest extends \PHPUnit_Framework_TestCase
     public function testFormatWithFileAndLine()
     {
         $formatter = new ChromePHPFormatter();
-        $record = array(
-            'level' => Logger::CRITICAL,
+        $record    = [
+            'level'      => Logger::CRITICAL,
             'level_name' => 'CRITICAL',
-            'channel' => 'meh',
-            'context' => array('from' => 'logger'),
-            'datetime' => new \DateTime("@0"),
-            'extra' => array('ip' => '127.0.0.1', 'file' => 'test', 'line' => 14),
-            'message' => 'log',
-        );
+            'channel'    => 'meh',
+            'context'    => [ 'from' => 'logger' ],
+            'datetime'   => new \DateTime("@0"),
+            'extra'      => [ 'ip' => '127.0.0.1', 'file' => 'test', 'line' => 14 ],
+            'message'    => 'log',
+        ];
 
         $message = $formatter->format($record);
 
-        $this->assertEquals(
-            array(
-                'meh',
-                array(
-                    'message' => 'log',
-                    'context' => array('from' => 'logger'),
-                    'extra' => array('ip' => '127.0.0.1'),
-                ),
-                'test : 14',
-                'error',
-            ),
-            $message
-        );
+        $this->assertEquals([
+            'meh',
+            [
+                'message' => 'log',
+                'context' => [ 'from' => 'logger' ],
+                'extra'   => [ 'ip' => '127.0.0.1' ],
+            ],
+            'test : 14',
+            'error',
+        ], $message);
     }
+
 
     /**
      * @covers Monolog\Formatter\ChromePHPFormatter::format
@@ -87,28 +84,26 @@ class ChromePHPFormatterTest extends \PHPUnit_Framework_TestCase
     public function testFormatWithoutContext()
     {
         $formatter = new ChromePHPFormatter();
-        $record = array(
-            'level' => Logger::DEBUG,
+        $record    = [
+            'level'      => Logger::DEBUG,
             'level_name' => 'DEBUG',
-            'channel' => 'meh',
-            'context' => array(),
-            'datetime' => new \DateTime("@0"),
-            'extra' => array(),
-            'message' => 'log',
-        );
+            'channel'    => 'meh',
+            'context'    => [ ],
+            'datetime'   => new \DateTime("@0"),
+            'extra'      => [ ],
+            'message'    => 'log',
+        ];
 
         $message = $formatter->format($record);
 
-        $this->assertEquals(
-            array(
-                'meh',
-                'log',
-                'unknown',
-                'log',
-            ),
-            $message
-        );
+        $this->assertEquals([
+            'meh',
+            'log',
+            'unknown',
+            'log',
+        ], $message);
     }
+
 
     /**
      * @covers Monolog\Formatter\ChromePHPFormatter::formatBatch
@@ -116,43 +111,40 @@ class ChromePHPFormatterTest extends \PHPUnit_Framework_TestCase
     public function testBatchFormatThrowException()
     {
         $formatter = new ChromePHPFormatter();
-        $records = array(
-            array(
-                'level' => Logger::INFO,
+        $records   = [
+            [
+                'level'      => Logger::INFO,
                 'level_name' => 'INFO',
-                'channel' => 'meh',
-                'context' => array(),
-                'datetime' => new \DateTime("@0"),
-                'extra' => array(),
-                'message' => 'log',
-            ),
-            array(
-                'level' => Logger::WARNING,
+                'channel'    => 'meh',
+                'context'    => [ ],
+                'datetime'   => new \DateTime("@0"),
+                'extra'      => [ ],
+                'message'    => 'log',
+            ],
+            [
+                'level'      => Logger::WARNING,
                 'level_name' => 'WARNING',
-                'channel' => 'foo',
-                'context' => array(),
-                'datetime' => new \DateTime("@0"),
-                'extra' => array(),
-                'message' => 'log2',
-            ),
-        );
+                'channel'    => 'foo',
+                'context'    => [ ],
+                'datetime'   => new \DateTime("@0"),
+                'extra'      => [ ],
+                'message'    => 'log2',
+            ],
+        ];
 
-        $this->assertEquals(
-            array(
-                array(
-                    'meh',
-                    'log',
-                    'unknown',
-                    'info',
-                ),
-                array(
-                    'foo',
-                    'log2',
-                    'unknown',
-                    'warn',
-                ),
-            ),
-            $formatter->formatBatch($records)
-        );
+        $this->assertEquals([
+            [
+                'meh',
+                'log',
+                'unknown',
+                'info',
+            ],
+            [
+                'foo',
+                'log2',
+                'unknown',
+                'warn',
+            ],
+        ], $formatter->formatBatch($records));
     }
 }

@@ -6,12 +6,14 @@ use Illuminate\Contracts\Queue\Job as JobContract;
 
 trait InteractsWithQueue
 {
+
     /**
      * The underlying queue job instance.
      *
      * @var \Illuminate\Contracts\Queue\Job
      */
     protected $job;
+
 
     /**
      * Delete the job from the queue.
@@ -25,10 +27,12 @@ trait InteractsWithQueue
         }
     }
 
+
     /**
      * Release the job back into the queue.
      *
-     * @param  int   $delay
+     * @param  int $delay
+     *
      * @return void
      */
     public function release($delay = 0)
@@ -37,6 +41,7 @@ trait InteractsWithQueue
             return $this->job->release($delay);
         }
     }
+
 
     /**
      * Get the number of times the job has been attempted.
@@ -48,10 +53,12 @@ trait InteractsWithQueue
         return $this->job ? $this->job->attempts() : 1;
     }
 
+
     /**
      * Set the base queue job instance.
      *
-     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @param  \Illuminate\Contracts\Queue\Job $job
+     *
      * @return $this
      */
     public function setJob(JobContract $job)

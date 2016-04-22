@@ -15,6 +15,7 @@
  */
 class Swift_Image extends Swift_EmbeddedFile
 {
+
     /**
      * Create a new EmbeddedFile.
      *
@@ -28,6 +29,7 @@ class Swift_Image extends Swift_EmbeddedFile
     {
         parent::__construct($data, $filename, $contentType);
     }
+
 
     /**
      * Create a new Image.
@@ -43,6 +45,7 @@ class Swift_Image extends Swift_EmbeddedFile
         return new self($data, $filename, $contentType);
     }
 
+
     /**
      * Create a new Image from a filesystem path.
      *
@@ -52,9 +55,7 @@ class Swift_Image extends Swift_EmbeddedFile
      */
     public static function fromPath($path)
     {
-        $image = self::newInstance()->setFile(
-            new Swift_ByteStream_FileByteStream($path)
-            );
+        $image = self::newInstance()->setFile(new Swift_ByteStream_FileByteStream($path));
 
         return $image;
     }

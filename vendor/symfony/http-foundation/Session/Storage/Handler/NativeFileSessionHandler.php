@@ -20,6 +20,7 @@ namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
  */
 class NativeFileSessionHandler extends NativeSessionHandler
 {
+
     /**
      * Constructor.
      *
@@ -48,7 +49,7 @@ class NativeFileSessionHandler extends NativeSessionHandler
             $baseDir = ltrim(strrchr($savePath, ';'), ';');
         }
 
-        if ($baseDir && !is_dir($baseDir) && !@mkdir($baseDir, 0777, true) && !is_dir($baseDir)) {
+        if ($baseDir && ! is_dir($baseDir) && ! @mkdir($baseDir, 0777, true) && ! is_dir($baseDir)) {
             throw new \RuntimeException(sprintf('Session Storage was not able to create directory "%s"', $baseDir));
         }
 

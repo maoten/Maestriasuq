@@ -20,10 +20,11 @@ namespace Psy\TabCompletion\Matcher;
  */
 class MongoDatabaseMatcher extends AbstractContextAwareMatcher
 {
+
     /**
      * {@inheritdoc}
      */
-    public function getMatches(array $tokens, array $info = array())
+    public function getMatches(array $tokens, array $info = [ ])
     {
         $input = $this->getInput($tokens);
 
@@ -33,27 +34,25 @@ class MongoDatabaseMatcher extends AbstractContextAwareMatcher
             array_pop($tokens);
         }
         $objectToken = array_pop($tokens);
-        $objectName = str_replace('$', '', $objectToken[1]);
-        $object = $this->getVariable($objectName);
+        $objectName  = str_replace('$', '', $objectToken[1]);
+        $object      = $this->getVariable($objectName);
 
-        if (!$object instanceof \MongoDB) {
-            return array();
+        if ( ! $object instanceof \MongoDB) {
+            return [ ];
         }
 
-        return array_filter(
-            $object->getCollectionNames(),
-            function ($var) use ($input) {
-                return AbstractMatcher::startsWith($input, $var);
-            }
-        );
+        return array_filter($object->getCollectionNames(), function ($var) use ($input) {
+            return AbstractMatcher::startsWith($input, $var);
+        });
     }
+
 
     /**
      * {@inheritdoc}
      */
     public function hasMatched(array $tokens)
     {
-        $token = array_pop($tokens);
+        $token     = array_pop($tokens);
         $prevToken = array_pop($tokens);
 
         switch (true) {

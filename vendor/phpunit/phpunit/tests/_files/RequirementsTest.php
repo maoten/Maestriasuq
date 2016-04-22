@@ -1,9 +1,12 @@
 <?php
+
 class RequirementsTest extends PHPUnit_Framework_TestCase
 {
+
     public function testOne()
     {
     }
+
 
     /**
      * @requires PHPUnit 1.0
@@ -12,12 +15,14 @@ class RequirementsTest extends PHPUnit_Framework_TestCase
     {
     }
 
+
     /**
      * @requires PHP 2.0
      */
     public function testThree()
     {
     }
+
 
     /**
      * @requires PHPUnit 2.0
@@ -27,12 +32,14 @@ class RequirementsTest extends PHPUnit_Framework_TestCase
     {
     }
 
+
     /**
      * @requires PHP 5.4.0RC6
      */
     public function testFive()
     {
     }
+
 
     /**
      * @requires PHP 5.4.0-alpha1
@@ -41,12 +48,14 @@ class RequirementsTest extends PHPUnit_Framework_TestCase
     {
     }
 
+
     /**
      * @requires PHP 5.4.0beta2
      */
     public function testSeven()
     {
     }
+
 
     /**
      * @requires PHP 5.4-dev
@@ -55,12 +64,14 @@ class RequirementsTest extends PHPUnit_Framework_TestCase
     {
     }
 
+
     /**
      * @requires function testFunc
      */
     public function testNine()
     {
     }
+
 
     /**
      * @requires extension testExt
@@ -69,12 +80,14 @@ class RequirementsTest extends PHPUnit_Framework_TestCase
     {
     }
 
+
     /**
      * @requires OS Linux
      */
     public function testEleven()
     {
     }
+
 
     /**
      * @requires PHP 99-dev
@@ -89,12 +102,14 @@ class RequirementsTest extends PHPUnit_Framework_TestCase
     {
     }
 
+
     /**
      * @requires function array_merge
      */
     public function testExistingFunction()
     {
     }
+
 
     /**
      * @requires function ReflectionMethod::setAccessible
@@ -103,12 +118,14 @@ class RequirementsTest extends PHPUnit_Framework_TestCase
     {
     }
 
+
     /**
      * @requires extension spl
      */
     public function testExistingExtension()
     {
     }
+
 
     /**
      * @requires OS .*
@@ -117,12 +134,14 @@ class RequirementsTest extends PHPUnit_Framework_TestCase
     {
     }
 
+
     /**
      * @requires PHPUnit 1111111
      */
     public function testAlwaysSkip()
     {
     }
+
 
     /**
      * @requires PHP 9999999
@@ -131,6 +150,7 @@ class RequirementsTest extends PHPUnit_Framework_TestCase
     {
     }
 
+
     /**
      * @requires OS DOESNOTEXIST
      */
@@ -138,9 +158,10 @@ class RequirementsTest extends PHPUnit_Framework_TestCase
     {
     }
 
+
     /**
-     * @requires	  extension	  spl
-     * @requires	  OS	  .*
+     * @requires      extension      spl
+     * @requires      OS      .*
      */
     public function testSpace()
     {

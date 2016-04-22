@@ -22,6 +22,7 @@
  */
 class PHP_TokenTest extends PHPUnit_Framework_TestCase
 {
+
     /**
      * @covers PHP_Token::__construct
      * @covers PHP_Token::__toString
@@ -30,6 +31,7 @@ class PHP_TokenTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete();
     }
+
 
     /**
      * @covers PHP_Token::__construct

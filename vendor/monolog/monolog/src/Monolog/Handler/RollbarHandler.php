@@ -25,6 +25,7 @@ use Monolog\Logger;
  */
 class RollbarHandler extends AbstractProcessingHandler
 {
+
     /**
      * Rollbar notifier
      *
@@ -39,6 +40,7 @@ class RollbarHandler extends AbstractProcessingHandler
      */
     private $hasRecords = false;
 
+
     /**
      * @param RollbarNotifier $rollbarNotifier RollbarNotifier object constructed with valid token
      * @param int             $level           The minimum logging level at which this handler will be triggered
@@ -51,47 +53,45 @@ class RollbarHandler extends AbstractProcessingHandler
         parent::__construct($level, $bubble);
     }
 
+
     /**
      * {@inheritdoc}
      */
     protected function write(array $record)
     {
-        if (isset($record['context']['exception']) && $record['context']['exception'] instanceof Exception) {
-            $context = $record['context'];
+        if (isset( $record['context']['exception'] ) && $record['context']['exception'] instanceof Exception) {
+            $context   = $record['context'];
             $exception = $context['exception'];
-            unset($context['exception']);
+            unset( $context['exception'] );
 
-            $payload = array();
-            if (isset($context['payload'])) {
+            $payload = [ ];
+            if (isset( $context['payload'] )) {
                 $payload = $context['payload'];
-                unset($context['payload']);
+                unset( $context['payload'] );
             }
 
             $this->rollbarNotifier->report_exception($exception, $context, $payload);
         } else {
-            $extraData = array(
-                'level' => $record['level'],
-                'channel' => $record['channel'],
+            $extraData = [
+                'level'    => $record['level'],
+                'channel'  => $record['channel'],
                 'datetime' => $record['datetime']->format('U'),
-            );
+            ];
 
             $context = $record['context'];
-            $payload = array();
-            if (isset($context['payload'])) {
+            $payload = [ ];
+            if (isset( $context['payload'] )) {
                 $payload = $context['payload'];
-                unset($context['payload']);
+                unset( $context['payload'] );
             }
 
-            $this->rollbarNotifier->report_message(
-                $record['message'],
-                $record['level_name'],
-                array_merge($record['context'], $record['extra'], $extraData),
-                $payload
-            );
+            $this->rollbarNotifier->report_message($record['message'], $record['level_name'],
+                array_merge($record['context'], $record['extra'], $extraData), $payload);
         }
 
         $this->hasRecords = true;
     }
+
 
     /**
      * {@inheritdoc}

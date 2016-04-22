@@ -6,5 +6,6 @@ use Exception;
 
 class PostTooLargeException extends Exception
 {
+
     //
 }

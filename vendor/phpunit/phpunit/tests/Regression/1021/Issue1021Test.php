@@ -1,6 +1,8 @@
 <?php
+
 class Issue1021Test extends PHPUnit_Framework_TestCase
 {
+
     /**
      * @dataProvider provider
      */
@@ -9,6 +11,7 @@ class Issue1021Test extends PHPUnit_Framework_TestCase
         $this->assertTrue($data);
     }
 
+
     /**
      * @depends testSomething
      */
@@ -16,8 +19,9 @@ class Issue1021Test extends PHPUnit_Framework_TestCase
     {
     }
 
+
     public function provider()
     {
-        return array(array(true));
+        return [ [ true ] ];
     }
 }

@@ -6,6 +6,7 @@ use LogicException;
 
 trait NotSupportingVisibilityTrait
 {
+
     /**
      * Get the visibility of a file.
      *
@@ -17,6 +18,7 @@ trait NotSupportingVisibilityTrait
     {
         throw new LogicException(get_class($this) . ' does not support visibility. Path: ' . $path);
     }
+
 
     /**
      * Set the visibility for a file.

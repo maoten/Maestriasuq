@@ -29,31 +29,48 @@ use Symfony\Component\Console\Output\ConsoleOutputInterface;
  */
 class DebugHandlersListener implements EventSubscriberInterface
 {
+
     private $exceptionHandler;
+
     private $logger;
+
     private $levels;
+
     private $throwAt;
+
     private $scream;
+
     private $fileLinkFormat;
+
     private $firstCall = true;
 
+
     /**
-     * @param callable|null        $exceptionHandler A handler that will be called on Exception
-     * @param LoggerInterface|null $logger           A PSR-3 logger
-     * @param array|int            $levels           An array map of E_* to LogLevel::* or an integer bit field of E_* constants
-     * @param int|null             $throwAt          Thrown errors in a bit field of E_* constants, or null to keep the current value
-     * @param bool                 $scream           Enables/disables screaming mode, where even silenced errors are logged
-     * @param string               $fileLinkFormat   The format for links to source files
+     * @param callable|null $exceptionHandler A handler that will be called on Exception
+     * @param LoggerInterface|null $logger    A PSR-3 logger
+     * @param array|int $levels               An array map of E_* to LogLevel::* or an integer bit field of E_*
+     *                                        constants
+     * @param int|null $throwAt               Thrown errors in a bit field of E_* constants, or null to keep the
+     *                                        current value
+     * @param bool $scream                    Enables/disables screaming mode, where even silenced errors are logged
+     * @param string $fileLinkFormat          The format for links to source files
      */
-    public function __construct(callable $exceptionHandler = null, LoggerInterface $logger = null, $levels = E_ALL, $throwAt = E_ALL, $scream = true, $fileLinkFormat = null)
-    {
+    public function __construct(
+        callable $exceptionHandler = null,
+        LoggerInterface $logger = null,
+        $levels = E_ALL,
+        $throwAt = E_ALL,
+        $scream = true,
+        $fileLinkFormat = null
+    ) {
         $this->exceptionHandler = $exceptionHandler;
-        $this->logger = $logger;
-        $this->levels = null === $levels ? E_ALL : $levels;
-        $this->throwAt = is_numeric($throwAt) ? (int) $throwAt : (null === $throwAt ? null : ($throwAt ? E_ALL : null));
-        $this->scream = (bool) $scream;
-        $this->fileLinkFormat = $fileLinkFormat ?: ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
+        $this->logger           = $logger;
+        $this->levels           = null === $levels ? E_ALL : $levels;
+        $this->throwAt          = is_numeric($throwAt) ? (int) $throwAt : ( null === $throwAt ? null : ( $throwAt ? E_ALL : null ) );
+        $this->scream           = (bool) $scream;
+        $this->fileLinkFormat   = $fileLinkFormat ?: ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
     }
+
 
     /**
      * Configures the error handler.
@@ -62,7 +79,7 @@ class DebugHandlersListener implements EventSubscriberInterface
      */
     public function configure(Event $event = null)
     {
-        if (!$this->firstCall) {
+        if ( ! $this->firstCall) {
             return;
         }
         $this->firstCall = false;
@@ -91,10 +108,10 @@ class DebugHandlersListener implements EventSubscriberInterface
                 }
             }
         }
-        if (!$this->exceptionHandler) {
+        if ( ! $this->exceptionHandler) {
             if ($event instanceof KernelEvent) {
                 if (method_exists($event->getKernel(), 'terminateWithException')) {
-                    $this->exceptionHandler = array($event->getKernel(), 'terminateWithException');
+                    $this->exceptionHandler = [ $event->getKernel(), 'terminateWithException' ];
                 }
             } elseif ($event instanceof ConsoleEvent && $app = $event->getCommand()->getApplication()) {
                 $output = $event->getOutput();
@@ -125,12 +142,13 @@ class DebugHandlersListener implements EventSubscriberInterface
         }
     }
 
+
     public static function getSubscribedEvents()
     {
-        $events = array(KernelEvents::REQUEST => array('configure', 2048));
+        $events = [ KernelEvents::REQUEST => [ 'configure', 2048 ] ];
 
         if (defined('Symfony\Component\Console\ConsoleEvents::COMMAND')) {
-            $events[ConsoleEvents::COMMAND] = array('configure', 2048);
+            $events[ConsoleEvents::COMMAND] = [ 'configure', 2048 ];
         }
 
         return $events;

@@ -9,6 +9,7 @@ use Finfo;
  */
 class MimeType
 {
+
     /**
      * Detects MIME Type based on given content.
      *
@@ -25,6 +26,7 @@ class MimeType
         return (new Finfo(FILEINFO_MIME_TYPE))->buffer($content) ?: null;
     }
 
+
     /**
      * Detects MIME Type based on file extension.
      *
@@ -40,10 +42,11 @@ class MimeType
             $extensionToMimeTypeMap = static::getExtensionToMimeTypeMap();
         }
 
-        if (isset($extensionToMimeTypeMap[$extension])) {
+        if (isset( $extensionToMimeTypeMap[$extension] )) {
             return $extensionToMimeTypeMap[$extension];
         }
     }
+
 
     /**
      * @return array Map of file extension to MIME Type

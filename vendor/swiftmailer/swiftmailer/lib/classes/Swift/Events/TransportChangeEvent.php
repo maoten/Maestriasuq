@@ -15,6 +15,7 @@
  */
 class Swift_Events_TransportChangeEvent extends Swift_Events_EventObject
 {
+
     /**
      * Get the Transport.
      *

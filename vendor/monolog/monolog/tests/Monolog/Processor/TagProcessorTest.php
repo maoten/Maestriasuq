@@ -15,35 +15,37 @@ use Monolog\TestCase;
 
 class TagProcessorTest extends TestCase
 {
+
     /**
      * @covers Monolog\Processor\TagProcessor::__invoke
      */
     public function testProcessor()
     {
-        $tags = array(1, 2, 3);
+        $tags      = [ 1, 2, 3 ];
         $processor = new TagProcessor($tags);
-        $record = $processor($this->getRecord());
+        $record    = $processor($this->getRecord());
 
         $this->assertEquals($tags, $record['extra']['tags']);
     }
+
 
     /**
      * @covers Monolog\Processor\TagProcessor::__invoke
      */
     public function testProcessorTagModification()
     {
-        $tags = array(1, 2, 3);
+        $tags      = [ 1, 2, 3 ];
         $processor = new TagProcessor($tags);
 
         $record = $processor($this->getRecord());
         $this->assertEquals($tags, $record['extra']['tags']);
 
-        $processor->setTags(array('a', 'b'));
+        $processor->setTags([ 'a', 'b' ]);
         $record = $processor($this->getRecord());
-        $this->assertEquals(array('a', 'b'), $record['extra']['tags']);
+        $this->assertEquals([ 'a', 'b' ], $record['extra']['tags']);
 
-        $processor->addTags(array('a', 'c', 'foo' => 'bar'));
+        $processor->addTags([ 'a', 'c', 'foo' => 'bar' ]);
         $record = $processor($this->getRecord());
-        $this->assertEquals(array('a', 'b', 'a', 'c', 'foo' => 'bar'), $record['extra']['tags']);
+        $this->assertEquals([ 'a', 'b', 'a', 'c', 'foo' => 'bar' ], $record['extra']['tags']);
     }
 }

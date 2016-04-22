@@ -18,12 +18,14 @@ use Illuminate\Queue\Failed\DatabaseFailedJobProvider;
 
 class QueueServiceProvider extends ServiceProvider
 {
+
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
     protected $defer = true;
+
 
     /**
      * Register the service provider.
@@ -42,6 +44,7 @@ class QueueServiceProvider extends ServiceProvider
 
         $this->registerQueueClosure();
     }
+
 
     /**
      * Register the queue manager.
@@ -66,6 +69,7 @@ class QueueServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the queue worker.
      *
@@ -82,6 +86,7 @@ class QueueServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the queue worker console command.
      *
@@ -95,6 +100,7 @@ class QueueServiceProvider extends ServiceProvider
 
         $this->commands('command.queue.work');
     }
+
 
     /**
      * Register the queue listener.
@@ -110,6 +116,7 @@ class QueueServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the queue listener console command.
      *
@@ -123,6 +130,7 @@ class QueueServiceProvider extends ServiceProvider
 
         $this->commands('command.queue.listen');
     }
+
 
     /**
      * Register the queue restart console command.
@@ -138,23 +146,27 @@ class QueueServiceProvider extends ServiceProvider
         $this->commands('command.queue.restart');
     }
 
+
     /**
      * Register the connectors on the queue manager.
      *
-     * @param  \Illuminate\Queue\QueueManager  $manager
+     * @param  \Illuminate\Queue\QueueManager $manager
+     *
      * @return void
      */
     public function registerConnectors($manager)
     {
-        foreach (['Null', 'Sync', 'Database', 'Beanstalkd', 'Redis', 'Sqs'] as $connector) {
+        foreach ([ 'Null', 'Sync', 'Database', 'Beanstalkd', 'Redis', 'Sqs' ] as $connector) {
             $this->{"register{$connector}Connector"}($manager);
         }
     }
 
+
     /**
      * Register the Null queue connector.
      *
-     * @param  \Illuminate\Queue\QueueManager  $manager
+     * @param  \Illuminate\Queue\QueueManager $manager
+     *
      * @return void
      */
     protected function registerNullConnector($manager)
@@ -164,10 +176,12 @@ class QueueServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the Sync queue connector.
      *
-     * @param  \Illuminate\Queue\QueueManager  $manager
+     * @param  \Illuminate\Queue\QueueManager $manager
+     *
      * @return void
      */
     protected function registerSyncConnector($manager)
@@ -177,10 +191,12 @@ class QueueServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the Beanstalkd queue connector.
      *
-     * @param  \Illuminate\Queue\QueueManager  $manager
+     * @param  \Illuminate\Queue\QueueManager $manager
+     *
      * @return void
      */
     protected function registerBeanstalkdConnector($manager)
@@ -190,10 +206,12 @@ class QueueServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the database queue connector.
      *
-     * @param  \Illuminate\Queue\QueueManager  $manager
+     * @param  \Illuminate\Queue\QueueManager $manager
+     *
      * @return void
      */
     protected function registerDatabaseConnector($manager)
@@ -203,10 +221,12 @@ class QueueServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the Redis queue connector.
      *
-     * @param  \Illuminate\Queue\QueueManager  $manager
+     * @param  \Illuminate\Queue\QueueManager $manager
+     *
      * @return void
      */
     protected function registerRedisConnector($manager)
@@ -218,10 +238,12 @@ class QueueServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Register the Amazon SQS queue connector.
      *
-     * @param  \Illuminate\Queue\QueueManager  $manager
+     * @param  \Illuminate\Queue\QueueManager $manager
+     *
      * @return void
      */
     protected function registerSqsConnector($manager)
@@ -230,6 +252,7 @@ class QueueServiceProvider extends ServiceProvider
             return new SqsConnector;
         });
     }
+
 
     /**
      * Register the failed job services.
@@ -241,13 +264,14 @@ class QueueServiceProvider extends ServiceProvider
         $this->app->singleton('queue.failer', function ($app) {
             $config = $app['config']['queue.failed'];
 
-            if (isset($config['table'])) {
+            if (isset( $config['table'] )) {
                 return new DatabaseFailedJobProvider($app['db'], $config['database'], $config['table']);
             } else {
                 return new NullFailedJobProvider;
             }
         });
     }
+
 
     /**
      * Register the Illuminate queued closure job.
@@ -261,6 +285,7 @@ class QueueServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Get the services provided by the provider.
      *
@@ -269,9 +294,14 @@ class QueueServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            'queue', 'queue.worker', 'queue.listener', 'queue.failer',
-            'command.queue.work', 'command.queue.listen',
-            'command.queue.restart', 'queue.connection',
+            'queue',
+            'queue.worker',
+            'queue.listener',
+            'queue.failer',
+            'command.queue.work',
+            'command.queue.listen',
+            'command.queue.restart',
+            'queue.connection',
         ];
     }
 }

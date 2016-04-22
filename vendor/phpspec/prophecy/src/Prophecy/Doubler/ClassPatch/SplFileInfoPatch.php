@@ -22,6 +22,7 @@ use Prophecy\Doubler\Generator\Node\MethodNode;
  */
 class SplFileInfoPatch implements ClassPatchInterface
 {
+
     /**
      * Supports everything that extends SplFileInfo.
      *
@@ -35,10 +36,9 @@ class SplFileInfoPatch implements ClassPatchInterface
             return false;
         }
 
-        return 'SplFileInfo' === $node->getParentClass()
-            || is_subclass_of($node->getParentClass(), 'SplFileInfo')
-        ;
+        return 'SplFileInfo' === $node->getParentClass() || is_subclass_of($node->getParentClass(), 'SplFileInfo');
     }
+
 
     /**
      * Updated constructor code to call parent one with dummy file argument.
@@ -56,11 +56,13 @@ class SplFileInfoPatch implements ClassPatchInterface
 
         if ($this->nodeIsDirectoryIterator($node)) {
             $constructor->setCode('return parent::__construct("' . __DIR__ . '");');
+
             return;
         }
 
         $constructor->useParentCode();
     }
+
 
     /**
      * Returns patch priority, which determines when patch will be applied.
@@ -72,14 +74,16 @@ class SplFileInfoPatch implements ClassPatchInterface
         return 50;
     }
 
+
     /**
      * @param ClassNode $node
+     *
      * @return boolean
      */
     private function nodeIsDirectoryIterator(ClassNode $node)
     {
         $parent = $node->getParentClass();
-        return 'DirectoryIterator' === $parent
-            || is_subclass_of($parent, 'DirectoryIterator');
+
+        return 'DirectoryIterator' === $parent || is_subclass_of($parent, 'DirectoryIterator');
     }
 }

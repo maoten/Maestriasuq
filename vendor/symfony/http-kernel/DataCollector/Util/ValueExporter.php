@@ -16,6 +16,7 @@ namespace Symfony\Component\HttpKernel\DataCollector\Util;
  */
 class ValueExporter
 {
+
     /**
      * Converts a PHP value to a string.
      *
@@ -40,13 +41,13 @@ class ValueExporter
         }
 
         if (is_array($value)) {
-            if (empty($value)) {
+            if (empty( $value )) {
                 return '[]';
             }
 
             $indent = str_repeat('  ', $depth);
 
-            $a = array();
+            $a = [ ];
             foreach ($value as $k => $v) {
                 if (is_array($v)) {
                     $deep = true;
@@ -55,7 +56,8 @@ class ValueExporter
             }
 
             if ($deep) {
-                return sprintf("[\n%s%s\n%s]", $indent, implode(sprintf(", \n%s", $indent), $a), str_repeat('  ', $depth - 1));
+                return sprintf("[\n%s%s\n%s]", $indent, implode(sprintf(", \n%s", $indent), $a),
+                    str_repeat('  ', $depth - 1));
             }
 
             return sprintf('[%s]', implode(', ', $a));
@@ -79,6 +81,7 @@ class ValueExporter
 
         return (string) $value;
     }
+
 
     private function getClassNameFromIncomplete(\__PHP_Incomplete_Class $value)
     {

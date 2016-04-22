@@ -18,6 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class FunctionEnumerator extends Enumerator
 {
+
     /**
      * {@inheritdoc}
      */
@@ -36,7 +37,7 @@ class FunctionEnumerator extends Enumerator
         }
 
         // only list functions if we are specifically asked
-        if (!$input->getOption('functions')) {
+        if ( ! $input->getOption('functions')) {
             return;
         }
 
@@ -53,15 +54,16 @@ class FunctionEnumerator extends Enumerator
 
         $functions = $this->prepareFunctions($functions);
 
-        if (empty($functions)) {
+        if (empty( $functions )) {
             return;
         }
 
-        $ret = array();
+        $ret         = [ ];
         $ret[$label] = $functions;
 
         return $ret;
     }
+
 
     /**
      * Get defined functions.
@@ -83,6 +85,7 @@ class FunctionEnumerator extends Enumerator
         }
     }
 
+
     /**
      * Prepare formatted function array.
      *
@@ -95,15 +98,15 @@ class FunctionEnumerator extends Enumerator
         natcasesort($functions);
 
         // My kingdom for a generator.
-        $ret = array();
+        $ret = [ ];
 
         foreach ($functions as $name) {
             if ($this->showItem($name)) {
-                $ret[$name] = array(
+                $ret[$name] = [
                     'name'  => $name,
                     'style' => self::IS_FUNCTION,
                     'value' => $this->presentSignature($name),
-                );
+                ];
             }
         }
 

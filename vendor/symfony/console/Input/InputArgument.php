@@ -21,14 +21,19 @@ use Symfony\Component\Console\Exception\LogicException;
  */
 class InputArgument
 {
+
     const REQUIRED = 1;
     const OPTIONAL = 2;
     const IS_ARRAY = 4;
 
     private $name;
+
     private $mode;
+
     private $default;
+
     private $description;
+
 
     /**
      * Constructor.
@@ -44,16 +49,17 @@ class InputArgument
     {
         if (null === $mode) {
             $mode = self::OPTIONAL;
-        } elseif (!is_int($mode) || $mode > 7 || $mode < 1) {
+        } elseif ( ! is_int($mode) || $mode > 7 || $mode < 1) {
             throw new InvalidArgumentException(sprintf('Argument mode "%s" is not valid.', $mode));
         }
 
-        $this->name = $name;
-        $this->mode = $mode;
+        $this->name        = $name;
+        $this->mode        = $mode;
         $this->description = $description;
 
         $this->setDefault($default);
     }
+
 
     /**
      * Returns the argument name.
@@ -65,6 +71,7 @@ class InputArgument
         return $this->name;
     }
 
+
     /**
      * Returns true if the argument is required.
      *
@@ -72,8 +79,9 @@ class InputArgument
      */
     public function isRequired()
     {
-        return self::REQUIRED === (self::REQUIRED & $this->mode);
+        return self::REQUIRED === ( self::REQUIRED & $this->mode );
     }
+
 
     /**
      * Returns true if the argument can take multiple values.
@@ -82,8 +90,9 @@ class InputArgument
      */
     public function isArray()
     {
-        return self::IS_ARRAY === (self::IS_ARRAY & $this->mode);
+        return self::IS_ARRAY === ( self::IS_ARRAY & $this->mode );
     }
+
 
     /**
      * Sets the default value.
@@ -100,14 +109,15 @@ class InputArgument
 
         if ($this->isArray()) {
             if (null === $default) {
-                $default = array();
-            } elseif (!is_array($default)) {
+                $default = [ ];
+            } elseif ( ! is_array($default)) {
                 throw new LogicException('A default value for an array argument must be an array.');
             }
         }
 
         $this->default = $default;
     }
+
 
     /**
      * Returns the default value.
@@ -118,6 +128,7 @@ class InputArgument
     {
         return $this->default;
     }
+
 
     /**
      * Returns the description text.

@@ -9,19 +9,20 @@ use Cron\FieldFactory;
  */
 class FieldFactoryTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @covers Cron\FieldFactory::getField
      */
     public function testRetrievesFieldInstances()
     {
-        $mappings = array(
+        $mappings = [
             0 => 'Cron\MinutesField',
             1 => 'Cron\HoursField',
             2 => 'Cron\DayOfMonthField',
             3 => 'Cron\MonthField',
             4 => 'Cron\DayOfWeekField',
             5 => 'Cron\YearField'
-        );
+        ];
 
         $f = new FieldFactory();
 
@@ -29,6 +30,7 @@ class FieldFactoryTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($class, get_class($f->getField($position)));
         }
     }
+
 
     /**
      * @covers Cron\FieldFactory::getField

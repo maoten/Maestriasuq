@@ -18,6 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class PropertyEnumerator extends Enumerator
 {
+
     /**
      * {@inheritdoc}
      */
@@ -30,39 +31,40 @@ class PropertyEnumerator extends Enumerator
         }
 
         // We can only list properties on actual class (or object) reflectors.
-        if (!$reflector instanceof \ReflectionClass) {
+        if ( ! $reflector instanceof \ReflectionClass) {
             return;
         }
 
         // only list properties if we are specifically asked
-        if (!$input->getOption('properties')) {
+        if ( ! $input->getOption('properties')) {
             return;
         }
 
         $showAll    = $input->getOption('all');
         $properties = $this->prepareProperties($this->getProperties($showAll, $reflector), $target);
 
-        if (empty($properties)) {
+        if (empty( $properties )) {
             return;
         }
 
-        $ret = array();
+        $ret                                  = [ ];
         $ret[$this->getKindLabel($reflector)] = $properties;
 
         return $ret;
     }
 
+
     /**
      * Get defined properties for the given class or object Reflector.
      *
-     * @param bool       $showAll   Include private and protected properties.
+     * @param bool       $showAll Include private and protected properties.
      * @param \Reflector $reflector
      *
      * @return array
      */
     protected function getProperties($showAll, \Reflector $reflector)
     {
-        $properties = array();
+        $properties = [ ];
         foreach ($reflector->getProperties() as $property) {
             if ($showAll || $property->isPublic()) {
                 $properties[$property->getName()] = $property;
@@ -75,6 +77,7 @@ class PropertyEnumerator extends Enumerator
         return $properties;
     }
 
+
     /**
      * Prepare formatted property array.
      *
@@ -85,21 +88,22 @@ class PropertyEnumerator extends Enumerator
     protected function prepareProperties(array $properties, $target = null)
     {
         // My kingdom for a generator.
-        $ret = array();
+        $ret = [ ];
 
         foreach ($properties as $name => $property) {
             if ($this->showItem($name)) {
-                $fname = '$' . $name;
-                $ret[$fname] = array(
+                $fname       = '$' . $name;
+                $ret[$fname] = [
                     'name'  => $fname,
                     'style' => $this->getVisibilityStyle($property),
                     'value' => $this->presentValue($property, $target),
-                );
+                ];
             }
         }
 
         return $ret;
     }
+
 
     /**
      * Get a label for the particular kind of "class" represented.
@@ -119,6 +123,7 @@ class PropertyEnumerator extends Enumerator
         }
     }
 
+
     /**
      * Get output style for the given property's visibility.
      *
@@ -137,6 +142,7 @@ class PropertyEnumerator extends Enumerator
         }
     }
 
+
     /**
      * Present the $target's current value for a reflection property.
      *
@@ -147,7 +153,7 @@ class PropertyEnumerator extends Enumerator
      */
     protected function presentValue(\ReflectionProperty $property, $target)
     {
-        if (!is_object($target)) {
+        if ( ! is_object($target)) {
             // TODO: figure out if there's a way to return defaults when target
             // is a class/interface/trait rather than an object.
             return '';

@@ -19,6 +19,7 @@ use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 
 class Handler implements ExceptionHandlerContract
 {
+
     /**
      * The log implementation.
      *
@@ -31,12 +32,14 @@ class Handler implements ExceptionHandlerContract
      *
      * @var array
      */
-    protected $dontReport = [];
+    protected $dontReport = [ ];
+
 
     /**
      * Create a new exception handler instance.
      *
-     * @param  \Psr\Log\LoggerInterface  $log
+     * @param  \Psr\Log\LoggerInterface $log
+     *
      * @return void
      */
     public function __construct(LoggerInterface $log)
@@ -44,10 +47,12 @@ class Handler implements ExceptionHandlerContract
         $this->log = $log;
     }
 
+
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $e
+     * @param  \Exception $e
+     *
      * @return void
      */
     public function report(Exception $e)
@@ -57,10 +62,12 @@ class Handler implements ExceptionHandlerContract
         }
     }
 
+
     /**
      * Determine if the exception should be reported.
      *
-     * @param  \Exception  $e
+     * @param  \Exception $e
+     *
      * @return bool
      */
     public function shouldReport(Exception $e)
@@ -68,15 +75,17 @@ class Handler implements ExceptionHandlerContract
         return ! $this->shouldntReport($e);
     }
 
+
     /**
      * Determine if the exception is in the "do not report" list.
      *
-     * @param  \Exception  $e
+     * @param  \Exception $e
+     *
      * @return bool
      */
     protected function shouldntReport(Exception $e)
     {
-        $dontReport = array_merge($this->dontReport, [HttpResponseException::class]);
+        $dontReport = array_merge($this->dontReport, [ HttpResponseException::class ]);
 
         foreach ($dontReport as $type) {
             if ($e instanceof $type) {
@@ -87,11 +96,13 @@ class Handler implements ExceptionHandlerContract
         return false;
     }
 
+
     /**
      * Render an exception into a response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $e
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception               $e
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function render($request, Exception $e)
@@ -113,11 +124,13 @@ class Handler implements ExceptionHandlerContract
         }
     }
 
+
     /**
      * Map exception into an illuminate response.
      *
-     * @param  \Symfony\Component\HttpFoundation\Response  $response
-     * @param  \Exception  $e
+     * @param  \Symfony\Component\HttpFoundation\Response $response
+     * @param  \Exception                                 $e
+     *
      * @return \Illuminate\Http\Response
      */
     protected function toIlluminateResponse($response, Exception $e)
@@ -129,11 +142,13 @@ class Handler implements ExceptionHandlerContract
         return $response;
     }
 
+
     /**
      * Render an exception to the console.
      *
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * @param  \Exception  $e
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
+     * @param  \Exception                                        $e
+     *
      * @return void
      */
     public function renderForConsole($output, Exception $e)
@@ -141,10 +156,12 @@ class Handler implements ExceptionHandlerContract
         (new ConsoleApplication)->renderException($e, $output);
     }
 
+
     /**
      * Render the given HttpException.
      *
-     * @param  \Symfony\Component\HttpKernel\Exception\HttpException  $e
+     * @param  \Symfony\Component\HttpKernel\Exception\HttpException $e
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function renderHttpException(HttpException $e)
@@ -152,16 +169,18 @@ class Handler implements ExceptionHandlerContract
         $status = $e->getStatusCode();
 
         if (view()->exists("errors.{$status}")) {
-            return response()->view("errors.{$status}", ['exception' => $e], $status, $e->getHeaders());
+            return response()->view("errors.{$status}", [ 'exception' => $e ], $status, $e->getHeaders());
         } else {
             return $this->convertExceptionToResponse($e);
         }
     }
 
+
     /**
      * Create a Symfony response for the given exception.
      *
-     * @param  \Exception  $e
+     * @param  \Exception $e
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function convertExceptionToResponse(Exception $e)
@@ -175,11 +194,13 @@ class Handler implements ExceptionHandlerContract
         return SymfonyResponse::create($decorated, $e->getStatusCode(), $e->getHeaders());
     }
 
+
     /**
      * Get the html response content.
      *
-     * @param  string  $content
-     * @param  string  $css
+     * @param  string $content
+     * @param  string $css
+     *
      * @return string
      */
     protected function decorate($content, $css)
@@ -205,10 +226,12 @@ class Handler implements ExceptionHandlerContract
 EOF;
     }
 
+
     /**
      * Determine if the given exception is an HTTP exception.
      *
-     * @param  \Exception  $e
+     * @param  \Exception $e
+     *
      * @return bool
      */
     protected function isHttpException(Exception $e)

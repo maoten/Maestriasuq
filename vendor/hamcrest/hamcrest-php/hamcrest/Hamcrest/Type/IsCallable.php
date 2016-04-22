@@ -20,10 +20,12 @@ class IsCallable extends IsTypeOf
         parent::__construct('callable');
     }
 
+
     public function matches($item)
     {
         return is_callable($item);
     }
+
 
     /**
      * Is the value callable?

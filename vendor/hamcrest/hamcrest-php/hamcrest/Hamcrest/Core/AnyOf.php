@@ -20,15 +20,18 @@ class AnyOf extends ShortcutCombination
         parent::__construct($matchers);
     }
 
+
     public function matches($item)
     {
         return $this->matchesWithShortcut($item, true);
     }
 
+
     public function describeTo(Description $description)
     {
         $this->describeToWithOperator($description, 'or');
     }
+
 
     /**
      * Evaluates to true if ANY of the passed in matchers evaluate to true.
@@ -42,6 +45,7 @@ class AnyOf extends ShortcutCombination
         return new self(Util::createMatcherArray($args));
     }
 
+
     /**
      * Evaluates to false if ANY of the passed in matchers evaluate to true.
      *
@@ -51,8 +55,6 @@ class AnyOf extends ShortcutCombination
     {
         $args = func_get_args();
 
-        return IsNot::not(
-            new self(Util::createMatcherArray($args))
-        );
+        return IsNot::not(new self(Util::createMatcherArray($args)));
     }
 }

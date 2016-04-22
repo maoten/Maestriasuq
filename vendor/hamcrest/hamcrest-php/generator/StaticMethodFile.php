@@ -6,10 +6,12 @@
 
 class StaticMethodFile extends FactoryFile
 {
+
     /**
      * @var string containing method definitions
      */
     private $methods;
+
 
     public function __construct($file)
     {
@@ -17,15 +19,18 @@ class StaticMethodFile extends FactoryFile
         $this->methods = '';
     }
 
+
     public function addCall(FactoryCall $call)
     {
         $this->methods .= PHP_EOL . $this->generateFactoryCall($call);
     }
 
+
     public function getDeclarationModifiers()
     {
         return 'public static ';
     }
+
 
     public function build()
     {

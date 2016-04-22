@@ -14,6 +14,7 @@ use Illuminate\Contracts\View\Factory as FactoryContract;
 
 class Factory implements FactoryContract
 {
+
     /**
      * The engine implementation.
      *
@@ -47,49 +48,49 @@ class Factory implements FactoryContract
      *
      * @var array
      */
-    protected $shared = [];
+    protected $shared = [ ];
 
     /**
      * Array of registered view name aliases.
      *
      * @var array
      */
-    protected $aliases = [];
+    protected $aliases = [ ];
 
     /**
      * All of the registered view names.
      *
      * @var array
      */
-    protected $names = [];
+    protected $names = [ ];
 
     /**
      * The extension to engine bindings.
      *
      * @var array
      */
-    protected $extensions = ['blade.php' => 'blade', 'php' => 'php'];
+    protected $extensions = [ 'blade.php' => 'blade', 'php' => 'php' ];
 
     /**
      * The view composer events.
      *
      * @var array
      */
-    protected $composers = [];
+    protected $composers = [ ];
 
     /**
      * All of the finished, captured sections.
      *
      * @var array
      */
-    protected $sections = [];
+    protected $sections = [ ];
 
     /**
      * The stack of in-progress sections.
      *
      * @var array
      */
-    protected $sectionStack = [];
+    protected $sectionStack = [ ];
 
     /**
      * The number of active rendering operations.
@@ -98,32 +99,36 @@ class Factory implements FactoryContract
      */
     protected $renderCount = 0;
 
+
     /**
      * Create a new view factory instance.
      *
-     * @param  \Illuminate\View\Engines\EngineResolver  $engines
-     * @param  \Illuminate\View\ViewFinderInterface  $finder
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param  \Illuminate\View\Engines\EngineResolver $engines
+     * @param  \Illuminate\View\ViewFinderInterface    $finder
+     * @param  \Illuminate\Contracts\Events\Dispatcher $events
+     *
      * @return void
      */
     public function __construct(EngineResolver $engines, ViewFinderInterface $finder, Dispatcher $events)
     {
-        $this->finder = $finder;
-        $this->events = $events;
+        $this->finder  = $finder;
+        $this->events  = $events;
         $this->engines = $engines;
 
         $this->share('__env', $this);
     }
 
+
     /**
      * Get the evaluated view contents for the given view.
      *
-     * @param  string  $path
-     * @param  array   $data
-     * @param  array   $mergeData
+     * @param  string $path
+     * @param  array  $data
+     * @param  array  $mergeData
+     *
      * @return \Illuminate\Contracts\View\View
      */
-    public function file($path, $data = [], $mergeData = [])
+    public function file($path, $data = [ ], $mergeData = [ ])
     {
         $data = array_merge($mergeData, $this->parseData($data));
 
@@ -132,17 +137,19 @@ class Factory implements FactoryContract
         return $view;
     }
 
+
     /**
      * Get the evaluated view contents for the given view.
      *
-     * @param  string  $view
-     * @param  array   $data
-     * @param  array   $mergeData
+     * @param  string $view
+     * @param  array  $data
+     * @param  array  $mergeData
+     *
      * @return \Illuminate\Contracts\View\View
      */
-    public function make($view, $data = [], $mergeData = [])
+    public function make($view, $data = [ ], $mergeData = [ ])
     {
-        if (isset($this->aliases[$view])) {
+        if (isset( $this->aliases[$view] )) {
             $view = $this->aliases[$view];
         }
 
@@ -157,10 +164,12 @@ class Factory implements FactoryContract
         return $view;
     }
 
+
     /**
      * Normalize a view name.
      *
      * @param  string $name
+     *
      * @return string
      */
     protected function normalizeName($name)
@@ -171,15 +180,17 @@ class Factory implements FactoryContract
             return str_replace('/', '.', $name);
         }
 
-        list($namespace, $name) = explode($delimiter, $name);
+        list( $namespace, $name ) = explode($delimiter, $name);
 
-        return $namespace.$delimiter.str_replace('/', '.', $name);
+        return $namespace . $delimiter . str_replace('/', '.', $name);
     }
+
 
     /**
      * Parse the given data into a raw array.
      *
-     * @param  mixed  $data
+     * @param  mixed $data
+     *
      * @return array
      */
     protected function parseData($data)
@@ -187,23 +198,27 @@ class Factory implements FactoryContract
         return $data instanceof Arrayable ? $data->toArray() : $data;
     }
 
+
     /**
      * Get the evaluated view contents for a named view.
      *
-     * @param  string  $view
-     * @param  mixed   $data
+     * @param  string $view
+     * @param  mixed  $data
+     *
      * @return \Illuminate\Contracts\View\View
      */
-    public function of($view, $data = [])
+    public function of($view, $data = [ ])
     {
         return $this->make($this->names[$view], $data);
     }
 
+
     /**
      * Register a named view.
      *
-     * @param  string  $view
-     * @param  string  $name
+     * @param  string $view
+     * @param  string $name
+     *
      * @return void
      */
     public function name($view, $name)
@@ -211,11 +226,13 @@ class Factory implements FactoryContract
         $this->names[$name] = $view;
     }
 
+
     /**
      * Add an alias for a view.
      *
-     * @param  string  $view
-     * @param  string  $alias
+     * @param  string $view
+     * @param  string $alias
+     *
      * @return void
      */
     public function alias($view, $alias)
@@ -223,10 +240,12 @@ class Factory implements FactoryContract
         $this->aliases[$alias] = $view;
     }
 
+
     /**
      * Determine if a given view exists.
      *
-     * @param  string  $view
+     * @param  string $view
+     *
      * @return bool
      */
     public function exists($view)
@@ -240,13 +259,15 @@ class Factory implements FactoryContract
         return true;
     }
 
+
     /**
      * Get the rendered contents of a partial from a loop.
      *
-     * @param  string  $view
-     * @param  array   $data
-     * @param  string  $iterator
-     * @param  string  $empty
+     * @param  string $view
+     * @param  array  $data
+     * @param  string $iterator
+     * @param  string $empty
+     *
      * @return string
      */
     public function renderEach($view, $data, $iterator, $empty = 'raw|')
@@ -258,7 +279,7 @@ class Factory implements FactoryContract
         // iterated value of this data array, allowing the views to access them.
         if (count($data) > 0) {
             foreach ($data as $key => $value) {
-                $data = ['key' => $key, $iterator => $value];
+                $data = [ 'key' => $key, $iterator => $value ];
 
                 $result .= $this->make($view, $data)->render();
             }
@@ -278,17 +299,19 @@ class Factory implements FactoryContract
         return $result;
     }
 
+
     /**
      * Get the appropriate view engine for the given path.
      *
-     * @param  string  $path
+     * @param  string $path
+     *
      * @return \Illuminate\View\Engines\EngineInterface
      *
      * @throws \InvalidArgumentException
      */
     public function getEngineFromPath($path)
     {
-        if (! $extension = $this->getExtension($path)) {
+        if ( ! $extension = $this->getExtension($path)) {
             throw new InvalidArgumentException("Unrecognized extension in file: $path");
         }
 
@@ -297,10 +320,12 @@ class Factory implements FactoryContract
         return $this->engines->resolve($engine);
     }
 
+
     /**
      * Get the extension used by the view file.
      *
-     * @param  string  $path
+     * @param  string $path
+     *
      * @return string
      */
     protected function getExtension($path)
@@ -312,16 +337,18 @@ class Factory implements FactoryContract
         });
     }
 
+
     /**
      * Add a piece of shared data to the environment.
      *
-     * @param  array|string  $key
-     * @param  mixed  $value
+     * @param  array|string $key
+     * @param  mixed        $value
+     *
      * @return mixed
      */
     public function share($key, $value = null)
     {
-        if (! is_array($key)) {
+        if ( ! is_array($key)) {
             return $this->shared[$key] = $value;
         }
 
@@ -330,16 +357,18 @@ class Factory implements FactoryContract
         }
     }
 
+
     /**
      * Register a view creator event.
      *
-     * @param  array|string     $views
-     * @param  \Closure|string  $callback
+     * @param  array|string    $views
+     * @param  \Closure|string $callback
+     *
      * @return array
      */
     public function creator($views, $callback)
     {
-        $creators = [];
+        $creators = [ ];
 
         foreach ((array) $views as $view) {
             $creators[] = $this->addViewEvent($view, $callback, 'creating: ');
@@ -348,15 +377,17 @@ class Factory implements FactoryContract
         return $creators;
     }
 
+
     /**
      * Register multiple view composers via an array.
      *
-     * @param  array  $composers
+     * @param  array $composers
+     *
      * @return array
      */
     public function composers(array $composers)
     {
-        $registered = [];
+        $registered = [ ];
 
         foreach ($composers as $callback => $views) {
             $registered = array_merge($registered, $this->composer($views, $callback));
@@ -365,17 +396,19 @@ class Factory implements FactoryContract
         return $registered;
     }
 
+
     /**
      * Register a view composer event.
      *
-     * @param  array|string  $views
-     * @param  \Closure|string  $callback
-     * @param  int|null  $priority
+     * @param  array|string    $views
+     * @param  \Closure|string $callback
+     * @param  int|null        $priority
+     *
      * @return array
      */
     public function composer($views, $callback, $priority = null)
     {
-        $composers = [];
+        $composers = [ ];
 
         foreach ((array) $views as $view) {
             $composers[] = $this->addViewEvent($view, $callback, 'composing: ', $priority);
@@ -384,13 +417,15 @@ class Factory implements FactoryContract
         return $composers;
     }
 
+
     /**
      * Add an event for a given view.
      *
-     * @param  string  $view
-     * @param  \Closure|string  $callback
-     * @param  string  $prefix
-     * @param  int|null  $priority
+     * @param  string          $view
+     * @param  \Closure|string $callback
+     * @param  string          $prefix
+     * @param  int|null        $priority
+     *
      * @return \Closure|null
      */
     protected function addViewEvent($view, $callback, $prefix = 'composing: ', $priority = null)
@@ -398,7 +433,7 @@ class Factory implements FactoryContract
         $view = $this->normalizeName($view);
 
         if ($callback instanceof Closure) {
-            $this->addEventListener($prefix.$view, $callback, $priority);
+            $this->addEventListener($prefix . $view, $callback, $priority);
 
             return $callback;
         } elseif (is_string($callback)) {
@@ -406,18 +441,20 @@ class Factory implements FactoryContract
         }
     }
 
+
     /**
      * Register a class based view composer.
      *
-     * @param  string    $view
-     * @param  string    $class
-     * @param  string    $prefix
-     * @param  int|null  $priority
+     * @param  string   $view
+     * @param  string   $class
+     * @param  string   $prefix
+     * @param  int|null $priority
+     *
      * @return \Closure
      */
     protected function addClassEvent($view, $class, $prefix, $priority = null)
     {
-        $name = $prefix.$view;
+        $name = $prefix . $view;
 
         // When registering a class based view "composer", we will simply resolve the
         // classes from the application IoC container then call the compose method
@@ -429,12 +466,14 @@ class Factory implements FactoryContract
         return $callback;
     }
 
+
     /**
      * Add a listener to the event dispatcher.
      *
-     * @param  string    $name
-     * @param  \Closure  $callback
-     * @param  int|null  $priority
+     * @param  string   $name
+     * @param  \Closure $callback
+     * @param  int|null $priority
+     *
      * @return void
      */
     protected function addEventListener($name, $callback, $priority = null)
@@ -446,32 +485,36 @@ class Factory implements FactoryContract
         }
     }
 
+
     /**
      * Build a class based container callback Closure.
      *
-     * @param  string  $class
-     * @param  string  $prefix
+     * @param  string $class
+     * @param  string $prefix
+     *
      * @return \Closure
      */
     protected function buildClassEventCallback($class, $prefix)
     {
-        list($class, $method) = $this->parseClassEvent($class, $prefix);
+        list( $class, $method ) = $this->parseClassEvent($class, $prefix);
 
         // Once we have the class and method name, we can build the Closure to resolve
         // the instance out of the IoC container and call the method on it with the
         // given arguments that are passed to the Closure as the composer's data.
         return function () use ($class, $method) {
-            $callable = [$this->container->make($class), $method];
+            $callable = [ $this->container->make($class), $method ];
 
             return call_user_func_array($callable, func_get_args());
         };
     }
 
+
     /**
      * Parse a class based composer name.
      *
-     * @param  string  $class
-     * @param  string  $prefix
+     * @param  string $class
+     * @param  string $prefix
+     *
      * @return array
      */
     protected function parseClassEvent($class, $prefix)
@@ -482,36 +525,42 @@ class Factory implements FactoryContract
 
         $method = Str::contains($prefix, 'composing') ? 'compose' : 'create';
 
-        return [$class, $method];
+        return [ $class, $method ];
     }
+
 
     /**
      * Call the composer for a given view.
      *
-     * @param  \Illuminate\Contracts\View\View  $view
+     * @param  \Illuminate\Contracts\View\View $view
+     *
      * @return void
      */
     public function callComposer(View $view)
     {
-        $this->events->fire('composing: '.$view->getName(), [$view]);
+        $this->events->fire('composing: ' . $view->getName(), [ $view ]);
     }
+
 
     /**
      * Call the creator for a given view.
      *
-     * @param  \Illuminate\Contracts\View\View  $view
+     * @param  \Illuminate\Contracts\View\View $view
+     *
      * @return void
      */
     public function callCreator(View $view)
     {
-        $this->events->fire('creating: '.$view->getName(), [$view]);
+        $this->events->fire('creating: ' . $view->getName(), [ $view ]);
     }
+
 
     /**
      * Start injecting content into a section.
      *
-     * @param  string  $section
-     * @param  string  $content
+     * @param  string $section
+     * @param  string $content
+     *
      * @return void
      */
     public function startSection($section, $content = '')
@@ -525,17 +574,20 @@ class Factory implements FactoryContract
         }
     }
 
+
     /**
      * Inject inline content into a section.
      *
-     * @param  string  $section
-     * @param  string  $content
+     * @param  string $section
+     * @param  string $content
+     *
      * @return void
      */
     public function inject($section, $content)
     {
         return $this->startSection($section, $content);
     }
+
 
     /**
      * Stop injecting content into a section and return its contents.
@@ -544,23 +596,25 @@ class Factory implements FactoryContract
      */
     public function yieldSection()
     {
-        if (empty($this->sectionStack)) {
+        if (empty( $this->sectionStack )) {
             return '';
         }
 
         return $this->yieldContent($this->stopSection());
     }
 
+
     /**
      * Stop injecting content into a section.
      *
-     * @param  bool  $overwrite
+     * @param  bool $overwrite
+     *
      * @return string
      * @throws \InvalidArgumentException
      */
     public function stopSection($overwrite = false)
     {
-        if (empty($this->sectionStack)) {
+        if (empty( $this->sectionStack )) {
             throw new InvalidArgumentException('Cannot end a section without first starting one.');
         }
 
@@ -575,6 +629,7 @@ class Factory implements FactoryContract
         return $last;
     }
 
+
     /**
      * Stop injecting content into a section and append it.
      *
@@ -583,13 +638,13 @@ class Factory implements FactoryContract
      */
     public function appendSection()
     {
-        if (empty($this->sectionStack)) {
+        if (empty( $this->sectionStack )) {
             throw new InvalidArgumentException('Cannot end a section without first starting one.');
         }
 
         $last = array_pop($this->sectionStack);
 
-        if (isset($this->sections[$last])) {
+        if (isset( $this->sections[$last] )) {
             $this->sections[$last] .= ob_get_clean();
         } else {
             $this->sections[$last] = ob_get_clean();
@@ -598,43 +653,46 @@ class Factory implements FactoryContract
         return $last;
     }
 
+
     /**
      * Append content to a given section.
      *
-     * @param  string  $section
-     * @param  string  $content
+     * @param  string $section
+     * @param  string $content
+     *
      * @return void
      */
     protected function extendSection($section, $content)
     {
-        if (isset($this->sections[$section])) {
+        if (isset( $this->sections[$section] )) {
             $content = str_replace('@parent', $content, $this->sections[$section]);
         }
 
         $this->sections[$section] = $content;
     }
 
+
     /**
      * Get the string contents of a section.
      *
-     * @param  string  $section
-     * @param  string  $default
+     * @param  string $section
+     * @param  string $default
+     *
      * @return string
      */
     public function yieldContent($section, $default = '')
     {
         $sectionContent = $default;
 
-        if (isset($this->sections[$section])) {
+        if (isset( $this->sections[$section] )) {
             $sectionContent = $this->sections[$section];
         }
 
         $sectionContent = str_replace('@@parent', '--parent--holder--', $sectionContent);
 
-        return str_replace(
-            '--parent--holder--', '@parent', str_replace('@parent', '', $sectionContent)
-        );
+        return str_replace('--parent--holder--', '@parent', str_replace('@parent', '', $sectionContent));
     }
+
 
     /**
      * Flush all of the section contents.
@@ -645,10 +703,11 @@ class Factory implements FactoryContract
     {
         $this->renderCount = 0;
 
-        $this->sections = [];
+        $this->sections = [ ];
 
-        $this->sectionStack = [];
+        $this->sectionStack = [ ];
     }
+
 
     /**
      * Flush all of the section contents if done rendering.
@@ -662,6 +721,7 @@ class Factory implements FactoryContract
         }
     }
 
+
     /**
      * Increment the rendering counter.
      *
@@ -671,6 +731,7 @@ class Factory implements FactoryContract
     {
         $this->renderCount++;
     }
+
 
     /**
      * Decrement the rendering counter.
@@ -682,6 +743,7 @@ class Factory implements FactoryContract
         $this->renderCount--;
     }
 
+
     /**
      * Check if there are no active render operations.
      *
@@ -692,10 +754,12 @@ class Factory implements FactoryContract
         return $this->renderCount == 0;
     }
 
+
     /**
      * Add a location to the array of view locations.
      *
-     * @param  string  $location
+     * @param  string $location
+     *
      * @return void
      */
     public function addLocation($location)
@@ -703,11 +767,13 @@ class Factory implements FactoryContract
         $this->finder->addLocation($location);
     }
 
+
     /**
      * Add a new namespace to the loader.
      *
-     * @param  string  $namespace
-     * @param  string|array  $hints
+     * @param  string       $namespace
+     * @param  string|array $hints
+     *
      * @return void
      */
     public function addNamespace($namespace, $hints)
@@ -715,11 +781,13 @@ class Factory implements FactoryContract
         $this->finder->addNamespace($namespace, $hints);
     }
 
+
     /**
      * Prepend a new namespace to the loader.
      *
-     * @param  string  $namespace
-     * @param  string|array  $hints
+     * @param  string       $namespace
+     * @param  string|array $hints
+     *
      * @return void
      */
     public function prependNamespace($namespace, $hints)
@@ -727,26 +795,29 @@ class Factory implements FactoryContract
         $this->finder->prependNamespace($namespace, $hints);
     }
 
+
     /**
      * Register a valid view extension and its engine.
      *
-     * @param  string    $extension
-     * @param  string    $engine
-     * @param  \Closure  $resolver
+     * @param  string   $extension
+     * @param  string   $engine
+     * @param  \Closure $resolver
+     *
      * @return void
      */
     public function addExtension($extension, $engine, $resolver = null)
     {
         $this->finder->addExtension($extension);
 
-        if (isset($resolver)) {
+        if (isset( $resolver )) {
             $this->engines->register($engine, $resolver);
         }
 
-        unset($this->extensions[$extension]);
+        unset( $this->extensions[$extension] );
 
-        $this->extensions = array_merge([$extension => $engine], $this->extensions);
+        $this->extensions = array_merge([ $extension => $engine ], $this->extensions);
     }
+
 
     /**
      * Get the extension to engine bindings.
@@ -758,6 +829,7 @@ class Factory implements FactoryContract
         return $this->extensions;
     }
 
+
     /**
      * Get the engine resolver instance.
      *
@@ -767,6 +839,7 @@ class Factory implements FactoryContract
     {
         return $this->engines;
     }
+
 
     /**
      * Get the view finder instance.
@@ -778,16 +851,19 @@ class Factory implements FactoryContract
         return $this->finder;
     }
 
+
     /**
      * Set the view finder instance.
      *
-     * @param  \Illuminate\View\ViewFinderInterface  $finder
+     * @param  \Illuminate\View\ViewFinderInterface $finder
+     *
      * @return void
      */
     public function setFinder(ViewFinderInterface $finder)
     {
         $this->finder = $finder;
     }
+
 
     /**
      * Get the event dispatcher instance.
@@ -799,16 +875,19 @@ class Factory implements FactoryContract
         return $this->events;
     }
 
+
     /**
      * Set the event dispatcher instance.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param  \Illuminate\Contracts\Events\Dispatcher $events
+     *
      * @return void
      */
     public function setDispatcher(Dispatcher $events)
     {
         $this->events = $events;
     }
+
 
     /**
      * Get the IoC container instance.
@@ -820,10 +899,12 @@ class Factory implements FactoryContract
         return $this->container;
     }
 
+
     /**
      * Set the IoC container instance.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param  \Illuminate\Contracts\Container\Container $container
+     *
      * @return void
      */
     public function setContainer(Container $container)
@@ -831,17 +912,20 @@ class Factory implements FactoryContract
         $this->container = $container;
     }
 
+
     /**
      * Get an item from the shared data.
      *
-     * @param  string  $key
-     * @param  mixed   $default
+     * @param  string $key
+     * @param  mixed  $default
+     *
      * @return mixed
      */
     public function shared($key, $default = null)
     {
         return Arr::get($this->shared, $key, $default);
     }
+
 
     /**
      * Get all of the shared data for the environment.
@@ -853,16 +937,19 @@ class Factory implements FactoryContract
         return $this->shared;
     }
 
+
     /**
      * Check if section exists.
      *
-     * @param  string  $name
+     * @param  string $name
+     *
      * @return bool
      */
     public function hasSection($name)
     {
         return array_key_exists($name, $this->sections);
     }
+
 
     /**
      * Get the entire array of sections.
@@ -873,6 +960,7 @@ class Factory implements FactoryContract
     {
         return $this->sections;
     }
+
 
     /**
      * Get all of the registered named views in environment.

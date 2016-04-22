@@ -18,16 +18,19 @@ namespace Prophecy\Argument\Token;
  */
 class LogicalNotToken implements TokenInterface
 {
-    /** @var \Prophecy\Argument\Token\TokenInterface  */
+
+    /** @var \Prophecy\Argument\Token\TokenInterface */
     private $token;
+
 
     /**
      * @param mixed $value exact value or token
      */
     public function __construct($value)
     {
-        $this->token = $value instanceof TokenInterface? $value : new ExactValueToken($value);
+        $this->token = $value instanceof TokenInterface ? $value : new ExactValueToken($value);
     }
+
 
     /**
      * Scores 4 when preset token does not match the argument.
@@ -41,6 +44,7 @@ class LogicalNotToken implements TokenInterface
         return false === $this->token->scoreArgument($argument) ? 4 : false;
     }
 
+
     /**
      * Returns true if preset token is last.
      *
@@ -51,6 +55,7 @@ class LogicalNotToken implements TokenInterface
         return $this->token->isLast();
     }
 
+
     /**
      * Returns originating token.
      *
@@ -60,6 +65,7 @@ class LogicalNotToken implements TokenInterface
     {
         return $this->token;
     }
+
 
     /**
      * Returns string representation for token.

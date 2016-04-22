@@ -9,6 +9,7 @@ class IsNullTest extends \Hamcrest\AbstractMatcherTest
         return \Hamcrest\Core\IsNull::nullValue();
     }
 
+
     public function testEvaluatesToTrueIfArgumentIsNull()
     {
         assertThat(null, nullValue());

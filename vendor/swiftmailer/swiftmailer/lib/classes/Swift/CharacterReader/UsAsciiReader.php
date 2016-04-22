@@ -15,6 +15,7 @@
  */
 class Swift_CharacterReader_UsAsciiReader implements Swift_CharacterReader
 {
+
     /**
      * Returns the complete character map.
      *
@@ -27,7 +28,7 @@ class Swift_CharacterReader_UsAsciiReader implements Swift_CharacterReader
      */
     public function getCharPositions($string, $startOffset, &$currentMap, &$ignoredChars)
     {
-        $strlen = strlen($string);
+        $strlen       = strlen($string);
         $ignoredChars = '';
         for ($i = 0; $i < $strlen; ++$i) {
             if ($string[$i] > "\x07F") {
@@ -39,6 +40,7 @@ class Swift_CharacterReader_UsAsciiReader implements Swift_CharacterReader
         return $strlen;
     }
 
+
     /**
      * Returns mapType.
      *
@@ -48,6 +50,7 @@ class Swift_CharacterReader_UsAsciiReader implements Swift_CharacterReader
     {
         return self::MAP_TYPE_INVALID;
     }
+
 
     /**
      * Returns an integer which specifies how many more bytes to read.
@@ -71,6 +74,7 @@ class Swift_CharacterReader_UsAsciiReader implements Swift_CharacterReader
             return -1;
         }
     }
+
 
     /**
      * Returns the number of bytes which should be read to start each character.

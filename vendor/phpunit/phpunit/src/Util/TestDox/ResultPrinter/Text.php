@@ -15,6 +15,7 @@
  */
 class PHPUnit_Util_TestDox_ResultPrinter_Text extends PHPUnit_Util_TestDox_ResultPrinter
 {
+
     /**
      * Handler for 'start class' event.
      *
@@ -24,6 +25,7 @@ class PHPUnit_Util_TestDox_ResultPrinter_Text extends PHPUnit_Util_TestDox_Resul
     {
         $this->write($this->currentTestClassPrettified . "\n");
     }
+
 
     /**
      * Handler for 'on test' event.
@@ -41,6 +43,7 @@ class PHPUnit_Util_TestDox_ResultPrinter_Text extends PHPUnit_Util_TestDox_Resul
 
         $this->write($name . "\n");
     }
+
 
     /**
      * Handler for 'end class' event.

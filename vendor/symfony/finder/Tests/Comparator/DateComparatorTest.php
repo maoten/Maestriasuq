@@ -15,22 +15,26 @@ use Symfony\Component\Finder\Comparator\DateComparator;
 
 class DateComparatorTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testConstructor()
     {
         try {
             new DateComparator('foobar');
             $this->fail('__construct() throws an \InvalidArgumentException if the test expression is not valid.');
         } catch (\Exception $e) {
-            $this->assertInstanceOf('InvalidArgumentException', $e, '__construct() throws an \InvalidArgumentException if the test expression is not valid.');
+            $this->assertInstanceOf('InvalidArgumentException', $e,
+                '__construct() throws an \InvalidArgumentException if the test expression is not valid.');
         }
 
         try {
             new DateComparator('');
             $this->fail('__construct() throws an \InvalidArgumentException if the test expression is not valid.');
         } catch (\Exception $e) {
-            $this->assertInstanceOf('InvalidArgumentException', $e, '__construct() throws an \InvalidArgumentException if the test expression is not valid.');
+            $this->assertInstanceOf('InvalidArgumentException', $e,
+                '__construct() throws an \InvalidArgumentException if the test expression is not valid.');
         }
     }
+
 
     /**
      * @dataProvider getTestData
@@ -48,16 +52,17 @@ class DateComparatorTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+
     public function getTestData()
     {
-        return array(
-            array('< 2005-10-10', array(strtotime('2005-10-09')), array(strtotime('2005-10-15'))),
-            array('until 2005-10-10', array(strtotime('2005-10-09')), array(strtotime('2005-10-15'))),
-            array('before 2005-10-10', array(strtotime('2005-10-09')), array(strtotime('2005-10-15'))),
-            array('> 2005-10-10', array(strtotime('2005-10-15')), array(strtotime('2005-10-09'))),
-            array('after 2005-10-10', array(strtotime('2005-10-15')), array(strtotime('2005-10-09'))),
-            array('since 2005-10-10', array(strtotime('2005-10-15')), array(strtotime('2005-10-09'))),
-            array('!= 2005-10-10', array(strtotime('2005-10-11')), array(strtotime('2005-10-10'))),
-        );
+        return [
+            [ '< 2005-10-10', [ strtotime('2005-10-09') ], [ strtotime('2005-10-15') ] ],
+            [ 'until 2005-10-10', [ strtotime('2005-10-09') ], [ strtotime('2005-10-15') ] ],
+            [ 'before 2005-10-10', [ strtotime('2005-10-09') ], [ strtotime('2005-10-15') ] ],
+            [ '> 2005-10-10', [ strtotime('2005-10-15') ], [ strtotime('2005-10-09') ] ],
+            [ 'after 2005-10-10', [ strtotime('2005-10-15') ], [ strtotime('2005-10-09') ] ],
+            [ 'since 2005-10-10', [ strtotime('2005-10-15') ], [ strtotime('2005-10-09') ] ],
+            [ '!= 2005-10-10', [ strtotime('2005-10-11') ], [ strtotime('2005-10-10') ] ],
+        ];
     }
 }

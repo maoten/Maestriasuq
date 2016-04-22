@@ -29,20 +29,35 @@ use Symfony\Component\Console\Exception\LogicException;
  */
 class Command
 {
+
     private $application;
+
     private $name;
+
     private $processTitle;
-    private $aliases = array();
+
+    private $aliases = [ ];
+
     private $definition;
+
     private $help;
+
     private $description;
+
     private $ignoreValidationErrors = false;
+
     private $applicationDefinitionMerged = false;
+
     private $applicationDefinitionMergedWithArgs = false;
+
     private $code;
-    private $synopsis = array();
-    private $usages = array();
+
+    private $synopsis = [ ];
+
+    private $usages = [ ];
+
     private $helperSet;
+
 
     /**
      * Constructor.
@@ -61,10 +76,12 @@ class Command
 
         $this->configure();
 
-        if (!$this->name) {
-            throw new LogicException(sprintf('The command defined in "%s" cannot have an empty name.', get_class($this)));
+        if ( ! $this->name) {
+            throw new LogicException(sprintf('The command defined in "%s" cannot have an empty name.',
+                get_class($this)));
         }
     }
+
 
     /**
      * Ignores validation errors.
@@ -75,6 +92,7 @@ class Command
     {
         $this->ignoreValidationErrors = true;
     }
+
 
     /**
      * Sets the application instance for this command.
@@ -91,6 +109,7 @@ class Command
         }
     }
 
+
     /**
      * Sets the helper set.
      *
@@ -100,6 +119,7 @@ class Command
     {
         $this->helperSet = $helperSet;
     }
+
 
     /**
      * Gets the helper set.
@@ -111,6 +131,7 @@ class Command
         return $this->helperSet;
     }
 
+
     /**
      * Gets the application instance for this command.
      *
@@ -120,6 +141,7 @@ class Command
     {
         return $this->application;
     }
+
 
     /**
      * Checks whether the command is enabled or not in the current environment.
@@ -134,12 +156,14 @@ class Command
         return true;
     }
 
+
     /**
      * Configures the current command.
      */
     protected function configure()
     {
     }
+
 
     /**
      * Executes the current command.
@@ -163,6 +187,7 @@ class Command
         throw new LogicException('You must override the execute() method in the concrete command class.');
     }
 
+
     /**
      * Interacts with the user.
      *
@@ -177,6 +202,7 @@ class Command
     {
     }
 
+
     /**
      * Initializes the command just after the input has been validated.
      *
@@ -189,6 +215,7 @@ class Command
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
     }
+
 
     /**
      * Runs the command.
@@ -220,7 +247,7 @@ class Command
         try {
             $input->bind($this->definition);
         } catch (ExceptionInterface $e) {
-            if (!$this->ignoreValidationErrors) {
+            if ( ! $this->ignoreValidationErrors) {
                 throw $e;
             }
         }
@@ -259,6 +286,7 @@ class Command
         return is_numeric($statusCode) ? (int) $statusCode : 0;
     }
 
+
     /**
      * Sets the code to execute when running this command.
      *
@@ -287,16 +315,18 @@ class Command
         return $this;
     }
 
+
     /**
      * Merges the application definition with the command definition.
      *
      * This method is not part of public API and should not be used directly.
      *
-     * @param bool $mergeArgs Whether to merge or not the Application definition arguments to Command definition arguments
+     * @param bool $mergeArgs Whether to merge or not the Application definition arguments to Command definition
+     *                        arguments
      */
     public function mergeApplicationDefinition($mergeArgs = true)
     {
-        if (null === $this->application || (true === $this->applicationDefinitionMerged && ($this->applicationDefinitionMergedWithArgs || !$mergeArgs))) {
+        if (null === $this->application || ( true === $this->applicationDefinitionMerged && ( $this->applicationDefinitionMergedWithArgs || ! $mergeArgs ) )) {
             return;
         }
 
@@ -313,6 +343,7 @@ class Command
             $this->applicationDefinitionMergedWithArgs = true;
         }
     }
+
 
     /**
      * Sets an array of argument and option instances.
@@ -334,6 +365,7 @@ class Command
         return $this;
     }
 
+
     /**
      * Gets the InputDefinition attached to this Command.
      *
@@ -343,6 +375,7 @@ class Command
     {
         return $this->definition;
     }
+
 
     /**
      * Gets the InputDefinition to be used to create representations of this Command.
@@ -358,6 +391,7 @@ class Command
     {
         return $this->getDefinition();
     }
+
 
     /**
      * Adds an argument.
@@ -376,6 +410,7 @@ class Command
         return $this;
     }
 
+
     /**
      * Adds an option.
      *
@@ -393,6 +428,7 @@ class Command
 
         return $this;
     }
+
 
     /**
      * Sets the name of the command.
@@ -417,6 +453,7 @@ class Command
         return $this;
     }
 
+
     /**
      * Sets the process title of the command.
      *
@@ -436,6 +473,7 @@ class Command
         return $this;
     }
 
+
     /**
      * Returns the command name.
      *
@@ -445,6 +483,7 @@ class Command
     {
         return $this->name;
     }
+
 
     /**
      * Sets the description for the command.
@@ -460,6 +499,7 @@ class Command
         return $this;
     }
 
+
     /**
      * Returns the description for the command.
      *
@@ -469,6 +509,7 @@ class Command
     {
         return $this->description;
     }
+
 
     /**
      * Sets the help for the command.
@@ -484,6 +525,7 @@ class Command
         return $this;
     }
 
+
     /**
      * Returns the help for the command.
      *
@@ -493,6 +535,7 @@ class Command
     {
         return $this->help;
     }
+
 
     /**
      * Returns the processed help for the command replacing the %command.name% and
@@ -504,17 +547,18 @@ class Command
     {
         $name = $this->name;
 
-        $placeholders = array(
+        $placeholders = [
             '%command.name%',
             '%command.full_name%',
-        );
-        $replacements = array(
+        ];
+        $replacements = [
             $name,
-            $_SERVER['PHP_SELF'].' '.$name,
-        );
+            $_SERVER['PHP_SELF'] . ' ' . $name,
+        ];
 
         return str_replace($placeholders, $replacements, $this->getHelp() ?: $this->getDescription());
     }
+
 
     /**
      * Sets the aliases for the command.
@@ -527,7 +571,7 @@ class Command
      */
     public function setAliases($aliases)
     {
-        if (!is_array($aliases) && !$aliases instanceof \Traversable) {
+        if ( ! is_array($aliases) && ! $aliases instanceof \Traversable) {
             throw new InvalidArgumentException('$aliases must be an array or an instance of \Traversable');
         }
 
@@ -540,6 +584,7 @@ class Command
         return $this;
     }
 
+
     /**
      * Returns the aliases for the command.
      *
@@ -549,6 +594,7 @@ class Command
     {
         return $this->aliases;
     }
+
 
     /**
      * Returns the synopsis for the command.
@@ -561,12 +607,13 @@ class Command
     {
         $key = $short ? 'short' : 'long';
 
-        if (!isset($this->synopsis[$key])) {
+        if ( ! isset( $this->synopsis[$key] )) {
             $this->synopsis[$key] = trim(sprintf('%s %s', $this->name, $this->definition->getSynopsis($short)));
         }
 
         return $this->synopsis[$key];
     }
+
 
     /**
      * Add a command usage example.
@@ -584,6 +631,7 @@ class Command
         return $this;
     }
 
+
     /**
      * Returns alternative usages of the command.
      *
@@ -593,6 +641,7 @@ class Command
     {
         return $this->usages;
     }
+
 
     /**
      * Gets a helper instance by name.
@@ -608,6 +657,7 @@ class Command
         return $this->helperSet->get($name);
     }
 
+
     /**
      * Validates a command name.
      *
@@ -619,7 +669,7 @@ class Command
      */
     private function validateName($name)
     {
-        if (!preg_match('/^[^\:]++(\:[^\:]++)*$/', $name)) {
+        if ( ! preg_match('/^[^\:]++(\:[^\:]++)*$/', $name)) {
             throw new InvalidArgumentException(sprintf('Command name "%s" is invalid.', $name));
         }
     }

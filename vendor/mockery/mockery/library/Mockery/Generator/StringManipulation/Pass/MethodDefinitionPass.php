@@ -7,6 +7,7 @@ use Mockery\Generator\MockConfiguration;
 
 class MethodDefinitionPass implements Pass
 {
+
     public function apply($code, MockConfiguration $config)
     {
         foreach ($config->getMethodsToMock() as $method) {
@@ -34,26 +35,27 @@ class MethodDefinitionPass implements Pass
         return $code;
     }
 
+
     protected function renderParams(Method $method, $config)
     {
         $class = $method->getDeclaringClass();
         if ($class->isInternal()) {
             $overrides = $config->getParameterOverrides();
 
-            if (isset($overrides[strtolower($class->getName())][$method->getName()])) {
+            if (isset( $overrides[strtolower($class->getName())][$method->getName()] )) {
                 return '(' . implode(',', $overrides[strtolower($class->getName())][$method->getName()]) . ')';
             }
         }
 
-        $methodParams = array();
-        $params = $method->getParameters();
+        $methodParams = [ ];
+        $params       = $method->getParameters();
         foreach ($params as $param) {
             $paramDef = $param->getTypeHintAsString();
             $paramDef .= $param->isPassedByReference() ? '&' : '';
             $paramDef .= $param->isVariadic() ? '...' : '';
             $paramDef .= '$' . $param->getName();
 
-            if (!$param->isVariadic()) {
+            if ( ! $param->isVariadic()) {
                 if (false !== $param->isDefaultValueAvailable()) {
                     $paramDef .= ' = ' . var_export($param->getDefaultValue(), true);
                 } elseif ($param->isOptional()) {
@@ -63,20 +65,24 @@ class MethodDefinitionPass implements Pass
 
             $methodParams[] = $paramDef;
         }
+
         return '(' . implode(', ', $methodParams) . ')';
     }
+
 
     protected function appendToClass($class, $code)
     {
         $lastBrace = strrpos($class, "}");
-        $class = substr($class, 0, $lastBrace) . $code . "\n    }\n";
+        $class     = substr($class, 0, $lastBrace) . $code . "\n    }\n";
+
         return $class;
     }
+
 
     private function renderMethodBody($method, $config)
     {
         $invoke = $method->isStatic() ? 'static::_mockery_handleStaticMethodCall' : '$this->_mockery_handleMethodCall';
-        $body = <<<BODY
+        $body   = <<<BODY
 {
 \$argc = func_num_args();
 \$argv = func_get_args();
@@ -86,11 +92,11 @@ BODY;
         // Fix up known parameters by reference - used func_get_args() above
         // in case more parameters are passed in than the function definition
         // says - eg varargs.
-        $class = $method->getDeclaringClass();
+        $class      = $method->getDeclaringClass();
         $class_name = strtolower($class->getName());
-        $overrides = $config->getParameterOverrides();
-        if (isset($overrides[$class_name][$method->getName()])) {
-            $params = array_values($overrides[$class_name][$method->getName()]);
+        $overrides  = $config->getParameterOverrides();
+        if (isset( $overrides[$class_name][$method->getName()] )) {
+            $params     = array_values($overrides[$class_name][$method->getName()]);
             $paramCount = count($params);
             for ($i = 0; $i < $paramCount; ++$i) {
                 $param = $params[$i];
@@ -104,11 +110,11 @@ BODY;
                 }
             }
         } else {
-            $params = array_values($method->getParameters());
+            $params     = array_values($method->getParameters());
             $paramCount = count($params);
             for ($i = 0; $i < $paramCount; ++$i) {
                 $param = $params[$i];
-                if (!$param->isPassedByReference()) {
+                if ( ! $param->isPassedByReference()) {
                     continue;
                 }
                 $body .= <<<BODY
@@ -124,6 +130,7 @@ BODY;
 return \$ret;
 }
 BODY;
+
         return $body;
     }
 }

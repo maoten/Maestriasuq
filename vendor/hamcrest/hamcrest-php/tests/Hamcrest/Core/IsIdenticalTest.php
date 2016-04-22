@@ -9,6 +9,7 @@ class IsIdenticalTest extends \Hamcrest\AbstractMatcherTest
         return \Hamcrest\Core\IsIdentical::identicalTo('irrelevant');
     }
 
+
     public function testEvaluatesToTrueIfArgumentIsReferenceToASpecifiedObject()
     {
         $o1 = new \stdClass();
@@ -18,10 +19,12 @@ class IsIdenticalTest extends \Hamcrest\AbstractMatcherTest
         assertThat($o2, not(identicalTo($o1)));
     }
 
+
     public function testReturnsReadableDescriptionFromToString()
     {
         $this->assertDescription('"ARG"', identicalTo('ARG'));
     }
+
 
     public function testReturnsReadableDescriptionFromToStringWhenInitialisedWithNull()
     {

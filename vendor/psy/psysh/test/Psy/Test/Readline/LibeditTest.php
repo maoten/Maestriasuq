@@ -15,11 +15,13 @@ use Psy\Readline\Libedit;
 
 class LibeditTest extends \PHPUnit_Framework_TestCase
 {
+
     private $historyFile;
+
 
     public function setUp()
     {
-        if (!Libedit::isSupported()) {
+        if ( ! Libedit::isSupported()) {
             $this->markTestSkipped('Libedit not enabled');
         }
 
@@ -33,6 +35,7 @@ class LibeditTest extends \PHPUnit_Framework_TestCase
         readline_clear_history();
     }
 
+
     public function tearDown()
     {
         if (is_file($this->historyFile)) {
@@ -40,19 +43,21 @@ class LibeditTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+
     public function testHistory()
     {
         $readline = new Libedit($this->historyFile);
         $this->assertEmpty($readline->listHistory());
         $readline->addHistory('foo');
-        $this->assertEquals(array('foo'), $readline->listHistory());
+        $this->assertEquals([ 'foo' ], $readline->listHistory());
         $readline->addHistory('bar');
-        $this->assertEquals(array('foo', 'bar'), $readline->listHistory());
+        $this->assertEquals([ 'foo', 'bar' ], $readline->listHistory());
         $readline->addHistory('baz');
-        $this->assertEquals(array('foo', 'bar', 'baz'), $readline->listHistory());
+        $this->assertEquals([ 'foo', 'bar', 'baz' ], $readline->listHistory());
         $readline->clearHistory();
         $this->assertEmpty($readline->listHistory());
     }
+
 
     /**
      * @depends testHistory
@@ -63,14 +68,15 @@ class LibeditTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($readline->listHistory());
         $readline->addHistory('foo');
         $readline->addHistory('bar');
-        $this->assertEquals(array('foo', 'bar'), $readline->listHistory());
+        $this->assertEquals([ 'foo', 'bar' ], $readline->listHistory());
         $readline->addHistory('baz');
-        $this->assertEquals(array('bar', 'baz'), $readline->listHistory());
+        $this->assertEquals([ 'bar', 'baz' ], $readline->listHistory());
         $readline->addHistory('w00t');
-        $this->assertEquals(array('baz', 'w00t'), $readline->listHistory());
+        $this->assertEquals([ 'baz', 'w00t' ], $readline->listHistory());
         $readline->clearHistory();
         $this->assertEmpty($readline->listHistory());
     }
+
 
     /**
      * @depends testHistory
@@ -82,29 +88,28 @@ class LibeditTest extends \PHPUnit_Framework_TestCase
         $readline->addHistory('foo');
         $readline->addHistory('bar');
         $readline->addHistory('foo');
-        $this->assertEquals(array('bar', 'foo'), $readline->listHistory());
+        $this->assertEquals([ 'bar', 'foo' ], $readline->listHistory());
         $readline->addHistory('baz');
         $readline->addHistory('w00t');
         $readline->addHistory('baz');
-        $this->assertEquals(array('bar', 'foo', 'w00t', 'baz'), $readline->listHistory());
+        $this->assertEquals([ 'bar', 'foo', 'w00t', 'baz' ], $readline->listHistory());
         $readline->clearHistory();
         $this->assertEmpty($readline->listHistory());
     }
 
+
     public function testListHistory()
     {
         $readline = new Libedit($this->historyFile);
-        file_put_contents(
-            $this->historyFile,
-            "This is an entry\n\0This is a comment\nThis is an entry\0With a comment\n",
-            FILE_APPEND
-        );
-        $this->assertEquals(array(
+        file_put_contents($this->historyFile,
+            "This is an entry\n\0This is a comment\nThis is an entry\0With a comment\n", FILE_APPEND);
+        $this->assertEquals([
             'This is an entry',
             'This is an entry',
-        ), $readline->listHistory());
+        ], $readline->listHistory());
         $readline->clearHistory();
     }
+
 
     /**
      * Libedit being a BSD library,
@@ -113,16 +118,12 @@ class LibeditTest extends \PHPUnit_Framework_TestCase
     public function testLinebreaksSupport()
     {
         $readline = new Libedit($this->historyFile);
-        file_put_contents(
-            $this->historyFile,
-            "foo\rbar\nbaz\r\nw00t",
-            FILE_APPEND
-        );
-        $this->assertEquals(array(
+        file_put_contents($this->historyFile, "foo\rbar\nbaz\r\nw00t", FILE_APPEND);
+        $this->assertEquals([
             "foo\rbar",
             "baz\r",
             'w00t',
-        ), $readline->listHistory());
+        ], $readline->listHistory());
         $readline->clearHistory();
     }
 }

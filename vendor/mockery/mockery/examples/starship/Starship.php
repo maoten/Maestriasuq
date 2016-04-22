@@ -5,10 +5,12 @@ class Starship
 
     protected $_engineering = null;
 
+
     public function __construct($engineering)
     {
         $this->_engineering = $engineering;
     }
+
 
     public function enterOrbit()
     {

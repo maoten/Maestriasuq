@@ -18,12 +18,14 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 interface TraceableEventDispatcherInterface extends EventDispatcherInterface
 {
+
     /**
      * Gets the called listeners.
      *
      * @return array An array of called listeners
      */
     public function getCalledListeners();
+
 
     /**
      * Gets the not called listeners.

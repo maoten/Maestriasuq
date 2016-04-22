@@ -20,9 +20,11 @@ use Exception;
  */
 class NormalizerFormatter implements FormatterInterface
 {
+
     const SIMPLE_DATE = "Y-m-d H:i:s";
 
     protected $dateFormat;
+
 
     /**
      * @param string $dateFormat The format of the timestamp: one supported by DateTime::format
@@ -30,10 +32,11 @@ class NormalizerFormatter implements FormatterInterface
     public function __construct($dateFormat = null)
     {
         $this->dateFormat = $dateFormat ?: static::SIMPLE_DATE;
-        if (!function_exists('json_encode')) {
+        if ( ! function_exists('json_encode')) {
             throw new \RuntimeException('PHP\'s json extension is required to use Monolog\'s NormalizerFormatter');
         }
     }
+
 
     /**
      * {@inheritdoc}
@@ -42,6 +45,7 @@ class NormalizerFormatter implements FormatterInterface
     {
         return $this->normalize($record);
     }
+
 
     /**
      * {@inheritdoc}
@@ -55,12 +59,13 @@ class NormalizerFormatter implements FormatterInterface
         return $records;
     }
 
+
     protected function normalize($data)
     {
         if (null === $data || is_scalar($data)) {
             if (is_float($data)) {
                 if (is_infinite($data)) {
-                    return ($data > 0 ? '' : '-') . 'INF';
+                    return ( $data > 0 ? '' : '-' ) . 'INF';
                 }
                 if (is_nan($data)) {
                     return 'NaN';
@@ -71,7 +76,7 @@ class NormalizerFormatter implements FormatterInterface
         }
 
         if (is_array($data) || $data instanceof \Traversable) {
-            $normalized = array();
+            $normalized = [ ];
 
             $count = 1;
             foreach ($data as $key => $value) {
@@ -91,12 +96,12 @@ class NormalizerFormatter implements FormatterInterface
 
         if (is_object($data)) {
             // TODO 2.0 only check for Throwable
-            if ($data instanceof Exception || (PHP_VERSION_ID > 70000 && $data instanceof \Throwable)) {
+            if ($data instanceof Exception || ( PHP_VERSION_ID > 70000 && $data instanceof \Throwable )) {
                 return $this->normalizeException($data);
             }
 
             // non-serializable objects that implement __toString stringified
-            if (method_exists($data, '__toString') && !$data instanceof \JsonSerializable) {
+            if (method_exists($data, '__toString') && ! $data instanceof \JsonSerializable) {
                 $value = $data->__toString();
             } else {
                 // the rest is json-serialized in some way
@@ -110,27 +115,28 @@ class NormalizerFormatter implements FormatterInterface
             return sprintf('[resource] (%s)', get_resource_type($data));
         }
 
-        return '[unknown('.gettype($data).')]';
+        return '[unknown(' . gettype($data) . ')]';
     }
+
 
     protected function normalizeException($e)
     {
         // TODO 2.0 only check for Throwable
-        if (!$e instanceof Exception && !$e instanceof \Throwable) {
-            throw new \InvalidArgumentException('Exception/Throwable expected, got '.gettype($e).' / '.get_class($e));
+        if ( ! $e instanceof Exception && ! $e instanceof \Throwable) {
+            throw new \InvalidArgumentException('Exception/Throwable expected, got ' . gettype($e) . ' / ' . get_class($e));
         }
 
-        $data = array(
-            'class' => get_class($e),
+        $data = [
+            'class'   => get_class($e),
             'message' => $e->getMessage(),
-            'code' => $e->getCode(),
-            'file' => $e->getFile().':'.$e->getLine(),
-        );
+            'code'    => $e->getCode(),
+            'file'    => $e->getFile() . ':' . $e->getLine(),
+        ];
 
         $trace = $e->getTrace();
         foreach ($trace as $frame) {
-            if (isset($frame['file'])) {
-                $data['trace'][] = $frame['file'].':'.$frame['line'];
+            if (isset( $frame['file'] )) {
+                $data['trace'][] = $frame['file'] . ':' . $frame['line'];
             } else {
                 // We should again normalize the frames, because it might contain invalid items
                 $data['trace'][] = $this->toJson($this->normalize($frame), true);
@@ -144,11 +150,13 @@ class NormalizerFormatter implements FormatterInterface
         return $data;
     }
 
+
     /**
      * Return the JSON representation of a value
      *
-     * @param  mixed             $data
-     * @param  bool              $ignoreErrors
+     * @param  mixed $data
+     * @param  bool  $ignoreErrors
+     *
      * @throws \RuntimeException if encoding fails and errors are not ignored
      * @return string
      */
@@ -168,8 +176,10 @@ class NormalizerFormatter implements FormatterInterface
         return $json;
     }
 
+
     /**
-     * @param  mixed  $data
+     * @param  mixed $data
+     *
      * @return string JSON encoded data or null on failure
      */
     private function jsonEncode($data)
@@ -181,6 +191,7 @@ class NormalizerFormatter implements FormatterInterface
         return json_encode($data);
     }
 
+
     /**
      * Handle a json_encode failure.
      *
@@ -189,8 +200,9 @@ class NormalizerFormatter implements FormatterInterface
      * inital error is not encoding related or the input can't be cleaned then
      * raise a descriptive exception.
      *
-     * @param  int               $code return code of json_last_error function
-     * @param  mixed             $data data that was meant to be encoded
+     * @param  int   $code return code of json_last_error function
+     * @param  mixed $data data that was meant to be encoded
+     *
      * @throws \RuntimeException if failure can't be corrected
      * @return string            JSON encoded data after error correction
      */
@@ -203,7 +215,7 @@ class NormalizerFormatter implements FormatterInterface
         if (is_string($data)) {
             $this->detectAndCleanUtf8($data);
         } elseif (is_array($data)) {
-            array_walk_recursive($data, array($this, 'detectAndCleanUtf8'));
+            array_walk_recursive($data, [ $this, 'detectAndCleanUtf8' ]);
         } else {
             $this->throwEncodeError($code, $data);
         }
@@ -217,11 +229,13 @@ class NormalizerFormatter implements FormatterInterface
         return $json;
     }
 
+
     /**
      * Throws an exception according to a given code with a customized message
      *
-     * @param  int               $code return code of json_last_error function
-     * @param  mixed             $data data that was meant to be encoded
+     * @param  int   $code return code of json_last_error function
+     * @param  mixed $data data that was meant to be encoded
+     *
      * @throws \RuntimeException
      */
     private function throwEncodeError($code, $data)
@@ -243,8 +257,9 @@ class NormalizerFormatter implements FormatterInterface
                 $msg = 'Unknown error';
         }
 
-        throw new \RuntimeException('JSON encoding failed: '.$msg.'. Encoding: '.var_export($data, true));
+        throw new \RuntimeException('JSON encoding failed: ' . $msg . '. Encoding: ' . var_export($data, true));
     }
+
 
     /**
      * Detect invalid UTF-8 string characters and convert to valid UTF-8.
@@ -260,21 +275,17 @@ class NormalizerFormatter implements FormatterInterface
      * can be used as a callback for array_walk_recursive.
      *
      * @param mixed &$data Input to check and convert if needed
+     *
      * @private
      */
     public function detectAndCleanUtf8(&$data)
     {
-        if (is_string($data) && !preg_match('//u', $data)) {
-            $data = preg_replace_callback(
-                '/[\x80-\xFF]+/',
-                function ($m) { return utf8_encode($m[0]); },
-                $data
-            );
-            $data = str_replace(
-                array('¤', '¦', '¨', '´', '¸', '¼', '½', '¾'),
-                array('€', 'Š', 'š', 'Ž', 'ž', 'Œ', 'œ', 'Ÿ'),
-                $data
-            );
+        if (is_string($data) && ! preg_match('//u', $data)) {
+            $data = preg_replace_callback('/[\x80-\xFF]+/', function ($m) {
+                return utf8_encode($m[0]);
+            }, $data);
+            $data = str_replace([ '¤', '¦', '¨', '´', '¸', '¼', '½', '¾' ], [ '€', 'Š', 'š', 'Ž', 'ž', 'Œ', 'œ', 'Ÿ' ],
+                $data);
         }
     }
 }

@@ -18,13 +18,17 @@ use Symfony\Component\VarDumper\Test\VarDumperTestTrait;
  */
 class SplCasterTest extends \PHPUnit_Framework_TestCase
 {
+
     use VarDumperTestTrait;
+
 
     public function getCastFileInfoTests()
     {
-        return array(
-            array(__FILE__, <<<'EOTXT'
-SplFileInfo {
+        return [
+            [
+                __FILE__,
+                <<<'EOTXT'
+               SplFileInfo {
 %Apath: "%sCaster"
   filename: "SplCasterTest.php"
   basename: "SplCasterTest.php"
@@ -48,9 +52,11 @@ SplFileInfo {
   link: false
 %A}
 EOTXT
-            ),
-            array('https://google.com/about', <<<'EOTXT'
-SplFileInfo {
+            ],
+            [
+                'https://google.com/about',
+                <<<'EOTXT'
+               SplFileInfo {
 %Apath: "https://google.com"
   filename: "about"
   basename: "about"
@@ -65,15 +71,17 @@ SplFileInfo {
   link: false
 %A}
 EOTXT
-            ),
-        );
+            ],
+        ];
     }
+
 
     /** @dataProvider getCastFileInfoTests */
     public function testCastFileInfo($file, $dump)
     {
         $this->assertDumpMatchesFormat($dump, new \SplFileInfo($file));
     }
+
 
     public function testCastFileObject()
     {

@@ -23,10 +23,12 @@ namespace Symfony\Component\CssSelector\Node;
  */
 abstract class AbstractNode implements NodeInterface
 {
+
     /**
      * @var string
      */
     private $nodeName;
+
 
     /**
      * @return string

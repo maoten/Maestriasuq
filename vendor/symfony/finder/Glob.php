@@ -28,30 +28,31 @@ namespace Symfony\Component\Finder;
  *
  * Based on the Perl Text::Glob module.
  *
- * @author Fabien Potencier <fabien@symfony.com> PHP port
+ * @author     Fabien Potencier <fabien@symfony.com> PHP port
  * @author     Richard Clamp <richardc@unixbeard.net> Perl version
  * @copyright  2004-2005 Fabien Potencier <fabien@symfony.com>
  * @copyright  2002 Richard Clamp <richardc@unixbeard.net>
  */
 class Glob
 {
+
     /**
      * Returns a regexp which is the equivalent of the glob pattern.
      *
-     * @param string $glob                The glob pattern
+     * @param string $glob      The glob pattern
      * @param bool   $strictLeadingDot
      * @param bool   $strictWildcardSlash
-     * @param string $delimiter           Optional delimiter
+     * @param string $delimiter Optional delimiter
      *
      * @return string regex The regexp
      */
     public static function toRegex($glob, $strictLeadingDot = true, $strictWildcardSlash = true, $delimiter = '#')
     {
         $firstByte = true;
-        $escaping = false;
+        $escaping  = false;
         $inCurlies = 0;
-        $regex = '';
-        $sizeGlob = strlen($glob);
+        $regex     = '';
+        $sizeGlob  = strlen($glob);
         for ($i = 0; $i < $sizeGlob; ++$i) {
             $car = $glob[$i];
             if ($firstByte) {
@@ -69,17 +70,17 @@ class Glob
             if ($delimiter === $car || '.' === $car || '(' === $car || ')' === $car || '|' === $car || '+' === $car || '^' === $car || '$' === $car) {
                 $regex .= "\\$car";
             } elseif ('*' === $car) {
-                $regex .= $escaping ? '\\*' : ($strictWildcardSlash ? '[^/]*' : '.*');
+                $regex .= $escaping ? '\\*' : ( $strictWildcardSlash ? '[^/]*' : '.*' );
             } elseif ('?' === $car) {
-                $regex .= $escaping ? '\\?' : ($strictWildcardSlash ? '[^/]' : '.');
+                $regex .= $escaping ? '\\?' : ( $strictWildcardSlash ? '[^/]' : '.' );
             } elseif ('{' === $car) {
                 $regex .= $escaping ? '\\{' : '(';
-                if (!$escaping) {
+                if ( ! $escaping) {
                     ++$inCurlies;
                 }
             } elseif ('}' === $car && $inCurlies) {
                 $regex .= $escaping ? '}' : ')';
-                if (!$escaping) {
+                if ( ! $escaping) {
                     --$inCurlies;
                 }
             } elseif (',' === $car && $inCurlies) {
@@ -99,6 +100,6 @@ class Glob
             $escaping = false;
         }
 
-        return $delimiter.'^'.$regex.'$'.$delimiter;
+        return $delimiter . '^' . $regex . '$' . $delimiter;
     }
 }

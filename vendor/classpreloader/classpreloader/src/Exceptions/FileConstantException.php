@@ -19,5 +19,6 @@ use Exception;
  */
 class FileConstantException extends Exception implements VisitorExceptionInterface
 {
+
     //
 }

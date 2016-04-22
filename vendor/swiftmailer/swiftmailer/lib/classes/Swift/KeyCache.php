@@ -15,11 +15,13 @@
  */
 interface Swift_KeyCache
 {
+
     /** Mode for replacing existing cached data */
     const MODE_WRITE = 1;
 
     /** Mode for appending data to the end of existing cached data */
     const MODE_APPEND = 2;
+
 
     /**
      * Set a string into the cache under $itemKey for the namespace $nsKey.
@@ -33,6 +35,7 @@ interface Swift_KeyCache
      */
     public function setString($nsKey, $itemKey, $string, $mode);
 
+
     /**
      * Set a ByteStream into the cache under $itemKey for the namespace $nsKey.
      *
@@ -45,6 +48,7 @@ interface Swift_KeyCache
      */
     public function importFromByteStream($nsKey, $itemKey, Swift_OutputByteStream $os, $mode);
 
+
     /**
      * Provides a ByteStream which when written to, writes data to $itemKey.
      *
@@ -53,11 +57,12 @@ interface Swift_KeyCache
      *
      * @param string                $nsKey
      * @param string                $itemKey
-     * @param Swift_InputByteStream $is      optional input stream
+     * @param Swift_InputByteStream $is optional input stream
      *
      * @return Swift_InputByteStream
      */
     public function getInputByteStream($nsKey, $itemKey, Swift_InputByteStream $is = null);
+
 
     /**
      * Get data back out of the cache as a string.
@@ -69,14 +74,16 @@ interface Swift_KeyCache
      */
     public function getString($nsKey, $itemKey);
 
+
     /**
      * Get data back out of the cache as a ByteStream.
      *
      * @param string                $nsKey
      * @param string                $itemKey
-     * @param Swift_InputByteStream $is      stream to write the data to
+     * @param Swift_InputByteStream $is stream to write the data to
      */
     public function exportToByteStream($nsKey, $itemKey, Swift_InputByteStream $is);
+
 
     /**
      * Check if the given $itemKey exists in the namespace $nsKey.
@@ -88,6 +95,7 @@ interface Swift_KeyCache
      */
     public function hasKey($nsKey, $itemKey);
 
+
     /**
      * Clear data for $itemKey in the namespace $nsKey if it exists.
      *
@@ -95,6 +103,7 @@ interface Swift_KeyCache
      * @param string $itemKey
      */
     public function clearKey($nsKey, $itemKey);
+
 
     /**
      * Clear all data in the namespace $nsKey if it exists.

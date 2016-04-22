@@ -18,6 +18,7 @@ namespace Symfony\Component\Finder\Iterator;
  */
 class SortableIterator implements \IteratorAggregate
 {
+
     const SORT_BY_NAME = 1;
     const SORT_BY_TYPE = 2;
     const SORT_BY_ACCESSED_TIME = 3;
@@ -25,7 +26,9 @@ class SortableIterator implements \IteratorAggregate
     const SORT_BY_MODIFIED_TIME = 5;
 
     private $iterator;
+
     private $sort;
+
 
     /**
      * Constructor.
@@ -71,6 +74,7 @@ class SortableIterator implements \IteratorAggregate
             throw new \InvalidArgumentException('The SortableIterator takes a PHP callable or a valid built-in sort algorithm as an argument.');
         }
     }
+
 
     public function getIterator()
     {

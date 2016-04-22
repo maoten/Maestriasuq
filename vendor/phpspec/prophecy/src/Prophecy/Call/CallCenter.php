@@ -24,12 +24,14 @@ use Prophecy\Exception\Call\UnexpectedCallException;
  */
 class CallCenter
 {
+
     private $util;
 
     /**
      * @var Call[]
      */
-    private $recordedCalls = array();
+    private $recordedCalls = [ ];
+
 
     /**
      * Initializes call center.
@@ -40,6 +42,7 @@ class CallCenter
     {
         $this->util = $util ?: new StringUtil;
     }
+
 
     /**
      * Makes and records specific method call for object prophecy.
@@ -67,7 +70,7 @@ class CallCenter
         }
 
         $file = $line = null;
-        if (isset($backtrace[2]) && isset($backtrace[2]['file'])) {
+        if (isset( $backtrace[2] ) && isset( $backtrace[2]['file'] )) {
             $file = $backtrace[2]['file'];
             $line = $backtrace[2]['line'];
         }
@@ -80,20 +83,22 @@ class CallCenter
         }
 
         // There are method prophecies, so it's a fake/stub. Searching prophecy for this call
-        $matches = array();
+        $matches = [ ];
         foreach ($prophecy->getMethodProphecies($methodName) as $methodProphecy) {
             if (0 < $score = $methodProphecy->getArgumentsWildcard()->scoreArguments($arguments)) {
-                $matches[] = array($score, $methodProphecy);
+                $matches[] = [ $score, $methodProphecy ];
             }
         }
 
         // If fake/stub doesn't have method prophecy for this call - throw exception
-        if (!count($matches)) {
+        if ( ! count($matches)) {
             throw $this->createUnexpectedCallException($prophecy, $methodName, $arguments);
         }
 
         // Sort matches by their score value
-        @usort($matches, function ($match1, $match2) { return $match2[0] - $match1[0]; });
+        @usort($matches, function ($match1, $match2) {
+            return $match2[0] - $match1[0];
+        });
 
         // If Highest rated method prophecy has a promise - execute it or return null instead
         $returnValue = null;
@@ -106,9 +111,7 @@ class CallCenter
             }
         }
 
-        $this->recordedCalls[] = new Call(
-            $methodName, $arguments, $returnValue, $exception, $file, $line
-        );
+        $this->recordedCalls[] = new Call($methodName, $arguments, $returnValue, $exception, $file, $line);
 
         if (null !== $exception) {
             throw $exception;
@@ -116,6 +119,7 @@ class CallCenter
 
         return $returnValue;
     }
+
 
     /**
      * Searches for calls by method name & arguments wildcard.
@@ -127,36 +131,25 @@ class CallCenter
      */
     public function findCalls($methodName, ArgumentsWildcard $wildcard)
     {
-        return array_values(
-            array_filter($this->recordedCalls, function (Call $call) use ($methodName, $wildcard) {
-                return $methodName === $call->getMethodName()
-                    && 0 < $wildcard->scoreArguments($call->getArguments())
-                ;
-            })
-        );
+        return array_values(array_filter($this->recordedCalls, function (Call $call) use ($methodName, $wildcard) {
+                return $methodName === $call->getMethodName() && 0 < $wildcard->scoreArguments($call->getArguments());
+            }));
     }
 
-    private function createUnexpectedCallException(ObjectProphecy $prophecy, $methodName,
-                                                   array $arguments)
-    {
+
+    private function createUnexpectedCallException(
+        ObjectProphecy $prophecy,
+        $methodName,
+        array $arguments
+    ) {
         $classname = get_class($prophecy->reveal());
-        $argstring = implode(', ', array_map(array($this->util, 'stringify'), $arguments));
+        $argstring = implode(', ', array_map([ $this->util, 'stringify' ], $arguments));
         $expected  = implode("\n", array_map(function (MethodProphecy $methodProphecy) {
-            return sprintf('  - %s(%s)',
-                $methodProphecy->getMethodName(),
-                $methodProphecy->getArgumentsWildcard()
-            );
+            return sprintf('  - %s(%s)', $methodProphecy->getMethodName(), $methodProphecy->getArgumentsWildcard());
         }, call_user_func_array('array_merge', $prophecy->getMethodProphecies())));
 
-        return new UnexpectedCallException(
-            sprintf(
-                "Method call:\n".
-                "  - %s(%s)\n".
-                "on %s was not expected, expected calls were:\n%s",
+        return new UnexpectedCallException(sprintf("Method call:\n" . "  - %s(%s)\n" . "on %s was not expected, expected calls were:\n%s",
 
-                $methodName, $argstring, $classname, $expected
-            ),
-            $prophecy, $methodName, $arguments
-        );
+            $methodName, $argstring, $classname, $expected), $prophecy, $methodName, $arguments);
     }
 }

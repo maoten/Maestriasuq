@@ -7,10 +7,12 @@ namespace League\Flysystem;
  */
 trait ConfigAwareTrait
 {
+
     /**
      * @var Config
      */
     protected $config;
+
 
     /**
      * Set the config.
@@ -21,6 +23,7 @@ trait ConfigAwareTrait
     {
         $this->config = $config ? Util::ensureConfig($config) : null;
     }
+
 
     /**
      * Get the Config.
@@ -35,6 +38,7 @@ trait ConfigAwareTrait
 
         return $this->config;
     }
+
 
     /**
      * Convert a config array to a Config object with the correct fallback.

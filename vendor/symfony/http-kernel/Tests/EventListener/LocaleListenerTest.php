@@ -18,21 +18,25 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class LocaleListenerTest extends \PHPUnit_Framework_TestCase
 {
+
     private $requestStack;
+
 
     protected function setUp()
     {
-        $this->requestStack = $this->getMock('Symfony\Component\HttpFoundation\RequestStack', array(), array(), '', false);
+        $this->requestStack = $this->getMock('Symfony\Component\HttpFoundation\RequestStack', [ ], [ ], '', false);
     }
+
 
     public function testDefaultLocaleWithoutSession()
     {
         $listener = new LocaleListener($this->requestStack, 'fr');
-        $event = $this->getEvent($request = Request::create('/'));
+        $event    = $this->getEvent($request = Request::create('/'));
 
         $listener->onKernelRequest($event);
         $this->assertEquals('fr', $request->getLocale());
     }
+
 
     public function testLocaleFromRequestAttribute()
     {
@@ -42,11 +46,12 @@ class LocaleListenerTest extends \PHPUnit_Framework_TestCase
 
         $request->attributes->set('_locale', 'es');
         $listener = new LocaleListener($this->requestStack, 'fr');
-        $event = $this->getEvent($request);
+        $event    = $this->getEvent($request);
 
         $listener->onKernelRequest($event);
         $this->assertEquals('es', $request->getLocale());
     }
+
 
     public function testLocaleSetForRoutingContext()
     {
@@ -54,7 +59,7 @@ class LocaleListenerTest extends \PHPUnit_Framework_TestCase
         $context = $this->getMock('Symfony\Component\Routing\RequestContext');
         $context->expects($this->once())->method('setParameter')->with('_locale', 'es');
 
-        $router = $this->getMock('Symfony\Component\Routing\Router', array('getContext'), array(), '', false);
+        $router = $this->getMock('Symfony\Component\Routing\Router', [ 'getContext' ], [ ], '', false);
         $router->expects($this->once())->method('getContext')->will($this->returnValue($context));
 
         $request = Request::create('/');
@@ -64,13 +69,14 @@ class LocaleListenerTest extends \PHPUnit_Framework_TestCase
         $listener->onKernelRequest($this->getEvent($request));
     }
 
+
     public function testRouterResetWithParentRequestOnKernelFinishRequest()
     {
         // the request context is updated
         $context = $this->getMock('Symfony\Component\Routing\RequestContext');
         $context->expects($this->once())->method('setParameter')->with('_locale', 'es');
 
-        $router = $this->getMock('Symfony\Component\Routing\Router', array('getContext'), array(), '', false);
+        $router = $this->getMock('Symfony\Component\Routing\Router', [ 'getContext' ], [ ], '', false);
         $router->expects($this->once())->method('getContext')->will($this->returnValue($context));
 
         $parentRequest = Request::create('/');
@@ -78,25 +84,28 @@ class LocaleListenerTest extends \PHPUnit_Framework_TestCase
 
         $this->requestStack->expects($this->once())->method('getParentRequest')->will($this->returnValue($parentRequest));
 
-        $event = $this->getMock('Symfony\Component\HttpKernel\Event\FinishRequestEvent', array(), array(), '', false);
+        $event = $this->getMock('Symfony\Component\HttpKernel\Event\FinishRequestEvent', [ ], [ ], '', false);
 
         $listener = new LocaleListener($this->requestStack, 'fr', $router);
         $listener->onKernelFinishRequest($event);
     }
+
 
     public function testRequestLocaleIsNotOverridden()
     {
         $request = Request::create('/');
         $request->setLocale('de');
         $listener = new LocaleListener($this->requestStack, 'fr');
-        $event = $this->getEvent($request);
+        $event    = $this->getEvent($request);
 
         $listener->onKernelRequest($event);
         $this->assertEquals('de', $request->getLocale());
     }
 
+
     private function getEvent(Request $request)
     {
-        return new GetResponseEvent($this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface'), $request, HttpKernelInterface::MASTER_REQUEST);
+        return new GetResponseEvent($this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface'), $request,
+            HttpKernelInterface::MASTER_REQUEST);
     }
 }

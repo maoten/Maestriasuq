@@ -4,6 +4,7 @@ namespace Illuminate\Auth\Events;
 
 class Login
 {
+
     /**
      * The authenticated user.
      *
@@ -18,16 +19,18 @@ class Login
      */
     public $remember;
 
+
     /**
      * Create a new event instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @param  bool  $remember
+     * @param  \Illuminate\Contracts\Auth\Authenticatable $user
+     * @param  bool                                       $remember
+     *
      * @return void
      */
     public function __construct($user, $remember)
     {
-        $this->user = $user;
+        $this->user     = $user;
         $this->remember = $remember;
     }
 }

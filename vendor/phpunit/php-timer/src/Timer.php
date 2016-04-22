@@ -15,24 +15,26 @@
  */
 class PHP_Timer
 {
-    /**
-     * @var array
-     */
-    private static $times = array(
-      'hour'   => 3600000,
-      'minute' => 60000,
-      'second' => 1000
-    );
 
     /**
      * @var array
      */
-    private static $startTimes = array();
+    private static $times = [
+        'hour'   => 3600000,
+        'minute' => 60000,
+        'second' => 1000
+    ];
+
+    /**
+     * @var array
+     */
+    private static $startTimes = [ ];
 
     /**
      * @var float
      */
     public static $requestTime;
+
 
     /**
      * Starts the timer.
@@ -41,6 +43,7 @@ class PHP_Timer
     {
         array_push(self::$startTimes, microtime(true));
     }
+
 
     /**
      * Stops the timer and returns the elapsed time.
@@ -52,10 +55,12 @@ class PHP_Timer
         return microtime(true) - array_pop(self::$startTimes);
     }
 
+
     /**
      * Formats the elapsed time as a string.
      *
-     * @param  float  $time
+     * @param  float $time
+     *
      * @return string
      */
     public static function secondsToTimeString($time)
@@ -66,12 +71,13 @@ class PHP_Timer
             if ($ms >= $value) {
                 $time = floor($ms / $value * 100.0) / 100.0;
 
-                return $time . ' ' . ($time == 1 ? $unit : $unit . 's');
+                return $time . ' ' . ( $time == 1 ? $unit : $unit . 's' );
             }
         }
 
         return $ms . ' ms';
     }
+
 
     /**
      * Formats the elapsed time since the start of the request as a string.
@@ -83,6 +89,7 @@ class PHP_Timer
         return self::secondsToTimeString(microtime(true) - self::$requestTime);
     }
 
+
     /**
      * Returns the resources (time, memory) of the request as a string.
      *
@@ -90,17 +97,14 @@ class PHP_Timer
      */
     public static function resourceUsage()
     {
-        return sprintf(
-            'Time: %s, Memory: %4.2fMb',
-            self::timeSinceStartOfRequest(),
-            memory_get_peak_usage(true) / 1048576
-        );
+        return sprintf('Time: %s, Memory: %4.2fMb', self::timeSinceStartOfRequest(),
+            memory_get_peak_usage(true) / 1048576);
     }
 }
 
-if (isset($_SERVER['REQUEST_TIME_FLOAT'])) {
+if (isset( $_SERVER['REQUEST_TIME_FLOAT'] )) {
     PHP_Timer::$requestTime = $_SERVER['REQUEST_TIME_FLOAT'];
-} elseif (isset($_SERVER['REQUEST_TIME'])) {
+} elseif (isset( $_SERVER['REQUEST_TIME'] )) {
     PHP_Timer::$requestTime = $_SERVER['REQUEST_TIME'];
 } else {
     PHP_Timer::$requestTime = microtime(true);

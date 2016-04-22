@@ -13,10 +13,12 @@
  */
 class PHPUnit_Framework_Constraint_Exception extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var string
      */
     protected $className;
+
 
     /**
      * @param string $className
@@ -26,6 +28,7 @@ class PHPUnit_Framework_Constraint_Exception extends PHPUnit_Framework_Constrain
         parent::__construct();
         $this->className = $className;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -39,6 +42,7 @@ class PHPUnit_Framework_Constraint_Exception extends PHPUnit_Framework_Constrain
     {
         return $other instanceof $this->className;
     }
+
 
     /**
      * Returns the description of the failure
@@ -55,23 +59,16 @@ class PHPUnit_Framework_Constraint_Exception extends PHPUnit_Framework_Constrain
         if ($other !== null) {
             $message = '';
             if ($other instanceof Exception) {
-                $message = '. Message was: "' . $other->getMessage() . '" at'
-                        . "\n" . $other->getTraceAsString();
+                $message = '. Message was: "' . $other->getMessage() . '" at' . "\n" . $other->getTraceAsString();
             }
 
-            return sprintf(
-                'exception of type "%s" matches expected exception "%s"%s',
-                get_class($other),
-                $this->className,
-                $message
-            );
+            return sprintf('exception of type "%s" matches expected exception "%s"%s', get_class($other),
+                $this->className, $message);
         }
 
-        return sprintf(
-            'exception of type "%s" is thrown',
-            $this->className
-        );
+        return sprintf('exception of type "%s" is thrown', $this->className);
     }
+
 
     /**
      * Returns a string representation of the constraint.
@@ -80,9 +77,6 @@ class PHPUnit_Framework_Constraint_Exception extends PHPUnit_Framework_Constrain
      */
     public function toString()
     {
-        return sprintf(
-            'exception of type "%s"',
-            $this->className
-        );
+        return sprintf('exception of type "%s"', $this->className);
     }
 }

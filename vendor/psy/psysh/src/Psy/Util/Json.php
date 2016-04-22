@@ -16,6 +16,7 @@ namespace Psy\Util;
  */
 class Json
 {
+
     /**
      * Encode a value as JSON.
      *

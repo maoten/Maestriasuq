@@ -6,12 +6,14 @@ use Illuminate\Support\ServiceProvider;
 
 class PasswordResetServiceProvider extends ServiceProvider
 {
+
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
     protected $defer = true;
+
 
     /**
      * Register the service provider.
@@ -22,6 +24,7 @@ class PasswordResetServiceProvider extends ServiceProvider
     {
         $this->registerPasswordBroker();
     }
+
 
     /**
      * Register the password broker instance.
@@ -39,6 +42,7 @@ class PasswordResetServiceProvider extends ServiceProvider
         });
     }
 
+
     /**
      * Get the services provided by the provider.
      *
@@ -46,6 +50,6 @@ class PasswordResetServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['auth.password', 'auth.password.broker'];
+        return [ 'auth.password', 'auth.password.broker' ];
     }
 }

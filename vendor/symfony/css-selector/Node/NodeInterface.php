@@ -23,6 +23,7 @@ namespace Symfony\Component\CssSelector\Node;
  */
 interface NodeInterface
 {
+
     /**
      * Returns node's name.
      *
@@ -30,12 +31,14 @@ interface NodeInterface
      */
     public function getNodeName();
 
+
     /**
      * Returns node's specificity.
      *
      * @return Specificity
      */
     public function getSpecificity();
+
 
     /**
      * Returns node's string representation.

@@ -28,6 +28,7 @@ use Symfony\Component\CssSelector\Parser\ParserInterface;
  */
 class HashParser implements ParserInterface
 {
+
     /**
      * {@inheritdoc}
      */
@@ -41,11 +42,11 @@ class HashParser implements ParserInterface
         //     2 => string 'input' (length=5)
         //     3 => string 'ab6bd_field' (length=11)
         if (preg_match('/^(?:([a-z]++)\|)?+([\w-]++|\*)?+#([\w-]++)$/i', trim($source), $matches)) {
-            return array(
+            return [
                 new SelectorNode(new HashNode(new ElementNode($matches[1] ?: null, $matches[2] ?: null), $matches[3])),
-            );
+            ];
         }
 
-        return array();
+        return [ ];
     }
 }

@@ -6,15 +6,18 @@ use PhpSpec\ObjectBehavior;
 
 class CallbackPromiseSpec extends ObjectBehavior
 {
+
     function let()
     {
         $this->beConstructedWith('get_class');
     }
 
+
     function it_is_promise()
     {
         $this->shouldBeAnInstanceOf('Prophecy\Promise\PromiseInterface');
     }
+
 
     /**
      * @param \Prophecy\Prophecy\ObjectProphecy $object
@@ -28,8 +31,9 @@ class CallbackPromiseSpec extends ObjectBehavior
 
         $this->beConstructedWith($firstArgumentCallback);
 
-        $this->execute(array('one', 'two'), $object, $method)->shouldReturn('one');
+        $this->execute([ 'one', 'two' ], $object, $method)->shouldReturn('one');
     }
+
 
     /**
      * @param \Prophecy\Prophecy\ObjectProphecy $object
@@ -37,12 +41,13 @@ class CallbackPromiseSpec extends ObjectBehavior
      */
     function it_should_execute_static_array_callback($object, $method)
     {
-        $firstArgumentCallback = array('spec\Prophecy\Promise\ClassCallback', 'staticCallbackMethod');
+        $firstArgumentCallback = [ 'spec\Prophecy\Promise\ClassCallback', 'staticCallbackMethod' ];
 
         $this->beConstructedWith($firstArgumentCallback);
 
-        $this->execute(array('one', 'two'), $object, $method)->shouldReturn('one');
+        $this->execute([ 'one', 'two' ], $object, $method)->shouldReturn('one');
     }
+
 
     /**
      * @param \Prophecy\Prophecy\ObjectProphecy $object
@@ -50,13 +55,14 @@ class CallbackPromiseSpec extends ObjectBehavior
      */
     function it_should_execute_instance_array_callback($object, $method)
     {
-        $class = new ClassCallback();
-        $firstArgumentCallback = array($class, 'callbackMethod');
+        $class                 = new ClassCallback();
+        $firstArgumentCallback = [ $class, 'callbackMethod' ];
 
         $this->beConstructedWith($firstArgumentCallback);
 
-        $this->execute(array('one', 'two'), $object, $method)->shouldReturn('one');
+        $this->execute([ 'one', 'two' ], $object, $method)->shouldReturn('one');
     }
+
 
     /**
      * @param \Prophecy\Prophecy\ObjectProphecy $object
@@ -68,7 +74,7 @@ class CallbackPromiseSpec extends ObjectBehavior
 
         $this->beConstructedWith($firstArgumentCallback);
 
-        $this->execute(array('one', 'two'), $object, $method)->shouldReturn('one');
+        $this->execute([ 'one', 'two' ], $object, $method)->shouldReturn('one');
     }
 
 }
@@ -77,10 +83,12 @@ class CallbackPromiseSpec extends ObjectBehavior
  * Class used to test callbackpromise
  *
  * @param array
+ *
  * @return string
  */
 class ClassCallback
 {
+
     /**
      * @param array $args
      */
@@ -88,6 +96,7 @@ class ClassCallback
     {
         return $args[0];
     }
+
 
     /**
      * @param array $args
@@ -102,6 +111,7 @@ class ClassCallback
  * Callback function used to test callbackpromise
  *
  * @param array
+ *
  * @return string
  */
 function functionCallbackFirstArgument($args)

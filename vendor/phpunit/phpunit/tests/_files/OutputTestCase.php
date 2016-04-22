@@ -1,11 +1,14 @@
 <?php
+
 class OutputTestCase extends PHPUnit_Framework_TestCase
 {
+
     public function testExpectOutputStringFooActualFoo()
     {
         $this->expectOutputString('foo');
         print 'foo';
     }
+
 
     public function testExpectOutputStringFooActualBar()
     {
@@ -13,11 +16,13 @@ class OutputTestCase extends PHPUnit_Framework_TestCase
         print 'bar';
     }
 
+
     public function testExpectOutputRegexFooActualFoo()
     {
         $this->expectOutputRegex('/foo/');
         print 'foo';
     }
+
 
     public function testExpectOutputRegexFooActualBar()
     {

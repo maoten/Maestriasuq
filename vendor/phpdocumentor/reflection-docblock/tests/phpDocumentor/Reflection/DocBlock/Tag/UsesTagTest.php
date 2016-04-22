@@ -1,7 +1,7 @@
 <?php
 /**
  * phpDocumentor Uses Tag Test
- * 
+ *
  * PHP version 5.3
  *
  * @author    Daniel O'Connor <daniel.oconnor@gmail.com>
@@ -22,6 +22,7 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  */
 class UsesTagTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * Test that the \phpDocumentor\Reflection\DocBlock\Tag\UsesTag can create
      * a link for the @uses doc block.
@@ -31,7 +32,7 @@ class UsesTagTest extends \PHPUnit_Framework_TestCase
      * @param string $exContent
      * @param string $exReference
      *
-     * @covers \phpDocumentor\Reflection\DocBlock\Tag\UsesTag
+     * @covers       \phpDocumentor\Reflection\DocBlock\Tag\UsesTag
      * @dataProvider provideDataForConstuctor
      *
      * @return void
@@ -51,6 +52,7 @@ class UsesTagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($exReference, $tag->getReference());
     }
 
+
     /**
      * Data provider for testConstructorParesInputsIntoCorrectFields
      *
@@ -59,28 +61,28 @@ class UsesTagTest extends \PHPUnit_Framework_TestCase
     public function provideDataForConstuctor()
     {
         // $type, $content, $exContent, $exDescription, $exReference
-        return array(
-            array(
+        return [
+            [
                 'uses',
                 'Foo::bar()',
                 'Foo::bar()',
                 '',
                 'Foo::bar()'
-            ),
-            array(
+            ],
+            [
                 'uses',
                 'Foo::bar() Testing',
                 'Foo::bar() Testing',
                 'Testing',
                 'Foo::bar()',
-            ),
-            array(
+            ],
+            [
                 'uses',
                 'Foo::bar() Testing comments',
                 'Foo::bar() Testing comments',
                 'Testing comments',
                 'Foo::bar()',
-            ),
-        );
+            ],
+        ];
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Console\GeneratorCommand;
 
 class RequestMakeCommand extends GeneratorCommand
 {
+
     /**
      * The console command name.
      *
@@ -27,6 +28,7 @@ class RequestMakeCommand extends GeneratorCommand
      */
     protected $type = 'Request';
 
+
     /**
      * Get the stub file for the generator.
      *
@@ -34,17 +36,19 @@ class RequestMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/stubs/request.stub';
+        return __DIR__ . '/stubs/request.stub';
     }
+
 
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param  string $rootNamespace
+     *
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\Http\Requests';
+        return $rootNamespace . '\Http\Requests';
     }
 }

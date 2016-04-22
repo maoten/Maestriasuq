@@ -24,12 +24,14 @@ use PhpParser\Node\Scalar\String_ as StringNode;
  */
 class FileVisitor extends AbstractNodeVisitor
 {
+
     /**
      * Should we skip the file if it contains a file constant?
      *
      * @var bool
      */
     protected $skip = false;
+
 
     /**
      * Create a new file visitor instance.
@@ -42,6 +44,7 @@ class FileVisitor extends AbstractNodeVisitor
     {
         $this->skip = $skip;
     }
+
 
     /**
      * Enter and modify the node.

@@ -15,28 +15,29 @@
  */
 class PHPUnit_Framework_Constraint_Or extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var PHPUnit_Framework_Constraint[]
      */
-    protected $constraints = array();
+    protected $constraints = [ ];
+
 
     /**
      * @param PHPUnit_Framework_Constraint[] $constraints
      */
     public function setConstraints(array $constraints)
     {
-        $this->constraints = array();
+        $this->constraints = [ ];
 
         foreach ($constraints as $constraint) {
-            if (!($constraint instanceof PHPUnit_Framework_Constraint)) {
-                $constraint = new PHPUnit_Framework_Constraint_IsEqual(
-                    $constraint
-                );
+            if ( ! ( $constraint instanceof PHPUnit_Framework_Constraint )) {
+                $constraint = new PHPUnit_Framework_Constraint_IsEqual($constraint);
             }
 
             $this->constraints[] = $constraint;
         }
     }
+
 
     /**
      * Evaluates the constraint for parameter $other
@@ -72,10 +73,11 @@ class PHPUnit_Framework_Constraint_Or extends PHPUnit_Framework_Constraint
             return $success;
         }
 
-        if (!$success) {
+        if ( ! $success) {
             $this->fail($other, $description);
         }
     }
+
 
     /**
      * Returns a string representation of the constraint.
@@ -96,6 +98,7 @@ class PHPUnit_Framework_Constraint_Or extends PHPUnit_Framework_Constraint
 
         return $text;
     }
+
 
     /**
      * Counts the number of constraint elements.

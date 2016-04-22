@@ -13,10 +13,12 @@
  */
 class PHPUnit_Framework_Constraint_ExceptionMessage extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var int
      */
     protected $expectedMessage;
+
 
     /**
      * @param string $expected
@@ -26,6 +28,7 @@ class PHPUnit_Framework_Constraint_ExceptionMessage extends PHPUnit_Framework_Co
         parent::__construct();
         $this->expectedMessage = $expected;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -40,6 +43,7 @@ class PHPUnit_Framework_Constraint_ExceptionMessage extends PHPUnit_Framework_Co
         return strpos($other->getMessage(), $this->expectedMessage) !== false;
     }
 
+
     /**
      * Returns the description of the failure
      *
@@ -52,12 +56,9 @@ class PHPUnit_Framework_Constraint_ExceptionMessage extends PHPUnit_Framework_Co
      */
     protected function failureDescription($other)
     {
-        return sprintf(
-            "exception message '%s' contains '%s'",
-            $other->getMessage(),
-            $this->expectedMessage
-        );
+        return sprintf("exception message '%s' contains '%s'", $other->getMessage(), $this->expectedMessage);
     }
+
 
     /**
      * @return string

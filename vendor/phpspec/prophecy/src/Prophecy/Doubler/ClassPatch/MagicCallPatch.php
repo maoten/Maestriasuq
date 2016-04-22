@@ -22,6 +22,7 @@ use Prophecy\Doubler\Generator\Node\MethodNode;
  */
 class MagicCallPatch implements ClassPatchInterface
 {
+
     /**
      * Support any class
      *
@@ -34,6 +35,7 @@ class MagicCallPatch implements ClassPatchInterface
         return true;
     }
 
+
     /**
      * Discover Magical API
      *
@@ -41,7 +43,7 @@ class MagicCallPatch implements ClassPatchInterface
      */
     public function apply(ClassNode $node)
     {
-        $parentClass = $node->getParentClass();
+        $parentClass     = $node->getParentClass();
         $reflectionClass = new \ReflectionClass($parentClass);
 
         $phpdoc = new DocBlock($reflectionClass->getDocComment());
@@ -49,15 +51,15 @@ class MagicCallPatch implements ClassPatchInterface
         $tagList = $phpdoc->getTagsByName('method');
 
         $interfaces = $reflectionClass->getInterfaces();
-        foreach($interfaces as $interface) {
-            $phpdoc = new DocBlock($interface);
+        foreach ($interfaces as $interface) {
+            $phpdoc  = new DocBlock($interface);
             $tagList = array_merge($tagList, $phpdoc->getTagsByName('method'));
         }
 
-        foreach($tagList as $tag) {
+        foreach ($tagList as $tag) {
             $methodName = $tag->getMethodName();
 
-            if (!$reflectionClass->hasMethod($methodName)) {
+            if ( ! $reflectionClass->hasMethod($methodName)) {
                 $methodNode = new MethodNode($tag->getMethodName());
                 $methodNode->setStatic($tag->isStatic());
 
@@ -65,6 +67,7 @@ class MagicCallPatch implements ClassPatchInterface
             }
         }
     }
+
 
     /**
      * Returns patch priority, which determines when patch will be applied.

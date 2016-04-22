@@ -15,11 +15,13 @@
  */
 interface Swift_Transport_IoBuffer extends Swift_InputByteStream, Swift_OutputByteStream
 {
+
     /** A socket buffer over TCP */
     const TYPE_SOCKET = 0x0001;
 
     /** A process buffer with I/O support */
     const TYPE_PROCESS = 0x0010;
+
 
     /**
      * Perform any initialization needed, using the given $params.
@@ -30,6 +32,7 @@ interface Swift_Transport_IoBuffer extends Swift_InputByteStream, Swift_OutputBy
      */
     public function initialize(array $params);
 
+
     /**
      * Set an individual param on the buffer (e.g. switching to SSL).
      *
@@ -38,10 +41,12 @@ interface Swift_Transport_IoBuffer extends Swift_InputByteStream, Swift_OutputBy
      */
     public function setParam($param, $value);
 
+
     /**
      * Perform any shutdown logic needed.
      */
     public function terminate();
+
 
     /**
      * Set an array of string replacements which should be made on data written
@@ -52,6 +57,7 @@ interface Swift_Transport_IoBuffer extends Swift_InputByteStream, Swift_OutputBy
      * @param string[] $replacements
      */
     public function setWriteTranslations(array $replacements);
+
 
     /**
      * Get a line of output (including any CRLF).

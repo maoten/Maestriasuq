@@ -16,10 +16,15 @@ namespace Symfony\Component\VarDumper\Cloner;
  */
 class Data
 {
+
     private $data;
+
     private $maxDepth = 20;
+
     private $maxItemsPerDepth = -1;
+
     private $useRefHandles = -1;
+
 
     /**
      * @param array $data A array as returned by ClonerInterface::cloneVar().
@@ -29,6 +34,7 @@ class Data
         $this->data = $data;
     }
 
+
     /**
      * @return array The raw data structure.
      */
@@ -36,6 +42,7 @@ class Data
     {
         return $this->data;
     }
+
 
     /**
      * Returns a depth limited clone of $this.
@@ -46,11 +53,12 @@ class Data
      */
     public function withMaxDepth($maxDepth)
     {
-        $data = clone $this;
+        $data           = clone $this;
         $data->maxDepth = (int) $maxDepth;
 
         return $data;
     }
+
 
     /**
      * Limits the number of elements per depth level.
@@ -61,11 +69,12 @@ class Data
      */
     public function withMaxItemsPerDepth($maxItemsPerDepth)
     {
-        $data = clone $this;
+        $data                   = clone $this;
         $data->maxItemsPerDepth = (int) $maxItemsPerDepth;
 
         return $data;
     }
+
 
     /**
      * Enables/disables objects' identifiers tracking.
@@ -76,20 +85,22 @@ class Data
      */
     public function withRefHandles($useRefHandles)
     {
-        $data = clone $this;
+        $data                = clone $this;
         $data->useRefHandles = $useRefHandles ? -1 : 0;
 
         return $data;
     }
+
 
     /**
      * Dumps data with a DumperInterface dumper.
      */
     public function dump(DumperInterface $dumper)
     {
-        $refs = array(0);
+        $refs = [ 0 ];
         $this->dumpItem($dumper, new Cursor(), $refs, $this->data[0][0]);
     }
+
 
     /**
      * Depth-first dumping of items.
@@ -101,30 +112,30 @@ class Data
      */
     private function dumpItem($dumper, $cursor, &$refs, $item)
     {
-        $cursor->refIndex = 0;
+        $cursor->refIndex  = 0;
         $cursor->softRefTo = $cursor->softRefHandle = $cursor->softRefCount = 0;
         $cursor->hardRefTo = $cursor->hardRefHandle = $cursor->hardRefCount = 0;
-        $firstSeen = true;
+        $firstSeen         = true;
 
-        if (!$item instanceof Stub) {
+        if ( ! $item instanceof Stub) {
             $type = gettype($item);
         } elseif (Stub::TYPE_REF === $item->type) {
             if ($item->handle) {
-                if (!isset($refs[$r = $item->handle - (PHP_INT_MAX >> 1)])) {
+                if ( ! isset( $refs[$r = $item->handle - ( PHP_INT_MAX >> 1 )] )) {
                     $cursor->refIndex = $refs[$r] = $cursor->refIndex ?: ++$refs[0];
                 } else {
                     $firstSeen = false;
                 }
-                $cursor->hardRefTo = $refs[$r];
+                $cursor->hardRefTo     = $refs[$r];
                 $cursor->hardRefHandle = $this->useRefHandles & $item->handle;
-                $cursor->hardRefCount = $item->refCount;
+                $cursor->hardRefCount  = $item->refCount;
             }
             $type = $item->class ?: gettype($item->value);
             $item = $item->value;
         }
         if ($item instanceof Stub) {
             if ($item->refCount) {
-                if (!isset($refs[$r = $item->handle])) {
+                if ( ! isset( $refs[$r = $item->handle] )) {
                     $cursor->refIndex = $refs[$r] = $cursor->refIndex ?: ++$refs[0];
                 } else {
                     $firstSeen = false;
@@ -132,8 +143,8 @@ class Data
                 $cursor->softRefTo = $refs[$r];
             }
             $cursor->softRefHandle = $this->useRefHandles & $item->handle;
-            $cursor->softRefCount = $item->refCount;
-            $cut = $item->cut;
+            $cursor->softRefCount  = $item->refCount;
+            $cut                   = $item->cut;
 
             if ($item->position && $firstSeen) {
                 $children = $this->data[$item->position];
@@ -142,10 +153,10 @@ class Data
                     if ($cut >= 0) {
                         $cut += count($children);
                     }
-                    $children = array();
+                    $children = [ ];
                 }
             } else {
-                $children = array();
+                $children = [ ];
             }
             switch ($item->type) {
                 case Stub::TYPE_STRING:
@@ -153,10 +164,10 @@ class Data
                     break;
 
                 case Stub::TYPE_ARRAY:
-                    $item = clone $item;
-                    $item->type = $item->class;
+                    $item        = clone $item;
+                    $item->type  = $item->class;
                     $item->class = $item->value;
-                    // No break;
+                // No break;
                 case Stub::TYPE_OBJECT:
                 case Stub::TYPE_RESOURCE:
                     $withChildren = $children && $cursor->depth !== $this->maxDepth && $this->maxItemsPerDepth;
@@ -182,6 +193,7 @@ class Data
         }
     }
 
+
     /**
      * Dumps children of hash structures.
      *
@@ -198,13 +210,13 @@ class Data
     {
         $cursor = clone $parentCursor;
         ++$cursor->depth;
-        $cursor->hashType = $hashType;
-        $cursor->hashIndex = 0;
+        $cursor->hashType   = $hashType;
+        $cursor->hashIndex  = 0;
         $cursor->hashLength = count($children);
-        $cursor->hashCut = $hashCut;
+        $cursor->hashCut    = $hashCut;
         foreach ($children as $key => $child) {
-            $cursor->hashKeyIsBinary = isset($key[0]) && !preg_match('//u', $key);
-            $cursor->hashKey = $key;
+            $cursor->hashKeyIsBinary = isset( $key[0] ) && ! preg_match('//u', $key);
+            $cursor->hashKey         = $key;
             $this->dumpItem($dumper, $cursor, $refs, $child);
             if (++$cursor->hashIndex === $this->maxItemsPerDepth || $cursor->stop) {
                 $parentCursor->stop = true;

@@ -14,6 +14,7 @@
  */
 class ExceptionMessageTest extends PHPUnit_Framework_TestCase
 {
+
     /**
      * @expectedException \Exception
      * @expectedExceptionMessage A literal exception message
@@ -22,6 +23,7 @@ class ExceptionMessageTest extends PHPUnit_Framework_TestCase
     {
         throw new Exception('A literal exception message');
     }
+
 
     /**
      * @expectedException \Exception
@@ -32,6 +34,7 @@ class ExceptionMessageTest extends PHPUnit_Framework_TestCase
         throw new Exception('A partial exception message');
     }
 
+
     /**
      * @expectedException \Exception
      * @expectedExceptionMessage partial exception
@@ -40,6 +43,7 @@ class ExceptionMessageTest extends PHPUnit_Framework_TestCase
     {
         throw new Exception('A partial exception message');
     }
+
 
     /**
      * @expectedException \Exception

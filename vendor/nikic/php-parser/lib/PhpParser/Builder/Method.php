@@ -8,70 +8,85 @@ use PhpParser\Node\Stmt;
 
 class Method extends FunctionLike
 {
+
     protected $name;
+
     protected $type = 0;
-    protected $stmts = array();
+
+    protected $stmts = [ ];
+
 
     /**
      * Creates a method builder.
      *
      * @param string $name Name of the method
      */
-    public function __construct($name) {
+    public function __construct($name)
+    {
         $this->name = $name;
     }
+
 
     /**
      * Makes the method public.
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function makePublic() {
+    public function makePublic()
+    {
         $this->setModifier(Stmt\Class_::MODIFIER_PUBLIC);
 
         return $this;
     }
+
 
     /**
      * Makes the method protected.
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function makeProtected() {
+    public function makeProtected()
+    {
         $this->setModifier(Stmt\Class_::MODIFIER_PROTECTED);
 
         return $this;
     }
+
 
     /**
      * Makes the method private.
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function makePrivate() {
+    public function makePrivate()
+    {
         $this->setModifier(Stmt\Class_::MODIFIER_PRIVATE);
 
         return $this;
     }
+
 
     /**
      * Makes the method static.
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function makeStatic() {
+    public function makeStatic()
+    {
         $this->setModifier(Stmt\Class_::MODIFIER_STATIC);
 
         return $this;
     }
+
 
     /**
      * Makes the method abstract.
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function makeAbstract() {
-        if (!empty($this->stmts)) {
+    public function makeAbstract()
+    {
+        if ( ! empty( $this->stmts )) {
             throw new \LogicException('Cannot make method with statements abstract');
         }
 
@@ -81,16 +96,19 @@ class Method extends FunctionLike
         return $this;
     }
 
+
     /**
      * Makes the method final.
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function makeFinal() {
+    public function makeFinal()
+    {
         $this->setModifier(Stmt\Class_::MODIFIER_FINAL);
 
         return $this;
     }
+
 
     /**
      * Adds a statement.
@@ -99,7 +117,8 @@ class Method extends FunctionLike
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function addStmt($stmt) {
+    public function addStmt($stmt)
+    {
         if (null === $this->stmts) {
             throw new \LogicException('Cannot add statements to an abstract method');
         }
@@ -109,17 +128,19 @@ class Method extends FunctionLike
         return $this;
     }
 
+
     /**
      * Returns the built method node.
      *
      * @return Stmt\ClassMethod The built method node
      */
-    public function getNode() {
-        return new Stmt\ClassMethod($this->name, array(
+    public function getNode()
+    {
+        return new Stmt\ClassMethod($this->name, [
             'type'   => $this->type,
             'byRef'  => $this->returnByRef,
             'params' => $this->params,
             'stmts'  => $this->stmts,
-        ), $this->attributes);
+        ], $this->attributes);
     }
 }

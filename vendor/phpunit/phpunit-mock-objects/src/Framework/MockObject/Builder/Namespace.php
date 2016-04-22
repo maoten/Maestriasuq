@@ -17,13 +17,16 @@
  */
 interface PHPUnit_Framework_MockObject_Builder_Namespace
 {
+
     /**
      * Looks up the match builder with identification $id and returns it.
      *
-     * @param  string                                     $id The identifiction of the match builder.
+     * @param  string $id The identifiction of the match builder.
+     *
      * @return PHPUnit_Framework_MockObject_Builder_Match
      */
     public function lookupId($id);
+
 
     /**
      * Registers the match builder $builder with the identification $id. The

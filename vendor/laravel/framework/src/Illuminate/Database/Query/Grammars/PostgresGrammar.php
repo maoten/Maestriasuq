@@ -6,22 +6,38 @@ use Illuminate\Database\Query\Builder;
 
 class PostgresGrammar extends Grammar
 {
+
     /**
      * All of the available clause operators.
      *
      * @var array
      */
     protected $operators = [
-        '=', '<', '>', '<=', '>=', '<>', '!=',
-        'like', 'not like', 'between', 'ilike',
-        '&', '|', '#', '<<', '>>',
+        '=',
+        '<',
+        '>',
+        '<=',
+        '>=',
+        '<>',
+        '!=',
+        'like',
+        'not like',
+        'between',
+        'ilike',
+        '&',
+        '|',
+        '#',
+        '<<',
+        '>>',
     ];
+
 
     /**
      * Compile the lock into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @param  bool|string  $value
+     * @param  \Illuminate\Database\Query\Builder $query
+     * @param  bool|string                        $value
+     *
      * @return string
      */
     protected function compileLock(Builder $query, $value)
@@ -33,25 +49,29 @@ class PostgresGrammar extends Grammar
         return $value ? 'for update' : 'for share';
     }
 
+
     /**
      * Compile a "where date" clause.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @param  array  $where
+     * @param  \Illuminate\Database\Query\Builder $query
+     * @param  array                              $where
+     *
      * @return string
      */
     protected function whereDate(Builder $query, $where)
     {
         $value = $this->parameter($where['value']);
 
-        return $this->wrap($where['column']).'::date '.$where['operator'].' '.$value;
+        return $this->wrap($where['column']) . '::date ' . $where['operator'] . ' ' . $value;
     }
+
 
     /**
      * Compile a "where day" clause.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @param  array  $where
+     * @param  \Illuminate\Database\Query\Builder $query
+     * @param  array                              $where
+     *
      * @return string
      */
     protected function whereDay(Builder $query, $where)
@@ -59,11 +79,13 @@ class PostgresGrammar extends Grammar
         return $this->dateBasedWhere('day', $query, $where);
     }
 
+
     /**
      * Compile a "where month" clause.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @param  array  $where
+     * @param  \Illuminate\Database\Query\Builder $query
+     * @param  array                              $where
+     *
      * @return string
      */
     protected function whereMonth(Builder $query, $where)
@@ -71,11 +93,13 @@ class PostgresGrammar extends Grammar
         return $this->dateBasedWhere('month', $query, $where);
     }
 
+
     /**
      * Compile a "where year" clause.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @param  array  $where
+     * @param  \Illuminate\Database\Query\Builder $query
+     * @param  array                              $where
+     *
      * @return string
      */
     protected function whereYear(Builder $query, $where)
@@ -83,26 +107,30 @@ class PostgresGrammar extends Grammar
         return $this->dateBasedWhere('year', $query, $where);
     }
 
+
     /**
      * Compile a date based where clause.
      *
-     * @param  string  $type
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @param  array  $where
+     * @param  string                             $type
+     * @param  \Illuminate\Database\Query\Builder $query
+     * @param  array                              $where
+     *
      * @return string
      */
     protected function dateBasedWhere($type, Builder $query, $where)
     {
         $value = $this->parameter($where['value']);
 
-        return 'extract('.$type.' from '.$this->wrap($where['column']).') '.$where['operator'].' '.$value;
+        return 'extract(' . $type . ' from ' . $this->wrap($where['column']) . ') ' . $where['operator'] . ' ' . $value;
     }
+
 
     /**
      * Compile an update statement into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @param  array  $values
+     * @param  \Illuminate\Database\Query\Builder $query
+     * @param  array                              $values
+     *
      * @return string
      */
     public function compileUpdate(Builder $query, $values)
@@ -121,39 +149,43 @@ class PostgresGrammar extends Grammar
         return trim("update {$table} set {$columns}{$from} $where");
     }
 
+
     /**
      * Compile the columns for the update statement.
      *
-     * @param  array   $values
+     * @param  array $values
+     *
      * @return string
      */
     protected function compileUpdateColumns($values)
     {
-        $columns = [];
+        $columns = [ ];
 
         // When gathering the columns for an update statement, we'll wrap each of the
         // columns and convert it to a parameter value. Then we will concatenate a
         // list of the columns that can be added into this update query clauses.
         foreach ($values as $key => $value) {
-            $columns[] = $this->wrap($key).' = '.$this->parameter($value);
+            $columns[] = $this->wrap($key) . ' = ' . $this->parameter($value);
         }
 
         return implode(', ', $columns);
     }
 
+
     /**
      * Compile the "from" clause for an update with a join.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \Illuminate\Database\Query\Builder $query
+     *
      * @return string|null
      */
     protected function compileUpdateFrom(Builder $query)
     {
-        if (! isset($query->joins)) {
+        if ( ! isset( $query->joins )) {
             return '';
         }
 
-        $froms = [];
+        $froms = [ ];
 
         // When using Postgres, updates with joins list the joined tables in the from
         // clause, which is different than other systems like MySQL. Here, we will
@@ -163,21 +195,23 @@ class PostgresGrammar extends Grammar
         }
 
         if (count($froms) > 0) {
-            return ' from '.implode(', ', $froms);
+            return ' from ' . implode(', ', $froms);
         }
     }
+
 
     /**
      * Compile the additional where clauses for updates with joins.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \Illuminate\Database\Query\Builder $query
+     *
      * @return string
      */
     protected function compileUpdateWheres(Builder $query)
     {
         $baseWhere = $this->compileWheres($query);
 
-        if (! isset($query->joins)) {
+        if ( ! isset( $query->joins )) {
             return $baseWhere;
         }
 
@@ -187,21 +221,23 @@ class PostgresGrammar extends Grammar
         $joinWhere = $this->compileUpdateJoinWheres($query);
 
         if (trim($baseWhere) == '') {
-            return 'where '.$this->removeLeadingBoolean($joinWhere);
+            return 'where ' . $this->removeLeadingBoolean($joinWhere);
         }
 
-        return $baseWhere.' '.$joinWhere;
+        return $baseWhere . ' ' . $joinWhere;
     }
+
 
     /**
      * Compile the "join" clauses for an update.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \Illuminate\Database\Query\Builder $query
+     *
      * @return string
      */
     protected function compileUpdateJoinWheres(Builder $query)
     {
-        $joinWheres = [];
+        $joinWheres = [ ];
 
         // Here we will just loop through all of the join constraints and compile them
         // all out then implode them. This should give us "where" like syntax after
@@ -215,12 +251,14 @@ class PostgresGrammar extends Grammar
         return implode(' ', $joinWheres);
     }
 
+
     /**
      * Compile an insert and get ID statement into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @param  array   $values
-     * @param  string  $sequence
+     * @param  \Illuminate\Database\Query\Builder $query
+     * @param  array                              $values
+     * @param  string                             $sequence
+     *
      * @return string
      */
     public function compileInsertGetId(Builder $query, $values, $sequence)
@@ -229,17 +267,19 @@ class PostgresGrammar extends Grammar
             $sequence = 'id';
         }
 
-        return $this->compileInsert($query, $values).' returning '.$this->wrap($sequence);
+        return $this->compileInsert($query, $values) . ' returning ' . $this->wrap($sequence);
     }
+
 
     /**
      * Compile a truncate table statement into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \Illuminate\Database\Query\Builder $query
+     *
      * @return array
      */
     public function compileTruncate(Builder $query)
     {
-        return ['truncate '.$this->wrapTable($query->from).' restart identity' => []];
+        return [ 'truncate ' . $this->wrapTable($query->from) . ' restart identity' => [ ] ];
     }
 }

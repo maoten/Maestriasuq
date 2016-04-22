@@ -16,30 +16,40 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class StreamedResponseTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testConstructor()
     {
-        $response = new StreamedResponse(function () { echo 'foo'; }, 404, array('Content-Type' => 'text/plain'));
+        $response = new StreamedResponse(function () {
+            echo 'foo';
+        }, 404, [ 'Content-Type' => 'text/plain' ]);
 
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals('text/plain', $response->headers->get('Content-Type'));
     }
 
+
     public function testPrepareWith11Protocol()
     {
-        $response = new StreamedResponse(function () { echo 'foo'; });
-        $request = Request::create('/');
+        $response = new StreamedResponse(function () {
+            echo 'foo';
+        });
+        $request  = Request::create('/');
         $request->server->set('SERVER_PROTOCOL', 'HTTP/1.1');
 
         $response->prepare($request);
 
         $this->assertEquals('1.1', $response->getProtocolVersion());
-        $this->assertNotEquals('chunked', $response->headers->get('Transfer-Encoding'), 'Apache assumes responses with a Transfer-Encoding header set to chunked to already be encoded.');
+        $this->assertNotEquals('chunked', $response->headers->get('Transfer-Encoding'),
+            'Apache assumes responses with a Transfer-Encoding header set to chunked to already be encoded.');
     }
+
 
     public function testPrepareWith10Protocol()
     {
-        $response = new StreamedResponse(function () { echo 'foo'; });
-        $request = Request::create('/');
+        $response = new StreamedResponse(function () {
+            echo 'foo';
+        });
+        $request  = Request::create('/');
         $request->server->set('SERVER_PROTOCOL', 'HTTP/1.0');
 
         $response->prepare($request);
@@ -48,28 +58,37 @@ class StreamedResponseTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($response->headers->get('Transfer-Encoding'));
     }
 
+
     public function testPrepareWithHeadRequest()
     {
-        $response = new StreamedResponse(function () { echo 'foo'; });
-        $request = Request::create('/', 'HEAD');
+        $response = new StreamedResponse(function () {
+            echo 'foo';
+        });
+        $request  = Request::create('/', 'HEAD');
 
         $response->prepare($request);
     }
 
+
     public function testPrepareWithCacheHeaders()
     {
-        $response = new StreamedResponse(function () { echo 'foo'; }, 200, array('Cache-Control' => 'max-age=600, public'));
-        $request = Request::create('/', 'GET');
+        $response = new StreamedResponse(function () {
+            echo 'foo';
+        }, 200, [ 'Cache-Control' => 'max-age=600, public' ]);
+        $request  = Request::create('/', 'GET');
 
         $response->prepare($request);
         $this->assertEquals('max-age=600, public', $response->headers->get('Cache-Control'));
     }
 
+
     public function testSendContent()
     {
         $called = 0;
 
-        $response = new StreamedResponse(function () use (&$called) { ++$called; });
+        $response = new StreamedResponse(function () use (&$called) {
+            ++$called;
+        });
 
         $response->sendContent();
         $this->assertEquals(1, $called);
@@ -77,6 +96,7 @@ class StreamedResponseTest extends \PHPUnit_Framework_TestCase
         $response->sendContent();
         $this->assertEquals(1, $called);
     }
+
 
     /**
      * @expectedException \LogicException
@@ -87,24 +107,32 @@ class StreamedResponseTest extends \PHPUnit_Framework_TestCase
         $response->sendContent();
     }
 
+
     /**
      * @expectedException \LogicException
      */
     public function testSetContent()
     {
-        $response = new StreamedResponse(function () { echo 'foo'; });
+        $response = new StreamedResponse(function () {
+            echo 'foo';
+        });
         $response->setContent('foo');
     }
 
+
     public function testGetContent()
     {
-        $response = new StreamedResponse(function () { echo 'foo'; });
+        $response = new StreamedResponse(function () {
+            echo 'foo';
+        });
         $this->assertFalse($response->getContent());
     }
 
+
     public function testCreate()
     {
-        $response = StreamedResponse::create(function () {}, 204);
+        $response = StreamedResponse::create(function () {
+        }, 204);
 
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\StreamedResponse', $response);
         $this->assertEquals(204, $response->getStatusCode());

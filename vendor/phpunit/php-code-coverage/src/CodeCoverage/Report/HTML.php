@@ -15,6 +15,7 @@
  */
 class PHP_CodeCoverage_Report_HTML
 {
+
     /**
      * @var string
      */
@@ -35,6 +36,7 @@ class PHP_CodeCoverage_Report_HTML
      */
     private $highLowerBound;
 
+
     /**
      * Constructor.
      *
@@ -48,15 +50,10 @@ class PHP_CodeCoverage_Report_HTML
         $this->highLowerBound = $highLowerBound;
         $this->lowUpperBound  = $lowUpperBound;
 
-        $this->templatePath = sprintf(
-            '%s%sHTML%sRenderer%sTemplate%s',
-            dirname(__FILE__),
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR
-        );
+        $this->templatePath = sprintf('%s%sHTML%sRenderer%sTemplate%s', dirname(__FILE__), DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
     }
+
 
     /**
      * @param PHP_CodeCoverage $coverage
@@ -66,37 +63,22 @@ class PHP_CodeCoverage_Report_HTML
     {
         $target = $this->getDirectory($target);
         $report = $coverage->getReport();
-        unset($coverage);
+        unset( $coverage );
 
-        if (!isset($_SERVER['REQUEST_TIME'])) {
+        if ( ! isset( $_SERVER['REQUEST_TIME'] )) {
             $_SERVER['REQUEST_TIME'] = time();
         }
 
         $date = date('D M j G:i:s T Y', $_SERVER['REQUEST_TIME']);
 
-        $dashboard = new PHP_CodeCoverage_Report_HTML_Renderer_Dashboard(
-            $this->templatePath,
-            $this->generator,
-            $date,
-            $this->lowUpperBound,
-            $this->highLowerBound
-        );
+        $dashboard = new PHP_CodeCoverage_Report_HTML_Renderer_Dashboard($this->templatePath, $this->generator, $date,
+            $this->lowUpperBound, $this->highLowerBound);
 
-        $directory = new PHP_CodeCoverage_Report_HTML_Renderer_Directory(
-            $this->templatePath,
-            $this->generator,
-            $date,
-            $this->lowUpperBound,
-            $this->highLowerBound
-        );
+        $directory = new PHP_CodeCoverage_Report_HTML_Renderer_Directory($this->templatePath, $this->generator, $date,
+            $this->lowUpperBound, $this->highLowerBound);
 
-        $file = new PHP_CodeCoverage_Report_HTML_Renderer_File(
-            $this->templatePath,
-            $this->generator,
-            $date,
-            $this->lowUpperBound,
-            $this->highLowerBound
-        );
+        $file = new PHP_CodeCoverage_Report_HTML_Renderer_File($this->templatePath, $this->generator, $date,
+            $this->lowUpperBound, $this->highLowerBound);
 
         $directory->render($report, $target . 'index.html');
         $dashboard->render($report, $target . 'dashboard.html');
@@ -105,7 +87,7 @@ class PHP_CodeCoverage_Report_HTML
             $id = $node->getId();
 
             if ($node instanceof PHP_CodeCoverage_Report_Node_Directory) {
-                if (!file_exists($target . $id)) {
+                if ( ! file_exists($target . $id)) {
                     mkdir($target . $id, 0777, true);
                 }
 
@@ -114,7 +96,7 @@ class PHP_CodeCoverage_Report_HTML
             } else {
                 $dir = dirname($target . $id);
 
-                if (!file_exists($dir)) {
+                if ( ! file_exists($dir)) {
                     mkdir($dir, 0777, true);
                 }
 
@@ -124,6 +106,7 @@ class PHP_CodeCoverage_Report_HTML
 
         $this->copyFiles($target);
     }
+
 
     /**
      * @param string $target
@@ -139,8 +122,10 @@ class PHP_CodeCoverage_Report_HTML
         copy($this->templatePath . 'fonts/glyphicons-halflings-regular.eot', $dir . 'glyphicons-halflings-regular.eot');
         copy($this->templatePath . 'fonts/glyphicons-halflings-regular.svg', $dir . 'glyphicons-halflings-regular.svg');
         copy($this->templatePath . 'fonts/glyphicons-halflings-regular.ttf', $dir . 'glyphicons-halflings-regular.ttf');
-        copy($this->templatePath . 'fonts/glyphicons-halflings-regular.woff', $dir . 'glyphicons-halflings-regular.woff');
-        copy($this->templatePath . 'fonts/glyphicons-halflings-regular.woff2', $dir . 'glyphicons-halflings-regular.woff2');
+        copy($this->templatePath . 'fonts/glyphicons-halflings-regular.woff',
+            $dir . 'glyphicons-halflings-regular.woff');
+        copy($this->templatePath . 'fonts/glyphicons-halflings-regular.woff2',
+            $dir . 'glyphicons-halflings-regular.woff2');
 
         $dir = $this->getDirectory($target . 'js');
         copy($this->templatePath . 'js/bootstrap.min.js', $dir . 'bootstrap.min.js');
@@ -152,8 +137,10 @@ class PHP_CodeCoverage_Report_HTML
         copy($this->templatePath . 'js/respond.min.js', $dir . 'respond.min.js');
     }
 
+
     /**
-     * @param  string                     $directory
+     * @param  string $directory
+     *
      * @return string
      * @throws PHP_CodeCoverage_Exception
      * @since  Method available since Release 1.2.0
@@ -172,11 +159,6 @@ class PHP_CodeCoverage_Report_HTML
             return $directory;
         }
 
-        throw new PHP_CodeCoverage_Exception(
-            sprintf(
-                'Directory "%s" does not exist.',
-                $directory
-            )
-        );
+        throw new PHP_CodeCoverage_Exception(sprintf('Directory "%s" does not exist.', $directory));
     }
 }

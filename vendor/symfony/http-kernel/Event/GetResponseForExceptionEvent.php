@@ -29,6 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class GetResponseForExceptionEvent extends GetResponseEvent
 {
+
     /**
      * The exception object.
      *
@@ -36,12 +37,14 @@ class GetResponseForExceptionEvent extends GetResponseEvent
      */
     private $exception;
 
+
     public function __construct(HttpKernelInterface $kernel, Request $request, $requestType, \Exception $e)
     {
         parent::__construct($kernel, $request, $requestType);
 
         $this->setException($e);
     }
+
 
     /**
      * Returns the thrown exception.
@@ -52,6 +55,7 @@ class GetResponseForExceptionEvent extends GetResponseEvent
     {
         return $this->exception;
     }
+
 
     /**
      * Replaces the thrown exception.

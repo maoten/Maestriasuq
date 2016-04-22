@@ -18,7 +18,9 @@ use Psr\Log\Test\LoggerInterfaceTest;
 
 class PsrLogCompatTest extends LoggerInterfaceTest
 {
+
     private $handler;
+
 
     public function getLogger()
     {
@@ -31,6 +33,7 @@ class PsrLogCompatTest extends LoggerInterfaceTest
 
         return $logger;
     }
+
 
     public function getLogs()
     {

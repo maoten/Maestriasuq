@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 
 class ExtensionPresentExtension extends Extension
 {
+
     public function load(array $configs, ContainerBuilder $container)
     {
     }

@@ -15,6 +15,7 @@ use Psy\Util\Str;
 
 class StrTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @dataProvider testUnvisProvider
      */
@@ -22,6 +23,7 @@ class StrTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($expected, Str::unvis($input));
     }
+
 
     public function testUnvisProvider()
     {

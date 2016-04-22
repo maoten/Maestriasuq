@@ -6,6 +6,7 @@ use Exception;
 
 trait WithoutMiddleware
 {
+
     /**
      * @throws \Exception
      */

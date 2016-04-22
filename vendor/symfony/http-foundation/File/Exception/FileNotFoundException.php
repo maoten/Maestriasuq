@@ -18,6 +18,7 @@ namespace Symfony\Component\HttpFoundation\File\Exception;
  */
 class FileNotFoundException extends FileException
 {
+
     /**
      * Constructor.
      *

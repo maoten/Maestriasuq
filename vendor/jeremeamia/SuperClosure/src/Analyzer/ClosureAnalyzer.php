@@ -4,6 +4,7 @@ use SuperClosure\Exception\ClosureAnalysisException;
 
 abstract class ClosureAnalyzer
 {
+
     /**
      * Analyzer a given closure.
      *
@@ -19,7 +20,7 @@ abstract class ClosureAnalyzer
             'reflection' => new \ReflectionFunction($closure),
             'code'       => null,
             'hasThis'    => false,
-            'context'    => [],
+            'context'    => [ ],
             'hasRefs'    => false,
             'binding'    => null,
             'scope'      => null,
@@ -33,7 +34,9 @@ abstract class ClosureAnalyzer
         return $data;
     }
 
+
     abstract protected function determineCode(array &$data);
+
 
     /**
      * Returns the variables that are in the "use" clause of the closure.
@@ -45,6 +48,7 @@ abstract class ClosureAnalyzer
      */
     abstract protected function determineContext(array &$data);
 
+
     private function determineBinding(array &$data)
     {
         $data['binding'] = $data['reflection']->getClosureThis();
@@ -52,6 +56,7 @@ abstract class ClosureAnalyzer
             $data['scope'] = $scope->getName();
         }
     }
+
 
     private function isClosureStatic(\Closure $closure)
     {

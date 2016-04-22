@@ -7,6 +7,7 @@ use Symfony\Component\Console\Output\StreamOutput;
 
 class ProgressIndicatorTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testDefaultIndicator()
     {
         $bar = new ProgressIndicator($output = $this->getOutputStream());
@@ -32,24 +33,10 @@ class ProgressIndicatorTest extends \PHPUnit_Framework_TestCase
 
         rewind($output->getStream());
 
-        $this->assertEquals(
-            $this->generateOutput(' - Starting...').
-            $this->generateOutput(' \\ Starting...').
-            $this->generateOutput(' | Starting...').
-            $this->generateOutput(' / Starting...').
-            $this->generateOutput(' - Starting...').
-            $this->generateOutput(' \\ Starting...').
-            $this->generateOutput(' \\ Advancing...').
-            $this->generateOutput(' | Advancing...').
-            $this->generateOutput(' | Done...     ').
-            PHP_EOL.
-            $this->generateOutput(' - Starting Again...').
-            $this->generateOutput(' \\ Starting Again...').
-            $this->generateOutput(' \\ Done Again...    ').
-            PHP_EOL,
-            stream_get_contents($output->getStream())
-        );
+        $this->assertEquals($this->generateOutput(' - Starting...') . $this->generateOutput(' \\ Starting...') . $this->generateOutput(' | Starting...') . $this->generateOutput(' / Starting...') . $this->generateOutput(' - Starting...') . $this->generateOutput(' \\ Starting...') . $this->generateOutput(' \\ Advancing...') . $this->generateOutput(' | Advancing...') . $this->generateOutput(' | Done...     ') . PHP_EOL . $this->generateOutput(' - Starting Again...') . $this->generateOutput(' \\ Starting Again...') . $this->generateOutput(' \\ Done Again...    ') . PHP_EOL,
+            stream_get_contents($output->getStream()));
     }
+
 
     public function testNonDecoratedOutput()
     {
@@ -65,17 +52,14 @@ class ProgressIndicatorTest extends \PHPUnit_Framework_TestCase
 
         rewind($output->getStream());
 
-        $this->assertEquals(
-            ' Starting...'.PHP_EOL.
-            ' Midway...  '.PHP_EOL.
-            ' Done...    '.PHP_EOL.PHP_EOL,
-            stream_get_contents($output->getStream())
-        );
+        $this->assertEquals(' Starting...' . PHP_EOL . ' Midway...  ' . PHP_EOL . ' Done...    ' . PHP_EOL . PHP_EOL,
+            stream_get_contents($output->getStream()));
     }
+
 
     public function testCustomIndicatorValues()
     {
-        $bar = new ProgressIndicator($output = $this->getOutputStream(), null, 100, array('a', 'b', 'c'));
+        $bar = new ProgressIndicator($output = $this->getOutputStream(), null, 100, [ 'a', 'b', 'c' ]);
 
         $bar->start('Starting...');
         usleep(101000);
@@ -87,14 +71,10 @@ class ProgressIndicatorTest extends \PHPUnit_Framework_TestCase
 
         rewind($output->getStream());
 
-        $this->assertEquals(
-            $this->generateOutput(' a Starting...').
-            $this->generateOutput(' b Starting...').
-            $this->generateOutput(' c Starting...').
-            $this->generateOutput(' a Starting...'),
-            stream_get_contents($output->getStream())
-        );
+        $this->assertEquals($this->generateOutput(' a Starting...') . $this->generateOutput(' b Starting...') . $this->generateOutput(' c Starting...') . $this->generateOutput(' a Starting...'),
+            stream_get_contents($output->getStream()));
     }
+
 
     /**
      * @expectedException \InvalidArgumentException
@@ -102,8 +82,9 @@ class ProgressIndicatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testCannotSetInvalidIndicatorCharacters()
     {
-        $bar = new ProgressIndicator($this->getOutputStream(), null, 100, array('1'));
+        $bar = new ProgressIndicator($this->getOutputStream(), null, 100, [ '1' ]);
     }
+
 
     /**
      * @expectedException \LogicException
@@ -116,6 +97,7 @@ class ProgressIndicatorTest extends \PHPUnit_Framework_TestCase
         $bar->start('Starting Again.');
     }
 
+
     /**
      * @expectedException \LogicException
      * @expectedExceptionMessage Progress indicator has not yet been started.
@@ -126,6 +108,7 @@ class ProgressIndicatorTest extends \PHPUnit_Framework_TestCase
         $bar->advance();
     }
 
+
     /**
      * @expectedException \LogicException
      * @expectedExceptionMessage Progress indicator has not yet been started.
@@ -135,6 +118,7 @@ class ProgressIndicatorTest extends \PHPUnit_Framework_TestCase
         $bar = new ProgressIndicator($this->getOutputStream());
         $bar->finish('Finished');
     }
+
 
     /**
      * @dataProvider provideFormat
@@ -150,6 +134,7 @@ class ProgressIndicatorTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty(stream_get_contents($output->getStream()));
     }
 
+
     /**
      * Provides each defined format.
      *
@@ -157,23 +142,25 @@ class ProgressIndicatorTest extends \PHPUnit_Framework_TestCase
      */
     public function provideFormat()
     {
-        return array(
-            array('normal'),
-            array('verbose'),
-            array('very_verbose'),
-            array('debug'),
-        );
+        return [
+            [ 'normal' ],
+            [ 'verbose' ],
+            [ 'very_verbose' ],
+            [ 'debug' ],
+        ];
     }
+
 
     protected function getOutputStream($decorated = true, $verbosity = StreamOutput::VERBOSITY_NORMAL)
     {
         return new StreamOutput(fopen('php://memory', 'r+', false), $verbosity, $decorated);
     }
 
+
     protected function generateOutput($expected)
     {
         $count = substr_count($expected, "\n");
 
-        return "\x0D".($count ? sprintf("\033[%dA", $count) : '').$expected;
+        return "\x0D" . ( $count ? sprintf("\033[%dA", $count) : '' ) . $expected;
     }
 }

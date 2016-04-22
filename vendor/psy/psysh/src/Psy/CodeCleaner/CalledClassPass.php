@@ -25,7 +25,9 @@ use Psy\Exception\ErrorException;
  */
 class CalledClassPass extends CodeCleanerPass
 {
+
     private $inClass;
+
 
     /**
      * @param array $nodes
@@ -34,6 +36,7 @@ class CalledClassPass extends CodeCleanerPass
     {
         $this->inClass = false;
     }
+
 
     /**
      * @throws ErrorException if get_class or get_called_class is called without an object from outside a class
@@ -44,27 +47,28 @@ class CalledClassPass extends CodeCleanerPass
     {
         if ($node instanceof ClassStmt || $node instanceof TraitStmt) {
             $this->inClass = true;
-        } elseif ($node instanceof FuncCall && !$this->inClass) {
+        } elseif ($node instanceof FuncCall && ! $this->inClass) {
             // We'll give any args at all (besides null) a pass.
             // Technically we should be checking whether the args are objects, but this will do for now.
             //
             // TODO: switch this to actually validate args when we get context-aware code cleaner passes.
-            if (!empty($node->args) && !$this->isNull($node->args[0])) {
+            if ( ! empty( $node->args ) && ! $this->isNull($node->args[0])) {
                 return;
             }
 
             // We'll ignore name expressions as well (things like `$foo()`)
-            if (!($node->name instanceof Name)) {
+            if ( ! ( $node->name instanceof Name )) {
                 return;
             }
 
             $name = strtolower($node->name);
-            if (in_array($name, array('get_class', 'get_called_class'))) {
+            if (in_array($name, [ 'get_class', 'get_called_class' ])) {
                 $msg = sprintf('%s() called without object from outside a class', $name);
                 throw new ErrorException($msg, 0, E_USER_WARNING, null, $node->getLine());
             }
         }
     }
+
 
     /**
      * @param Node $node
@@ -75,6 +79,7 @@ class CalledClassPass extends CodeCleanerPass
             $this->inClass = false;
         }
     }
+
 
     private function isNull(Node $node)
     {

@@ -15,6 +15,7 @@
  */
 interface Swift_Mime_Header
 {
+
     /** Text headers */
     const TYPE_TEXT = 2;
 
@@ -33,6 +34,7 @@ interface Swift_Mime_Header
     /** Address path headers */
     const TYPE_PATH = 64;
 
+
     /**
      * Get the type of Header that this instance represents.
      *
@@ -43,6 +45,7 @@ interface Swift_Mime_Header
      */
     public function getFieldType();
 
+
     /**
      * Set the model for the field body.
      *
@@ -52,12 +55,14 @@ interface Swift_Mime_Header
      */
     public function setFieldBodyModel($model);
 
+
     /**
      * Set the charset used when rendering the Header.
      *
      * @param string $charset
      */
     public function setCharset($charset);
+
 
     /**
      * Get the model for the field body.
@@ -68,6 +73,7 @@ interface Swift_Mime_Header
      */
     public function getFieldBodyModel();
 
+
     /**
      * Get the name of this header (e.g. Subject).
      *
@@ -77,12 +83,14 @@ interface Swift_Mime_Header
      */
     public function getFieldName();
 
+
     /**
      * Get the field body, prepared for folding into a final header value.
      *
      * @return string
      */
     public function getFieldBody();
+
 
     /**
      * Get this Header rendered as a compliant string.

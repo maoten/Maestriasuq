@@ -28,10 +28,12 @@ use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns;
  */
 class NumberHandler implements HandlerInterface
 {
+
     /**
      * @var TokenizerPatterns
      */
     private $patterns;
+
 
     /**
      * @param TokenizerPatterns $patterns
@@ -41,6 +43,7 @@ class NumberHandler implements HandlerInterface
         $this->patterns = $patterns;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -48,7 +51,7 @@ class NumberHandler implements HandlerInterface
     {
         $match = $reader->findPattern($this->patterns->getNumberPattern());
 
-        if (!$match) {
+        if ( ! $match) {
             return false;
         }
 

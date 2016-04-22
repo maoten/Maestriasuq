@@ -22,10 +22,15 @@ use Prophecy\Util\StringUtil;
  */
 class ExactValueToken implements TokenInterface
 {
+
     private $value;
+
     private $string;
+
     private $util;
+
     private $comparatorFactory;
+
 
     /**
      * Initializes token.
@@ -42,6 +47,7 @@ class ExactValueToken implements TokenInterface
         $this->comparatorFactory = $comparatorFactory ?: ComparatorFactory::getInstance();
     }
 
+
     /**
      * Scores 10 if argument matches preset value.
      *
@@ -52,23 +58,23 @@ class ExactValueToken implements TokenInterface
     public function scoreArgument($argument)
     {
         if (is_object($argument) && is_object($this->value)) {
-            $comparator = $this->comparatorFactory->getComparatorFor(
-                $argument, $this->value
-            );
+            $comparator = $this->comparatorFactory->getComparatorFor($argument, $this->value);
 
             try {
                 $comparator->assertEquals($argument, $this->value);
+
                 return 10;
-            } catch (ComparisonFailure $failure) {}
+            } catch (ComparisonFailure $failure) {
+            }
         }
 
         // If either one is an object it should be castable to a string
         if (is_object($argument) xor is_object($this->value)) {
-            if (is_object($argument) && !method_exists($argument, '__toString')) {
+            if (is_object($argument) && ! method_exists($argument, '__toString')) {
                 return false;
             }
 
-            if (is_object($this->value) && !method_exists($this->value, '__toString')) {
+            if (is_object($this->value) && ! method_exists($this->value, '__toString')) {
                 return false;
             }
         } elseif (is_numeric($argument) && is_numeric($this->value)) {
@@ -80,6 +86,7 @@ class ExactValueToken implements TokenInterface
         return $argument == $this->value ? 10 : false;
     }
 
+
     /**
      * Returns preset value against which token checks arguments.
      *
@@ -90,6 +97,7 @@ class ExactValueToken implements TokenInterface
         return $this->value;
     }
 
+
     /**
      * Returns false.
      *
@@ -99,6 +107,7 @@ class ExactValueToken implements TokenInterface
     {
         return false;
     }
+
 
     /**
      * Returns string representation for token.

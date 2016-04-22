@@ -20,18 +20,22 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  */
 class Presenter
 {
+
     const VERBOSE = 1;
 
     private $cloner;
+
     private $dumper;
-    private $exceptionsImportants = array(
+
+    private $exceptionsImportants = [
         "\0*\0message",
         "\0*\0code",
         "\0*\0file",
         "\0*\0line",
         "\0Exception\0previous",
-    );
-    private $styles = array(
+    ];
+
+    private $styles = [
         'num'       => 'number',
         'const'     => 'const',
         'str'       => 'string',
@@ -44,7 +48,8 @@ class Presenter
         'meta'      => 'comment',
         'key'       => 'comment',
         'index'     => 'number',
-    );
+    ];
+
 
     public function __construct(OutputFormatter $formatter)
     {
@@ -52,18 +57,22 @@ class Presenter
         $this->dumper->setStyles($this->styles);
 
         $this->cloner = new Cloner();
-        $this->cloner->addCasters(array('*' => function ($obj, array $a, Stub $stub, $isNested, $filter = 0) {
-            if ($filter || $isNested) {
-                if ($obj instanceof \Exception) {
-                    $a = Caster::filter($a, Caster::EXCLUDE_NOT_IMPORTANT | Caster::EXCLUDE_EMPTY, $this->exceptionsImportants);
-                } else {
-                    $a = Caster::filter($a, Caster::EXCLUDE_PROTECTED | Caster::EXCLUDE_PRIVATE);
+        $this->cloner->addCasters([
+            '*' => function ($obj, array $a, Stub $stub, $isNested, $filter = 0) {
+                if ($filter || $isNested) {
+                    if ($obj instanceof \Exception) {
+                        $a = Caster::filter($a, Caster::EXCLUDE_NOT_IMPORTANT | Caster::EXCLUDE_EMPTY,
+                            $this->exceptionsImportants);
+                    } else {
+                        $a = Caster::filter($a, Caster::EXCLUDE_PROTECTED | Caster::EXCLUDE_PRIVATE);
+                    }
                 }
-            }
 
-            return $a;
-        }));
+                return $a;
+            }
+        ]);
     }
+
 
     /**
      * Register casters.
@@ -77,6 +86,7 @@ class Presenter
         $this->cloner->addCasters($casters);
     }
 
+
     /**
      * Present a reference to the value.
      *
@@ -88,6 +98,7 @@ class Presenter
     {
         return $this->present($value, 0);
     }
+
 
     /**
      * Present a full representation of the value.
@@ -102,7 +113,7 @@ class Presenter
      */
     public function present($value, $depth = null, $options = 0)
     {
-        $data = $this->cloner->cloneVar($value, !($options & self::VERBOSE) ? Caster::EXCLUDE_VERBOSE : 0);
+        $data = $this->cloner->cloneVar($value, ! ( $options & self::VERBOSE ) ? Caster::EXCLUDE_VERBOSE : 0);
 
         if (null !== $depth) {
             $data = $data->withMaxDepth($depth);

@@ -20,6 +20,7 @@ use Prophecy\Argument\Token;
  */
 class Argument
 {
+
     /**
      * Checks that argument is exact value or object.
      *
@@ -32,6 +33,7 @@ class Argument
         return new Token\ExactValueToken($value);
     }
 
+
     /**
      * Checks that argument is of specific type or instance of specific class.
      *
@@ -43,6 +45,7 @@ class Argument
     {
         return new Token\TypeToken($type);
     }
+
 
     /**
      * Checks that argument object has specific state.
@@ -57,6 +60,7 @@ class Argument
         return new Token\ObjectStateToken($methodName, $value);
     }
 
+
     /**
      * Checks that argument matches provided callback.
      *
@@ -69,6 +73,7 @@ class Argument
         return new Token\CallbackToken($callback);
     }
 
+
     /**
      * Matches any single value.
      *
@@ -79,6 +84,7 @@ class Argument
         return new Token\AnyValueToken;
     }
 
+
     /**
      * Matches all values to the rest of the signature.
      *
@@ -88,6 +94,7 @@ class Argument
     {
         return new Token\AnyValuesToken;
     }
+
 
     /**
      * Checks that argument matches all tokens
@@ -101,6 +108,7 @@ class Argument
         return new Token\LogicalAndToken(func_get_args());
     }
 
+
     /**
      * Checks that argument array or countable object has exact number of elements.
      *
@@ -112,6 +120,7 @@ class Argument
     {
         return new Token\ArrayCountToken($value);
     }
+
 
     /**
      * Checks that argument array contains (key, value) pair
@@ -126,6 +135,7 @@ class Argument
         return new Token\ArrayEntryToken($key, $value);
     }
 
+
     /**
      * Checks that arguments array entries all match value
      *
@@ -137,6 +147,7 @@ class Argument
     {
         return new Token\ArrayEveryEntryToken($value);
     }
+
 
     /**
      * Checks that argument array contains value
@@ -150,6 +161,7 @@ class Argument
         return new Token\ArrayEntryToken(self::any(), $value);
     }
 
+
     /**
      * Checks that argument array has key
      *
@@ -161,6 +173,7 @@ class Argument
     {
         return new Token\ArrayEntryToken($key, self::any());
     }
+
 
     /**
      * Checks that argument does not match the value|token.
@@ -174,6 +187,7 @@ class Argument
         return new Token\LogicalNotToken($value);
     }
 
+
     /**
      * @param string $value
      *
@@ -183,6 +197,7 @@ class Argument
     {
         return new Token\StringContainsToken($value);
     }
+
 
     /**
      * Checks that argument is identical value.
@@ -195,6 +210,7 @@ class Argument
     {
         return new Token\IdenticalValueToken($value);
     }
+
 
     /**
      * Check that argument is same value when rounding to the

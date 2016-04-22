@@ -17,10 +17,12 @@ class IsNumeric extends IsTypeOf
         parent::__construct('number');
     }
 
+
     public function matches($item)
     {
         return is_numeric($item);
     }
+
 
     /**
      * Is the value a numeric?

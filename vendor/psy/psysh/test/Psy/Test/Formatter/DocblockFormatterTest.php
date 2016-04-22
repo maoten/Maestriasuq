@@ -15,6 +15,7 @@ use Psy\Formatter\DocblockFormatter;
 
 class DocblockFormatterTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * This is a docblock!
      *
@@ -29,12 +30,13 @@ class DocblockFormatterTest extends \PHPUnit_Framework_TestCase
      */
     private function methodWithDocblock($foo, $bar = 1)
     {
-        if (empty($foo)) {
+        if (empty( $foo )) {
             throw new \InvalidArgumentException();
         }
 
         return 'method called';
     }
+
 
     public function testFormat()
     {
@@ -55,9 +57,6 @@ class DocblockFormatterTest extends \PHPUnit_Framework_TestCase
 <comment>Author:</comment> Justin Hileman \<justin@justinhileman.info>
 EOS;
 
-        $this->assertEquals(
-            $expected,
-            DocblockFormatter::format(new \ReflectionMethod($this, 'methodWithDocblock'))
-        );
+        $this->assertEquals($expected, DocblockFormatter::format(new \ReflectionMethod($this, 'methodWithDocblock')));
     }
 }

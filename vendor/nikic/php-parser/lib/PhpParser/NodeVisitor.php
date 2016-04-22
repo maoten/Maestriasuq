@@ -4,6 +4,7 @@ namespace PhpParser;
 
 interface NodeVisitor
 {
+
     /**
      * Called once before traversal.
      *
@@ -17,6 +18,7 @@ interface NodeVisitor
      */
     public function beforeTraverse(array $nodes);
 
+
     /**
      * Called when entering a node.
      *
@@ -29,6 +31,7 @@ interface NodeVisitor
      * @return null|Node Node
      */
     public function enterNode(Node $node);
+
 
     /**
      * Called when leaving a node.
@@ -44,6 +47,7 @@ interface NodeVisitor
      * @return null|Node|false|Node[] Node
      */
     public function leaveNode(Node $node);
+
 
     /**
      * Called once after traversal.

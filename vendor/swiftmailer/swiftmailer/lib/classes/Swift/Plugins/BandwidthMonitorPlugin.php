@@ -15,6 +15,7 @@
  */
 class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener, Swift_Events_CommandListener, Swift_Events_ResponseListener, Swift_InputByteStream
 {
+
     /**
      * The outgoing traffic counter.
      *
@@ -30,7 +31,8 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
     private $_in = 0;
 
     /** Bound byte streams */
-    private $_mirrors = array();
+    private $_mirrors = [ ];
+
 
     /**
      * Not used.
@@ -38,6 +40,7 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
     public function beforeSendPerformed(Swift_Events_SendEvent $evt)
     {
     }
+
 
     /**
      * Invoked immediately after the Message is sent.
@@ -50,6 +53,7 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
         $message->toByteStream($this);
     }
 
+
     /**
      * Invoked immediately following a command being sent.
      *
@@ -61,6 +65,7 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
         $this->_out += strlen($command);
     }
 
+
     /**
      * Invoked immediately following a response coming back.
      *
@@ -71,6 +76,7 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
         $response = $evt->getResponse();
         $this->_in += strlen($response);
     }
+
 
     /**
      * Called when a message is sent so that the outgoing counter can be increased.
@@ -85,12 +91,14 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
         }
     }
 
+
     /**
      * Not used.
      */
     public function commit()
     {
     }
+
 
     /**
      * Attach $is to this stream.
@@ -105,6 +113,7 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
         $this->_mirrors[] = $is;
     }
 
+
     /**
      * Remove an already bound stream.
      *
@@ -118,10 +127,11 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
     {
         foreach ($this->_mirrors as $k => $stream) {
             if ($is === $stream) {
-                unset($this->_mirrors[$k]);
+                unset( $this->_mirrors[$k] );
             }
         }
     }
+
 
     /**
      * Not used.
@@ -133,6 +143,7 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
         }
     }
 
+
     /**
      * Get the total number of bytes sent to the server.
      *
@@ -142,6 +153,7 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
     {
         return $this->_out;
     }
+
 
     /**
      * Get the total number of bytes received from the server.
@@ -153,12 +165,13 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
         return $this->_in;
     }
 
+
     /**
      * Reset the internal counters to zero.
      */
     public function reset()
     {
         $this->_out = 0;
-        $this->_in = 0;
+        $this->_in  = 0;
     }
 }

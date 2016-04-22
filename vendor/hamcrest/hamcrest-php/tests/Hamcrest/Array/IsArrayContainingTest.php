@@ -11,37 +11,26 @@ class IsArrayContainingTest extends AbstractMatcherTest
         return IsArrayContaining::hasItemInArray('irrelevant');
     }
 
+
     public function testMatchesAnArrayThatContainsAnElementMatchingTheGivenMatcher()
     {
-        $this->assertMatches(
-            hasItemInArray('a'),
-            array('a', 'b', 'c'),
-            "should matches array that contains 'a'"
-        );
+        $this->assertMatches(hasItemInArray('a'), [ 'a', 'b', 'c' ], "should matches array that contains 'a'");
     }
+
 
     public function testDoesNotMatchAnArrayThatDoesntContainAnElementMatchingTheGivenMatcher()
     {
-        $this->assertDoesNotMatch(
-            hasItemInArray('a'),
-            array('b', 'c'),
-            "should not matches array that doesn't contain 'a'"
-        );
-        $this->assertDoesNotMatch(
-            hasItemInArray('a'),
-            array(),
-            'should not match empty array'
-        );
+        $this->assertDoesNotMatch(hasItemInArray('a'), [ 'b', 'c' ],
+            "should not matches array that doesn't contain 'a'");
+        $this->assertDoesNotMatch(hasItemInArray('a'), [ ], 'should not match empty array');
     }
+
 
     public function testDoesNotMatchNull()
     {
-        $this->assertDoesNotMatch(
-            hasItemInArray('a'),
-            null,
-            'should not match null'
-        );
+        $this->assertDoesNotMatch(hasItemInArray('a'), null, 'should not match null');
     }
+
 
     public function testHasAReadableDescription()
     {

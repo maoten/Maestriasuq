@@ -16,6 +16,7 @@ use Monolog\TestCase;
 
 class FilterHandlerTest extends TestCase
 {
+
     /**
      * @covers Monolog\Handler\FilterHandler::isHandling
      */
@@ -32,6 +33,7 @@ class FilterHandlerTest extends TestCase
         $this->assertFalse($handler->isHandling($this->getRecord(Logger::ALERT)));
         $this->assertFalse($handler->isHandling($this->getRecord(Logger::EMERGENCY)));
     }
+
 
     /**
      * @covers Monolog\Handler\FilterHandler::handle
@@ -63,7 +65,7 @@ class FilterHandlerTest extends TestCase
         $this->assertFalse($test->hasEmergencyRecords());
 
         $test    = new TestHandler();
-        $handler = new FilterHandler($test, array(Logger::INFO, Logger::ERROR));
+        $handler = new FilterHandler($test, [ Logger::INFO, Logger::ERROR ]);
 
         $handler->handle($this->getRecord(Logger::DEBUG));
         $this->assertFalse($test->hasDebugRecords());
@@ -77,6 +79,7 @@ class FilterHandlerTest extends TestCase
         $this->assertFalse($test->hasCriticalRecords());
     }
 
+
     /**
      * @covers Monolog\Handler\FilterHandler::setAcceptedLevels
      * @covers Monolog\Handler\FilterHandler::getAcceptedLevels
@@ -86,20 +89,21 @@ class FilterHandlerTest extends TestCase
         $test    = new TestHandler();
         $handler = new FilterHandler($test);
 
-        $levels = array(Logger::INFO, Logger::ERROR);
+        $levels = [ Logger::INFO, Logger::ERROR ];
         $handler->setAcceptedLevels($levels);
         $this->assertSame($levels, $handler->getAcceptedLevels());
 
-        $handler->setAcceptedLevels(array('info', 'error'));
+        $handler->setAcceptedLevels([ 'info', 'error' ]);
         $this->assertSame($levels, $handler->getAcceptedLevels());
 
-        $levels = array(Logger::CRITICAL, Logger::ALERT, Logger::EMERGENCY);
+        $levels = [ Logger::CRITICAL, Logger::ALERT, Logger::EMERGENCY ];
         $handler->setAcceptedLevels(Logger::CRITICAL, Logger::EMERGENCY);
         $this->assertSame($levels, $handler->getAcceptedLevels());
 
         $handler->setAcceptedLevels('critical', 'emergency');
         $this->assertSame($levels, $handler->getAcceptedLevels());
     }
+
 
     /**
      * @covers Monolog\Handler\FilterHandler::handle
@@ -108,18 +112,17 @@ class FilterHandlerTest extends TestCase
     {
         $test    = new TestHandler();
         $handler = new FilterHandler($test, Logger::DEBUG, Logger::EMERGENCY);
-        $handler->pushProcessor(
-            function ($record) {
-                $record['extra']['foo'] = true;
+        $handler->pushProcessor(function ($record) {
+            $record['extra']['foo'] = true;
 
-                return $record;
-            }
-        );
+            return $record;
+        });
         $handler->handle($this->getRecord(Logger::WARNING));
         $this->assertTrue($test->hasWarningRecords());
         $records = $test->getRecords();
         $this->assertTrue($records[0]['extra']['foo']);
     }
+
 
     /**
      * @covers Monolog\Handler\FilterHandler::handle
@@ -137,22 +140,22 @@ class FilterHandlerTest extends TestCase
         $this->assertFalse($handler->handle($this->getRecord(Logger::WARNING)));
     }
 
+
     /**
      * @covers Monolog\Handler\FilterHandler::handle
      */
     public function testHandleWithCallback()
     {
         $test    = new TestHandler();
-        $handler = new FilterHandler(
-            function ($record, $handler) use ($test) {
-                return $test;
-            }, Logger::INFO, Logger::NOTICE, false
-        );
+        $handler = new FilterHandler(function ($record, $handler) use ($test) {
+            return $test;
+        }, Logger::INFO, Logger::NOTICE, false);
         $handler->handle($this->getRecord(Logger::DEBUG));
         $handler->handle($this->getRecord(Logger::INFO));
         $this->assertFalse($test->hasDebugRecords());
         $this->assertTrue($test->hasInfoRecords());
     }
+
 
     /**
      * @covers Monolog\Handler\FilterHandler::handle
@@ -160,11 +163,9 @@ class FilterHandlerTest extends TestCase
      */
     public function testHandleWithBadCallbackThrowsException()
     {
-        $handler = new FilterHandler(
-            function ($record, $handler) {
-                return 'foo';
-            }
-        );
+        $handler = new FilterHandler(function ($record, $handler) {
+            return 'foo';
+        });
         $handler->handle($this->getRecord(Logger::WARNING));
     }
 }

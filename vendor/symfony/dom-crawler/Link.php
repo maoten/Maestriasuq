@@ -18,6 +18,7 @@ namespace Symfony\Component\DomCrawler;
  */
 class Link
 {
+
     /**
      * @var \DOMElement
      */
@@ -33,6 +34,7 @@ class Link
      */
     protected $currentUri;
 
+
     /**
      * Constructor.
      *
@@ -44,14 +46,15 @@ class Link
      */
     public function __construct(\DOMElement $node, $currentUri, $method = 'GET')
     {
-        if (!in_array(strtolower(substr($currentUri, 0, 4)), array('http', 'file'))) {
+        if ( ! in_array(strtolower(substr($currentUri, 0, 4)), [ 'http', 'file' ])) {
             throw new \InvalidArgumentException(sprintf('Current URI must be an absolute URL ("%s").', $currentUri));
         }
 
         $this->setNode($node);
-        $this->method = $method ? strtoupper($method) : null;
+        $this->method     = $method ? strtoupper($method) : null;
         $this->currentUri = $currentUri;
     }
+
 
     /**
      * Gets the node associated with this link.
@@ -63,6 +66,7 @@ class Link
         return $this->node;
     }
 
+
     /**
      * Gets the method associated with this link.
      *
@@ -72,6 +76,7 @@ class Link
     {
         return $this->method;
     }
+
 
     /**
      * Gets the URI associated with this link.
@@ -88,39 +93,40 @@ class Link
         }
 
         // empty URI
-        if (!$uri) {
+        if ( ! $uri) {
             return $this->currentUri;
         }
 
         // an anchor
         if ('#' === $uri[0]) {
-            return $this->cleanupAnchor($this->currentUri).$uri;
+            return $this->cleanupAnchor($this->currentUri) . $uri;
         }
 
         $baseUri = $this->cleanupUri($this->currentUri);
 
         if ('?' === $uri[0]) {
-            return $baseUri.$uri;
+            return $baseUri . $uri;
         }
 
         // absolute URL with relative schema
         if (0 === strpos($uri, '//')) {
-            return preg_replace('#^([^/]*)//.*$#', '$1', $baseUri).$uri;
+            return preg_replace('#^([^/]*)//.*$#', '$1', $baseUri) . $uri;
         }
 
         $baseUri = preg_replace('#^(.*?//[^/]*)(?:\/.*)?$#', '$1', $baseUri);
 
         // absolute path
         if ('/' === $uri[0]) {
-            return $baseUri.$uri;
+            return $baseUri . $uri;
         }
 
         // relative path
         $path = parse_url(substr($this->currentUri, strlen($baseUri)), PHP_URL_PATH);
-        $path = $this->canonicalizePath(substr($path, 0, strrpos($path, '/')).'/'.$uri);
+        $path = $this->canonicalizePath(substr($path, 0, strrpos($path, '/')) . '/' . $uri);
 
-        return $baseUri.('' === $path || '/' !== $path[0] ? '/' : '').$path;
+        return $baseUri . ( '' === $path || '/' !== $path[0] ? '/' : '' ) . $path;
     }
+
 
     /**
      * Returns raw URI data.
@@ -131,6 +137,7 @@ class Link
     {
         return $this->node->getAttribute('href');
     }
+
 
     /**
      * Returns the canonicalized URI path (see RFC 3986, section 5.2.4).
@@ -149,7 +156,7 @@ class Link
             $path .= '/';
         }
 
-        $output = array();
+        $output = [ ];
 
         foreach (explode('/', $path) as $segment) {
             if ('..' === $segment) {
@@ -161,6 +168,7 @@ class Link
 
         return implode('/', $output);
     }
+
 
     /**
      * Sets current \DOMElement instance.
@@ -178,6 +186,7 @@ class Link
         $this->node = $node;
     }
 
+
     /**
      * Removes the query string and the anchor from the given uri.
      *
@@ -189,6 +198,7 @@ class Link
     {
         return $this->cleanupQuery($this->cleanupAnchor($uri));
     }
+
 
     /**
      * Remove the query string from the uri.
@@ -205,6 +215,7 @@ class Link
 
         return $uri;
     }
+
 
     /**
      * Remove the anchor from the uri.

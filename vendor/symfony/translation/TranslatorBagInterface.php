@@ -18,6 +18,7 @@ namespace Symfony\Component\Translation;
  */
 interface TranslatorBagInterface
 {
+
     /**
      * Gets the catalogue by locale.
      *

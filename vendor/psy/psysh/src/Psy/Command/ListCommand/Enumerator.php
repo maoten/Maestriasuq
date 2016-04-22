@@ -21,20 +21,24 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 abstract class Enumerator
 {
+
     // Output styles
-    const IS_PUBLIC    = 'public';
+    const IS_PUBLIC = 'public';
     const IS_PROTECTED = 'protected';
-    const IS_PRIVATE   = 'private';
-    const IS_GLOBAL    = 'global';
-    const IS_CONSTANT  = 'const';
-    const IS_CLASS     = 'class';
-    const IS_FUNCTION  = 'function';
+    const IS_PRIVATE = 'private';
+    const IS_GLOBAL = 'global';
+    const IS_CONSTANT = 'const';
+    const IS_CLASS = 'class';
+    const IS_FUNCTION = 'function';
 
     private $presenter;
 
-    private $filter       = false;
+    private $filter = false;
+
     private $invertFilter = false;
+
     private $pattern;
+
 
     /**
      * Enumerator constructor.
@@ -45,6 +49,7 @@ abstract class Enumerator
     {
         $this->presenter = $presenter;
     }
+
 
     /**
      * Return a list of categorized things with the given input options and target.
@@ -61,6 +66,7 @@ abstract class Enumerator
 
         return $this->listItems($input, $reflector, $target);
     }
+
 
     /**
      * Enumerate specific items with the given input options and target.
@@ -85,15 +91,18 @@ abstract class Enumerator
      */
     abstract protected function listItems(InputInterface $input, \Reflector $reflector = null, $target = null);
 
+
     protected function presentRef($value)
     {
         return $this->presenter->presentRef($value);
     }
 
+
     protected function showItem($name)
     {
-        return $this->filter === false || (preg_match($this->pattern, $name) xor $this->invertFilter);
+        return $this->filter === false || ( preg_match($this->pattern, $name) xor $this->invertFilter );
     }
+
 
     private function setFilter(InputInterface $input)
     {
@@ -116,6 +125,7 @@ abstract class Enumerator
         }
     }
 
+
     /**
      * Validate that $pattern is a valid regular expression.
      *
@@ -125,19 +135,21 @@ abstract class Enumerator
      */
     private function validateRegex($pattern)
     {
-        set_error_handler(array('Psy\Exception\ErrorException', 'throwException'));
+        set_error_handler([ 'Psy\Exception\ErrorException', 'throwException' ]);
         try {
             preg_match($pattern, '');
         } catch (ErrorException $e) {
-            throw new RuntimeException(str_replace('preg_match(): ', 'Invalid regular expression: ', $e->getRawMessage()));
+            throw new RuntimeException(str_replace('preg_match(): ', 'Invalid regular expression: ',
+                $e->getRawMessage()));
         }
         restore_error_handler();
     }
 
+
     protected function presentSignature($target)
     {
         // This might get weird if the signature is actually for a reflector. Hrm.
-        if (!$target instanceof \Reflector) {
+        if ( ! $target instanceof \Reflector) {
             $target = Mirror::get($target);
         }
 

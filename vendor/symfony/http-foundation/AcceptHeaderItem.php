@@ -18,6 +18,7 @@ namespace Symfony\Component\HttpFoundation;
  */
 class AcceptHeaderItem
 {
+
     /**
      * @var string
      */
@@ -36,7 +37,8 @@ class AcceptHeaderItem
     /**
      * @var array
      */
-    private $attributes = array();
+    private $attributes = [ ];
+
 
     /**
      * Constructor.
@@ -44,13 +46,14 @@ class AcceptHeaderItem
      * @param string $value
      * @param array  $attributes
      */
-    public function __construct($value, array $attributes = array())
+    public function __construct($value, array $attributes = [ ])
     {
         $this->value = $value;
         foreach ($attributes as $name => $value) {
             $this->setAttribute($name, $value);
         }
     }
+
 
     /**
      * Builds an AcceptHeaderInstance instance from a string.
@@ -61,25 +64,30 @@ class AcceptHeaderItem
      */
     public static function fromString($itemValue)
     {
-        $bits = preg_split('/\s*(?:;*("[^"]+");*|;*(\'[^\']+\');*|;+)\s*/', $itemValue, 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-        $value = array_shift($bits);
-        $attributes = array();
+        $bits       = preg_split('/\s*(?:;*("[^"]+");*|;*(\'[^\']+\');*|;+)\s*/', $itemValue, 0,
+            PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+        $value      = array_shift($bits);
+        $attributes = [ ];
 
         $lastNullAttribute = null;
         foreach ($bits as $bit) {
-            if (($start = substr($bit, 0, 1)) === ($end = substr($bit, -1)) && ($start === '"' || $start === '\'')) {
+            if (( $start = substr($bit, 0, 1) ) === ( $end = substr($bit,
+                    -1) ) && ( $start === '"' || $start === '\'' )
+            ) {
                 $attributes[$lastNullAttribute] = substr($bit, 1, -1);
             } elseif ('=' === $end) {
                 $lastNullAttribute = $bit = substr($bit, 0, -1);
-                $attributes[$bit] = null;
+                $attributes[$bit]  = null;
             } else {
-                $parts = explode('=', $bit);
-                $attributes[$parts[0]] = isset($parts[1]) && strlen($parts[1]) > 0 ? $parts[1] : '';
+                $parts                 = explode('=', $bit);
+                $attributes[$parts[0]] = isset( $parts[1] ) && strlen($parts[1]) > 0 ? $parts[1] : '';
             }
         }
 
-        return new self(($start = substr($value, 0, 1)) === ($end = substr($value, -1)) && ($start === '"' || $start === '\'') ? substr($value, 1, -1) : $value, $attributes);
+        return new self(( $start = substr($value, 0, 1) ) === ( $end = substr($value,
+            -1) ) && ( $start === '"' || $start === '\'' ) ? substr($value, 1, -1) : $value, $attributes);
     }
+
 
     /**
      * Returns header  value's string representation.
@@ -88,15 +96,16 @@ class AcceptHeaderItem
      */
     public function __toString()
     {
-        $string = $this->value.($this->quality < 1 ? ';q='.$this->quality : '');
+        $string = $this->value . ( $this->quality < 1 ? ';q=' . $this->quality : '' );
         if (count($this->attributes) > 0) {
-            $string .= ';'.implode(';', array_map(function ($name, $value) {
-                return sprintf(preg_match('/[,;=]/', $value) ? '%s="%s"' : '%s=%s', $name, $value);
-            }, array_keys($this->attributes), $this->attributes));
+            $string .= ';' . implode(';', array_map(function ($name, $value) {
+                    return sprintf(preg_match('/[,;=]/', $value) ? '%s="%s"' : '%s=%s', $name, $value);
+                }, array_keys($this->attributes), $this->attributes));
         }
 
         return $string;
     }
+
 
     /**
      * Set the item value.
@@ -112,6 +121,7 @@ class AcceptHeaderItem
         return $this;
     }
 
+
     /**
      * Returns the item value.
      *
@@ -121,6 +131,7 @@ class AcceptHeaderItem
     {
         return $this->value;
     }
+
 
     /**
      * Set the item quality.
@@ -136,6 +147,7 @@ class AcceptHeaderItem
         return $this;
     }
 
+
     /**
      * Returns the item quality.
      *
@@ -145,6 +157,7 @@ class AcceptHeaderItem
     {
         return $this->quality;
     }
+
 
     /**
      * Set the item index.
@@ -160,6 +173,7 @@ class AcceptHeaderItem
         return $this;
     }
 
+
     /**
      * Returns the item index.
      *
@@ -170,6 +184,7 @@ class AcceptHeaderItem
         return $this->index;
     }
 
+
     /**
      * Tests if an attribute exists.
      *
@@ -179,8 +194,9 @@ class AcceptHeaderItem
      */
     public function hasAttribute($name)
     {
-        return isset($this->attributes[$name]);
+        return isset( $this->attributes[$name] );
     }
+
 
     /**
      * Returns an attribute by its name.
@@ -192,8 +208,9 @@ class AcceptHeaderItem
      */
     public function getAttribute($name, $default = null)
     {
-        return isset($this->attributes[$name]) ? $this->attributes[$name] : $default;
+        return isset( $this->attributes[$name] ) ? $this->attributes[$name] : $default;
     }
+
 
     /**
      * Returns all attributes.
@@ -204,6 +221,7 @@ class AcceptHeaderItem
     {
         return $this->attributes;
     }
+
 
     /**
      * Set an attribute.

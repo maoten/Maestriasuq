@@ -22,6 +22,7 @@ use Prophecy\Prophecy\MethodProphecy;
  */
 interface PromiseInterface
 {
+
     /**
      * Evaluates promise.
      *

@@ -4,6 +4,7 @@ namespace Illuminate\Database\Events;
 
 abstract class ConnectionEvent
 {
+
     /**
      * The name of the connection.
      *
@@ -18,15 +19,17 @@ abstract class ConnectionEvent
      */
     public $connection;
 
+
     /**
      * Create a new event instance.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param  \Illuminate\Database\Connection $connection
+     *
      * @return void
      */
     public function __construct($connection)
     {
-        $this->connection = $connection;
+        $this->connection     = $connection;
         $this->connectionName = $connection->getName();
     }
 }

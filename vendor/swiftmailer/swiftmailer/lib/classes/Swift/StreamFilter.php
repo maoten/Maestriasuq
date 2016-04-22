@@ -15,6 +15,7 @@
  */
 interface Swift_StreamFilter
 {
+
     /**
      * Based on the buffer given, this returns true if more buffering is needed.
      *
@@ -23,6 +24,7 @@ interface Swift_StreamFilter
      * @return bool
      */
     public function shouldBuffer($buffer);
+
 
     /**
      * Filters $buffer and returns the changes.

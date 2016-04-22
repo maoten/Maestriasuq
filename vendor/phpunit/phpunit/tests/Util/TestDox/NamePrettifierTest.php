@@ -13,12 +13,15 @@
  */
 class Util_TestDox_NamePrettifierTest extends PHPUnit_Framework_TestCase
 {
+
     protected $namePrettifier;
+
 
     protected function setUp()
     {
         $this->namePrettifier = new PHPUnit_Util_TestDox_NamePrettifier;
     }
+
 
     /**
      * @covers PHPUnit_Util_TestDox_NamePrettifier::prettifyTestClass
@@ -30,6 +33,7 @@ class Util_TestDox_NamePrettifierTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Foo', $this->namePrettifier->prettifyTestClass('TestFooTest'));
         $this->assertEquals('Foo', $this->namePrettifier->prettifyTestClass('Test\FooTest'));
     }
+
 
     /**
      * @covers PHPUnit_Util_TestDox_NamePrettifier::prettifyTestClass
@@ -44,6 +48,7 @@ class Util_TestDox_NamePrettifierTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('FooTest', $this->namePrettifier->prettifyTestClass('FooTest'));
     }
 
+
     /**
      * @covers PHPUnit_Util_TestDox_NamePrettifier::prettifyTestClass
      */
@@ -57,6 +62,7 @@ class Util_TestDox_NamePrettifierTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('XXX', $this->namePrettifier->prettifyTestClass('XXXXXX'));
     }
 
+
     /**
      * @covers PHPUnit_Util_TestDox_NamePrettifier::prettifyTestMethod
      */
@@ -69,13 +75,16 @@ class Util_TestDox_NamePrettifierTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Foo for baz is 1', $this->namePrettifier->prettifyTestMethod('testFooForBazIs1'));
     }
 
+
     /**
      * @covers PHPUnit_Util_TestDox_NamePrettifier::prettifyTestMethod
      * @ticket 224
      */
     public function testTestNameIsNotGroupedWhenNotInSequence()
     {
-        $this->assertEquals('Sets redirect header on 301', $this->namePrettifier->prettifyTestMethod('testSetsRedirectHeaderOn301'));
-        $this->assertEquals('Sets redirect header on 302', $this->namePrettifier->prettifyTestMethod('testSetsRedirectHeaderOn302'));
+        $this->assertEquals('Sets redirect header on 301',
+            $this->namePrettifier->prettifyTestMethod('testSetsRedirectHeaderOn301'));
+        $this->assertEquals('Sets redirect header on 302',
+            $this->namePrettifier->prettifyTestMethod('testSetsRedirectHeaderOn302'));
     }
 }

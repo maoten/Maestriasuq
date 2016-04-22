@@ -25,6 +25,7 @@ use Psy\Exception\FatalErrorException;
  */
 class InstanceOfPass extends CodeCleanerPass
 {
+
     /**
      * Validate that the instanceof statement does not receive a scalar value or a non-class constant.
      *
@@ -34,11 +35,11 @@ class InstanceOfPass extends CodeCleanerPass
      */
     public function enterNode(Node $node)
     {
-        if (!$node instanceof InstanceofStmt) {
+        if ( ! $node instanceof InstanceofStmt) {
             return;
         }
 
-        if (($node->expr instanceof Scalar && !$node->expr instanceof Encapsed) || $node->expr instanceof ConstFetch) {
+        if (( $node->expr instanceof Scalar && ! $node->expr instanceof Encapsed ) || $node->expr instanceof ConstFetch) {
             throw new FatalErrorException('instanceof expects an object instance, constant given');
         }
     }

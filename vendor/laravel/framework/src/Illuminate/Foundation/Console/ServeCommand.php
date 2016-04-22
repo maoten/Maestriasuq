@@ -10,6 +10,7 @@ use Symfony\Component\Process\PhpExecutableFinder;
 
 class ServeCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -23,6 +24,7 @@ class ServeCommand extends Command
      * @var string
      */
     protected $description = 'Serve the application on the PHP development server';
+
 
     /**
      * Execute the console command.
@@ -56,6 +58,7 @@ class ServeCommand extends Command
         }
     }
 
+
     /**
      * Get the console command options.
      *
@@ -64,9 +67,9 @@ class ServeCommand extends Command
     protected function getOptions()
     {
         return [
-            ['host', null, InputOption::VALUE_OPTIONAL, 'The host address to serve the application on.', 'localhost'],
+            [ 'host', null, InputOption::VALUE_OPTIONAL, 'The host address to serve the application on.', 'localhost' ],
 
-            ['port', null, InputOption::VALUE_OPTIONAL, 'The port to serve the application on.', 8000],
+            [ 'port', null, InputOption::VALUE_OPTIONAL, 'The port to serve the application on.', 8000 ],
         ];
     }
 }

@@ -18,6 +18,7 @@
  */
 interface Swift_OutputByteStream
 {
+
     /**
      * Reads $length bytes from the stream into a string and moves the pointer
      * through the stream by $length.
@@ -32,6 +33,7 @@ interface Swift_OutputByteStream
      * @return string|bool
      */
     public function read($length);
+
 
     /**
      * Move the internal read pointer to $byteOffset in the stream.

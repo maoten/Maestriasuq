@@ -17,10 +17,12 @@ use SebastianBergmann\Diff\Differ;
  */
 class PHPUnit_Framework_Constraint_StringMatches extends PHPUnit_Framework_Constraint_PCREMatch
 {
+
     /**
      * @var string
      */
     protected $string;
+
 
     /**
      * @param string $string
@@ -29,17 +31,17 @@ class PHPUnit_Framework_Constraint_StringMatches extends PHPUnit_Framework_Const
     {
         parent::__construct($string);
 
-        $this->pattern = $this->createPatternFromFormat(
-            preg_replace('/\r\n/', "\n", $string)
-        );
+        $this->pattern = $this->createPatternFromFormat(preg_replace('/\r\n/', "\n", $string));
 
         $this->string = $string;
     }
+
 
     protected function failureDescription($other)
     {
         return 'format description matches text';
     }
+
 
     protected function additionalFailureDescription($other)
     {
@@ -47,7 +49,7 @@ class PHPUnit_Framework_Constraint_StringMatches extends PHPUnit_Framework_Const
         $to   = preg_split('(\r\n|\r|\n)', $other);
 
         foreach ($from as $index => $line) {
-            if (isset($to[$index]) && $line !== $to[$index]) {
+            if (isset( $to[$index] ) && $line !== $to[$index]) {
                 $line = $this->createPatternFromFormat($line);
 
                 if (preg_match($line, $to[$index]) > 0) {
@@ -64,10 +66,10 @@ class PHPUnit_Framework_Constraint_StringMatches extends PHPUnit_Framework_Const
         return $differ->diff($this->string, $other);
     }
 
+
     protected function createPatternFromFormat($string)
     {
-        $string = str_replace(
-            array(
+        $string = str_replace([
             '%e',
             '%s',
             '%S',
@@ -79,22 +81,19 @@ class PHPUnit_Framework_Constraint_StringMatches extends PHPUnit_Framework_Const
             '%x',
             '%f',
             '%c'
-            ),
-            array(
-            '\\' . DIRECTORY_SEPARATOR,
-            '[^\r\n]+',
-            '[^\r\n]*',
-            '.+',
-            '.*',
-            '\s*',
-            '[+-]?\d+',
-            '\d+',
-            '[0-9a-fA-F]+',
-            '[+-]?\.?\d+\.?\d*(?:[Ee][+-]?\d+)?',
-            '.'
-            ),
-            preg_quote($string, '/')
-        );
+        ], [
+                '\\' . DIRECTORY_SEPARATOR,
+                '[^\r\n]+',
+                '[^\r\n]*',
+                '.+',
+                '.*',
+                '\s*',
+                '[+-]?\d+',
+                '\d+',
+                '[0-9a-fA-F]+',
+                '[+-]?\.?\d+\.?\d*(?:[Ee][+-]?\d+)?',
+                '.'
+            ], preg_quote($string, '/'));
 
         return '/^' . $string . '$/s';
     }

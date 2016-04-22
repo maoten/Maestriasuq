@@ -8,10 +8,12 @@ use Prophecy\Doubler\Generator\Node\MethodNode;
 
 class MagicCallPatchSpec extends ObjectBehavior
 {
+
     function it_is_a_patch()
     {
         $this->shouldBeAnInstanceOf('Prophecy\Doubler\ClassPatch\ClassPatchInterface');
     }
+
 
     /**
      * @param \Prophecy\Doubler\Generator\Node\ClassNode $node
@@ -20,6 +22,7 @@ class MagicCallPatchSpec extends ObjectBehavior
     {
         $this->supports($node)->shouldReturn(true);
     }
+
 
     /**
      * @param \Prophecy\Doubler\Generator\Node\ClassNode $node
@@ -33,6 +36,7 @@ class MagicCallPatchSpec extends ObjectBehavior
         $this->apply($node);
     }
 
+
     /**
      * @param \Prophecy\Doubler\Generator\Node\ClassNode $node
      */
@@ -45,6 +49,7 @@ class MagicCallPatchSpec extends ObjectBehavior
 
         $this->apply($node);
     }
+
 
     /**
      * @param \Prophecy\Doubler\Generator\Node\ClassNode $node
@@ -70,6 +75,7 @@ class MagicCallPatchSpec extends ObjectBehavior
  */
 class MagicalApi
 {
+
     /**
      * @return void
      */

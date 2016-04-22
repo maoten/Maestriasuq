@@ -18,6 +18,7 @@ class AllOf extends DiagnosingMatcher
 
     private $_matchers;
 
+
     public function __construct(array $matchers)
     {
         Util::checkAllAreMatchers($matchers);
@@ -25,11 +26,12 @@ class AllOf extends DiagnosingMatcher
         $this->_matchers = $matchers;
     }
 
+
     public function matchesWithDiagnosticDescription($item, Description $mismatchDescription)
     {
         /** @var $matcher \Hamcrest\Matcher */
         foreach ($this->_matchers as $matcher) {
-            if (!$matcher->matches($item)) {
+            if ( ! $matcher->matches($item)) {
                 $mismatchDescription->appendDescriptionOf($matcher)->appendText(' ');
                 $matcher->describeMismatch($item, $mismatchDescription);
 
@@ -40,10 +42,12 @@ class AllOf extends DiagnosingMatcher
         return true;
     }
 
+
     public function describeTo(Description $description)
     {
         $description->appendList('(', ' and ', ')', $this->_matchers);
     }
+
 
     /**
      * Evaluates to true only if ALL of the passed in matchers evaluate to true.

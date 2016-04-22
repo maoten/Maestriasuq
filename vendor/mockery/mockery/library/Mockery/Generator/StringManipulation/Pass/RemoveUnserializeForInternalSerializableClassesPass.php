@@ -12,17 +12,19 @@ use Mockery\Generator\MockConfiguration;
  */
 class RemoveUnserializeForInternalSerializableClassesPass
 {
+
     const DUMMY_METHOD_DEFINITION = 'public function unserialize($string) {} ';
+
 
     public function apply($code, MockConfiguration $config)
     {
         $target = $config->getTargetClass();
 
-        if (!$target) {
+        if ( ! $target) {
             return $code;
         }
 
-        if (!$target->hasInternalAncestor() || !$target->implementsInterface("Serializable")) {
+        if ( ! $target->hasInternalAncestor() || ! $target->implementsInterface("Serializable")) {
             return $code;
         }
 
@@ -31,10 +33,12 @@ class RemoveUnserializeForInternalSerializableClassesPass
         return $code;
     }
 
+
     protected function appendToClass($class, $code)
     {
         $lastBrace = strrpos($class, "}");
-        $class = substr($class, 0, $lastBrace) . $code . "\n    }\n";
+        $class     = substr($class, 0, $lastBrace) . $code . "\n    }\n";
+
         return $class;
     }
 }

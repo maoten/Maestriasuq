@@ -21,8 +21,11 @@ use Psy\Exception\FatalErrorException;
  */
 class AbstractClassPass extends CodeCleanerPass
 {
+
     private $class;
+
     private $abstractMethods;
+
 
     /**
      * @throws RuntimeException if the node is an abstract function with a body.
@@ -32,11 +35,11 @@ class AbstractClassPass extends CodeCleanerPass
     public function enterNode(Node $node)
     {
         if ($node instanceof ClassStmt) {
-            $this->class = $node;
-            $this->abstractMethods = array();
+            $this->class           = $node;
+            $this->abstractMethods = [ ];
         } elseif ($node instanceof ClassMethod) {
             if ($node->isAbstract()) {
-                $name = sprintf('%s::%s', $this->class->name, $node->name);
+                $name                    = sprintf('%s::%s', $this->class->name, $node->name);
                 $this->abstractMethods[] = $name;
 
                 if ($node->stmts !== null) {
@@ -45,6 +48,7 @@ class AbstractClassPass extends CodeCleanerPass
             }
         }
     }
+
 
     /**
      * @throws RuntimeException if the node is a non-abstract class with abstract methods.
@@ -55,14 +59,9 @@ class AbstractClassPass extends CodeCleanerPass
     {
         if ($node instanceof ClassStmt) {
             $count = count($this->abstractMethods);
-            if ($count > 0 && !$node->isAbstract()) {
-                throw new FatalErrorException(sprintf(
-                    'Class %s contains %d abstract method%s must therefore be declared abstract or implement the remaining methods (%s)',
-                    $node->name,
-                    $count,
-                    ($count === 0) ? '' : 's',
-                    implode(', ', $this->abstractMethods)
-                ));
+            if ($count > 0 && ! $node->isAbstract()) {
+                throw new FatalErrorException(sprintf('Class %s contains %d abstract method%s must therefore be declared abstract or implement the remaining methods (%s)',
+                    $node->name, $count, ( $count === 0 ) ? '' : 's', implode(', ', $this->abstractMethods)));
             }
         }
     }

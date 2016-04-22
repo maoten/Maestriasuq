@@ -4,6 +4,7 @@ namespace Faker\Provider\fr_FR;
 
 class Text extends \Faker\Provider\Text
 {
+
     /**
      * The Project Gutenberg EBook of Madame Bovary, by Gustave Flaubert
      *

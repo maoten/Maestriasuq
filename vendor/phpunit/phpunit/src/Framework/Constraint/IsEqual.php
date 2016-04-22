@@ -21,6 +21,7 @@
  */
 class PHPUnit_Framework_Constraint_IsEqual extends PHPUnit_Framework_Constraint
 {
+
     /**
      * @var mixed
      */
@@ -51,6 +52,7 @@ class PHPUnit_Framework_Constraint_IsEqual extends PHPUnit_Framework_Constraint
      */
     protected $lastFailure;
 
+
     /**
      * @param mixed $value
      * @param float $delta
@@ -64,19 +66,19 @@ class PHPUnit_Framework_Constraint_IsEqual extends PHPUnit_Framework_Constraint
     {
         parent::__construct();
 
-        if (!is_numeric($delta)) {
+        if ( ! is_numeric($delta)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'numeric');
         }
 
-        if (!is_int($maxDepth)) {
+        if ( ! is_int($maxDepth)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(3, 'integer');
         }
 
-        if (!is_bool($canonicalize)) {
+        if ( ! is_bool($canonicalize)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(4, 'boolean');
         }
 
-        if (!is_bool($ignoreCase)) {
+        if ( ! is_bool($ignoreCase)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(5, 'boolean');
         }
 
@@ -86,6 +88,7 @@ class PHPUnit_Framework_Constraint_IsEqual extends PHPUnit_Framework_Constraint
         $this->canonicalize = $canonicalize;
         $this->ignoreCase   = $ignoreCase;
     }
+
 
     /**
      * Evaluates the constraint for parameter $other
@@ -117,31 +120,20 @@ class PHPUnit_Framework_Constraint_IsEqual extends PHPUnit_Framework_Constraint
         $comparatorFactory = SebastianBergmann\Comparator\Factory::getInstance();
 
         try {
-            $comparator = $comparatorFactory->getComparatorFor(
-                $this->value,
-                $other
-            );
+            $comparator = $comparatorFactory->getComparatorFor($this->value, $other);
 
-            $comparator->assertEquals(
-                $this->value,
-                $other,
-                $this->delta,
-                $this->canonicalize,
-                $this->ignoreCase
-            );
+            $comparator->assertEquals($this->value, $other, $this->delta, $this->canonicalize, $this->ignoreCase);
         } catch (SebastianBergmann\Comparator\ComparisonFailure $f) {
             if ($returnResult) {
                 return false;
             }
 
-            throw new PHPUnit_Framework_ExpectationFailedException(
-                trim($description . "\n" . $f->getMessage()),
-                $f
-            );
+            throw new PHPUnit_Framework_ExpectationFailedException(trim($description . "\n" . $f->getMessage()), $f);
         }
 
         return true;
     }
+
 
     /**
      * Returns a string representation of the constraint.
@@ -156,24 +148,14 @@ class PHPUnit_Framework_Constraint_IsEqual extends PHPUnit_Framework_Constraint
             if (strpos($this->value, "\n") !== false) {
                 return 'is equal to <text>';
             } else {
-                return sprintf(
-                    'is equal to <string:%s>',
-                    $this->value
-                );
+                return sprintf('is equal to <string:%s>', $this->value);
             }
         } else {
             if ($this->delta != 0) {
-                $delta = sprintf(
-                    ' with delta <%F>',
-                    $this->delta
-                );
+                $delta = sprintf(' with delta <%F>', $this->delta);
             }
 
-            return sprintf(
-                'is equal to %s%s',
-                $this->exporter->export($this->value),
-                $delta
-            );
+            return sprintf('is equal to %s%s', $this->exporter->export($this->value), $delta);
         }
     }
 }

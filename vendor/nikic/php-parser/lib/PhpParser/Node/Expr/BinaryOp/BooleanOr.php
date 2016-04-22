@@ -6,4 +6,5 @@ use PhpParser\Node\Expr\BinaryOp;
 
 class BooleanOr extends BinaryOp
 {
+
 }

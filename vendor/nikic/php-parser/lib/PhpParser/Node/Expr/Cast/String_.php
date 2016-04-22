@@ -6,4 +6,5 @@ use PhpParser\Node\Expr\Cast;
 
 class String_ extends Cast
 {
+
 }

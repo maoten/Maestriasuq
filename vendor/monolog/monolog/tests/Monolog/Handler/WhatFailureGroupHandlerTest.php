@@ -16,14 +16,16 @@ use Monolog\Logger;
 
 class WhatFailureGroupHandlerTest extends TestCase
 {
+
     /**
      * @covers Monolog\Handler\WhatFailureGroupHandler::__construct
      * @expectedException InvalidArgumentException
      */
     public function testConstructorOnlyTakesHandler()
     {
-        new WhatFailureGroupHandler(array(new TestHandler(), "foo"));
+        new WhatFailureGroupHandler([ new TestHandler(), "foo" ]);
     }
+
 
     /**
      * @covers Monolog\Handler\WhatFailureGroupHandler::__construct
@@ -31,8 +33,8 @@ class WhatFailureGroupHandlerTest extends TestCase
      */
     public function testHandle()
     {
-        $testHandlers = array(new TestHandler(), new TestHandler());
-        $handler = new WhatFailureGroupHandler($testHandlers);
+        $testHandlers = [ new TestHandler(), new TestHandler() ];
+        $handler      = new WhatFailureGroupHandler($testHandlers);
         $handler->handle($this->getRecord(Logger::DEBUG));
         $handler->handle($this->getRecord(Logger::INFO));
         foreach ($testHandlers as $test) {
@@ -42,14 +44,15 @@ class WhatFailureGroupHandlerTest extends TestCase
         }
     }
 
+
     /**
      * @covers Monolog\Handler\WhatFailureGroupHandler::handleBatch
      */
     public function testHandleBatch()
     {
-        $testHandlers = array(new TestHandler(), new TestHandler());
-        $handler = new WhatFailureGroupHandler($testHandlers);
-        $handler->handleBatch(array($this->getRecord(Logger::DEBUG), $this->getRecord(Logger::INFO)));
+        $testHandlers = [ new TestHandler(), new TestHandler() ];
+        $handler      = new WhatFailureGroupHandler($testHandlers);
+        $handler->handleBatch([ $this->getRecord(Logger::DEBUG), $this->getRecord(Logger::INFO) ]);
         foreach ($testHandlers as $test) {
             $this->assertTrue($test->hasDebugRecords());
             $this->assertTrue($test->hasInfoRecords());
@@ -57,25 +60,27 @@ class WhatFailureGroupHandlerTest extends TestCase
         }
     }
 
+
     /**
      * @covers Monolog\Handler\WhatFailureGroupHandler::isHandling
      */
     public function testIsHandling()
     {
-        $testHandlers = array(new TestHandler(Logger::ERROR), new TestHandler(Logger::WARNING));
-        $handler = new WhatFailureGroupHandler($testHandlers);
+        $testHandlers = [ new TestHandler(Logger::ERROR), new TestHandler(Logger::WARNING) ];
+        $handler      = new WhatFailureGroupHandler($testHandlers);
         $this->assertTrue($handler->isHandling($this->getRecord(Logger::ERROR)));
         $this->assertTrue($handler->isHandling($this->getRecord(Logger::WARNING)));
         $this->assertFalse($handler->isHandling($this->getRecord(Logger::DEBUG)));
     }
+
 
     /**
      * @covers Monolog\Handler\WhatFailureGroupHandler::handle
      */
     public function testHandleUsesProcessors()
     {
-        $test = new TestHandler();
-        $handler = new WhatFailureGroupHandler(array($test));
+        $test    = new TestHandler();
+        $handler = new WhatFailureGroupHandler([ $test ]);
         $handler->pushProcessor(function ($record) {
             $record['extra']['foo'] = true;
 
@@ -87,14 +92,15 @@ class WhatFailureGroupHandlerTest extends TestCase
         $this->assertTrue($records[0]['extra']['foo']);
     }
 
+
     /**
      * @covers Monolog\Handler\WhatFailureGroupHandler::handle
      */
     public function testHandleException()
     {
-        $test = new TestHandler();
+        $test      = new TestHandler();
         $exception = new ExceptionTestHandler();
-        $handler = new WhatFailureGroupHandler(array($exception, $test, $exception));
+        $handler   = new WhatFailureGroupHandler([ $exception, $test, $exception ]);
         $handler->pushProcessor(function ($record) {
             $record['extra']['foo'] = true;
 
@@ -109,6 +115,7 @@ class WhatFailureGroupHandlerTest extends TestCase
 
 class ExceptionTestHandler extends TestHandler
 {
+
     /**
      * {@inheritdoc}
      */

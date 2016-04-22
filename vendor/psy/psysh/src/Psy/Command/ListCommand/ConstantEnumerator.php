@@ -18,6 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class ConstantEnumerator extends Enumerator
 {
+
     /**
      * {@inheritdoc}
      */
@@ -35,7 +36,7 @@ class ConstantEnumerator extends Enumerator
         }
 
         // only list constants if we are specifically asked
-        if (!$input->getOption('constants')) {
+        if ( ! $input->getOption('constants')) {
             return;
         }
 
@@ -43,15 +44,16 @@ class ConstantEnumerator extends Enumerator
         $label     = $category ? ucfirst($category) . ' Constants' : 'Constants';
         $constants = $this->prepareConstants($this->getConstants($category));
 
-        if (empty($constants)) {
+        if (empty( $constants )) {
             return;
         }
 
-        $ret = array();
+        $ret         = [ ];
         $ret[$label] = $constants;
 
         return $ret;
     }
+
 
     /**
      * Get defined constants.
@@ -64,14 +66,15 @@ class ConstantEnumerator extends Enumerator
      */
     protected function getConstants($category = null)
     {
-        if (!$category) {
+        if ( ! $category) {
             return get_defined_constants();
         }
 
         $consts = get_defined_constants(true);
 
-        return isset($consts[$category]) ? $consts[$category] : array();
+        return isset( $consts[$category] ) ? $consts[$category] : [ ];
     }
+
 
     /**
      * Prepare formatted constant array.
@@ -83,18 +86,18 @@ class ConstantEnumerator extends Enumerator
     protected function prepareConstants(array $constants)
     {
         // My kingdom for a generator.
-        $ret = array();
+        $ret = [ ];
 
         $names = array_keys($constants);
         natcasesort($names);
 
         foreach ($names as $name) {
             if ($this->showItem($name)) {
-                $ret[$name] = array(
+                $ret[$name] = [
                     'name'  => $name,
                     'style' => self::IS_CONSTANT,
                     'value' => $this->presentRef($constants[$name]),
-                );
+                ];
             }
         }
 

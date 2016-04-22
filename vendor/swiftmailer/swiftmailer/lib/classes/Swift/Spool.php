@@ -15,15 +15,18 @@
  */
 interface Swift_Spool
 {
+
     /**
      * Starts this Spool mechanism.
      */
     public function start();
 
+
     /**
      * Stops this Spool mechanism.
      */
     public function stop();
+
 
     /**
      * Tests if this Spool mechanism has started.
@@ -31,6 +34,7 @@ interface Swift_Spool
      * @return bool
      */
     public function isStarted();
+
 
     /**
      * Queues a message.
@@ -40,6 +44,7 @@ interface Swift_Spool
      * @return bool Whether the operation has succeeded
      */
     public function queueMessage(Swift_Mime_Message $message);
+
 
     /**
      * Sends messages using the given transport instance.

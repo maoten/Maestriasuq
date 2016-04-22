@@ -20,10 +20,11 @@ use Monolog\Logger;
  */
 class ChromePHPFormatter implements FormatterInterface
 {
+
     /**
      * Translates Monolog log levels to Wildfire levels.
      */
-    private $logLevels = array(
+    private $logLevels = [
         Logger::DEBUG     => 'log',
         Logger::INFO      => 'info',
         Logger::NOTICE    => 'info',
@@ -32,7 +33,8 @@ class ChromePHPFormatter implements FormatterInterface
         Logger::CRITICAL  => 'error',
         Logger::ALERT     => 'error',
         Logger::EMERGENCY => 'error',
-    );
+    ];
+
 
     /**
      * {@inheritdoc}
@@ -41,12 +43,12 @@ class ChromePHPFormatter implements FormatterInterface
     {
         // Retrieve the line and file if set and remove them from the formatted extra
         $backtrace = 'unknown';
-        if (isset($record['extra']['file'], $record['extra']['line'])) {
-            $backtrace = $record['extra']['file'].' : '.$record['extra']['line'];
-            unset($record['extra']['file'], $record['extra']['line']);
+        if (isset( $record['extra']['file'], $record['extra']['line'] )) {
+            $backtrace = $record['extra']['file'] . ' : ' . $record['extra']['line'];
+            unset( $record['extra']['file'], $record['extra']['line'] );
         }
 
-        $message = array('message' => $record['message']);
+        $message = [ 'message' => $record['message'] ];
         if ($record['context']) {
             $message['context'] = $record['context'];
         }
@@ -57,17 +59,18 @@ class ChromePHPFormatter implements FormatterInterface
             $message = reset($message);
         }
 
-        return array(
+        return [
             $record['channel'],
             $message,
             $backtrace,
             $this->logLevels[$record['level']],
-        );
+        ];
     }
+
 
     public function formatBatch(array $records)
     {
-        $formatted = array();
+        $formatted = [ ];
 
         foreach ($records as $record) {
             $formatted[] = $this->format($record);

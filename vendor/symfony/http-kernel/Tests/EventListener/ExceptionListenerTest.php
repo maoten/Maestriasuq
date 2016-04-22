@@ -24,14 +24,15 @@ use Symfony\Component\HttpKernel\Tests\Logger;
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  *
- * @group time-sensitive
+ * @group  time-sensitive
  */
 class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testConstruct()
     {
         $logger = new TestLogger();
-        $l = new ExceptionListener('foo', $logger);
+        $l      = new ExceptionListener('foo', $logger);
 
         $_logger = new \ReflectionProperty(get_class($l), 'logger');
         $_logger->setAccessible(true);
@@ -41,6 +42,7 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($logger, $_logger->getValue($l));
         $this->assertSame('foo', $_controller->getValue($l));
     }
+
 
     /**
      * @dataProvider provider
@@ -62,6 +64,7 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
             $this->assertSame('foo', $e->getPrevious()->getMessage());
         }
     }
+
 
     /**
      * @dataProvider provider
@@ -87,21 +90,23 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(3, $logger->getLogs('critical'));
     }
 
+
     public function provider()
     {
-        if (!class_exists('Symfony\Component\HttpFoundation\Request')) {
-            return array(array(null, null));
+        if ( ! class_exists('Symfony\Component\HttpFoundation\Request')) {
+            return [ [ null, null ] ];
         }
 
-        $request = new Request();
+        $request   = new Request();
         $exception = new \Exception('foo');
-        $event = new GetResponseForExceptionEvent(new TestKernel(), $request, 'foo', $exception);
-        $event2 = new GetResponseForExceptionEvent(new TestKernelThatThrowsException(), $request, 'foo', $exception);
+        $event     = new GetResponseForExceptionEvent(new TestKernel(), $request, 'foo', $exception);
+        $event2    = new GetResponseForExceptionEvent(new TestKernelThatThrowsException(), $request, 'foo', $exception);
 
-        return array(
-            array($event, $event2),
-        );
+        return [
+            [ $event, $event2 ],
+        ];
     }
+
 
     public function testSubRequestFormat()
     {
@@ -125,6 +130,7 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
 
 class TestLogger extends Logger implements DebugLoggerInterface
 {
+
     public function countErrors()
     {
         return count($this->logs['critical']);
@@ -133,6 +139,7 @@ class TestLogger extends Logger implements DebugLoggerInterface
 
 class TestKernel implements HttpKernelInterface
 {
+
     public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
     {
         return new Response('foo');
@@ -141,6 +148,7 @@ class TestKernel implements HttpKernelInterface
 
 class TestKernelThatThrowsException implements HttpKernelInterface
 {
+
     public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
     {
         throw new \RuntimeException('bar');

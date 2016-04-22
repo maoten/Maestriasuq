@@ -24,11 +24,17 @@ use ReflectionClass;
  */
 class LazyDouble
 {
+
     private $doubler;
+
     private $class;
-    private $interfaces = array();
-    private $arguments  = null;
+
+    private $interfaces = [ ];
+
+    private $arguments = null;
+
     private $double;
+
 
     /**
      * Initializes lazy double.
@@ -39,6 +45,7 @@ class LazyDouble
     {
         $this->doubler = $doubler;
     }
+
 
     /**
      * Tells doubler to use specific class as parent one for double.
@@ -54,8 +61,8 @@ class LazyDouble
             throw new DoubleException('Can not extend class with already instantiated double.');
         }
 
-        if (!$class instanceof ReflectionClass) {
-            if (!class_exists($class)) {
+        if ( ! $class instanceof ReflectionClass) {
+            if ( ! class_exists($class)) {
                 throw new ClassNotFoundException(sprintf('Class %s not found.', $class), $class);
             }
 
@@ -64,6 +71,7 @@ class LazyDouble
 
         $this->class = $class;
     }
+
 
     /**
      * Tells doubler to implement specific interface with double.
@@ -76,17 +84,12 @@ class LazyDouble
     public function addInterface($interface)
     {
         if (null !== $this->double) {
-            throw new DoubleException(
-                'Can not implement interface with already instantiated double.'
-            );
+            throw new DoubleException('Can not implement interface with already instantiated double.');
         }
 
-        if (!$interface instanceof ReflectionClass) {
-            if (!interface_exists($interface)) {
-                throw new InterfaceNotFoundException(
-                    sprintf('Interface %s not found.', $interface),
-                    $interface
-                );
+        if ( ! $interface instanceof ReflectionClass) {
+            if ( ! interface_exists($interface)) {
+                throw new InterfaceNotFoundException(sprintf('Interface %s not found.', $interface), $interface);
             }
 
             $interface = new ReflectionClass($interface);
@@ -94,6 +97,7 @@ class LazyDouble
 
         $this->interfaces[] = $interface;
     }
+
 
     /**
      * Sets constructor arguments.
@@ -105,6 +109,7 @@ class LazyDouble
         $this->arguments = $arguments;
     }
 
+
     /**
      * Creates double instance or returns already created one.
      *
@@ -114,9 +119,7 @@ class LazyDouble
     {
         if (null === $this->double) {
             if (null !== $this->arguments) {
-                return $this->double = $this->doubler->double(
-                    $this->class, $this->interfaces, $this->arguments
-                );
+                return $this->double = $this->doubler->double($this->class, $this->interfaces, $this->arguments);
             }
 
             $this->double = $this->doubler->double($this->class, $this->interfaces);

@@ -10,6 +10,7 @@
  */
 class Token
 {
+
     /**
      * @var string The token name. Always null for literal tokens.
      */
@@ -30,6 +31,7 @@ class Token
      */
     public $line;
 
+
     /**
      * Constructs a token object.
      *
@@ -42,14 +44,15 @@ class Token
     public function __construct($code, $value = null, $line = null)
     {
         if (is_array($code)) {
-            list($value, $code, $line) = array_pad($code, 3, null);
+            list( $value, $code, $line ) = array_pad($code, 3, null);
         }
 
-        $this->code = $code;
+        $this->code  = $code;
         $this->value = $value;
-        $this->line = $line;
-        $this->name = $value ? token_name($value) : null;
+        $this->line  = $line;
+        $this->name  = $value ? token_name($value) : null;
     }
+
 
     /**
      * Determines if the token's value/code is equal to the specified value.
@@ -60,8 +63,9 @@ class Token
      */
     public function is($value)
     {
-        return ($this->code === $value || $this->value === $value);
+        return ( $this->code === $value || $this->value === $value );
     }
+
 
     public function __toString()
     {

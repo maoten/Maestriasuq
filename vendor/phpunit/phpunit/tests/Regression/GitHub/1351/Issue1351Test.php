@@ -1,7 +1,10 @@
 <?php
+
 class Issue1351Test extends PHPUnit_Framework_TestCase
 {
+
     protected $instance;
+
 
     /**
      * @runInSeparateProcess
@@ -12,11 +15,13 @@ class Issue1351Test extends PHPUnit_Framework_TestCase
         $this->assertFalse(true, 'Expected failure.');
     }
 
+
     public function testFailurePost()
     {
         $this->assertNull($this->instance);
         $this->assertFalse(class_exists('ChildProcessClass1351', false), 'ChildProcessClass1351 is not loaded.');
     }
+
 
     /**
      * @runInSeparateProcess
@@ -31,11 +36,13 @@ class Issue1351Test extends PHPUnit_Framework_TestCase
         }
     }
 
+
     public function testExceptionPost()
     {
         $this->assertNull($this->instance);
         $this->assertFalse(class_exists('ChildProcessClass1351', false), 'ChildProcessClass1351 is not loaded.');
     }
+
 
     public function testPhpCoreLanguageException()
     {

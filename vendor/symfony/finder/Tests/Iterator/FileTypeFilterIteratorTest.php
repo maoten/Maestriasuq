@@ -15,6 +15,7 @@ use Symfony\Component\Finder\Iterator\FileTypeFilterIterator;
 
 class FileTypeFilterIteratorTest extends RealIteratorTestCase
 {
+
     /**
      * @dataProvider getAcceptData
      */
@@ -27,9 +28,10 @@ class FileTypeFilterIteratorTest extends RealIteratorTestCase
         $this->assertIterator($expected, $iterator);
     }
 
+
     public function getAcceptData()
     {
-        $onlyFiles = array(
+        $onlyFiles = [
             'test.py',
             'foo/bar.tmp',
             'test.php',
@@ -37,34 +39,37 @@ class FileTypeFilterIteratorTest extends RealIteratorTestCase
             '.foo/.bar',
             '.foo/bar',
             'foo bar',
-        );
+        ];
 
-        $onlyDirectories = array(
+        $onlyDirectories = [
             '.git',
             'foo',
             'toto',
             'toto/.git',
             '.foo',
-        );
+        ];
 
-        return array(
-            array(FileTypeFilterIterator::ONLY_FILES, $this->toAbsolute($onlyFiles)),
-            array(FileTypeFilterIterator::ONLY_DIRECTORIES, $this->toAbsolute($onlyDirectories)),
-        );
+        return [
+            [ FileTypeFilterIterator::ONLY_FILES, $this->toAbsolute($onlyFiles) ],
+            [ FileTypeFilterIterator::ONLY_DIRECTORIES, $this->toAbsolute($onlyDirectories) ],
+        ];
     }
 }
 
 class InnerTypeIterator extends \ArrayIterator
 {
+
     public function current()
     {
         return new \SplFileInfo(parent::current());
     }
 
+
     public function isFile()
     {
         return $this->current()->isFile();
     }
+
 
     public function isDir()
     {

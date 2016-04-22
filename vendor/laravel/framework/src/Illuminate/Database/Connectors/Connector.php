@@ -9,6 +9,7 @@ use Illuminate\Database\DetectsLostConnections;
 
 class Connector
 {
+
     use DetectsLostConnections;
 
     /**
@@ -17,32 +18,36 @@ class Connector
      * @var array
      */
     protected $options = [
-        PDO::ATTR_CASE => PDO::CASE_NATURAL,
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_ORACLE_NULLS => PDO::NULL_NATURAL,
+        PDO::ATTR_CASE              => PDO::CASE_NATURAL,
+        PDO::ATTR_ERRMODE           => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_ORACLE_NULLS      => PDO::NULL_NATURAL,
         PDO::ATTR_STRINGIFY_FETCHES => false,
-        PDO::ATTR_EMULATE_PREPARES => false,
+        PDO::ATTR_EMULATE_PREPARES  => false,
     ];
+
 
     /**
      * Get the PDO options based on the configuration.
      *
-     * @param  array  $config
+     * @param  array $config
+     *
      * @return array
      */
     public function getOptions(array $config)
     {
-        $options = Arr::get($config, 'options', []);
+        $options = Arr::get($config, 'options', [ ]);
 
         return array_diff_key($this->options, $options) + $options;
     }
 
+
     /**
      * Create a new PDO connection.
      *
-     * @param  string  $dsn
-     * @param  array   $config
-     * @param  array   $options
+     * @param  string $dsn
+     * @param  array  $config
+     * @param  array  $options
+     *
      * @return \PDO
      */
     public function createConnection($dsn, array $config, array $options)
@@ -54,13 +59,12 @@ class Connector
         try {
             $pdo = new PDO($dsn, $username, $password, $options);
         } catch (Exception $e) {
-            $pdo = $this->tryAgainIfCausedByLostConnection(
-                $e, $dsn, $username, $password, $options
-            );
+            $pdo = $this->tryAgainIfCausedByLostConnection($e, $dsn, $username, $password, $options);
         }
 
         return $pdo;
     }
+
 
     /**
      * Get the default PDO connection options.
@@ -72,10 +76,12 @@ class Connector
         return $this->options;
     }
 
+
     /**
      * Set the default PDO connection options.
      *
-     * @param  array  $options
+     * @param  array $options
+     *
      * @return void
      */
     public function setDefaultOptions(array $options)
@@ -83,14 +89,16 @@ class Connector
         $this->options = $options;
     }
 
+
     /**
      * Handle a exception that occurred during connect execution.
      *
-     * @param  \Exception  $e
-     * @param  string  $dsn
-     * @param  string  $username
-     * @param  string  $password
-     * @param  array   $options
+     * @param  \Exception $e
+     * @param  string     $dsn
+     * @param  string     $username
+     * @param  string     $password
+     * @param  array      $options
+     *
      * @return \PDO
      *
      * @throws \Exception

@@ -23,10 +23,11 @@ use InvalidArgumentException;
  */
 class ObjectAttributesMatcher extends AbstractContextAwareMatcher
 {
+
     /**
      * {@inheritdoc}
      */
-    public function getMatches(array $tokens, array $info = array())
+    public function getMatches(array $tokens, array $info = [ ])
     {
         $input = $this->getInput($tokens);
 
@@ -36,28 +37,26 @@ class ObjectAttributesMatcher extends AbstractContextAwareMatcher
             array_pop($tokens);
         }
         $objectToken = array_pop($tokens);
-        $objectName = str_replace('$', '', $objectToken[1]);
+        $objectName  = str_replace('$', '', $objectToken[1]);
 
         try {
             $object = $this->getVariable($objectName);
         } catch (InvalidArgumentException $e) {
-            return array();
+            return [ ];
         }
 
-        return array_filter(
-            array_keys(get_class_vars(get_class($object))),
-            function ($var) use ($input) {
-                return AbstractMatcher::startsWith($input, $var);
-            }
-        );
+        return array_filter(array_keys(get_class_vars(get_class($object))), function ($var) use ($input) {
+            return AbstractMatcher::startsWith($input, $var);
+        });
     }
+
 
     /**
      * {@inheritdoc}
      */
     public function hasMatched(array $tokens)
     {
-        $token = array_pop($tokens);
+        $token     = array_pop($tokens);
         $prevToken = array_pop($tokens);
 
         switch (true) {

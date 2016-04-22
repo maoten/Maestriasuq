@@ -6,6 +6,7 @@ use BadMethodCallException;
 
 abstract class Handler
 {
+
     /**
      * @var string
      */
@@ -16,6 +17,7 @@ abstract class Handler
      */
     protected $filesystem;
 
+
     /**
      * Constructor.
      *
@@ -24,9 +26,10 @@ abstract class Handler
      */
     public function __construct(FilesystemInterface $filesystem = null, $path = null)
     {
-        $this->path = $path;
+        $this->path       = $path;
         $this->filesystem = $filesystem;
     }
+
 
     /**
      * Check whether the entree is a directory.
@@ -38,6 +41,7 @@ abstract class Handler
         return $this->getType() === 'dir';
     }
 
+
     /**
      * Check whether the entree is a file.
      *
@@ -47,6 +51,7 @@ abstract class Handler
     {
         return $this->getType() === 'file';
     }
+
 
     /**
      * Retrieve the entree type (file|dir).
@@ -59,6 +64,7 @@ abstract class Handler
 
         return $metadata['type'];
     }
+
 
     /**
      * Set the Filesystem object.
@@ -73,7 +79,8 @@ abstract class Handler
 
         return $this;
     }
-    
+
+
     /**
      * Retrieve the Filesystem object.
      *
@@ -83,6 +90,7 @@ abstract class Handler
     {
         return $this->filesystem;
     }
+
 
     /**
      * Set the entree path.
@@ -98,6 +106,7 @@ abstract class Handler
         return $this;
     }
 
+
     /**
      * Retrieve the entree path.
      *
@@ -107,6 +116,7 @@ abstract class Handler
     {
         return $this->path;
     }
+
 
     /**
      * Plugins pass-through.
@@ -119,16 +129,12 @@ abstract class Handler
     public function __call($method, array $arguments)
     {
         array_unshift($arguments, $this->path);
-        $callback = [$this->filesystem, $method];
+        $callback = [ $this->filesystem, $method ];
 
         try {
             return call_user_func_array($callback, $arguments);
         } catch (BadMethodCallException $e) {
-            throw new BadMethodCallException(
-                'Call to undefined method '
-                . get_called_class()
-                . '::' . $method
-            );
+            throw new BadMethodCallException('Call to undefined method ' . get_called_class() . '::' . $method);
         }
     }
 }
