@@ -1,5 +1,4 @@
 <?php
-
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -7,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 class Enfasis extends Model
 {
 
-    //
     protected $table = "enfasis";
 
     protected $fillable = [ 'nombre', 'created_at' ];

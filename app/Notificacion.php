@@ -1,5 +1,4 @@
 <?php
-
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -48,8 +47,8 @@ class Notificacion extends Model
 
         $estudiante = User::find($propuesta->user_id);
 
-        $notification          = new Notificacion();
-        $notification->user_id = $estudiante->id;
+        $notification               = new Notificacion();
+        $notification->user_id      = $estudiante->id;
         $notification->notificacion = "Hola " . $estudiante->nombre . " te queremos informar que la propuesta " . $propuesta->titulo . " tiene un nuevo comentario. Para ver los jurados de tu propuesta y los comentatios que realicen, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
         $notification->save();
 
@@ -71,8 +70,8 @@ class Notificacion extends Model
         for ($i = 0; $i < count($jurados); $i++) {
             $jurado = User::find($jurados[$i]);
 
-            $notificacion          = new Notificacion();
-            $notificacion->user_id = $jurado->id;
+            $notificacion               = new Notificacion();
+            $notificacion->user_id      = $jurado->id;
             $notificacion->notificacion = "Hola " . $jurado->nombre . " te queremos informar que se te fue asignada la propuesta " . $propuesta->titulo . ". Para ver la propuesta y realizar comentarios, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
             $notificacion->save();
 
@@ -97,8 +96,8 @@ class Notificacion extends Model
 
         $estudiante = User::find($propuesta->user_id);
 
-        $notificacion          = new Notificacion();
-        $notificacion->user_id = $estudiante->id;
+        $notificacion               = new Notificacion();
+        $notificacion->user_id      = $estudiante->id;
         $notificacion->notificacion = "Hola " . $estudiante->nombre . " te queremos informar que ya fueron asignados los jurados que se encargarán de evaluar tu propuesta " . $propuesta->titulo . ". Para ver los jurados de tu propuesta y los comentatios que realicen, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
         $notificacion->save();
 
@@ -122,8 +121,8 @@ class Notificacion extends Model
 
         $director = User::find($propuesta->dir_id);
 
-        $notificacion1          = new Notificacion();
-        $notificacion1->user_id = $director->id;
+        $notificacion1               = new Notificacion();
+        $notificacion1->user_id      = $director->id;
         $notificacion1->notificacion = "Hola " . $director->nombre . " te queremos informar que la propuesta " . $propuesta->titulo . " en la cual apareces como director de grado ya fue enviada al coordinador del énfasis correspondiente. Puedes encontrar las propuestas en las cuales eres director de grado en la opción 'Propuestas' del menú principal.";
         $notificacion1->save();
 
@@ -132,8 +131,8 @@ class Notificacion extends Model
         $consejo     = User::find($coordinador->user_id);
         $enfasis     = Enfasis::find($propuesta->enf_id);
 
-        $notificacion2          = new Notificacion();
-        $notificacion2->user_id = $consejo->id;
+        $notificacion2               = new Notificacion();
+        $notificacion2->user_id      = $consejo->id;
         $notificacion2->notificacion = "Hola " . $consejo->nombre . " te queremos informar que la propuesta " . $propuesta->titulo . " perteneciente al énfasis del cual eres coordinador ya se encuentra disponible para su revisión. Puedes encontrar las propuestas del énfasis en " . $enfasis->nombre . " en la opción 'Propuestas' del menú principal.";
         $notificacion2->save();
 
@@ -151,8 +150,8 @@ class Notificacion extends Model
      */
     public function notificarRegistro($usuario)
     {
-        $notificacion = new Notificacion();
-        $notificacion->user_id = $usuario->id;
+        $notificacion               = new Notificacion();
+        $notificacion->user_id      = $usuario->id;
         $notificacion->notificacion = "Hola " . $usuario->nombre . " te damos la bienvenida al Sistema de gestión de la Maestría en Ingeniería de la Universidad del Quindío. Si necesitas ayuda para empezar puedes dirigirte a la opción 'ayuda' en el menu despegable que aparecerá al hacer click en tu nombre en la barra superior.";
         $notificacion->save();
 

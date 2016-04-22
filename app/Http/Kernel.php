@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http;
 
 use App\Http\Middleware\Authenticate;

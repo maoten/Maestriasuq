@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests;
 
 class MensajeRequest extends Request

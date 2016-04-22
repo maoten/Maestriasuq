@@ -1,5 +1,4 @@
 <?php
-
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 class Jurado extends Model
 {
 
-    //
     protected $table = "jurados";
 
     protected $fillable = [ 'user_id', 'pais_id', 'created_at' ];
