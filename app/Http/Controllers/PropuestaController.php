@@ -115,7 +115,7 @@ class PropuestaController extends Controller
         if ( ! empty( $request->modalidad )) {
             $propuesta->mod_id = $request->modalidad;
         }
-        //$propuesta->save();
+        $propuesta->save();
 
         $f         = $request->file('propuesta');
         $att       = new Documentos();
@@ -124,13 +124,13 @@ class PropuestaController extends Controller
         $att->mime         = $f->getMimeType();
         $att->size         = $f->getSize();
         $att->propuesta_id = $propuesta->id;
-        /* $att->save();
+         $att->save();
  
          $notificacion= new Notificacion();
          $notificacion->notificarRegistroPropuesta($propuesta);
  
          Flash::success("Se ha registrado la propuesta ".$propuesta->titulo." de forma exitosa");
-         return redirect()->route('estudiante.propuesta.index');*/
+         return redirect()->route('estudiante.propuesta.index');
         dd($f);
 
     }

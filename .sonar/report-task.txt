@@ -1,0 +1,5 @@
+projectKey=maestriasuqFinal1
+serverUrl=http://localhost:9000
+dashboardUrl=http://localhost:9000/dashboard/index/maestriasuqFinal1
+ceTaskId=AVRE5kzm-sd1svPgm6zt
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AVRE5kzm-sd1svPgm6zt
