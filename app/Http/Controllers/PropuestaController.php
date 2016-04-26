@@ -108,7 +108,7 @@ class PropuestaController extends Controller
     public function store(PropuestaRequest $request)
     {
 
-        $propuesta = new Propuesta($request->all());
+       $propuesta = new Propuesta($request->all());
         if ( ! empty( $request->enfasis )) {
             $propuesta->enf_id = $request->enfasis;
         }
@@ -117,21 +117,21 @@ class PropuestaController extends Controller
         }
         $propuesta->save();
 
-        $f         = $request->file('propuesta');
-        $att       = new Documentos();
-        $att->name = $f->getClientOriginalName();
-        // $att->file = base64_encode(file_get_contents($f->getRealPath()));
+        $f                 = $request->file('propuesta');
+        $att               = new Documentos();
+        $att->name         = $f->getClientOriginalName();
+        $att->file         = base64_encode(file_get_contents($f->getRealPath()));
         $att->mime         = $f->getMimeType();
         $att->size         = $f->getSize();
         $att->propuesta_id = $propuesta->id;
-         $att->save();
- 
-         $notificacion= new Notificacion();
-         $notificacion->notificarRegistroPropuesta($propuesta);
- 
-         Flash::success("Se ha registrado la propuesta ".$propuesta->titulo." de forma exitosa");
-         return redirect()->route('estudiante.propuesta.index');
-        dd($f);
+        $att->save();
+
+        $notificacion = new Notificacion();
+        $notificacion->notificarRegistroPropuesta($propuesta);
+
+        Flash::success("Se ha registrado la propuesta " . $propuesta->titulo . " de forma exitosa");
+
+        return redirect()->route('estudiante.propuesta.index');
 
     }
 
