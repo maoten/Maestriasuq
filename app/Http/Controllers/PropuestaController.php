@@ -111,7 +111,7 @@ class PropuestaController extends Controller
     public function store(PropuestaRequest $request)
     {
 
-        $propuesta = new Propuesta($request->all());
+       $propuesta = new Propuesta($request->all());
         if ( ! empty( $request->enfasis )) {
             $propuesta->enf_id = $request->enfasis;
         }
