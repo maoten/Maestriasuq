@@ -12,8 +12,8 @@
 namespace Symfony\Component\Debug\Tests;
 
 use Psr\Log\LogLevel;
-use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\BufferingLogger;
+use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\Exception\ContextErrorException;
 
 /**
@@ -345,9 +345,9 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
             $logger = $this->getMock('Psr\Log\LoggerInterface');
 
             $logger->expects($this->exactly(2))->method('log')->withConsecutive([
-                    $this->equalTo(LogLevel::WARNING),
-                    $this->equalTo('Dummy log')
-                ], [ $this->equalTo(LogLevel::DEBUG), $this->equalTo('Silenced warning') ]);
+                $this->equalTo(LogLevel::WARNING),
+                $this->equalTo('Dummy log')
+            ], [ $this->equalTo(LogLevel::DEBUG), $this->equalTo('Silenced warning') ]);
 
             $handler->setDefaultLogger($logger, [ E_USER_WARNING => LogLevel::WARNING ]);
 
@@ -453,13 +453,13 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
 
             $logger = $this->getMock('Psr\Log\LoggerInterface');
             $logger->expects($this->once())->method('log')->with($this->equalTo(LogLevel::CRITICAL),
-                    $this->equalTo('Fatal Error: foo'), $this->equalTo([
-                        'type'  => 1,
-                        'file'  => 'bar',
-                        'line'  => 123,
-                        'level' => -1,
-                        'stack' => [ 456 ],
-                    ]));
+                $this->equalTo('Fatal Error: foo'), $this->equalTo([
+                    'type'  => 1,
+                    'file'  => 'bar',
+                    'line'  => 123,
+                    'level' => -1,
+                    'stack' => [ 456 ],
+                ]));
 
             $handler->setDefaultLogger($logger, E_ERROR);
 

@@ -33,7 +33,7 @@ class ExpressionRequestMatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testMatchesWhenParentMatchesIsTrue($expression, $expected)
     {
-        $request = Request::create('/foo');
+        $request                  = Request::create('/foo');
         $expressionRequestMatcher = new ExpressionRequestMatcher();
 
         $expressionRequestMatcher->setExpression(new ExpressionLanguage(), $expression);

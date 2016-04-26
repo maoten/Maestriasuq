@@ -56,35 +56,35 @@ class PHPConsoleHandlerTest extends TestCase
     protected function initDebugDispatcherMock(Connector $connector)
     {
         return $this->getMockBuilder('PhpConsole\Dispatcher\Debug')->disableOriginalConstructor()->setMethods([ 'dispatchDebug' ])->setConstructorArgs([
-                $connector,
-                $connector->getDumper()
-            ])->getMock();
+            $connector,
+            $connector->getDumper()
+        ])->getMock();
     }
 
 
     protected function initErrorDispatcherMock(Connector $connector)
     {
         return $this->getMockBuilder('PhpConsole\Dispatcher\Errors')->disableOriginalConstructor()->setMethods([
-                'dispatchError',
-                'dispatchException'
-            ])->setConstructorArgs([ $connector, $connector->getDumper() ])->getMock();
+            'dispatchError',
+            'dispatchException'
+        ])->setConstructorArgs([ $connector, $connector->getDumper() ])->getMock();
     }
 
 
     protected function initConnectorMock()
     {
         $connector = $this->getMockBuilder('PhpConsole\Connector')->disableOriginalConstructor()->setMethods([
-                'sendMessage',
-                'onShutDown',
-                'isActiveClient',
-                'setSourcesBasePath',
-                'setServerEncoding',
-                'setPassword',
-                'enableSslOnlyMode',
-                'setAllowedIpMasks',
-                'setHeadersLimit',
-                'startEvalRequestsListener',
-            ])->getMock();
+            'sendMessage',
+            'onShutDown',
+            'isActiveClient',
+            'setSourcesBasePath',
+            'setServerEncoding',
+            'setPassword',
+            'enableSslOnlyMode',
+            'setAllowedIpMasks',
+            'setHeadersLimit',
+            'startEvalRequestsListener',
+        ])->getMock();
 
         $connector->expects($this->any())->method('isActiveClient')->will($this->returnValue(true));
 

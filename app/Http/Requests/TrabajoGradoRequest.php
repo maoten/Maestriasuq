@@ -23,8 +23,7 @@ class TrabajoGradoRequest extends Request
     public function rules()
     {
         return [
-            'nombre' => 'min:4|max:120|required',
-            'cedula' => 'min:4|max:120|required'
+            'titulo' => 'alpha_num|min:4|max:120|required'
         ];
     }
 }

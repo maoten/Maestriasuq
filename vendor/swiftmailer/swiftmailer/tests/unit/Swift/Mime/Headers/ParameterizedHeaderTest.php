@@ -97,8 +97,8 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->_getParameterEncoder();
         $encoder->shouldReceive('encodeString')->once()->with($value, \Mockery::any(), 63,
-                \Mockery::any())->andReturn(str_repeat('a', 63) . "\r\n" . str_repeat('a',
-                    63) . "\r\n" . str_repeat('a', 54));
+            \Mockery::any())->andReturn(str_repeat('a', 63) . "\r\n" . str_repeat('a', 63) . "\r\n" . str_repeat('a',
+                54));
 
         $header = $this->_getHeader('Content-Disposition', $this->_getHeaderEncoder('Q', true), $encoder);
         $header->setValue('attachment');
@@ -139,7 +139,7 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->_getParameterEncoder();
         $encoder->shouldReceive('encodeString')->once()->with($value, 12, 62,
-                \Mockery::any())->andReturn(str_repeat('a', 20) . '%8F' . str_repeat('a', 10));
+            \Mockery::any())->andReturn(str_repeat('a', 20) . '%8F' . str_repeat('a', 10));
 
         $header = $this->_getHeader('Content-Disposition', $this->_getHeaderEncoder('Q', true), $encoder);
         $header->setValue('attachment');
@@ -186,8 +186,8 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->_getParameterEncoder();
         $encoder->shouldReceive('encodeString')->once()->with($value, 12, 62,
-                \Mockery::any())->andReturn(str_repeat('a', 20) . '%8F' . str_repeat('a', 28) . "\r\n" . str_repeat('a',
-                    32));
+            \Mockery::any())->andReturn(str_repeat('a', 20) . '%8F' . str_repeat('a', 28) . "\r\n" . str_repeat('a',
+                32));
 
         $header = $this->_getHeader('Content-Disposition', $this->_getHeaderEncoder('Q', true), $encoder);
         $header->setValue('attachment');
@@ -216,7 +216,7 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->_getHeaderEncoder('Q');
         $encoder->shouldReceive('encodeString')->once()->with($value, \Mockery::any(), \Mockery::any(),
-                \Mockery::any())->andReturn('fo=8Fbar');
+            \Mockery::any())->andReturn('fo=8Fbar');
 
         $header = $this->_getHeader('X-Foo', $encoder, $this->_getParameterEncoder(true));
         $header->setValue($value);
@@ -231,11 +231,11 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->_getHeaderEncoder('Q');
         $encoder->shouldReceive('encodeString')->once()->with($value, \Mockery::any(), \Mockery::any(),
-                \Mockery::any())->andReturn('fo=8Fbar');
+            \Mockery::any())->andReturn('fo=8Fbar');
 
         $paramEncoder = $this->_getParameterEncoder();
         $paramEncoder->shouldReceive('encodeString')->once()->with($value, \Mockery::any(), \Mockery::any(),
-                \Mockery::any())->andReturn('fo%8Fbar');
+            \Mockery::any())->andReturn('fo%8Fbar');
 
         $header = $this->_getHeader('X-Foo', $encoder, $paramEncoder);
         $header->setValue($value);
@@ -250,7 +250,7 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->_getHeaderEncoder('Q');
         $encoder->shouldReceive('encodeString')->once()->with($value, \Mockery::any(), \Mockery::any(),
-                \Mockery::any())->andReturn('fo=8Fbar');
+            \Mockery::any())->andReturn('fo=8Fbar');
 
         $header = $this->_getHeader('X-Foo', $encoder, null);
         $header->setValue('bar');
@@ -282,11 +282,11 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->_getHeaderEncoder('Q');
         $encoder->shouldReceive('encodeString')->once()->with($value, \Mockery::any(), \Mockery::any(),
-                \Mockery::any())->andReturn('fo=8Fbar');
+            \Mockery::any())->andReturn('fo=8Fbar');
 
         $paramEncoder = $this->_getParameterEncoder();
         $paramEncoder->shouldReceive('encodeString')->once()->with($value, \Mockery::any(), \Mockery::any(),
-                \Mockery::any())->andReturn('fo%8Fbar');
+            \Mockery::any())->andReturn('fo%8Fbar');
 
         $header = $this->_getHeader('X-Foo', $encoder, $paramEncoder);
         $header->setLanguage('en');

@@ -2,9 +2,9 @@
 
 namespace Illuminate\Routing;
 
+use Illuminate\Container\Container;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Container\Container;
 
 class ControllerDispatcher
 {
@@ -96,12 +96,12 @@ class ControllerDispatcher
         // us the ability to define middlewares on controllers. We will return the given
         // response back out so that "after" filters can be run after the middlewares.
         return (new Pipeline($this->container))->send($request)->through($middleware)->then(function ($request) use (
-                $instance,
-                $route,
-                $method
-            ) {
-                return $this->router->prepareResponse($request, $this->call($instance, $route, $method));
-            });
+            $instance,
+            $route,
+            $method
+        ) {
+            return $this->router->prepareResponse($request, $this->call($instance, $route, $method));
+        });
     }
 
 

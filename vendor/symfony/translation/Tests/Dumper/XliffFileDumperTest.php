@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\Translation\Tests\Dumper;
 
-use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Dumper\XliffFileDumper;
+use Symfony\Component\Translation\MessageCatalogue;
 
 class XliffFileDumperTest extends \PHPUnit_Framework_TestCase
 {
@@ -57,10 +57,11 @@ class XliffFileDumperTest extends \PHPUnit_Framework_TestCase
     {
         $options = [
             'default_locale' => 'en_US',
-            'tool_info'      => [ 'tool-id'      => 'foo',
-                                  'tool-name'    => 'foo',
-                                  'tool-version' => '0.0',
-                                  'tool-company' => 'Foo'
+            'tool_info'      => [
+                'tool-id'      => 'foo',
+                'tool-name'    => 'foo',
+                'tool-version' => '0.0',
+                'tool-company' => 'Foo'
             ],
         ];
 

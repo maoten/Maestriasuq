@@ -2,8 +2,8 @@
 
 namespace Faker\ORM\Mandango;
 
-use Mandango\Mandango;
 use Faker\Provider\Base;
+use Mandango\Mandango;
 
 /**
  * Service class for populating a table through a Mandango ActiveRecord class.

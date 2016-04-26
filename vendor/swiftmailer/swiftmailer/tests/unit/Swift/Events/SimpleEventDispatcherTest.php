@@ -118,10 +118,10 @@ class Swift_Events_SimpleEventDispatcherTest extends \PHPUnit_Framework_TestCase
         $this->_dispatcher->bindEventListener($listenerB);
 
         $listenerA->expects($this->once())->method('sendPerformed')->with($evt)->will($this->returnCallback(function (
-                $object
-            ) {
-                $object->cancelBubble(true);
-            }));
+            $object
+        ) {
+            $object->cancelBubble(true);
+        }));
         $listenerB->expects($this->never())->method('sendPerformed');
 
         $this->_dispatcher->dispatchEvent($evt, 'sendPerformed');

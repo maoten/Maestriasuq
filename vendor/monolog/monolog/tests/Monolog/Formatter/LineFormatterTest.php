@@ -42,8 +42,8 @@ class LineFormatterTest extends \PHPUnit_Framework_TestCase
             'datetime'   => new \DateTime,
             'extra'      => [ ],
             'context'    => [
-                'foo' => 'bar',
-                'baz' => 'qux',
+                'foo'  => 'bar',
+                'baz'  => 'qux',
                 'bool' => false,
                 'null' => null,
             ],
@@ -206,10 +206,10 @@ class LineFormatterTest extends \PHPUnit_Framework_TestCase
     {
         $formatter = new LineFormatter(null, 'Y-m-d');
         $message   = $formatter->format([
-                'message' => "foo\nbar",
-                'context' => [ ],
-                'extra'   => [ ],
-            ]);
+            'message' => "foo\nbar",
+            'context' => [ ],
+            'extra'   => [ ],
+        ]);
 
         $this->assertRegExp('/foo bar/', $message);
     }
@@ -219,10 +219,10 @@ class LineFormatterTest extends \PHPUnit_Framework_TestCase
     {
         $formatter = new LineFormatter(null, 'Y-m-d', true);
         $message   = $formatter->format([
-                'message' => "foo\nbar",
-                'context' => [ ],
-                'extra'   => [ ],
-            ]);
+            'message' => "foo\nbar",
+            'context' => [ ],
+            'extra'   => [ ],
+        ]);
 
         $this->assertRegExp('/foo\nbar/', $message);
     }

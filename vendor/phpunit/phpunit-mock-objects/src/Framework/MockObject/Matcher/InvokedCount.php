@@ -101,7 +101,7 @@ class PHPUnit_Framework_MockObject_Matcher_InvokedCount extends PHPUnit_Framewor
 
         if ($count !== $this->expectedCount) {
             throw new PHPUnit_Framework_ExpectationFailedException(sprintf('Method was expected to be called %d times, ' . 'actually called %d times.',
-                    $this->expectedCount, $count));
+                $this->expectedCount, $count));
         }
     }
 }

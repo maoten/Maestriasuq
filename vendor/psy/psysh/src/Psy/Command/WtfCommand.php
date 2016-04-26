@@ -50,10 +50,10 @@ class WtfCommand extends TraceCommand implements ContextAware
     protected function configure()
     {
         $this->setName('wtf')->setAliases([ 'last-exception', 'wtf?' ])->setDefinition([
-                new InputArgument('incredulity', InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
-                    'Number of lines to show'),
-                new InputOption('verbose', 'v', InputOption::VALUE_NONE, 'Show entire backtrace.'),
-            ])->setDescription('Show the backtrace of the most recent exception.')->setHelp(<<<'HELP'
+            new InputArgument('incredulity', InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
+                'Number of lines to show'),
+            new InputOption('verbose', 'v', InputOption::VALUE_NONE, 'Show entire backtrace.'),
+        ])->setDescription('Show the backtrace of the most recent exception.')->setHelp(<<<'HELP'
 Shows a few lines of the backtrace of the most recent exception.
 
 If you want to see more lines, add more question marks or exclamation marks:
@@ -67,7 +67,7 @@ To see the entire backtrace, pass the -v/--verbose flag:
 e.g.
 <return>>>> wtf -v</return>
 HELP
-            );
+        );
     }
 
 

@@ -82,18 +82,18 @@ class PHPUnit_Framework_Constraint_StringMatches extends PHPUnit_Framework_Const
             '%f',
             '%c'
         ], [
-                '\\' . DIRECTORY_SEPARATOR,
-                '[^\r\n]+',
-                '[^\r\n]*',
-                '.+',
-                '.*',
-                '\s*',
-                '[+-]?\d+',
-                '\d+',
-                '[0-9a-fA-F]+',
-                '[+-]?\.?\d+\.?\d*(?:[Ee][+-]?\d+)?',
-                '.'
-            ], preg_quote($string, '/'));
+            '\\' . DIRECTORY_SEPARATOR,
+            '[^\r\n]+',
+            '[^\r\n]*',
+            '.+',
+            '.*',
+            '\s*',
+            '[+-]?\d+',
+            '\d+',
+            '[0-9a-fA-F]+',
+            '[+-]?\.?\d+\.?\d*(?:[Ee][+-]?\d+)?',
+            '.'
+        ], preg_quote($string, '/'));
 
         return '/^' . $string . '$/s';
     }

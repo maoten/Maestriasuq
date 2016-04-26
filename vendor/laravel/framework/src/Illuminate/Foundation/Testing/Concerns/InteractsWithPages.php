@@ -4,13 +4,13 @@ namespace Illuminate\Foundation\Testing\Concerns;
 
 use Closure;
 use Exception;
+use Illuminate\Foundation\Testing\HttpException;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Illuminate\Http\UploadedFile;
-use Symfony\Component\DomCrawler\Form;
-use Symfony\Component\DomCrawler\Crawler;
-use Illuminate\Foundation\Testing\HttpException;
 use PHPUnit_Framework_ExpectationFailedException as PHPUnitException;
+use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\DomCrawler\Form;
 
 trait InteractsWithPages
 {

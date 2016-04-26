@@ -341,7 +341,7 @@ class FinderTest extends Iterator\RealIteratorTestCase
 
     public function testIn()
     {
-        $finder = $this->buildFinder();
+        $finder   = $this->buildFinder();
         $iterator = $finder->files()->name('*.php')->depth('< 1')->in([ self::$tmpDir, __DIR__ ])->getIterator();
 
         $expected = [
@@ -591,8 +591,8 @@ class FinderTest extends Iterator\RealIteratorTestCase
         // it is expected that there are test.py test.php in the tmpDir
         $finder = new Finder();
         $finder->in($locations)// the default flag IGNORE_DOT_FILES fixes the problem indirectly
-            // so we set it to false for better isolation
-            ->ignoreDotFiles(false)->depth('< 1')->name('test.php');
+        // so we set it to false for better isolation
+        ->ignoreDotFiles(false)->depth('< 1')->name('test.php');
 
         $this->assertCount(1, $finder);
     }

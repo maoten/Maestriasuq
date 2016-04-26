@@ -367,7 +367,7 @@ class Snapshot
     private function snapshotStaticAttributes()
     {
         foreach ($this->classes as $className) {
-            $class = new ReflectionClass($className);
+            $class    = new ReflectionClass($className);
             $snapshot = [ ];
 
             foreach ($class->getProperties() as $attribute) {
@@ -413,13 +413,13 @@ class Snapshot
 
         if (ini_get('register_long_arrays') == '1') {
             $this->superGlobalArrays = array_merge($this->superGlobalArrays, [
-                    'HTTP_ENV_VARS',
-                    'HTTP_POST_VARS',
-                    'HTTP_GET_VARS',
-                    'HTTP_COOKIE_VARS',
-                    'HTTP_SERVER_VARS',
-                    'HTTP_POST_FILES'
-                ]);
+                'HTTP_ENV_VARS',
+                'HTTP_POST_VARS',
+                'HTTP_GET_VARS',
+                'HTTP_COOKIE_VARS',
+                'HTTP_SERVER_VARS',
+                'HTTP_POST_FILES'
+            ]);
         }
     }
 

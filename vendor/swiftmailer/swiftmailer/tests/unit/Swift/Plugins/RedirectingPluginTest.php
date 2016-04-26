@@ -15,15 +15,15 @@ class Swift_Plugins_RedirectingPluginTest extends \PHPUnit_Framework_TestCase
     public function testPluginChangesRecipients()
     {
         $message = Swift_Message::newInstance()->setSubject('...')->setFrom([ 'john@example.com' => 'John Doe' ])->setTo($to = [
-                'fabien-to@example.com' => 'Fabien (To)',
-                'chris-to@example.com'  => 'Chris (To)',
-            ])->setCc($cc = [
-                'fabien-cc@example.com' => 'Fabien (Cc)',
-                'chris-cc@example.com'  => 'Chris (Cc)',
-            ])->setBcc($bcc = [
-                'fabien-bcc@example.com' => 'Fabien (Bcc)',
-                'chris-bcc@example.com'  => 'Chris (Bcc)',
-            ])->setBody('...');
+            'fabien-to@example.com' => 'Fabien (To)',
+            'chris-to@example.com'  => 'Chris (To)',
+        ])->setCc($cc = [
+            'fabien-cc@example.com' => 'Fabien (Cc)',
+            'chris-cc@example.com'  => 'Chris (Cc)',
+        ])->setBcc($bcc = [
+            'fabien-bcc@example.com' => 'Fabien (Bcc)',
+            'chris-bcc@example.com'  => 'Chris (Bcc)',
+        ])->setBody('...');
 
         $plugin = new Swift_Plugins_RedirectingPlugin('god@example.com');
 
@@ -46,12 +46,12 @@ class Swift_Plugins_RedirectingPluginTest extends \PHPUnit_Framework_TestCase
     public function testPluginRespectsUnsetToList()
     {
         $message = Swift_Message::newInstance()->setSubject('...')->setFrom([ 'john@example.com' => 'John Doe' ])->setCc($cc = [
-                'fabien-cc@example.com' => 'Fabien (Cc)',
-                'chris-cc@example.com'  => 'Chris (Cc)',
-            ])->setBcc($bcc = [
-                'fabien-bcc@example.com' => 'Fabien (Bcc)',
-                'chris-bcc@example.com'  => 'Chris (Bcc)',
-            ])->setBody('...');
+            'fabien-cc@example.com' => 'Fabien (Cc)',
+            'chris-cc@example.com'  => 'Chris (Cc)',
+        ])->setBcc($bcc = [
+            'fabien-bcc@example.com' => 'Fabien (Bcc)',
+            'chris-bcc@example.com'  => 'Chris (Bcc)',
+        ])->setBody('...');
 
         $plugin = new Swift_Plugins_RedirectingPlugin('god@example.com');
 
@@ -74,18 +74,18 @@ class Swift_Plugins_RedirectingPluginTest extends \PHPUnit_Framework_TestCase
     public function testPluginRespectsAWhitelistOfPatterns()
     {
         $message = Swift_Message::newInstance()->setSubject('...')->setFrom([ 'john@example.com' => 'John Doe' ])->setTo($to = [
-                'fabien-to@example.com' => 'Fabien (To)',
-                'chris-to@example.com'  => 'Chris (To)',
-                'lars-to@internal.com'  => 'Lars (To)',
-            ])->setCc($cc = [
-                'fabien-cc@example.com' => 'Fabien (Cc)',
-                'chris-cc@example.com'  => 'Chris (Cc)',
-                'lars-cc@internal.org'  => 'Lars (Cc)',
-            ])->setBcc($bcc = [
-                'fabien-bcc@example.com' => 'Fabien (Bcc)',
-                'chris-bcc@example.com'  => 'Chris (Bcc)',
-                'john-bcc@example.org'   => 'John (Bcc)',
-            ])->setBody('...');
+            'fabien-to@example.com' => 'Fabien (To)',
+            'chris-to@example.com'  => 'Chris (To)',
+            'lars-to@internal.com'  => 'Lars (To)',
+        ])->setCc($cc = [
+            'fabien-cc@example.com' => 'Fabien (Cc)',
+            'chris-cc@example.com'  => 'Chris (Cc)',
+            'lars-cc@internal.org'  => 'Lars (Cc)',
+        ])->setBcc($bcc = [
+            'fabien-bcc@example.com' => 'Fabien (Bcc)',
+            'chris-bcc@example.com'  => 'Chris (Bcc)',
+            'john-bcc@example.org'   => 'John (Bcc)',
+        ])->setBody('...');
 
         $recipient = 'god@example.com';
         $patterns  = [ '/^.*@internal.[a-z]+$/', '/^john-.*$/' ];
@@ -114,18 +114,18 @@ class Swift_Plugins_RedirectingPluginTest extends \PHPUnit_Framework_TestCase
     public function testArrayOfRecipientsCanBeExplicitlyDefined()
     {
         $message = Swift_Message::newInstance()->setSubject('...')->setFrom([ 'john@example.com' => 'John Doe' ])->setTo([
-                'fabien@example.com'   => 'Fabien',
-                'chris@example.com'    => 'Chris (To)',
-                'lars-to@internal.com' => 'Lars (To)',
-            ])->setCc([
-                'fabien@example.com'   => 'Fabien',
-                'chris-cc@example.com' => 'Chris (Cc)',
-                'lars-cc@internal.org' => 'Lars (Cc)',
-            ])->setBcc([
-                'fabien@example.com'    => 'Fabien',
-                'chris-bcc@example.com' => 'Chris (Bcc)',
-                'john-bcc@example.org'  => 'John (Bcc)',
-            ])->setBody('...');
+            'fabien@example.com'   => 'Fabien',
+            'chris@example.com'    => 'Chris (To)',
+            'lars-to@internal.com' => 'Lars (To)',
+        ])->setCc([
+            'fabien@example.com'   => 'Fabien',
+            'chris-cc@example.com' => 'Chris (Cc)',
+            'lars-cc@internal.org' => 'Lars (Cc)',
+        ])->setBcc([
+            'fabien@example.com'    => 'Fabien',
+            'chris-bcc@example.com' => 'Chris (Bcc)',
+            'john-bcc@example.org'  => 'John (Bcc)',
+        ])->setBody('...');
 
         $recipients = [ 'god@example.com', 'fabien@example.com' ];
         $patterns   = [ '/^.*@internal.[a-z]+$/' ];

@@ -158,13 +158,13 @@ class Swift_Plugins_PopBeforeSmtpPlugin implements Swift_Events_TransportChangeL
             if ( ! isset( $this->_socket )) {
                 if ( ! $socket = fsockopen($this->_getHostString(), $this->_port, $errno, $errstr, $this->_timeout)) {
                     throw new Swift_Plugins_Pop_Pop3Exception(sprintf('Failed to connect to POP3 host [%s]: %s',
-                            $this->_host, $errstr));
+                        $this->_host, $errstr));
                 }
                 $this->_socket = $socket;
 
                 if (false === $greeting = fgets($this->_socket)) {
                     throw new Swift_Plugins_Pop_Pop3Exception(sprintf('Failed to connect to POP3 host [%s]',
-                            trim($greeting)));
+                        trim($greeting)));
                 }
 
                 $this->_assertOk($greeting);
@@ -189,7 +189,7 @@ class Swift_Plugins_PopBeforeSmtpPlugin implements Swift_Events_TransportChangeL
             $this->_command("QUIT\r\n");
             if ( ! fclose($this->_socket)) {
                 throw new Swift_Plugins_Pop_Pop3Exception(sprintf('POP3 host [%s] connection could not be stopped',
-                        $this->_host));
+                    $this->_host));
             }
             $this->_socket = null;
         }
@@ -242,12 +242,12 @@ class Swift_Plugins_PopBeforeSmtpPlugin implements Swift_Events_TransportChangeL
     {
         if ( ! fwrite($this->_socket, $command)) {
             throw new Swift_Plugins_Pop_Pop3Exception(sprintf('Failed to write command [%s] to POP3 host',
-                    trim($command)));
+                trim($command)));
         }
 
         if (false === $response = fgets($this->_socket)) {
             throw new Swift_Plugins_Pop_Pop3Exception(sprintf('Failed to read from POP3 host after command [%s]',
-                    trim($command)));
+                trim($command)));
         }
 
         $this->_assertOk($response);

@@ -140,8 +140,8 @@ trait AuthenticatesUsers
     protected function sendFailedLoginResponse(Request $request)
     {
         return redirect()->back()->withInput($request->only($this->loginUsername(), 'remember'))->withErrors([
-                $this->loginUsername() => $this->getFailedLoginMessage(),
-            ]);
+            $this->loginUsername() => $this->getFailedLoginMessage(),
+        ]);
     }
 
 

@@ -41,6 +41,6 @@ class NoCallsPredictionSpec extends ObjectBehavior
         $call->getCallPlace()->willReturn('unknown');
 
         $this->shouldThrow('Prophecy\Exception\Prediction\UnexpectedCallsException')->duringCheck([ $call ], $object,
-                $method);
+            $method);
     }
 }

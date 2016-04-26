@@ -3,8 +3,6 @@
 namespace spec\Prophecy\Call;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Prophecy\ObjectProphecy;
-use Prophecy\Argument\ArgumentsWildcard;
 
 class CallCenterSpec extends ObjectBehavior
 {
@@ -164,7 +162,7 @@ class CallCenterSpec extends ObjectBehavior
         $objectProphecy->getMethodProphecies('getName')->willReturn([ $method ]);
 
         $this->shouldThrow('Prophecy\Exception\Call\UnexpectedCallException')->duringMakeCall($objectProphecy,
-                'getName', [ 'world', 'everything' ]);
+            'getName', [ 'world', 'everything' ]);
     }
 
 

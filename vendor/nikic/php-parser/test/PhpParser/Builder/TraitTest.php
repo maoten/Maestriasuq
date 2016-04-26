@@ -25,9 +25,9 @@ class TraitTest extends \PHPUnit_Framework_TestCase
             new Stmt\PropertyProperty('test')
         ]);
         $trait   = $this->createTraitBuilder('TestTrait')->setDocComment('/** Nice trait */')->addStmt($method1)->addStmts([
-                $method2,
-                $method3
-            ])->addStmt($prop)->getNode();
+            $method2,
+            $method3
+        ])->addStmt($prop)->getNode();
         $this->assertEquals(new Stmt\Trait_('TestTrait', [
             $prop,
             $method1,

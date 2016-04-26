@@ -11,9 +11,9 @@
 
 namespace Monolog\Handler;
 
-use Monolog\TestCase;
-use Monolog\Logger;
 use Monolog\Formatter\LineFormatter;
+use Monolog\Logger;
+use Monolog\TestCase;
 
 class RedisHandlerTest extends TestCase
 {
@@ -104,10 +104,10 @@ class RedisHandlerTest extends TestCase
 
         // Redis uses multi
         $redis->expects($this->once())->method('transaction')->will($this->returnCallback(function ($cb) use (
-                $redisTransaction
-            ) {
-                $cb($redisTransaction);
-            }));
+            $redisTransaction
+        ) {
+            $cb($redisTransaction);
+        }));
 
         $record = $this->getRecord(Logger::WARNING, 'test', [ 'data' => new \stdClass, 'foo' => 34 ]);
 

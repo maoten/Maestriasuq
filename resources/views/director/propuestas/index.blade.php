@@ -65,11 +65,11 @@
                                                 </h4>
                                             @elseif($propuesta->estado=='aplazada')
                                                 <h4><span class="label label-danger">{{ $propuesta->estado }}</span>
-                                                    </h4>
-                                                        @else
-                                                            <h4>
-                                                                <span class="label label-default">{{ $propuesta->estado }}</span>
-                                                                </h4>
+                                                </h4>
+                                            @else
+                                                <h4>
+                                                    <span class="label label-default">{{ $propuesta->estado }}</span>
+                                                </h4>
                                             @endif
                                         </td>
 

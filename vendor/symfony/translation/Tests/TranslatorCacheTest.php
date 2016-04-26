@@ -14,8 +14,8 @@ namespace Symfony\Component\Translation\Tests;
 use Symfony\Component\Config\Resource\SelfCheckingResourceInterface;
 use Symfony\Component\Translation\Loader\ArrayLoader;
 use Symfony\Component\Translation\Loader\LoaderInterface;
-use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Translation\Translator;
 
 class TranslatorCacheTest extends \PHPUnit_Framework_TestCase
 {
@@ -241,7 +241,7 @@ class TranslatorCacheTest extends \PHPUnit_Framework_TestCase
         $loader   = $this->getMock('Symfony\Component\Translation\Loader\LoaderInterface');
         $resource->method('isFresh')->will($this->returnValue(false));
         $loader->expects($this->exactly(2))->method('load')->will($this->returnValue($this->getCatalogue('fr', [ ],
-                [ $resource ])));
+            [ $resource ])));
 
         // prime the cache
         $translator = new Translator('fr', null, $this->tmpDir, true);

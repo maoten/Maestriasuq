@@ -7,9 +7,9 @@ class Swift_Transport_StreamBufferTest extends \PHPUnit_Framework_TestCase
     {
         $factory = $this->_createFactory();
         $factory->expects($this->once())->method('createFilter')->with('a', 'b')->will($this->returnCallback([
-                $this,
-                '_createFilter'
-            ]));
+            $this,
+            '_createFilter'
+        ]));
 
         $buffer = $this->_createBuffer($factory);
         $buffer->setWriteTranslations([ 'a' => 'b' ]);
@@ -20,9 +20,9 @@ class Swift_Transport_StreamBufferTest extends \PHPUnit_Framework_TestCase
     {
         $factory = $this->_createFactory();
         $factory->expects($this->exactly(2))->method('createFilter')->will($this->returnCallback([
-                $this,
-                '_createFilter'
-            ]));
+            $this,
+            '_createFilter'
+        ]));
 
         $buffer = $this->_createBuffer($factory);
         $buffer->setWriteTranslations([ 'a' => 'b' ]);

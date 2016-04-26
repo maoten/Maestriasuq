@@ -2,10 +2,10 @@
 
 namespace Illuminate\Auth;
 
-use Illuminate\Support\Str;
+use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
+use Illuminate\Support\Str;
 
 class EloquentUserProvider implements UserProvider
 {
@@ -66,7 +66,7 @@ class EloquentUserProvider implements UserProvider
         $model = $this->createModel();
 
         return $model->newQuery()->where($model->getAuthIdentifierName(),
-                $identifier)->where($model->getRememberTokenName(), $token)->first();
+            $identifier)->where($model->getRememberTokenName(), $token)->first();
     }
 
 

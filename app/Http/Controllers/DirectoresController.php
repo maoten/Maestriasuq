@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Http\Requests\EditarUserRequest;
 use App\Http\Requests\UserRequest;
 use App\Notificacion;
 use App\User;
@@ -99,12 +100,12 @@ class DirectoresController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param EditarUserRequest|Request $request
      * @param  int                      $id
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EditarUserRequest $request, $id)
     {
         $director              = User::find($id);
         $director->nombre      = $request->nombre;

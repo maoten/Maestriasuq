@@ -28,8 +28,8 @@ class ApplicationTesterTest extends \PHPUnit_Framework_TestCase
         $this->application = new Application();
         $this->application->setAutoExit(false);
         $this->application->register('foo')->addArgument('foo')->setCode(function ($input, $output) {
-                $output->writeln('foo');
-            });
+            $output->writeln('foo');
+        });
 
         $this->tester = new ApplicationTester($this->application);
         $this->tester->run([ 'command' => 'foo', 'foo' => 'bar' ],

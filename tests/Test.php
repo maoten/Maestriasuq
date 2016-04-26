@@ -2,6 +2,7 @@
 
 class Test extends TestCase
 {
+
     /**
      * Test en el Front-end para registrar un estudiante.
      *
@@ -10,17 +11,18 @@ class Test extends TestCase
     public function testFrontRespuestaIngreso_estudiante()
     {
         $this->visit('/login')->type('admin@hotmail.com', 'email')->type('12345',
-                'password')->press('registrar')->seePageIs('/admin');
+            'password')->press('registrar')->seePageIs('/admin');
 
         $this->visit('/admin/estudiantes/create')->type('Juan Manuel', 'nombre')->type('87654865',
-                'cc')->type('juan12@hotmail.com', 'email')->type('38457849', 'telefono')->type('Ing de sistemas',
-                'profesion')->type('Universidad del quindio', 'universidad')->type('12345',
-                'password')->press('registrar')->seePageIs('/admin/estudiantes');
+            'cc')->type('juan12@hotmail.com', 'email')->type('38457849', 'telefono')->type('Ing de sistemas',
+            'profesion')->type('Universidad del quindio', 'universidad')->type('12345',
+            'password')->press('registrar')->seePageIs('/admin/estudiantes');
 
         $e = App\User::where('cc', "87654865")->first();
         $e->delete();
 
     }
+
 
     /**
      * Test en el Front-end para registrar un director de grado.
@@ -30,14 +32,15 @@ class Test extends TestCase
     public function testFrontRespuestaIngreso_Directores()
     {
         $this->visit('/login')->type('admin@hotmail.com', 'email')->type('12345',
-                'password')->press('registrar')->seePageIs('/admin');
+            'password')->press('registrar')->seePageIs('/admin');
         $this->visit('/admin/directores/create')->type('Jhuly', 'nombre')->type('8765434',
-                'cc')->type('jhuly@hotmail.com', 'email')->type('384578492', 'telefono')->type('Ing de sistemas',
-                'profesion')->type('Universidad del quindio', 'universidad')->type('12345',
-                'password')->press('registrar')->seePageIs('/admin/directores');
+            'cc')->type('jhuly@hotmail.com', 'email')->type('384578492', 'telefono')->type('Ing de sistemas',
+            'profesion')->type('Universidad del quindio', 'universidad')->type('12345',
+            'password')->press('registrar')->seePageIs('/admin/directores');
         $e = App\User::where('cc', "8765434")->first();
         $e->delete();
     }
+
 
     /**
      * Test en el Front-end para registrar un miembro del consejo curricular.
@@ -47,12 +50,12 @@ class Test extends TestCase
     public function testFrontRespuestaIngreso_consejo()
     {
         $this->visit('/login')->type('admin@hotmail.com', 'email')->type('12345',
-                'password')->press('registrar')->seePageIs('/admin');
+            'password')->press('registrar')->seePageIs('/admin');
 
         $this->visit('/admin/consejo/create')->type('Nefrectery', 'nombre')->type('876543412',
-                'cc')->type('nefre@hotmail.com', 'email')->type('384578', 'telefono')->type('Ing de sistemas',
-                'profesion')->type('Universidad del quindio', 'universidad')->type('12345',
-                'password')->press('registrar')->seePageIs('/admin/consejo');
+            'cc')->type('nefre@hotmail.com', 'email')->type('384578', 'telefono')->type('Ing de sistemas',
+            'profesion')->type('Universidad del quindio', 'universidad')->type('12345',
+            'password')->press('registrar')->seePageIs('/admin/consejo');
         $e = App\User::where('cc', "876543412")->first();
         $e->delete();
 

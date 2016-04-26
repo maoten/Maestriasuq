@@ -262,9 +262,9 @@ class Framework_MockObjectTest extends PHPUnit_Framework_TestCase
     {
         $mock = $this->getMock('SomeClass', [ 'doSomething' ], [ ], '', false);
         $mock->expects($this->once())->method('doSomething')->will($this->returnCallback([
-                'MethodCallback',
-                'staticCallback'
-            ]));
+            'MethodCallback',
+            'staticCallback'
+        ]));
 
         $this->assertEquals('pass', $mock->doSomething('foo', 'bar'));
     }
@@ -274,9 +274,9 @@ class Framework_MockObjectTest extends PHPUnit_Framework_TestCase
     {
         $mock = $this->getMock('SomeClass', [ 'doSomething' ], [ ], '', false);
         $mock->expects($this->once())->method('doSomething')->will($this->returnCallback([
-                new MethodCallback,
-                'nonStaticCallback'
-            ]));
+            new MethodCallback,
+            'nonStaticCallback'
+        ]));
 
         $this->assertEquals('pass', $mock->doSomething('foo', 'bar'));
     }
@@ -469,10 +469,10 @@ class Framework_MockObjectTest extends PHPUnit_Framework_TestCase
         $actualArguments = [ ];
 
         $mock->expects($this->any())->method('doSomethingElse')->will($this->returnCallback(function () use (
-                &$actualArguments
-            ) {
-                $actualArguments = func_get_args();
-            }));
+            &$actualArguments
+        ) {
+            $actualArguments = func_get_args();
+        }));
 
         $mock->doSomethingElse($expectedObject);
 
@@ -491,10 +491,10 @@ class Framework_MockObjectTest extends PHPUnit_Framework_TestCase
         $actualArguments = [ ];
 
         $mock->expects($this->any())->method('doSomethingElse')->will($this->returnCallback(function () use (
-                &$actualArguments
-            ) {
-                $actualArguments = func_get_args();
-            }));
+            &$actualArguments
+        ) {
+            $actualArguments = func_get_args();
+        }));
 
         $mock->doSomethingElse($expectedObject);
 
@@ -650,8 +650,8 @@ class Framework_MockObjectTest extends PHPUnit_Framework_TestCase
         $foo = $this->getMockBuilder('MethodCallbackByReference')->disableOriginalConstructor()->disableArgumentCloning()->getMock();
 
         $foo->expects($this->any())->method('bar')->will($this->returnCallback(function (&$a, &$b, $c) {
-                $b = 1;
-            }));
+            $b = 1;
+        }));
 
         $a = $b = $c = 0;
 
@@ -688,7 +688,7 @@ class Framework_MockObjectTest extends PHPUnit_Framework_TestCase
         $b = $c = 0;
 
         $foo->expects($this->any())->method('bar')->with($this->isInstanceOf("stdClass"), $b,
-                $c)->will($this->returnCallback([ $foo, 'callback' ]));
+            $c)->will($this->returnCallback([ $foo, 'callback' ]));
 
         $foo->bar($a, $b, $c);
     }

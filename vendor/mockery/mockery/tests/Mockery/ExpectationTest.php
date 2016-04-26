@@ -2202,9 +2202,9 @@ class ExpectationTest extends MockeryTestCase
         $service = $this->getMock('MyService2');
         $service->expects($this->once())->method('login')->with('user', 'pass')->will($this->returnValue(true));
         $service->expects($this->exactly(3))->method('hasBookmarksTagged')->with('php')->will($this->onConsecutiveCalls(false,
-                true, true));
+            true, true));
         $service->expects($this->exactly(3))->method('addBookmark')->with($this->matchesRegularExpression('/^http:/'),
-                $this->isType('string'))->will($this->returnValue(true));
+            $this->isType('string'))->will($this->returnValue(true));
 
         $this->assertTrue($service->login('user', 'pass'));
         $this->assertFalse($service->hasBookmarksTagged('php'));

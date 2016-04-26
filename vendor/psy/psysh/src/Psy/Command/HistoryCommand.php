@@ -43,22 +43,21 @@ class HistoryCommand extends Command
     protected function configure()
     {
         $this->setName('history')->setAliases([ 'hist' ])->setDefinition([
-                new InputOption('show', 's', InputOption::VALUE_REQUIRED, 'Show the given range of lines'),
-                new InputOption('head', 'H', InputOption::VALUE_REQUIRED, 'Display the first N items.'),
-                new InputOption('tail', 'T', InputOption::VALUE_REQUIRED, 'Display the last N items.'),
+            new InputOption('show', 's', InputOption::VALUE_REQUIRED, 'Show the given range of lines'),
+            new InputOption('head', 'H', InputOption::VALUE_REQUIRED, 'Display the first N items.'),
+            new InputOption('tail', 'T', InputOption::VALUE_REQUIRED, 'Display the last N items.'),
 
-                new InputOption('grep', 'G', InputOption::VALUE_REQUIRED,
-                    'Show lines matching the given pattern (string or regex).'),
-                new InputOption('insensitive', 'i', InputOption::VALUE_NONE,
-                    'Case insensitive search (requires --grep).'),
-                new InputOption('invert', 'v', InputOption::VALUE_NONE, 'Inverted search (requires --grep).'),
+            new InputOption('grep', 'G', InputOption::VALUE_REQUIRED,
+                'Show lines matching the given pattern (string or regex).'),
+            new InputOption('insensitive', 'i', InputOption::VALUE_NONE, 'Case insensitive search (requires --grep).'),
+            new InputOption('invert', 'v', InputOption::VALUE_NONE, 'Inverted search (requires --grep).'),
 
-                new InputOption('no-numbers', 'N', InputOption::VALUE_NONE, 'Omit line numbers.'),
+            new InputOption('no-numbers', 'N', InputOption::VALUE_NONE, 'Omit line numbers.'),
 
-                new InputOption('save', '', InputOption::VALUE_REQUIRED, 'Save history to a file.'),
-                new InputOption('replay', '', InputOption::VALUE_NONE, 'Replay'),
-                new InputOption('clear', '', InputOption::VALUE_NONE, 'Clear the history.'),
-            ])->setDescription('Show the Psy Shell history.')->setHelp(<<<'HELP'
+            new InputOption('save', '', InputOption::VALUE_REQUIRED, 'Save history to a file.'),
+            new InputOption('replay', '', InputOption::VALUE_NONE, 'Replay'),
+            new InputOption('clear', '', InputOption::VALUE_NONE, 'Clear the history.'),
+        ])->setDescription('Show the Psy Shell history.')->setHelp(<<<'HELP'
 Show, search, save or replay the Psy Shell history.
 
 e.g.
@@ -67,7 +66,7 @@ e.g.
 <return>>>> history --clear</return>
 <return>>>> history --tail 1000 --save somefile.txt</return>
 HELP
-            );
+        );
     }
 
 

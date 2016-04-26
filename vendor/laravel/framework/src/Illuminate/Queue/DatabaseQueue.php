@@ -2,12 +2,12 @@
 
 namespace Illuminate\Queue;
 
-use DateTime;
 use Carbon\Carbon;
-use Illuminate\Database\Connection;
-use Illuminate\Queue\Jobs\DatabaseJob;
-use Illuminate\Database\Query\Expression;
+use DateTime;
 use Illuminate\Contracts\Queue\Queue as QueueContract;
+use Illuminate\Database\Connection;
+use Illuminate\Database\Query\Expression;
+use Illuminate\Queue\Jobs\DatabaseJob;
 
 class DatabaseQueue extends Queue implements QueueContract
 {
@@ -202,11 +202,11 @@ class DatabaseQueue extends Queue implements QueueContract
         $expired = Carbon::now()->subSeconds($this->expire)->getTimestamp();
 
         $this->database->table($this->table)->where('queue', $this->getQueue($queue))->where('reserved',
-                1)->where('reserved_at', '<=', $expired)->update([
-                'reserved'    => 0,
-                'reserved_at' => null,
-                'attempts'    => new Expression('attempts + 1'),
-            ]);
+            1)->where('reserved_at', '<=', $expired)->update([
+            'reserved'    => 0,
+            'reserved_at' => null,
+            'attempts'    => new Expression('attempts + 1'),
+        ]);
     }
 
 
@@ -222,8 +222,8 @@ class DatabaseQueue extends Queue implements QueueContract
         $this->database->beginTransaction();
 
         $job = $this->database->table($this->table)->lockForUpdate()->where('queue',
-                $this->getQueue($queue))->where('reserved', 0)->where('available_at', '<=',
-                $this->getTime())->orderBy('id', 'asc')->first();
+            $this->getQueue($queue))->where('reserved', 0)->where('available_at', '<=', $this->getTime())->orderBy('id',
+            'asc')->first();
 
         return $job ? (object) $job : null;
     }

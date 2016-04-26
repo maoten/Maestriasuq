@@ -3,11 +3,11 @@
 namespace Illuminate\Queue\Console;
 
 use Carbon\Carbon;
-use Illuminate\Queue\Worker;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Queue\Job;
-use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Queue\Worker;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class WorkCommand extends Command
 {

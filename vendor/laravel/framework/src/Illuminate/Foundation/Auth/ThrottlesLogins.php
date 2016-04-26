@@ -2,9 +2,9 @@
 
 namespace Illuminate\Foundation\Auth;
 
-use Illuminate\Http\Request;
-use Illuminate\Cache\RateLimiter;
 use Illuminate\Auth\Events\Lockout;
+use Illuminate\Cache\RateLimiter;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 
 trait ThrottlesLogins
@@ -62,8 +62,8 @@ trait ThrottlesLogins
         $seconds = app(RateLimiter::class)->availableIn($this->getThrottleKey($request));
 
         return redirect()->back()->withInput($request->only($this->loginUsername(), 'remember'))->withErrors([
-                $this->loginUsername() => $this->getLockoutErrorMessage($seconds),
-            ]);
+            $this->loginUsername() => $this->getLockoutErrorMessage($seconds),
+        ]);
     }
 
 

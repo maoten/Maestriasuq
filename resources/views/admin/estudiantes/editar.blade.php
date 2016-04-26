@@ -18,6 +18,7 @@
 
                         <form class="form-horizontal" role="form" method="PUT"
                               action="{{ route('admin.estudiantes.update', [$estudiante]) }}">
+                            {!! csrf_field() !!}
 
 
                             <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">

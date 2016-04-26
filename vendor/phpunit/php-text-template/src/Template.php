@@ -124,7 +124,7 @@ class Text_Template
             $error = error_get_last();
 
             throw new RuntimeException(sprintf('Could not write to %s: %s', $target,
-                    substr($error['message'], strpos($error['message'], ':') + 2)));
+                substr($error['message'], strpos($error['message'], ':') + 2)));
         }
     }
 }

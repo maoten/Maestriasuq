@@ -289,9 +289,9 @@ class Swift_Mime_SimpleMessageTest extends Swift_Mime_MimePartTest
     {
         $replyTo = $this->_createHeader('Reply-To', [ 'from@domain' => 'Name' ], [ ], false);
         $replyTo->shouldReceive('setFieldBodyModel')->once()->with([
-                'from@domain'  => 'Name',
-                'other@domain' => 'Other'
-            ]);
+            'from@domain'  => 'Name',
+            'other@domain' => 'Other'
+        ]);
 
         $message = $this->_createMessage($this->_createHeaderSet([ 'Reply-To' => $replyTo ]), $this->_createEncoder(),
             $this->_createCache());
@@ -544,7 +544,7 @@ class Swift_Mime_SimpleMessageTest extends Swift_Mime_MimePartTest
     {
         $headers = $this->_createHeaderSet([ ], false);
         $headers->shouldReceive('addMailboxHeader')->once()->with('Disposition-Notification-To',
-                'mark@swiftmailer.org');
+            'mark@swiftmailer.org');
         $headers->shouldReceive('addMailboxHeader')->zeroOrMoreTimes();
 
         $message = $this->_createMessage($headers, $this->_createEncoder(), $this->_createCache());
@@ -611,12 +611,12 @@ class Swift_Mime_SimpleMessageTest extends Swift_Mime_MimePartTest
         $message = $this->_createMessage($this->_createHeaderSet(), $this->_createEncoder(), $this->_createCache());
         $this->assertSame($message,
             $message->setContentType('text/plain')->setEncoder($this->_createEncoder())->setId('foo@bar')->setDescription('my description')->setMaxLineLength(998)->setBody('xx')->setBoundary('xyz')->setChildren([ ])->setCharset('iso-8859-1')->setFormat('flowed')->setDelSp(false)->setSubject('subj')->setDate(123)->setReturnPath('foo@bar')->setSender('foo@bar')->setFrom([ 'x@y' => 'XY' ])->setReplyTo([ 'ab@cd' => 'ABCD' ])->setTo([
-                    'chris@site.tld',
-                    'mark@site.tld'
-                ])->setCc('john@somewhere.tld')->setBcc([
-                    'one@site',
-                    'two@site' => 'Two'
-                ])->setPriority(4)->setReadReceiptTo('a@b')->attach($child)->detach($child));
+                'chris@site.tld',
+                'mark@site.tld'
+            ])->setCc('john@somewhere.tld')->setBcc([
+                'one@site',
+                'two@site' => 'Two'
+            ])->setPriority(4)->setReadReceiptTo('a@b')->attach($child)->detach($child));
     }
 
     // -- Private helpers

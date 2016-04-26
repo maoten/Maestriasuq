@@ -120,22 +120,22 @@ abstract class PHP_CodeCoverage_Report_HTML_Renderer
         }
 
         $template->setVar([
-                'icon'                   => isset( $data['icon'] ) ? $data['icon'] : '',
-                'crap'                   => isset( $data['crap'] ) ? $data['crap'] : '',
-                'name'                   => $data['name'],
-                'lines_bar'              => $linesBar,
-                'lines_executed_percent' => $data['linesExecutedPercentAsString'],
-                'lines_level'            => $linesLevel,
-                'lines_number'           => $linesNumber,
-                'methods_bar'            => $methodsBar,
-                'methods_tested_percent' => $data['testedMethodsPercentAsString'],
-                'methods_level'          => $methodsLevel,
-                'methods_number'         => $methodsNumber,
-                'classes_bar'            => $classesBar,
-                'classes_tested_percent' => isset( $data['testedClassesPercentAsString'] ) ? $data['testedClassesPercentAsString'] : '',
-                'classes_level'          => $classesLevel,
-                'classes_number'         => $classesNumber
-            ]);
+            'icon'                   => isset( $data['icon'] ) ? $data['icon'] : '',
+            'crap'                   => isset( $data['crap'] ) ? $data['crap'] : '',
+            'name'                   => $data['name'],
+            'lines_bar'              => $linesBar,
+            'lines_executed_percent' => $data['linesExecutedPercentAsString'],
+            'lines_level'            => $linesLevel,
+            'lines_number'           => $linesNumber,
+            'methods_bar'            => $methodsBar,
+            'methods_tested_percent' => $data['testedMethodsPercentAsString'],
+            'methods_level'          => $methodsLevel,
+            'methods_number'         => $methodsNumber,
+            'classes_bar'            => $classesBar,
+            'classes_tested_percent' => isset( $data['testedClassesPercentAsString'] ) ? $data['testedClassesPercentAsString'] : '',
+            'classes_level'          => $classesLevel,
+            'classes_number'         => $classesNumber
+        ]);
 
         return $template->render();
     }
@@ -150,19 +150,19 @@ abstract class PHP_CodeCoverage_Report_HTML_Renderer
         $runtime = new Runtime;
 
         $template->setVar([
-                'id'               => $node->getId(),
-                'full_path'        => $node->getPath(),
-                'path_to_root'     => $this->getPathToRoot($node),
-                'breadcrumbs'      => $this->getBreadcrumbs($node),
-                'date'             => $this->date,
-                'version'          => $this->version,
-                'runtime_name'     => $runtime->getName(),
-                'runtime_version'  => $runtime->getVersion(),
-                'runtime_link'     => $runtime->getVendorUrl(),
-                'generator'        => $this->generator,
-                'low_upper_bound'  => $this->lowUpperBound,
-                'high_lower_bound' => $this->highLowerBound
-            ]);
+            'id'               => $node->getId(),
+            'full_path'        => $node->getPath(),
+            'path_to_root'     => $this->getPathToRoot($node),
+            'breadcrumbs'      => $this->getBreadcrumbs($node),
+            'date'             => $this->date,
+            'version'          => $this->version,
+            'runtime_name'     => $runtime->getName(),
+            'runtime_version'  => $runtime->getVersion(),
+            'runtime_link'     => $runtime->getVendorUrl(),
+            'generator'        => $this->generator,
+            'low_upper_bound'  => $this->lowUpperBound,
+            'high_lower_bound' => $this->highLowerBound
+        ]);
     }
 
 

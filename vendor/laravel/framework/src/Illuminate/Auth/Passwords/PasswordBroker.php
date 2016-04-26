@@ -3,12 +3,12 @@
 namespace Illuminate\Auth\Passwords;
 
 use Closure;
-use Illuminate\Support\Arr;
-use UnexpectedValueException;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Contracts\Auth\PasswordBroker as PasswordBrokerContract;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Mail\Mailer as MailerContract;
-use Illuminate\Contracts\Auth\PasswordBroker as PasswordBrokerContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Support\Arr;
+use UnexpectedValueException;
 
 class PasswordBroker implements PasswordBrokerContract
 {

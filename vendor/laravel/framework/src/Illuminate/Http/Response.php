@@ -2,11 +2,11 @@
 
 namespace Illuminate\Http;
 
-use Exception;
 use ArrayObject;
-use JsonSerializable;
+use Exception;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Renderable;
+use JsonSerializable;
 use Symfony\Component\HttpFoundation\Response as BaseResponse;
 
 class Response extends BaseResponse

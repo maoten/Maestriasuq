@@ -69,7 +69,7 @@ class PHPUnit_Framework_Constraint_IsType extends PHPUnit_Framework_Constraint
 
         if ( ! isset( $this->types[$type] )) {
             throw new PHPUnit_Framework_Exception(sprintf('Type specified for PHPUnit_Framework_Constraint_IsType <%s> ' . 'is not a valid type.',
-                    $type));
+                $type));
         }
 
         $this->type = $type;

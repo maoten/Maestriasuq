@@ -76,8 +76,9 @@ class JsonDescriptor extends Descriptor
             $commands[] = $this->getCommandData($command);
         }
 
-        $data = $describedNamespace ? [ 'commands'  => $commands,
-                                        'namespace' => $describedNamespace
+        $data = $describedNamespace ? [
+            'commands'  => $commands,
+            'namespace' => $describedNamespace
         ] : [ 'commands' => $commands, 'namespaces' => array_values($description->getNamespaces()) ];
 
         $this->writeData($data, $options);

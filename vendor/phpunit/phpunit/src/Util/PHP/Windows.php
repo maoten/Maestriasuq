@@ -41,10 +41,10 @@ class PHPUnit_Util_PHP_Windows extends PHPUnit_Util_PHP_Default
         }
 
         $process = proc_open($runtime->getBinary() . $this->settingsToParameters($settings), [
-                0 => [ 'pipe', 'r' ],
-                1 => $stdout_handle,
-                2 => [ 'pipe', 'w' ]
-            ], $pipes);
+            0 => [ 'pipe', 'r' ],
+            1 => $stdout_handle,
+            2 => [ 'pipe', 'w' ]
+        ], $pipes);
 
         if ( ! is_resource($process)) {
             throw new PHPUnit_Framework_Exception('Unable to spawn worker process');

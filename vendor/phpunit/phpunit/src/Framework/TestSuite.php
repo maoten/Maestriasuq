@@ -814,7 +814,7 @@ class PHPUnit_Framework_TestSuite implements PHPUnit_Framework_Test, PHPUnit_Fra
 
         if ( ! $method->isPublic()) {
             $this->addTest(self::warning(sprintf('Test method "%s" in test class "%s" is not public.', $name,
-                    $class->getName())));
+                $class->getName())));
 
             return;
         }

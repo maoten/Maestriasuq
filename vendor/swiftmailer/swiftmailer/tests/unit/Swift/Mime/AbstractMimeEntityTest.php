@@ -423,8 +423,8 @@ abstract class Swift_Mime_AbstractMimeEntityTest extends \SwiftMailerTestCase
 
             $headerSet = $this->_createHeaderSet([ 'Content-Type' => $cType ]);
             $headerSet->shouldReceive('newInstance')->zeroOrMoreTimes()->andReturnUsing(function () use ($headerSet) {
-                    return $headerSet;
-                });
+                return $headerSet;
+            });
             $entity = $this->_createEntity($headerSet, $this->_createEncoder(), $this->_createCache());
             $entity->setChildren($children);
         }
@@ -564,7 +564,7 @@ abstract class Swift_Mime_AbstractMimeEntityTest extends \SwiftMailerTestCase
         $cType->shouldReceive('setFieldBodyModel')->twice()->with('image/jpeg');
         $cType->shouldReceive('setFieldBodyModel')->once()->with('multipart/alternative');
         $cType->shouldReceive('setFieldBodyModel')->zeroOrMoreTimes()->with(\Mockery::not('multipart/alternative',
-                'image/jpeg'));
+            'image/jpeg'));
 
         $entity = $this->_createEntity($this->_createHeaderSet([
             'Content-Type' => $cType,
@@ -601,7 +601,7 @@ abstract class Swift_Mime_AbstractMimeEntityTest extends \SwiftMailerTestCase
         $cache = $this->_createCache(false);
         $cache->shouldReceive('hasKey')->once()->with(\Mockery::any(), 'body')->andReturn(false);
         $cache->shouldReceive('setString')->once()->with(\Mockery::any(), 'body', "\r\nblah\r\nblah!",
-                Swift_KeyCache::MODE_WRITE);
+            Swift_KeyCache::MODE_WRITE);
 
         $entity = $this->_createEntity($headers, $this->_createEncoder(), $cache);
 
@@ -724,10 +724,10 @@ abstract class Swift_Mime_AbstractMimeEntityTest extends \SwiftMailerTestCase
         $encoder = $this->getMock('Swift_Mime_ContentEncoder');
         $encoder->expects($this->any())->method('getName')->will($this->returnValue($name));
         $encoder->expects($this->any())->method('encodeString')->will($this->returnCallback(function () {
-                $args = func_get_args();
+            $args = func_get_args();
 
-                return array_shift($args);
-            }));
+            return array_shift($args);
+        }));
 
         return $encoder;
     }
@@ -743,11 +743,11 @@ abstract class Swift_Mime_AbstractMimeEntityTest extends \SwiftMailerTestCase
     {
         $set = $this->getMockery('Swift_Mime_HeaderSet')->shouldIgnoreMissing();
         $set->shouldReceive('get')->zeroOrMoreTimes()->andReturnUsing(function ($key) use ($headers) {
-                return $headers[$key];
-            });
+            return $headers[$key];
+        });
         $set->shouldReceive('has')->zeroOrMoreTimes()->andReturnUsing(function ($key) use ($headers) {
-                return array_key_exists($key, $headers);
-            });
+            return array_key_exists($key, $headers);
+        });
 
         return $set;
     }
@@ -759,8 +759,8 @@ abstract class Swift_Mime_AbstractMimeEntityTest extends \SwiftMailerTestCase
         $header->shouldReceive('getFieldName')->zeroOrMoreTimes()->andReturn($name);
         $header->shouldReceive('getFieldBodyModel')->zeroOrMoreTimes()->andReturn($model);
         $header->shouldReceive('getParameter')->zeroOrMoreTimes()->andReturnUsing(function ($key) use ($params) {
-                return $params[$key];
-            });
+            return $params[$key];
+        });
 
         return $header;
     }
@@ -771,15 +771,15 @@ abstract class Swift_Mime_AbstractMimeEntityTest extends \SwiftMailerTestCase
         $os = $this->getMockery('Swift_OutputByteStream');
         if (isset( $data )) {
             $os->shouldReceive('read')->zeroOrMoreTimes()->andReturnUsing(function () use ($data) {
-                    static $first = true;
-                    if ( ! $first) {
-                        return false;
-                    }
+                static $first = true;
+                if ( ! $first) {
+                    return false;
+                }
 
-                    $first = false;
+                $first = false;
 
-                    return $data;
-                });
+                return $data;
+            });
             $os->shouldReceive('setReadPointer')->zeroOrMoreTimes();
         }
 

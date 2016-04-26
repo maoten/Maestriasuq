@@ -2,11 +2,11 @@
 
 namespace PhpParser\Builder;
 
-use PhpParser\Node\Name;
-use PhpParser\Node\Stmt;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Scalar;
 use PhpParser\Comment;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Name;
+use PhpParser\Node\Scalar;
+use PhpParser\Node\Stmt;
 
 class PropertyTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,20 +22,20 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
         $node = $this->createPropertyBuilder('test')->makePrivate()->makeStatic()->getNode();
 
         $this->assertEquals(new Stmt\Property(Stmt\Class_::MODIFIER_PRIVATE | Stmt\Class_::MODIFIER_STATIC, [
-                new Stmt\PropertyProperty('test')
-            ]), $node);
+            new Stmt\PropertyProperty('test')
+        ]), $node);
 
         $node = $this->createPropertyBuilder('test')->makeProtected()->getNode();
 
         $this->assertEquals(new Stmt\Property(Stmt\Class_::MODIFIER_PROTECTED, [
-                new Stmt\PropertyProperty('test')
-            ]), $node);
+            new Stmt\PropertyProperty('test')
+        ]), $node);
 
         $node = $this->createPropertyBuilder('test')->makePublic()->getNode();
 
         $this->assertEquals(new Stmt\Property(Stmt\Class_::MODIFIER_PUBLIC, [
-                new Stmt\PropertyProperty('test')
-            ]), $node);
+            new Stmt\PropertyProperty('test')
+        ]), $node);
     }
 
 
@@ -44,10 +44,10 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
         $node = $this->createPropertyBuilder('test')->setDocComment('/** Test */')->getNode();
 
         $this->assertEquals(new Stmt\Property(Stmt\Class_::MODIFIER_PUBLIC, [
-                new Stmt\PropertyProperty('test')
-            ], [
-                'comments' => [ new Comment\Doc('/** Test */') ]
-            ]), $node);
+            new Stmt\PropertyProperty('test')
+        ], [
+            'comments' => [ new Comment\Doc('/** Test */') ]
+        ]), $node);
     }
 
 

@@ -185,14 +185,14 @@ abstract class PHPUnit_Framework_Assert
     ) {
         if (is_array($haystack) || is_object($haystack) && $haystack instanceof Traversable) {
             $constraint = new PHPUnit_Framework_Constraint_Not(new PHPUnit_Framework_Constraint_TraversableContains($needle,
-                    $checkForObjectIdentity, $checkForNonObjectIdentity));
+                $checkForObjectIdentity, $checkForNonObjectIdentity));
         } elseif (is_string($haystack)) {
             if ( ! is_string($needle)) {
                 throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
             }
 
             $constraint = new PHPUnit_Framework_Constraint_Not(new PHPUnit_Framework_Constraint_StringContains($needle,
-                    $ignoreCase));
+                $ignoreCase));
         } else {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'array, traversable or string');
         }
@@ -318,7 +318,7 @@ abstract class PHPUnit_Framework_Assert
 
         self::assertThat($haystack,
             new PHPUnit_Framework_Constraint_Not(new PHPUnit_Framework_Constraint_TraversableContainsOnly($type,
-                    $isNativeType)), $message);
+                $isNativeType)), $message);
     }
 
 
@@ -512,7 +512,7 @@ abstract class PHPUnit_Framework_Assert
         $ignoreCase = false
     ) {
         $constraint = new PHPUnit_Framework_Constraint_Not(new PHPUnit_Framework_Constraint_IsEqual($expected, $delta,
-                $maxDepth, $canonicalize, $ignoreCase));
+            $maxDepth, $canonicalize, $ignoreCase));
 
         self::assertThat($actual, $constraint, $message);
     }
@@ -1798,7 +1798,7 @@ abstract class PHPUnit_Framework_Assert
 
                 if ( ! $actualAttribute) {
                     self::fail(sprintf('%s%sCould not find attribute "%s" on node "%s"', $message,
-                            ! empty( $message ) ? "\n" : '', $expectedAttribute->name, $expectedElement->tagName));
+                        ! empty( $message ) ? "\n" : '', $expectedAttribute->name, $expectedElement->tagName));
                 }
             }
         }

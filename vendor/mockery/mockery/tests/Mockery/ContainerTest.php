@@ -19,8 +19,8 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Generator\MockConfigurationBuilder;
 
 class ContainerTest extends MockeryTestCase
 {

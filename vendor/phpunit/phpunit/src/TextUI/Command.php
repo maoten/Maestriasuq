@@ -764,7 +764,7 @@ class PHPUnit_TextUI_Command
         if ( ! $upgrade) {
             $remoteFilename = sprintf('https://phar.phpunit.de/phpunit-%s.phar',
                 file_get_contents(sprintf('https://phar.phpunit.de/latest-version-of/phpunit-%s',
-                        PHPUnit_Runner_Version::series())));
+                    PHPUnit_Runner_Version::series())));
         } else {
             $remoteFilename = sprintf('https://phar.phpunit.de/phpunit%s.phar',
                 PHPUnit_Runner_Version::getReleaseChannel());

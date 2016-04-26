@@ -11,13 +11,13 @@
 
 namespace Symfony\Component\HttpKernel\Tests\Fragment;
 
-use Symfony\Component\HttpKernel\Controller\ControllerReference;
-use Symfony\Component\HttpKernel\HttpKernel;
-use Symfony\Component\HttpKernel\Fragment\InlineFragmentRenderer;
-use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpKernel\Controller\ControllerReference;
+use Symfony\Component\HttpKernel\Fragment\InlineFragmentRenderer;
+use Symfony\Component\HttpKernel\HttpKernel;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 class InlineFragmentRendererTest extends \PHPUnit_Framework_TestCase
 {
@@ -65,11 +65,11 @@ class InlineFragmentRendererTest extends \PHPUnit_Framework_TestCase
         $resolver = $this->getMock('Symfony\\Component\\HttpKernel\\Controller\\ControllerResolver',
             [ 'getController' ]);
         $resolver->expects($this->once())->method('getController')->will($this->returnValue(function (
-                \stdClass $object,
-                Bar $object1
-            ) {
-                return new Response($object1->getBar());
-            }));
+            \stdClass $object,
+            Bar $object1
+        ) {
+            return new Response($object1->getBar());
+        }));
 
         $kernel   = new HttpKernel(new EventDispatcher(), $resolver);
         $renderer = new InlineFragmentRenderer($kernel);
@@ -156,10 +156,10 @@ class InlineFragmentRendererTest extends \PHPUnit_Framework_TestCase
     {
         $resolver = $this->getMock('Symfony\\Component\\HttpKernel\\Controller\\ControllerResolverInterface');
         $resolver->expects($this->once())->method('getController')->will($this->returnValue(function () {
-                ob_start();
-                echo 'bar';
-                throw new \RuntimeException();
-            }));
+            ob_start();
+            echo 'bar';
+            throw new \RuntimeException();
+        }));
         $resolver->expects($this->once())->method('getArguments')->will($this->returnValue([ ]));
 
         $kernel   = new HttpKernel(new EventDispatcher(), $resolver);

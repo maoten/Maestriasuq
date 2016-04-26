@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\Translation\Tests\DataCollector;
 
-use Symfony\Component\Translation\DataCollectorTranslator;
 use Symfony\Component\Translation\DataCollector\TranslationDataCollector;
+use Symfony\Component\Translation\DataCollectorTranslator;
 
 class TranslationDataCollectorTest extends \PHPUnit_Framework_TestCase
 {

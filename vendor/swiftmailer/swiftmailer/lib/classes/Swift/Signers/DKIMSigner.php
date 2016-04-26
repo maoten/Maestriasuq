@@ -549,13 +549,14 @@ class Swift_Signers_DKIMSigner implements Swift_Signers_HeaderSigner
     public function addSignature(Swift_Mime_HeaderSet $headers)
     {
         // Prepare the DKIM-Signature
-        $params = [ 'v'  => '1',
-                    'a'  => $this->_hashAlgorithm,
-                    'bh' => base64_encode($this->_bodyHash),
-                    'd'  => $this->_domainName,
-                    'h'  => implode(': ', $this->_signedHeaders),
-                    'i'  => $this->_signerIdentity,
-                    's'  => $this->_selector
+        $params = [
+            'v'  => '1',
+            'a'  => $this->_hashAlgorithm,
+            'bh' => base64_encode($this->_bodyHash),
+            'd'  => $this->_domainName,
+            'h'  => implode(': ', $this->_signedHeaders),
+            'i'  => $this->_signerIdentity,
+            's'  => $this->_selector
         ];
         if ($this->_bodyCanon != 'simple') {
             $params['c'] = $this->_headerCanon . '/' . $this->_bodyCanon;

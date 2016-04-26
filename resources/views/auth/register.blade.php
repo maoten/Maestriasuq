@@ -4,25 +4,25 @@
 @section('css')
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/pGenerator.jquery.js') }}"></script>
-@endsection
-@section('content')
- <!--   <div class="container">
+    @endsection
+    @section('content')
+            <!--   <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 @include('flash::message')
-                @include('layouts.errors')
+    @include('layouts.errors')
 
-                <div class="panel panel-default">
-                    <div class="panel-heading text-center">Registro de ususario</div>
-                    <div class="panel-body">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Registro de ususario</div>
+                <div class="panel-body">
 
 
-                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}"
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}"
                               enctype="multipart/form-data">
                             {!! csrf_field() !!}
 
 
-                            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                 <label class="col-md-4 control-label">Nombre</label>
 
                                 <div class="col-md-6">
@@ -34,36 +34,36 @@
                                     </div>
 
                                     @if ($errors->has('name'))
-                                        <span class="help-block">
-                                <strong>{{ $errors->first('name') }}</strong>
+            <span class="help-block">
+    <strong>{{ $errors->first('name') }}</strong>
                             </span>
                                     @endif
-                                </div>
-                            </div>
+            </div>
+        </div>
 
 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">Cédula</label>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Cédula</label>
 
-                                <div class="col-md-6">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i
-                                                    class="glyphicon glyphicon-asterisk"></i></span>
-                                        <input type="text" class="form-control" name="cc" placeholder="1098626573">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i
+                                class="glyphicon glyphicon-asterisk"></i></span>
+                    <input type="text" class="form-control" name="cc" placeholder="1098626573">
 
-                                    </div>
-                                </div>
-                            </div>
+                </div>
+            </div>
+        </div>
 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">Correo electrónico</label>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Correo electrónico</label>
 
-                                <div class="col-md-6">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i
-                                                    class="glyphicon glyphicon-envelope"></i></span>
-                                        <input type="email" class="form-control" name="email"
-                                               placeholder="lcorrea@uniquindio.edu.co">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i
+                                class="glyphicon glyphicon-envelope"></i></span>
+                    <input type="email" class="form-control" name="email"
+                           placeholder="lcorrea@uniquindio.edu.co">
 
                                     </div>
                                 </div>

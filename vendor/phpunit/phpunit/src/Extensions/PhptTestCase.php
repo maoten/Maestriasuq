@@ -220,9 +220,9 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
             '__DIR__',
             '__FILE__'
         ], [
-                "'" . dirname($this->filename) . "'",
-                "'" . $this->filename . "'"
-            ], $code);
+            "'" . dirname($this->filename) . "'",
+            "'" . $this->filename . "'"
+        ], $code);
     }
 
 

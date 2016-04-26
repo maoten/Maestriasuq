@@ -23,7 +23,7 @@ class Swift_Mime_HeaderEncoder_QpHeaderEncoderTest extends \SwiftMailerTestCase
 
         $charStream = $this->_createCharacterStream();
         $charStream->shouldReceive('readBytes')->atLeast()->times(6)->andReturn([ ord('a') ], [ 0x20 ], [ 0x09 ],
-                [ 0x20 ], [ ord('b') ], false);
+            [ 0x20 ], [ ord('b') ], false);
 
         $encoder = $this->_createEncoder($charStream);
         $this->assertNotRegExp('~[ \t]~', $encoder->encodeString("a \t b"),

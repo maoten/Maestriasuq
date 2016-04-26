@@ -24,7 +24,7 @@ class RouteCollectionBuilderTest extends \PHPUnit_Framework_TestCase
         $resolvedLoader = $this->getMock('Symfony\Component\Config\Loader\LoaderInterface');
         $resolver       = $this->getMock('Symfony\Component\Config\Loader\LoaderResolverInterface');
         $resolver->expects($this->once())->method('resolve')->with('admin_routing.yml',
-                'yaml')->will($this->returnValue($resolvedLoader));
+            'yaml')->will($this->returnValue($resolvedLoader));
 
         $originalRoute      = new Route('/foo/path');
         $expectedCollection = new RouteCollection();
@@ -32,7 +32,7 @@ class RouteCollectionBuilderTest extends \PHPUnit_Framework_TestCase
         $expectedCollection->addResource(new FileResource(__DIR__ . '/Fixtures/file_resource.yml'));
 
         $resolvedLoader->expects($this->once())->method('load')->with('admin_routing.yml',
-                'yaml')->will($this->returnValue($expectedCollection));
+            'yaml')->will($this->returnValue($expectedCollection));
 
         $loader = $this->getMock('Symfony\Component\Config\Loader\LoaderInterface');
         $loader->expects($this->any())->method('getResolver')->will($this->returnValue($resolver));
@@ -152,20 +152,20 @@ class RouteCollectionBuilderTest extends \PHPUnit_Framework_TestCase
         $routes = new RouteCollectionBuilder();
 
         $routes->add('/blogs/{page}', 'listAction', 'blog_list')// unique things for the route
-            ->setDefault('page', 1)->setRequirement('id', '\d+')->setOption('expose',
-                true)// things that the collection will try to override (but won't)
-            ->setDefault('_format', 'html')->setRequirement('_format', 'json|xml')->setOption('fooBar',
-                true)->setHost('example.com')->setCondition('request.isSecure()')->setSchemes([ 'https' ])->setMethods([ 'POST' ]);
+        ->setDefault('page', 1)->setRequirement('id', '\d+')->setOption('expose',
+            true)// things that the collection will try to override (but won't)
+        ->setDefault('_format', 'html')->setRequirement('_format', 'json|xml')->setOption('fooBar',
+            true)->setHost('example.com')->setCondition('request.isSecure()')->setSchemes([ 'https' ])->setMethods([ 'POST' ]);
 
         // a simple route, nothing added to it
         $routes->add('/blogs/{id}', 'editAction', 'blog_edit');
 
         // configure the collection itself
         $routes// things that will not override the child route
-            ->setDefault('_format', 'json')->setRequirement('_format', 'xml')->setOption('fooBar',
-                false)->setHost('symfony.com')->setCondition('request.query.get("page")==1')// some unique things that should be set on the child
-            ->setDefault('_locale', 'fr')->setRequirement('_locale', 'fr|en')->setOption('niceRoute',
-                true)->setSchemes([ 'http' ])->setMethods([ 'GET', 'POST' ]);
+        ->setDefault('_format', 'json')->setRequirement('_format', 'xml')->setOption('fooBar',
+            false)->setHost('symfony.com')->setCondition('request.query.get("page")==1')// some unique things that should be set on the child
+        ->setDefault('_locale', 'fr')->setRequirement('_locale', 'fr|en')->setOption('niceRoute',
+            true)->setSchemes([ 'http' ])->setMethods([ 'GET', 'POST' ]);
 
         $collection      = $routes->build();
         $actualListRoute = $collection->get('blog_list');

@@ -11,16 +11,16 @@
 
 namespace Prophecy\Prophecy;
 
-use SebastianBergmann\Comparator\ComparisonFailure;
-use Prophecy\Comparator\Factory as ComparatorFactory;
-use Prophecy\Call\Call;
-use Prophecy\Doubler\LazyDouble;
 use Prophecy\Argument\ArgumentsWildcard;
+use Prophecy\Call\Call;
 use Prophecy\Call\CallCenter;
-use Prophecy\Exception\Prophecy\ObjectProphecyException;
-use Prophecy\Exception\Prophecy\MethodProphecyException;
+use Prophecy\Comparator\Factory as ComparatorFactory;
+use Prophecy\Doubler\LazyDouble;
 use Prophecy\Exception\Prediction\AggregateException;
 use Prophecy\Exception\Prediction\PredictionException;
+use Prophecy\Exception\Prophecy\MethodProphecyException;
+use Prophecy\Exception\Prophecy\ObjectProphecyException;
+use SebastianBergmann\Comparator\ComparisonFailure;
 
 /**
  * Object prophecy.

@@ -37,7 +37,7 @@ class StreamOutput extends Output
     /**
      * Constructor.
      *
-     * @param resource                      $stream A stream resource
+     * @param resource                      $stream    A stream resource
      * @param int                           $verbosity The verbosity level (one of the VERBOSITY constants in
      *                                                 OutputInterface)
      * @param bool|null                     $decorated Whether to decorate messages (null for auto-guessing)

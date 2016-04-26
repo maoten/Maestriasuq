@@ -11,11 +11,11 @@
 
 namespace Symfony\Component\Routing\Tests\Generator;
 
-use Symfony\Component\Routing\RouteCollection;
-use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
 
 class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
 {

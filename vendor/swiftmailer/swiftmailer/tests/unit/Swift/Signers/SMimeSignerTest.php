@@ -22,9 +22,9 @@ class Swift_Signers_SMimeSignerTest extends \PHPUnit_Framework_TestCase
     public function testUnSingedMessage()
     {
         $message = Swift_SignedMessage::newInstance('Wonderful Subject')->setFrom([ 'john@doe.com' => 'John Doe' ])->setTo([
-                'receiver@domain.org',
-                'other@domain.org' => 'A name'
-            ])->setBody('Here is the message itself');
+            'receiver@domain.org',
+            'other@domain.org' => 'A name'
+        ])->setBody('Here is the message itself');
 
         $this->assertEquals('Here is the message itself', $message->getBody());
     }
@@ -33,9 +33,9 @@ class Swift_Signers_SMimeSignerTest extends \PHPUnit_Framework_TestCase
     public function testSingedMessage()
     {
         $message = Swift_SignedMessage::newInstance('Wonderful Subject')->setFrom([ 'john@doe.com' => 'John Doe' ])->setTo([
-                'receiver@domain.org',
-                'other@domain.org' => 'A name'
-            ])->setBody('Here is the message itself');
+            'receiver@domain.org',
+            'other@domain.org' => 'A name'
+        ])->setBody('Here is the message itself');
 
         $signer = new Swift_Signers_SMimeSigner();
         $signer->setSignCertificate($this->samplesDir . 'smime/sign.crt', $this->samplesDir . 'smime/sign.key');
@@ -77,9 +77,9 @@ OEL;
     public function testSingedMessageExtraCerts()
     {
         $message = Swift_SignedMessage::newInstance('Wonderful Subject')->setFrom([ 'john@doe.com' => 'John Doe' ])->setTo([
-                'receiver@domain.org',
-                'other@domain.org' => 'A name'
-            ])->setBody('Here is the message itself');
+            'receiver@domain.org',
+            'other@domain.org' => 'A name'
+        ])->setBody('Here is the message itself');
 
         $signer = new Swift_Signers_SMimeSigner();
         $signer->setSignCertificate($this->samplesDir . 'smime/sign2.crt', $this->samplesDir . 'smime/sign2.key',
@@ -122,9 +122,9 @@ OEL;
     public function testSingedMessageBinary()
     {
         $message = Swift_SignedMessage::newInstance('Wonderful Subject')->setFrom([ 'john@doe.com' => 'John Doe' ])->setTo([
-                'receiver@domain.org',
-                'other@domain.org' => 'A name'
-            ])->setBody('Here is the message itself');
+            'receiver@domain.org',
+            'other@domain.org' => 'A name'
+        ])->setBody('Here is the message itself');
 
         $signer = new Swift_Signers_SMimeSigner();
         $signer->setSignCertificate($this->samplesDir . 'smime/sign.crt', $this->samplesDir . 'smime/sign.key',
@@ -159,9 +159,9 @@ OEL;
     public function testSingedMessageWithAttachments()
     {
         $message = Swift_SignedMessage::newInstance('Wonderful Subject')->setFrom([ 'john@doe.com' => 'John Doe' ])->setTo([
-                'receiver@domain.org',
-                'other@domain.org' => 'A name'
-            ])->setBody('Here is the message itself');
+            'receiver@domain.org',
+            'other@domain.org' => 'A name'
+        ])->setBody('Here is the message itself');
 
         $message->attach(Swift_Attachment::fromPath($this->samplesDir . '/files/textfile.zip'));
 
@@ -224,9 +224,9 @@ OEL;
     public function testEncryptedMessage()
     {
         $message = Swift_SignedMessage::newInstance('Wonderful Subject')->setFrom([ 'john@doe.com' => 'John Doe' ])->setTo([
-                'receiver@domain.org',
-                'other@domain.org' => 'A name'
-            ])->setBody('Here is the message itself');
+            'receiver@domain.org',
+            'other@domain.org' => 'A name'
+        ])->setBody('Here is the message itself');
 
         $originalMessage = $this->cleanMessage($message->toString());
 
@@ -266,9 +266,9 @@ OEL;
     public function testEncryptedMessageWithMultipleCerts()
     {
         $message = Swift_SignedMessage::newInstance('Wonderful Subject')->setFrom([ 'john@doe.com' => 'John Doe' ])->setTo([
-                'receiver@domain.org',
-                'other@domain.org' => 'A name'
-            ])->setBody('Here is the message itself');
+            'receiver@domain.org',
+            'other@domain.org' => 'A name'
+        ])->setBody('Here is the message itself');
 
         $originalMessage = $this->cleanMessage($message->toString());
 
@@ -323,9 +323,9 @@ OEL;
     public function testSignThenEncryptedMessage()
     {
         $message = Swift_SignedMessage::newInstance('Wonderful Subject')->setFrom([ 'john@doe.com' => 'John Doe' ])->setTo([
-                'receiver@domain.org',
-                'other@domain.org' => 'A name'
-            ])->setBody('Here is the message itself');
+            'receiver@domain.org',
+            'other@domain.org' => 'A name'
+        ])->setBody('Here is the message itself');
 
         $signer = new Swift_Signers_SMimeSigner();
         $signer->setSignCertificate($this->samplesDir . 'smime/sign.crt', $this->samplesDir . 'smime/sign.key');
@@ -392,9 +392,9 @@ OEL;
     public function testEncryptThenSignMessage()
     {
         $message = Swift_SignedMessage::newInstance('Wonderful Subject')->setFrom([ 'john@doe.com' => 'John Doe' ])->setTo([
-                'receiver@domain.org',
-                'other@domain.org' => 'A name'
-            ])->setBody('Here is the message itself');
+            'receiver@domain.org',
+            'other@domain.org' => 'A name'
+        ])->setBody('Here is the message itself');
 
         $originalMessage = $this->cleanMessage($message->toString());
 

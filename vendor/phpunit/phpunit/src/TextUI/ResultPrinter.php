@@ -225,7 +225,7 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
         }
 
         $this->write(sprintf("There %s %d %s%s:\n", ( $count == 1 ) ? 'was' : 'were', $count, $type,
-                ( $count == 1 ) ? '' : 's'));
+            ( $count == 1 ) ? '' : 's'));
 
         $i = 1;
 
@@ -527,7 +527,7 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
 
         if ($this->column == $this->maxColumn) {
             $this->write(sprintf(' %' . $this->numTestsWidth . 'd / %' . $this->numTestsWidth . 'd (%3s%%)',
-                    $this->numTestsRun, $this->numTests, floor(( $this->numTestsRun / $this->numTests ) * 100)));
+                $this->numTestsRun, $this->numTests, floor(( $this->numTestsRun / $this->numTests ) * 100)));
 
             $this->writeNewLine();
         }

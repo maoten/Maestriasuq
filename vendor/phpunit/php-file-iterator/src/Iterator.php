@@ -83,7 +83,7 @@ class File_Iterator extends FilterIterator
      */
     public function accept()
     {
-        $current = $this->getInnerIterator()->current();
+        $current  = $this->getInnerIterator()->current();
         $filename = $current->getFilename();
         $realpath = $current->getRealPath();
 

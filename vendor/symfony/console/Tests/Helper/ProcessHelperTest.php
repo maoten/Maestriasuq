@@ -13,8 +13,8 @@ namespace Symfony\Component\Console\Tests\Helper;
 
 use Symfony\Component\Console\Helper\DebugFormatterHelper;
 use Symfony\Component\Console\Helper\HelperSet;
-use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Console\Helper\ProcessHelper;
+use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Process\Process;
 
 class ProcessHelperTest extends \PHPUnit_Framework_TestCase
@@ -51,12 +51,12 @@ class ProcessHelperTest extends \PHPUnit_Framework_TestCase
 
     public function provideCommandsAndOutput()
     {
-        $successOutputVerbose = <<<EOT
+        $successOutputVerbose       = <<<EOT
   RUN  php -r "echo 42;"
   RES  Command ran successfully
 
 EOT;
-        $successOutputDebug = <<<EOT
+        $successOutputDebug         = <<<EOT
   RUN  php -r "echo 42;"
   OUT  42
   RES  Command ran successfully
@@ -68,18 +68,18 @@ EOT;
   RES  Command ran successfully
 
 EOT;
-        $successOutputProcessDebug = <<<EOT
+        $successOutputProcessDebug  = <<<EOT
   RUN  'php' '-r' 'echo 42;'
   OUT  42
   RES  Command ran successfully
 
 EOT;
-        $syntaxErrorOutputVerbose = <<<EOT
+        $syntaxErrorOutputVerbose   = <<<EOT
   RUN  php -r "fwrite(STDERR, 'error message');usleep(50000);fwrite(STDOUT, 'out message');exit(252);"
   RES  252 Command did not run successfully
 
 EOT;
-        $syntaxErrorOutputDebug = <<<EOT
+        $syntaxErrorOutputDebug     = <<<EOT
   RUN  php -r "fwrite(STDERR, 'error message');usleep(500000);fwrite(STDOUT, 'out message');exit(252);"
   ERR  error message
   OUT  out message

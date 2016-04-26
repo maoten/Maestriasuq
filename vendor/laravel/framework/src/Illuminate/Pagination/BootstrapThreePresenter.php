@@ -2,9 +2,9 @@
 
 namespace Illuminate\Pagination;
 
-use Illuminate\Support\HtmlString;
 use Illuminate\Contracts\Pagination\Paginator as PaginatorContract;
 use Illuminate\Contracts\Pagination\Presenter as PresenterContract;
+use Illuminate\Support\HtmlString;
 
 class BootstrapThreePresenter implements PresenterContract
 {

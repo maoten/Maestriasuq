@@ -2,8 +2,8 @@
 
 namespace Illuminate\Foundation\Testing\Concerns;
 
-use Mockery;
 use Exception;
+use Mockery;
 
 trait MocksApplicationServices
 {

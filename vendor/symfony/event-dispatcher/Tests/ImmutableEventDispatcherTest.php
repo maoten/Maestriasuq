@@ -43,7 +43,7 @@ class ImmutableEventDispatcherTest extends \PHPUnit_Framework_TestCase
         $event = new Event();
 
         $this->innerDispatcher->expects($this->once())->method('dispatch')->with('event',
-                $event)->will($this->returnValue('result'));
+            $event)->will($this->returnValue('result'));
 
         $this->assertSame('result', $this->dispatcher->dispatch('event', $event));
     }

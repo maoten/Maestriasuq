@@ -11,8 +11,8 @@
 
 namespace Monolog\Handler;
 
-use Monolog\TestCase;
 use Monolog\Logger;
+use Monolog\TestCase;
 
 /**
  * @covers Monolog\Handler\PsrHandler::handle
@@ -45,10 +45,11 @@ class PsrHandlerTest extends TestCase
         $psrLogger->expects($this->once())->method('log')->with(strtolower($levelName), $message, $context);
 
         $handler = new PsrHandler($psrLogger);
-        $handler->handle([ 'level'      => $level,
-                           'level_name' => $levelName,
-                           'message'    => $message,
-                           'context'    => $context
+        $handler->handle([
+            'level'      => $level,
+            'level_name' => $levelName,
+            'message'    => $message,
+            'context'    => $context
         ]);
     }
 }

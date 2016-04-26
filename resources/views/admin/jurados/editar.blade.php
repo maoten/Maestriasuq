@@ -17,7 +17,7 @@
                     <div class="panel-body">
 
                         <form class="form-horizontal" role="form" method="PUT"
-                              action="{{ route('consejo.jurados.update', [$jurado]) }}">
+                              action="{{ route('admin.jurados.update', [$jurado]) }}">
 
 
                             <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">

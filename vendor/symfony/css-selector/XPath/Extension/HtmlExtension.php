@@ -37,7 +37,7 @@ class HtmlExtension extends AbstractExtension
     public function __construct(Translator $translator)
     {
         $translator->getExtension('node')->setFlag(NodeExtension::ELEMENT_NAME_IN_LOWER_CASE,
-                true)->setFlag(NodeExtension::ATTRIBUTE_NAME_IN_LOWER_CASE, true);
+            true)->setFlag(NodeExtension::ATTRIBUTE_NAME_IN_LOWER_CASE, true);
     }
 
 

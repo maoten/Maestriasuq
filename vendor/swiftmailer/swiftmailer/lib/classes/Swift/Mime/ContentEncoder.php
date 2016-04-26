@@ -19,8 +19,8 @@ interface Swift_Mime_ContentEncoder extends Swift_Encoder
     /**
      * Encode $in to $out.
      *
-     * @param Swift_OutputByteStream $os to read from
-     * @param Swift_InputByteStream  $is to write to
+     * @param Swift_OutputByteStream $os            to read from
+     * @param Swift_InputByteStream  $is            to write to
      * @param int                    $firstLineOffset
      * @param int                    $maxLineLength - 0 indicates the default length for this encoding
      */

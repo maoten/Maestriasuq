@@ -13,8 +13,8 @@ class HighlighterTest extends \PHPUnit_Framework_TestCase
         $mock = $this->getMock('\JakubOnderka\PhpConsoleColor\ConsoleColor');
 
         $mock->expects($this->any())->method('apply')->will($this->returnCallback(function ($style, $text) {
-                return "<$style>$text</$style>";
-            }));
+            return "<$style>$text</$style>";
+        }));
 
         $mock->expects($this->any())->method('hasTheme')->will($this->returnValue(true));
 

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Http\Requests\EditarUserRequest;
 use App\Http\Requests\UserRequest;
 use App\Jurado;
 use App\Notificacion;
@@ -23,7 +24,7 @@ class JuradosController extends Controller
     {
         $jurado = User::where('rol', 'jurado')->search($request->nombre)->orderBy('id', 'ASC')->paginate(10);
 
-        return view('consejo.jurados.index')->with('jurados', $jurado);
+        return view('admin.jurados.index')->with('jurados', $jurado);
 
     }
 
@@ -39,7 +40,7 @@ class JuradosController extends Controller
     {
         $jurado = User::where('rol', 'jurado')->search($request->nombre)->orderBy('id', 'ASC')->paginate(10);
 
-        return view('admin.jurados.index')->with('jurados', $jurado);
+        return view('consejo.jurados.index')->with('jurados', $jurado);
 
     }
 
@@ -51,7 +52,7 @@ class JuradosController extends Controller
      */
     public function create()
     {
-        return view('consejo.jurados.registrar');
+        return view('admin.jurados.registrar');
 
     }
 
@@ -88,7 +89,7 @@ class JuradosController extends Controller
 
         Flash::success("Se ha registrado " . $jurado->nombre . " de forma exitosa");
 
-        return redirect()->route('consejo.jurados.index');
+        return redirect()->route('admin.jurados.index');
     }
 
 
@@ -116,19 +117,19 @@ class JuradosController extends Controller
     {
         $jurado = User::find($id);
 
-        return view('consejo.jurados.editar')->with('jurado', $jurado);
+        return view('admin.jurados.editar')->with('jurado', $jurado);
     }
 
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param EditarUserRequest|Request $request
      * @param  int                      $id
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EditarUserRequest $request, $id)
     {
         $jurado              = User::find($id);
         $jurado->nombre      = $request->nombre;
@@ -140,7 +141,7 @@ class JuradosController extends Controller
         $jurado->save();
         Flash::warning("El jurado " . $jurado->nombre . " ha sido editado");
 
-        return redirect()->route('consejo.jurados.index');
+        return redirect()->route('admin.jurados.index');
     }
 
 
@@ -157,7 +158,7 @@ class JuradosController extends Controller
         $jurado->delete();
         Flash::error("Se ha eliminado " . $jurado->nombre . " de forma exitosa");
 
-        return redirect()->route('consejo.jurados.index');
+        return redirect()->route('admin.jurados.index');
 
     }
 }

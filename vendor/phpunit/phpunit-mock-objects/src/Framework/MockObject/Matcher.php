@@ -113,7 +113,7 @@ class PHPUnit_Framework_MockObject_Matcher implements PHPUnit_Framework_MockObje
 
             if ( ! $builder) {
                 throw new PHPUnit_Framework_Exception(sprintf('No builder found for match builder identification <%s>',
-                        $this->afterMatchBuilderId));
+                    $this->afterMatchBuilderId));
             }
 
             $matcher = $builder->getMatcher();
@@ -155,7 +155,7 @@ class PHPUnit_Framework_MockObject_Matcher implements PHPUnit_Framework_MockObje
 
             if ( ! $builder) {
                 throw new PHPUnit_Framework_Exception(sprintf('No builder found for match builder identification <%s>',
-                        $this->afterMatchBuilderId));
+                    $this->afterMatchBuilderId));
             }
 
             $matcher = $builder->getMatcher();
@@ -223,8 +223,8 @@ class PHPUnit_Framework_MockObject_Matcher implements PHPUnit_Framework_MockObje
             }
         } catch (PHPUnit_Framework_ExpectationFailedException $e) {
             throw new PHPUnit_Framework_ExpectationFailedException(sprintf("Expectation failed for %s when %s.\n%s",
-                    $this->methodNameMatcher->toString(), $this->invocationMatcher->toString(),
-                    PHPUnit_Framework_TestFailure::exceptionToString($e)));
+                $this->methodNameMatcher->toString(), $this->invocationMatcher->toString(),
+                PHPUnit_Framework_TestFailure::exceptionToString($e)));
         }
     }
 

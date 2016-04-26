@@ -8,13 +8,13 @@
  * file that was distributed with this source code.
  */
 
-use SebastianBergmann\GlobalState\Snapshot;
-use SebastianBergmann\GlobalState\Restorer;
-use SebastianBergmann\GlobalState\Blacklist;
-use SebastianBergmann\Diff\Differ;
-use SebastianBergmann\Exporter\Exporter;
 use Prophecy\Exception\Prediction\PredictionException;
 use Prophecy\Prophet;
+use SebastianBergmann\Diff\Differ;
+use SebastianBergmann\Exporter\Exporter;
+use SebastianBergmann\GlobalState\Blacklist;
+use SebastianBergmann\GlobalState\Restorer;
+use SebastianBergmann\GlobalState\Snapshot;
 
 /**
  * A TestCase defines the fixture to run multiple tests.
@@ -686,27 +686,27 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
             $configurationFilePath = ( isset( $GLOBALS['__PHPUNIT_CONFIGURATION_FILE'] ) ? $GLOBALS['__PHPUNIT_CONFIGURATION_FILE'] : '' );
 
             $template->setVar([
-                    'composerAutoload'                        => $composerAutoload,
-                    'phar'                                    => $phar,
-                    'filename'                                => $class->getFileName(),
-                    'className'                               => $class->getName(),
-                    'methodName'                              => $this->name,
-                    'collectCodeCoverageInformation'          => $coverage,
-                    'data'                                    => $data,
-                    'dataName'                                => $dataName,
-                    'dependencyInput'                         => $dependencyInput,
-                    'constants'                               => $constants,
-                    'globals'                                 => $globals,
-                    'include_path'                            => $includePath,
-                    'included_files'                          => $includedFiles,
-                    'iniSettings'                             => $iniSettings,
-                    'isStrictAboutTestsThatDoNotTestAnything' => $isStrictAboutTestsThatDoNotTestAnything,
-                    'isStrictAboutOutputDuringTests'          => $isStrictAboutOutputDuringTests,
-                    'isStrictAboutTestSize'                   => $isStrictAboutTestSize,
-                    'isStrictAboutTodoAnnotatedTests'         => $isStrictAboutTodoAnnotatedTests,
-                    'codeCoverageFilter'                      => $codeCoverageFilter,
-                    'configurationFilePath'                   => $configurationFilePath
-                ]);
+                'composerAutoload'                        => $composerAutoload,
+                'phar'                                    => $phar,
+                'filename'                                => $class->getFileName(),
+                'className'                               => $class->getName(),
+                'methodName'                              => $this->name,
+                'collectCodeCoverageInformation'          => $coverage,
+                'data'                                    => $data,
+                'dataName'                                => $dataName,
+                'dependencyInput'                         => $dependencyInput,
+                'constants'                               => $constants,
+                'globals'                                 => $globals,
+                'include_path'                            => $includePath,
+                'included_files'                          => $includedFiles,
+                'iniSettings'                             => $iniSettings,
+                'isStrictAboutTestsThatDoNotTestAnything' => $isStrictAboutTestsThatDoNotTestAnything,
+                'isStrictAboutOutputDuringTests'          => $isStrictAboutOutputDuringTests,
+                'isStrictAboutTestSize'                   => $isStrictAboutTestSize,
+                'isStrictAboutTodoAnnotatedTests'         => $isStrictAboutTodoAnnotatedTests,
+                'codeCoverageFilter'                      => $codeCoverageFilter,
+                'configurationFilePath'                   => $configurationFilePath
+            ]);
 
             $this->prepareTemplate($template);
 
@@ -1229,7 +1229,7 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
             $this->iniSettings[$varName] = $currentValue;
         } else {
             throw new PHPUnit_Framework_Exception(sprintf('INI setting "%s" could not be set to "%s".', $varName,
-                    $newValue));
+                $newValue));
         }
     }
 
@@ -1851,7 +1851,7 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
                 if ( ! isset( $passedKeys[$dependency] )) {
                     $this->result->addError($this,
                         new PHPUnit_Framework_SkippedTestError(sprintf('This test depends on "%s" to pass.',
-                                $dependency)), 0);
+                            $dependency)), 0);
 
                     return false;
                 }

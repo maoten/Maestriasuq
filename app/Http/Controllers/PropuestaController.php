@@ -6,8 +6,11 @@ use App\Http\Requests;
 use App\Http\Requests\PropuestaRequest;
 use App\Notificacion;
 use App\Propuesta;
+use App\Evento;
+use App\Jurado_propuesta;
 use App\User;
 use Illuminate\Http\Request;
+use DateTime;
 use Laracasts\Flash\Flash;
 
 class PropuestaController extends Controller
@@ -34,7 +37,7 @@ class PropuestaController extends Controller
      */
     public function indexPropuestas(Request $request)
     {
-        $propuestas = Propuesta::search($request->titulo)->orderBy('id', 'ASC')->paginate(10);
+       $propuestas = Propuesta::search($request->titulo)->orderBy('id', 'ASC')->paginate(10);
 
         return view('admin.propuestas.index')->with('propuestas', $propuestas);
     }
@@ -51,7 +54,7 @@ class PropuestaController extends Controller
     {
         $propuestas = Propuesta::search($request->titulo)->orderBy('id', 'ASC')->paginate(10);
 
-       return view('director.propuestas.index')->with('propuestas', $propuestas);
+        return view('director.propuestas.index')->with('propuestas', $propuestas);
 
     }
 
@@ -115,23 +118,23 @@ class PropuestaController extends Controller
         if ( ! empty( $request->modalidad )) {
             $propuesta->mod_id = $request->modalidad;
         }
-        //$propuesta->save();
+        $propuesta->save();
 
-        $f         = $request->file('propuesta');
-        $att       = new Documentos();
-        $att->name = $f->getClientOriginalName();
-        // $att->file = base64_encode(file_get_contents($f->getRealPath()));
+        $f                 = $request->file('propuesta');
+        $att               = new Documentos();
+        $att->name         = $f->getClientOriginalName();
+        $att->file         = base64_encode(file_get_contents($f->getRealPath()));
         $att->mime         = $f->getMimeType();
         $att->size         = $f->getSize();
         $att->propuesta_id = $propuesta->id;
-        /* $att->save();
- 
-         $notificacion= new Notificacion();
-         $notificacion->notificarRegistroPropuesta($propuesta);
- 
-         Flash::success("Se ha registrado la propuesta ".$propuesta->titulo." de forma exitosa");
-         return redirect()->route('estudiante.propuesta.index');*/
-        dd($f);
+        $att->save();
+
+        $notificacion = new Notificacion();
+        $notificacion->notificarRegistroPropuesta($propuesta);
+
+        Flash::success("Se ha registrado la propuesta " . $propuesta->titulo . " de forma exitosa");
+
+        return redirect()->route('estudiante.propuesta.index');
 
     }
 
@@ -144,7 +147,7 @@ class PropuestaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function asignar_jurados(Request $request, $id)
+    public function asignarJurados(Request $request, $id)
     {
 
         $propuesta = Propuesta::find($id);
@@ -206,11 +209,26 @@ class PropuestaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show_propuesta($id)
+    public function showPropuesta($id)
     {
         $propuesta = Propuesta::find($id);
 
         return view('estudiante.propuesta.ver')->with('propuesta', $propuesta);
+    }
+
+
+    /**
+     * Muestra al administrador la propuesta que indique.
+     *
+     * @param  int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showPropuestaAdmin($id)
+    {
+        $propuesta = Propuesta::find($id);
+
+        return view('admin.propuestas.ver')->with('propuesta', $propuesta);
     }
 
 
@@ -221,7 +239,7 @@ class PropuestaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show_propuesta_dir($id)
+    public function showPropuestaDir($id)
     {
         $propuesta = Propuesta::find($id);
 
@@ -236,7 +254,7 @@ class PropuestaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show_propuesta_consejo($id)
+    public function showPropuestaConsejo($id)
     {
         $propuesta = Propuesta::find($id);
 
@@ -251,7 +269,7 @@ class PropuestaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show_propuesta_jurado($id)
+    public function showPropuestaJurado($id)
     {
         $propuesta = Propuesta::find($id);
 
@@ -283,9 +301,25 @@ class PropuestaController extends Controller
      */
     public function edit($id)
     {
-        $propuesta = User::find($id);
+        $propuesta = Propuesta::find($id);
 
         return view('estudiante.propuesta.editar')->with('propuesta', $propuesta);
+
+    }
+
+
+    /**
+     * Show the form for show the specified resource.
+     *
+     * @param  int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showCitacion($id)
+    {
+        $propuesta = Propuesta::find($id);
+
+        return view('admin.propuestas.citacion')->with('propuesta', $propuesta);
 
     }
 
@@ -306,6 +340,52 @@ class PropuestaController extends Controller
         Flash::warning("El propuesta " . $propuesta->nombre . " ha sido editado");
 
         return redirect()->route('admin.propuestas.index');
+    }
+
+
+    /**
+     * Cita al estudiante y a los juradoa a una disertación.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int                      $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function citar(Request $request, $id)
+    {
+
+        $propuesta        = Propuesta::find($id);
+        $estudiante       = User::find($propuesta->user_id);
+        $propuesta_jurado = Jurado_propuesta::where('propuesta_id', $id)->get();
+
+        $usuarios = [ ];
+
+        for ($i = 0; $i < count($propuesta_jurado); $i++) {
+            $usuarios[$i] = User::find($propuesta_jurado[$i]->jurado_id)->id;
+        }
+
+        array_push($usuarios, $estudiante->id);
+
+        $evento              = new Evento();
+        $evento->asunto      = $request->asunto;
+        $evento->descripcion = $request->descripcion;
+        $evento->lugar       = $request->lugar;
+
+        $date1                = new DateTime($request->inicio);
+        $evento->fecha_inicio = date_format($date1, 'Y-m-d H:i:s');
+
+        $date2             = new DateTime($request->fin);
+        $evento->fecha_fin = date_format($date2, 'Y-m-d H:i:s');
+
+        $evento->save();
+
+        $evento->users()->sync($usuarios);
+
+        Flash::success("Se han citado a las personas involucradas a la disertación  de la propuesta " . $propuesta->titulo . ".");
+
+        return redirect()->route('admin.propuestas.index');
+
+
     }
 
 

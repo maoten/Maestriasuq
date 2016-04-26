@@ -29,15 +29,15 @@ class ExitCommand extends Command
     protected function configure()
     {
         $this->setName('exit')->setAliases([
-                'quit',
-                'q'
-            ])->setDefinition([ ])->setDescription('End the current session and return to caller.')->setHelp(<<<'HELP'
+            'quit',
+            'q'
+        ])->setDefinition([ ])->setDescription('End the current session and return to caller.')->setHelp(<<<'HELP'
 End the current session and return to caller.
 
 e.g.
 <return>>>> exit</return>
 HELP
-            );
+        );
     }
 
 

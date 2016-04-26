@@ -36,8 +36,8 @@ class ClassCodeGenerator
 
         $code = sprintf("class %s extends \%s implements %s {\n", $classname, $class->getParentClass(),
             implode(', ', array_map(function ($interface) {
-                    return '\\' . $interface;
-                }, $class->getInterfaces())));
+                return '\\' . $interface;
+            }, $class->getInterfaces())));
 
         foreach ($class->getProperties() as $name => $visibility) {
             $code .= sprintf("%s \$%s;\n", $visibility, $name);

@@ -22,8 +22,7 @@
 
                     <div class="panel-body text-justify">
 
-
-                        <form class="form-horizontal" role="form" method="GET"
+                       <form class="form-horizontal" role="form" method="GET"
                               action="{{ route('admin.propuestas.index') }}" aria-describedby='search'>
                             <div class="input-group">
                                 <input type="text" class="form-control"
@@ -42,52 +41,56 @@
                             <th class="active">Modalidad</th>
                             <th class="active">Énfasis</th>
                             <th class="active">Estudiante</th>
-                            <th class="active">Director</th>
-                            <th class="active">Jurados</th>
                             <th class="active">Fecha creación</th>
                             <th class="active">Estado</th>
+                            <th class="active">Acción</th>
                             </thead>
+
 
                             <tbody>
                             @foreach($propuestas as $propuesta)
+
                                 <tr>
                                     <td>{{ $propuesta->id }}</td>
                                     <td>{{ $propuesta->titulo }}</td>
                                     <td>{{ App\Modalidad::find( $propuesta->mod_id )->nombre }}</td>
                                     <td>{{ App\Enfasis::find( $propuesta->enf_id )->nombre }}</td>
                                     <td>{{ App\User::find( $propuesta->user_id )->nombre }}</td>
-                                    <td>{{ App\User::find( $propuesta->dir_id )->nombre }}</td>
-                                    <td>
-                                        <select class="form-control" name="jurados" title="">
-
-                                            @foreach(App\Jurado_propuesta::where('propuesta_id',  $propuesta->id )->get() as $resultado)
-                                                <?php $jurado = App\User::find($resultado->jurado_id); ?>
-
-                                                <option value="{{$jurado->id}}">{{$jurado->nombre}}</option>
-
-                                            @endforeach
-                                        </select>
-                                    </td>
                                     <td>{{ $propuesta->created_at }}</td>
+
                                     <td>
                                         @if($propuesta->estado=='aceptada')
                                             <h4><span class="label label-success">{{ $propuesta->estado }}</span></h4>
                                         @elseif($propuesta->estado=='aplazada')
                                             <h4><span class="label label-danger">{{ $propuesta->estado }}</span>
-                                                </h4>
-                                                    @else
-                                                        <h4>
-                                                            <span class="label label-default">{{ $propuesta->estado }}</span>
-                                                            </h4>
+                                            </h4>
+                                        @else
+                                            <h4>
+                                                <span class="label label-default">{{ $propuesta->estado }}</span>
+                                            </h4>
                                         @endif
                                     </td>
+
+                                    <td>
+
+                                        <a href="{{ route('admin.propuesta.ver', $propuesta->id) }}"
+                                           class="btn btn-primary" target="_blank" title="Ver propuesta"><i
+                                                    class="fa fa-external-link fa-lg"></i>
+                                        </a>
+
+                                        <a href="{{ route('admin.propuesta.citacion', $propuesta->id) }}"
+                                           class="btn btn-success" target="_blank" title="Citación"><i
+                                                    class="fa fa-calendar-check-o fa-lg"></i>
+                                        </a>
+
+                                    </td>
+
                                 </tr>
 
                             @endforeach
                             </tbody>
 
                         </table>
-
                         {!! $propuestas->render()!!}
 
                     </div>

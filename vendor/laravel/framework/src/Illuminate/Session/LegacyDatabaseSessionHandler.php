@@ -2,8 +2,8 @@
 
 namespace Illuminate\Session;
 
-use SessionHandlerInterface;
 use Illuminate\Database\ConnectionInterface;
+use SessionHandlerInterface;
 
 /**
  * @deprecated since version 5.2. Use Illuminate\Session\DatabaseSessionHandler.

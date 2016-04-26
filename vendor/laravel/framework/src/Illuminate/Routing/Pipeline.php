@@ -3,12 +3,12 @@
 namespace Illuminate\Routing;
 
 use Closure;
-use Throwable;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline as BasePipeline;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
+use Throwable;
 
 /**
  * This extended pipeline catches any exceptions that occur during each slice.

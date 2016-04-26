@@ -1,8 +1,8 @@
 <?php
 namespace Faker\Test\Provider;
 
-use Faker\Provider\Biased;
 use Faker\Generator;
+use Faker\Provider\Biased;
 
 class BiasedTest extends \PHPUnit_Framework_TestCase
 {

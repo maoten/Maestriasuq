@@ -11,10 +11,10 @@
 
 namespace Monolog\Handler;
 
-use Monolog\TestCase;
 use Monolog\Logger;
-use PhpAmqpLib\Message\AMQPMessage;
+use Monolog\TestCase;
 use PhpAmqpLib\Connection\AMQPConnection;
+use PhpAmqpLib\Message\AMQPMessage;
 
 /**
  * @covers Monolog\Handler\RotatingFileHandler
@@ -37,13 +37,13 @@ class AmqpHandlerTest extends TestCase
         $exchange = $this->getMock('AMQPExchange', [ 'publish', 'setName' ], [ ], '', false);
         $exchange->expects($this->once())->method('setName')->with('log');
         $exchange->expects($this->any())->method('publish')->will($this->returnCallback(function (
-                $message,
-                $routing_key,
-                $flags = 0,
-                $attributes = [ ]
-            ) use (&$messages) {
-                $messages[] = [ $message, $routing_key, $flags, $attributes ];
-            }));
+            $message,
+            $routing_key,
+            $flags = 0,
+            $attributes = [ ]
+        ) use (&$messages) {
+            $messages[] = [ $message, $routing_key, $flags, $attributes ];
+        }));
 
         $handler = new AmqpHandler($exchange, 'log');
 
@@ -89,15 +89,15 @@ class AmqpHandlerTest extends TestCase
         $exchange = $this->getMock('PhpAmqpLib\Channel\AMQPChannel', [ 'basic_publish', '__destruct' ], [ ], '', false);
 
         $exchange->expects($this->any())->method('basic_publish')->will($this->returnCallback(function (
-                AMQPMessage $msg,
-                $exchange = "",
-                $routing_key = "",
-                $mandatory = false,
-                $immediate = false,
-                $ticket = null
-            ) use (&$messages) {
-                $messages[] = [ $msg, $exchange, $routing_key, $mandatory, $immediate, $ticket ];
-            }));
+            AMQPMessage $msg,
+            $exchange = "",
+            $routing_key = "",
+            $mandatory = false,
+            $immediate = false,
+            $ticket = null
+        ) use (&$messages) {
+            $messages[] = [ $msg, $exchange, $routing_key, $mandatory, $immediate, $ticket ];
+        }));
 
         $handler = new AmqpHandler($exchange, 'log');
 

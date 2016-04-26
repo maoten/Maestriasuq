@@ -30,9 +30,9 @@ class Swift_Plugins_DecoratorPluginTest extends \SwiftMailerTestCase
         $message->shouldReceive('setBody')->zeroOrMoreTimes();
 
         $plugin = $this->_createPlugin([
-                'foo@bar.tld'    => [ '{name}' => 'Foo', '{id}' => '123' ],
-                'zip@button.tld' => [ '{name}' => 'Zip', '{id}' => '456' ],
-            ]);
+            'foo@bar.tld'    => [ '{name}' => 'Foo', '{id}' => '123' ],
+            'zip@button.tld' => [ '{name}' => 'Zip', '{id}' => '456' ],
+        ]);
 
         $evt = $this->_createSendEvent($message);
 

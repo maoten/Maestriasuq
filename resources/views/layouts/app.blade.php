@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- título de la pestaña -->
-    <title>@yield('title','Default') | Maestrías UQ</title>
+    <title>@yield('title','Default') | Maestría Ingeniería UQ</title>
     <!-- favicon -->
     <link rel="shortcut icon" href="{{ asset('favicon2.ico') }}">
     <!-- Styles -->
@@ -67,10 +67,7 @@
 
 
                 @else
-                        <!--descomentar y poner lo otro en el else -->
-                <!--<li><a href="#" class="textonav">Acerca</a></li>
 
-                <li><a href="#"><i class="fa fa-home icono"></i></a></li>-->
                 @if( Auth::user()->rol!='admin')
 
                 <?php $notificaciones = App\Notificacion::where('user_id', Auth::user()->id)->where('estado',

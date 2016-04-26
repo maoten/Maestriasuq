@@ -204,25 +204,25 @@ class Swift_Signers_DKIMSignerTest extends \SwiftMailerTestCase
         $headers->shouldReceive('listAll')->zeroOrMoreTimes()->andReturn([ 'From', 'To', 'Date', 'Subject' ]);
         $headers->shouldReceive('has')->zeroOrMoreTimes()->with('From')->andReturn(true);
         $headers->shouldReceive('getAll')->zeroOrMoreTimes()->with('From')->andReturn([
-                $headerFactory->createMailboxHeader('From', 'test@test.test')
-            ]);
+            $headerFactory->createMailboxHeader('From', 'test@test.test')
+        ]);
         $headers->shouldReceive('has')->zeroOrMoreTimes()->with('To')->andReturn(true);
         $headers->shouldReceive('getAll')->zeroOrMoreTimes()->with('To')->andReturn([
-                $headerFactory->createMailboxHeader('To', 'test@test.test')
-            ]);
+            $headerFactory->createMailboxHeader('To', 'test@test.test')
+        ]);
         $headers->shouldReceive('has')->zeroOrMoreTimes()->with('Date')->andReturn(true);
         $headers->shouldReceive('getAll')->zeroOrMoreTimes()->with('Date')->andReturn([
-                $headerFactory->createTextHeader('Date', 'Fri, 11 Mar 2011 20:56:12 +0000 (GMT)')
-            ]);
+            $headerFactory->createTextHeader('Date', 'Fri, 11 Mar 2011 20:56:12 +0000 (GMT)')
+        ]);
         $headers->shouldReceive('has')->zeroOrMoreTimes()->with('Subject')->andReturn(true);
         $headers->shouldReceive('getAll')->zeroOrMoreTimes()->with('Subject')->andReturn([
-                $headerFactory->createTextHeader('Subject', 'Foo Bar Text Message')
-            ]);
+            $headerFactory->createTextHeader('Subject', 'Foo Bar Text Message')
+        ]);
         $headers->shouldReceive('addTextHeader')->zeroOrMoreTimes()->with('DKIM-Signature',
-                \Mockery::any())->andReturn(true);
+            \Mockery::any())->andReturn(true);
         $headers->shouldReceive('getAll')->zeroOrMoreTimes()->with('DKIM-Signature')->andReturn([
-                $headerFactory->createTextHeader('DKIM-Signature', 'Foo Bar Text Message')
-            ]);
+            $headerFactory->createTextHeader('DKIM-Signature', 'Foo Bar Text Message')
+        ]);
 
         return $headers;
     }

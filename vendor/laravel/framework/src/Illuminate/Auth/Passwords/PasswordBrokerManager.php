@@ -2,8 +2,8 @@
 
 namespace Illuminate\Auth\Passwords;
 
-use InvalidArgumentException;
 use Illuminate\Contracts\Auth\PasswordBrokerFactory as FactoryContract;
+use InvalidArgumentException;
 
 class PasswordBrokerManager implements FactoryContract
 {

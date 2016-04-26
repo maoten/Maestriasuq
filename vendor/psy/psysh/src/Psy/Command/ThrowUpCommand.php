@@ -49,8 +49,8 @@ class ThrowUpCommand extends Command implements ContextAware
     protected function configure()
     {
         $this->setName('throw-up')->setDefinition([
-                new InputArgument('exception', InputArgument::OPTIONAL, 'Exception to throw'),
-            ])->setDescription('Throw an exception out of the Psy Shell.')->setHelp(<<<'HELP'
+            new InputArgument('exception', InputArgument::OPTIONAL, 'Exception to throw'),
+        ])->setDescription('Throw an exception out of the Psy Shell.')->setHelp(<<<'HELP'
 Throws an exception out of the current the Psy Shell instance.
 
 By default it throws the most recent exception.
@@ -59,7 +59,7 @@ e.g.
 <return>>>> throw-up</return>
 <return>>>> throw-up $e</return>
 HELP
-            );
+        );
     }
 
 

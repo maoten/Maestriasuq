@@ -73,9 +73,10 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $route->setOptions([ 'foo' => 'foo' ]);
         $route->addOptions([ 'bar' => 'bar' ]);
         $this->assertEquals($route, $route->addOptions([ ]), '->addOptions() implements a fluent interface');
-        $this->assertEquals([ 'foo'            => 'foo',
-                              'bar'            => 'bar',
-                              'compiler_class' => 'Symfony\\Component\\Routing\\RouteCompiler'
+        $this->assertEquals([
+            'foo'            => 'foo',
+            'bar'            => 'bar',
+            'compiler_class' => 'Symfony\\Component\\Routing\\RouteCompiler'
         ], $route->getOptions(), '->addDefaults() keep previous defaults');
     }
 

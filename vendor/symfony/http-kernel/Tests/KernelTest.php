@@ -12,14 +12,14 @@
 namespace Symfony\Component\HttpKernel\Tests;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symfony\Component\HttpKernel\Config\EnvParametersResource;
-use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Tests\Fixtures\KernelForTest;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symfony\Component\HttpKernel\Config\EnvParametersResource;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\Tests\Fixtures\KernelForOverrideName;
+use Symfony\Component\HttpKernel\Tests\Fixtures\KernelForTest;
 
 class KernelTest extends \PHPUnit_Framework_TestCase
 {
@@ -117,11 +117,11 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     {
         $container = new ContainerBuilder();
         $kernel    = $this->getMockBuilder('Symfony\Component\HttpKernel\Tests\Fixtures\KernelForTest')->disableOriginalConstructor()->setMethods([
-                'getContainerBuilder',
-                'prepareContainer',
-                'getCacheDir',
-                'getLogDir'
-            ])->getMock();
+            'getContainerBuilder',
+            'prepareContainer',
+            'getCacheDir',
+            'getLogDir'
+        ])->getMock();
         $kernel->expects($this->any())->method('getContainerBuilder')->will($this->returnValue($container));
         $kernel->expects($this->any())->method('prepareContainer')->will($this->returnValue(null));
         $kernel->expects($this->any())->method('getCacheDir')->will($this->returnValue(sys_get_temp_dir()));
@@ -413,9 +413,9 @@ EOF;
     {
         $kernel = $this->getKernel([ 'getBundle' ]);
         $kernel->expects($this->once())->method('getBundle')->will($this->returnValue([
-                $this->getBundle(__DIR__ . '/Fixtures/Bundle1Bundle'),
-                $this->getBundle(__DIR__ . '/Foobar'),
-            ]));
+            $this->getBundle(__DIR__ . '/Fixtures/Bundle1Bundle'),
+            $this->getBundle(__DIR__ . '/Foobar'),
+        ]));
 
         $this->assertEquals([ __DIR__ . '/Fixtures/Bundle1Bundle/foo.txt' ],
             $kernel->locateResource('@Bundle1Bundle/foo.txt', null, false));
@@ -436,8 +436,8 @@ EOF;
     {
         $kernel = $this->getKernel([ 'getBundle' ]);
         $kernel->expects($this->once())->method('getBundle')->will($this->returnValue([
-                $this->getBundle(__DIR__ . '/Fixtures/FooBundle', null, null, 'FooBundle')
-            ]));
+            $this->getBundle(__DIR__ . '/Fixtures/FooBundle', null, null, 'FooBundle')
+        ]));
 
         $this->assertEquals(__DIR__ . '/Fixtures/Resources/FooBundle/foo.txt',
             $kernel->locateResource('@FooBundle/Resources/foo.txt', __DIR__ . '/Fixtures/Resources'));
@@ -448,8 +448,8 @@ EOF;
     {
         $kernel = $this->getKernel([ 'getBundle' ]);
         $kernel->expects($this->once())->method('getBundle')->will($this->returnValue([
-                $this->getBundle(__DIR__ . '/Fixtures/Bundle1Bundle', null, null, 'Bundle1Bundle')
-            ]));
+            $this->getBundle(__DIR__ . '/Fixtures/Bundle1Bundle', null, null, 'Bundle1Bundle')
+        ]));
 
         $this->assertEquals([
             __DIR__ . '/Fixtures/Resources/Bundle1Bundle/foo.txt',
@@ -493,8 +493,8 @@ EOF;
     {
         $kernel = $this->getKernel([ 'getBundle' ]);
         $kernel->expects($this->exactly(2))->method('getBundle')->will($this->returnValue([
-                $this->getBundle(__DIR__ . '/Fixtures/FooBundle', null, null, 'FooBundle')
-            ]));
+            $this->getBundle(__DIR__ . '/Fixtures/FooBundle', null, null, 'FooBundle')
+        ]));
 
         $this->assertEquals(__DIR__ . '/Fixtures/Resources/FooBundle/',
             $kernel->locateResource('@FooBundle/Resources/', __DIR__ . '/Fixtures/Resources'));
@@ -503,8 +503,8 @@ EOF;
 
         $kernel = $this->getKernel([ 'getBundle' ]);
         $kernel->expects($this->exactly(2))->method('getBundle')->will($this->returnValue([
-                $this->getBundle(__DIR__ . '/Fixtures/Bundle1Bundle', null, null, 'Bundle1Bundle')
-            ]));
+            $this->getBundle(__DIR__ . '/Fixtures/Bundle1Bundle', null, null, 'Bundle1Bundle')
+        ]));
 
         $this->assertEquals(__DIR__ . '/Fixtures/Bundle1Bundle/Resources/',
             $kernel->locateResource('@Bundle1Bundle/Resources/'));
@@ -537,10 +537,10 @@ EOF;
         // use test kernel so we can access getBundleMap()
         $kernel = $this->getKernelForTest([ 'registerBundles' ]);
         $kernel->expects($this->once())->method('registerBundles')->will($this->returnValue([
-                $grandparent,
-                $parent,
-                $child
-            ]));
+            $grandparent,
+            $parent,
+            $child
+        ]));
         $kernel->boot();
 
         $map = $kernel->getBundleMap();
@@ -571,10 +571,10 @@ EOF;
         // use test kernel so we can access getBundleMap()
         $kernel = $this->getKernelForTest([ 'registerBundles' ]);
         $kernel->expects($this->once())->method('registerBundles')->will($this->returnValue([
-                $parent,
-                $grandparent,
-                $child
-            ]));
+            $parent,
+            $grandparent,
+            $child
+        ]));
         $kernel->boot();
 
         $map = $kernel->getBundleMap();
@@ -670,10 +670,10 @@ EOF;
     protected function getBundle($dir = null, $parent = null, $className = null, $bundleName = null)
     {
         $bundle = $this->getMockBuilder('Symfony\Component\HttpKernel\Bundle\BundleInterface')->setMethods([
-                'getPath',
-                'getParent',
-                'getName'
-            ])->disableOriginalConstructor();
+            'getPath',
+            'getParent',
+            'getName'
+        ])->disableOriginalConstructor();
 
         if ($className) {
             $bundle->setMockClassName($className);
@@ -704,9 +704,9 @@ EOF;
         $methods[] = 'registerBundles';
 
         $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\Kernel')->setMethods($methods)->setConstructorArgs([
-                'test',
-                false
-            ])->getMockForAbstractClass();
+            'test',
+            false
+        ])->getMockForAbstractClass();
         $kernel->expects($this->any())->method('registerBundles')->will($this->returnValue($bundles));
         $p = new \ReflectionProperty($kernel, 'rootDir');
         $p->setAccessible(true);
@@ -719,9 +719,9 @@ EOF;
     protected function getKernelForTest(array $methods = [ ])
     {
         $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\Tests\Fixtures\KernelForTest')->setConstructorArgs([
-                'test',
-                false
-            ])->setMethods($methods)->getMock();
+            'test',
+            false
+        ])->setMethods($methods)->getMock();
         $p      = new \ReflectionProperty($kernel, 'rootDir');
         $p->setAccessible(true);
         $p->setValue($kernel, __DIR__ . '/Fixtures');

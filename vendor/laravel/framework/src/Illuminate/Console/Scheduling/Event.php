@@ -2,15 +2,15 @@
 
 namespace Illuminate\Console\Scheduling;
 
-use Closure;
 use Carbon\Carbon;
-use LogicException;
+use Closure;
 use Cron\CronExpression;
 use GuzzleHttp\Client as HttpClient;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Mail\Mailer;
+use LogicException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessUtils;
-use Illuminate\Contracts\Container\Container;
 
 class Event
 {
@@ -380,7 +380,7 @@ class Event
         $segments = explode(':', $time);
 
         return $this->spliceIntoPosition(2, (int) $segments[0])->spliceIntoPosition(1,
-                count($segments) == 2 ? (int) $segments[1] : '0');
+            count($segments) == 2 ? (int) $segments[1] : '0');
     }
 
 

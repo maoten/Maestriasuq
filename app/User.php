@@ -93,4 +93,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->belongsTo('App\Notificacion');
     }
 
+
+    public function eventos()
+    {
+        return $this->belongsToMany('App\Evento');
+    }
+
 }

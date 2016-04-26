@@ -26,9 +26,9 @@ class DynamoDbHandlerTest extends TestCase
         }
 
         $this->client = $this->getMockBuilder('Aws\DynamoDb\DynamoDbClient')->setMethods([
-                'formatAttributes',
-                '__call'
-            ])->disableOriginalConstructor()->getMock();
+            'formatAttributes',
+            '__call'
+        ])->disableOriginalConstructor()->getMock();
     }
 
 
@@ -53,20 +53,20 @@ class DynamoDbHandlerTest extends TestCase
 
     public function testHandle()
     {
-        $record = $this->getRecord();
+        $record    = $this->getRecord();
         $formatter = $this->getMock('Monolog\Formatter\FormatterInterface');
         $formatted = [ 'foo' => 1, 'bar' => 2 ];
-        $handler = new DynamoDbHandler($this->client, 'foo');
+        $handler   = new DynamoDbHandler($this->client, 'foo');
         $handler->setFormatter($formatter);
 
         $formatter->expects($this->once())->method('format')->with($record)->will($this->returnValue($formatted));
         $this->client->expects($this->once())->method('formatAttributes')->with($this->isType('array'))->will($this->returnValue($formatted));
         $this->client->expects($this->once())->method('__call')->with('putItem', [
-                [
-                    'TableName' => 'foo',
-                    'Item'      => $formatted,
-                ]
-            ]);
+            [
+                'TableName' => 'foo',
+                'Item'      => $formatted,
+            ]
+        ]);
 
         $handler->handle($record);
     }

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Http\Requests\EditarUserRequest;
 use App\Http\Requests\UserRequest;
 use App\Notificacion;
 use App\User;
@@ -99,12 +100,12 @@ class EstudiantesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int                      $id
+     * @param EditarUserRequest|UserRequest|Request $request
+     * @param  int                                  $id
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EditarUserRequest $request, $id)
     {
         $estudiante              = User::find($id);
         $estudiante->nombre      = $request->nombre;

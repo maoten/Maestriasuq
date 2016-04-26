@@ -121,9 +121,9 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest extends Swift_Transp
 
         $message->shouldReceive('getFrom')->zeroOrMoreTimes()->andReturn([ 'chris@swiftmailer.org' => null ]);
         $message->shouldReceive('getTo')->zeroOrMoreTimes()->andReturn([
-                'mark@swiftmailer.org' => 'Mark',
-                'chris@site.tld'       => 'Chris',
-            ]);
+            'mark@swiftmailer.org' => 'Mark',
+            'chris@site.tld'       => 'Chris',
+        ]);
         $buf->shouldReceive('write')->once()->with("MAIL FROM:<chris@swiftmailer.org>\r\n")->andReturn(1);
         $buf->shouldReceive('readLine')->once()->with(1)->andReturn("250 OK\r\n");
         $buf->shouldReceive('write')->once()->with("RCPT TO:<mark@swiftmailer.org>\r\n")->andReturn(2);
@@ -150,9 +150,9 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest extends Swift_Transp
 
         $message->shouldReceive('getFrom')->zeroOrMoreTimes()->andReturn([ 'chris@swiftmailer.org' => null ]);
         $message->shouldReceive('getTo')->zeroOrMoreTimes()->andReturn([
-                'mark@swiftmailer.org' => 'Mark',
-                'chris@site.tld'       => 'Chris',
-            ]);
+            'mark@swiftmailer.org' => 'Mark',
+            'chris@site.tld'       => 'Chris',
+        ]);
         $dispatcher->shouldReceive('createSendEvent')->zeroOrMoreTimes()->with($smtp, \Mockery::any())->andReturn($evt);
         $dispatcher->shouldReceive('dispatchEvent')->once()->with($evt, 'sendPerformed');
         $dispatcher->shouldReceive('dispatchEvent')->zeroOrMoreTimes();
@@ -283,13 +283,13 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest extends Swift_Transp
         $hasRun = false;
         $dispatcher->shouldReceive('createTransportChangeEvent')->atLeast()->once()->with($smtp)->andReturn($evt);
         $dispatcher->shouldReceive('dispatchEvent')->once()->with($evt,
-                'beforeTransportStopped')->andReturnUsing(function () use (&$hasRun) {
-                $hasRun = true;
-            });
+            'beforeTransportStopped')->andReturnUsing(function () use (&$hasRun) {
+            $hasRun = true;
+        });
         $dispatcher->shouldReceive('dispatchEvent')->zeroOrMoreTimes();
         $evt->shouldReceive('bubbleCancelled')->zeroOrMoreTimes()->andReturnUsing(function () use (&$hasRun) {
-                return $hasRun;
-            });
+            return $hasRun;
+        });
 
         $this->_finishBuffer($buf);
         $smtp->start();
@@ -307,7 +307,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest extends Swift_Transp
         $smtp       = $this->_getTransport($buf, $dispatcher);
 
         $dispatcher->shouldReceive('createResponseEvent')->atLeast()->once()->with($smtp, \Mockery::any(),
-                \Mockery::any())->andReturn($evt);
+            \Mockery::any())->andReturn($evt);
         $dispatcher->shouldReceive('dispatchEvent')->atLeast()->once()->with($evt, 'responseReceived');
 
         $this->_finishBuffer($buf);
@@ -323,7 +323,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest extends Swift_Transp
         $smtp       = $this->_getTransport($buf, $dispatcher);
 
         $dispatcher->shouldReceive('createCommandEvent')->once()->with($smtp, \Mockery::any(),
-                \Mockery::any())->andReturn($evt);
+            \Mockery::any())->andReturn($evt);
         $dispatcher->shouldReceive('dispatchEvent')->once()->with($evt, 'commandSent');
 
         $this->_finishBuffer($buf);
@@ -340,7 +340,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest extends Swift_Transp
 
         $buf->shouldReceive('readLine')->atLeast()->once()->andReturn("503 I'm sleepy, go away!\r\n");
         $dispatcher->shouldReceive('createTransportExceptionEvent')->zeroOrMoreTimes()->with($smtp,
-                \Mockery::any())->andReturn($evt);
+            \Mockery::any())->andReturn($evt);
         $dispatcher->shouldReceive('dispatchEvent')->once()->with($evt, 'exceptionThrown');
         $evt->shouldReceive('bubbleCancelled')->atLeast()->once()->andReturn(false);
 
@@ -361,7 +361,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest extends Swift_Transp
 
         $buf->shouldReceive('readLine')->atLeast()->once()->andReturn("503 I'm sleepy, go away!\r\n");
         $dispatcher->shouldReceive('createTransportExceptionEvent')->twice()->with($smtp,
-                \Mockery::any())->andReturn($evt);
+            \Mockery::any())->andReturn($evt);
         $dispatcher->shouldReceive('dispatchEvent')->twice()->with($evt, 'exceptionThrown');
         $evt->shouldReceive('bubbleCancelled')->atLeast()->once()->andReturn(true);
 

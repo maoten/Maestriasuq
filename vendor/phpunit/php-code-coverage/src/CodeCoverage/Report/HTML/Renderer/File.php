@@ -74,9 +74,9 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
         $template = new Text_Template($this->templatePath . 'file.html', '{{', '}}');
 
         $template->setVar([
-                'items' => $this->renderItems($node),
-                'lines' => $this->renderSource($node)
-            ]);
+            'items' => $this->renderItems($node),
+            'lines' => $this->renderSource($node)
+        ]);
 
         $this->setCommonTemplateVariables($template, $node);
 
@@ -96,21 +96,21 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
         $methodItemTemplate = new Text_Template($this->templatePath . 'method_item.html', '{{', '}}');
 
         $items = $this->renderItemTemplate($template, [
-                'name'                         => 'Total',
-                'numClasses'                   => $node->getNumClassesAndTraits(),
-                'numTestedClasses'             => $node->getNumTestedClassesAndTraits(),
-                'numMethods'                   => $node->getNumMethods(),
-                'numTestedMethods'             => $node->getNumTestedMethods(),
-                'linesExecutedPercent'         => $node->getLineExecutedPercent(false),
-                'linesExecutedPercentAsString' => $node->getLineExecutedPercent(),
-                'numExecutedLines'             => $node->getNumExecutedLines(),
-                'numExecutableLines'           => $node->getNumExecutableLines(),
-                'testedMethodsPercent'         => $node->getTestedMethodsPercent(false),
-                'testedMethodsPercentAsString' => $node->getTestedMethodsPercent(),
-                'testedClassesPercent'         => $node->getTestedClassesAndTraitsPercent(false),
-                'testedClassesPercentAsString' => $node->getTestedClassesAndTraitsPercent(),
-                'crap'                         => '<abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr>'
-            ]);
+            'name'                         => 'Total',
+            'numClasses'                   => $node->getNumClassesAndTraits(),
+            'numTestedClasses'             => $node->getNumTestedClassesAndTraits(),
+            'numMethods'                   => $node->getNumMethods(),
+            'numTestedMethods'             => $node->getNumTestedMethods(),
+            'linesExecutedPercent'         => $node->getLineExecutedPercent(false),
+            'linesExecutedPercentAsString' => $node->getLineExecutedPercent(),
+            'numExecutedLines'             => $node->getNumExecutedLines(),
+            'numExecutableLines'           => $node->getNumExecutableLines(),
+            'testedMethodsPercent'         => $node->getTestedMethodsPercent(false),
+            'testedMethodsPercentAsString' => $node->getTestedMethodsPercent(),
+            'testedClassesPercent'         => $node->getTestedClassesAndTraitsPercent(false),
+            'testedClassesPercentAsString' => $node->getTestedClassesAndTraitsPercent(),
+            'crap'                         => '<abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr>'
+        ]);
 
         $items .= $this->renderFunctionItems($node->getFunctions(), $methodItemTemplate);
 
@@ -148,27 +148,25 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
             }
 
             $buffer .= $this->renderItemTemplate($template, [
-                    'name'                         => $name,
-                    'numClasses'                   => 1,
-                    'numTestedClasses'             => $numTestedMethods == $numMethods ? 1 : 0,
-                    'numMethods'                   => $numMethods,
-                    'numTestedMethods'             => $numTestedMethods,
-                    'linesExecutedPercent'         => PHP_CodeCoverage_Util::percent($item['executedLines'],
-                        $item['executableLines'], false),
-                    'linesExecutedPercentAsString' => PHP_CodeCoverage_Util::percent($item['executedLines'],
-                        $item['executableLines'], true),
-                    'numExecutedLines'             => $item['executedLines'],
-                    'numExecutableLines'           => $item['executableLines'],
-                    'testedMethodsPercent'         => PHP_CodeCoverage_Util::percent($numTestedMethods, $numMethods,
-                        false),
-                    'testedMethodsPercentAsString' => PHP_CodeCoverage_Util::percent($numTestedMethods, $numMethods,
-                        true),
-                    'testedClassesPercent'         => PHP_CodeCoverage_Util::percent($numTestedMethods == $numMethods ? 1 : 0,
-                        1, false),
-                    'testedClassesPercentAsString' => PHP_CodeCoverage_Util::percent($numTestedMethods == $numMethods ? 1 : 0,
-                        1, true),
-                    'crap'                         => $item['crap']
-                ]);
+                'name'                         => $name,
+                'numClasses'                   => 1,
+                'numTestedClasses'             => $numTestedMethods == $numMethods ? 1 : 0,
+                'numMethods'                   => $numMethods,
+                'numTestedMethods'             => $numTestedMethods,
+                'linesExecutedPercent'         => PHP_CodeCoverage_Util::percent($item['executedLines'],
+                    $item['executableLines'], false),
+                'linesExecutedPercentAsString' => PHP_CodeCoverage_Util::percent($item['executedLines'],
+                    $item['executableLines'], true),
+                'numExecutedLines'             => $item['executedLines'],
+                'numExecutableLines'           => $item['executableLines'],
+                'testedMethodsPercent'         => PHP_CodeCoverage_Util::percent($numTestedMethods, $numMethods, false),
+                'testedMethodsPercentAsString' => PHP_CodeCoverage_Util::percent($numTestedMethods, $numMethods, true),
+                'testedClassesPercent'         => PHP_CodeCoverage_Util::percent($numTestedMethods == $numMethods ? 1 : 0,
+                    1, false),
+                'testedClassesPercentAsString' => PHP_CodeCoverage_Util::percent($numTestedMethods == $numMethods ? 1 : 0,
+                    1, true),
+                'crap'                         => $item['crap']
+            ]);
 
             foreach ($item['methods'] as $method) {
                 $buffer .= $this->renderFunctionOrMethodItem($methodItemTemplate, $method, '&nbsp;');
@@ -211,21 +209,21 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
         $numTestedItems = $item['executedLines'] == $item['executableLines'] ? 1 : 0;
 
         return $this->renderItemTemplate($template, [
-                'name'                         => sprintf('%s<a href="#%d"><abbr title="%s">%s</abbr></a>', $indent,
-                    $item['startLine'], htmlspecialchars($item['signature']),
-                    isset( $item['functionName'] ) ? $item['functionName'] : $item['methodName']),
-                'numMethods'                   => 1,
-                'numTestedMethods'             => $numTestedItems,
-                'linesExecutedPercent'         => PHP_CodeCoverage_Util::percent($item['executedLines'],
-                    $item['executableLines'], false),
-                'linesExecutedPercentAsString' => PHP_CodeCoverage_Util::percent($item['executedLines'],
-                    $item['executableLines'], true),
-                'numExecutedLines'             => $item['executedLines'],
-                'numExecutableLines'           => $item['executableLines'],
-                'testedMethodsPercent'         => PHP_CodeCoverage_Util::percent($numTestedItems, 1, false),
-                'testedMethodsPercentAsString' => PHP_CodeCoverage_Util::percent($numTestedItems, 1, true),
-                'crap'                         => $item['crap']
-            ]);
+            'name'                         => sprintf('%s<a href="#%d"><abbr title="%s">%s</abbr></a>', $indent,
+                $item['startLine'], htmlspecialchars($item['signature']),
+                isset( $item['functionName'] ) ? $item['functionName'] : $item['methodName']),
+            'numMethods'                   => 1,
+            'numTestedMethods'             => $numTestedItems,
+            'linesExecutedPercent'         => PHP_CodeCoverage_Util::percent($item['executedLines'],
+                $item['executableLines'], false),
+            'linesExecutedPercentAsString' => PHP_CodeCoverage_Util::percent($item['executedLines'],
+                $item['executableLines'], true),
+            'numExecutedLines'             => $item['executedLines'],
+            'numExecutableLines'           => $item['executableLines'],
+            'testedMethodsPercent'         => PHP_CodeCoverage_Util::percent($numTestedItems, 1, false),
+            'testedMethodsPercentAsString' => PHP_CodeCoverage_Util::percent($numTestedItems, 1, true),
+            'crap'                         => $item['crap']
+        ]);
     }
 
 

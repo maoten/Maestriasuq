@@ -12,10 +12,10 @@
 namespace Symfony\Component\EventDispatcher\Tests\Debug;
 
 use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher;
+use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 class TraceableEventDispatcherTest extends \PHPUnit_Framework_TestCase
@@ -107,20 +107,24 @@ class TraceableEventDispatcherTest extends \PHPUnit_Framework_TestCase
         });
 
         $this->assertEquals([ ], $tdispatcher->getCalledListeners());
-        $this->assertEquals([ 'foo.closure' => [ 'event'    => 'foo',
-                                                 'type'     => 'Closure',
-                                                 'pretty'   => 'closure',
-                                                 'priority' => 0
-        ]
+        $this->assertEquals([
+            'foo.closure' => [
+                'event'    => 'foo',
+                'type'     => 'Closure',
+                'pretty'   => 'closure',
+                'priority' => 0
+            ]
         ], $tdispatcher->getNotCalledListeners());
 
         $tdispatcher->dispatch('foo');
 
-        $this->assertEquals([ 'foo.closure' => [ 'event'    => 'foo',
-                                                 'type'     => 'Closure',
-                                                 'pretty'   => 'closure',
-                                                 'priority' => null
-        ]
+        $this->assertEquals([
+            'foo.closure' => [
+                'event'    => 'foo',
+                'type'     => 'Closure',
+                'pretty'   => 'closure',
+                'priority' => null
+            ]
         ], $tdispatcher->getCalledListeners());
         $this->assertEquals([ ], $tdispatcher->getNotCalledListeners());
     }

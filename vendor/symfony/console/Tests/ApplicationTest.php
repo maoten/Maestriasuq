@@ -12,22 +12,22 @@
 namespace Symfony\Component\Console\Tests;
 
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Event\ConsoleExceptionEvent;
+use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\Console\Helper\FormatterHelper;
+use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Console\Tester\ApplicationTester;
-use Symfony\Component\Console\Event\ConsoleCommandEvent;
-use Symfony\Component\Console\Event\ConsoleExceptionEvent;
-use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
@@ -531,9 +531,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $application = $this->getMock('Symfony\Component\Console\Application', [ 'getNamespaces' ]);
         $application->expects($this->once())->method('getNamespaces')->will($this->returnValue([
-                'foo:sublong',
-                'bar:sub'
-            ]));
+            'foo:sublong',
+            'bar:sub'
+        ]));
 
         $this->assertEquals('foo:sublong', $application->findNamespace('f:sub'));
     }
@@ -823,10 +823,10 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $application->setAutoExit(false);
         $application->setCatchExceptions(false);
         $application->register('foo')->setDefinition([ $def ])->setCode(function (
-                InputInterface $input,
-                OutputInterface $output
-            ) {
-            });
+            InputInterface $input,
+            OutputInterface $output
+        ) {
+        });
 
         $input  = new ArrayInput([ 'command' => 'foo' ]);
         $output = new NullOutput();

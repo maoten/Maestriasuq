@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\HttpFoundation\Tests;
 
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
  * @group time-sensitive
@@ -87,7 +87,7 @@ class ResponseHeaderBagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('private, must-revalidate', $bag->get('Cache-Control'));
 
         $bag = new ResponseHeaderBag([
-            'Expires' => 'Wed, 16 Feb 2011 14:17:43 GMT',
+            'Expires'       => 'Wed, 16 Feb 2011 14:17:43 GMT',
             'Cache-Control' => 'max-age=3600',
         ]);
         $this->assertEquals('max-age=3600, private', $bag->get('Cache-Control'));

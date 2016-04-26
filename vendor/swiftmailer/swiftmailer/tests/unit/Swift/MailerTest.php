@@ -10,13 +10,13 @@ class Swift_MailerTest extends \SwiftMailerTestCase
 
         $started = false;
         $transport->shouldReceive('isStarted')->zeroOrMoreTimes()->andReturnUsing(function () use (&$started) {
-                return $started;
-            });
+            return $started;
+        });
         $transport->shouldReceive('start')->once()->andReturnUsing(function () use (&$started) {
-                $started = true;
+            $started = true;
 
-                return;
-            });
+            return;
+        });
 
         $mailer = $this->_createMailer($transport);
         $mailer->send($message);
@@ -30,13 +30,13 @@ class Swift_MailerTest extends \SwiftMailerTestCase
 
         $started = false;
         $transport->shouldReceive('isStarted')->zeroOrMoreTimes()->andReturnUsing(function () use (&$started) {
-                return $started;
-            });
+            return $started;
+        });
         $transport->shouldReceive('start')->once()->andReturnUsing(function () use (&$started) {
-                $started = true;
+            $started = true;
 
-                return;
-            });
+            return;
+        });
 
         $mailer = $this->_createMailer($transport);
         for ($i = 0; $i < 10; ++$i) {

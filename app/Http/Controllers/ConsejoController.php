@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Coordinador;
 use App\Http\Requests;
+use App\Http\Requests\EditarUserRequest;
 use App\Http\Requests\UserRequest;
 use App\Notificacion;
 use App\User;
@@ -112,12 +113,12 @@ class ConsejoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param EditarUserRequest|Request $request
      * @param  int                      $id
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EditarUserRequest $request, $id)
     {
         $consejo              = User::find($id);
         $consejo->nombre      = $request->nombre;

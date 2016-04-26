@@ -180,11 +180,11 @@ class InstantiatorTest extends PHPUnit_Framework_TestCase
         }
 
         $classes = array_merge($classes, [
-                [ 'PharException' ],
-                [ 'ArrayObject' ],
-                [ 'DoctrineTest\\InstantiatorTestAsset\\ArrayObjectAsset' ],
-                [ 'DoctrineTest\\InstantiatorTestAsset\\SerializableArrayObjectAsset' ],
-            ]);
+            [ 'PharException' ],
+            [ 'ArrayObject' ],
+            [ 'DoctrineTest\\InstantiatorTestAsset\\ArrayObjectAsset' ],
+            [ 'DoctrineTest\\InstantiatorTestAsset\\SerializableArrayObjectAsset' ],
+        ]);
 
         if (\PHP_VERSION_ID >= 50600) {
             $classes[] = [ 'DoctrineTest\\InstantiatorTestAsset\\WakeUpNoticesAsset' ];

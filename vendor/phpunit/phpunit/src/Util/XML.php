@@ -141,7 +141,7 @@ class PHPUnit_Util_XML
         if ($loaded === false || ( $strict && $message !== '' )) {
             if ($filename !== '') {
                 throw new PHPUnit_Framework_Exception(sprintf('Could not load "%s".%s', $filename,
-                        $message != '' ? "\n" . $message : ''));
+                    $message != '' ? "\n" . $message : ''));
             } else {
                 if ($message === '') {
                     $message = 'Could not load XML for unknown reason';

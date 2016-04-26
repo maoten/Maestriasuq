@@ -19,7 +19,7 @@
 
 
                         <form class="form-horizontal" role="form" method="POST"
-                              action="{{ route('consejo.jurados.store') }}">
+                              action="{{ route('admin.jurados.store') }}">
                             {!! csrf_field() !!}
 
 

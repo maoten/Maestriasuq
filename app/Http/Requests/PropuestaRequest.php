@@ -23,7 +23,7 @@ class PropuestaRequest extends Request
     public function rules()
     {
         return [
-            'titulo' => 'min:5|max:255|required'
+            'titulo' => 'alpha_num|min:5|max:255|required'
             //'propuesta' => 'required'
         ];
     }

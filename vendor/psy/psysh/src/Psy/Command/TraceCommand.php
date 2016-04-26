@@ -29,9 +29,9 @@ class TraceCommand extends Command
     protected function configure()
     {
         $this->setName('trace')->setDefinition([
-                new InputOption('include-psy', 'p', InputOption::VALUE_NONE, 'Include Psy in the call stack.'),
-                new InputOption('num', 'n', InputOption::VALUE_REQUIRED, 'Only include NUM lines.'),
-            ])->setDescription('Show the current call stack.')->setHelp(<<<'HELP'
+            new InputOption('include-psy', 'p', InputOption::VALUE_NONE, 'Include Psy in the call stack.'),
+            new InputOption('num', 'n', InputOption::VALUE_REQUIRED, 'Only include NUM lines.'),
+        ])->setDescription('Show the current call stack.')->setHelp(<<<'HELP'
 Show the current call stack.
 
 Optionally, include PsySH in the call stack by passing the <info>--include-psy</info> option.
@@ -40,7 +40,7 @@ e.g.
 <return>> trace -n10</return>
 <return>> trace --include-psy</return>
 HELP
-            );
+        );
     }
 
 

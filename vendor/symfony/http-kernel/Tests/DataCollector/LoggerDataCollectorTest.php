@@ -164,10 +164,11 @@ class LoggerDataCollectorTest extends \PHPUnit_Framework_TestCase
                     ],
                     [
                         'message'      => 'foo3',
-                        'context'      => [ 'type'  => E_USER_WARNING,
-                                            'level' => -1,
-                                            'file'  => __FILE__,
-                                            'line'  => 123
+                        'context'      => [
+                            'type'  => E_USER_WARNING,
+                            'level' => -1,
+                            'file'  => __FILE__,
+                            'line'  => 123
                         ],
                         'priority'     => 100,
                         'priorityName' => 'DEBUG'

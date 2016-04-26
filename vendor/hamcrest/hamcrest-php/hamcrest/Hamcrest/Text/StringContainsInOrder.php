@@ -47,7 +47,7 @@ class StringContainsInOrder extends TypeSafeMatcher
     public function describeTo(Description $description)
     {
         $description->appendText('a string containing ')->appendValueList('', ', ', '',
-                $this->_substrings)->appendText(' in order');
+            $this->_substrings)->appendText(' in order');
     }
 
 

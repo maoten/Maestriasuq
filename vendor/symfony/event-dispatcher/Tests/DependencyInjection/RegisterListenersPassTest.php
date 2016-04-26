@@ -40,7 +40,7 @@ class RegisterListenersPassTest extends \PHPUnit_Framework_TestCase
 
         // We don't test kernel.event_listener here
         $builder->expects($this->atLeastOnce())->method('findTaggedServiceIds')->will($this->onConsecutiveCalls([ ],
-                $services));
+            $services));
 
         $builder->expects($this->atLeastOnce())->method('getDefinition')->will($this->returnValue($definition));
 
@@ -65,7 +65,7 @@ class RegisterListenersPassTest extends \PHPUnit_Framework_TestCase
 
         // We don't test kernel.event_listener here
         $builder->expects($this->atLeastOnce())->method('findTaggedServiceIds')->will($this->onConsecutiveCalls([ ],
-                $services));
+            $services));
 
         $builder->expects($this->atLeastOnce())->method('getDefinition')->will($this->returnValue($definition));
 

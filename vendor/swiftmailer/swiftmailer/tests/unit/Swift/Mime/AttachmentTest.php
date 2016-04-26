@@ -209,7 +209,7 @@ class Swift_Mime_AttachmentTest extends Swift_Mime_AbstractMimeEntityTest
             $this->_createCache());
         $this->assertSame($attachment,
             $attachment->setContentType('application/pdf')->setEncoder($this->_createEncoder())->setId('foo@bar')->setDescription('my pdf')->setMaxLineLength(998)->setBody('xx')->setBoundary('xyz')->setChildren([ ])->setDisposition('inline')->setFilename('afile.txt')->setSize(123)->setFile($this->_createFileStream('foo.txt',
-                    '')));
+                '')));
     }
 
 
@@ -232,15 +232,15 @@ class Swift_Mime_AttachmentTest extends Swift_Mime_AbstractMimeEntityTest
         $file = $this->getMockery('Swift_FileStream');
         $file->shouldReceive('getPath')->zeroOrMoreTimes()->andReturn($path);
         $file->shouldReceive('read')->zeroOrMoreTimes()->andReturnUsing(function () use ($data) {
-                static $first = true;
-                if ( ! $first) {
-                    return false;
-                }
+            static $first = true;
+            if ( ! $first) {
+                return false;
+            }
 
-                $first = false;
+            $first = false;
 
-                return $data;
-            });
+            return $data;
+        });
         $file->shouldReceive('setReadPointer')->zeroOrMoreTimes();
 
         return $file;

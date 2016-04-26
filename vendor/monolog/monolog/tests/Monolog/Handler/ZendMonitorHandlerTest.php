@@ -31,15 +31,15 @@ class ZendMonitorHandlerTest extends TestCase
      */
     public function testWrite()
     {
-        $record = $this->getRecord();
+        $record          = $this->getRecord();
         $formatterResult = [
             'message' => $record['message'],
         ];
 
         $zendMonitor = $this->getMockBuilder('Monolog\Handler\ZendMonitorHandler')->setMethods([
-                'writeZendMonitorCustomEvent',
-                'getDefaultFormatter'
-            ])->getMock();
+            'writeZendMonitorCustomEvent',
+            'getDefaultFormatter'
+        ])->getMock();
 
         $formatterMock = $this->getMockBuilder('Monolog\Formatter\NormalizerFormatter')->disableOriginalConstructor()->getMock();
 
@@ -50,7 +50,7 @@ class ZendMonitorHandlerTest extends TestCase
         $levelMap = $zendMonitor->getLevelMap();
 
         $zendMonitor->expects($this->once())->method('writeZendMonitorCustomEvent')->with($levelMap[$record['level']],
-                $record['message'], $formatterResult);
+            $record['message'], $formatterResult);
 
         $zendMonitor->handle($record);
     }

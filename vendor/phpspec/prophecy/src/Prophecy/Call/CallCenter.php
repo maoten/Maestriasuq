@@ -11,11 +11,11 @@
 
 namespace Prophecy\Call;
 
+use Prophecy\Argument\ArgumentsWildcard;
+use Prophecy\Exception\Call\UnexpectedCallException;
 use Prophecy\Prophecy\MethodProphecy;
 use Prophecy\Prophecy\ObjectProphecy;
-use Prophecy\Argument\ArgumentsWildcard;
 use Prophecy\Util\StringUtil;
-use Prophecy\Exception\Call\UnexpectedCallException;
 
 /**
  * Calls receiver & manager.
@@ -132,8 +132,8 @@ class CallCenter
     public function findCalls($methodName, ArgumentsWildcard $wildcard)
     {
         return array_values(array_filter($this->recordedCalls, function (Call $call) use ($methodName, $wildcard) {
-                return $methodName === $call->getMethodName() && 0 < $wildcard->scoreArguments($call->getArguments());
-            }));
+            return $methodName === $call->getMethodName() && 0 < $wildcard->scoreArguments($call->getArguments());
+        }));
     }
 
 

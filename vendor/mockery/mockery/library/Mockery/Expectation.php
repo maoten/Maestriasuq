@@ -270,7 +270,7 @@ class Expectation implements ExpectationInterface
         }
         if ($this->_globalOrderNumber) {
             $this->_mock->mockery_getContainer()->mockery_validateOrder((string) $this, $this->_globalOrderNumber,
-                    $this->_mock);
+                $this->_mock);
         }
     }
 

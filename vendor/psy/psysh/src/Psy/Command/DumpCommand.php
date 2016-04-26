@@ -47,11 +47,11 @@ class DumpCommand extends ReflectingCommand implements PresenterAware
     protected function configure()
     {
         $this->setName('dump')->setDefinition([
-                new InputArgument('target', InputArgument::REQUIRED, 'A target object or primitive to dump.', null),
-                new InputOption('depth', '', InputOption::VALUE_REQUIRED, 'Depth to parse', 10),
-                new InputOption('all', 'a', InputOption::VALUE_NONE,
-                    'Include private and protected methods and properties.'),
-            ])->setDescription('Dump an object or primitive.')->setHelp(<<<'HELP'
+            new InputArgument('target', InputArgument::REQUIRED, 'A target object or primitive to dump.', null),
+            new InputOption('depth', '', InputOption::VALUE_REQUIRED, 'Depth to parse', 10),
+            new InputOption('all', 'a', InputOption::VALUE_NONE,
+                'Include private and protected methods and properties.'),
+        ])->setDescription('Dump an object or primitive.')->setHelp(<<<'HELP'
 Dump an object or primitive.
 
 This is like var_dump but <strong>way</strong> awesomer.
@@ -60,7 +60,7 @@ e.g.
 <return>>>> dump $_</return>
 <return>>>> dump $someVar</return>
 HELP
-            );
+        );
     }
 
 

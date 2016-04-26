@@ -11,11 +11,11 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Logger;
-use Monolog\Formatter\JsonFormatter;
-use PhpAmqpLib\Message\AMQPMessage;
-use PhpAmqpLib\Channel\AMQPChannel;
 use AMQPExchange;
+use Monolog\Formatter\JsonFormatter;
+use Monolog\Logger;
+use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Message\AMQPMessage;
 
 class AmqpHandler extends AbstractProcessingHandler
 {
@@ -62,9 +62,9 @@ class AmqpHandler extends AbstractProcessingHandler
 
         if ($this->exchange instanceof AMQPExchange) {
             $this->exchange->publish($data, $routingKey, 0, [
-                    'delivery_mode' => 2,
-                    'Content-type'  => 'application/json',
-                ]);
+                'delivery_mode' => 2,
+                'Content-type'  => 'application/json',
+            ]);
         } else {
             $this->exchange->basic_publish($this->createAmqpMessage($data), $this->exchangeName, $routingKey);
         }
@@ -122,9 +122,9 @@ class AmqpHandler extends AbstractProcessingHandler
     private function createAmqpMessage($data)
     {
         return new AMQPMessage((string) $data, [
-                'delivery_mode' => 2,
-                'content_type'  => 'application/json',
-            ]);
+            'delivery_mode' => 2,
+            'content_type'  => 'application/json',
+        ]);
     }
 
 

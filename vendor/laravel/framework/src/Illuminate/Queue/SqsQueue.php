@@ -3,8 +3,8 @@
 namespace Illuminate\Queue;
 
 use Aws\Sqs\SqsClient;
-use Illuminate\Queue\Jobs\SqsJob;
 use Illuminate\Contracts\Queue\Queue as QueueContract;
+use Illuminate\Queue\Jobs\SqsJob;
 
 class SqsQueue extends Queue implements QueueContract
 {
@@ -124,9 +124,10 @@ class SqsQueue extends Queue implements QueueContract
     {
         $queue = $this->getQueue($queue);
 
-        $response = $this->sqs->receiveMessage([ 'QueueUrl'       => $queue,
-                                                 'AttributeNames' => [ 'ApproximateReceiveCount' ]
-            ]);
+        $response = $this->sqs->receiveMessage([
+            'QueueUrl'       => $queue,
+            'AttributeNames' => [ 'ApproximateReceiveCount' ]
+        ]);
 
         if (count($response['Messages']) > 0) {
             if ($this->jobCreator) {

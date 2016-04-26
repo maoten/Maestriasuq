@@ -57,6 +57,6 @@ class CallTimesPredictionSpec extends ObjectBehavior
         $call->getCallPlace()->willReturn('unknown');
 
         $this->shouldThrow('Prophecy\Exception\Prediction\UnexpectedCallsCountException')->duringCheck([ $call ],
-                $object, $method);
+            $object, $method);
     }
 }

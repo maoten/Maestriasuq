@@ -56,9 +56,9 @@ class Console
                 $columns = $matches[1];
             } elseif (function_exists('proc_open')) {
                 $process = proc_open('mode CON', [
-                        1 => [ 'pipe', 'w' ],
-                        2 => [ 'pipe', 'w' ]
-                    ], $pipes, null, null, [ 'suppress_errors' => true ]);
+                    1 => [ 'pipe', 'w' ],
+                    2 => [ 'pipe', 'w' ]
+                ], $pipes, null, null, [ 'suppress_errors' => true ]);
 
                 if (is_resource($process)) {
                     $info = stream_get_contents($pipes[1]);

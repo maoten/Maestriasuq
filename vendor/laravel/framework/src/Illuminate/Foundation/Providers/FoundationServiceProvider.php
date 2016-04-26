@@ -2,12 +2,12 @@
 
 namespace Illuminate\Foundation\Providers;
 
-use Illuminate\Routing\Redirector;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Validation\ValidatesWhenResolved;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Routing\Events\RouteMatched;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\ServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
-use Illuminate\Contracts\Validation\ValidatesWhenResolved;
 
 class FoundationServiceProvider extends ServiceProvider
 {

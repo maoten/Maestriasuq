@@ -2,8 +2,8 @@
 
 namespace PhpParser;
 
-use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Scalar\String_;
 
 class NodeTraverserTest extends \PHPUnit_Framework_TestCase
 {
@@ -105,9 +105,9 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
 
         // replace strMiddle with strR1 and strR2 by merge
         $visitor->expects($this->at(4))->method('leaveNode')->with($strMiddle)->will($this->returnValue([
-                $strR1,
-                $strR2
-            ]));
+            $strR1,
+            $strR2
+        ]));
 
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor);

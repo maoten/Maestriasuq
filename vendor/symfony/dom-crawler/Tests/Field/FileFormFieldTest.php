@@ -21,11 +21,12 @@ class FileFormFieldTest extends FormFieldTestCase
         $node  = $this->createNode('input', '', [ 'type' => 'file' ]);
         $field = new FileFormField($node);
 
-        $this->assertEquals([ 'name'     => '',
-                              'type'     => '',
-                              'tmp_name' => '',
-                              'error'    => UPLOAD_ERR_NO_FILE,
-                              'size'     => 0
+        $this->assertEquals([
+            'name'     => '',
+            'type'     => '',
+            'tmp_name' => '',
+            'error'    => UPLOAD_ERR_NO_FILE,
+            'size'     => 0
         ], $field->getValue(), '->initialize() sets the value of the field to no file uploaded');
 
         $node = $this->createNode('textarea', '');
@@ -55,11 +56,12 @@ class FileFormFieldTest extends FormFieldTestCase
         $field = new FileFormField($node);
 
         $field->$method(null);
-        $this->assertEquals([ 'name'     => '',
-                              'type'     => '',
-                              'tmp_name' => '',
-                              'error'    => UPLOAD_ERR_NO_FILE,
-                              'size'     => 0
+        $this->assertEquals([
+            'name'     => '',
+            'type'     => '',
+            'tmp_name' => '',
+            'error'    => UPLOAD_ERR_NO_FILE,
+            'size'     => 0
         ], $field->getValue(), "->$method() clears the uploaded file if the value is null");
 
         $field->$method(__FILE__);

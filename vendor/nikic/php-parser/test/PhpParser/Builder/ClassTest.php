@@ -19,7 +19,7 @@ class ClassTest extends \PHPUnit_Framework_TestCase
     public function testExtendsImplements()
     {
         $node = $this->createClassBuilder('SomeLogger')->extend('BaseLogger')->implement('Namespaced\Logger',
-                new Name('SomeInterface'))->implement('\Fully\Qualified', 'namespace\NamespaceRelative')->getNode();
+            new Name('SomeInterface'))->implement('\Fully\Qualified', 'namespace\NamespaceRelative')->getNode();
 
         $this->assertEquals(new Stmt\Class_('SomeLogger', [
             'extends'    => new Name('BaseLogger'),
@@ -63,9 +63,9 @@ class ClassTest extends \PHPUnit_Framework_TestCase
         $use      = new Stmt\TraitUse([ new Name('SomeTrait') ]);
 
         $node = $this->createClassBuilder('Test')->addStmt($method)->addStmt($property)->addStmts([
-                $const,
-                $use
-            ])->getNode();
+            $const,
+            $use
+        ])->getNode();
 
         $this->assertEquals(new Stmt\Class_('Test', [
             'stmts' => [ $use, $const, $property, $method ]

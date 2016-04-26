@@ -42,7 +42,7 @@ class ContentListingFormatter
     public function formatListing(array $listing)
     {
         $listing = array_values(array_map([ $this, 'addPathInfo' ],
-                array_filter($listing, [ $this, 'isEntryOutOfScope' ])));
+            array_filter($listing, [ $this, 'isEntryOutOfScope' ])));
 
         return $this->sortListing($listing);
     }

@@ -22,7 +22,7 @@
           <span class="icon">
             <i class="fa fa-users"></i>
           </span>
-                    <span>Consejo curricular</span>
+                    <span>Consejo</span>
                 </a>
             </li>
             <li>
@@ -49,6 +49,15 @@
                     <span>Trabajos grado</span>
                 </a>
             </li>
+            <li>
+                <a href="{{ route('admin.calendario.index') }}">
+          <span class="icon">
+            <i class="fa fa-calendar"></i>
+          </span>
+                    <span>Calendario</span>
+                </a>
+            </li>
+
 
         </ul>
     </nav>

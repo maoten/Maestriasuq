@@ -367,10 +367,10 @@ abstract class Swift_Transport_AbstractSmtpTest extends \SwiftMailerTestCase
 
         $message->shouldReceive('getFrom')->once()->andReturn([ 'me@domain.com' => 'Me' ]);
         $message->shouldReceive('getTo')->once()->andReturn([
-                'foo@bar'     => null,
-                'zip@button'  => 'Zip Button',
-                'test@domain' => 'Test user',
-            ]);
+            'foo@bar'     => null,
+            'zip@button'  => 'Zip Button',
+            'test@domain' => 'Test user',
+        ]);
         $buf->shouldReceive('write')->once()->with("RCPT TO:<foo@bar>\r\n")->andReturn(1);
         $buf->shouldReceive('readLine')->once()->with(1)->andReturn('250 OK' . "\r\n");
         $buf->shouldReceive('write')->once()->with("RCPT TO:<zip@button>\r\n")->andReturn(2);
@@ -393,9 +393,9 @@ abstract class Swift_Transport_AbstractSmtpTest extends \SwiftMailerTestCase
         $message->shouldReceive('getFrom')->once()->andReturn([ 'me@domain.com' => 'Me' ]);
         $message->shouldReceive('getTo')->once()->andReturn([ 'foo@bar' => null ]);
         $message->shouldReceive('getCc')->once()->andReturn([
-                'zip@button'  => 'Zip Button',
-                'test@domain' => 'Test user',
-            ]);
+            'zip@button'  => 'Zip Button',
+            'test@domain' => 'Test user',
+        ]);
         $buf->shouldReceive('write')->once()->with("RCPT TO:<foo@bar>\r\n")->andReturn(1);
         $buf->shouldReceive('readLine')->once()->with(1)->andReturn('250 OK' . "\r\n");
         $buf->shouldReceive('write')->once()->with("RCPT TO:<zip@button>\r\n")->andReturn(2);
@@ -418,9 +418,9 @@ abstract class Swift_Transport_AbstractSmtpTest extends \SwiftMailerTestCase
         $message->shouldReceive('getFrom')->once()->andReturn([ 'me@domain.com' => 'Me' ]);
         $message->shouldReceive('getTo')->once()->andReturn([ 'foo@bar' => null ]);
         $message->shouldReceive('getCc')->once()->andReturn([
-                'zip@button'  => 'Zip Button',
-                'test@domain' => 'Test user',
-            ]);
+            'zip@button'  => 'Zip Button',
+            'test@domain' => 'Test user',
+        ]);
         $buf->shouldReceive('write')->once()->with("RCPT TO:<foo@bar>\r\n")->andReturn(1);
         $buf->shouldReceive('readLine')->once()->with(1)->andReturn('250 OK' . "\r\n");
         $buf->shouldReceive('write')->once()->with("RCPT TO:<zip@button>\r\n")->andReturn(2);
@@ -606,9 +606,9 @@ abstract class Swift_Transport_AbstractSmtpTest extends \SwiftMailerTestCase
         $message->shouldReceive('getFrom')->zeroOrMoreTimes()->andReturn([ 'me@domain.com' => 'Me' ]);
         $message->shouldReceive('getTo')->zeroOrMoreTimes()->andReturn([ 'foo@bar' => null ]);
         $message->shouldReceive('getBcc')->zeroOrMoreTimes()->andReturn([
-                'zip@button'  => 'Zip Button',
-                'test@domain' => 'Test user',
-            ]);
+            'zip@button'  => 'Zip Button',
+            'test@domain' => 'Test user',
+        ]);
         $message->shouldReceive('setBcc')->once()->with([ ]);
         $message->shouldReceive('setBcc')->zeroOrMoreTimes();
 
@@ -627,16 +627,16 @@ abstract class Swift_Transport_AbstractSmtpTest extends \SwiftMailerTestCase
         $message->shouldReceive('getFrom')->zeroOrMoreTimes()->andReturn([ 'me@domain.com' => 'Me' ]);
         $message->shouldReceive('getTo')->zeroOrMoreTimes()->andReturn([ 'foo@bar' => null ]);
         $message->shouldReceive('getBcc')->zeroOrMoreTimes()->andReturn([
-                'zip@button'  => 'Zip Button',
-                'test@domain' => 'Test user',
-            ]);
+            'zip@button'  => 'Zip Button',
+            'test@domain' => 'Test user',
+        ]);
         $message->shouldReceive('setBcc')->atLeast()->once()->with([ ]);
         $message->shouldReceive('setBcc')->once()->with([ 'zip@button' => 'Zip Button' ]);
         $message->shouldReceive('setBcc')->once()->with([ 'test@domain' => 'Test user' ]);
         $message->shouldReceive('setBcc')->atLeast()->once()->with([
-                'zip@button'  => 'Zip Button',
-                'test@domain' => 'Test user',
-            ]);
+            'zip@button'  => 'Zip Button',
+            'test@domain' => 'Test user',
+        ]);
 
         $buf->shouldReceive('write')->once()->with("MAIL FROM:<me@domain.com>\r\n")->andReturn(1);
         $buf->shouldReceive('readLine')->once()->with(1)->andReturn("250 OK\r\n");
@@ -680,14 +680,14 @@ abstract class Swift_Transport_AbstractSmtpTest extends \SwiftMailerTestCase
         $message->shouldReceive('getFrom')->zeroOrMoreTimes()->andReturn([ 'me@domain.com' => 'Me' ]);
         $message->shouldReceive('getTo')->zeroOrMoreTimes()->andReturn([ 'foo@bar' => null ]);
         $message->shouldReceive('getBcc')->zeroOrMoreTimes()->andReturn([
-                'zip@button'  => 'Zip Button',
-                'test@domain' => 'Test user',
-            ]);
+            'zip@button'  => 'Zip Button',
+            'test@domain' => 'Test user',
+        ]);
         $message->shouldReceive('setBcc')->once()->with([ ]);
         $message->shouldReceive('setBcc')->once()->with([
-                'zip@button'  => 'Zip Button',
-                'test@domain' => 'Test user',
-            ]);
+            'zip@button'  => 'Zip Button',
+            'test@domain' => 'Test user',
+        ]);
         $buf->shouldReceive('write')->once()->with("MAIL FROM:<me@domain.com>\r\n")->andReturn(1);
         $buf->shouldReceive('readLine')->once()->with(1)->andReturn("250 OK\r\n");
         $buf->shouldReceive('write')->once()->with("RCPT TO:<foo@bar>\r\n")->andReturn(2);
@@ -795,16 +795,16 @@ abstract class Swift_Transport_AbstractSmtpTest extends \SwiftMailerTestCase
         $message->shouldReceive('getFrom')->zeroOrMoreTimes()->andReturn([ 'me@domain.com' => 'Me' ]);
         $message->shouldReceive('getTo')->zeroOrMoreTimes()->andReturn([ 'foo@bar' => null ]);
         $message->shouldReceive('getBcc')->zeroOrMoreTimes()->andReturn([
-                'zip@button'  => 'Zip Button',
-                'test@domain' => 'Test user',
-            ]);
+            'zip@button'  => 'Zip Button',
+            'test@domain' => 'Test user',
+        ]);
         $message->shouldReceive('setBcc')->atLeast()->once()->with([ ]);
         $message->shouldReceive('setBcc')->once()->with([ 'zip@button' => 'Zip Button' ]);
         $message->shouldReceive('setBcc')->once()->with([ 'test@domain' => 'Test user' ]);
         $message->shouldReceive('setBcc')->atLeast()->once()->with([
-                'zip@button'  => 'Zip Button',
-                'test@domain' => 'Test user',
-            ]);
+            'zip@button'  => 'Zip Button',
+            'test@domain' => 'Test user',
+        ]);
 
         $buf->shouldReceive('write')->once()->with("MAIL FROM:<me@domain.com>\r\n")->andReturn(1);
         $buf->shouldReceive('readLine')->once()->with(1)->andReturn("250 OK\r\n");

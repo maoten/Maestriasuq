@@ -124,10 +124,10 @@ class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Fram
         $this->currentTestName      = '';
 
         $this->write([
-                'event' => 'suiteStart',
-                'suite' => $this->currentTestSuiteName,
-                'tests' => count($suite)
-            ]);
+            'event' => 'suiteStart',
+            'suite' => $this->currentTestSuiteName,
+            'tests' => count($suite)
+        ]);
     }
 
 
@@ -154,10 +154,10 @@ class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Fram
         $this->currentTestPass = true;
 
         $this->write([
-                'event' => 'testStart',
-                'suite' => $this->currentTestSuiteName,
-                'test'  => $this->currentTestName
-            ]);
+            'event' => 'testStart',
+            'suite' => $this->currentTestSuiteName,
+            'test'  => $this->currentTestName
+        ]);
     }
 
 
@@ -190,15 +190,15 @@ class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Fram
             $output = $test->getActualOutput();
         }
         $this->write([
-                'event'   => 'test',
-                'suite'   => $this->currentTestSuiteName,
-                'test'    => $this->currentTestName,
-                'status'  => $status,
-                'time'    => $time,
-                'trace'   => $trace,
-                'message' => PHPUnit_Util_String::convertToUtf8($message),
-                'output'  => $output,
-            ]);
+            'event'   => 'test',
+            'suite'   => $this->currentTestSuiteName,
+            'test'    => $this->currentTestName,
+            'status'  => $status,
+            'time'    => $time,
+            'trace'   => $trace,
+            'message' => PHPUnit_Util_String::convertToUtf8($message),
+            'output'  => $output,
+        ]);
     }
 
 

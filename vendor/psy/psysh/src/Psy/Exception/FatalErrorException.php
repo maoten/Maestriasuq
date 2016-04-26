@@ -23,11 +23,11 @@ class FatalErrorException extends \ErrorException implements Exception
     /**
      * Create a fatal error.
      *
-     * @param string     $message (default: "")
-     * @param int        $code (default: 0)
+     * @param string     $message  (default: "")
+     * @param int        $code     (default: 0)
      * @param int        $severity (default: 9000)
      * @param string     $filename (default: null)
-     * @param int        $lineno (default: null)
+     * @param int        $lineno   (default: null)
      * @param \Exception $previous (default: null)
      */
     public function __construct(

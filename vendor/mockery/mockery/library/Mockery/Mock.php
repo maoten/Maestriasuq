@@ -20,8 +20,6 @@
 
 namespace Mockery;
 
-use Mockery\MockInterface;
-
 class Mock implements MockInterface
 {
 
@@ -803,7 +801,7 @@ class Mock implements MockInterface
         return array_map(function ($method) {
             return $method->getName();
         }, array_filter($this->mockery_getMethods(), function ($method) {
-                return ! $method->isPublic();
-            }));
+            return ! $method->isPublic();
+        }));
     }
 }

@@ -33,8 +33,8 @@ class HelpCommand extends Command
     protected function configure()
     {
         $this->setName('help')->setAliases([ '?' ])->setDefinition([
-                new InputArgument('command_name', InputArgument::OPTIONAL, 'The command name', null),
-            ])->setDescription('Show a list of commands. Type `help [foo]` for information about [foo].')->setHelp('My. How meta.');
+            new InputArgument('command_name', InputArgument::OPTIONAL, 'The command name', null),
+        ])->setDescription('Show a list of commands. Type `help [foo]` for information about [foo].')->setHelp('My. How meta.');
     }
 
 

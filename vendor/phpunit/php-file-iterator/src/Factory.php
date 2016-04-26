@@ -56,7 +56,7 @@ class File_Iterator_Factory
         foreach ($paths as $path) {
             if (is_dir($path)) {
                 $iterator->append(new File_Iterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path,
-                            RecursiveDirectoryIterator::FOLLOW_SYMLINKS)), $suffixes, $prefixes, $exclude, $path));
+                    RecursiveDirectoryIterator::FOLLOW_SYMLINKS)), $suffixes, $prefixes, $exclude, $path));
             }
         }
 

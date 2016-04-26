@@ -46,16 +46,16 @@ class ShowCommand extends ReflectingCommand
     protected function configure()
     {
         $this->setName('show')->setDefinition([
-                new InputArgument('value', InputArgument::REQUIRED,
-                    'Function, class, instance, constant, method or property to show.'),
-            ])->setDescription('Show the code for an object, class, constant, method or property.')->setHelp(<<<HELP
+            new InputArgument('value', InputArgument::REQUIRED,
+                'Function, class, instance, constant, method or property to show.'),
+        ])->setDescription('Show the code for an object, class, constant, method or property.')->setHelp(<<<HELP
 Show the code for an object, class, constant, method or property.
 
 e.g.
 <return>>>> show \$myObject</return>
 <return>>>> show Psy\Shell::debug</return>
 HELP
-            );
+        );
     }
 
 

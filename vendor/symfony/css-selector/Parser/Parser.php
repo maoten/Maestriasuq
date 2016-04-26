@@ -324,7 +324,7 @@ class Parser implements ParserInterface
                 $stream->getNext();
                 $element = $stream->getNextIdentifierOrStar();
             } else {
-                $element = $namespace;
+                $element   = $namespace;
                 $namespace = null;
             }
         } else {

@@ -34,15 +34,15 @@ class PHP_CodeCoverage_Report_HTML_Renderer_Dashboard extends PHP_CodeCoverage_R
         $projectRisks         = $this->projectRisks($classes, $baseLink);
 
         $template->setVar([
-                'insufficient_coverage_classes' => $insufficientCoverage['class'],
-                'insufficient_coverage_methods' => $insufficientCoverage['method'],
-                'project_risks_classes'         => $projectRisks['class'],
-                'project_risks_methods'         => $projectRisks['method'],
-                'complexity_class'              => $complexity['class'],
-                'complexity_method'             => $complexity['method'],
-                'class_coverage_distribution'   => $coverageDistribution['class'],
-                'method_coverage_distribution'  => $coverageDistribution['method']
-            ]);
+            'insufficient_coverage_classes' => $insufficientCoverage['class'],
+            'insufficient_coverage_methods' => $insufficientCoverage['method'],
+            'project_risks_classes'         => $projectRisks['class'],
+            'project_risks_methods'         => $projectRisks['method'],
+            'complexity_class'              => $complexity['class'],
+            'complexity_method'             => $complexity['method'],
+            'class_coverage_distribution'   => $coverageDistribution['class'],
+            'method_coverage_distribution'  => $coverageDistribution['method']
+        ]);
 
         $template->renderTo($file);
     }

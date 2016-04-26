@@ -127,7 +127,7 @@ class PHPUnit_Util_Test
         if ( ! empty( $annotations['class'][$mode . 'DefaultClass'] )) {
             if (count($annotations['class'][$mode . 'DefaultClass']) > 1) {
                 throw new PHPUnit_Framework_CodeCoverageException(sprintf('More than one @%sClass annotation in class or interface "%s".',
-                        $mode, $className));
+                    $mode, $className));
             }
 
             $classShortcut = $annotations['class'][$mode . 'DefaultClass'][0];
@@ -376,7 +376,7 @@ class PHPUnit_Util_Test
             foreach ($data as $key => $value) {
                 if ( ! is_array($value)) {
                     throw new PHPUnit_Framework_Exception(sprintf('Data set %s is invalid.',
-                            is_int($key) ? '#' . $key : '"' . $key . '"'));
+                        is_int($key) ? '#' . $key : '"' . $key . '"'));
                 }
             }
         }
@@ -875,7 +875,7 @@ class PHPUnit_Util_Test
                 foreach ($classes as $className) {
                     if ( ! class_exists($className) && ! interface_exists($className)) {
                         throw new PHPUnit_Framework_InvalidCoversTargetException(sprintf('Trying to @cover or @use not existing class or ' . 'interface "%s".',
-                                $className));
+                            $className));
                     }
 
                     $class   = new ReflectionClass($className);
@@ -909,7 +909,7 @@ class PHPUnit_Util_Test
                                 $methodName) )
                         ) {
                             throw new PHPUnit_Framework_InvalidCoversTargetException(sprintf('Trying to @cover or @use not existing method "%s::%s".',
-                                    $className, $methodName));
+                                $className, $methodName));
                         }
 
                         $codeToCoverList[] = new ReflectionMethod($className, $methodName);
@@ -933,7 +933,7 @@ class PHPUnit_Util_Test
             foreach ($classes as $className) {
                 if ( ! class_exists($className) && ! interface_exists($className) && ! trait_exists($className)) {
                     throw new PHPUnit_Framework_InvalidCoversTargetException(sprintf('Trying to @cover or @use not existing class or ' . 'interface "%s".',
-                            $className));
+                        $className));
                 }
 
                 $codeToCoverList[] = new ReflectionClass($className);
@@ -961,7 +961,7 @@ class PHPUnit_Util_Test
             }
 
             $result[$filename] = array_unique(array_merge($result[$filename],
-                    range($reflector->getStartLine(), $reflector->getEndLine())));
+                range($reflector->getStartLine(), $reflector->getEndLine())));
         }
 
         return $result;

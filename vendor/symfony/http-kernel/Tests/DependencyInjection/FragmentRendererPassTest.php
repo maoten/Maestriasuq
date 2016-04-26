@@ -55,7 +55,7 @@ class FragmentRendererPassTest extends \PHPUnit_Framework_TestCase
 
         $renderer = $this->getMock('Symfony\Component\DependencyInjection\Definition');
         $renderer->expects($this->once())->method('addMethodCall')->with('addRendererService',
-                [ 'foo', 'my_content_renderer' ]);
+            [ 'foo', 'my_content_renderer' ]);
 
         $definition = $this->getMock('Symfony\Component\DependencyInjection\Definition');
         $definition->expects($this->atLeastOnce())->method('getClass')->will($this->returnValue('Symfony\Component\HttpKernel\Tests\DependencyInjection\RendererService'));
@@ -69,7 +69,7 @@ class FragmentRendererPassTest extends \PHPUnit_Framework_TestCase
         $builder->expects($this->atLeastOnce())->method('findTaggedServiceIds')->will($this->returnValue($services));
 
         $builder->expects($this->atLeastOnce())->method('getDefinition')->will($this->onConsecutiveCalls($renderer,
-                $definition));
+            $definition));
 
         $pass = new FragmentRendererPass();
         $pass->process($builder);

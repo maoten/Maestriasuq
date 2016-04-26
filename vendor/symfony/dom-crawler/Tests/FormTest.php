@@ -11,9 +11,9 @@
 
 namespace Symfony\Component\DomCrawler\Tests;
 
+use Symfony\Component\DomCrawler\Field;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\DomCrawler\FormFieldRegistry;
-use Symfony\Component\DomCrawler\Field;
 
 class FormTest extends \PHPUnit_Framework_TestCase
 {
@@ -197,10 +197,10 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $form = $this->createForm('<form>' . $form . '</form>');
         $this->assertEquals($values, array_map(function ($field) {
-                $class = get_class($field);
+            $class = get_class($field);
 
-                return [ substr($class, strrpos($class, '\\') + 1), $field->getValue() ];
-            }, $form->all()), '->getDefaultValues() ' . $message);
+            return [ substr($class, strrpos($class, '\\') + 1), $field->getValue() ];
+        }, $form->all()), '->getDefaultValues() ' . $message);
     }
 
 
@@ -991,11 +991,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected function getFormFieldMock($name, $value = null)
     {
         $field = $this->getMockBuilder('Symfony\\Component\\DomCrawler\\Field\\FormField')->setMethods([
-                'getName',
-                'getValue',
-                'setValue',
-                'initialize'
-            ])->disableOriginalConstructor()->getMock();
+            'getName',
+            'getValue',
+            'setValue',
+            'initialize'
+        ])->disableOriginalConstructor()->getMock();
 
         $field->expects($this->any())->method('getName')->will($this->returnValue($name));
 

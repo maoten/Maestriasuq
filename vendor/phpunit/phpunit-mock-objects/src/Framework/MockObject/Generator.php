@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-use Doctrine\Instantiator\Instantiator;
 use Doctrine\Instantiator\Exception\InvalidArgumentException as InstantiatorInvalidArgumentException;
 use Doctrine\Instantiator\Exception\UnexpectedValueException as InstantiatorUnexpectedValueException;
+use Doctrine\Instantiator\Instantiator;
 
 if ( ! function_exists('trait_exists')) {
     function trait_exists($traitname, $autoload = true)
@@ -176,13 +176,13 @@ class PHPUnit_Framework_MockObject_Generator
             foreach ($methods as $method) {
                 if ( ! preg_match('~[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*~', $method)) {
                     throw new PHPUnit_Framework_Exception(sprintf('Cannot stub or mock method with invalid name "%s"',
-                            $method));
+                        $method));
                 }
             }
 
             if ($methods != array_unique($methods)) {
                 throw new PHPUnit_Framework_MockObject_RuntimeException(sprintf('Cannot stub or mock using a method list that contains duplicates: "%s"',
-                        implode(', ', $methods)));
+                    implode(', ', $methods)));
             }
         }
 
@@ -191,7 +191,7 @@ class PHPUnit_Framework_MockObject_Generator
 
             if ( ! $reflect->implementsInterface('PHPUnit_Framework_MockObject_MockObject')) {
                 throw new PHPUnit_Framework_MockObject_RuntimeException(sprintf('Class "%s" already exists.',
-                        $mockClassName));
+                    $mockClassName));
             }
         }
 
@@ -333,7 +333,7 @@ class PHPUnit_Framework_MockObject_Generator
                 $callOriginalClone, $callAutoload, $cloneArguments);
         } else {
             throw new PHPUnit_Framework_MockObject_RuntimeException(sprintf('Class "%s" does not exist.',
-                    $originalClassName));
+                $originalClassName));
         }
     }
 
@@ -385,10 +385,10 @@ class PHPUnit_Framework_MockObject_Generator
         $classTemplate = new Text_Template($templateDir . 'trait_class.tpl');
 
         $classTemplate->setVar([
-                'prologue'   => 'abstract ',
-                'class_name' => $className['className'],
-                'trait_name' => $traitName
-            ]);
+            'prologue'   => 'abstract ',
+            'class_name' => $className['className'],
+            'trait_name' => $traitName
+        ]);
 
         $this->evalClass($classTemplate->render(), $className['className']);
 
@@ -438,10 +438,10 @@ class PHPUnit_Framework_MockObject_Generator
         $classTemplate = new Text_Template($templateDir . 'trait_class.tpl');
 
         $classTemplate->setVar([
-                'prologue'   => '',
-                'class_name' => $className['className'],
-                'trait_name' => $traitName
-            ]);
+            'prologue'   => '',
+            'class_name' => $className['className'],
+            'trait_name' => $traitName
+        ]);
 
         return $this->getObject($classTemplate->render(), $className['className']);
     }
@@ -531,9 +531,9 @@ class PHPUnit_Framework_MockObject_Generator
                 }
 
                 $methodTemplate->setVar([
-                        'method_name' => $name,
-                        'arguments'   => implode(', ', $args)
-                    ]);
+                    'method_name' => $name,
+                    'arguments'   => implode(', ', $args)
+                ]);
 
                 $methodsBuffer .= $methodTemplate->render();
             }
@@ -557,12 +557,12 @@ class PHPUnit_Framework_MockObject_Generator
         }
 
         $classTemplate->setVar([
-                'namespace'  => $namespace,
-                'class_name' => $className,
-                'wsdl'       => $wsdlFile,
-                'options'    => $optionsBuffer,
-                'methods'    => $methodsBuffer
-            ]);
+            'namespace'  => $namespace,
+            'class_name' => $className,
+            'wsdl'       => $wsdlFile,
+            'options'    => $optionsBuffer,
+            'methods'    => $methodsBuffer
+        ]);
 
         return $classTemplate->render();
     }
@@ -642,7 +642,7 @@ class PHPUnit_Framework_MockObject_Generator
 
             if ($class->isFinal()) {
                 throw new PHPUnit_Framework_Exception(sprintf('Class "%s" is declared "final" and cannot be mocked.',
-                        $mockClassName['fullClassName']));
+                    $mockClassName['fullClassName']));
             }
 
             if ($class->hasMethod('__clone')) {
@@ -710,15 +710,15 @@ class PHPUnit_Framework_MockObject_Generator
         }
 
         $classTemplate->setVar([
-                'prologue'          => isset( $prologue ) ? $prologue : '',
-                'epilogue'          => isset( $epilogue ) ? $epilogue : '',
-                'class_declaration' => $this->generateMockClassDeclaration($mockClassName, $isInterface,
-                    $additionalInterfaces),
-                'clone'             => $cloneTemplate,
-                'mock_class_name'   => $mockClassName['className'],
-                'mocked_methods'    => $mockedMethods,
-                'method'            => $method
-            ]);
+            'prologue'          => isset( $prologue ) ? $prologue : '',
+            'epilogue'          => isset( $epilogue ) ? $epilogue : '',
+            'class_declaration' => $this->generateMockClassDeclaration($mockClassName, $isInterface,
+                $additionalInterfaces),
+            'clone'             => $cloneTemplate,
+            'mock_class_name'   => $mockClassName['className'],
+            'mocked_methods'    => $mockedMethods,
+            'method'            => $method
+        ]);
 
         return [
             'code'          => $classTemplate->render(),
@@ -882,15 +882,15 @@ class PHPUnit_Framework_MockObject_Generator
         $template = new Text_Template($templateDir . $templateFile);
 
         $template->setVar([
-                'arguments_decl'  => $arguments_decl,
-                'arguments_call'  => $arguments_call,
-                'arguments_count' => ! empty( $arguments_call ) ? count(explode(',', $arguments_call)) : 0,
-                'class_name'      => $className,
-                'method_name'     => $methodName,
-                'modifier'        => $modifier,
-                'reference'       => $reference,
-                'clone_arguments' => $cloneArguments ? 'TRUE' : 'FALSE'
-            ]);
+            'arguments_decl'  => $arguments_decl,
+            'arguments_call'  => $arguments_call,
+            'arguments_count' => ! empty( $arguments_call ) ? count(explode(',', $arguments_call)) : 0,
+            'class_name'      => $className,
+            'method_name'     => $methodName,
+            'modifier'        => $modifier,
+            'reference'       => $reference,
+            'clone_arguments' => $cloneArguments ? 'TRUE' : 'FALSE'
+        ]);
 
         return $template->render();
     }

@@ -19,8 +19,8 @@ class DescriptorCommand1 extends Command
     protected function configure()
     {
         $this->setName('descriptor:command1')->setAliases([
-                'alias1',
-                'alias2'
-            ])->setDescription('command 1 description')->setHelp('command 1 help');
+            'alias1',
+            'alias2'
+        ])->setDescription('command 1 description')->setHelp('command 1 help');
     }
 }

@@ -49,10 +49,10 @@ class SwiftMailerHandlerTest extends TestCase
         // Wire Mailer to expect a specific Swift_Message with a customized Subject
         $expectedMessage = new \Swift_Message();
         $this->mailer->expects($this->once())->method('send')->with($this->callback(function ($value) use (
-                $expectedMessage
-            ) {
-                return $value instanceof \Swift_Message && $value->getSubject() === 'Emergency' && $value === $expectedMessage;
-            }));
+            $expectedMessage
+        ) {
+            return $value instanceof \Swift_Message && $value->getSubject() === 'Emergency' && $value === $expectedMessage;
+        }));
 
         // Callback dynamically changes subject based on number of logged records
         $callback = function ($content, array $records) use ($expectedMessage) {

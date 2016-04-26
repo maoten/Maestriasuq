@@ -36,7 +36,7 @@ class WriteCheckSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $writeCheckSessionHandler  = new WriteCheckSessionHandler($wrappedSessionHandlerMock);
 
         $wrappedSessionHandlerMock->expects($this->once())->method('write')->with('foo',
-                'bar')->will($this->returnValue(true));
+            'bar')->will($this->returnValue(true));
 
         $this->assertTrue($writeCheckSessionHandler->write('foo', 'bar'));
     }
@@ -64,7 +64,7 @@ class WriteCheckSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $wrappedSessionHandlerMock->expects($this->once())->method('read')->with('foo')->will($this->returnValue('bar'));
 
         $wrappedSessionHandlerMock->expects($this->once())->method('write')->with('foo',
-                'baZZZ')->will($this->returnValue(true));
+            'baZZZ')->will($this->returnValue(true));
 
         $this->assertEquals('bar', $writeCheckSessionHandler->read('foo'));
         $this->assertTrue($writeCheckSessionHandler->write('foo', 'baZZZ'));

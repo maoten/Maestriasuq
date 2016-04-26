@@ -100,7 +100,7 @@ See https://github.com/nikic/PHP-Parser
 
 It prolly won't be super useful for most of you, but it's here if you want to play.
 HELP
-            );
+        );
     }
 
 

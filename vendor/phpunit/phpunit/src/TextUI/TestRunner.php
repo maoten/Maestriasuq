@@ -351,7 +351,7 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
 
         if (isset( $arguments['junitLogfile'] )) {
             $result->addListener(new PHPUnit_Util_Log_JUnit($arguments['junitLogfile'],
-                    $arguments['logIncompleteSkipped']));
+                $arguments['logIncompleteSkipped']));
         }
 
         $result->beStrictAboutTestsThatDoNotTestAnything($arguments['reportUselessTests']);

@@ -2,8 +2,8 @@
 
 namespace Illuminate\Cache;
 
-use Memcached;
 use Illuminate\Contracts\Cache\Store;
+use Memcached;
 
 class MemcachedStore extends TaggableStore implements Store
 {

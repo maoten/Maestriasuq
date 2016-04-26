@@ -18,15 +18,15 @@ class Swift_Mime_MimePartAcceptanceTest extends \PHPUnit_Framework_TestCase
         $factory               = new Swift_CharacterReaderFactory_SimpleCharacterReaderFactory();
         $this->_contentEncoder = new Swift_Mime_ContentEncoder_QpContentEncoder(new Swift_CharacterStream_ArrayCharacterStream($factory,
             'utf-8'), new Swift_StreamFilters_ByteArrayReplacementFilter([ [ 0x0D, 0x0A ], [ 0x0D ], [ 0x0A ] ],
-                [ [ 0x0A ], [ 0x0A ], [ 0x0D, 0x0A ] ]));
+            [ [ 0x0A ], [ 0x0A ], [ 0x0D, 0x0A ] ]));
 
         $headerEncoder  = new Swift_Mime_HeaderEncoder_QpHeaderEncoder(new Swift_CharacterStream_ArrayCharacterStream($factory,
-                'utf-8'));
+            'utf-8'));
         $paramEncoder   = new Swift_Encoder_Rfc2231Encoder(new Swift_CharacterStream_ArrayCharacterStream($factory,
-                'utf-8'));
+            'utf-8'));
         $this->_grammar = new Swift_Mime_Grammar();
         $this->_headers = new Swift_Mime_SimpleHeaderSet(new Swift_Mime_SimpleHeaderFactory($headerEncoder,
-                $paramEncoder, $this->_grammar));
+            $paramEncoder, $this->_grammar));
     }
 
 

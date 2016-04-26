@@ -2,8 +2,8 @@
 
 namespace Illuminate\Pagination;
 
-use Illuminate\Support\HtmlString;
 use Illuminate\Contracts\Pagination\Paginator as PaginatorContract;
+use Illuminate\Support\HtmlString;
 
 class SimpleBootstrapThreePresenter extends BootstrapThreePresenter
 {

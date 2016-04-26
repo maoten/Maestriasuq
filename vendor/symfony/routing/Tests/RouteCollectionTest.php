@@ -11,9 +11,9 @@
 
 namespace Symfony\Component\Routing\Tests;
 
-use Symfony\Component\Routing\RouteCollection;
-use Symfony\Component\Routing\Route;
 use Symfony\Component\Config\Resource\FileResource;
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
 
 class RouteCollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -127,7 +127,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
         $collection->add('foo', new Route('/{placeholder}'));
         $collection1 = new RouteCollection();
         $collection1->add('bar', new Route('/{placeholder}', [ '_controller' => 'fixed', 'placeholder' => 'default' ],
-                [ 'placeholder' => '.+' ], [ 'option' => 'value' ]));
+            [ 'placeholder' => '.+' ], [ 'option' => 'value' ]));
         $collection->addCollection($collection1);
 
         $collection->addDefaults([ 'placeholder' => 'new-default' ]);
@@ -144,8 +144,9 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
             '->addRequirements() adds requirements to all routes and overwrites existing ones');
 
         $collection->addOptions([ 'option' => 'new-value' ]);
-        $this->assertEquals([ 'option'         => 'new-value',
-                              'compiler_class' => 'Symfony\\Component\\Routing\\RouteCompiler'
+        $this->assertEquals([
+            'option'         => 'new-value',
+            'compiler_class' => 'Symfony\\Component\\Routing\\RouteCompiler'
         ], $collection->get('bar')->getOptions(),
             '->addOptions() adds options to all routes and overwrites existing ones');
     }

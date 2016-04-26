@@ -2,9 +2,9 @@
 
 namespace PhpParser\Unserializer;
 
-use XMLReader;
 use DomainException;
 use PhpParser\Unserializer;
+use XMLReader;
 
 class XML implements Unserializer
 {
@@ -73,7 +73,7 @@ class XML implements Unserializer
             $type = $this->reader->prefix;
             if ('subNode' !== $type && 'attribute' !== $type) {
                 throw new DomainException(sprintf('Expected sub node or attribute, got node of type "%s"',
-                        $this->reader->name));
+                    $this->reader->name));
             }
 
             $name  = $this->reader->localName;

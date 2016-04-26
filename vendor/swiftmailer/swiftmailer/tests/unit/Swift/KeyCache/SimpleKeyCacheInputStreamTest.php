@@ -10,11 +10,11 @@ class Swift_KeyCache_SimpleKeyCacheInputStreamTest extends \PHPUnit_Framework_Te
     {
         $cache = $this->getMock('Swift_KeyCache');
         $cache->expects($this->at(0))->method('setString')->with($this->_nsKey, 'foo', 'a',
-                Swift_KeyCache::MODE_APPEND);
+            Swift_KeyCache::MODE_APPEND);
         $cache->expects($this->at(1))->method('setString')->with($this->_nsKey, 'foo', 'b',
-                Swift_KeyCache::MODE_APPEND);
+            Swift_KeyCache::MODE_APPEND);
         $cache->expects($this->at(2))->method('setString')->with($this->_nsKey, 'foo', 'c',
-                Swift_KeyCache::MODE_APPEND);
+            Swift_KeyCache::MODE_APPEND);
 
         $stream = new Swift_KeyCache_SimpleKeyCacheInputStream();
         $stream->setKeyCache($cache);
@@ -45,9 +45,9 @@ class Swift_KeyCache_SimpleKeyCacheInputStreamTest extends \PHPUnit_Framework_Te
     {
         $cache = $this->getMock('Swift_KeyCache');
         $cache->expects($this->at(0))->method('setString')->with($this->_nsKey, 'foo', 'a',
-                Swift_KeyCache::MODE_APPEND);
+            Swift_KeyCache::MODE_APPEND);
         $cache->expects($this->at(1))->method('setString')->with($this->_nsKey, 'foo', 'b',
-                Swift_KeyCache::MODE_APPEND);
+            Swift_KeyCache::MODE_APPEND);
         $cache->expects($this->at(2))->method('setString')->with('test', 'bar', 'x', Swift_KeyCache::MODE_APPEND);
 
         $stream = new Swift_KeyCache_SimpleKeyCacheInputStream();

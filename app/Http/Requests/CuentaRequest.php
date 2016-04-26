@@ -23,9 +23,9 @@ class CuentaRequest extends Request
     public function rules()
     {
         return [
-            'email'    => 'min:5|max:50|required',
-            'telefono' => 'min:6|max:45|required',
-            'imagen'   => 'mimes:jpeg,png,jpg'
+            'email'    => 'email|min:5|max:50|required',
+            'telefono' => 'min:6|max:45|required'
+            // 'imagen'   => 'mimes:jpeg,png,jpg'
         ];
     }
 }

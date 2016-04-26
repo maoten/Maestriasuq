@@ -40,8 +40,8 @@ class ClassNamesMatcher extends AbstractMatcher
             //$methods = Mirror::get($class);
             return implode('\\', array_slice($pieces, $nsPos, count($pieces)));
         }, array_filter(get_declared_classes(), function ($className) use ($quotedClass) {
-                return AbstractMatcher::startsWith($quotedClass, $className);
-            }));
+            return AbstractMatcher::startsWith($quotedClass, $className);
+        }));
     }
 
 

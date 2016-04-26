@@ -3,10 +3,10 @@
 namespace Illuminate\Cache;
 
 use Closure;
+use Illuminate\Contracts\Cache\Factory as FactoryContract;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
-use Illuminate\Contracts\Cache\Store;
-use Illuminate\Contracts\Cache\Factory as FactoryContract;
 
 class CacheManager implements FactoryContract
 {
@@ -227,7 +227,7 @@ class CacheManager implements FactoryContract
         $connection = $this->app['db']->connection(Arr::get($config, 'connection'));
 
         return $this->repository(new DatabaseStore($connection, $this->app['encrypter'], $config['table'],
-                $this->getPrefix($config)));
+            $this->getPrefix($config)));
     }
 
 

@@ -38,10 +38,10 @@ class PHPUnit_Util_PHP_Default extends PHPUnit_Util_PHP
         }
 
         $process = proc_open($runtime, [
-                0 => [ 'pipe', 'r' ],
-                1 => [ 'pipe', 'w' ],
-                2 => [ 'pipe', 'w' ]
-            ], $pipes);
+            0 => [ 'pipe', 'r' ],
+            1 => [ 'pipe', 'w' ],
+            2 => [ 'pipe', 'w' ]
+        ], $pipes);
 
         if ( ! is_resource($process)) {
             throw new PHPUnit_Framework_Exception('Unable to spawn worker process');

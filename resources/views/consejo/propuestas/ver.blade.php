@@ -33,7 +33,7 @@
                     <div class="panel-body">
                         <div>
                             <form class="form-horizontal" role="form" method="GET"
-                                  action="{{ route('consejo.propuesta.asignar_jurados', $propuesta->id) }}">
+                                  action="{{ route('consejo.propuesta.asignarJurados', $propuesta->id) }}">
 
                                 @if(App\Jurado_propuesta::where('propuesta_id',$propuesta->id)->first()==null)
                                     <p class="text-center">Esta propuesta no tiene jurados asignados aún.<br>Antes de
@@ -133,29 +133,32 @@
                     <div class="panel-heading"><h4><i class="fa fa-comments-o iconoizq"></i>Comentarios</h4></div>
 
                     <div class="panel-body">
-
-                        @foreach(App\Comentario::where('propuesta_id', $propuesta->id)->get() as $comentario)
-                        <?php $usuario = App\User::where('id', $comentario->user_id)->first(); ?>
-                                <!-- comentario -->
-                        <div class="col-sm-1">
-                            <div class="thumbnail">
-                                <img class="img-responsive user-photo" src="{{ asset($usuario->imagen) }}">
-                            </div>
-                        </div>
-
-                        <div class="col-md-11">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <strong>{{ $usuario->nombre }}</strong> <span
-                                            class="text-muted">{{ $comentario->created_at }}</span>
-                                </div>
-                                <div class="panel-body">
-                                    {{ $comentario->comentarios }}
+                        @if(App\Comentario::where('propuesta_id', $propuesta->id)->first()==null)
+                            <p class="text-center">Esta propuesta no tiene comentarios aún.</p>
+                            @else
+                            @foreach(App\Comentario::where('propuesta_id', $propuesta->id)->get() as $comentario)
+                            <?php $usuario = App\User::where('id', $comentario->user_id)->first(); ?>
+                                    <!-- comentario -->
+                            <div class="col-sm-1">
+                                <div class="thumbnail">
+                                    <img class="img-responsive user-photo" src="{{ asset($usuario->imagen) }}">
                                 </div>
                             </div>
-                        </div>
-                        <!-- /comentario -->
-                        @endforeach
+
+                            <div class="col-md-11">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <strong>{{ $usuario->nombre }}</strong> <span
+                                                class="text-muted">{{ $comentario->created_at }}</span>
+                                    </div>
+                                    <div class="panel-body">
+                                        {{ $comentario->comentarios }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /comentario -->
+                            @endforeach
+                        @endif
 
                     </div>
                 </div>

@@ -11,9 +11,9 @@
 
 namespace Symfony\Component\Routing\Tests\Matcher;
 
+use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
-use Symfony\Component\Routing\RequestContext;
 
 class RedirectableUrlMatcherTest extends \PHPUnit_Framework_TestCase
 {
@@ -54,7 +54,7 @@ class RedirectableUrlMatcherTest extends \PHPUnit_Framework_TestCase
         $matcher = $this->getMockForAbstractClass('Symfony\Component\Routing\Matcher\RedirectableUrlMatcher',
             [ $coll, new RequestContext() ]);
         $matcher->expects($this->once())->method('redirect')->with('/foo', 'foo',
-                'ftp')->will($this->returnValue([ '_route' => 'foo' ]));
+            'ftp')->will($this->returnValue([ '_route' => 'foo' ]));
         $matcher->match('/foo');
     }
 

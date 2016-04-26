@@ -7,6 +7,7 @@ use App\Notificacion;
 use App\Propuesta;
 use Illuminate\Http\Request;
 use Laracasts\Flash\Flash;
+
 //use App\Http\Requests\ComentarioRequest;
 
 class ComentariosController extends Controller

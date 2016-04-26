@@ -43,8 +43,8 @@
     padding: 20px;
     border: 1px solid #d4d4d4;
     border-radius: 2px;
-    -webkit-box-shadow: 0 1px 6px rgba(0,0,0,0.175);
-    box-shadow: 0 1px 6px rgba(0,0,0,0.175);
+    -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
 }
 
 .timeline > li > .timeline-panel:before {
@@ -104,16 +104,17 @@
     border-right-width: 14px;
     border-left-width: 0;
 }
-.x{
-    color:white;
+
+.x {
+    color: white;
 }
 
-.x:hover{
-    color:black;
+.x:hover {
+    color: black;
 }
 
-.x:active{
-    color:black;
+.x:active {
+    color: black;
 }
 
 .timeline-badge.primary {
@@ -150,7 +151,7 @@
     margin-top: 5px;
 }
 
-@media(max-width:767px) {
+@media (max-width: 767px) {
     ul.timeline:before {
         left: 40px;
     }

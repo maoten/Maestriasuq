@@ -76,7 +76,7 @@ class MemcachedSessionHandlerTest extends \PHPUnit_Framework_TestCase
     public function testWriteSession()
     {
         $this->memcached->expects($this->once())->method('set')->with(self::PREFIX . 'id', 'data',
-                $this->equalTo(time() + self::TTL, 2))->will($this->returnValue(true));
+            $this->equalTo(time() + self::TTL, 2))->will($this->returnValue(true));
 
         $this->assertTrue($this->storage->write('id', 'data'));
     }

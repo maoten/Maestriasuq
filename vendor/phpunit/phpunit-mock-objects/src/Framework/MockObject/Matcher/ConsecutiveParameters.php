@@ -106,7 +106,7 @@ class PHPUnit_Framework_MockObject_Matcher_ConsecutiveParameters extends PHPUnit
 
         if (count($invocation->parameters) < count($parameters)) {
             throw new PHPUnit_Framework_ExpectationFailedException(sprintf('Parameter count for invocation %s is too low.',
-                    $invocation->toString()));
+                $invocation->toString()));
         }
 
         foreach ($parameters as $i => $parameter) {

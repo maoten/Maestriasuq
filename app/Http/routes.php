@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     //return view('welcome');
@@ -77,8 +79,11 @@ Route::group([ 'middleware' => [ 'web', 'role:admin' ], 'prefix' => 'admin' ], f
         [ 'uses' => 'EstudiantesController@destroy', 'as' => 'admin.estudiantes.destroy' ]);
     Route::get('estudiantes/{id}/update',
         [ 'uses' => 'EstudiantesController@update', 'as' => 'admin.estudiantes.update' ]);
+
     //======== opciones de los jurados ==========//
-    Route::get('jurados', [ 'uses' => 'JuradosController@indexJurados', 'as' => 'admin.jurados.index' ]);
+    Route::resource('jurados', 'JuradosController');
+    Route::get('jurados/{id}/destroy', [ 'uses' => 'JuradosController@destroy', 'as' => 'admin.jurados.destroy' ]);
+    Route::get('jurados/{id}/update', [ 'uses' => 'JuradosController@update', 'as' => 'admin.jurados.update' ]);
 
     //======== opciones de los directores de grado ==========//
     Route::resource('directores', 'DirectoresController');
@@ -93,7 +98,17 @@ Route::group([ 'middleware' => [ 'web', 'role:admin' ], 'prefix' => 'admin' ], f
     Route::get('consejo/{id}/update', [ 'uses' => 'ConsejoController@update', 'as' => 'admin.consejo.update' ]);
 
     //======== opciones de las propuestas ==========//
+    Route::resource('propuesta', 'PropuestaController');
     Route::get('propuestas', [ 'uses' => 'PropuestaController@indexPropuestas', 'as' => 'admin.propuestas.index' ]);
+    Route::get('verpropuesta/{id}',
+        [ 'uses' => 'PropuestaController@showPropuestaAdmin', 'as' => 'admin.propuesta.ver' ]);
+    Route::get('propuesta/{id}/asignarJurados',
+        [ 'uses' => 'PropuestaController@asignarJurados', 'as' => 'admin.propuesta.asignarJurados' ]);
+    Route::get('propuesta/{id}/citacion',
+        [ 'uses' => 'PropuestaController@showCitacion', 'as' => 'admin.propuesta.citacion' ]);
+    Route::get('propuesta/{id}/citar', [ 'uses' => 'PropuestaController@citar', 'as' => 'admin.propuesta.citar' ]);
+    //======== opciones del calendario ==========//
+    Route::resource('calendario', 'CalendarioController');
 
 });
 /*
@@ -131,7 +146,7 @@ Route::group([ 'middleware' => [ 'web', 'role:estudiante' ], 'prefix' => 'estudi
     //======== opciones de la propuesta ==========//
     Route::resource('propuesta', 'PropuestaController');
     Route::get('verpropuesta/{id}',
-        [ 'uses' => 'PropuestaController@show_propuesta', 'as' => 'estudiante.propuesta.ver' ]);
+        [ 'uses' => 'PropuestaController@showPropuesta', 'as' => 'estudiante.propuesta.ver' ]);
     Route::get('seguimiento/{id}',
         [ 'uses' => 'PropuestaController@showSeguimiento', 'as' => 'estudiante.propuesta.seguimiento' ]);
 
@@ -192,7 +207,7 @@ Route::group([ 'middleware' => [ 'web', 'role:director_grado' ], 'prefix' => 'di
     Route::get('propuestas',
         [ 'uses' => 'PropuestaController@indexPropuestasDir', 'as' => 'director.propuestas.index' ]);
     Route::get('verpropuesta/{id}',
-        [ 'uses' => 'PropuestaController@show_propuesta_dir', 'as' => 'director.propuesta.ver' ]);
+        [ 'uses' => 'PropuestaController@showPropuestaDir', 'as' => 'director.propuesta.ver' ]);
 
     //======== opciones de los documentos ==========//
     Route::get('documentos', [
@@ -259,18 +274,13 @@ Route::group([ 'middleware' => [ 'web', 'role:consejo_curricular' ], 'prefix' =>
     Route::get('propuestas',
         [ 'uses' => 'PropuestaController@indexPropuestasConsejo', 'as' => 'consejo.propuestas.index' ]);
     Route::get('verpropuesta/{id}',
-        [ 'uses' => 'PropuestaController@show_propuesta_consejo', 'as' => 'consejo.propuesta.ver' ]);
-
-    Route::get('propuesta/{id}/asignar_jurados',
-        [ 'uses' => 'PropuestaController@asignar_jurados', 'as' => 'consejo.propuesta.asignar_jurados' ]);
+        [ 'uses' => 'PropuestaController@showPropuestaConsejo', 'as' => 'consejo.propuesta.ver' ]);
 
     //======== opciones de los comentarios ==========//
     Route::post('comentarios', [ 'uses' => 'ComentariosController@store', 'as' => 'consejo.comentarios.store' ]);
 
     //======== opciones de los jurados ==========//
-    Route::resource('jurados', 'JuradosController');
-    Route::get('jurados/{id}/destroy', [ 'uses' => 'JuradosController@destroy', 'as' => 'consejo.jurados.destroy' ]);
-    Route::get('jurados/{id}/update', [ 'uses' => 'JuradosController@update', 'as' => 'consejo.jurados.update' ]);
+    Route::get('jurados', [ 'uses' => 'JuradosController@indexJurados', 'as' => 'consejo.jurados.index' ]);
 
     //======== opciones de las notificaciones ==========//
     Route::get('notificaciones', [
@@ -322,7 +332,7 @@ Route::group([ 'middleware' => [ 'web', 'role:jurado' ], 'prefix' => 'jurado' ],
     Route::get('propuestas',
         [ 'uses' => 'PropuestaController@indexPropuestasJurado', 'as' => 'jurado.propuestas.index' ]);
     Route::get('verpropuesta/{id}',
-        [ 'uses' => 'PropuestaController@show_propuesta_jurado', 'as' => 'jurado.propuesta.ver' ]);
+        [ 'uses' => 'PropuestaController@showPropuestaJurado', 'as' => 'jurado.propuesta.ver' ]);
 
     //======== opciones de los documentos ==========//
     Route::get('documentos', [
@@ -331,9 +341,6 @@ Route::group([ 'middleware' => [ 'web', 'role:jurado' ], 'prefix' => 'jurado' ],
             return view('jurado.documentos.index');
         }
     ]);
-
-    //======== opciones de los comentarios ==========//
-    Route::post('comentarios', [ 'uses' => 'ComentariosController@store', 'as' => 'jurado.comentarios.store' ]);
 
     //======== opciones de los comentarios ==========//
     Route::post('comentarios', [ 'uses' => 'ComentariosController@store', 'as' => 'jurado.comentarios.store' ]);

@@ -14,9 +14,9 @@ define('WRAP_WIDTH', 100);
 
 $count = 0;
 
-if (count($argv) !== 3 || !is_dir($argv[1])) {
+if (count($argv) !== 3 || ! is_dir($argv[1])) {
     echo "usage: build_manual path/to/manual output_filename.db\n";
-    exit(1);
+    exit( 1 );
 }
 
 function htmlwrap($text, $width = null)
@@ -27,10 +27,10 @@ function htmlwrap($text, $width = null)
 
     $len = strlen($text);
 
-    $return = array();
+    $return    = [ ];
     $lastSpace = null;
-    $inTag = false;
-    $i = $tagWidth = 0;
+    $inTag     = false;
+    $i         = $tagWidth = 0;
     do {
         switch (substr($text, $i, 1)) {
             case "\n":
@@ -42,7 +42,7 @@ function htmlwrap($text, $width = null)
                 continue;
 
             case ' ':
-                if (!$inTag) {
+                if ( ! $inTag) {
                     $lastSpace = $i;
                 }
                 break;
@@ -63,7 +63,7 @@ function htmlwrap($text, $width = null)
 
         $i++;
 
-        if (!$inTag && ($i - $tagWidth > $width)) {
+        if ( ! $inTag && ( $i - $tagWidth > $width )) {
             $lastSpace = $lastSpace ?: $width;
 
             $return[] = trim(substr($text, 0, $lastSpace));
@@ -81,7 +81,7 @@ function htmlwrap($text, $width = null)
 
 function extract_paragraphs($element)
 {
-    $paragraphs = array();
+    $paragraphs = [ ];
     foreach ($element->getElementsByTagName('para') as $p) {
         $text = '';
         foreach ($p->childNodes as $child) {
@@ -108,15 +108,15 @@ function extract_paragraphs($element)
 
 function format_doc($doc)
 {
-    $chunks   = array();
+    $chunks = [ ];
 
-    if (!empty($doc['description'])) {
+    if ( ! empty( $doc['description'] )) {
         $chunks[] = '<comment>Description:</comment>';
         $chunks[] = indent_text(htmlwrap(thunk_tags($doc['description']), WRAP_WIDTH - 2));
         $chunks[] = '';
     }
 
-    if (!empty($doc['params'])) {
+    if ( ! empty( $doc['params'] )) {
         $chunks[] = '<comment>Param:</comment>';
 
         $typeMax = max(array_map(function ($param) {
@@ -132,22 +132,22 @@ function format_doc($doc)
         $wrapWidth = WRAP_WIDTH - strlen($indent);
 
         foreach ($doc['params'] as $param) {
-            $desc = indent_text(htmlwrap(thunk_tags($param['description']), $wrapWidth), $indent, false);
+            $desc     = indent_text(htmlwrap(thunk_tags($param['description']), $wrapWidth), $indent, false);
             $chunks[] = sprintf($template, $param['type'], $param['name'], $desc);
         }
         $chunks[] = '';
     }
 
-    if (isset($doc['return']) || isset($doc['return_type'])) {
+    if (isset( $doc['return'] ) || isset( $doc['return_type'] )) {
         $chunks[] = '<comment>Return:</comment>';
 
-        $type   = isset($doc['return_type']) ? $doc['return_type'] : 'unknown';
-        $desc   = isset($doc['return']) ? $doc['return'] : '';
+        $type = isset( $doc['return_type'] ) ? $doc['return_type'] : 'unknown';
+        $desc = isset( $doc['return'] ) ? $doc['return'] : '';
 
         $indent    = str_repeat(' ', strlen($type) + 4);
         $wrapWidth = WRAP_WIDTH - strlen($indent);
 
-        if (!empty($desc)) {
+        if ( ! empty( $desc )) {
             $desc = indent_text(htmlwrap(thunk_tags($doc['return']), $wrapWidth), $indent, false);
         }
 
@@ -162,27 +162,27 @@ function format_doc($doc)
 
 function thunk_tags($text)
 {
-    $tagMap = array(
+    $tagMap = [
         'parameter>' => 'strong>',
         'function>'  => 'strong>',
         'literal>'   => 'return>',
         'type>'      => 'info>',
         'constant>'  => 'info>',
-    );
+    ];
 
-    $andBack = array(
+    $andBack = [
         '&amp;'       => '&',
         '&amp;true;'  => '<return>true</return>',
         '&amp;false;' => '<return>false</return>',
         '&amp;null;'  => '<return>null</return>',
-    );
+    ];
 
     return strtr(strip_tags(strtr($text, $tagMap), '<strong><return><info>'), $andBack);
 }
 
 function indent_text($text, $indent = '  ', $leading = true)
 {
-    return ($leading ? $indent : '') . str_replace("\n", "\n" . $indent, $text);
+    return ( $leading ? $indent : '' ) . str_replace("\n", "\n" . $indent, $text);
 }
 
 function find_type($xml, $paramName)
@@ -198,7 +198,7 @@ function find_type($xml, $paramName)
     }
 }
 
-$docs = array();
+$docs = [ ];
 foreach (glob($argv[1] . '/*/*/*.xml') as $function) {
     $funcname = basename($function);
     if ($funcname === 'main.xml' || strpos($funcname, 'entities.') === 0) {
@@ -207,15 +207,15 @@ foreach (glob($argv[1] . '/*/*/*.xml') as $function) {
 
     $xmlstr = str_replace('&', '&amp;', file_get_contents($function));
 
-    $xml = new DOMDocument();
+    $xml                     = new DOMDocument();
     $xml->preserveWhiteSpace = false;
 
-    if (!@$xml->loadXml($xmlstr)) {
+    if ( ! @$xml->loadXml($xmlstr)) {
         echo "XML Parse Error: $function\n";
         continue;
     }
 
-    $doc = array();
+    $doc       = [ ];
     $refsect1s = $xml->getElementsByTagName('refsect1');
     foreach ($refsect1s as $refsect1) {
         $role = $refsect1->getAttribute('role');
@@ -239,15 +239,15 @@ foreach (glob($argv[1] . '/*/*/*.xml') as $function) {
                 break;
 
             case 'parameters':
-                $params = array();
-                $vars = $refsect1->getElementsByTagName('varlistentry');
+                $params = [ ];
+                $vars   = $refsect1->getElementsByTagName('varlistentry');
                 foreach ($vars as $var) {
                     if ($name = $var->getElementsByTagName('parameter')->item(0)) {
-                        $params[] = array(
+                        $params[] = [
                             'name'        => '$' . $name->textContent,
                             'type'        => find_type($xml, $name->textContent),
                             'description' => extract_paragraphs($var),
-                        );
+                        ];
                     }
                 }
 
@@ -259,7 +259,7 @@ foreach (glob($argv[1] . '/*/*/*.xml') as $function) {
     // and the purpose
     if ($purpose = $xml->getElementsByTagName('refpurpose')->item(0)) {
         $desc = htmlwrap($purpose->textContent);
-        if (isset($doc['description'])) {
+        if (isset( $doc['description'] )) {
             $desc .= "\n\n" . $doc['description'];
         }
 
@@ -281,5 +281,5 @@ $db = new PDO('sqlite:' . $argv[2]);
 $db->query('CREATE TABLE php_manual (id char(256) PRIMARY KEY, doc TEXT)');
 $cmd = $db->prepare('INSERT INTO php_manual (id, doc) VALUES (?, ?)');
 foreach ($docs as $id => $doc) {
-    $cmd->execute(array($id, $doc));
+    $cmd->execute([ $id, $doc ]);
 }

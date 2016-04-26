@@ -327,10 +327,10 @@ class HipChatHandler extends SocketHandler
         // Set the max level and datetime for all records
         foreach ($batchRecords as &$batchRecord) {
             $batchRecord = array_merge($batchRecord, [
-                    'level'      => $level,
-                    'level_name' => $levelName,
-                    'datetime'   => $datetime,
-                ]);
+                'level'      => $level,
+                'level_name' => $levelName,
+                'datetime'   => $datetime,
+            ]);
         }
 
         return $batchRecords;

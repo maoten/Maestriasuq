@@ -11,8 +11,8 @@
 
 namespace Monolog\Handler;
 
-use Monolog\TestCase;
 use Monolog\Logger;
+use Monolog\TestCase;
 
 class MongoDBHandlerTest extends TestCase
 {
@@ -32,7 +32,7 @@ class MongoDBHandlerTest extends TestCase
         $collection = $this->getMock('stdClass', [ 'save' ]);
 
         $mongo->expects($this->once())->method('selectCollection')->with('DB',
-                'Collection')->will($this->returnValue($collection));
+            'Collection')->will($this->returnValue($collection));
 
         $record = $this->getRecord(Logger::WARNING, 'test', [ 'data' => new \stdClass, 'foo' => 34 ]);
 

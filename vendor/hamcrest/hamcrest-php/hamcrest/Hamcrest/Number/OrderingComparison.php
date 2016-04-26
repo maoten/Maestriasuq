@@ -39,7 +39,7 @@ class OrderingComparison extends TypeSafeMatcher
     protected function describeMismatchSafely($item, Description $mismatchDescription)
     {
         $mismatchDescription->appendValue($item)->appendText(' was ')->appendText($this->_comparison($this->_compare($this->_value,
-                $item)))->appendText(' ')->appendValue($this->_value);
+            $item)))->appendText(' ')->appendValue($this->_value);
     }
 
 

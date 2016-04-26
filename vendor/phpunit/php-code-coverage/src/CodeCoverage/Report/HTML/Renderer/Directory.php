@@ -37,9 +37,9 @@ class PHP_CodeCoverage_Report_HTML_Renderer_Directory extends PHP_CodeCoverage_R
         }
 
         $template->setVar([
-                'id'    => $node->getId(),
-                'items' => $items
-            ]);
+            'id'    => $node->getId(),
+            'items' => $items
+        ]);
 
         $template->renderTo($file);
     }

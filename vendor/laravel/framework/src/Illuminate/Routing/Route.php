@@ -3,20 +3,20 @@
 namespace Illuminate\Routing;
 
 use Closure;
-use LogicException;
-use ReflectionMethod;
-use ReflectionFunction;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use UnexpectedValueException;
 use Illuminate\Container\Container;
-use Illuminate\Routing\Matching\UriValidator;
+use Illuminate\Http\Exception\HttpResponseException;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Matching\HostValidator;
 use Illuminate\Routing\Matching\MethodValidator;
 use Illuminate\Routing\Matching\SchemeValidator;
+use Illuminate\Routing\Matching\UriValidator;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use LogicException;
+use ReflectionFunction;
+use ReflectionMethod;
 use Symfony\Component\Routing\Route as SymfonyRoute;
-use Illuminate\Http\Exception\HttpResponseException;
+use UnexpectedValueException;
 
 class Route
 {

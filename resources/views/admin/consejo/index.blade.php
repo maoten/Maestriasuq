@@ -65,9 +65,10 @@
                                     <td>{{ $miembro->email }}</td>
                                     <td>{{ $miembro->profesion }}</td>
                                     <td><h4><span class="label label-success">{{ $miembro->rol }}</span>
-                                            <?php $coord = App\Coordinador::where('user_id', $miembro->id)->first() ?>
-                                            @if( $coord !=null)
-                                                <span class="label label-default">Coordinador {{ App\Enfasis::find($coord->enf_id)->nombre}}</span>
+                                            <?php $coordinador = App\Coordinador::where('user_id',
+                                                    $miembro->id)->first() ?>
+                                            @if( $coordinador !=null)
+                                                <span class="label label-default">Coordinador {{ App\Enfasis::find($coordinador->enf_id)->nombre}}</span>
                                             @endif
                                         </h4></td>
 

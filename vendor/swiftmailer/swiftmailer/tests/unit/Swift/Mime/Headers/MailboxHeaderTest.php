@@ -179,7 +179,7 @@ class Swift_Mime_Headers_MailboxHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->_getEncoder('Q');
         $encoder->shouldReceive('encodeString')->once()->with($name, \Mockery::any(), \Mockery::any(),
-                \Mockery::any())->andReturn('C=8Frbyn');
+            \Mockery::any())->andReturn('C=8Frbyn');
 
         $header = $this->_getHeader('From', $encoder);
         $header->setNameAddresses([ 'chris@swiftmailer.org' => 'Chris ' . $name ]);
@@ -201,7 +201,7 @@ class Swift_Mime_Headers_MailboxHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->_getEncoder('Q');
         $encoder->shouldReceive('encodeString')->once()->with($name, \Mockery::any(), \Mockery::any(),
-                \Mockery::any())->andReturn('C=8Frbyn');
+            \Mockery::any())->andReturn('C=8Frbyn');
 
         $header = $this->_getHeader('From', $encoder);
         $header->setNameAddresses([ 'chris@swiftmailer.org' => 'Chris ' . $name ]);

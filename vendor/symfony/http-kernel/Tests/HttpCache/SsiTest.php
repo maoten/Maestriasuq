@@ -215,7 +215,7 @@ class SsiTest extends \PHPUnit_Framework_TestCase
         $cache->expects($this->any())->method('getRequest')->will($this->returnValue($request));
         if (is_array($response)) {
             $cache->expects($this->any())->method('handle')->will(call_user_func_array([ $this, 'onConsecutiveCalls' ],
-                    $response));
+                $response));
         } else {
             $cache->expects($this->any())->method('handle')->will($this->returnValue($response));
         }

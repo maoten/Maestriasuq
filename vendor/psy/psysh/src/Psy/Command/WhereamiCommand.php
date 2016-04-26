@@ -51,8 +51,8 @@ class WhereamiCommand extends Command
     protected function configure()
     {
         $this->setName('whereami')->setDefinition([
-                new InputOption('num', 'n', InputOption::VALUE_OPTIONAL, 'Number of lines before and after.', '5'),
-            ])->setDescription('Show where you are in the code.')->setHelp(<<<'HELP'
+            new InputOption('num', 'n', InputOption::VALUE_OPTIONAL, 'Number of lines before and after.', '5'),
+        ])->setDescription('Show where you are in the code.')->setHelp(<<<'HELP'
 Show where you are in the code.
 
 Optionally, include how many lines before and after you want to display.
@@ -61,7 +61,7 @@ e.g.
 <return>> whereami </return>
 <return>> whereami -n10</return>
 HELP
-            );
+        );
     }
 
 

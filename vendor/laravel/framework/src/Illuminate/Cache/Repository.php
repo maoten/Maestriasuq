@@ -2,15 +2,15 @@
 
 namespace Illuminate\Cache;
 
+use ArrayAccess;
+use BadMethodCallException;
+use Carbon\Carbon;
 use Closure;
 use DateTime;
-use ArrayAccess;
-use Carbon\Carbon;
-use BadMethodCallException;
-use Illuminate\Contracts\Cache\Store;
-use Illuminate\Support\Traits\Macroable;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Cache\Repository as CacheContract;
+use Illuminate\Contracts\Cache\Store;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\Traits\Macroable;
 
 class Repository implements CacheContract, ArrayAccess
 {

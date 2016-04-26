@@ -2,10 +2,10 @@
 
 namespace Illuminate\Foundation\Testing\Concerns;
 
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Contracts\View\View;
 use PHPUnit_Framework_Assert as PHPUnit;
 
 trait MakesHttpRequests

@@ -3,7 +3,6 @@
 namespace Faker\ORM\CakePHP;
 
 use Cake\ORM\TableRegistry;
-use Faker\Guesser\Name as NameGuesser;
 
 class EntityPopulator
 {
@@ -98,8 +97,8 @@ class EntityPopulator
                     $foreignKeys = $insertedEntities[$foreignModel];
                 } else {
                     $foreignKeys = $table->find('all')->select([ 'id' ])->map(function ($row) {
-                            return $row->id;
-                        })->toArray();
+                        return $row->id;
+                    })->toArray();
                 }
 
                 if (empty( $foreignKeys )) {

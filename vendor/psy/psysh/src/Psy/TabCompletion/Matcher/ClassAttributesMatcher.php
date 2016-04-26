@@ -45,8 +45,8 @@ class ClassAttributesMatcher extends AbstractMatcher
         return array_map(function ($name) use ($class) {
             return $class . '::' . $name;
         }, array_filter($vars, function ($var) use ($input) {
-                return AbstractMatcher::startsWith($input, $var);
-            }));
+            return AbstractMatcher::startsWith($input, $var);
+        }));
     }
 
 

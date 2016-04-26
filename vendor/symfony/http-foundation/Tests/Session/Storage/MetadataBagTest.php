@@ -36,9 +36,10 @@ class MetadataBagTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->bag   = new MetadataBag();
-        $this->array = [ MetadataBag::CREATED  => 1234567,
-                         MetadataBag::UPDATED  => 12345678,
-                         MetadataBag::LIFETIME => 0
+        $this->array = [
+            MetadataBag::CREATED  => 1234567,
+            MetadataBag::UPDATED  => 12345678,
+            MetadataBag::LIFETIME => 0
         ];
         $this->bag->initialize($this->array);
     }

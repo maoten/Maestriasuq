@@ -2,10 +2,10 @@
 
 namespace Illuminate\Pagination;
 
-use Closure;
 use ArrayIterator;
-use Illuminate\Support\Collection;
+use Closure;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Collection;
 
 abstract class AbstractPaginator implements Htmlable
 {

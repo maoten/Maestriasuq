@@ -61,31 +61,33 @@
                     <div class="panel-body">
 
                         <div class="row">
+                            @if(App\Comentario::where('propuesta_id', $propuesta->id)->first()==null)
+                                <p class="text-center">Esta propuesta no tiene comentarios aún.</p>
+                                @else
+                                @foreach(App\Comentario::where('propuesta_id', $propuesta->id)->get() as $comentario)
+                                <?php $usuario = App\User::where('id', $comentario->user_id)->first(); ?>
 
-                            @foreach(App\Comentario::where('propuesta_id', $propuesta->id)->get() as $comentario)
-                            <?php $usuario = App\User::where('id', $comentario->user_id)->first(); ?>
-
-                                    <!-- comentario -->
-                            <div class="col-sm-1">
-                                <div class="thumbnail">
-                                    <img class="img-responsive user-photo" src="{{ asset($usuario->imagen) }}">
-                                </div>
-                            </div>
-
-                            <div class="col-md-11">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <strong>{{ $usuario->nombre }}</strong> <span
-                                                class="text-muted">{{ $comentario->created_at }}</span>
-                                    </div>
-                                    <div class="panel-body">
-                                        <?php echo $comentario->comentarios; ?>
+                                        <!-- comentario -->
+                                <div class="col-sm-1">
+                                    <div class="thumbnail">
+                                        <img class="img-responsive user-photo" src="{{ asset($usuario->imagen) }}">
                                     </div>
                                 </div>
-                            </div>
-                            <!-- /comentario -->
-                            @endforeach
 
+                                <div class="col-md-11">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <strong>{{ $usuario->nombre }}</strong> <span
+                                                    class="text-muted">{{ $comentario->created_at }}</span>
+                                        </div>
+                                        <div class="panel-body">
+                                            <?php echo $comentario->comentarios; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /comentario -->
+                                @endforeach
+                            @endif
                         </div>
                         <HR>
                         <div class="row">
