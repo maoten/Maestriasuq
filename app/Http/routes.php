@@ -232,10 +232,8 @@ Route::group([ 'middleware' => [ 'web', 'role:director_grado' ], 'prefix' => 'di
     Route::get('notificaciones/archivar/{id}',
         [ 'uses' => 'NotificacionesController@archivar', 'as' => 'director.notificaciones.archivar' ]);
     
-<<<<<<< HEAD
+
     //======== opciones del calendario ==========//
-=======
->>>>>>> origin/master
     Route::get('calendario',
         [ 'uses' => 'CalendarioController@indexDirector', 'as' => 'director.calendario.index' ]);
 

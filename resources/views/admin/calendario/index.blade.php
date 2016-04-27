@@ -69,7 +69,7 @@
     <script type="text/javascript">
         <?php
                 $eventos = $calendario;
-<<<<<<< HEAD
+
                     if (count($eventos)==0) {
                      $result[]= array( 'id'    => '1212',
                                        'title' => 'creación de la Maestría',
@@ -80,10 +80,8 @@
                                        'end'   => '1461626940000'
                     );
                     }else{
-                    foreach ($eventos as $e) {
-=======
+
                 foreach ($eventos as $e) {
->>>>>>> origin/master
 
                     $inicio = strtotime($e->fecha_inicio) * 1000;
                     $fin    = strtotime($e->fecha_fin) * 1000;
