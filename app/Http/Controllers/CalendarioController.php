@@ -35,13 +35,17 @@ class CalendarioController extends Controller
      */
     public function indexEstudiante(Request $request)
     {
+<<<<<<< HEAD
 
         $calendario = Evento::all();
 
         return view('estudiante.calendario.index')->with('calendario', $calendario);
+=======
+>>>>>>> origin/master
 
-    }
+        $calendario = Evento::all();
 
+<<<<<<< HEAD
      /**
      * Display a listing of the resource.
      *
@@ -56,6 +60,10 @@ class CalendarioController extends Controller
 
         return view('director.calendario.index')->with('calendario', $calendario);
 
+=======
+        return view('estudiante.calendario.index')->with('calendario', $calendario);
+
+>>>>>>> origin/master
     }
 
      /**
@@ -65,12 +73,20 @@ class CalendarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+<<<<<<< HEAD
     public function indexConsejo(Request $request)
+=======
+    public function indexDirector(Request $request)
+>>>>>>> origin/master
     {
 
         $calendario = Evento::all();
 
+<<<<<<< HEAD
         return view('consejo.calendario.index')->with('calendario', $calendario);
+=======
+        return view('director.calendario.index')->with('calendario', $calendario);
+>>>>>>> origin/master
 
     }
 
