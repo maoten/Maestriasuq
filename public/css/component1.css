@@ -417,7 +417,7 @@ a, button {
         margin-left: 1em;
         font-size: 0.8em;
     }
-
+    
     /* make the nav bigger on touch screens */
     .touch .opciones a {
         padding: 0.8em;

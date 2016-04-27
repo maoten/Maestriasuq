@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    //return view('welcome');
     return Redirect::to('login');
 });
 
@@ -37,7 +36,7 @@ Route::get('/', function () {
 */
 
 Route::group([ 'middleware' => 'web' ], function () {
-    Route::auth(); // pendiente	
+    Route::auth();
 
 });
 
@@ -107,6 +106,7 @@ Route::group([ 'middleware' => [ 'web', 'role:admin' ], 'prefix' => 'admin' ], f
     Route::get('propuesta/{id}/citacion',
         [ 'uses' => 'PropuestaController@showCitacion', 'as' => 'admin.propuesta.citacion' ]);
     Route::get('propuesta/{id}/citar', [ 'uses' => 'PropuestaController@citar', 'as' => 'admin.propuesta.citar' ]);
+    
     //======== opciones del calendario ==========//
     Route::resource('calendario', 'CalendarioController');
 
@@ -168,6 +168,10 @@ Route::group([ 'middleware' => [ 'web', 'role:estudiante' ], 'prefix' => 'estudi
 
     Route::get('notificaciones/archivar/{id}',
         [ 'uses' => 'NotificacionesController@archivar', 'as' => 'estudiante.notificaciones.archivar' ]);
+   
+    //======== opciones del calendario ==========//
+     Route::get('calendario',
+        [ 'uses' => 'CalendarioController@indexEstudiante', 'as' => 'estudiante.calendario.index' ]);
 
 });
 
@@ -227,7 +231,9 @@ Route::group([ 'middleware' => [ 'web', 'role:director_grado' ], 'prefix' => 'di
 
     Route::get('notificaciones/archivar/{id}',
         [ 'uses' => 'NotificacionesController@archivar', 'as' => 'director.notificaciones.archivar' ]);
-
+    
+    Route::get('calendario',
+        [ 'uses' => 'CalendarioController@indexDirector', 'as' => 'director.calendario.index' ]);
 
 });
 

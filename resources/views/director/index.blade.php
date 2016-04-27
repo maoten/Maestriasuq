@@ -4,7 +4,7 @@
 
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/component2.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/component1.css') }}">
     <script src="{{ asset('js/modernizr.custom.js') }}"></script>
 
 @endsection

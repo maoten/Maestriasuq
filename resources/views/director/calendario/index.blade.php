@@ -5,7 +5,7 @@
 
 @section('css')
     <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <link rel="stylesheet" href="{{ asset('css/component2.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/component1.css') }}">
     <script src="{{ asset('js/modernizr.custom.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('css/calendar.css') }}">
 @endsection
@@ -13,7 +13,7 @@
 @section('content')
 
     <div class="container">
-        @include('layouts.general.nav_admin')
+        @include('layouts.general.nav_director')
         </br>
 
         <div class="row">
@@ -68,7 +68,7 @@
     <script src="{{ asset('js/calendar.js') }}"></script>
     <script type="text/javascript">
         <?php
-                $eventos = $calendario;
+                $eventos = Auth::user()->eventos;
                 foreach ($eventos as $e) {
 
                     $inicio = strtotime($e->fecha_inicio) * 1000;
