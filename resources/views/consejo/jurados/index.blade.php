@@ -23,13 +23,6 @@
 
                         <div class="row">
 
-                            <div class="col-md-8">
-
-                                <a href="{{ route('consejo.jurados.create')}}" class="btn btn-primary">Registrar nuevo
-                                    jurado<i class="fa fa-plus iconoder"></i></a>
-
-                            </div>
-
                             <form class="form-horizontal" role="form" method="GET"
                                   action="{{ route('consejo.jurados.index') }}" aria-describedby='search'>
                                 <div class="input-group busqueda">
@@ -52,14 +45,12 @@
                             <th class="active">Email</th>
                             <th class="active">Profesión</th>
                             <th class="active">Rol</th>
-                            <th class="active">Acción</th>
                             </thead>
 
                             <tbody>
                             @foreach($jurados as $jurado)
 
                                 <tr>
-
 
                                     <td>{{ $jurado->id }}</td>
                                     <td>{{ $jurado->cc }}</td>
@@ -72,19 +63,6 @@
 
                                     <td><h4><span class="label label-success">{{ $jurado->rol }}</span></h4></td>
 
-
-                                    <td>
-
-                                        <a href="{{ route('consejo.jurados.edit', $jurado->id) }}"
-                                           class="btn btn-warning" title="Editar"><span
-                                                    class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                                        </a>
-                                        <a href="{{ route('consejo.jurados.destroy', $jurado->id) }}"
-                                           onclick="return confirm('¿Deseas eliminar este jurado?')"
-                                           class="btn btn-danger" title="Eliminar"><i class="fa fa-times"></i>
-                                        </a>
-
-                                    </td>
 
                                 </tr>
 

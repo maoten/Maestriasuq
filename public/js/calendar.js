@@ -194,13 +194,13 @@ if (!String.prototype.formatNum) {
 
         title_year: '{0}',
         title_month: '{0} {1}',
-        title_week: 'week {0} of {1}',
+        title_week: 'Semana {0} del {1}',
         title_day: '{0} {1} {2}, {3}',
 
-        week: 'Week {0}',
-        all_day: 'All day',
-        time: 'Time',
-        events: 'Events',
+        week: 'semana {0}',
+        all_day: 'Todo el día',
+        time: 'Hora',
+        events: 'Eventos',
         before_time: 'Ends before timeline',
         after_time: 'Starts after timeline',
 

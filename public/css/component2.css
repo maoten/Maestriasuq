@@ -418,31 +418,6 @@ a, button {
         font-size: 0.8em;
     }
 
-    /* Adding a left border of 8 px with a different color for each menu item*/
-    /*.opciones li:nth-child(6n+1) {
-        border-left: 8px solid rgb(174, 78, 1);
-    }
-
-    .opciones li:nth-child(6n+2) {
-        border-left: 8px solid rgb(191, 117, 20);
-    }
-
-    .opciones li:nth-child(6n+3) {
-        border-left: 8px solid rgb(13, 111, 150);
-    }
-
-    .opciones li:nth-child(6n+4) {
-        border-left: 8px solid rgb(10, 75, 117);
-    }
-
-    .opciones li:nth-child(6n+5) {
-        border-left: 8px solid rgb(16, 34, 44);
-    }
-
-    .opciones li:nth-child(6n+6) {
-        border-left: 8px solid rgb(9, 18, 25);
-    }
-*/
     /* make the nav bigger on touch screens */
     .touch .opciones a {
         padding: 0.8em;

@@ -28,7 +28,7 @@
                               action="{{ route('consejo.propuestas.index') }}" aria-describedby='search'>
                             <div class="input-group">
                                 <input type="text" class="form-control"
-                                       placeholder="título o estado (enviada, aceptada,aplazada, modificada, a modificar, en espera)"
+                                       placeholder="título o estado (enviada, aceptada, aplazada, modificada, a modificar, en espera)"
                                        name="titulo" aria-hidden="true">
                                 <span class="input-group-addon" id="search"><span
                                             class="glyphicon glyphicon-search"></span></span>

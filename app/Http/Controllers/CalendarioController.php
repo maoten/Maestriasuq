@@ -27,41 +27,50 @@ class CalendarioController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
+     *
+     * @param Request $request
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function indexEstudiante(Request $request)
     {
-        return view('admin.calendario.create');
+
+        $calendario = Evento::all();
+
+        return view('estudiante.calendario.index')->with('calendario', $calendario);
 
     }
 
-
-    /**
-     * Store a newly created resource in storage.
+     /**
+     * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param Request $request
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function indexDirector(Request $request)
     {
 
-        /*        $comentario               = new Comentario();
-                $comentario->propuesta_id = $request->propuesta;
-                if ( ! empty( $request->user )) {
-                    $comentario->user_id = $request->user;
-                }
-                $comentario->comentarios = $request->comentario;
-                $comentario->save();
-                $propuesta    = Propuesta::find($request->propuesta);
-                $notificacion = new Notificacion();
-                $notificacion->notificarComentario($propuesta);
-        
-                Flash::success("Se ha agregado el comentario de forma exitosa");
-        
-                return redirect()->back();*/
+        $calendario = Evento::all();
+
+        return view('director.calendario.index')->with('calendario', $calendario);
+
+    }
+
+     /**
+     * Display a listing of the resource.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexConsejo(Request $request)
+    {
+
+        $calendario = Evento::all();
+
+        return view('consejo.calendario.index')->with('calendario', $calendario);
 
     }
 

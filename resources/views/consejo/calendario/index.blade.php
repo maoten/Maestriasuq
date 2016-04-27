@@ -13,7 +13,7 @@
 @section('content')
 
     <div class="container">
-        @include('layouts.general.nav_admin')
+        @include('layouts.general.nav_consejo')
         </br>
 
         <div class="row">
@@ -68,7 +68,7 @@
     <script src="{{ asset('js/calendar.js') }}"></script>
     <script type="text/javascript">
         <?php
-                $eventos = $calendario;
+                $eventos = Auth::user()->eventos;
                     if (count($eventos)==0) {
                      $result[]= array( 'id'    => '1212',
                                        'title' => 'creación de la Maestría',

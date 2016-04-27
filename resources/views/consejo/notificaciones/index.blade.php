@@ -4,7 +4,7 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/notificaciones.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/component.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/component2.css') }}">
     <script src="{{ asset('js/modernizr.custom.js') }}"></script>
 @endsection
 
@@ -24,7 +24,7 @@
                         <ul class="timeline">
 
                             <?php $notificaciones = App\Notificacion::where('user_id',
-                                    Auth::user()->id)->where('estado', 'sin leer')->orderBy('created_at')->get(); ?>
+                                    Auth::user()->id)->where('estado', 'sin leer')->orderBy('created_at','DES')->get(); ?>
 
                             @if(count($notificaciones)==0)
                                 <h4>No tienes notificaciones sin leer.</h4>

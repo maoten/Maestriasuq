@@ -3,7 +3,7 @@
 @section('title', 'Documentos')
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/component.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/component1.css') }}">
     <script src="{{ asset('js/modernizr.custom.js') }}"></script>
 @endsection
 

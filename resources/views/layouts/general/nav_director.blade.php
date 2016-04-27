@@ -33,20 +33,21 @@
                     <span>Notificaciones</span>
                 </a>
             </li>
-            <li>
-                <a href="">
-          <span class="icon">
-            <i class="fa fa-calendar-o"></i>
-          </span>
-                    <span>Calendario</span>
-                </a>
-            </li>
+           
             <li>
                 <a href="{{ route('director.documentos.index')}}">
           <span class="icon">
             <i class="fa fa-files-o"></i>
           </span>
                     <span>Documentos</span>
+                </a>
+            </li>
+             <li>
+                <a href="{{ route('director.calendario.index') }}">
+          <span class="icon">
+            <i class="fa fa-calendar-o"></i>
+          </span>
+                    <span>Calendario</span>
                 </a>
             </li>
         </ul>

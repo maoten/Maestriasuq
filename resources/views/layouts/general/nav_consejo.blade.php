@@ -51,6 +51,14 @@
                     <span>Documentos</span>
                 </a>
             </li>
+             <li>
+                <a href="{{ route('consejo.calendario.index') }}">
+          <span class="icon">
+            <i class="fa fa-calendar"></i>
+          </span>
+                    <span>Calendario</span>
+                </a>
+            </li>
         </ul>
     </nav>
 </div>

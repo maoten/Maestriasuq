@@ -22,8 +22,7 @@
                     <div class="panel-body text-justify">
 
                         <a href="{{ route('estudiante.propuesta.create')}}" class="btn btn-primary">Registrar nueva
-                            propuesta<span class="glyphicon glyphicon glyphicon-pencil iconoder"
-                                           aria-hidden="true"></span></a>
+                            propuesta<i class="fa fa-plus iconoder"></i></a>
                         <HR>
                         <table class='table table-bordered'>
                             <thead>
