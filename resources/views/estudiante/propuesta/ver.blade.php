@@ -15,7 +15,8 @@
 
                     <div class="panel-body">
                         <div class="text-center">
-                            <a href="{{ route('estudiante.propuesta.show', $propuesta->id) }}" target="_blank">
+                            <?php $pdf = App\Documentos::where('propuesta_id', $propuesta->id)->first(); ?>
+                            <a href="{{ asset($pdf->nombre) }}" target="_blank">
                                 <img src="{{ asset('imagenes/pdf.png') }}">
                                 <h5>{{ $propuesta->titulo }}</h5>
                             </a>

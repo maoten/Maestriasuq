@@ -71,7 +71,7 @@
                 @if( Auth::user()->rol!='admin')
 
                 <?php $notificaciones = App\Notificacion::where('user_id', Auth::user()->id)->where('estado',
-                        'sin leer')->orderBy('created_at','DES')->get(); ?>
+                        'sin leer')->orderBy('created_at', 'DES')->get(); ?>
                         <!-- Menu de las notificaciones-->
                 <li class="dropdown">
                     <!-- icono de notificación -->

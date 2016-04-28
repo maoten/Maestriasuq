@@ -25,10 +25,7 @@ class Documentos extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'file',
-        'mime',
-        'size',
+        'nombre',
         'propuesta_id'
     ];
 

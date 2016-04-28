@@ -33,7 +33,7 @@
                     <span>Notificaciones</span>
                 </a>
             </li>
-            
+
             <li>
                 <a href="{{ route('estudiante.documentos.index') }}">
           <span class="icon">

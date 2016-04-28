@@ -70,30 +70,32 @@
         <?php
                 $eventos = $calendario;
 
-                    if (count($eventos)==0) {
-                     $result[]= array( 'id'    => '1212',
-                                       'title' => 'creación de la Maestría',
-                                       'lugar'   => 'Universidad del Quindío',
-                                       'des'   => 'Se creo la Maestría en Ingeniería',
-                                       'class' => "event-warning",
-                                       'start' => '1461583680000',
-                                       'end'   => '1461626940000'
+                if (count($eventos) == 0) {
+                    $result[] = array(
+                            'id'    => '1212',
+                            'title' => 'creación de la Maestría',
+                            'lugar' => 'Universidad del Quindío',
+                            'des'   => 'Se creo la Maestría en Ingeniería',
+                            'class' => "event-warning",
+                            'start' => '1461583680000',
+                            'end'   => '1461626940000'
                     );
-                    }else{
+                } else {
 
-                foreach ($eventos as $e) {
+                    foreach ($eventos as $e) {
 
-                    $inicio = strtotime($e->fecha_inicio) * 1000;
-                    $fin    = strtotime($e->fecha_fin) * 1000;
+                        $inicio = strtotime($e->fecha_inicio) * 1000;
+                        $fin    = strtotime($e->fecha_fin) * 1000;
 
-                    $result[] = array( 'id'    => $e->id,
-                                       'title' => $e->asunto,
-                                       'lugar'   => $e->lugar,
-                                       'des'   => $e->descripcion,
-                                       'class' => "event-warning",
-                                       'start' => $inicio,
-                                       'end'   => $fin
-                    );
+                        $result[] = array(
+                                'id'    => $e->id,
+                                'title' => $e->asunto,
+                                'lugar' => $e->lugar,
+                                'des'   => $e->descripcion,
+                                'class' => "event-warning",
+                                'start' => $inicio,
+                                'end'   => $fin
+                        );
                     }
                 }
                 ?>

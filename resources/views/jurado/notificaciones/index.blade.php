@@ -24,7 +24,8 @@
                         <ul class="timeline">
 
                             <?php $notificaciones = App\Notificacion::where('user_id',
-                                    Auth::user()->id)->where('estado', 'sin leer')->orderBy('created_at','DES')->get(); ?>
+                                    Auth::user()->id)->where('estado', 'sin leer')->orderBy('created_at',
+                                    'DES')->get(); ?>
 
                             @if(count($notificaciones)==0)
                                 <h4>No tienes notificaciones sin leer.</h4>

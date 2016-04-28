@@ -23,7 +23,7 @@ class PropuestaRequest extends Request
     public function rules()
     {
         return [
-            'titulo' => 'alpha_num|min:5|max:255|required'
+            'titulo' => 'regex:/^[(a-zA-Z\s)]+$/u|min:5|max:255|required'
             //'propuesta' => 'required'
         ];
     }

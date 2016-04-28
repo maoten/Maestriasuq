@@ -14,7 +14,7 @@ class Propuesta extends Model
     //
     protected $table = "propuesta";
 
-    protected $fillable = [ 'titulo', 'mod_id', 'estado','user_id', 'dir_id', 'enf_id' ];
+    protected $fillable = [ 'titulo', 'mod_id', 'estado', 'user_id', 'dir_id', 'enf_id' ];
 
 
     public function user()
@@ -27,6 +27,7 @@ class Propuesta extends Model
     {
         return $this->hasOne('App\Trabajo_grado', 'foreign_key');
     }
+
 
     public function scopeSearch($query, $criterio)
     {

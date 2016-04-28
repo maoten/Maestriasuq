@@ -22,7 +22,7 @@
 
                     <div class="panel-body text-justify">
 
-                       <form class="form-horizontal" role="form" method="GET"
+                        <form class="form-horizontal" role="form" method="GET"
                               action="{{ route('admin.propuestas.index') }}" aria-describedby='search'>
                             <div class="input-group">
                                 <input type="text" class="form-control"

@@ -2,15 +2,15 @@
 namespace App\Http\Controllers;
 
 use App\Documentos;
+use App\Evento;
 use App\Http\Requests;
 use App\Http\Requests\PropuestaRequest;
+use App\Jurado_propuesta;
 use App\Notificacion;
 use App\Propuesta;
-use App\Evento;
-use App\Jurado_propuesta;
 use App\User;
-use Illuminate\Http\Request;
 use DateTime;
+use Illuminate\Http\Request;
 use Laracasts\Flash\Flash;
 
 class PropuestaController extends Controller
@@ -37,7 +37,7 @@ class PropuestaController extends Controller
      */
     public function indexPropuestas(Request $request)
     {
-       $propuestas = Propuesta::search($request->titulo)->orderBy('id', 'ASC')->paginate(10);
+        $propuestas = Propuesta::search($request->titulo)->orderBy('id', 'ASC')->paginate(10);
 
         return view('admin.propuestas.index')->with('propuestas', $propuestas);
     }
@@ -111,7 +111,7 @@ class PropuestaController extends Controller
     public function store(PropuestaRequest $request)
     {
 
-       $propuesta = new Propuesta($request->all());
+        $propuesta = new Propuesta($request->all());
         if ( ! empty( $request->enfasis )) {
             $propuesta->enf_id = $request->enfasis;
         }
@@ -120,13 +120,15 @@ class PropuestaController extends Controller
         }
         $propuesta->save();
 
-        $f                 = $request->file('propuesta');
+        $file = $request->file('propuesta');
+        $name = 'maestriauq_' . $request->titulo . '_' . time() . '.' . $file->getClientOriginalExtension();
+        $path = public_path() . '\sistema\propuestas';
+        $file->move($path, $name);
+
         $att               = new Documentos();
-        $att->name         = $f->getClientOriginalName();
-        $att->file         = base64_encode(file_get_contents($f->getRealPath()));
-        $att->mime         = $f->getMimeType();
-        $att->size         = $f->getSize();
+        $att->nombre       = '/sistema/propuestas/' . $name;
         $att->propuesta_id = $propuesta->id;
+
         $att->save();
 
         $notificacion = new Notificacion();
@@ -191,14 +193,12 @@ class PropuestaController extends Controller
      */
     public function show($id)
     {
-        // $file = Documentos::where('propuesta_id', $id);
-        $file      = Documentos::where('propuesta_id', $id)->first();
-        $propuesta = base64_decode($file->file);
 
-        header("Content-type: $file->mime");
-        header("Content-length: $file->size");
-        echo $propuesta;
-        exit;
+        /* $pdf    = Documentos::where('propuesta_id', $id)->first();
+         $nombre = '/privado/propuestas/'.$pdf->nombre;
+     
+         echo header('Location:'.$nombre);
+         exit;*/
     }
 
 

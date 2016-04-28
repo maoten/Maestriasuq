@@ -106,7 +106,7 @@ Route::group([ 'middleware' => [ 'web', 'role:admin' ], 'prefix' => 'admin' ], f
     Route::get('propuesta/{id}/citacion',
         [ 'uses' => 'PropuestaController@showCitacion', 'as' => 'admin.propuesta.citacion' ]);
     Route::get('propuesta/{id}/citar', [ 'uses' => 'PropuestaController@citar', 'as' => 'admin.propuesta.citar' ]);
-    
+
     //======== opciones del calendario ==========//
     Route::resource('calendario', 'CalendarioController');
 
@@ -168,13 +168,12 @@ Route::group([ 'middleware' => [ 'web', 'role:estudiante' ], 'prefix' => 'estudi
 
     Route::get('notificaciones/archivar/{id}',
         [ 'uses' => 'NotificacionesController@archivar', 'as' => 'estudiante.notificaciones.archivar' ]);
-   
+
     //======== opciones del calendario ==========//
-     Route::get('calendario',
+    Route::get('calendario',
         [ 'uses' => 'CalendarioController@indexEstudiante', 'as' => 'estudiante.calendario.index' ]);
 
 });
-
 /*
 |--------------------------------------------------------------------------
 | rutas del director de grado 
@@ -231,11 +230,9 @@ Route::group([ 'middleware' => [ 'web', 'role:director_grado' ], 'prefix' => 'di
 
     Route::get('notificaciones/archivar/{id}',
         [ 'uses' => 'NotificacionesController@archivar', 'as' => 'director.notificaciones.archivar' ]);
-    
 
     //======== opciones del calendario ==========//
-    Route::get('calendario',
-        [ 'uses' => 'CalendarioController@indexDirector', 'as' => 'director.calendario.index' ]);
+    Route::get('calendario', [ 'uses' => 'CalendarioController@indexDirector', 'as' => 'director.calendario.index' ]);
 
 });
 
@@ -302,8 +299,7 @@ Route::group([ 'middleware' => [ 'web', 'role:consejo_curricular' ], 'prefix' =>
         [ 'uses' => 'NotificacionesController@archivar', 'as' => 'consejo.notificaciones.archivar' ]);
 
     //======== opciones del calendario ==========//
-    Route::get('calendario',
-        [ 'uses' => 'CalendarioController@indexConsejo', 'as' => 'consejo.calendario.index' ]);
+    Route::get('calendario', [ 'uses' => 'CalendarioController@indexConsejo', 'as' => 'consejo.calendario.index' ]);
 
 
 });
@@ -367,5 +363,8 @@ Route::group([ 'middleware' => [ 'web', 'role:jurado' ], 'prefix' => 'jurado' ],
 
     Route::get('notificaciones/archivar/{id}',
         [ 'uses' => 'NotificacionesController@archivar', 'as' => 'jurado.notificaciones.archivar' ]);
+
+    //======== opciones del calendario ==========//
+    Route::get('calendario', [ 'uses' => 'CalendarioController@indexJurado', 'as' => 'jurado.calendario.index' ]);
 
 });

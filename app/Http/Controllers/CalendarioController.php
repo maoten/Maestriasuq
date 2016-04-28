@@ -26,6 +26,7 @@ class CalendarioController extends Controller
 
     }
 
+
     /**
      * Display a listing of the resource.
      *
@@ -42,7 +43,8 @@ class CalendarioController extends Controller
 
     }
 
-     /**
+
+    /**
      * Display a listing of the resource.
      *
      * @param Request $request
@@ -57,7 +59,9 @@ class CalendarioController extends Controller
         return view('director.calendario.index')->with('calendario', $calendario);
 
     }
-     /**
+
+
+    /**
      * Display a listing of the resource.
      *
      * @param Request $request
@@ -70,6 +74,23 @@ class CalendarioController extends Controller
         $calendario = Evento::all();
 
         return view('consejo.calendario.index')->with('calendario', $calendario);
+
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexJurado(Request $request)
+    {
+
+        $calendario = Evento::all();
+
+        return view('jurado.calendario.index')->with('calendario', $calendario);
 
     }
 

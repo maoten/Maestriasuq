@@ -30,10 +30,10 @@ class CuentaController extends Controller
         if ($request->file('imagen')) {
             $file = $request->file('imagen');
             $name = 'maestriauq_' . time() . '.' . $file->getClientOriginalExtension();
-            $path = public_path() . '\imagenes\usuarios';
+            $path = public_path() . '\sistema\usuarios';
             $file->move($path, $name);
 
-            $user->imagen = '/imagenes/usuarios/' . $name;
+            $user->imagen = '/sistema/usuarios/' . $name;
             $user->save();
             $image         = new Image();
             $image->nombre = $name;

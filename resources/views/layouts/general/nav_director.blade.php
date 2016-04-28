@@ -33,7 +33,7 @@
                     <span>Notificaciones</span>
                 </a>
             </li>
-           
+
             <li>
                 <a href="{{ route('director.documentos.index')}}">
           <span class="icon">
@@ -42,10 +42,10 @@
                     <span>Documentos</span>
                 </a>
             </li>
-             <li>
+            <li>
                 <a href="{{ route('director.calendario.index') }}">
           <span class="icon">
-            <i class="fa fa-calendar-o"></i>
+            <i class="fa fa-calendar"></i>
           </span>
                     <span>Calendario</span>
                 </a>
