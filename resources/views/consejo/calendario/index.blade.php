@@ -70,15 +70,7 @@
         <?php
                 $eventos = Auth::user()->eventos;
                 if (count($eventos) == 0) {
-                    $result[] = array(
-                            'id'    => '1212',
-                            'title' => 'creación de la Maestría',
-                            'lugar' => 'Universidad del Quindío',
-                            'des'   => 'Se creo la Maestría en Ingeniería',
-                            'class' => "event-warning",
-                            'start' => '1461583680000',
-                            'end'   => '1461626940000'
-                    );
+                    $result[] = array();
                 } else {
                     foreach ($eventos as $e) {
 

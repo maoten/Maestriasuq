@@ -57,7 +57,7 @@ class EstudiantesController extends Controller
             $estudiante->password = bcrypt($request->password);
         }
         $estudiante->rol    = 'estudiante';
-        $estudiante->imagen = '/imagenes/usuarios/' . $name;
+        $estudiante->imagen = '/sistema/usuarios/' . $name;
         $estudiante->save();
 
         $notificacion = new Notificacion();

@@ -57,7 +57,7 @@ class DirectoresController extends Controller
             $director->password = bcrypt($request->password);
         }
         $director->rol    = 'director_grado';
-        $director->imagen = '/imagenes/usuarios/' . $name;
+        $director->imagen = '/sistema/usuarios/' . $name;
         $director->save();
 
         $notificacion = new Notificacion();

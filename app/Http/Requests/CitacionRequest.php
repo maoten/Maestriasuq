@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Requests;
 
-class PropuestaRequest extends Request
+class CitacionRequest extends Request
 {
 
     /**
@@ -23,8 +23,12 @@ class PropuestaRequest extends Request
     public function rules()
     {
         return [
-            'titulo' => 'regex:/^[(a-zA-Z\s)]+$/u|min:5|max:255|required',
-            'propuesta' => 'required|mimes:pdf|max:5120'
+            'asunto' => 'min:5|max:100|required',
+            'descripcion' => 'min:5|max:255|required',
+            'lugar' => 'min:5|max:150|required',
+            'inicio' => 'required',
+            'fin' => 'required'
+
         ];
     }
 }

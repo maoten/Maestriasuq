@@ -26,6 +26,47 @@
 
                     </div>
                 </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h4><i class="fa fa-users iconoizq"></i>Jurados</h4></div>
+
+                    <div class="panel-body">
+                        <div>
+
+                            @if(App\Jurado_propuesta::where('propuesta_id',$propuesta->id)->first()==null)
+                                <p class="text-center">Esta propuesta no tiene jurados asignados aún.</p>
+
+
+                            @else
+
+                                @foreach(App\Jurado_propuesta::where('propuesta_id',  $propuesta->id )->get() as $resultado)
+                                    <?php $jurado = App\User::find($resultado->jurado_id); ?>
+                                    <?php $jurad = App\Jurado::where('user_id', $jurado->id)->first(); ?>
+
+                                    <li>{{ $jurado->nombre}} con cédula {{ $jurado->cc}}
+                                        de {{ App\Pais::where('cod',$jurad->pais_id)->first()->nombre }}</li>
+
+                                @endforeach
+                            @endif
+
+                        </div>
+
+                    </div>
+                </div>
+
+                 <div class="panel panel-default">
+                    <div class="panel-heading"><h4><i class="fa fa-calendar-check-o iconoizq"></i>Disertación</h4></div>
+
+                    <div class="panel-body">
+                    <?php $disertacion=App\Evento::where('propuesta_id', $propuesta->id)->first(); ?>
+
+                    @if($disertacion!=null)
+                    <p class="text-center">Esta propuesta ya tiene asignada una disertación en la siguiente fecha: {{ $disertacion->fecha_inicio }}, para más información revisa la opción calendario.</p>
+                    @else
+                    <p class="text-center">Esta propuesta no tiene asignada una disertación aún.</p>
+                    @endif
+
+                    </div>
+                </div>
 
                 <div class="panel panel-default">
                     <div class="panel-heading"><h4><i class="fa fa-comments-o iconoizq"></i>Comentarios</h4></div>

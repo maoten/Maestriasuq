@@ -64,4 +64,9 @@ class Propuesta extends Model
         return $this->belongsToMany('App\Jurado');
     }
 
+     public function disertacion()
+    {
+        return $this->hasOne('App\Evento');
+    }
+
 }

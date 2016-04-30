@@ -5,6 +5,7 @@ use App\Documentos;
 use App\Evento;
 use App\Http\Requests;
 use App\Http\Requests\PropuestaRequest;
+use App\Http\Requests\CitacionRequest;
 use App\Jurado_propuesta;
 use App\Notificacion;
 use App\Propuesta;
@@ -344,32 +345,33 @@ class PropuestaController extends Controller
 
 
     /**
-     * Cita al estudiante y a los juradoa a una disertación.
+     * Cita al estudiante y a los jurado a una disertación.
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int                      $id
      *
      * @return \Illuminate\Http\Response
      */
-    public function citar(Request $request, $id)
+    public function citar(CitacionRequest $request, $id)
     {
 
         $propuesta        = Propuesta::find($id);
         $estudiante       = User::find($propuesta->user_id);
         $propuesta_jurado = Jurado_propuesta::where('propuesta_id', $id)->get();
 
-        $usuarios = [ ];
+        $jurados = [ ];
 
         for ($i = 0; $i < count($propuesta_jurado); $i++) {
-            $usuarios[$i] = User::find($propuesta_jurado[$i]->jurado_id)->id;
+            $jurados[$i] = User::find($propuesta_jurado[$i]->jurado_id)->id;
         }
 
-        array_push($usuarios, $estudiante->id);
+        array_push($jurados, $estudiante->id);
 
         $evento              = new Evento();
         $evento->asunto      = $request->asunto;
         $evento->descripcion = $request->descripcion;
         $evento->lugar       = $request->lugar;
+        $evento->propuesta_id= $propuesta->id;
 
         $date1                = new DateTime($request->inicio);
         $evento->fecha_inicio = date_format($date1, 'Y-m-d H:i:s');
@@ -379,7 +381,7 @@ class PropuestaController extends Controller
 
         $evento->save();
 
-        $evento->users()->sync($usuarios);
+        $evento->users()->sync($jurados);
 
         Flash::success("Se han citado a las personas involucradas a la disertación  de la propuesta " . $propuesta->titulo . ".");
 
@@ -387,7 +389,40 @@ class PropuestaController extends Controller
 
 
     }
+    
+     /**
+     * canela la disetación de la propuesta indicada.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int                      $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function cancelarCitacion($id)
+    {
 
+        $propuesta        = Propuesta::find($id);
+        $estudiante       = User::find($propuesta->user_id);
+        $propuesta_jurado = Jurado_propuesta::where('propuesta_id', $id)->get();
+
+        $jurados = [ ];
+
+        for ($i = 0; $i < count($propuesta_jurado); $i++) {
+            $jurados[$i] = User::find($propuesta_jurado[$i]->jurado_id)->id;
+        }
+
+        array_push($jurados, $estudiante->id);
+
+        $evento              = Evento::where('propuesta_id',$propuesta->id);
+        $evento->delete();
+         
+
+        Flash::success("Se ha cancelado la disertación  de la propuesta " . $propuesta->titulo . ".");
+
+        return redirect()->back();
+
+
+    }
 
     /**
      * Remove the specified resource from storage.

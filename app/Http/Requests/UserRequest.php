@@ -27,7 +27,7 @@ class UserRequest extends Request
             'cc'          => 'alpha_num|min:6|max:45|required|unique:users',
             'email'       => 'email|min:5|max:50|required|unique:users',
             'password'    => 'min:5|max:30|required',
-            'telefono'    => 'min:6|max:45|required|unique:users',
+            'telefono'    => 'numeric|required|unique:users',
             'profesion'   => 'regex:/^[(a-zA-Z\s)]+$/u|min:4|max:45|required',
             'universidad' => 'regex:/^[(a-zA-Z\s)]+$/u|min:3|max:45|required'
 

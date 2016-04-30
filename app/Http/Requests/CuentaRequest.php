@@ -24,8 +24,8 @@ class CuentaRequest extends Request
     {
         return [
             'email'    => 'email|min:5|max:50|required',
-            'telefono' => 'min:6|max:45|required'
-            // 'imagen'   => 'mimes:jpeg,png,jpg'
+            'telefono' => 'numeric|required',
+            'imagen'   => 'mimes:jpeg,png,jpg|max:2048'
         ];
     }
 }

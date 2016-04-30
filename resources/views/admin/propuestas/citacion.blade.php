@@ -22,11 +22,18 @@
                 @include('flash::message')
 
                 <div class="panel panel-default ">
-                    <div class="panel-heading"><h4><i class="fa fa-calendar-check-o iconoizq"></i>Citación a disertación
+                    <div class="panel-heading"><h4><i class="fa fa-calendar-check-o iconoizq"></i>Citación a disertación {{ $propuesta->titulo }}
                         </h4></div>
 
                     <div class="panel-body text-justify">
+                    <?php $disertacion=App\Evento::where('propuesta_id', $propuesta->id)->first(); ?>
 
+                    @if($disertacion!=null)
+                    <p>Esta propuesta ya tiene asignada una disertación en la siguiente fecha: {{ $disertacion->fecha_inicio }}, para más información revisa la opción calendario.</p>
+                    <p>Para asignar una nueva fecha y cancelar la actual, haz click en el siguiente botón y llena el formulario.</p> <a href="{{ route('admin.propuesta.cancelarCitacion', $propuesta->id) }}"
+                                           class="btn btn-danger" target="_blank">Cancelar disertación</a>
+                    @else
+                       
 
                         <form class="form-horizontal" role="form" method="GET"
                               action="{{ route('admin.propuesta.citar', $propuesta->id) }}">
@@ -142,6 +149,7 @@
 
 
                         </form>
+                        @endif
 
                         <script type="text/javascript">
                             $(function () {

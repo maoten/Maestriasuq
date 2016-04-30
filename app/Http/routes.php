@@ -106,6 +106,7 @@ Route::group([ 'middleware' => [ 'web', 'role:admin' ], 'prefix' => 'admin' ], f
     Route::get('propuesta/{id}/citacion',
         [ 'uses' => 'PropuestaController@showCitacion', 'as' => 'admin.propuesta.citacion' ]);
     Route::get('propuesta/{id}/citar', [ 'uses' => 'PropuestaController@citar', 'as' => 'admin.propuesta.citar' ]);
+    Route::get('propuesta/{id}/cancelarCitacion', [ 'uses' => 'PropuestaController@cancelarCitacion', 'as' => 'admin.propuesta.cancelarCitacion' ]);
 
     //======== opciones del calendario ==========//
     Route::resource('calendario', 'CalendarioController');

@@ -9,6 +9,7 @@ use App\Notificacion;
 use App\User;
 use Illuminate\Http\Request;
 use Laracasts\Flash\Flash;
+use DB;
 
 class ConsejoController extends Controller
 {
@@ -58,7 +59,7 @@ class ConsejoController extends Controller
             $consejo->password = bcrypt($request->password);
         }
         $consejo->rol    = 'consejo_curricular';
-        $consejo->imagen = '/imagenes/usuarios/' . $name;
+        $consejo->imagen = '/sistema/usuarios/' . $name;
         $consejo->save();
 
         if ( ! empty( $request->check )) {
@@ -128,9 +129,15 @@ class ConsejoController extends Controller
         $consejo->universidad = $request->universidad;
         $consejo->email       = $request->email;
         $consejo->save();
+
+         if ( ! empty( $request->checkbox )) {
+            DB::table('coordinador')->where('user_id', '=', $consejo->id)->delete();
+         }
+
         Flash::warning("El miembro del consejo curricular " . $consejo->nombre . " ha sido editado");
 
         return redirect()->route('admin.consejo.index');
+    
     }
 
 

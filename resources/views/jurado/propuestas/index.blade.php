@@ -18,7 +18,7 @@
                 @include('flash::message')
 
                 <div class="panel panel-default ">
-                    <div class="panel-heading"><h4><i class="fa fa-pencil iconoizq"></i>Propuestas</h4></div>
+                    <div class="panel-heading"><h4><i class="fa fa-file-text-o iconoizq"></i>Propuestas</h4></div>
 
                     <div class="panel-body text-justify">
 

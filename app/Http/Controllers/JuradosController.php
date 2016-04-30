@@ -74,7 +74,7 @@ class JuradosController extends Controller
             $jurado->password = bcrypt($request->password);
         }
         $jurado->rol    = 'jurado';
-        $jurado->imagen = '/imagenes/usuarios/' . $name;
+        $jurado->imagen = '/sistema/usuarios/' . $name;
         $jurado->save();
 
         $jurad          = new Jurado();

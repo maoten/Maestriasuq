@@ -181,7 +181,9 @@
                     </span>
                                         <select class="form-control" name="coor" title="">
                                             @foreach((App\Enfasis::all()) as $enf)
+                                                @if(count(App\Coordinador::where('enf_id',$enf->id)->get())==0)
                                                 <option value="{{$enf->id}}">{{$enf->nombre}}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>

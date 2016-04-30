@@ -4,7 +4,6 @@
 
 
 @section('css')
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('css/component2.css') }}">
     <script src="{{ asset('js/modernizr.custom.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('css/calendar.css') }}">
@@ -39,7 +38,7 @@
                                         <button class="btn btn-warning" data-calendar-view="year">Año</button>
                                         <button class="btn btn-warning active" data-calendar-view="month">Mes</button>
                                         <button class="btn btn-warning" data-calendar-view="week">Semana</button>
-                                        <button class="btn btn-warning" data-calendar-view="day">Día</button>
+                                       
                                     </div>
                                 </div>
 
@@ -71,15 +70,7 @@
                 $eventos = $calendario;
 
                 if (count($eventos) == 0) {
-                    $result[] = array(
-                            'id'    => '1212',
-                            'title' => 'creación de la Maestría',
-                            'lugar' => 'Universidad del Quindío',
-                            'des'   => 'Se creo la Maestría en Ingeniería',
-                            'class' => "event-warning",
-                            'start' => '1461583680000',
-                            'end'   => '1461626940000'
-                    );
+                    $result[] = array();
                 } else {
 
                     foreach ($eventos as $e) {
@@ -91,7 +82,7 @@
                                 'id'    => $e->id,
                                 'title' => $e->asunto,
                                 'lugar' => $e->lugar,
-                                'des'   => $e->descripcion,
+                                'descripcion'   => $e->descripcion,
                                 'class' => "event-warning",
                                 'start' => $inicio,
                                 'end'   => $fin
