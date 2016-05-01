@@ -4,9 +4,7 @@
 
 class ComposerAutoloaderInit733188fb1981a28d6098db55c6814001
 {
-
     private static $loader;
-
 
     public static function loadClassLoader($class)
     {
@@ -15,17 +13,15 @@ class ComposerAutoloaderInit733188fb1981a28d6098db55c6814001
         }
     }
 
-
     public static function getLoader()
     {
         if (null !== self::$loader) {
             return self::$loader;
         }
 
-        spl_autoload_register([ 'ComposerAutoloaderInit733188fb1981a28d6098db55c6814001', 'loadClassLoader' ], true,
-            true);
+        spl_autoload_register(array('ComposerAutoloaderInit733188fb1981a28d6098db55c6814001', 'loadClassLoader'), true, true);
         self::$loader = $loader = new \Composer\Autoload\ClassLoader();
-        spl_autoload_unregister([ 'ComposerAutoloaderInit733188fb1981a28d6098db55c6814001', 'loadClassLoader' ]);
+        spl_autoload_unregister(array('ComposerAutoloaderInit733188fb1981a28d6098db55c6814001', 'loadClassLoader'));
 
         $map = require __DIR__ . '/autoload_namespaces.php';
         foreach ($map as $namespace => $path) {
@@ -55,7 +51,7 @@ class ComposerAutoloaderInit733188fb1981a28d6098db55c6814001
 
 function composerRequire733188fb1981a28d6098db55c6814001($fileIdentifier, $file)
 {
-    if (empty( $GLOBALS['__composer_autoload_files'][$fileIdentifier] )) {
+    if (empty($GLOBALS['__composer_autoload_files'][$fileIdentifier])) {
         require $file;
 
         $GLOBALS['__composer_autoload_files'][$fileIdentifier] = true;

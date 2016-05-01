@@ -69,4 +69,10 @@ class Propuesta extends Model
         return $this->hasOne('App\Evento');
     }
 
+    public function evaluaciones()
+    {
+        return $this->hasMany('App\Evaluacion');
+    }
+
+
 }

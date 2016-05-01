@@ -79,7 +79,7 @@
                                                     class="fa fa-external-link fa-lg"></i>
                                         </a>
 
-                                        <a href="" class="btn btn-success" target="_blank" title="Evaluar"><i
+                                        <a href="{{ route('jurado.propuesta.evaluacion', $propuesta->id) }}" class="btn btn-success" target="_blank" title="Evaluar"><i
                                                     class="fa fa-bookmark fa-lg"></i>
                                         </a>
 

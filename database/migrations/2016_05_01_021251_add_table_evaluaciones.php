@@ -1,11 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-class AddDocumentosTable extends Migration
+class AddTableEvaluaciones extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -13,15 +12,20 @@ class AddDocumentosTable extends Migration
      */
     public function up()
     {
-        Schema::create('documentos', function (Blueprint $table) {
+        Schema::create('evaluaciones', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre');
+            $table->string('evaluacion');
+            $table->enum('estado', ['aceptada', 'aplazada', 'a modificar']);
+
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->integer('propuesta_id')->unsigned();
             $table->foreign('propuesta_id')->references('id')->on('propuesta')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
@@ -30,6 +34,6 @@ class AddDocumentosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('documentos');
+        Schema::drop('evaluaciones');
     }
 }

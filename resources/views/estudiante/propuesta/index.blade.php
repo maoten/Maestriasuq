@@ -22,11 +22,15 @@
                     <div class="panel-body text-justify">
 
 
-
                         @if((count(App\User::where('rol','director_grado')->get()) and count(App\Coordinador::all()))>0)
+                        <?php $propuestas_user=App\Propuesta::where('user_id',Auth::user()->id)->orderBy('updated_at', 'desc')->get() ?>
+                        @if($propuestas_user->count()==0 || $propuestas_user->first()->estado=='aplazada')
                         <a href="{{ route('estudiante.propuesta.create')}}" class="btn btn-primary">Registrar nueva
                             propuesta<i class="fa fa-plus iconoder"></i></a>
                         <HR>
+
+                        @endif
+
                         @else
                         <p>No hay directores de grado y/o coordinadores de énfasis registrados aún. Para registrar una nueva propuesta recuerdale a el director de grado y/o a el coordinador de énfasis de tu propuesta que se registre.</p>
                         @endif
@@ -75,9 +79,12 @@
                                                         class="fa fa-external-link fa-lg"></i>
                                             </a>
 
-                                            <a href="" class="btn btn-warning" title="Editar"><i
+                                            @if(App\Propuesta::find($propuesta->id)->estado=='a modificar')
+
+                                            <a href="{{ route('estudiante.propuesta.edit', $propuesta->id) }}" class="btn btn-warning" title="Editar"><i
                                                         class="fa fa-pencil"></i>
                                             </a>
+                                            @endif
 
                                             <a href="{{ route('estudiante.propuesta.seguimiento', $propuesta->id) }}"
                                                target="_blank" class="btn btn-success" title="Seguimiento"><i

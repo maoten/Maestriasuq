@@ -5,6 +5,7 @@ use App\Documentos;
 use App\Evento;
 use App\Http\Requests;
 use App\Http\Requests\PropuestaRequest;
+use App\Http\Requests\EditarPropuestaRequest;
 use App\Http\Requests\CitacionRequest;
 use App\Jurado_propuesta;
 use App\Notificacion;
@@ -324,6 +325,20 @@ class PropuestaController extends Controller
 
     }
 
+    /**
+     * Show the form for show the specified resource.
+     *
+     * @param  int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showEvaluacion($id)
+    {
+        $propuesta = Propuesta::find($id);
+
+        return view('jurado.propuestas.evaluacion')->with('propuesta', $propuesta);
+    }
+
 
     /**
      * Update the specified resource in storage.
@@ -333,14 +348,24 @@ class PropuestaController extends Controller
      * @return \Illuminate\Http\Response
      * @internal param Request $request
      */
-    public function update($id)
+    public function update(EditarPropuestaRequest $request,$id)
     {
         $propuesta         = Propuesta::find($id);
         $propuesta->estado = 'modificada';
         $propuesta->save();
-        Flash::warning("El propuesta " . $propuesta->nombre . " ha sido editado");
 
-        return redirect()->route('admin.propuestas.index');
+        $file = $request->file('propuesta');
+        $name = 'maestriauq_' . $propuesta->titulo . '_' . time() . '.' . $file->getClientOriginalExtension();
+        $path = public_path() . '\sistema\propuestas';
+        $file->move($path, $name);
+
+        $nombre       = '/sistema/propuestas/' . $name;
+
+        Documentos::where('propuesta_id',$id)->update(['nombre' => $nombre]);
+
+        Flash::warning("El adjunto de la propuesta " . $propuesta->titulo . " ha sido editado");
+
+        return redirect()->route('estudiante.propuesta.index');
     }
 
 

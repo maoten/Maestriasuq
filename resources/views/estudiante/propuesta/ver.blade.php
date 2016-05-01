@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Documentos')
+@section('title', 'Propuesta')
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/comentarios.css') }}">
@@ -67,6 +67,21 @@
 
                     </div>
                 </div>
+
+
+               <!-- <?php $evaluaciones=App\Evaluacion::where('propuesta_id', $propuesta->id)->get(); ?>
+                @if($evaluaciones->count == 3 )
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h4><i class="fa fa-calendar-check-o iconoizq"></i>Evaluación</h4></div>
+
+                    <div class="panel-body">
+
+
+
+                    </div>
+                </div>
+                @endif-->
+
 
                 <div class="panel panel-default">
                     <div class="panel-heading"><h4><i class="fa fa-comments-o iconoizq"></i>Comentarios</h4></div>

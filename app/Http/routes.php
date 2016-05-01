@@ -101,12 +101,14 @@ Route::group([ 'middleware' => [ 'web', 'role:admin' ], 'prefix' => 'admin' ], f
     Route::get('propuestas', [ 'uses' => 'PropuestaController@indexPropuestas', 'as' => 'admin.propuestas.index' ]);
     Route::get('verpropuesta/{id}',
         [ 'uses' => 'PropuestaController@showPropuestaAdmin', 'as' => 'admin.propuesta.ver' ]);
-    Route::get('propuesta/{id}/asignarJurados',
-        [ 'uses' => 'PropuestaController@asignarJurados', 'as' => 'admin.propuesta.asignarJurados' ]);
-    Route::get('propuesta/{id}/citacion',
+     Route::get('propuesta/{id}/citacion',
         [ 'uses' => 'PropuestaController@showCitacion', 'as' => 'admin.propuesta.citacion' ]);
-    Route::get('propuesta/{id}/citar', [ 'uses' => 'PropuestaController@citar', 'as' => 'admin.propuesta.citar' ]);
-    Route::get('propuesta/{id}/cancelarCitacion', [ 'uses' => 'PropuestaController@cancelarCitacion', 'as' => 'admin.propuesta.cancelarCitacion' ]);
+
+    //======== opciones de las acciones con las propuestas ==========//
+    Route::get('propuesta/{id}/asignarJurados',
+        [ 'uses' => 'AdministradorController@asignarJurados', 'as' => 'admin.propuesta.asignarJurados' ]);
+    Route::get('propuesta/{id}/citar', [ 'uses' => 'AdministradorController@citar', 'as' => 'admin.propuesta.citar' ]);
+    Route::get('propuesta/{id}/cancelarCitacion', [ 'uses' => 'AdministradorController@cancelarCitacion', 'as' => 'admin.propuesta.cancelarCitacion' ]);
 
     //======== opciones del calendario ==========//
     Route::resource('calendario', 'CalendarioController');
@@ -150,6 +152,7 @@ Route::group([ 'middleware' => [ 'web', 'role:estudiante' ], 'prefix' => 'estudi
         [ 'uses' => 'PropuestaController@showPropuesta', 'as' => 'estudiante.propuesta.ver' ]);
     Route::get('seguimiento/{id}',
         [ 'uses' => 'PropuestaController@showSeguimiento', 'as' => 'estudiante.propuesta.seguimiento' ]);
+    Route::post('propuesta/{id}/update', [ 'uses' => 'PropuestaController@update', 'as' => 'estudiante.propuesta.update' ]);
 
     //======== opciones de los documentos ==========//
     Route::get('documentos', [
@@ -342,6 +345,9 @@ Route::group([ 'middleware' => [ 'web', 'role:jurado' ], 'prefix' => 'jurado' ],
         [ 'uses' => 'PropuestaController@indexPropuestasJurado', 'as' => 'jurado.propuestas.index' ]);
     Route::get('verpropuesta/{id}',
         [ 'uses' => 'PropuestaController@showPropuestaJurado', 'as' => 'jurado.propuesta.ver' ]);
+    Route::get('evaluacion/{id}',
+        [ 'uses' => 'PropuestaController@showEvaluacion', 'as' => 'jurado.propuesta.evaluacion' ]);
+    Route::post('propuesta/{id}/evaluar', [ 'uses' => 'JuradoController@evaluar', 'as' => 'jurado.propuesta.evaluar' ]);
 
     //======== opciones de los documentos ==========//
     Route::get('documentos', [
@@ -352,7 +358,7 @@ Route::group([ 'middleware' => [ 'web', 'role:jurado' ], 'prefix' => 'jurado' ],
     ]);
 
     //======== opciones de los comentarios ==========//
-    Route::post('comentarios', [ 'uses' => 'ComentariosController@store', 'as' => 'jurado.comentarios.store' ]);
+    Route::post('comentarios', [ 'uses' => 'JuradoController@comentar', 'as' => 'jurado.propuesta.comentar' ]);
 
     //======== opciones de las notificaciones ==========//
     Route::get('notificaciones', [

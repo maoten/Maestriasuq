@@ -10,7 +10,6 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 @include('flash::message')
-                        <!-- @include('layouts.errors')-->
 
                 <div class="panel panel-default">
                     <div class="panel-heading text-center">Edición de estudiante</div>
@@ -138,54 +137,7 @@
                                 </div>
                             </div>
 
-                            <!--<div class="form-group{{ $errors->has('iamgen') ? ' has-error' : '' }}">
-                        <label class="col-md-4 control-label">Imagen de usuario</label>
 
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
-                                <input type="file" class="form-control" name="imagen">
-
-                            </div>
-                            @if ($errors->has('imagen'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('imagen') }}</strong>
-                            </span>
-                            @endif
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                        <label class="col-md-4 control-label">Contraseña</label>
-
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                <input type="text" class="form-control" id="password" name="password" placeholder="" >
-
-                            </div>
-                            <a href="#" class="left" id="myLink" style="margin-left:20px; margin-top:6px;">Generar contraseña</a>
-                            @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                            </span>
-                            @endif
-                                    </div>
-                                </div>
-                                <script>
-                                  $('#myLink').pGenerator({
-                                    'bind': 'click',
-                                    'displayElement': '#password',
-                                    'passwordLength': 10,
-                                    'uppercase': false,
-                                    'lowercase': true,
-                                    'numbers':   true,
-                                    'specialChars': false,
-                                    'onPasswordGenerated': function(generatedPassword) { }
-                                });
-                            </script>
-            -->
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary" name="editar">

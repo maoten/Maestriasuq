@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Registro de propuesta')
+
 @section('content')
     <div class="container">
         <!--@include('layouts.general.nav_estudiante')
