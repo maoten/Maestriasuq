@@ -12,7 +12,8 @@ use Laracasts\Flash\Flash;
 
 class JuradosController extends Controller
 {
-
+    public $juradoC='jurado';
+    public $rutaJurado='admin.jurados.index';
     /**
      * Display a listing of the resource.
      *
@@ -22,9 +23,9 @@ class JuradosController extends Controller
      */
     public function index(Request $request)
     {
-        $jurado = User::where('rol', 'jurado')->search($request->nombre)->orderBy('id', 'ASC')->paginate(10);
+        $jurado = User::where('rol', $this->juradoC)->search($request->nombre)->orderBy('id', 'ASC')->paginate(10);
 
-        return view('admin.jurados.index')->with('jurados', $jurado);
+        return view($this->rutaJurado)->with('jurados', $jurado);
 
     }
 
@@ -38,7 +39,7 @@ class JuradosController extends Controller
      */
     public function indexJurados(Request $request)
     {
-        $jurado = User::where('rol', 'jurado')->search($request->nombre)->orderBy('id', 'ASC')->paginate(10);
+        $jurado = User::where('rol', $this->juradoC)->search($request->nombre)->orderBy('id', 'ASC')->paginate(10);
 
         return view('consejo.jurados.index')->with('jurados', $jurado);
 
@@ -73,7 +74,7 @@ class JuradosController extends Controller
         if ( ! empty( $request->password )) {
             $jurado->password = bcrypt($request->password);
         }
-        $jurado->rol    = 'jurado';
+        $jurado->rol    = $this->juradoC;
         $jurado->imagen = '/sistema/usuarios/' . $name;
         $jurado->save();
 
@@ -89,7 +90,7 @@ class JuradosController extends Controller
 
         Flash::success("Se ha registrado " . $jurado->nombre . " de forma exitosa");
 
-        return redirect()->route('admin.jurados.index');
+        return redirect()->route($this->rutaJurado);
     }
 
 
@@ -117,7 +118,7 @@ class JuradosController extends Controller
     {
         $jurado = User::find($id);
 
-        return view('admin.jurados.editar')->with('jurado', $jurado);
+        return view('admin.jurados.editar')->with($this->juradoC, $jurado);
     }
 
 
@@ -141,7 +142,7 @@ class JuradosController extends Controller
         $jurado->save();
         Flash::warning("El jurado " . $jurado->nombre . " ha sido editado");
 
-        return redirect()->route('admin.jurados.index');
+        return redirect()->route($this->rutaJurado);
     }
 
 
@@ -158,7 +159,7 @@ class JuradosController extends Controller
         $jurado->delete();
         Flash::error("Se ha eliminado " . $jurado->nombre . " de forma exitosa");
 
-        return redirect()->route('admin.jurados.index');
+        return redirect()->route($this->rutaJurado);
 
     }
 }

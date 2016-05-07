@@ -11,7 +11,8 @@ use Laracasts\Flash\Flash;
 
 class EstudiantesController extends Controller
 {
-
+    public $student='estudiante';
+    public $rutaStudent='admin.estudiantes.index';
     /**
      * Display a listing of the resource.
      *
@@ -22,9 +23,9 @@ class EstudiantesController extends Controller
     public function index(Request $request)
     {
 
-        $estudiantes = User::where('rol', 'estudiante')->search($request->nombre)->orderBy('id', 'ASC')->paginate(10);
+        $estudiantes = User::where('rol',$this->student )->search($request->nombre)->orderBy('id', 'ASC')->paginate(10);
 
-        return view('admin.estudiantes.index')->with('estudiantes', $estudiantes);
+        return view($this->rutaStudent)->with('estudiantes', $estudiantes);
 
     }
 
@@ -56,7 +57,7 @@ class EstudiantesController extends Controller
         if ( ! empty( $request->password )) {
             $estudiante->password = bcrypt($request->password);
         }
-        $estudiante->rol    = 'estudiante';
+        $estudiante->rol    = $this->student;
         $estudiante->imagen = '/sistema/usuarios/' . $name;
         $estudiante->save();
 
@@ -65,7 +66,7 @@ class EstudiantesController extends Controller
 
         Flash::success("Se ha registrado " . $estudiante->nombre . " de forma exitosa");
 
-        return redirect()->route('admin.estudiantes.index');
+        return redirect()->route($this->rutaStudent);
     }
 
 
@@ -93,7 +94,7 @@ class EstudiantesController extends Controller
     {
         $estudiante = User::find($id);
 
-        return view('admin.estudiantes.editar')->with('estudiante', $estudiante);
+        return view('admin.estudiantes.editar')->with($this->student, $estudiante);
     }
 
 
@@ -117,7 +118,7 @@ class EstudiantesController extends Controller
         $estudiante->save();
         Flash::warning("El estudiante " . $estudiante->nombre . " ha sido editado");
 
-        return redirect()->route('admin.estudiantes.index');
+        return redirect()->route($this->rutaStudent);
     }
 
 
@@ -134,6 +135,6 @@ class EstudiantesController extends Controller
         $estudiante->delete();
         Flash::error("Se ha eliminado " . $estudiante->nombre . " de forma exitosa");
 
-        return redirect()->route('admin.estudiantes.index');
+        return redirect()->route($this->rutaStudent);
     }
 }

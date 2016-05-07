@@ -11,7 +11,7 @@ use Laracasts\Flash\Flash;
 
 class DirectoresController extends Controller
 {
-
+    public $rutaAdmin='admin.directores.index';
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +24,7 @@ class DirectoresController extends Controller
         $directores = User::where('rol', 'director_grado')->search($request->nombre)->orderBy('id',
             'ASC')->paginate(10);
 
-        return view('admin.directores.index')->with('directores', $directores);
+        return view($this->rutaAdmin)->with('directores', $directores);
     }
 
 
@@ -65,7 +65,7 @@ class DirectoresController extends Controller
 
         Flash::success("Se ha registrado " . $director->nombre . " de forma exitosa");
 
-        return redirect()->route('admin.directores.index');
+        return redirect()->route($this->rutaAdmin);
     }
 
 
@@ -117,7 +117,7 @@ class DirectoresController extends Controller
         $director->save();
         Flash::warning("El director " . $director->nombre . " ha sido editado");
 
-        return redirect()->route('admin.directores.index');
+        return redirect()->route($this->rutaAdmin);
     }
 
 
@@ -135,6 +135,6 @@ class DirectoresController extends Controller
         $director->delete();
         Flash::error("Se ha eliminado " . $director->nombre . " de forma exitosa");
 
-        return redirect()->route('admin.directores.index');
+        return redirect()->route($this->rutaAdmin);
     }
 }

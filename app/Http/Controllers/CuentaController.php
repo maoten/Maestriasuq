@@ -12,6 +12,7 @@ use Laracasts\Flash\Flash;
 class CuentaController extends Controller
 {
 
+    
     /**
      * Update the specified resource in storage.
      *
@@ -43,30 +44,31 @@ class CuentaController extends Controller
             $user->save();
         }
 
-        Flash::warning("Los datos han sido actualizados");
-
-        if ($user->rol == 'admin') {
-            return redirect()->route('admin.cuenta');
-        } else {
-            if ($user->rol == 'estudiante') {
-                return redirect()->route('estudiante.cuenta');
-            } else {
-                if ($user->rol == 'director_grado') {
-                    return redirect()->route('director.cuenta');
-                } else {
-                    if ($user->rol == 'consejo_curricular') {
-                        return redirect()->route('consejo.cuenta');
-                    } else {
-                        if ($user->rol == 'jurado') {
-                            return redirect()->route('jurado.cuenta');
-                        }
-                    }
-                }
-            }
+       Flash::warning("Los datos han sido actualizados");
+        $ruta;
+        switch ($user->rol){
+            case 'estudiante':
+                $ruta='estudiante.cuenta';
+                break;
+            case 'director_grado':
+                $ruta='director.cuenta';
+                break;
+            case 'consejo_curicular':
+                $ruta='consejo.cuenta';
+                break;
+            case 'jurado':
+                $ruta='jurado.cuenta';
+                break;
+            case 'admin':
+                $ruta='admin.cuenta';
+                break;
+            default:
+                break;
         }
-
-        return false;
+        return redirect()->route($ruta);
     }
+
+
 
 
     /**
@@ -87,27 +89,27 @@ class CuentaController extends Controller
         $user->save();
         Flash::warning("La contraseña ha sido actualizada");
 
-        if ($user->rol == 'admin') {
-            return redirect()->route('admin.cuenta');
-        } else {
-            if ($user->rol == 'estudiante') {
-                return redirect()->route('estudiante.cuenta');
-            } else {
-                if ($user->rol == 'director_grado') {
-                    return redirect()->route('director.cuenta');
-                } else {
-                    if ($user->rol == 'consejo_curricular') {
-                        return redirect()->route('consejo.cuenta');
-                    } else {
-                        if ($user->rol == 'jurado') {
-                            return redirect()->route('jurado.cuenta');
-                        }
-                    }
-                }
-            }
+        $ruta;
+        switch ($user->rol){
+            case 'estudiante':
+                $ruta='estudiante.cuenta';
+                break;
+            case 'director_grado':
+                $ruta='director.cuenta';
+                break;
+            case 'consejo_curicular':
+                $ruta='consejo.cuenta';
+                break;
+            case 'jurado':
+                $ruta='jurado.cuenta';
+                break;
+            case 'admin':
+                $ruta='admin.cuenta';
+                break;
+            default:
+                break;
         }
-
-        return false;
+        return redirect()->route($ruta);
     }
 
 }

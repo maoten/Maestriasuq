@@ -3,7 +3,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Jurado_propuesta extends Model
+class JuradoPropuesta extends Model
 {
 
     protected $table = "jurado_propuesta";

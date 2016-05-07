@@ -5,7 +5,8 @@ use Illuminate\Database\Schema\Blueprint;
 
 class AddComentariosTable extends Migration
 {
-
+    public $comentarios="comentarios";
+    public  $user_id='user_id';
     /**
      * Run the migrations.
      *
@@ -13,13 +14,13 @@ class AddComentariosTable extends Migration
      */
     public function up()
     {
-        Schema::create('comentarios', function (Blueprint $table) {
+        Schema::create($this->comentarios, function (Blueprint $table) {
             $table->increments('id');
-            $table->string('comentarios', 255);
+            $table->string($this->comentarios, 255);
             $table->integer('propuesta_id')->unsigned();
             $table->foreign('propuesta_id')->references('id')->on('propuesta')->onDelete('cascade');
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('user_id')->on('jurados')->onDelete('cascade');
+            $table->integer($this->user_id)->unsigned();
+            $table->foreign($this->user_id)->references($this->user_id)->on('jurados')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -32,6 +33,6 @@ class AddComentariosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('comentarios');
+        Schema::drop($this->comentarios);
     }
 }

@@ -30,7 +30,7 @@ class AddTableEventoUser extends Migration
      */
     public function down()
     {
-        Schema::drop('evento_user');
+        Schema::drop('EventoUser');
 
     }
 }

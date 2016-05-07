@@ -106,12 +106,12 @@
         <option value="$PROJECT_DIR$/app/Enfasis.php" />
         <option value="$PROJECT_DIR$/app/Image.php" />
         <option value="$PROJECT_DIR$/app/Jurado.php" />
-        <option value="$PROJECT_DIR$/app/Jurado_propuesta.php" />
+        <option value="$PROJECT_DIR$/app/JuradoPropuesta.php" />
         <option value="$PROJECT_DIR$/app/Modalidad.php" />
 >>>>>>> origin/master
         <option value="$PROJECT_DIR$/app/Pais.php" />
         <option value="$PROJECT_DIR$/app/Propuesta.php" />
-        <option value="$PROJECT_DIR$/app/Trabajo_grado.php" />
+        <option value="$PROJECT_DIR$/app/TrabajoGrado.php" />
         <option value="$PROJECT_DIR$/app/User.php" />
         <option value="$PROJECT_DIR$/app/Comentario.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/ComentariosController.php" />

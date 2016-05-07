@@ -7,7 +7,7 @@ use App\Http\Requests;
 use App\Http\Requests\PropuestaRequest;
 use App\Http\Requests\EditarPropuestaRequest;
 use App\Http\Requests\CitacionRequest;
-use App\Jurado_propuesta;
+use App\JuradoPropuesta;
 use App\Notificacion;
 use App\Propuesta;
 use App\User;
@@ -18,6 +18,9 @@ use Laracasts\Flash\Flash;
 class AdministradorController extends Controller
 {
 
+
+
+    public $propuesta_id='propuesta_id';
     /**
      * Asigna los jurados a la propuesta indicada.
      *
@@ -74,7 +77,7 @@ class AdministradorController extends Controller
 
         $propuesta        = Propuesta::find($id);
         $estudiante       = User::find($propuesta->user_id);
-        $propuesta_jurado = Jurado_propuesta::where('propuesta_id', $id)->get();
+        $propuesta_jurado = JuradoPropuesta::where($this->propuesta_id, $id)->get();
 
         $jurados = [ ];
 
@@ -120,7 +123,7 @@ class AdministradorController extends Controller
 
         $propuesta        = Propuesta::find($id);
         $estudiante       = User::find($propuesta->user_id);
-        $propuesta_jurado = Jurado_propuesta::where('propuesta_id', $id)->get();
+        $propuesta_jurado = JuradoPropuesta::where($this->propuesta_id, $id)->get();
 
         $jurados = [ ];
 
@@ -130,7 +133,7 @@ class AdministradorController extends Controller
 
         array_push($jurados, $estudiante->id);
 
-        $evento              = Evento::where('propuesta_id',$propuesta->id);
+        $evento              = Evento::where($this->propuesta_id,$propuesta->id);
         $evento->delete();
          
 

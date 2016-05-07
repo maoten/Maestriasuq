@@ -13,7 +13,7 @@ class AddTrabajoGradoTable extends Migration
      */
     public function up()
     {
-        Schema::create('trabajo_grado', function (Blueprint $table) {
+        Schema::create('TrabajoGrado', function (Blueprint $table) {
 
             $table->increments('id');
             $table->string('descripcion')->required();
@@ -38,6 +38,6 @@ class AddTrabajoGradoTable extends Migration
      */
     public function down()
     {
-        Schema::drop('trabajo_grado');
+        Schema::drop('TrabajoGrado');
     }
 }

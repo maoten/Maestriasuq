@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 class Notificacion extends Model
 {
 
+    public $tequeremos=" te queremos informar que la propuesta " ;
+    public $hola="Hola ";
     /**
      * The database table used by the model.
      *
@@ -49,7 +51,7 @@ class Notificacion extends Model
 
         $notification               = new Notificacion();
         $notification->user_id      = $estudiante->id;
-        $notification->notificacion = "Hola " . $estudiante->nombre . " te queremos informar que la propuesta " . $propuesta->titulo . " tiene un nuevo comentario. Para ver los jurados de tu propuesta y los comentatios que realicen, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
+        $notification->notificacion = $this->hola . $estudiante->nombre . $this->tequeremos. $propuesta->titulo . " tiene un nuevo comentario. Para ver los jurados de tu propuesta y los comentatios que realicen, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
         $notification->save();
 
         return true;
@@ -72,7 +74,7 @@ class Notificacion extends Model
 
             $notificacion               = new Notificacion();
             $notificacion->user_id      = $jurado->id;
-            $notificacion->notificacion = "Hola " . $jurado->nombre . " te queremos informar que se te fue asignada la propuesta " . $propuesta->titulo . ". Para ver la propuesta y realizar comentarios, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
+            $notificacion->notificacion = $this->hola . $jurado->nombre . " te queremos informar que se te fue asignada la propuesta " . $propuesta->titulo . ". Para ver la propuesta y realizar comentarios, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
             $notificacion->save();
 
             return true;
@@ -98,7 +100,7 @@ class Notificacion extends Model
 
         $notificacion               = new Notificacion();
         $notificacion->user_id      = $estudiante->id;
-        $notificacion->notificacion = "Hola " . $estudiante->nombre . " te queremos informar que ya fueron asignados los jurados que se encargarán de evaluar tu propuesta " . $propuesta->titulo . ". Para ver los jurados de tu propuesta y los comentatios que realicen, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
+        $notificacion->notificacion = $this->hola . $estudiante->nombre . " te queremos informar que ya fueron asignados los jurados que se encargarán de evaluar tu propuesta " . $propuesta->titulo . ". Para ver los jurados de tu propuesta y los comentatios que realicen, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
         $notificacion->save();
 
         return true;
@@ -123,7 +125,7 @@ class Notificacion extends Model
 
         $notificacion1               = new Notificacion();
         $notificacion1->user_id      = $director->id;
-        $notificacion1->notificacion = "Hola " . $director->nombre . " te queremos informar que la propuesta " . $propuesta->titulo . " en la cual apareces como director de grado ya fue enviada al coordinador del énfasis correspondiente. Puedes encontrar las propuestas en las cuales eres director de grado en la opción 'Propuestas' del menú principal.";
+        $notificacion1->notificacion = $this->hola . $director->nombre . $this->tequeremos. $propuesta->titulo . " en la cual apareces como director de grado ya fue enviada al coordinador del énfasis correspondiente. Puedes encontrar las propuestas en las cuales eres director de grado en la opción 'Propuestas' del menú principal.";
         $notificacion1->save();
 
         // se le notifica al coordinador de enfasis que una propuesta de sus enfasis fue enviada
@@ -133,7 +135,7 @@ class Notificacion extends Model
 
         $notificacion2               = new Notificacion();
         $notificacion2->user_id      = $consejo->id;
-        $notificacion2->notificacion = "Hola " . $consejo->nombre . " te queremos informar que la propuesta " . $propuesta->titulo . " perteneciente al énfasis del cual eres coordinador ya se encuentra disponible para su revisión. Puedes encontrar las propuestas del énfasis en " . $enfasis->nombre . " en la opción 'Propuestas' del menú principal.";
+        $notificacion2->notificacion = $this->hola . $consejo->nombre . $this->tequeremos. $propuesta->titulo . " perteneciente al énfasis del cual eres coordinador ya se encuentra disponible para su revisión. Puedes encontrar las propuestas del énfasis en " . $enfasis->nombre . " en la opción 'Propuestas' del menú principal.";
         $notificacion2->save();
 
         return true;
@@ -152,7 +154,7 @@ class Notificacion extends Model
     {
         $notificacion               = new Notificacion();
         $notificacion->user_id      = $usuario->id;
-        $notificacion->notificacion = "Hola " . $usuario->nombre . " te damos la bienvenida al Sistema de gestión de la Maestría en Ingeniería de la Universidad del Quindío. Si necesitas ayuda para empezar puedes dirigirte a la opción 'ayuda' en el menu despegable que aparecerá al hacer click en tu nombre en la barra superior.";
+        $notificacion->notificacion = $this->hola . $usuario->nombre . " te damos la bienvenida al Sistema de gestión de la Maestría en Ingeniería de la Universidad del Quindío. Si necesitas ayuda para empezar puedes dirigirte a la opción 'ayuda' en el menu despegable que aparecerá al hacer click en tu nombre en la barra superior.";
         $notificacion->save();
 
         return true;

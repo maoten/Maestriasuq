@@ -3,11 +3,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Trabajo_grado extends Model
+class TrabajoGrado extends Model
 {
 
     //
-    protected $table = "trabajo_grado";
+    protected $table = "TrabajoGrado";
 
     protected $fillable = [ 'descripcion', 'estado', 'user_id', 'propuesta_id' ];
 

@@ -35,13 +35,13 @@
                     <div class="panel-body">
                         <div>
 
-                            @if(App\Jurado_propuesta::where('propuesta_id',$propuesta->id)->first()==null)
+                            @if(App\JuradoPropuesta::where('propuesta_id',$propuesta->id)->first()==null)
                                 <p class="text-center">Esta propuesta no tiene jurados asignados aún.</p>
 
 
                             @else
 
-                                @foreach(App\Jurado_propuesta::where('propuesta_id',  $propuesta->id )->get() as $resultado)
+                                @foreach(App\JuradoPropuesta::where('propuesta_id',  $propuesta->id )->get() as $resultado)
                                     <?php $jurado = App\User::find($resultado->jurado_id); ?>
                                     <?php $jurad = App\Jurado::where('user_id', $jurado->id)->first(); ?>
 

@@ -14,9 +14,11 @@
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
+
 Route::get('/', function () {
     return Redirect::to('login');
 });
+
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +37,7 @@ Route::get('/', function () {
 |--------------------------------------------------------------------------
 */
 
-Route::group([ 'middleware' => 'web' ], function () {
+Route::group([ \App\Http\Constantes::$midd => 'web' ], function () {
     Route::auth();
 
 });
@@ -46,7 +48,7 @@ Route::group([ 'middleware' => 'web' ], function () {
 |--------------------------------------------------------------------------
 */
 
-Route::group([ 'middleware' => [ 'web', 'role:admin' ], 'prefix' => 'admin' ], function () {
+Route::group([ \App\Http\Constantes::$midd => [ 'web', 'role:admin' ], \App\Http\Constantes::$prefix => 'admin' ], function () {
 
     Route::get('/', [
         'as' => 'admin.index',
@@ -56,21 +58,21 @@ Route::group([ 'middleware' => [ 'web', 'role:admin' ], 'prefix' => 'admin' ], f
     ]);
 
     //======== opciones de la cuenta ==========//
-    Route::get('cuenta', [
+    Route::get(\App\Http\Constantes::$cuent, [
         'as' => 'admin.cuenta',
         function () {
             return view('admin.cuenta.index');
         }
     ]);
-    Route::get('ayuda', [
+    Route::get(\App\Http\Constantes::$help, [
         'as' => 'admin.ayuda',
         function () {
             return view('admin.cuenta.ayuda');
         }
     ]);
-    Route::post('cuenta/{id}/update', [ 'uses' => 'CuentaController@update', 'as' => 'admin.cuenta.update' ]);
-    Route::post('password/{id}/update',
-        [ 'uses' => 'CuentaController@updatePassword', 'as' => 'admin.password.update' ]);
+    Route::post(\App\Http\Constantes::$cuentaid, [ 'uses' => \App\Http\Constantes::$cuentaCont, 'as' => 'admin.cuenta.update' ]);
+    Route::post(\App\Http\Constantes::$passw,
+        [ 'uses' => \App\Http\Constantes::$passwUpdate, 'as' => 'admin.password.update' ]);
 
     //======== opciones de los estudiantes ==========//
     Route::resource('estudiantes', 'EstudiantesController');
@@ -97,9 +99,9 @@ Route::group([ 'middleware' => [ 'web', 'role:admin' ], 'prefix' => 'admin' ], f
     Route::get('consejo/{id}/update', [ 'uses' => 'ConsejoController@update', 'as' => 'admin.consejo.update' ]);
 
     //======== opciones de las propuestas ==========//
-    Route::resource('propuesta', 'PropuestaController');
-    Route::get('propuestas', [ 'uses' => 'PropuestaController@indexPropuestas', 'as' => 'admin.propuestas.index' ]);
-    Route::get('verpropuesta/{id}',
+    Route::resource(\App\Http\Constantes::$propuest, \App\Http\Constantes::$propuestaC);
+    Route::get(\App\Http\Constantes::$propuests, [ 'uses' => 'PropuestaController@indexPropuestas', 'as' => 'admin.propuestas.index' ]);
+    Route::get(\App\Http\Constantes::$verPropuest,
         [ 'uses' => 'PropuestaController@showPropuestaAdmin', 'as' => 'admin.propuesta.ver' ]);
      Route::get('propuesta/{id}/citacion',
         [ 'uses' => 'PropuestaController@showCitacion', 'as' => 'admin.propuesta.citacion' ]);
@@ -111,7 +113,7 @@ Route::group([ 'middleware' => [ 'web', 'role:admin' ], 'prefix' => 'admin' ], f
     Route::get('propuesta/{id}/cancelarCitacion', [ 'uses' => 'AdministradorController@cancelarCitacion', 'as' => 'admin.propuesta.cancelarCitacion' ]);
 
     //======== opciones del calendario ==========//
-    Route::resource('calendario', 'CalendarioController');
+    Route::resource(\App\Http\Constantes::$calendar, 'CalendarioController');
 
 });
 /*
@@ -120,7 +122,7 @@ Route::group([ 'middleware' => [ 'web', 'role:admin' ], 'prefix' => 'admin' ], f
 |--------------------------------------------------------------------------
 */
 
-Route::group([ 'middleware' => [ 'web', 'role:estudiante' ], 'prefix' => 'estudiante' ], function () {
+Route::group([ \App\Http\Constantes::$midd => [ 'web', 'role:estudiante' ], \App\Http\Constantes::$prefix => 'estudiante' ], function () {
 
     Route::get('/', [
         'as' => 'estudiante.index',
@@ -130,32 +132,32 @@ Route::group([ 'middleware' => [ 'web', 'role:estudiante' ], 'prefix' => 'estudi
     ]);
 
     //======== opciones de la cuenta ==========//
-    Route::get('cuenta', [
+    Route::get(\App\Http\Constantes::$cuent, [
         'as' => 'estudiante.cuenta',
         function () {
             return view('estudiante.cuenta.index');
         }
     ]);
-    Route::get('ayuda', [
+    Route::get(\App\Http\Constantes::$help, [
         'as' => 'estudiante.ayuda',
         function () {
             return view('estudiante.cuenta.ayuda');
         }
     ]);
-    Route::post('cuenta/{id}/update', [ 'uses' => 'CuentaController@update', 'as' => 'estudiante.cuenta.update' ]);
-    Route::post('password/{id}/update',
-        [ 'uses' => 'CuentaController@updatePassword', 'as' => 'estudiante.password.update' ]);
+    Route::post(\App\Http\Constantes::$cuentaid, [ 'uses' => \App\Http\Constantes::$cuentaCont, 'as' => 'estudiante.cuenta.update' ]);
+    Route::post(\App\Http\Constantes::$passw,
+        [ 'uses' => \App\Http\Constantes::$passwUpdate, 'as' => 'estudiante.password.update' ]);
 
     //======== opciones de la propuesta ==========//
-    Route::resource('propuesta', 'PropuestaController');
-    Route::get('verpropuesta/{id}',
+    Route::resource(\App\Http\Constantes::$propuest, 'PropuestaController');
+    Route::get(\App\Http\Constantes::$verPropuest,
         [ 'uses' => 'PropuestaController@showPropuesta', 'as' => 'estudiante.propuesta.ver' ]);
     Route::get('seguimiento/{id}',
         [ 'uses' => 'PropuestaController@showSeguimiento', 'as' => 'estudiante.propuesta.seguimiento' ]);
     Route::post('propuesta/{id}/update', [ 'uses' => 'PropuestaController@update', 'as' => 'estudiante.propuesta.update' ]);
 
     //======== opciones de los documentos ==========//
-    Route::get('documentos', [
+    Route::get(\App\Http\Constantes::$comments, [
         'as' => 'estudiante.documentos.index',
         function () {
             return view('estudiante.documentos.index');
@@ -163,18 +165,18 @@ Route::group([ 'middleware' => [ 'web', 'role:estudiante' ], 'prefix' => 'estudi
     ]);
 
     //======== opciones de las notificaciones ==========//
-    Route::get('notificaciones', [
+    Route::get(\App\Http\Constantes::$notifications, [
         'as' => 'estudiante.notificaciones.index',
         function () {
             return view('estudiante.notificaciones.index');
         }
     ]);
 
-    Route::get('notificaciones/archivar/{id}',
-        [ 'uses' => 'NotificacionesController@archivar', 'as' => 'estudiante.notificaciones.archivar' ]);
+    Route::get(\App\Http\Constantes::$notificationsA,
+        [ 'uses' => \App\Http\Constantes::$notificationC, 'as' => 'estudiante.notificaciones.archivar' ]);
 
     //======== opciones del calendario ==========//
-    Route::get('calendario',
+    Route::get(\App\Http\Constantes::$calendar,
         [ 'uses' => 'CalendarioController@indexEstudiante', 'as' => 'estudiante.calendario.index' ]);
 
 });
@@ -184,7 +186,7 @@ Route::group([ 'middleware' => [ 'web', 'role:estudiante' ], 'prefix' => 'estudi
 |--------------------------------------------------------------------------
 */
 
-Route::group([ 'middleware' => [ 'web', 'role:director_grado' ], 'prefix' => 'director' ], function () {
+Route::group([ \App\Http\Constantes::$midd => [ 'web', 'role:director_grado' ], \App\Http\Constantes::$prefix => 'director' ], function () {
 
     Route::get('/', [
         'as' => 'director.index',
@@ -193,31 +195,31 @@ Route::group([ 'middleware' => [ 'web', 'role:director_grado' ], 'prefix' => 'di
         }
     ]);
     //======== opciones de la cuenta ==========//
-    Route::get('cuenta', [
+    Route::get(\App\Http\Constantes::$cuent, [
         'as' => 'director.cuenta',
         function () {
             return view('director.cuenta.index');
         }
     ]);
-    Route::get('ayuda', [
+    Route::get(\App\Http\Constantes::$help, [
         'as' => 'director.ayuda',
         function () {
             return view('director.cuenta.ayuda');
         }
     ]);
-    Route::post('cuenta/{id}/update', [ 'uses' => 'CuentaController@update', 'as' => 'director.cuenta.update' ]);
-    Route::post('password/{id}/update',
-        [ 'uses' => 'CuentaController@updatePassword', 'as' => 'director.password.update' ]);
+    Route::post(\App\Http\Constantes::$cuentaid, [ 'uses' => \App\Http\Constantes::$cuentaCont, 'as' => 'director.cuenta.update' ]);
+    Route::post(\App\Http\Constantes::$passw,
+        [ 'uses' => \App\Http\Constantes::$passwUpdate, 'as' => 'director.password.update' ]);
 
     //======== opciones de la propuesta ==========//
-    Route::resource('propuesta', 'PropuestaController');
-    Route::get('propuestas',
+    Route::resource(\App\Http\Constantes::$propuest, \App\Http\Constantes::$propuestaC);
+    Route::get(\App\Http\Constantes::$propuests,
         [ 'uses' => 'PropuestaController@indexPropuestasDir', 'as' => 'director.propuestas.index' ]);
-    Route::get('verpropuesta/{id}',
+    Route::get(\App\Http\Constantes::$verPropuest,
         [ 'uses' => 'PropuestaController@showPropuestaDir', 'as' => 'director.propuesta.ver' ]);
 
     //======== opciones de los documentos ==========//
-    Route::get('documentos', [
+    Route::get(\App\Http\Constantes::$comments, [
         'as' => 'director.documentos.index',
         function () {
             return view('director.documentos.index');
@@ -225,18 +227,18 @@ Route::group([ 'middleware' => [ 'web', 'role:director_grado' ], 'prefix' => 'di
     ]);
 
     //======== opciones de las notificaciones ==========//
-    Route::get('notificaciones', [
+    Route::get(\App\Http\Constantes::$notifications, [
         'as' => 'director.notificaciones.index',
         function () {
             return view('director.notificaciones.index');
         }
     ]);
 
-    Route::get('notificaciones/archivar/{id}',
-        [ 'uses' => 'NotificacionesController@archivar', 'as' => 'director.notificaciones.archivar' ]);
+    Route::get(\App\Http\Constantes::$notificationsA,
+        [ 'uses' => \App\Http\Constantes::$notificationC, 'as' => 'director.notificaciones.archivar' ]);
 
     //======== opciones del calendario ==========//
-    Route::get('calendario', [ 'uses' => 'CalendarioController@indexDirector', 'as' => 'director.calendario.index' ]);
+    Route::get(\App\Http\Constantes::$calendar, [ 'uses' => 'CalendarioController@indexDirector', 'as' => 'director.calendario.index' ]);
 
 });
 
@@ -246,7 +248,7 @@ Route::group([ 'middleware' => [ 'web', 'role:director_grado' ], 'prefix' => 'di
 |--------------------------------------------------------------------------
 */
 
-Route::group([ 'middleware' => [ 'web', 'role:consejo_curricular' ], 'prefix' => 'consejo' ], function () {
+Route::group([ \App\Http\Constantes::$midd => [ 'web', 'role:consejo_curricular' ], \App\Http\Constantes::$prefix => 'consejo' ], function () {
 
     Route::get('/', [
         'as' => 'consejo.index',
@@ -255,34 +257,34 @@ Route::group([ 'middleware' => [ 'web', 'role:consejo_curricular' ], 'prefix' =>
         }
     ]);
     //======== opciones de la cuenta ==========//
-    Route::get('cuenta', [
+    Route::get(\App\Http\Constantes::$cuent, [
         'as' => 'consejo.cuenta',
         function () {
             return view('consejo.cuenta.index');
         }
     ]);
-    Route::get('ayuda', [
+    Route::get(\App\Http\Constantes::$help, [
         'as' => 'consejo.ayuda',
         function () {
             return view('consejo.cuenta.ayuda');
         }
     ]);
-    Route::post('cuenta/{id}/update', [ 'uses' => 'CuentaController@update', 'as' => 'consejo.cuenta.update' ]);
-    Route::post('password/{id}/update',
-        [ 'uses' => 'CuentaController@updatePassword', 'as' => 'consejo.password.update' ]);
+    Route::post(\App\Http\Constantes::$cuentaid, [ 'uses' => \App\Http\Constantes::$cuentaCont, 'as' => 'consejo.cuenta.update' ]);
+    Route::post(\App\Http\Constantes::$passw,
+        [ 'uses' => \App\Http\Constantes::$passwUpdate, 'as' => 'consejo.password.update' ]);
 
     //======== opciones de los documentos ==========//
-    Route::get('documentos', [
+    Route::get(\App\Http\Constantes::$comments, [
         'as' => 'consejo.documentos.index',
         function () {
             return view('consejo.documentos.index');
         }
     ]);
     //======== opciones de la propuesta ==========//
-    Route::resource('propuesta', 'PropuestaController');
-    Route::get('propuestas',
+    Route::resource(\App\Http\Constantes::$propuest, \App\Http\Constantes::$propuestaC);
+    Route::get(\App\Http\Constantes::$propuests,
         [ 'uses' => 'PropuestaController@indexPropuestasConsejo', 'as' => 'consejo.propuestas.index' ]);
-    Route::get('verpropuesta/{id}',
+    Route::get(\App\Http\Constantes::$verPropuest,
         [ 'uses' => 'PropuestaController@showPropuestaConsejo', 'as' => 'consejo.propuesta.ver' ]);
 
     //======== opciones de los comentarios ==========//
@@ -292,18 +294,18 @@ Route::group([ 'middleware' => [ 'web', 'role:consejo_curricular' ], 'prefix' =>
     Route::get('jurados', [ 'uses' => 'JuradosController@indexJurados', 'as' => 'consejo.jurados.index' ]);
 
     //======== opciones de las notificaciones ==========//
-    Route::get('notificaciones', [
+    Route::get(\App\Http\Constantes::$notifications, [
         'as' => 'consejo.notificaciones.index',
         function () {
             return view('consejo.notificaciones.index');
         }
     ]);
 
-    Route::get('notificaciones/archivar/{id}',
-        [ 'uses' => 'NotificacionesController@archivar', 'as' => 'consejo.notificaciones.archivar' ]);
+    Route::get(\App\Http\Constantes::$notificationsA,
+        [ 'uses' => \App\Http\Constantes::$notificationC, 'as' => 'consejo.notificaciones.archivar' ]);
 
     //======== opciones del calendario ==========//
-    Route::get('calendario', [ 'uses' => 'CalendarioController@indexConsejo', 'as' => 'consejo.calendario.index' ]);
+    Route::get(\App\Http\Constantes::$calendar, [ 'uses' => 'CalendarioController@indexConsejo', 'as' => 'consejo.calendario.index' ]);
 
 
 });
@@ -314,7 +316,7 @@ Route::group([ 'middleware' => [ 'web', 'role:consejo_curricular' ], 'prefix' =>
 |--------------------------------------------------------------------------
 */
 
-Route::group([ 'middleware' => [ 'web', 'role:jurado' ], 'prefix' => 'jurado' ], function () {
+Route::group([ \App\Http\Constantes::$midd => [ 'web', 'role:jurado' ], \App\Http\Constantes::$prefix => 'jurado' ], function () {
 
     Route::get('/', [
         'as' => 'jurado.index',
@@ -323,34 +325,34 @@ Route::group([ 'middleware' => [ 'web', 'role:jurado' ], 'prefix' => 'jurado' ],
         }
     ]);
     //======== opciones de la cuenta ==========//
-    Route::get('cuenta', [
+    Route::get(\App\Http\Constantes::$cuent, [
         'as' => 'jurado.cuenta',
         function () {
             return view('jurado.cuenta.index');
         }
     ]);
-    Route::get('ayuda', [
+    Route::get(\App\Http\Constantes::$help, [
         'as' => 'jurado.ayuda',
         function () {
             return view('jurado.cuenta.ayuda');
         }
     ]);
-    Route::post('cuenta/{id}/update', [ 'uses' => 'CuentaController@update', 'as' => 'jurado.cuenta.update' ]);
-    Route::post('password/{id}/update',
-        [ 'uses' => 'CuentaController@updatePassword', 'as' => 'jurado.password.update' ]);
+    Route::post(\App\Http\Constantes::$cuentaid, [ 'uses' => \App\Http\Constantes::$cuentaCont, 'as' => 'jurado.cuenta.update' ]);
+    Route::post(\App\Http\Constantes::$passw,
+        [ 'uses' => \App\Http\Constantes::$passwUpdate, 'as' => 'jurado.password.update' ]);
 
     //======== opciones de la propuesta ==========//
-    Route::resource('propuesta', 'PropuestaController');
-    Route::get('propuestas',
+    Route::resource(\App\Http\Constantes::$propuest, \App\Http\Constantes::$propuestaC);
+    Route::get(\App\Http\Constantes::$propuests,
         [ 'uses' => 'PropuestaController@indexPropuestasJurado', 'as' => 'jurado.propuestas.index' ]);
-    Route::get('verpropuesta/{id}',
+    Route::get(\App\Http\Constantes::$verPropuest,
         [ 'uses' => 'PropuestaController@showPropuestaJurado', 'as' => 'jurado.propuesta.ver' ]);
     Route::get('evaluacion/{id}',
         [ 'uses' => 'PropuestaController@showEvaluacion', 'as' => 'jurado.propuesta.evaluacion' ]);
     Route::post('propuesta/{id}/evaluar', [ 'uses' => 'JuradoController@evaluar', 'as' => 'jurado.propuesta.evaluar' ]);
 
     //======== opciones de los documentos ==========//
-    Route::get('documentos', [
+    Route::get(\App\Http\Constantes::$comments, [
         'as' => 'jurado.documentos.index',
         function () {
             return view('jurado.documentos.index');
@@ -361,17 +363,17 @@ Route::group([ 'middleware' => [ 'web', 'role:jurado' ], 'prefix' => 'jurado' ],
     Route::post('comentarios', [ 'uses' => 'JuradoController@comentar', 'as' => 'jurado.propuesta.comentar' ]);
 
     //======== opciones de las notificaciones ==========//
-    Route::get('notificaciones', [
+    Route::get(\App\Http\Constantes::$notifications, [
         'as' => 'jurado.notificaciones.index',
         function () {
             return view('jurado.notificaciones.index');
         }
     ]);
 
-    Route::get('notificaciones/archivar/{id}',
-        [ 'uses' => 'NotificacionesController@archivar', 'as' => 'jurado.notificaciones.archivar' ]);
+    Route::get(\App\Http\Constantes::$notificationsA,
+        [ 'uses' => \App\Http\Constantes::$notificationC, 'as' => 'jurado.notificaciones.archivar' ]);
 
     //======== opciones del calendario ==========//
-    Route::get('calendario', [ 'uses' => 'CalendarioController@indexJurado', 'as' => 'jurado.calendario.index' ]);
+    Route::get(\App\Http\Constantes::$calendar, [ 'uses' => 'CalendarioController@indexJurado', 'as' => 'jurado.calendario.index' ]);
 
 });

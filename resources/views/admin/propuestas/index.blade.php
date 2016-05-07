@@ -78,7 +78,7 @@
                                                     class="fa fa-external-link fa-lg"></i>
                                         </a>
                                          
-                                        @if(count(App\Jurado_propuesta::where('propuesta_id', $propuesta->id)->get())>0)
+                                        @if(count(App\JuradoPropuesta::where('propuesta_id', $propuesta->id)->get())>0)
                                         <a href="{{ route('admin.propuesta.citacion', $propuesta->id) }}"
                                            class="btn btn-success" target="_blank" title="Citación"><i
                                                     class="fa fa-calendar-check-o fa-lg"></i>

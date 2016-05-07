@@ -48,7 +48,7 @@
 
 
                             <tbody>
-                            @foreach(App\Jurado_propuesta::where('jurado_id', Auth::user()->id)->get() as $propuestas)
+                            @foreach(App\JuradoPropuesta::where('jurado_id', Auth::user()->id)->get() as $propuestas)
                                 <?php $propuesta = App\Propuesta::find($propuestas->propuesta_id); ?>
 
                                 <tr>

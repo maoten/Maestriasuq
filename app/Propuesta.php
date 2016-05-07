@@ -23,9 +23,9 @@ class Propuesta extends Model
     }
 
 
-    public function trabajo_grado()
+    public function TrabajoGrado()
     {
-        return $this->hasOne('App\Trabajo_grado', 'foreign_key');
+        return $this->hasOne('App\TrabajoGrado', 'foreign_key');
     }
 
 

@@ -5,11 +5,11 @@ use App\Evento;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
-//use App\Http\Requests\CalendarioRequest;
+
 
 class CalendarioController extends Controller
 {
-
+    public $calendar='calendario';
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +22,7 @@ class CalendarioController extends Controller
 
         $calendario = Evento::all();
 
-        return view('admin.calendario.index')->with('calendario', $calendario);
+        return view('admin.calendario.index')->with($this->calendar, $calendario);
 
     }
 
@@ -39,7 +39,7 @@ class CalendarioController extends Controller
 
         $calendario = Evento::all();
 
-        return view('estudiante.calendario.index')->with('calendario', $calendario);
+        return view('estudiante.calendario.index')->with($this->calendar, $calendario);
 
     }
 
@@ -56,7 +56,7 @@ class CalendarioController extends Controller
 
         $calendario = Evento::all();
 
-        return view('director.calendario.index')->with('calendario', $calendario);
+        return view('director.calendario.index')->with($this->calendar, $calendario);
 
     }
 
@@ -73,7 +73,7 @@ class CalendarioController extends Controller
 
         $calendario = Evento::all();
 
-        return view('consejo.calendario.index')->with('calendario', $calendario);
+        return view('consejo.calendario.index')->with($this->calendar, $calendario);
 
     }
 
@@ -90,7 +90,7 @@ class CalendarioController extends Controller
 
         $calendario = Evento::all();
 
-        return view('jurado.calendario.index')->with('calendario', $calendario);
+        return view('jurado.calendario.index')->with($this->calendar, $calendario);
 
     }
 

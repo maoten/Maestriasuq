@@ -36,7 +36,7 @@
                             <form class="form-horizontal" role="form" method="GET"
                                   action="{{ route('admin.propuesta.asignarJurados', $propuesta->id) }}">
 
-                                @if(App\Jurado_propuesta::where('propuesta_id',$propuesta->id)->first()==null)
+                                @if(App\JuradoPropuesta::where('propuesta_id',$propuesta->id)->first()==null)
                                     <p class="text-center">Esta propuesta no tiene jurados asignados aún.<br>Antes de
                                         asignar jurados a esta propuesta revisa que hay por lo menos 3 jurados
                                         registrados.</p>
@@ -66,7 +66,7 @@
 
                                 @else
 
-                                    @foreach(App\Jurado_propuesta::where('propuesta_id',  $propuesta->id )->get() as $resultado)
+                                    @foreach(App\JuradoPropuesta::where('propuesta_id',  $propuesta->id )->get() as $resultado)
                                         <?php $jurado = App\User::find($resultado->jurado_id); ?>
                                         <?php $jurad = App\Jurado::where('user_id', $jurado->id)->first(); ?>
 
@@ -88,7 +88,7 @@
                                                         name="jurados[]">
 
                                                     @foreach(App\User::where('rol','jurado')->get() as $jurado)
-                                                        <?php $jurad = App\Jurado_propuesta::where('jurado_id',
+                                                        <?php $jurad = App\JuradoPropuesta::where('jurado_id',
                                                                 $jurado->id)->where('propuesta_id',
                                                                 $propuesta->id)->first() ?>
                                                         @if($jurad!=null)

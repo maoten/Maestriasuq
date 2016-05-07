@@ -13,7 +13,7 @@ use DB;
 
 class ConsejoController extends Controller
 {
-
+    public $rutaConsejo='admin.consejo.index';
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +26,7 @@ class ConsejoController extends Controller
         $consejo = User::where('rol', 'consejo_curricular')->search($request->nombre)->orderBy('id',
             'ASC')->paginate(10);
 
-        return view('admin.consejo.index')->with('consejo', $consejo);
+        return view($this->rutaConsejo)->with('consejo', $consejo);
 
     }
 
@@ -62,8 +62,8 @@ class ConsejoController extends Controller
         $consejo->imagen = '/sistema/usuarios/' . $name;
         $consejo->save();
 
-        if ( ! empty( $request->check )) {
-            if ($request->check == '1') {
+        if ( ! empty( $request->check ) && ($request->check == '1')) {
+
                 $coordinador          = new Coordinador();
                 $coordinador->user_id = $consejo->id;
                 if ( ! empty( $request->coor )) {
@@ -71,7 +71,7 @@ class ConsejoController extends Controller
                 }
                 $coordinador->save();
 
-            }
+
         }
 
         $notificacion = new Notificacion();
@@ -79,7 +79,7 @@ class ConsejoController extends Controller
 
         Flash::success("Se ha registrado " . $consejo->nombre . " de forma exitosa");
 
-        return redirect()->route('admin.consejo.index');
+        return redirect()->route($this->rutaConsejo);
     }
 
 
@@ -136,7 +136,7 @@ class ConsejoController extends Controller
 
         Flash::warning("El miembro del consejo curricular " . $consejo->nombre . " ha sido editado");
 
-        return redirect()->route('admin.consejo.index');
+        return redirect()->route($this->rutaConsejo);
     
     }
 

@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\EvaluacionRequest;
 use Laracasts\Flash\Flash;
 
-//use App\Http\Requests\ComentarioRequest;
+
 
 class JuradoController extends Controller
 {
