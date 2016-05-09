@@ -34,7 +34,7 @@
 </head>
 
 <!-- body -->
-<body id="app-layout">
+<body id="app-layout" ondragstart='return false'>
 
 <nav class="navbar navbar-default">
     <div class="container">
@@ -209,7 +209,7 @@
     </div>
 
     <div class="footer-right">
-
+      
     </div>
 
 </footer>

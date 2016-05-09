@@ -100,6 +100,11 @@ class JuradoController extends Controller
 
             $propuesta->estado = $calificacion;
             $propuesta->save();
+            
+            $notificacion = new Notificacion();
+
+            $notificacion->notificarEvaluacion($propuesta);
+
         }
 
         Flash::success("Se ha enviado tu evaluación de forma exitosa");
@@ -195,6 +200,10 @@ class JuradoController extends Controller
 
             $trabajogrado->estado = $calificacion;
             $trabajogrado->save();
+
+            $notificacion = new Notificacion();
+
+            $notificacion->notificarEvaluacionTrabajogrado($trabajogrado);
         }
 
         Flash::success("Se ha enviado tu evaluación de forma exitosa");

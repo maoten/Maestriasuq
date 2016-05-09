@@ -38,6 +38,8 @@
                                 una nueva propuesta recuerdale a el director de grado y/o a el coordinador de énfasis de
                                 tu propuesta que se registre.</p>
                         @endif
+                        <div class="table-responsive">
+
                         <table class='table table-bordered'>
                             <thead>
                             <th class="active">ID</th>
@@ -104,6 +106,7 @@
                             </tbody>
 
                         </table>
+                        </div>
 
                     </div>
                 </div>

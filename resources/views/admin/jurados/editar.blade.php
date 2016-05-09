@@ -10,11 +10,9 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 @include('flash::message')
-                        <!-- @include('layouts.errors')-->
 
                 <div class="panel panel-default">
-                    <div class="panel-heading"><h4><span class="glyphicon glyphicon-pencil iconoizq"
-                                                         aria-hidden="true"></span>Edición de jurado</h4></div>
+                    <div class="panel-heading text-center">Edición de jurado</div>
                     <div class="panel-body">
 
                         <form class="form-horizontal" role="form" method="PUT"

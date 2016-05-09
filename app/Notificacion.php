@@ -39,6 +39,47 @@ class Notificacion extends Model
         return $this->hasOne('App\User', 'foreign_key');
     }
 
+    /**
+     * Notifica al estudiante que su propuesta ya fue evaluada
+     *
+     * @param $estudiante
+     *
+     * @return bool
+     */
+    public function notificarEvaluacion($propuesta)
+    {
+        // se le notifica al estudiante que la propuesta ya fue evaluada
+
+        $estudiante = User::find($propuesta->user_id);
+
+        $notification               = new Notificacion();
+        $notification->user_id      = $estudiante->id;
+        $notification->notificacion = $this->hola . $estudiante->nombre . $this->tequeremos . $propuesta->titulo . " ya fue evaluada, para ver las evaluaciones de los jurados debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
+        $notification->save();
+
+        return true;
+    }
+
+    /**
+     * Notifica al estudiante que su trabajo de grado ya fue evaluado
+     *
+     * @param $estudiante
+     *
+     * @return bool
+     */
+    public function notificarEvaluacionTrabajogrado($trabajogrado)
+    {
+        // se le notifica al estudiante que su trabajo de grado ya fue evaluada
+
+        $estudiante = User::find($trabajogrado->user_id);
+
+        $notification               = new Notificacion();
+        $notification->user_id      = $estudiante->id;
+        $notification->notificacion = $this->hola . $estudiante->nombre . $this->tequeremos2 . $trabajogrado->titulo . " ya fue evaluado, para ver las evaluaciones de los jurados debes ir a la opción 'Trabajo de grado' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver trabajo de grado).";
+        $notification->save();
+
+        return true;
+    }
 
     /**
      * Notifica al estudiante que un jurado comento su propuesta
@@ -284,7 +325,28 @@ class Notificacion extends Model
         $usuario                    = User::find($usuario);
         $notificacion               = new Notificacion();
         $notificacion->user_id      = $usuario->id;
-        $notificacion->notificacion = $this->hola . $usuario->nombre . " te queremos informar que la propuesta " . $propuesta->titulo . " ya tiene asignada una disertación en la siguiente fecha: " . $fecha . ". Para mas información revisa la opción 'Calendario' del menú principal.";
+        $notificacion->notificacion = $this->hola . $usuario->nombre . " te queremos informar que la propuesta " . $propuesta->titulo . " ya tiene asignada una disertación en la siguiente fecha: " . $fecha . ". Para más información revisa la opción 'Calendario' del menú principal.";
+        $notificacion->save();
+
+        return true;
+    }
+
+    /**
+     * Notifica al usuario indicado de la cancelación de la disertación de la propuesta.
+     *
+     * @param $usuario
+     *
+     * @param $propuesta
+     *
+     * @return bool
+     */
+    public function notificarCancelacionDisertacion($usuario, $propuesta)
+    {
+        $propuesta                  = Propuesta::find($propuesta);
+        $usuario1                    = User::find($usuario);
+        $notificacion               = new Notificacion();
+        $notificacion->user_id      = $usuario;
+        $notificacion->notificacion = $this->hola . $usuario1->nombre . " te queremos informar que la disertación de la propuesta " . $propuesta->titulo . " ha sido cancelada.";
         $notificacion->save();
 
         return true;
@@ -306,8 +368,29 @@ class Notificacion extends Model
         $trabajogrado               = Trabajogrado::find($trabajogrado);
         $usuario                    = User::find($usuario);
         $notificacion               = new Notificacion();
-        $notificacion->user_id      = $usuario->id;
+        $notificacion->user_id      = $usuario;
         $notificacion->notificacion = $this->hola . $usuario->nombre . " te queremos informar que el trabajo de grado " . $trabajogrado->titulo . " ya tiene asignada una disertación en la siguiente fecha: " . $fecha . ". Para mas información revisa la opción 'Calendario' del menú principal.";
+        $notificacion->save();
+
+        return true;
+    }
+
+     /**
+     * Notifica al usuario indicado de la cancelación de la disertación del trabajo de grado.
+     *
+     * @param $usuario
+     *
+     * @param $propuesta
+     *
+     * @return bool
+     */
+    public function notificarCancelacionDisertacionTrabajogrado($usuario, $trabajogrado)
+    {
+        $trabajogrado               = Trabajogrado::find($trabajogrado);
+        $usuario1                    = User::find($usuario);
+        $notificacion               = new Notificacion();
+        $notificacion->user_id      = $usuario;
+        $notificacion->notificacion = $this->hola . $usuario1->nombre . " te queremos informar que la disertación del trabajo de grado " . $trabajogrado->titulo . " ha sido cancelada.";
         $notificacion->save();
 
         return true;

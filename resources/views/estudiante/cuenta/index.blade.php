@@ -39,10 +39,17 @@
                 <div class="panel panel-default">
                     <div class="panel-heading text-center">Certificado de inglés</div>
                     <div class="panel-body">
+
+                    <?php $certif= App\Certificado::where('user_id',Auth::user()->id)->first(); ?>
+
+                    @if($certif==null)
+
                         <form class="form-horizontal" role="form" method="POST"
                               action="{{ route('estudiante.cuenta.certificado', Auth::user()->id) }}"
                               enctype="multipart/form-data">
                             {!! csrf_field() !!}
+
+                            <p>El certificado se sube una sola vez. Revisa con cuidado antes de guardar.</p>
 
                             <div class="form-group{{ $errors->has('certificado') ? ' has-error' : '' }}">
                                 <label class="col-md-4 control-label">Subir certificado de inglés</label>
@@ -65,12 +72,15 @@
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">
-                                        </i>Guardar
+                                        Guardar
                                     </button>
                                 </div>
                             </div>
 
                         </form>
+                        @else
+                        <p>Ya has subido tu certificado de ingles.</p>
+                        @endif
                     </div>
                 </div>
 

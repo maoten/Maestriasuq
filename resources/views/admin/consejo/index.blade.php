@@ -44,6 +44,7 @@
 
                         </div>
                         <HR>
+                         <div class="table-responsive">
                         <table class='table table-bordered'>
                             <thead>
                             <th class="active">ID</th>
@@ -67,10 +68,10 @@
                                     <td><h4><span class="label label-success">{{ $miembro->rol }}</span>
                                             <?php $coordinador = App\Coordinador::where('user_id',
                                                     $miembro->id)->first() ?>
-                                            @if( $coordinador !=null)
-                                                <span class="label label-default">Coordinador {{ App\Enfasis::find($coordinador->enf_id)->nombre}}</span>
-                                            @endif
-                                        </h4></td>
+                                           
+                                        </h4> @if( $coordinador !=null)
+                                                <h5><span class="label label-default">Coordinador {{ App\Enfasis::find($coordinador->enf_id)->nombre}}</span></h5>
+                                            @endif</td>
 
                                     <td><a href="{{ route('admin.consejo.edit', $miembro->id) }}"
                                            class="btn btn-warning" title="Editar"><span
@@ -89,6 +90,7 @@
                             </tbody>
 
                         </table>
+                        </div>
 
                         {!! $consejo->render()!!}
 

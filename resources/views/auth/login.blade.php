@@ -75,9 +75,9 @@
                                     <button type="submit" class="btn btn-primary" name="registrar">
                                         Ingresar
                                     </button>
-
+                                    <!--
                                     <a class="btn btn-link" href="{{ url('/password/reset') }}">¿Olvidaste tu
-                                        contraseña?</a>
+                                        contraseña?</a>-->
                                 </div>
                             </div>
                         </form>

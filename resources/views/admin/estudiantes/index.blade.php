@@ -44,6 +44,7 @@
 
                         </div>
                         <HR>
+                        <div class="table-responsive">
                         <table class='table table-bordered'>
                             <thead>
                             <th class="active">ID</th>
@@ -93,6 +94,7 @@
                             </tbody>
 
                         </table>
+                        </div>
 
                         {!! $estudiantes->render()!!}
 

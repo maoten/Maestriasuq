@@ -8,6 +8,7 @@ use App\JuradoPropuesta;
 use App\JuradoTrabajogrado;
 use App\Notificacion;
 use App\Propuesta;
+use App\Coordinador;
 use App\Trabajogrado;
 use App\User;
 use DateTime;
@@ -83,6 +84,8 @@ class AdministradorController extends Controller
 
         $propuesta        = Propuesta::find($id);
         $estudiante       = User::find($propuesta->user_id);
+        $director_grado   = User::find($propuesta->dir_id);
+        $coor_enfasis     = Coordinador::where('enf_id',$propuesta->enf_id)->first();
         $propuesta_jurado = JuradoPropuesta::where($this->propuesta_id, $id)->get();
 
         $jurados = [ ];
@@ -91,7 +94,7 @@ class AdministradorController extends Controller
             $jurados[$i] = User::find($propuesta_jurado[$i]->jurado_id)->id;
         }
 
-        array_push($jurados, $estudiante->id);
+        array_push($jurados, $estudiante->id, $director_grado->id,$coor_enfasis->user_id);
 
         $evento               = new Evento();
         $evento->asunto       = $request->asunto;
@@ -145,11 +148,20 @@ class AdministradorController extends Controller
 
         array_push($jurados, $estudiante->id);
 
-        $evento = Evento::where($this->propuesta_id, $propuesta->id);
+        $evento = Evento::where($this->propuesta_id, $propuesta->id)->first() ;
+        
+        $involucrados = $evento->users;
+
+        $notificacion = new Notificacion();
+
+        for ($i = 0; $i < sizeof($involucrados); $i++) {
+            $notificacion->notificarCancelacionDisertacion($involucrados[$i]->id, $propuesta->id);
+        }
+
         $evento->delete();
 
         Flash::success("Se ha cancelado la disertación  de la propuesta " . $propuesta->titulo . ".");
-
+        
         return redirect()->back();
 
 
@@ -214,6 +226,8 @@ class AdministradorController extends Controller
 
         $trabajogrado        = Trabajogrado::find($id);
         $estudiante          = User::find($trabajogrado->user_id);
+        $director_grado      = User::find($trabajogrado->dir_id);
+        $coor_enfasis        = Coordinador::where('enf_id',$trabajogrado->enf_id)->first();
         $trabajogrado_jurado = JuradoTrabajogrado::where($this->trabajogrado_id, $id)->get();
 
         $jurados = [ ];
@@ -222,7 +236,7 @@ class AdministradorController extends Controller
             $jurados[$i] = User::find($trabajogrado_jurado[$i]->jurado_id)->id;
         }
 
-        array_push($jurados, $estudiante->id);
+        array_push($jurados, $estudiante->id, $director_grado->id,$coor_enfasis->user_id);
 
         $evento                  = new Evento();
         $evento->asunto          = $request->asunto;
@@ -276,7 +290,16 @@ class AdministradorController extends Controller
 
         array_push($jurados, $estudiante->id);
 
-        $evento = Evento::where($this->trabajogrado_id, $trabajogrado->id);
+        $evento = Evento::where($this->trabajogrado_id, $trabajogrado->id)->first();
+
+        $involucrados = $evento->users;
+
+        $notificacion = new Notificacion();
+
+        for ($i = 0; $i < sizeof($involucrados); $i++) {
+            $notificacion->notificarCancelacionDisertacionTrabajogrado($involucrados[$i]->id, $propuesta->id);
+        }
+
         $evento->delete();
 
         Flash::success("Se ha cancelado la disertación  del trabajo de grado " . $trabajogrado->titulo . ".");

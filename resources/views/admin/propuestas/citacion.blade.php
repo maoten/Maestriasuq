@@ -6,16 +6,13 @@
     <link rel="stylesheet" href="{{ asset('css/component2.css') }}">
     <script src="{{ asset('js/modernizr.custom.js') }}"></script>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
-    <link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css"
-          rel="stylesheet">
+    <script src="{{ asset('js/moment-with-locales.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.css') }}">
 @endsection
 
 @section('content')
 
     <div class="container">
-        @include('layouts.general.nav_admin')
-        </br>
 
         <div class="row">
             <div class="col-md-12">
@@ -191,5 +188,5 @@
     </div>
 @endsection
 @section('js')
-    <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+    <script src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script>
 @endsection

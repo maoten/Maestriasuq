@@ -10,7 +10,6 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 @include('flash::message')
-                        <!-- @include('layouts.errors')-->
 
                 <div class="panel panel-default">
                     <div class="panel-heading text-center">Registro de estudiante</div>

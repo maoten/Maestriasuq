@@ -9,7 +9,7 @@
                     <span>Inicio</span>
                 </a>
             </li>
-            @if( (App\Coordinador::where('user_id',Auth::user()->id)->first() )!=null)
+           
                 <li>
                     <a href="{{ route('consejo.propuestas.index') }}">
           <span class="icon"> 
@@ -34,7 +34,6 @@
                         <span>Jurados</span>
                     </a>
                 </li>
-            @endif
             <li>
                 <a href="{{ route('consejo.notificaciones.index') }}">
           <span class="icon">
@@ -44,7 +43,7 @@
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="{{ route('consejo.documentos.index') }}">
           <span class="icon">
             <i class="fa fa-files-o"></i>
           </span>
