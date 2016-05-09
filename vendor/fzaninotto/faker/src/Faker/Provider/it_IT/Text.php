@@ -98,7 +98,18 @@ class Text extends \Faker\Provider\Text
      * fare il burattino e vuol diventare un bravo ragazzo. XXVI Pinocchio va co’ suoi compagni di scuola in riva al
      * mare, per vedere il terribile Pescecane. XXVII Gran combattimento fra Pinocchio e i suoi compagni: uno de’ quali
      * essendo rimasto ferito, Pinocchio viene arrestato dai carabinieri. XXVIII Pinocchio corre pericolo di essere
-     * fritto in padella come un pesce. XXIX Ritorna a casa della Fata, la quale gli promette che il giorno dopo non sarà più un burattino, ma diventerà un ragazzo. Gran colazione di caffè-e-latte per festeggiare questo grande avvenimento. XXX Pinocchio, invece di diventare un ragazzo, parte di nascosto col suo amico Lucignolo per il Paese dei Balocchi. XXXI Dopo cinque mesi di cuccagna, Pinocchio, con sua grande maraviglia, sente spuntarsi un bel paio d’orecchie asinine e diventa un ciuchino, con la coda e tutto. XXXII A Pinocchio gli vengono gli orecchi di ciuco, e poi diventa un ciuchino vero e comincia a ragliare. XXXIII Diventato un ciuchino vero, è portato a vendere, e lo compra il direttore di una compagnia di pagliacci per insegnargli a ballare e a saltare i cerchi; ma una sera azzoppisce e allora lo ricompra un altro, per far con la sua pelle un tamburo. XXXIV Pinocchio, gettato in mare, è mangiato dai pesci e ritorna ad essere un burattino come prima; ma mentre nuota per salvarsi, è ingoiato dal terribile Pesce-cane. XXXV Pinocchio ritrova in corpo al Pesce-cane... Chi ritrova? Leggete questo capitolo e lo saprete. XXXVI Finalmente Pinocchio cessa d’essere un burattino e diventa un ragazzo.
+     * fritto in padella come un pesce. XXIX Ritorna a casa della Fata, la quale gli promette che il giorno dopo non
+     * sarà più un burattino, ma diventerà un ragazzo. Gran colazione di caffè-e-latte per festeggiare questo grande
+     * avvenimento. XXX Pinocchio, invece di diventare un ragazzo, parte di nascosto col suo amico Lucignolo per il
+     * Paese dei Balocchi. XXXI Dopo cinque mesi di cuccagna, Pinocchio, con sua grande maraviglia, sente spuntarsi un
+     * bel paio d’orecchie asinine e diventa un ciuchino, con la coda e tutto. XXXII A Pinocchio gli vengono gli
+     * orecchi di ciuco, e poi diventa un ciuchino vero e comincia a ragliare. XXXIII Diventato un ciuchino vero, è
+     * portato a vendere, e lo compra il direttore di una compagnia di pagliacci per insegnargli a ballare e a saltare
+     * i cerchi; ma una sera azzoppisce e allora lo ricompra un altro, per far con la sua pelle un tamburo. XXXIV
+     * Pinocchio, gettato in mare, è mangiato dai pesci e ritorna ad essere un burattino come prima; ma mentre nuota
+     * per salvarsi, è ingoiato dal terribile Pesce-cane. XXXV Pinocchio ritrova in corpo al Pesce-cane... Chi ritrova?
+     * Leggete questo capitolo e lo saprete. XXXVI Finalmente Pinocchio cessa d’essere un burattino e diventa un
+     * ragazzo.
      *
      * @see http://www.liberliber.it/libri/c/collodi/index.php#elenco_opere
      * @var string

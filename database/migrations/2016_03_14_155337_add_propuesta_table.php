@@ -5,7 +5,10 @@ use Illuminate\Database\Schema\Blueprint;
 
 class AddPropuestaTable extends Migration
 {
-    public $cascade='cascade';
+
+    public $cascade = 'cascade';
+
+
     /**
      * Run the migrations.
      *

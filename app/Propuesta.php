@@ -23,9 +23,9 @@ class Propuesta extends Model
     }
 
 
-    public function TrabajoGrado()
+    public function Trabajogrado()
     {
-        return $this->hasOne('App\TrabajoGrado', 'foreign_key');
+        return $this->hasOne('App\Trabajogrado');
     }
 
 
@@ -64,15 +64,16 @@ class Propuesta extends Model
         return $this->belongsToMany('App\Jurado');
     }
 
-     public function disertacion()
+
+    public function disertacion()
     {
         return $this->hasOne('App\Evento');
     }
+
 
     public function evaluaciones()
     {
         return $this->hasMany('App\Evaluacion');
     }
-
 
 }

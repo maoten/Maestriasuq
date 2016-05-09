@@ -93,7 +93,7 @@
                                         <select class="form-control" name="enfasis" title="">
                                             @foreach((App\Enfasis::all()) as $enf)
                                                 @if(count(App\Coordinador::where('enf_id',$enf->id)->get())!=0)
-                                                <option value="{{$enf->id}}">{{$enf->nombre}}</option>
+                                                    <option value="{{$enf->id}}">{{$enf->nombre}}</option>
                                                 @endif
                                             @endforeach
                                         </select>
@@ -126,7 +126,8 @@
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary" name="registrar">
+                                    <button type="submit" class="btn btn-primary" name="registrar"
+                                            onclick="return confirm('¿Esta seguro/a de que desea registrar esta propuesta? \n Sólo se podrá editar la propuesta si los jurados consideran que se debe someter a modificaciones.')">
                                         Registrar
                                     </button>
                                 </div>

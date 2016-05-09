@@ -38,7 +38,7 @@
                                         <button class="btn btn-warning" data-calendar-view="year">Año</button>
                                         <button class="btn btn-warning active" data-calendar-view="month">Mes</button>
                                         <button class="btn btn-warning" data-calendar-view="week">Semana</button>
-                                       
+
                                     </div>
                                 </div>
 
@@ -82,7 +82,7 @@
                                 'id'    => $e->id,
                                 'title' => $e->asunto,
                                 'lugar' => $e->lugar,
-                                'descripcion'   => $e->descripcion,
+                                'des'   => $e->descripcion,
                                 'class' => "event-warning",
                                 'start' => $inicio,
                                 'end'   => $fin

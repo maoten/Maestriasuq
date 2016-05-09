@@ -5,8 +5,12 @@ use Illuminate\Database\Schema\Blueprint;
 
 class AddComentariosTable extends Migration
 {
-    public $comentarios="comentarios";
-    public  $user_id='user_id';
+
+    public $comentarios = "comentarios";
+
+    public $user_id = 'user_id';
+
+
     /**
      * Run the migrations.
      *
@@ -17,8 +21,12 @@ class AddComentariosTable extends Migration
         Schema::create($this->comentarios, function (Blueprint $table) {
             $table->increments('id');
             $table->string($this->comentarios, 255);
-            $table->integer('propuesta_id')->unsigned();
+            $table->integer('propuesta_id')->unsigned()->nullable();
             $table->foreign('propuesta_id')->references('id')->on('propuesta')->onDelete('cascade');
+
+            $table->integer('trabajogrado_id')->unsigned()->nullable();
+            $table->foreign('trabajogrado_id')->references('id')->on('trabajogrado')->onDelete('cascade');
+
             $table->integer($this->user_id)->unsigned();
             $table->foreign($this->user_id)->references($this->user_id)->on('jurados')->onDelete('cascade');
             $table->timestamps();

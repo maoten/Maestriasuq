@@ -23,8 +23,8 @@ class EvaluacionRequest extends Request
     public function rules()
     {
         return [
-            'opciones' => 'required',
-            'evaluacion' => 'required|mimes:pdf,xls|max:5120'
+            'opciones'   => 'required',
+            'evaluacion' => 'required|mimes:xls|max:5120'
         ];
     }
 }

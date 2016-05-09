@@ -5,11 +5,12 @@ use App\Evento;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
-
-
 class CalendarioController extends Controller
 {
-    public $calendar='calendario';
+
+    public $calendar = 'calendario';
+
+
     /**
      * Display a listing of the resource.
      *

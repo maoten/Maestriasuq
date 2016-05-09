@@ -1,7 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Certificado;
 use App\Http\Requests;
+use App\Http\Requests\CertificadoRequest;
 use App\Http\Requests\CuentaRequest;
 use App\Http\Requests\PasswordRequest;
 use App\Image;
@@ -12,7 +14,6 @@ use Laracasts\Flash\Flash;
 class CuentaController extends Controller
 {
 
-    
     /**
      * Update the specified resource in storage.
      *
@@ -44,31 +45,89 @@ class CuentaController extends Controller
             $user->save();
         }
 
-       Flash::warning("Los datos han sido actualizados");
-        $ruta;
-        switch ($user->rol){
+        Flash::warning("Los datos han sido actualizados");
+        $ruta = '';
+        switch ($user->rol) {
             case 'estudiante':
-                $ruta='estudiante.cuenta';
+                $ruta = 'estudiante.cuenta';
                 break;
             case 'director_grado':
-                $ruta='director.cuenta';
+                $ruta = 'director.cuenta';
                 break;
             case 'consejo_curicular':
-                $ruta='consejo.cuenta';
+                $ruta = 'consejo.cuenta';
                 break;
             case 'jurado':
-                $ruta='jurado.cuenta';
+                $ruta = 'jurado.cuenta';
                 break;
             case 'admin':
-                $ruta='admin.cuenta';
+                $ruta = 'admin.cuenta';
                 break;
             default:
                 break;
         }
+
         return redirect()->route($ruta);
     }
 
 
+    /**
+     * Guarda el certificado de inglés del usuario indicado.
+     *
+     * @param CertificadoRequest|CuentaRequest|Request $request
+     * @param  int                                     $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function certificado(CertificadoRequest $request, $id)
+    {
+
+        /** @var User $user */
+        $user = User::find($id);
+
+        $certificado1 = Certificado::where('user_id', $user->id)->first();
+
+        if ($request->file('certificado')) {
+            $file = $request->file('certificado');
+            $name = 'maestriauq_' . time() . '.' . $file->getClientOriginalExtension();
+            $path = public_path() . '\sistema\certificados';
+            $file->move($path, $name);
+        }
+        if ($certificado1 == null) {
+            $certificado         = new Certificado();
+            $certificado->nombre = '/sistema/certificados/' . $name;
+            $certificado->user()->associate($user);
+            $certificado->save();
+
+        } else {
+            $certificado1->nombre = '/sistema/certificados/' . $name;
+            $certificado1->save();
+        }
+
+        Flash::warning("Se ha guardado el certificado de forma exitosa.");
+        $ruta = '';
+        switch ($user->rol) {
+            case 'estudiante':
+                $ruta = 'estudiante.cuenta';
+                break;
+            case 'director_grado':
+                $ruta = 'director.cuenta';
+                break;
+            case 'consejo_curicular':
+                $ruta = 'consejo.cuenta';
+                break;
+            case 'jurado':
+                $ruta = 'jurado.cuenta';
+                break;
+            case 'admin':
+                $ruta = 'admin.cuenta';
+                break;
+            default:
+                break;
+        }
+
+        return redirect()->route($ruta);
+    }
 
 
     /**
@@ -89,26 +148,27 @@ class CuentaController extends Controller
         $user->save();
         Flash::warning("La contraseña ha sido actualizada");
 
-        $ruta;
-        switch ($user->rol){
+        $ruta = '';
+        switch ($user->rol) {
             case 'estudiante':
-                $ruta='estudiante.cuenta';
+                $ruta = 'estudiante.cuenta';
                 break;
             case 'director_grado':
-                $ruta='director.cuenta';
+                $ruta = 'director.cuenta';
                 break;
             case 'consejo_curicular':
-                $ruta='consejo.cuenta';
+                $ruta = 'consejo.cuenta';
                 break;
             case 'jurado':
-                $ruta='jurado.cuenta';
+                $ruta = 'jurado.cuenta';
                 break;
             case 'admin':
-                $ruta='admin.cuenta';
+                $ruta = 'admin.cuenta';
                 break;
             default:
                 break;
         }
+
         return redirect()->route($ruta);
     }
 

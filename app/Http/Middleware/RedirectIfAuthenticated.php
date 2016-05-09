@@ -22,24 +22,25 @@ class RedirectIfAuthenticated
             $machete;
             switch (Auth::guard($guard)->user()->rol) {
                 case 'estudiante':
-                    $machete='estudiante.index';
+                    $machete = 'estudiante.index';
                     break;
                 case 'admin':
-                    $machete='admin.index';
+                    $machete = 'admin.index';
                     break;
                 case 'consejo_curricular':
-                    $machete='consejo.index';
+                    $machete = 'consejo.index';
                     break;
                 case 'director_grado':
-                    $machete='director.index';
+                    $machete = 'director.index';
                     break;
                 case 'jurado':
-                    $machete='jurado.index';
+                    $machete = 'jurado.index';
                     break;
                 default:
                     return redirect()->route('auth.login');
 
             }
+
             return redirect()->route($machete);
 
         }

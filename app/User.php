@@ -63,9 +63,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
 
-    public function TrabajoGrado()
+    public function Trabajogrado()
     {
-        return $this->hasMany('App\TrabajoGrado');
+        return $this->hasMany('App\Trabajogrado');
 
     }
 
@@ -79,6 +79,18 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function coordinador()
     {
         return $this->hasOne('App\Coordinador');
+    }
+
+
+    public function image()
+    {
+        return $this->hasOne('App\Image');
+    }
+
+
+    public function certificado()
+    {
+        return $this->hasOne('App\Certificado');
     }
 
 

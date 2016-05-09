@@ -6,10 +6,17 @@
             <span class="pull-left event <%= event['class'] %>"></span>&nbsp;
             <a href="<%= event.url ? event.url : 'javascript:void(0)' %>," data-event-id="<%= event.id %>"
                data-event-class="<%= event['class'] %>" class="event-item">
-               <%  var timestamp=event.start;
-               var date = new Date(timestamp);
-               var hours = date.getHours()+5;%>
-                <%= event.title %></a><p>Lugar: <%= event.lugar %> | Descripción: <%= event.descripcion %></p><p><%= hours %></p>
+                <% var timestamp=event.start;
+                var date = new Date(timestamp);
+                var hours = date.getHours()+5;
+                var timestamp2=event.end;
+                var date2 = new Date(timestamp2);
+                var hours2 = date2.getHours()+5; %>
+
+                <%= event.title %></a>
+            <p>Inicio: <%= hours %>: <%= date.getMinutes() %> - Fin: <%= hours2 %>: <%= date2.getMinutes() %> / Lugar:
+                <%= event.lugar %> / Descripción: <%= event.des %></p>
+            <p></p>
         </li>
         <% }) %>
     </ul>

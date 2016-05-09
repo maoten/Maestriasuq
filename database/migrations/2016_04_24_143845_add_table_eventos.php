@@ -20,8 +20,10 @@ class AddTableEventos extends Migration
             $table->string('lugar');
             $table->timestamp('fecha_inicio');
             $table->timestamp('fecha_fin');
-            $table->integer('propuesta_id')->unsigned();
+            $table->integer('propuesta_id')->unsigned()->nullable();
             $table->foreign('propuesta_id')->references('id')->on('propuesta')->onDelete('cascade');
+            $table->integer('trabajogrado_id')->unsigned()->nullable();
+            $table->foreign('trabajogrado_id')->references('id')->on('trabajogrado')->onDelete('cascade');
             $table->timestamps();
         });
     }

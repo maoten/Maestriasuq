@@ -19,7 +19,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="{{ route('consejo.trabajosgrado.index') }}">
           <span class="icon">
             <i class="fa fa-file-text"></i>
           </span>

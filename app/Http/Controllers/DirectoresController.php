@@ -11,7 +11,10 @@ use Laracasts\Flash\Flash;
 
 class DirectoresController extends Controller
 {
-    public $rutaAdmin='admin.directores.index';
+
+    public $rutaAdmin = 'admin.directores.index';
+
+
     /**
      * Display a listing of the resource.
      *
@@ -66,19 +69,6 @@ class DirectoresController extends Controller
         Flash::success("Se ha registrado " . $director->nombre . " de forma exitosa");
 
         return redirect()->route($this->rutaAdmin);
-    }
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
 

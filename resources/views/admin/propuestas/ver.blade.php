@@ -14,7 +14,8 @@
                 @include('flash::message')
 
                 <div class="panel panel-default">
-                    <div class="panel-heading"><h4><i class="fa fa-file-pdf-o iconoizq"></i>Propuesta</h4></div>
+                    <div class="panel-heading"><h4><i
+                                    class="fa fa-file-pdf-o iconoizq"></i>Propuesta: {{ $propuesta->titulo }}</h4></div>
 
                     <div class="panel-body">
                         <div class="text-center">
@@ -66,6 +67,7 @@
 
                                 @else
 
+
                                     @foreach(App\JuradoPropuesta::where('propuesta_id',  $propuesta->id )->get() as $resultado)
                                         <?php $jurado = App\User::find($resultado->jurado_id); ?>
                                         <?php $jurad = App\Jurado::where('user_id', $jurado->id)->first(); ?>
@@ -74,54 +76,58 @@
                                             de {{ App\Pais::where('cod',$jurad->pais_id)->first()->nombre }}</li>
 
                                     @endforeach
-                                    <hr>
-                                    <a class="btn btn-warning" id="camb" title="Cambiar jurados" onClick="cambiar()">cambiar
-                                        jurados
-                                    </a>
+                                    @if(App\Propuesta::find($propuesta->id)->estado!='aceptada'and App\Propuesta::find($propuesta->id)->estado!='aplazada')
 
-                                    <div class="form-group" id="cambiar_jurados">
-                                        <label class="col-md-4 control-label">Jurados</label>
+                                        <hr>
+                                        <a class="btn btn-warning" id="camb" title="Cambiar jurados"
+                                           onClick="cambiar()">cambiar
+                                            jurados
+                                        </a>
 
-                                        <div class="col-md-6">
-                                            <div class="input-group">
-                                                <select class="chosen" multiple="true" style="width:300px;"
-                                                        name="jurados[]">
+                                        <div class="form-group" id="cambiar_jurados">
+                                            <label class="col-md-4 control-label">Jurados</label>
 
-                                                    @foreach(App\User::where('rol','jurado')->get() as $jurado)
-                                                        <?php $jurad = App\JuradoPropuesta::where('jurado_id',
-                                                                $jurado->id)->where('propuesta_id',
-                                                                $propuesta->id)->first() ?>
-                                                        @if($jurad!=null)
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <select class="chosen" multiple="true" style="width:300px;"
+                                                            name="jurados[]">
 
-                                                            <option selected="selected"
-                                                                    value="{{ $jurado->id }}">{{ $jurado->nombre }}</option>
-                                                        @else
-                                                            <option value="{{ $jurado->id }}">{{ $jurado->nombre }}</option>
+                                                        @foreach(App\User::where('rol','jurado')->get() as $jurado)
+                                                            <?php $jurad = App\JuradoPropuesta::where('jurado_id',
+                                                                    $jurado->id)->where('propuesta_id',
+                                                                    $propuesta->id)->first() ?>
+                                                            @if($jurad!=null)
 
-                                                        @endif
+                                                                <option selected="selected"
+                                                                        value="{{ $jurado->id }}">{{ $jurado->nombre }}</option>
+                                                            @else
+                                                                <option value="{{ $jurado->id }}">{{ $jurado->nombre }}</option>
 
-                                                    @endforeach
-                                                </select>
+                                                            @endif
 
-                                                <button type="submit" class="btn btn-primary" name="registrar">Cambiar
-                                                    jurados
-                                                </button>
+                                                        @endforeach
+                                                    </select>
+
+                                                    <button type="submit" class="btn btn-primary" name="registrar">
+                                                        Cambiar
+                                                        jurados
+                                                    </button>
+
+                                                </div>
 
                                             </div>
 
                                         </div>
 
-                                    </div>
+                                        <script type="text/javascript">
+                                            function cambiar() {
+                                                $('#cambiar_jurados').show();
+                                                $('#camb').hide();
 
-                                    <script type="text/javascript">
-                                        function cambiar() {
-                                            $('#cambiar_jurados').show();
-                                            $('#camb').hide();
+                                            }
+                                        </script>
 
-                                        }
-                                    </script>
-
-
+                                    @endif
                                 @endif
                             </form>
 
@@ -129,6 +135,28 @@
 
                     </div>
                 </div>
+
+                <?php $evaluaciones = App\Evaluacion::where('propuesta_id', $propuesta->id)->get();?>
+                @if($evaluaciones->count() == 3 )
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h4><i class="fa fa-bookmark iconoizq"></i>Evaluación</h4></div>
+
+                        <div class="panel-body">
+
+                            <p class="text-justify">La propuesta {{ $propuesta->titulo }} ha sido aceptada.</p>
+                            <HR>
+                            @foreach($evaluaciones as $evaluacion)
+                                <div class="col-md-4 text-center">
+                                    <a href="{{asset($evaluacion->evaluacion)}}">
+                                        <img src="{{ asset('imagenes/excel.png') }}">
+                                        <h5>Evaluación del jurado:<BR>{{ App\User::find($evaluacion->user_id)->nombre }}
+                                        </h5>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
 
                 <div class="panel panel-default">
                     <div class="panel-heading"><h4><i class="fa fa-comments-o iconoizq"></i>Comentarios</h4></div>

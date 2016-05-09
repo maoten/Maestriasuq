@@ -12,7 +12,8 @@
                 @include('flash::message')
 
                 <div class="panel panel-default">
-                    <div class="panel-heading text-center">Edición de estudiante</div>
+                    <div class="panel-heading"><h4><span class="glyphicon glyphicon-pencil iconoizq"
+                                                         aria-hidden="true"></span>Edición de estudiante</h4></div>
                     <div class="panel-body">
 
                         <form class="form-horizontal" role="form" method="PUT"

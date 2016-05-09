@@ -20,7 +20,6 @@
 
                     <div class="panel-body">
                         @include('layouts.general.documentos')
-
                     </div>
                 </div>
 

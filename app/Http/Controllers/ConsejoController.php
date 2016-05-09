@@ -8,12 +8,15 @@ use App\Http\Requests\UserRequest;
 use App\Notificacion;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Laracasts\Flash\Flash;
-use DB;
 
 class ConsejoController extends Controller
 {
-    public $rutaConsejo='admin.consejo.index';
+
+    public $rutaConsejo = 'admin.consejo.index';
+
+
     /**
      * Display a listing of the resource.
      *
@@ -62,14 +65,14 @@ class ConsejoController extends Controller
         $consejo->imagen = '/sistema/usuarios/' . $name;
         $consejo->save();
 
-        if ( ! empty( $request->check ) && ($request->check == '1')) {
+        if ( ! empty( $request->check ) && ( $request->check == '1' )) {
 
-                $coordinador          = new Coordinador();
-                $coordinador->user_id = $consejo->id;
-                if ( ! empty( $request->coor )) {
-                    $coordinador->enf_id = $request->coor;
-                }
-                $coordinador->save();
+            $coordinador          = new Coordinador();
+            $coordinador->user_id = $consejo->id;
+            if ( ! empty( $request->coor )) {
+                $coordinador->enf_id = $request->coor;
+            }
+            $coordinador->save();
 
 
         }
@@ -80,19 +83,6 @@ class ConsejoController extends Controller
         Flash::success("Se ha registrado " . $consejo->nombre . " de forma exitosa");
 
         return redirect()->route($this->rutaConsejo);
-    }
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
 
@@ -130,14 +120,14 @@ class ConsejoController extends Controller
         $consejo->email       = $request->email;
         $consejo->save();
 
-         if ( ! empty( $request->checkbox )) {
+        if ( ! empty( $request->checkbox )) {
             DB::table('coordinador')->where('user_id', '=', $consejo->id)->delete();
-         }
+        }
 
         Flash::warning("El miembro del consejo curricular " . $consejo->nombre . " ha sido editado");
 
         return redirect()->route($this->rutaConsejo);
-    
+
     }
 
 

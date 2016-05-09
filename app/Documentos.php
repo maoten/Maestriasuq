@@ -26,7 +26,8 @@ class Documentos extends Model
      */
     protected $fillable = [
         'nombre',
-        'propuesta_id'
+        'propuesta_id',
+        'trabajogrado_id'
     ];
 
 

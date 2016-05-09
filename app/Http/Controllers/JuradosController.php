@@ -12,8 +12,12 @@ use Laracasts\Flash\Flash;
 
 class JuradosController extends Controller
 {
-    public $juradoC='jurado';
-    public $rutaJurado='admin.jurados.index';
+
+    public $juradoC = 'jurado';
+
+    public $rutaJurado = 'admin.jurados.index';
+
+
     /**
      * Display a listing of the resource.
      *
@@ -91,19 +95,6 @@ class JuradosController extends Controller
         Flash::success("Se ha registrado " . $jurado->nombre . " de forma exitosa");
 
         return redirect()->route($this->rutaJurado);
-    }
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-
     }
 
 

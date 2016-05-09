@@ -21,7 +21,6 @@ class AddTablePaises extends Migration
         $this->pais1();
         $this->pais2();
 
-       
         DB::statement("INSERT INTO `paises` (`cod`,`nombre`) VALUES ('VC', 'San Vicente y las Granadinas')");
         DB::statement("INSERT INTO `paises` (`cod`,`nombre`) VALUES ('SH', 'Santa Elena')");
         DB::statement("INSERT INTO `paises` (`cod`,`nombre`) VALUES ('LC', 'Santa Lucía')");
@@ -74,7 +73,10 @@ class AddTablePaises extends Migration
         DB::statement("INSERT INTO `paises` (`cod`,`nombre`) VALUES ('ZW', 'Zimbabue')");
 
     }
-    public function pais1(){
+
+
+    public function pais1()
+    {
         DB::statement("INSERT INTO `paises` (`cod`,`nombre`) VALUES ('CX', 'Isla Christmas')");
         DB::statement("INSERT INTO `paises` (`cod`,`nombre`) VALUES ('AC', 'Isla de la Ascensión')");
         DB::statement("INSERT INTO `paises` (`cod`,`nombre`) VALUES ('IM', 'Isla de Man')");
@@ -180,7 +182,10 @@ class AddTablePaises extends Migration
         DB::statement("INSERT INTO `paises` (`cod`,`nombre`) VALUES ('SM', 'San Marino')");
         DB::statement("INSERT INTO `paises` (`cod`,`nombre`) VALUES ('MF', 'San Martín')");
     }
-    public function pais2(){
+
+
+    public function pais2()
+    {
         DB::statement("INSERT INTO `paises` (`cod`,`nombre`) VALUES ('AF', 'Afganistán')");
         DB::statement("INSERT INTO `paises` (`cod`,`nombre`) VALUES ('AL', 'Albania')");
         DB::statement("INSERT INTO `paises` (`cod`,`nombre`) VALUES ('DE', 'Alemania')");

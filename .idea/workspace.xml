@@ -111,7 +111,7 @@
 >>>>>>> origin/master
         <option value="$PROJECT_DIR$/app/Pais.php" />
         <option value="$PROJECT_DIR$/app/Propuesta.php" />
-        <option value="$PROJECT_DIR$/app/TrabajoGrado.php" />
+        <option value="$PROJECT_DIR$/app/Trabajogrado.php" />
         <option value="$PROJECT_DIR$/app/User.php" />
         <option value="$PROJECT_DIR$/app/Comentario.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/ComentariosController.php" />

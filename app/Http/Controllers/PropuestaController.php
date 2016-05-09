@@ -1,25 +1,27 @@
 <?php
 namespace App\Http\Controllers;
+
 use App\Documentos;
-use App\Evento;
 use App\Http\Requests;
-use App\Http\Requests\PropuestaRequest;
 use App\Http\Requests\EditarPropuestaRequest;
-use App\Http\Requests\CitacionRequest;
-use App\JuradoPropuesta;
+use App\Http\Requests\PropuestaRequest;
 use App\Notificacion;
 use App\Propuesta;
-use App\User;
-use DateTime;
 use Illuminate\Http\Request;
 use Laracasts\Flash\Flash;
+
 class PropuestaController extends Controller
 {
 
-    public $propuestaS='propuestas';
-    public $rutaE='estudiante.propuesta.index';
-    public $propuestaN='propuesta';
-    public $propuestaId='propuesta_id';
+    public $propuestaS = 'propuestas';
+
+    public $rutaE = 'estudiante.propuesta.index';
+
+    public $propuestaN = 'propuesta';
+
+    public $propuestaId = 'propuesta_id';
+
+
     /**
      * Display a listing of the resource.
      * @return \Illuminate\Http\Response
@@ -27,8 +29,11 @@ class PropuestaController extends Controller
     public function index()
     {
         $propuestas = Propuesta::orderBy('id', 'ASC')->paginate(10);
+
         return view($this->rutaE)->with($this->propuestaS, $propuestas);
     }
+
+
     /**
      * Muestra una lista de las propuestas para el administrador.
      *
@@ -39,8 +44,11 @@ class PropuestaController extends Controller
     public function indexPropuestas(Request $request)
     {
         $propuestas = Propuesta::search($request->titulo)->orderBy('id', 'ASC')->paginate(10);
+
         return view('admin.propuestas.index')->with($this->propuestaS, $propuestas);
     }
+
+
     /**
      * Muestra una lista de las propuestas para el director de grado.
      *
@@ -51,8 +59,11 @@ class PropuestaController extends Controller
     public function indexPropuestasDir(Request $request)
     {
         $propuestas = Propuesta::search($request->titulo)->orderBy('id', 'ASC')->paginate(10);
+
         return view('director.propuestas.index')->with($this->propuestaS, $propuestas);
     }
+
+
     /**
      * Muestra una lista de las propuestas para el miembro del consejo currricular.
      *
@@ -63,8 +74,11 @@ class PropuestaController extends Controller
     public function indexPropuestasConsejo(Request $request)
     {
         $propuestas = Propuesta::search($request->titulo)->orderBy('id', 'ASC')->paginate(10);
+
         return view('consejo.propuestas.index')->with($this->propuestaS, $propuestas);
     }
+
+
     /**
      * Muestra una lista de las propuestas para el jurado.
      *
@@ -75,8 +89,11 @@ class PropuestaController extends Controller
     public function indexPropuestasJurado(Request $request)
     {
         $propuestas = Propuesta::search($request->titulo)->orderBy('id', 'ASC')->paginate(10);
+
         return view('jurado.propuestas.index')->with($this->propuestaS, $propuestas);
     }
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -86,6 +103,8 @@ class PropuestaController extends Controller
     {
         return view('estudiante.propuesta.registrar');
     }
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -114,37 +133,8 @@ class PropuestaController extends Controller
         $notificacion = new Notificacion();
         $notificacion->notificarRegistroPropuesta($propuesta);
         Flash::success("Se ha registrado la propuesta " . $propuesta->titulo . " de forma exitosa");
+
         return redirect()->route($this->rutaE);
-    }
-    /**
-     * Asigna los jurados a la propuesta indicada.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int                      $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function asignarJurados(Request $request, $id)
-    {
-        $propuesta = Propuesta::find($id);
-        if ($request->jurados == null) {
-            $propuesta->jurados()->detach();
-            Flash::success("Se han eliminado todos los jurados de la propuesta");
-            $propuesta->estado = 'enviada';
-            $propuesta->save();
-            return redirect()->back();
-        } else {
-            $propuesta->jurados()->detach();
-            $propuesta->jurados()->sync($request->jurados);
-            $propuesta->estado = 'en espera';
-            $propuesta->save();
-            $notificacion = new Notificacion();
-            $notificacion->notificarAsignacionJurados($propuesta);
-            $notificacion2 = new Notificacion();
-            $notificacion2->notificarAsignacionPropuesta($propuesta, $request->jurados);
-            Flash::success("Se han asignado los jurados a la propuesta de forma exitosa");
-            return redirect()->back();
-        }
     }
 
 
@@ -158,8 +148,11 @@ class PropuestaController extends Controller
     public function showPropuesta($id)
     {
         $propuesta = Propuesta::find($id);
+
         return view('estudiante.propuesta.ver')->with($this->propuestaN, $propuesta);
     }
+
+
     /**
      * Muestra al administrador la propuesta que indique.
      *
@@ -170,8 +163,11 @@ class PropuestaController extends Controller
     public function showPropuestaAdmin($id)
     {
         $propuesta = Propuesta::find($id);
+
         return view('admin.propuestas.ver')->with($this->propuestaN, $propuesta);
     }
+
+
     /**
      * Muestra al director de grado la propuesta que indique.
      *
@@ -182,8 +178,11 @@ class PropuestaController extends Controller
     public function showPropuestaDir($id)
     {
         $propuesta = Propuesta::find($id);
+
         return view('director.propuestas.ver')->with($this->propuestaN, $propuesta);
     }
+
+
     /**
      * Muestra al miembro del consejo curricular la propuesta que indique.
      *
@@ -194,8 +193,11 @@ class PropuestaController extends Controller
     public function showPropuestaConsejo($id)
     {
         $propuesta = Propuesta::find($id);
+
         return view('consejo.propuestas.ver')->with($this->propuestaN, $propuesta);
     }
+
+
     /**
      * Muestra al jurado la propuesta que indique.
      *
@@ -206,8 +208,11 @@ class PropuestaController extends Controller
     public function showPropuestaJurado($id)
     {
         $propuesta = Propuesta::find($id);
+
         return view('jurado.propuestas.ver')->with($this->propuestaN, $propuesta);
     }
+
+
     /**
      * Muestra el estado de la propuesta en una línea de tiempo.
      *
@@ -218,8 +223,11 @@ class PropuestaController extends Controller
     public function showSeguimiento($id)
     {
         $propuesta = Propuesta::find($id);
+
         return view('estudiante.propuesta.seguimiento')->with($this->propuestaN, $propuesta);
     }
+
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -230,10 +238,13 @@ class PropuestaController extends Controller
     public function edit($id)
     {
         $propuesta = Propuesta::find($id);
+
         return view('estudiante.propuesta.editar')->with($this->propuestaN, $propuesta);
     }
+
+
     /**
-     * Show the form for show the specified resource.
+     * Muestra la vista de citación de la propuesta.
      *
      * @param  int $id
      *
@@ -242,10 +253,13 @@ class PropuestaController extends Controller
     public function showCitacion($id)
     {
         $propuesta = Propuesta::find($id);
+
         return view('admin.propuestas.citacion')->with($this->propuestaN, $propuesta);
     }
+
+
     /**
-     * Show the form for show the specified resource.
+     * Muestra la vista para la evaluación de la propuesta.
      *
      * @param  int $id
      *
@@ -254,87 +268,37 @@ class PropuestaController extends Controller
     public function showEvaluacion($id)
     {
         $propuesta = Propuesta::find($id);
+
         return view('jurado.propuestas.evaluacion')->with($this->propuestaN, $propuesta);
     }
+
+
     /**
      * Update the specified resource in storage.
      *
-     * @param  int $id
+     * @param EditarPropuestaRequest $request
+     * @param  int                   $id
      *
      * @return \Illuminate\Http\Response
      * @internal param Request $request
      */
-    public function update(EditarPropuestaRequest $request,$id)
+    public function update(EditarPropuestaRequest $request, $id)
     {
         $propuesta         = Propuesta::find($id);
         $propuesta->estado = 'modificada';
+        $propuesta->disertacion()->delete();
+        $propuesta->evaluaciones()->delete();
+
         $propuesta->save();
         $file = $request->file($this->propuestaN);
         $name = 'maestriauq_' . $propuesta->titulo . '_' . time() . '.' . $file->getClientOriginalExtension();
         $path = public_path() . '\sistema\propuestas';
         $file->move($path, $name);
-        $nombre       = '/sistema/propuestas/' . $name;
-        Documentos::where($this->propuestaId,$id)->update(['nombre' => $nombre]);
+        $nombre = '/sistema/propuestas/' . $name;
+        Documentos::where($this->propuestaId, $id)->update([ 'nombre' => $nombre ]);
         Flash::warning("El adjunto de la propuesta " . $propuesta->titulo . " ha sido editado");
+
         return redirect()->route($this->rutaE);
     }
-    /**
-     * Cita al estudiante y a los jurado a una disertación.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int                      $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function citar(CitacionRequest $request, $id)
-    {
-        $propuesta        = Propuesta::find($id);
-        $estudiante       = User::find($propuesta->user_id);
-        $propuesta_jurado = JuradoPropuesta::where($this->propuestaId, $id)->get();
-        $jurados = [ ];
-        for ($i = 0; $i < count($propuesta_jurado); $i++) {
-            $jurados[$i] = User::find($propuesta_jurado[$i]->jurado_id)->id;
-        }
-        array_push($jurados, $estudiante->id);
-        $evento              = new Evento();
-        $evento->asunto      = $request->asunto;
-        $evento->descripcion = $request->descripcion;
-        $evento->lugar       = $request->lugar;
-        $evento->propuesta_id= $propuesta->id;
-        $date1                = new DateTime($request->inicio);
-        $evento->fecha_inicio = date_format($date1, 'Y-m-d H:i:s');
-        $date2             = new DateTime($request->fin);
-        $evento->fecha_fin = date_format($date2, 'Y-m-d H:i:s');
-        $evento->save();
-        $evento->users()->sync($jurados);
-        Flash::success("Se han citado a las personas involucradas a la disertación  de la propuesta " . $propuesta->titulo . ".");
-        return redirect()->route('admin.propuestas.index');
-    }
-
-    /**
-     * canela la disetación de la propuesta indicada.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int                      $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function cancelarCitacion($id)
-    {
-        $propuesta        = Propuesta::find($id);
-        $estudiante       = User::find($propuesta->user_id);
-        $propuesta_jurado = JuradoPropuesta::where($this->propuestaId, $id)->get();
-        $jurados = [ ];
-        for ($i = 0; $i < count($propuesta_jurado); $i++) {
-            $jurados[$i] = User::find($propuesta_jurado[$i]->jurado_id)->id;
-        }
-        array_push($jurados, $estudiante->id);
-        $evento              = Evento::where($this->propuestaId,$propuesta->id);
-        $evento->delete();
-
-        Flash::success("Se ha cancelado la disertación  de la propuesta " . $propuesta->titulo . ".");
-        return redirect()->back();
-    }
-
 
 }

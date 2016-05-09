@@ -32,10 +32,18 @@ class Jurado extends Model
         return $this->hasOne('App\Pais');
     }
 
+
     public function propuestas()
     {
         return $this->belongsToMany('App\Propuesta');
     }
+
+
+    public function trabajosgrado()
+    {
+        return $this->belongsToMany('App\Trabajogrado');
+    }
+
 
     public function evaluaciones()
     {

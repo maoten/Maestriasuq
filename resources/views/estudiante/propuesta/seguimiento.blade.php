@@ -13,7 +13,7 @@
                 <!-- /.panel -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4><i class="fa fa-eye iconoizq"></i>Seguimiento {{ $propuesta->titulo }}</h4>
+                        <h4><i class="fa fa-ellipsis-h iconoizq"></i>Seguimiento {{ $propuesta->titulo }}</h4>
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
@@ -34,8 +34,8 @@
 
                                     </div>
                                     <div class="timeline-body">
-                                        <p>La propuesta fue creada y ahora el coordinador del énfasis correspondiente
-                                            podrá asignar los jurados que la evaluaran cuando lo considere oportuno.</p>
+                                        <p>La propuesta fue creada y ahora la persona encargada podrá asignar los
+                                            jurados que la evaluaran cuando lo considere oportuno.</p>
                                     </div>
                                 </div>
                             </li>
@@ -96,8 +96,7 @@
                                     </div>
                                     <div class="timeline-body">
                                         <p>Se realizaron cambios en la propuesta por parte del estudiante y ahora puede
-                                            ser sometida nuevamente a evaluación por los jurados cuando el coordinador
-                                            de énfasis lo considere oportuno.</p>
+                                            ser sometida nuevamente a evaluación por los jurados.</p>
                                     </div>
                                 </div>
 

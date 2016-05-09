@@ -13,7 +13,9 @@
                         <!-- @include('layouts.errors')-->
 
                 <div class="panel panel-default">
-                    <div class="panel-heading text-center">Edición de director de grado</div>
+                    <div class="panel-heading"><h4><span class="glyphicon glyphicon-pencil iconoizq"
+                                                         aria-hidden="true"></span>Edición de director de grado</h4>
+                    </div>
                     <div class="panel-body">
 
                         <form class="form-horizontal" role="form" method="PUT"

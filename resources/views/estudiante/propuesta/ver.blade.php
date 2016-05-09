@@ -11,7 +11,8 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><h4><i class="fa fa-file-pdf-o iconoizq"></i>Propuesta</h4></div>
+                    <div class="panel-heading"><h4><i
+                                    class="fa fa-file-pdf-o iconoizq"></i>Propuesta: {{ $propuesta->titulo }}</h4></div>
 
                     <div class="panel-body">
                         <div class="text-center">
@@ -53,34 +54,44 @@
                     </div>
                 </div>
 
-                 <div class="panel panel-default">
+                <div class="panel panel-default">
                     <div class="panel-heading"><h4><i class="fa fa-calendar-check-o iconoizq"></i>Disertación</h4></div>
 
                     <div class="panel-body">
-                    <?php $disertacion=App\Evento::where('propuesta_id', $propuesta->id)->first(); ?>
+                        <?php $disertacion = App\Evento::where('propuesta_id', $propuesta->id)->first(); ?>
 
-                    @if($disertacion!=null)
-                    <p class="text-center">Esta propuesta ya tiene asignada una disertación en la siguiente fecha: {{ $disertacion->fecha_inicio }}, para más información revisa la opción calendario.</p>
-                    @else
-                    <p class="text-center">Esta propuesta no tiene asignada una disertación aún.</p>
-                    @endif
-
-                    </div>
-                </div>
-
-
-               <!-- <?php $evaluaciones=App\Evaluacion::where('propuesta_id', $propuesta->id)->get(); ?>
-                @if($evaluaciones->count == 3 )
-                <div class="panel panel-default">
-                    <div class="panel-heading"><h4><i class="fa fa-calendar-check-o iconoizq"></i>Evaluación</h4></div>
-
-                    <div class="panel-body">
-
-
+                        @if($disertacion!=null)
+                            <p class="text-center">Esta propuesta ya tiene asignada una disertación en la siguiente
+                                fecha: {{ $disertacion->fecha_inicio }}, para más información revisa la opción
+                                calendario.</p>
+                        @else
+                            <p class="text-center">Esta propuesta no tiene asignada una disertación aún.</p>
+                        @endif
 
                     </div>
                 </div>
-                @endif-->
+
+                <?php $evaluaciones = App\Evaluacion::where('propuesta_id', $propuesta->id)->get();?>
+                @if($evaluaciones->count() == 3 )
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h4><i class="fa fa-bookmark iconoizq"></i>Evaluación</h4></div>
+
+                        <div class="panel-body">
+
+                            <p class="text-justify">La propuesta {{ $propuesta->titulo }} ha sido aceptada.</p>
+                            <HR>
+                            @foreach($evaluaciones as $evaluacion)
+                                <div class="col-md-4 text-center">
+                                    <a href="{{asset($evaluacion->evaluacion)}}">
+                                        <img src="{{ asset('imagenes/excel.png') }}">
+                                        <h5>Evaluación del jurado:<BR>{{ App\User::find($evaluacion->user_id)->nombre }}
+                                        </h5>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
 
 
                 <div class="panel panel-default">

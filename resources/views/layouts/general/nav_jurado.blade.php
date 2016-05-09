@@ -18,7 +18,7 @@
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="{{ route('jurado.trabajosgrado.index') }}">
           <span class="icon">
             <i class="fa fa-file-text"></i>
           </span>

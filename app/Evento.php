@@ -16,10 +16,10 @@ class Evento extends Model
         return $this->belongsToMany('App\User');
     }
 
+
     public function propuesta()
     {
         return $this->belongsTo('App\Propuesta');
     }
-
 
 }

@@ -77,6 +77,15 @@
                                            class="btn btn-danger" title="Eliminar"><i class="fa fa-times"></i>
                                         </a>
 
+                                        <?php $cert = App\Certificado::where('user_id', $estudiante->id)->first(); ?>
+                                        @if($cert!=null)
+                                            <a href="{{ asset($cert->nombre) }}" class="btn btn-default"
+                                               title="Certificado de inglés" target="_blank"><i
+                                                        class="fa fa-file-pdf-o"></i>
+                                            </a>
+                                        @endif
+
+
                                     </td>
                                 </tr>
 

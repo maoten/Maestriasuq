@@ -9,8 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 class Notificacion extends Model
 {
 
-    public $tequeremos=" te queremos informar que la propuesta " ;
-    public $hola="Hola ";
+    public $tequeremos = " te queremos informar que la propuesta ";
+
+    public $tequeremos2 = " te queremos informar que el trabajo de grado ";
+
+    public $hola = "Hola ";
+
     /**
      * The database table used by the model.
      *
@@ -51,7 +55,29 @@ class Notificacion extends Model
 
         $notification               = new Notificacion();
         $notification->user_id      = $estudiante->id;
-        $notification->notificacion = $this->hola . $estudiante->nombre . $this->tequeremos. $propuesta->titulo . " tiene un nuevo comentario. Para ver los jurados de tu propuesta y los comentatios que realicen, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
+        $notification->notificacion = $this->hola . $estudiante->nombre . $this->tequeremos . $propuesta->titulo . " tiene un nuevo comentario. Para ver los jurados de tu propuesta y los comentarios que realicen, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
+        $notification->save();
+
+        return true;
+    }
+
+
+    /**
+     * Notifica al estudiante que un jurado comento su trabajo de grado
+     *
+     * @param $propuesta
+     *
+     * @return bool
+     */
+    public function notificarComentarioTrabajogrado($propuesta)
+    {
+        // se le notifica al estudiante que el trabajo de grado tiene un nuevo comentario
+
+        $estudiante = User::find($trabajogrado->user_id);
+
+        $notification               = new Notificacion();
+        $notification->user_id      = $estudiante->id;
+        $notification->notificacion = $this->hola . $estudiante->nombre . $this->tequeremos . $trabajogrado->titulo . " tiene un nuevo comentario. Para ver los jurados de tu trabajo de grado y los comentarios que realicen, debes ir a la opción 'Trabajo de grado' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver trabajo de grado).";
         $notification->save();
 
         return true;
@@ -68,19 +94,37 @@ class Notificacion extends Model
      */
     public function notificarAsignacionPropuesta($propuesta, $jurados)
     {
-        // se le notifica a los jurados que se les asigno una propuesta
-        for ($i = 0; $i < count($jurados); $i++) {
-            $jurado = User::find($jurados[$i]);
+        $jurado = User::find($jurados);
 
-            $notificacion               = new Notificacion();
-            $notificacion->user_id      = $jurado->id;
-            $notificacion->notificacion = $this->hola . $jurado->nombre . " te queremos informar que se te fue asignada la propuesta " . $propuesta->titulo . ". Para ver la propuesta y realizar comentarios, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
-            $notificacion->save();
+        $notificacion               = new Notificacion();
+        $notificacion->user_id      = $jurado->id;
+        $notificacion->notificacion = $this->hola . $jurado->nombre . " te queremos informar que se te fue asignada la propuesta " . $propuesta->titulo . ". Para ver la propuesta y realizar comentarios, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
+        $notificacion->save();
 
-            return true;
-        }
+        return true;
+    }
 
-        return false;
+
+    /**
+     * Notifica a los jurados que un trabajo de grado les fue asignado
+     *
+     * @param $trabajogrado
+     * @param $jurados
+     *
+     * @return bool
+     * @internal param $propuesta
+     */
+    public function notificarAsignacionTrabajogrado($trabajogrado, $jurados)
+    {
+        // se le notifica a los jurados que se les asigno un trabajo de grado
+        $jurado = User::find($jurados);
+
+        $notificacion               = new Notificacion();
+        $notificacion->user_id      = $jurado->id;
+        $notificacion->notificacion = $this->hola . $jurado->nombre . " te queremos informar que se te fue asignado el trabajo de grado " . $trabajogrado->titulo . ". Para ver el trabajo de grado y realizar comentarios, debes ir a la opción 'Trabajos de grado' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver trabajo de grado).";
+        $notificacion->save();
+
+        return true;
     }
 
 
@@ -100,7 +144,33 @@ class Notificacion extends Model
 
         $notificacion               = new Notificacion();
         $notificacion->user_id      = $estudiante->id;
-        $notificacion->notificacion = $this->hola . $estudiante->nombre . " te queremos informar que ya fueron asignados los jurados que se encargarán de evaluar tu propuesta " . $propuesta->titulo . ". Para ver los jurados de tu propuesta y los comentatios que realicen, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
+        $notificacion->notificacion = $this->hola . $estudiante->nombre . " te queremos informar que ya fueron asignados los jurados que se encargarán de evaluar tu propuesta " . $propuesta->titulo . ". Para ver los jurados de tu propuesta y los comentarios que realicen, debes ir a la opción 'Propuestas' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver propuesta).";
+        $notificacion->save();
+
+        return true;
+
+    }
+
+
+    /**
+     * Notifica al estudiante que se asignaron los jurados que evaluaran su trabajo de grado.
+     *
+     * @param $trabajogrado
+     *
+     * @return bool
+     * @internal param $propuesta
+     *
+     */
+    public function notificarAsignacionJuradosTrabajogrado($trabajogrado)
+    {
+
+        // se le notifica al estudiante que el trabajo de grado ya cuenta con jurados
+
+        $estudiante = User::find($trabajogrado->user_id);
+
+        $notificacion               = new Notificacion();
+        $notificacion->user_id      = $estudiante->id;
+        $notificacion->notificacion = $this->hola . $estudiante->nombre . " te queremos informar que ya fueron asignados los jurados que se encargarán de evaluar tu trabajo de grado " . $trabajogrado->titulo . ". Para ver los jurados de tu trabajo de grado y los comentarios que realicen, debes ir a la opción 'Trabajo de grado' del menú principal y en la columna 'Acción' seleccionar la primer opción (Ver trabajo de grado).";
         $notificacion->save();
 
         return true;
@@ -125,7 +195,7 @@ class Notificacion extends Model
 
         $notificacion1               = new Notificacion();
         $notificacion1->user_id      = $director->id;
-        $notificacion1->notificacion = $this->hola . $director->nombre . $this->tequeremos. $propuesta->titulo . " en la cual apareces como director de grado ya fue enviada al coordinador del énfasis correspondiente. Puedes encontrar las propuestas en las cuales eres director de grado en la opción 'Propuestas' del menú principal.";
+        $notificacion1->notificacion = $this->hola . $director->nombre . $this->tequeremos . $propuesta->titulo . " en la cual apareces como director de grado ya fue enviada al coordinador del énfasis correspondiente. Puedes encontrar las propuestas en las cuales eres director de grado en la opción 'Propuestas' del menú principal.";
         $notificacion1->save();
 
         // se le notifica al coordinador de enfasis que una propuesta de sus enfasis fue enviada
@@ -135,7 +205,44 @@ class Notificacion extends Model
 
         $notificacion2               = new Notificacion();
         $notificacion2->user_id      = $consejo->id;
-        $notificacion2->notificacion = $this->hola . $consejo->nombre . $this->tequeremos. $propuesta->titulo . " perteneciente al énfasis del cual eres coordinador ya se encuentra disponible para su revisión. Puedes encontrar las propuestas del énfasis en " . $enfasis->nombre . " en la opción 'Propuestas' del menú principal.";
+        $notificacion2->notificacion = $this->hola . $consejo->nombre . $this->tequeremos . $propuesta->titulo . " perteneciente al énfasis del cual eres coordinador ya se encuentra disponible para su revisión. Puedes encontrar las propuestas del énfasis en " . $enfasis->nombre . " en la opción 'Propuestas' del menú principal.";
+        $notificacion2->save();
+
+        return true;
+
+    }
+
+
+    /**
+     * Notifica al director de grado del trabajo de grado y al director
+     * del énfasis que el trabajo de grado fue enviada.
+     *
+     * @param $trabajogrado
+     *
+     * @return bool
+     * @internal param $propuesta
+     *
+     */
+    public function notificarRegistroTrabajogrado($trabajogrado)
+    {
+
+        // se le notifica al director de grado que el trabajo de grado ya fue enviada
+
+        $director = User::find($trabajogrado->dir_id);
+
+        $notificacion1               = new Notificacion();
+        $notificacion1->user_id      = $director->id;
+        $notificacion1->notificacion = $this->hola . $director->nombre . $this->tequeremos2 . $trabajogrado->titulo . " en el cual apareces como director de grado ya fue enviado al coordinador del énfasis correspondiente. Puedes encontrar los trabajos de grado en los cuales eres director de grado en la opción 'Trabajos de grado' del menú principal.";
+        $notificacion1->save();
+
+        // se le notifica al coordinador de enfasis que un trabajo grado de sus enfasis fue enviado
+        $coordinador = Coordinador::where('enf_id', $trabajogrado->enf_id)->first();
+        $consejo     = User::find($coordinador->user_id);
+        $enfasis     = Enfasis::find($trabajogrado->enf_id);
+
+        $notificacion2               = new Notificacion();
+        $notificacion2->user_id      = $consejo->id;
+        $notificacion2->notificacion = $this->hola . $consejo->nombre . $this->tequeremos2 . $trabajogrado->titulo . " perteneciente al énfasis del cual eres coordinador ya se encuentra disponible para su revisión. Puedes encontrar los trabajos de grado del énfasis en " . $enfasis->nombre . " en la opción 'Trabajos de grado' del menú principal.";
         $notificacion2->save();
 
         return true;
@@ -159,4 +266,51 @@ class Notificacion extends Model
 
         return true;
     }
+
+
+    /**
+     * Notifica al usuario indicado de la disertación de la propuesta.
+     *
+     * @param $usuario
+     *
+     * @param $propuesta
+     * @param $fecha
+     *
+     * @return bool
+     */
+    public function notificarDisertacion($usuario, $propuesta, $fecha)
+    {
+        $propuesta                  = Propuesta::find($propuesta);
+        $usuario                    = User::find($usuario);
+        $notificacion               = new Notificacion();
+        $notificacion->user_id      = $usuario->id;
+        $notificacion->notificacion = $this->hola . $usuario->nombre . " te queremos informar que la propuesta " . $propuesta->titulo . " ya tiene asignada una disertación en la siguiente fecha: " . $fecha . ". Para mas información revisa la opción 'Calendario' del menú principal.";
+        $notificacion->save();
+
+        return true;
+    }
+
+
+    /**
+     * Notifica al usuario indicado de la disertación del trabajo de grado.
+     *
+     * @param $usuario
+     *
+     * @param $trabajogrado
+     * @param $fecha
+     *
+     * @return bool
+     */
+    public function notificarDisertacionTrabajogrado($usuario, $trabajogrado, $fecha)
+    {
+        $trabajogrado               = Trabajogrado::find($trabajogrado);
+        $usuario                    = User::find($usuario);
+        $notificacion               = new Notificacion();
+        $notificacion->user_id      = $usuario->id;
+        $notificacion->notificacion = $this->hola . $usuario->nombre . " te queremos informar que el trabajo de grado " . $trabajogrado->titulo . " ya tiene asignada una disertación en la siguiente fecha: " . $fecha . ". Para mas información revisa la opción 'Calendario' del menú principal.";
+        $notificacion->save();
+
+        return true;
+    }
+
 }

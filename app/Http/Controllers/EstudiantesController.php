@@ -11,8 +11,12 @@ use Laracasts\Flash\Flash;
 
 class EstudiantesController extends Controller
 {
-    public $student='estudiante';
-    public $rutaStudent='admin.estudiantes.index';
+
+    public $student = 'estudiante';
+
+    public $rutaStudent = 'admin.estudiantes.index';
+
+
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +27,7 @@ class EstudiantesController extends Controller
     public function index(Request $request)
     {
 
-        $estudiantes = User::where('rol',$this->student )->search($request->nombre)->orderBy('id', 'ASC')->paginate(10);
+        $estudiantes = User::where('rol', $this->student)->search($request->nombre)->orderBy('id', 'ASC')->paginate(10);
 
         return view($this->rutaStudent)->with('estudiantes', $estudiantes);
 
@@ -67,19 +71,6 @@ class EstudiantesController extends Controller
         Flash::success("Se ha registrado " . $estudiante->nombre . " de forma exitosa");
 
         return redirect()->route($this->rutaStudent);
-    }
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
 

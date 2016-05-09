@@ -13,7 +13,7 @@ class Evaluacion extends Model
 
     protected $table = "evaluaciones";
 
-    protected $fillable = [ 'id', 'propuesta_id', 'user_id', 'evaluacion', 'created_at', 'estado'];
+    protected $fillable = [ 'id', 'propuesta_id', 'user_id', 'evaluacion', 'created_at', 'estado' ];
 
 
     public function propuesta()

@@ -16,8 +16,12 @@ class AddDocumentosTable extends Migration
         Schema::create('documentos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->integer('propuesta_id')->unsigned();
+            $table->integer('propuesta_id')->unsigned()->nullable();
             $table->foreign('propuesta_id')->references('id')->on('propuesta')->onDelete('cascade');
+
+            $table->integer('trabajogrado_id')->unsigned()->nullable();
+            $table->foreign('trabajogrado_id')->references('id')->on('trabajogrado')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

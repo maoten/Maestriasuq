@@ -30,7 +30,7 @@ class AddTableJuradoPropuesta extends Migration
      */
     public function down()
     {
-        Schema::drop('propuesta_jurado');
+        Schema::drop('jurado_propuesta');
     }
 
 }

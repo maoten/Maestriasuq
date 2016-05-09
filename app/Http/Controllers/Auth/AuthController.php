@@ -2,7 +2,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Validator;
@@ -57,8 +56,5 @@ class AuthController extends Controller
             'password' => 'required|min:5',
         ]);
     }
-
-
-    
 
 }
