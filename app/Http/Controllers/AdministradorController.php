@@ -298,7 +298,7 @@ class AdministradorController extends Controller
         $notificacion = new Notificacion();
 
         for ($i = 0; $i < sizeof($involucrados); $i++) {
-            $notificacion->notificarCancelacionDisertacionTrabajogrado($involucrados[$i]->id, $propuesta->id);
+            $notificacion->notificarCancelacionDisertacionTrabajogrado($involucrados[$i]->id, $trabajogrado->id);
         }
 
         $evento->delete();
