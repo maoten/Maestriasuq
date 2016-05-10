@@ -13,7 +13,12 @@ use Laracasts\Flash\Flash;
 
 class JuradoController extends Controller
 {
-
+    public $aceptada='aceptada';
+    public $modificar= 'a modificar';
+    public $aplazada='aplazada';
+    public $estado='estado';
+    public $aceptado='aceptado';
+    public $aplazado='aplazado';
     /**
      * Asigna un comentario a la propuesta indicada.
      *
@@ -73,10 +78,10 @@ class JuradoController extends Controller
             $evaluacion->estado = 'aceptada';
         } else {
             if ($estado == 2) {
-                $evaluacion->estado = 'a modificar';
+                $evaluacion->estado = $this->modificar;
             } else {
                 if ($estado == 3) {
-                    $evaluacion->estado = 'aplazada';
+                    $evaluacion->estado = $this->aplazada;
                 }
             }
         }
@@ -86,14 +91,14 @@ class JuradoController extends Controller
         $evaluaciones = Evaluacion::where('propuesta_id', $propuesta->id)->get();
         if ($evaluaciones->count() == 3) {
             $calificacion = '';
-            if ($evaluaciones->where('estado', 'aceptada')->count() >= 2) {
-                $calificacion = 'aceptada';
+            if ($evaluaciones->where($this->estado, $this->aceptada)->count() >= 2) {
+                $calificacion = $this->aceptada;
             } else {
-                if ($evaluaciones->where('estado', 'aplazada')->count() >= 2) {
-                    $calificacion = 'aplazada';
+                if ($evaluaciones->where($this->estado, $this->aplazada)->count() >= 2) {
+                    $calificacion = $this->aplazada;
                 } else {
-                    if ($evaluaciones->where('estado', 'a modificar')->count() >= 2) {
-                        $calificacion = 'a modificar';
+                    if ($evaluaciones->where($this->estado, $this->modificar)->count() >= 2) {
+                        $calificacion = $this->modificar;
                     }
                 }
             }
@@ -170,13 +175,13 @@ class JuradoController extends Controller
         $estado = $request->opciones;
 
         if ($estado == 1) {
-            $evaluacion->estado = 'aceptado';
+            $evaluacion->estado = $this->aceptado;
         } else {
             if ($estado == 2) {
-                $evaluacion->estado = 'a modificar';
+                $evaluacion->estado = $this->modificar;
             } else {
                 if ($estado == 3) {
-                    $evaluacion->estado = 'aplazado';
+                    $evaluacion->estado = $this->aplazado;
                 }
             }
         }
@@ -186,14 +191,14 @@ class JuradoController extends Controller
         $evaluaciones = Evaluacion::where('trabajogrado_id', $trabajogrado->id)->get();
         if ($evaluaciones->count() == 3) {
             $calificacion = '';
-            if ($evaluaciones->where('estado', 'aceptado')->count() >= 2) {
-                $calificacion = 'aceptado';
+            if ($evaluaciones->where($this->estado, $this->aceptado)->count() >= 2) {
+                $calificacion = $this->aceptado;
             } else {
-                if ($evaluaciones->where('estado', 'aplazado')->count() >= 2) {
-                    $calificacion = 'aplazado';
+                if ($evaluaciones->where($this->estado, $this->aplazado)->count() >= 2) {
+                    $calificacion = $this->aplazado;
                 } else {
-                    if ($evaluaciones->where('estado', 'a modificar')->count() >= 2) {
-                        $calificacion = 'a modificar';
+                    if ($evaluaciones->where($this->estado, $this->modificar)->count() >= 2) {
+                        $calificacion = $this->modificar;
                     }
                 }
             }

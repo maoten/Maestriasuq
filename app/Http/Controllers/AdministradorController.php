@@ -21,6 +21,7 @@ class AdministradorController extends Controller
     public $propuesta_id = 'propuesta_id';
 
     public $trabajogrado_id = 'trabajogrado_id';
+    public $fecha='Y-m-d H:i:s';
 
 
     /**
@@ -103,10 +104,10 @@ class AdministradorController extends Controller
         $evento->propuesta_id = $propuesta->id;
 
         $date1                = new DateTime($request->inicio);
-        $evento->fecha_inicio = date_format($date1, 'Y-m-d H:i:s');
+        $evento->fecha_inicio = date_format($date1, $this->fecha);
 
         $date2             = new DateTime($request->fin);
-        $evento->fecha_fin = date_format($date2, 'Y-m-d H:i:s');
+        $evento->fecha_fin = date_format($date2, $this->fecha);
 
         $evento->save();
 
@@ -245,10 +246,10 @@ class AdministradorController extends Controller
         $evento->trabajogrado_id = $trabajogrado->id;
 
         $date1                = new DateTime($request->inicio);
-        $evento->fecha_inicio = date_format($date1, 'Y-m-d H:i:s');
+        $evento->fecha_inicio = date_format($date1, $this->fecha);
 
         $date2             = new DateTime($request->fin);
-        $evento->fecha_fin = date_format($date2, 'Y-m-d H:i:s');
+        $evento->fecha_fin = date_format($date2, $this->fecha);
 
         $evento->save();
 

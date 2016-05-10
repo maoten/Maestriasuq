@@ -10,6 +10,8 @@ class AddComentariosTable extends Migration
 
     public $user_id = 'user_id';
 
+    public $cascade='cascade';
+
 
     /**
      * Run the migrations.
@@ -22,13 +24,13 @@ class AddComentariosTable extends Migration
             $table->increments('id');
             $table->string($this->comentarios, 255);
             $table->integer('propuesta_id')->unsigned()->nullable();
-            $table->foreign('propuesta_id')->references('id')->on('propuesta')->onDelete('cascade');
+            $table->foreign('propuesta_id')->references('id')->on('propuesta')->onDelete($this->cascade);
 
             $table->integer('trabajogrado_id')->unsigned()->nullable();
-            $table->foreign('trabajogrado_id')->references('id')->on('trabajogrado')->onDelete('cascade');
+            $table->foreign('trabajogrado_id')->references('id')->on('trabajogrado')->onDelete($this->cascade);
 
             $table->integer($this->user_id)->unsigned();
-            $table->foreign($this->user_id)->references($this->user_id)->on('jurados')->onDelete('cascade');
+            $table->foreign($this->user_id)->references($this->user_id)->on('jurados')->onDelete($this->cascade);
             $table->timestamps();
         });
     }

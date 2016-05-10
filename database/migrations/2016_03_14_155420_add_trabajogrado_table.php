@@ -24,10 +24,10 @@ class AddTrabajogradoTable extends Migration
                 [ 'enviado', 'aceptado', 'aplazado', 'modificado', 'a modificar', 'en espera' ])->default('enviado');
 
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete($this->cascade);
 
             $table->integer('propuesta_id')->unsigned();
-            $table->foreign('propuesta_id')->references('id')->on('propuesta')->onDelete('cascade');
+            $table->foreign('propuesta_id')->references('id')->on('propuesta')->onDelete($this->cascade);
 
             $table->integer('dir_id')->unsigned();
             $table->foreign('dir_id')->references('id')->on('users')->onDelete($this->cascade);

@@ -51,4 +51,6 @@ class Constantes
 
     public static $notificationC = 'NotificacionesController@archivar';
 
+    public  static $variable= 'throttle:30';
+
 }

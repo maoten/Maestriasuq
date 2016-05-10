@@ -35,7 +35,7 @@ Route::get('/', function () {
 |--------------------------------------------------------------------------
 */
 
-Route::group([ \App\Http\Constantes::$midd => [ 'web', 'throttle:30' ] ], function () {
+Route::group([ \App\Http\Constantes::$midd => [ 'web', \App\Http\Constantes::$variable ] ], function () {
     Route::auth();
 
 });
@@ -46,7 +46,7 @@ Route::group([ \App\Http\Constantes::$midd => [ 'web', 'throttle:30' ] ], functi
 |--------------------------------------------------------------------------
 */
 
-Route::group([ \App\Http\Constantes::$midd   => [ 'web', 'role:admin', 'throttle:30' ],
+Route::group([ \App\Http\Constantes::$midd   => [ 'web', 'role:admin', \App\Http\Constantes::$variable ],
                \App\Http\Constantes::$prefix => 'admin'
 ], function () {
 
@@ -147,7 +147,7 @@ Route::group([ \App\Http\Constantes::$midd   => [ 'web', 'role:admin', 'throttle
 */
 
 Route::group([
-    \App\Http\Constantes::$midd   => [ 'web', 'role:estudiante', 'throttle:30' ],
+    \App\Http\Constantes::$midd   => [ 'web', 'role:estudiante', \App\Http\Constantes::$variable  ],
     \App\Http\Constantes::$prefix => 'estudiante'
 ], function () {
 
@@ -227,7 +227,7 @@ Route::group([
 */
 
 Route::group([
-    \App\Http\Constantes::$midd   => [ 'web', 'role:director_grado', 'throttle:30' ],
+    \App\Http\Constantes::$midd   => [ 'web', 'role:director_grado', \App\Http\Constantes::$variable  ],
     \App\Http\Constantes::$prefix => 'director'
 ], function () {
 
@@ -301,7 +301,7 @@ Route::group([
 */
 
 Route::group([
-    \App\Http\Constantes::$midd   => [ 'web', 'role:consejo_curricular', 'throttle:30' ],
+    \App\Http\Constantes::$midd   => [ 'web', 'role:consejo_curricular', \App\Http\Constantes::$variable  ],
     \App\Http\Constantes::$prefix => 'consejo'
 ], function () {
 
@@ -380,7 +380,7 @@ Route::group([
 |--------------------------------------------------------------------------
 */
 
-Route::group([ \App\Http\Constantes::$midd   => [ 'web', 'role:jurado', 'throttle:30' ],
+Route::group([ \App\Http\Constantes::$midd   => [ 'web', 'role:jurado', \App\Http\Constantes::$variable  ],
                \App\Http\Constantes::$prefix => 'jurado'
 ], function () {
 

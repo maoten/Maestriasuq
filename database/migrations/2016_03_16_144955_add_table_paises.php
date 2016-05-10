@@ -15,6 +15,7 @@ class AddTablePaises extends Migration
         Schema::create('paises', function ($table) {
             $table->string('cod', 2);
             $table->string('nombre', 65);
+            $table->timestamps();
 
         });
         DB::statement("ALTER TABLE paises add primary key (cod)");
@@ -286,6 +287,7 @@ class AddTablePaises extends Migration
         DB::statement("INSERT INTO `paises` (`cod`,`nombre`) VALUES ('IE', 'Irlanda')");
 
         DB::statement("INSERT INTO `paises` (`cod`,`nombre`) VALUES ('PM', 'San Pedro y Miquelón')");
+
     }
 
 
