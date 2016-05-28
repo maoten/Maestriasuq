@@ -22,6 +22,26 @@ header {
     height: 150px;
     position: relative;
 }
+.navegacion{
+}
+
+.navegacion .izq{
+     padding-left: 0;
+
+}
+
+.navegacion .izq img{
+}
+
+.navegacion .cent{
+
+}
+
+.navegacion .der{
+    padding-right: 0;
+}
+
+
 
 .busqueda {
     width: 32%;

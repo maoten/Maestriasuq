@@ -23,7 +23,7 @@ class PropuestaRequest extends Request
     public function rules()
     {
         return [
-            'titulo'    => 'regex:/^[A-Z0-9 a-z]*$/u|min:5|max:255|required',
+            'titulo'    => 'regex:/^([A-Za-zÑñáéíóúÁÉÍÓÚ ]+)$/u|min:5|max:255|required',
             'propuesta' => 'required|mimes:pdf|max:5120'
         ];
     }

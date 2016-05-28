@@ -173,6 +173,24 @@
     </div>
 </nav>
 
+@if( Auth::user() )
+<div class="navegacion">
+
+     <div class="col-md-6 " align="left">
+        <a href="javascript:history.go(-1);">
+           <img class="img-responsive" src="{{ asset('imagenes/atras.png') }}">
+       </a>
+   </div>
+
+   <div class="col-md-6 " align="right">
+        <a href="javascript:history.go(1);"  label="adelante">
+           <img class="img-responsive" src="{{ asset('imagenes/adelante.png') }}">
+       </a>
+   </div>
+
+  </div>
+@endif
+
 <!-- contendio de la página -->
 <div class="vertical-center">
     @yield('content')

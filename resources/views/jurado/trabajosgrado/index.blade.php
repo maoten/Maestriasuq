@@ -59,7 +59,11 @@
                                     <td>{{ App\Modalidad::find( $trabajogrado->mod_id )->nombre }}</td>
                                     <td>{{ App\Enfasis::find( $trabajogrado->enf_id )->nombre }}</td>
                                     <td>{{ App\User::find( $trabajogrado->user_id )->nombre }}</td>
-                                    <td>{{ $trabajogrado->created_at }}</td>
+                                    <?php $date = new DateTime($trabajogrado->created_at);
+                                    $date->setTimezone(new DateTimeZone('America/Bogota'));
+                                    ?>
+
+                                    <td>{{ $date->format('Y-m-d H:i') }}</td>
 
                                     <td>
                                         @if($trabajogrado->estado=='aceptado')
@@ -78,12 +82,12 @@
                                     <td>
 
                                         <a href="{{ route('jurado.trabajogrado.ver', $trabajogrado->id) }}"
-                                           class="btn btn-primary" target="_blank" title="Ver trabajo de grado"><i
+                                           class="btn btn-primary" title="Ver trabajo de grado"><i
                                                     class="fa fa-external-link fa-lg"></i>
                                         </a>
 
                                         <a href="{{ route('jurado.trabajogrado.evaluacion', $trabajogrado->id) }}"
-                                           class="btn btn-success" target="_blank" title="Evaluar"><i
+                                           class="btn btn-success" title="Evaluar"><i
                                                     class="fa fa-bookmark fa-lg"></i>
                                         </a>
 

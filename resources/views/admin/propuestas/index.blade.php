@@ -58,7 +58,10 @@
                                     <td>{{ App\Modalidad::find( $propuesta->mod_id )->nombre }}</td>
                                     <td>{{ App\Enfasis::find( $propuesta->enf_id )->nombre }}</td>
                                     <td>{{ App\User::find( $propuesta->user_id )->nombre }}</td>
-                                    <td>{{ $propuesta->created_at }}</td>
+                                    <?php $date = new DateTime($propuesta->created_at);
+                                    $date->setTimezone(new DateTimeZone('America/Bogota'));
+                                    ?>
+                                    <td>{{ $date->format('Y-m-d H:i') }}</td>
 
                                     <td>
                                         @if($propuesta->estado=='aceptada')
@@ -76,13 +79,13 @@
                                     <td>
 
                                         <a href="{{ route('admin.propuesta.ver', $propuesta->id) }}"
-                                           class="btn btn-primary" target="_blank" title="Ver propuesta"><i
+                                           class="btn btn-primary" title="Ver propuesta"><i
                                                     class="fa fa-external-link fa-lg"></i>
                                         </a>
 
                                         @if(count(App\JuradoPropuesta::where('propuesta_id', $propuesta->id)->get())>0)
                                             <a href="{{ route('admin.propuesta.citacion', $propuesta->id) }}"
-                                               class="btn btn-success" target="_blank" title="Citación"><i
+                                               class="btn btn-success" title="Citación"><i
                                                         class="fa fa-calendar-check-o fa-lg"></i>
                                             </a>
                                         @endif

@@ -1,6 +1,6 @@
-<p class="text-justify">A continuación se encuentran los formatos de evaluación para las propuestas de trabajo de grado
+<h4 class="text-justify">A continuación se encuentran los formatos de evaluación para las propuestas de trabajo de grado
     de Maestría en Ingeniería ya sea en la modalidad de Investigación o Profundización, además se deja a disposición el
-    estatuto estudiantil correspondiente para los programas de Postgrado de la Universidad del Quindío.</p>
+    estatuto estudiantil correspondiente para los programas de Postgrado de la Universidad del Quindío.</h4>
 <HR>
 <div class="col-md-4 text-center">
     <a href="{{asset('sistema/documentos/Ms.Eng. UQ Formato evaluación propuestas investigación act Abril 01 2016.xls')}}">

@@ -79,7 +79,7 @@
 
                         </form>
                         @else
-                        <p>Ya has subido tu certificado de ingles.</p>
+                        <p>Ya has subido tu certificado de inglés.</p>
                         @endif
                     </div>
                 </div>

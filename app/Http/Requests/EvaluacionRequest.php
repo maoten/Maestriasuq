@@ -24,7 +24,7 @@ class EvaluacionRequest extends Request
     {
         return [
             'opciones'   => 'required',
-            'evaluacion' => 'required|mimes:xls|max:5120'
+            'evaluacion' => 'required|mimes:xls,xlsx|max:5120'
         ];
     }
 }

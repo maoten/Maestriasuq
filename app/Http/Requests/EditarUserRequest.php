@@ -23,12 +23,12 @@ class EditarUserRequest extends Request
     public function rules()
     {
         return [
-            'nombre'      => 'regex:/^[(a-zA-Z\s)]+$/u|min:3|max:45|required',
+            'nombre'      => 'regex:/^([A-Za-zÑñáéíóúÁÉÍÓÚ ]+)$/u|min:3|max:45|required',
             'cc'          => 'alpha_num|min:6|max:45|required',
             'email'       => 'email|min:5|max:50|required',
             'telefono'    => 'numeric|required',
-            'profesion'   => 'regex:/^[(a-zA-Z\s)]+$/u|min:4|max:45|required',
-            'universidad' => 'regex:/^[(a-zA-Z\s)]+$/u|min:3|max:45|required'
+            'profesion'   => 'regex:/^([A-Za-zÑñáéíóúÁÉÍÓÚ ]+)$/u|min:4|max:45|required',
+            'universidad' => 'regex:/^([A-Za-zÑñáéíóúÁÉÍÓÚ ]+)$/u|min:3|max:45|required'
         ];
     }
 }

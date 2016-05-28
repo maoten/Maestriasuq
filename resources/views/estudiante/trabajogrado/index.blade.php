@@ -64,7 +64,11 @@
                                         <td>{{ App\Enfasis::find( $trabajogrado->enf_id )->nombre }}</td>
                                         <td>{{ App\User::find( $trabajogrado->dir_id )->nombre }}</td>
 
-                                        <td>{{ $trabajogrado->created_at }}</td>
+                                        <?php $date = new DateTime($trabajogrado->created_at);
+                                        $date->setTimezone(new DateTimeZone('America/Bogota'));
+                                        ?>
+
+                                        <td>{{ $date->format('Y-m-d H:i') }}</td>
 
                                         <td>
                                             @if($trabajogrado->estado=='aceptado')
@@ -94,7 +98,7 @@
                                             @endif
 
                                             <a href="{{ route('estudiante.trabajogrado.seguimiento', $trabajogrado->id) }}"
-                                               target="_blank" class="btn btn-success" title="Seguimiento"><i
+                                                class="btn btn-success" title="Seguimiento"><i
                                                         class="fa fa-ellipsis-h"></i>
                                             </a>
 

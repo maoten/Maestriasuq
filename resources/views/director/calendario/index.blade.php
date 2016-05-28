@@ -68,7 +68,7 @@
     <script src="{{ asset('js/calendar.js') }}"></script>
     <script type="text/javascript">
         <?php
-                $eventos = Auth::user()->eventos;
+                $eventos = $calendario;
 
                 if (count($eventos) == 0) {
                     $result[] = array();

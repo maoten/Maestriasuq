@@ -58,7 +58,11 @@
                                         <td>{{ App\Modalidad::find( $propuesta->mod_id )->nombre }}</td>
                                         <td>{{ App\Enfasis::find( $propuesta->enf_id )->nombre }}</td>
                                         <td>{{ App\User::find( $propuesta->user_id )->nombre }}</td>
-                                        <td>{{ $propuesta->created_at }}</td>
+                                        <?php $date = new DateTime($propuesta->created_at);
+                                        $date->setTimezone(new DateTimeZone('America/Bogota'));
+                                        ?>
+
+                                        <td>{{ $date->format('Y-m-d H:i') }}</td>
 
 
                                         <td>
@@ -78,7 +82,7 @@
                                         <td>
 
                                             <a href="{{ route('director.propuesta.ver', $propuesta->id) }}"
-                                               class="btn btn-primary" target="_blank" title="Ver propuesta"><i
+                                               class="btn btn-primary" title="Ver propuesta"><i
                                                         class="fa fa-external-link fa-lg"></i>
                                             </a>
 

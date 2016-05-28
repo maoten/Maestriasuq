@@ -43,13 +43,16 @@
                                         </div>
 
                                         <div class="timeline-panel">
-                                            <p>
+                                        <?php $date = new DateTime($notificacion->created_at);
+                                        $date->setTimezone(new DateTimeZone('America/Bogota'));
+                                        ?>
+
                                                 <small class="text-muted"><i
-                                                            class="fa fa-clock-o"></i> {{ $notificacion->created_at }}
+                                                            class="fa fa-clock-o"></i> {{  $date->format('Y-m-d H:i') }}
                                                 </small>
                                             <div class="timeline-body">
 
-                                                <h4>{{ $notificacion->notificacion }}</h4>
+                                                <h4 class="text-justify">{{ $notificacion->notificacion }}</h4>
                                             </div>
                                         </div>
                                     </li>

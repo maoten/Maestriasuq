@@ -1,7 +1,7 @@
-<p class="text-justify">A continuación se encuentran las plantillas que se deben diligenciar para presentar una
+<h4 class="text-justify">A continuación se encuentran las plantillas que se deben diligenciar para presentar una
     propuesta de trabajo de grado de Maestría en Ingeniería ya sea en la modalidad de Investigación o Profundización,
     además se deja a disposición el estatuto estudiantil correspondiente para los programas de Postgrado de la
-    Universidad del Quindío.</p>
+    Universidad del Quindío.</h4>
 <HR>
 <div class="col-md-4 text-center">
     <a href="{{asset('sistema/documentos/Plantilla Tesis MSEng. Investigación version 2.0.docx')}}">

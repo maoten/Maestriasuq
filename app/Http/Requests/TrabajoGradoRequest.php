@@ -23,7 +23,7 @@ class TrabajoGradoRequest extends Request
     public function rules()
     {
         return [
-            'titulo'       => 'regex:/^[A-Z0-9 a-z]*$/u|min:4|max:120|required',
+            'titulo'       => 'regex:/^([A-Za-zÑñáéíóúÁÉÍÓÚ ]+)$/u|min:4|max:120|required',
             'trabajogrado' => 'required|mimes:pdf|max:5120'
         ];
     }

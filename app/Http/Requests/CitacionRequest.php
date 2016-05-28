@@ -23,7 +23,7 @@ class CitacionRequest extends Request
     public function rules()
     {
         return [
-            'asunto'      => 'regex:/^[A-Z0-9 a-z]*$/u|min:5|max:100|required',
+            'asunto'      => 'regex:/^[A-Z0-9ÑñáéíóúÁÉÍÓÚ a-z]*$/u|min:5|max:100|required',
             'descripcion' => 'min:5|max:255|required',
             'lugar'       => 'min:5|max:150|required',
             'inicio'      => 'required|date',
