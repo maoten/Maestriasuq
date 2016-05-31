@@ -12,7 +12,7 @@ class Jurado extends Model
 
     protected $table = "jurados";
 
-    protected $fillable = [ 'user_id', 'pais_id', 'created_at' ];
+    protected $fillable = [ 'user_id', 'pais_id', 'pasaporte','created_at' ];
 
 
     public function user()

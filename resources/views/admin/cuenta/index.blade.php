@@ -3,6 +3,9 @@
 @section('title', 'Cuenta')
 
 @section('content')
+@section('js')
+    <script src="{{ asset('js/nav_estudiante.js') }}"></script>
+@endsection
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">

@@ -178,13 +178,13 @@
 
      <div class="col-md-6 " align="left">
         <a href="javascript:history.go(-1);">
-           <img class="img-responsive" src="{{ asset('imagenes/atras.png') }}">
+           <img class="img-responsive" src="{{ asset('imagenes/flecha izquierda.png') }}">
        </a>
    </div>
 
-   <div class="col-md-6 " align="right">
+   <div class="col-md-6 " align="right" >
         <a href="javascript:history.go(1);"  label="adelante">
-           <img class="img-responsive" src="{{ asset('imagenes/adelante.png') }}">
+           <img class="img-responsive" src="{{ asset('imagenes/flecha derecha.png') }}">
        </a>
    </div>
 
@@ -192,9 +192,9 @@
 @endif
 
 <!-- contendio de la página -->
-<div class="vertical-center">
+
     @yield('content')
-</div>
+
 
 <!-- pie de página -->
 

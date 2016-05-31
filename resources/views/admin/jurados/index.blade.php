@@ -8,6 +8,9 @@
 @endsection
 
 @section('content')
+@section('js')
+    <script src="{{ asset('js/nav_estudiante.js') }}"></script>
+@endsection
     <?php $coordinador = App\Coordinador::where('user_id', Auth::user()->id)->first() ?>
     <div class="container">
         @include('layouts.general.nav_admin')
@@ -47,7 +50,8 @@
                         <table class='table table-bordered'>
                             <thead>
                             <th class="active">ID</th>
-                            <th class="active">Cédula</th>
+                            <th class="active">Cédula de extranjería</th>
+                            <th class="active">Pasaporte</th>
                             <th class="active">Nombre</th>
                             <th class="active">País</th>
                             <th class="active">Teléfono</th>
@@ -65,6 +69,7 @@
 
                                     <td>{{ $jurado->id }}</td>
                                     <td>{{ $jurado->cc }}</td>
+                                    <td>{{ App\Jurado::where('user_id',$jurado->id)->first()->pasaporte}}</td>
                                     <td>{{ $jurado->nombre }}</td>
                                     <?php $jurad = App\Jurado::where('user_id', $jurado->id)->first() ?>
                                     <td>{{ App\Pais::where('cod',$jurad->pais_id)->first()->nombre }}</td>

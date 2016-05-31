@@ -43,7 +43,7 @@
 
 
                             <div class="form-group{{ $errors->has('cc') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">Cédula</label>
+                                <label class="col-md-4 control-label">Cédula de extranjería</label>
 
                                 <div class="col-md-6">
                                     <div class="input-group">
@@ -56,6 +56,25 @@
                                     @if ($errors->has('cc'))
                                         <span class="help-block">
                                 <strong>{{ $errors->first('cc') }}</strong>
+                            </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group{{ $errors->has('pasaporte') ? ' has-error' : '' }}">
+                                <label class="col-md-4 control-label">Número de Pasaporte</label>
+
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i
+                                                    class="glyphicon glyphicon-asterisk"></i></span>
+                                        <input type="text" class="form-control" name="pasaporte" value="{{ old('pasaporte') }}"
+                                               placeholder="AM476265">
+
+                                    </div>
+                                    @if ($errors->has('pasaporte'))
+                                        <span class="help-block">
+                                <strong>{{ $errors->first('pasaporte') }}</strong>
                             </span>
                                     @endif
                                 </div>

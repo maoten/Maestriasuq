@@ -8,6 +8,9 @@
 @endsection
 
 @section('content')
+@section('js')
+    <script src="{{ asset('js/nav_estudiante.js') }}"></script>
+@endsection
 
     <div class="container">
         @include('layouts.general.nav_admin')

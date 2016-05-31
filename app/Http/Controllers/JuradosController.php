@@ -84,6 +84,7 @@ class JuradosController extends Controller
 
         $jurad          = new Jurado();
         $jurad->user_id = $jurado->id;
+        $jurad->pasaporte = $request->pasaporte;
         if ( ! empty( $request->pais )) {
             $jurad->pais_id = $request->pais;
         }
