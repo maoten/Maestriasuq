@@ -221,7 +221,7 @@
 
         <div>
             <i class="fa fa-envelope"></i>
-            <p><a href="maestriaeningenieria@uniquindio.edu.co">maestriaeningenieria@uniquindio.edu.co</a></p>
+            <p><span>maestriaeningenieria@uniquindio.edu.co</span></p>
         </div>
 
     </div>

@@ -58,6 +58,25 @@
                                 </div>
                             </div>
 
+                              <div class="form-group{{ $errors->has('pasaporte') ? ' has-error' : '' }}">
+                                <label class="col-md-4 control-label">Número de pasaporte</label>
+
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i
+                                                    class="glyphicon glyphicon-asterisk"></i></span>
+                                        <input type="text" class="form-control" name="pasaporte" value="{{ App\Jurado::where('user_id',$jurado->id)->first()->pasaporte }}"
+                                               placeholder="AM476265">
+
+                                    </div>
+                                    @if ($errors->has('pasaporte'))
+                                        <span class="help-block">
+                                <strong>{{ $errors->first('pasaporte') }}</strong>
+                            </span>
+                                    @endif
+                                </div>
+                            </div>
+
                             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                 <label class="col-md-4 control-label">Correo electrónico</label>
 

@@ -3,7 +3,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Http\Requests\EditarUserRequest;
+use App\Http\Requests\EditarJuradoRequest;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\JuradoRequest;
 use App\Jurado;
 use App\Notificacion;
 use App\User;
@@ -69,7 +71,7 @@ class JuradosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(JuradoRequest $request)
     {
 
         $name = 'user.jpg';
@@ -122,7 +124,7 @@ class JuradosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(EditarUserRequest $request, $id)
+    public function update(EditarJuradoRequest $request, $id)
     {
         $jurado              = User::find($id);
         $jurado->nombre      = $request->nombre;
@@ -132,6 +134,10 @@ class JuradosController extends Controller
         $jurado->universidad = $request->universidad;
         $jurado->email       = $request->email;
         $jurado->save();
+
+        $jurad = Jurado::where('user_id', $id)->first();
+        $jurad->pasaporte = $request->pasaporte;
+        $jurad->save();
         Flash::warning("El jurado " . $jurado->nombre . " ha sido editado");
 
         return redirect()->route($this->rutaJurado);

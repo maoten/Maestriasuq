@@ -6,7 +6,7 @@
     <script src="{{ asset('js/pGenerator.jquery.js') }}"></script>
 @endsection
 @section('content')
-    <?php $coordinador = App\Coordinador::where('user_id', Auth::user()->id)->first() ?>
+    <?php $coordinador = App\Coordinador::where('user_id', Auth::user()->id)->first(); ?>
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -43,7 +43,7 @@
 
 
                             <div class="form-group{{ $errors->has('cc') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">Cédula de extranjería</label>
+                                <label class="col-md-4 control-label">Cédula</label>
 
                                 <div class="col-md-6">
                                     <div class="input-group">
@@ -62,7 +62,7 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('pasaporte') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">Número de Pasaporte</label>
+                                <label class="col-md-4 control-label">Número de pasaporte</label>
 
                                 <div class="col-md-6">
                                     <div class="input-group">

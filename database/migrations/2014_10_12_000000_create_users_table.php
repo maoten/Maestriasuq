@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('profesion');
             $table->string('universidad');
             $table->string('email')->unique();
-            $table->string('password', 60);
+            $table->string('password');
             $table->string('imagen');
             $table->enum('rol', [
                 'admin',
@@ -34,6 +34,8 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+         $pass= bcrypt('12345');
+          DB::statement("INSERT INTO `users` (`cc`,`nombre`,`telefono`,`profesion`,`universidad`,`email`,`password`,`imagen`,`rol`) VALUES ('1094950026','Nefrectery Morales Gómez','3117568273','Ingeniera de sistemas y computación','Universidad del Quindío','nefremg@hotmail.com','$pass','/sistema/usuarios/user.jpg','admin')");
     }
 
 

@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Requests;
 
-class EditarUserRequest extends Request
+class JuradoRequest extends Request
 {
 
     /**
@@ -24,11 +24,14 @@ class EditarUserRequest extends Request
     {
         return [
             'nombre'      => 'regex:/^([A-Za-zÑñáéíóúÁÉÍÓÚ ]+)$/u|min:3|max:45|required',
-            'cc'          => 'numeric|required',
-            'email'       => 'email|min:5|max:50|required',
-            'telefono'    => 'numeric|required',
+            'cc'          => 'alpha_num|min:6|max:45|required|unique:users',
+            'pasaporte'   => 'alpha_num|min:6|max:45|required|unique:jurados',
+            'email'       => 'email|min:5|max:50|required|unique:users',
+            'password'    => 'min:5|max:30|required',
+            'telefono'    => 'numeric|required|unique:users',
             'profesion'   => 'regex:/^([A-Za-zÑñáéíóúÁÉÍÓÚ ]+)$/u|min:4|max:45|required',
             'universidad' => 'regex:/^([A-Za-zÑñáéíóúÁÉÍÓÚ ]+)$/u|min:3|max:45|required'
+
         ];
     }
 }

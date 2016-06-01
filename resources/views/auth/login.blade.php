@@ -3,7 +3,7 @@
 @section('title', 'Ingreso al sistema')
 
 @section('content')
-
+<div class="vertical-center">
     <div class="container">
 
         <div class="row">
@@ -86,7 +86,7 @@
             </div>
         </div>
     </div>
-
+</div>
 @endsection
 
 
